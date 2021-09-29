@@ -1,5 +1,5 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://openconveyancing.org.uk/schemas/v0.1.0/oc.json",
   "type": "object",
   "title": "OpenConveyancing Schema",
@@ -1288,7 +1288,8 @@
                 "email": {
                   "baspiRef": "B1.2.3",
                   "title": "Email",
-                  "type": "string"
+                  "type": "string",
+                  "format": "email"
                 },
                 "reference": {
                   "baspiRef": "B1.2.4",
@@ -2103,6 +2104,104 @@
         }
       },
       "required": ["firstName", "lastName", "age"]
+    },
+    "provenance": {
+      "title": "",
+      "type": "object",
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": [
+            "HumanConsumer",
+            "HumanProfessional",
+            "Digital",
+            "VerifiableDigital"
+          ]
+        },
+        "modifiedOn": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["level"],
+      "dependencies": {
+        "level": {
+          "oneOf": [
+            {
+              "properties": {
+                "level": {
+                  "enum": ["HumanConsumer"]
+                },
+                "role": {
+                  "type": "string",
+                  "enum": ["Buyer", "Seller"]
+                }
+              },
+              "required": ["role"]
+            },
+            {
+              "properties": {
+                "level": {
+                  "enum": ["HumanProfessional"]
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "BuyersSolicitor",
+                    "SellersSolicitor",
+                    "EstateAgent",
+                    "MortgageBroker",
+                    "Lender",
+                    "Surveyor"
+                  ]
+                }
+              },
+              "required": ["role"]
+            },
+            {
+              "properties": {
+                "level": {
+                  "enum": ["Digital"]
+                },
+                "sourceName": {
+                  "type": "string"
+                },
+                "intermediaryName": {
+                  "type": "string"
+                }
+              },
+              "required": ["sourceName", "intermediaryName"]
+            },
+            {
+              "properties": {
+                "level": {
+                  "enum": ["VerifiableDigital"]
+                },
+                "sourceName": {
+                  "type": "string"
+                },
+                "sourceUri": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "verificationUri": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "verificationResponse": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "sourceName",
+                "sourceUri",
+                "verficationUri",
+                "verificationResponse"
+              ]
+            }
+          ]
+        }
+      }
     }
   }
 }
