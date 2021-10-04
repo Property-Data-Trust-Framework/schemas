@@ -1,11 +1,157 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://openconveyancing.org.uk/schemas/v0.1.0/oc.json",
+  "$id": "https://homebuyingandsellinggroup.co.uk/schemas/0-1-0/pdtf.json",
   "type": "object",
-  "title": "OpenConveyancing Schema",
-  "description": "A schema defining the OpenConveyancing data structure, supporting mapping to BASPI, Law Society and RICS Data Schema elements",
-  "required": ["materialFacts", "additionalLegalInformation"],
+  "title": "Property Data Trust Framework Schema",
+  "description": "A schema defining the PDTF data structure, supporting mapping to BASPI, Law Society and RICS Data Schema elements. Versioning is using SchemaVer",
+  "required": [
+    "$schema",
+    "transactionId",
+    "participants",
+    "materialFacts",
+    "additionalLegalInformation",
+    "registeredTitle"
+  ],
   "properties": {
+    "$schema": {
+      "title": "The reference ($id) of the PDTF Schema used",
+      "type": "string"
+    },
+    "transactionId": {
+      "title": "Unique transaction ID generated when first created",
+      "type": "string",
+      "format": "uuid"
+    },
+    "participants": {
+      "title": "Participants in this transaction",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "transactionUserId": {
+            "title": "Transaction user ID",
+            "description": "A unique ID generated when the participant is added to allow referencing across implementations",
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstName": { "title": "First name", "type": "string" },
+          "middleNames": { "title": "Middle names", "type": "string" },
+          "lastName": { "title": "Last name", "type": "string" },
+          "email": {
+            "title": "Last name",
+            "type": "string",
+            "format": "email"
+          },
+          "mobile": {
+            "title": "Mobile phone number",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "enum": [
+              "Buyer",
+              "Buyer's Solicitor",
+              "Estate Agent",
+              "Lender",
+              "Mortgage Broker",
+              "Seller",
+              "Seller's Solicitor",
+              "Surveyor"
+            ]
+          },
+          "status": {
+            "title": "Status",
+            "enum": [
+              "Requests to join",
+              "Invited",
+              "Active",
+              "Inactive",
+              "Removed"
+            ]
+          },
+          "identityVerified": {
+            "title": "Identity verification",
+            "description": "Has the individual's identity been verified? Normally, at least a 'Vouched' identity should be required to participate in the transaction. 'Enhanced' verification meets the HMLR Digital Identify Standard",
+            "enum": ["Unverified", "Vouched", "Standard", "Enhanced"]
+          },
+          "emailVerified": {
+            "title": "Email verification",
+            "description": "Once verified, implementations can use email code verification to increase authentication strength",
+            "type": "boolean"
+          },
+          "mobileVerified": {
+            "title": "Mobile phone number verification",
+            "description": "Once verified, implementations can use SMS code verification to increase authentication strength",
+            "type": "boolean"
+          },
+          "roleVerified": {
+            "title": "Role verification",
+            "description": "Has the individual's role in the transaction been verified? For example, in the case of the Seller, has their ownership been verified? In the case of solicitors, are they qualified to act in the required capacity?",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName",
+          "email",
+          "role",
+          "status",
+          "identityVerified",
+          "emailVerified",
+          "roleVerified"
+        ]
+      },
+      "dependencies": {
+        "role": {
+          "oneOf": [
+            {
+              "properties": {
+                "role": {
+                  "enum": [
+                    "Buyer's Solicitor",
+                    "Estate Agent",
+                    "Lender",
+                    "Mortgage Broker",
+                    "Seller's Solicitor",
+                    "Surveyor"
+                  ]
+                },
+                "organisation": {
+                  "title": "Participant's organisation",
+                  "type": "string"
+                },
+                "caseReference": {
+                  "title": "Internal case management system reference",
+                  "type": "string"
+                }
+              },
+              "required": ["caseReference"]
+            },
+            {
+              "properties": {
+                "role": {
+                  "enum": ["Buyer", "Seller"]
+                },
+                "dateOfBirth": {
+                  "title": "Date of birth",
+                  "type": "string",
+                  "format": "date"
+                },
+                "homeAddress": {
+                  "title": "Home address",
+                  "$ref": "#/definitions/address"
+                },
+                "addressVerified": {
+                  "title": "Address verification",
+                  "type": "boolean"
+                }
+              },
+              "required": ["dateOfBirth", "homeAddress", "addressVerified"]
+            }
+          ]
+        }
+      }
+    },
     "materialFacts": {
       "baspiRef": "A",
       "title": "Disclosure of material facts at the point of marketing",
@@ -1787,6 +1933,59 @@
               "type": "string",
               "format": "date"
             }
+          }
+        }
+      }
+    },
+    "registeredTitle": {
+      "RDSRef": "",
+      "title": "Title as registered with HMLR",
+      "type": "object",
+      "properties": {
+        "titleNumber": {
+          "RDSRef": "",
+          "title": "Title Number",
+          "type": "integer"
+        },
+        "classOfTitle": {
+          "RDSRef": "",
+          "title": "Class of Title",
+          "enum": [
+            "AF",
+            "QF",
+            "PF",
+            "AL",
+            "GL",
+            "QL",
+            "PL",
+            "SF",
+            "CF",
+            "SL",
+            "CL",
+            "AR",
+            "PR",
+            "QR",
+            "CN"
+          ]
+        },
+        "estateInterest": {
+          "RDSRef": "",
+          "title": "Estate Interest",
+          "enum": ["EL", "FA", "FC", "MA", "PG", "RC", "RP", "RT"]
+        },
+        "registeredStatus": {
+          "RDSRef": "",
+          "title": "Registered Status",
+          "enum": ["", "Pending"]
+        },
+        "titleExtents": {
+          "RDSRef": "",
+          "title": "Title Extents",
+          "description": "One or more index polygons describing indicative location of registered title from National Polygon Dataset",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "https://geojson.org/schema/GeoJSON.json"
           }
         }
       }
