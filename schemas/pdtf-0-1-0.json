@@ -4,14 +4,7 @@
   "type": "object",
   "title": "Property Data Trust Framework Schema",
   "description": "A schema defining the PDTF data structure, supporting mapping to BASPI, Law Society and RICS Data Schema elements. Versioning is using SchemaVer",
-  "required": [
-    "$schema",
-    "transactionId",
-    "participants",
-    "materialFacts",
-    "additionalLegalInformation",
-    "registeredTitle"
-  ],
+  "required": ["$schema", "transactionId", "participants"],
   "properties": {
     "$schema": {
       "title": "The reference ($id) of the PDTF Schema used",
@@ -22,7 +15,13 @@
       "type": "string",
       "format": "uuid"
     },
+    "uprn": {
+      "RDSRef": "Property/GUID/{name='UPRN',id=?}",
+      "title": "Unique Property Reference Number ",
+      "type": "integer"
+    },
     "participants": {
+      "baspiRef": "B1.2[SellersSolicitor]",
       "title": "Participants in this transaction",
       "type": "array",
       "items": {
@@ -30,25 +29,14 @@
         "properties": {
           "transactionUserId": {
             "title": "Transaction user ID",
-            "description": "A unique ID generated when the participant is added to allow referencing across implementations",
+            "description": "A unique ID generated when the participant is added to allow referencing across applications",
             "type": "string",
             "format": "uuid"
-          },
-          "firstName": { "title": "First name", "type": "string" },
-          "middleNames": { "title": "Middle names", "type": "string" },
-          "lastName": { "title": "Last name", "type": "string" },
-          "email": {
-            "title": "Last name",
-            "type": "string",
-            "format": "email"
-          },
-          "mobile": {
-            "title": "Mobile phone number",
-            "type": "string"
           },
           "role": {
             "title": "Role",
             "enum": [
+              "Prospective Buyer",
               "Buyer",
               "Buyer's Solicitor",
               "Estate Agent",
@@ -69,21 +57,12 @@
               "Removed"
             ]
           },
-          "identityVerified": {
-            "title": "Identity verification",
-            "description": "Has the individual's identity been verified? Normally, at least a 'Vouched' identity should be required to participate in the transaction. 'Enhanced' verification meets the HMLR Digital Identify Standard",
-            "enum": ["Unverified", "Vouched", "Standard", "Enhanced"]
-          },
           "emailVerified": {
             "title": "Email verification",
             "description": "Once verified, implementations can use email code verification to increase authentication strength",
             "type": "boolean"
           },
-          "mobileVerified": {
-            "title": "Mobile phone number verification",
-            "description": "Once verified, implementations can use SMS code verification to increase authentication strength",
-            "type": "boolean"
-          },
+
           "roleVerified": {
             "title": "Role verification",
             "description": "Has the individual's role in the transaction been verified? For example, in the case of the Seller, has their ownership been verified? In the case of solicitors, are they qualified to act in the required capacity?",
@@ -91,9 +70,6 @@
           }
         },
         "required": [
-          "firstName",
-          "lastName",
-          "email",
           "role",
           "status",
           "identityVerified",
@@ -117,20 +93,65 @@
                   ]
                 },
                 "organisation": {
-                  "title": "Participant's organisation",
+                  "title": "Organisation",
                   "type": "string"
                 },
                 "caseReference": {
                   "title": "Internal case management system reference",
                   "type": "string"
+                },
+                "contacts": {
+                  "title": "Names of organisation members",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "firstName": { "title": "First name", "type": "string" },
+                      "lastName": { "title": "Last name", "type": "string" },
+                      "email": { "title": "Email address", "type": "string" }
+                    },
+                    "required": ["firstName", "lastName", "email"]
+                  }
                 }
               },
-              "required": ["caseReference"]
+              "required": ["organisation", "caseReference"]
+            },
+            {
+              "properties": {
+                "role": {
+                  "enum": ["Prospective Buyer"]
+                },
+                "firstName": { "title": "First name", "type": "string" },
+                "middleNames": { "title": "Middle names", "type": "string" },
+                "lastName": { "title": "Last name", "type": "string" },
+                "email": {
+                  "title": "Email address",
+                  "type": "string",
+                  "format": "email"
+                },
+                "mobile": {
+                  "title": "Mobile phone number",
+                  "type": "string"
+                }
+              },
+              "required": ["firstName", "lastName", "email"]
             },
             {
               "properties": {
                 "role": {
                   "enum": ["Buyer", "Seller"]
+                },
+                "firstName": { "title": "First name", "type": "string" },
+                "middleNames": { "title": "Middle names", "type": "string" },
+                "lastName": { "title": "Last name", "type": "string" },
+                "email": {
+                  "title": "Email address",
+                  "type": "string",
+                  "format": "email"
+                },
+                "mobile": {
+                  "title": "Mobile phone number",
+                  "type": "string"
                 },
                 "dateOfBirth": {
                   "title": "Date of birth",
@@ -141,12 +162,29 @@
                   "title": "Home address",
                   "$ref": "#/definitions/address"
                 },
+                "identityVerified": {
+                  "title": "Identity verification",
+                  "description": "Has the individual's identity been verified? Normally, at least a 'Vouched' identity should be required to participate in the transaction. 'Enhanced' verification meets the HMLR Digital Identify Standard",
+                  "enum": ["Unverified", "Vouched", "Standard", "Enhanced"]
+                },
+                "mobileVerified": {
+                  "title": "Mobile phone number verification",
+                  "description": "Once verified, implementations can use SMS code verification to increase authentication strength",
+                  "type": "boolean"
+                },
                 "addressVerified": {
                   "title": "Address verification",
                   "type": "boolean"
                 }
               },
-              "required": ["dateOfBirth", "homeAddress", "addressVerified"]
+              "required": [
+                "firstName",
+                "lastName",
+                "email",
+                "dateOfBirth",
+                "homeAddress",
+                "addressVerified"
+              ]
             }
           ]
         }
@@ -178,21 +216,16 @@
           "description": "Throughout this form this property may be referred to as ‘the property’, ‘this property’ or ‘your property’.",
           "type": "object",
           "required": [
-            "UPRN",
             "address",
             "delayFactors",
             "ownership",
             "parkingArrangements",
             "listingAndConservation",
-            "typeOfConstructionAndEnergyEfficiency",
+            "typeOfConstruction",
+            "energyEfficiency",
             "councilTax"
           ],
           "properties": {
-            "UPRN": {
-              "RDSRef": "Property/GUID/{name='UPRN',id=?}",
-              "title": "Unique Property Reference Number ",
-              "type": "integer"
-            },
             "address": {
               "baspiRef": "A1.1",
               "RDSRef": "Property/Address/xal:AddressDetails",
@@ -526,15 +559,11 @@
                 }
               }
             },
-            "typeOfConstructionAndEnergyEfficiency": {
+            "typeOfConstruction": {
               "baspiRef": "1.8",
-              "title": "Type of Construction and Energy Efficiency",
+              "title": "Type of Construction",
               "type": "object",
-              "required": [
-                "isStandardForm",
-                "hasFlammableExternalWallSystem",
-                "energyEfficiencyRating"
-              ],
+              "required": ["isStandardForm", "hasFlammableExternalWallSystem"],
               "properties": {
                 "isStandardForm": {
                   "baspiRef": "A1.8.1",
@@ -552,37 +581,38 @@
                     "Yes (No assement to hand)",
                     "No"
                   ]
-                },
-                "energyEfficiencyRating": {
-                  "baspiRef": "A1.8.3",
-                  "RDSRef": "Certificates/{category='energyEfficiency',standard='EPC',gradeLevelRating=?},Certificates/{category='energyEfficiency',standard='EPC',status='exempt'},",
-                  "lawSocietyRef": "TA6/7.6",
-                  "title": "What is the energy efficiency rating of the property according to the latest Energy Performance Certificate?",
-                  "type": "string",
-                  "enum": ["A", "B", "C", "D", "E", "F", "G", "Exempt Property"]
                 }
               }
             },
-            "councilTax": {
-              "baspiRef": "A1.9",
-              "title": "Council Tax",
-              "type": "object",
-              "required": ["councilTaxBand", "councilTaxAffectingAlterations"],
-              "properties": {
-                "councilTaxBand": {
-                  "baspiRef": "A1.9.1",
-                  "RDSRef": "TenureAgreements/Taxes/{banding=?}",
-                  "title": "Which Council Tax band does this property fall within?",
-                  "type": "string",
-                  "enum": ["A", "B", "C", "D", "E", "F", "G", "H"]
-                },
-                "councilTaxAffectingAlterations": {
-                  "baspiRef": "A1.9.2",
-                  "RDSRef": "TenureAgreements/Taxes/WorksAlterationsChanges",
-                  "title": "Have you altered the property in any way to the extent that it might change the Council Tax band e.g. added a bedroom or substantially extended the property?",
-                  "$ref": "#/definitions/yesNoDetailIfYes",
-                  "description": "If yes, please give details"
-                }
+            "energyEfficiency": {
+              "baspiRef": "1.8.3",
+              "RDSRef": "Certificates/{category='energyEfficiency',standard='EPC',gradeLevelRating=?},Certificates/{category='energyEfficiency',standard='EPC',status='exempt'},",
+              "lawSocietyRef": "TA6/7.6",
+              "title": "Energy Efficiency Rating",
+              "description": "What is the energy efficiency rating of the property according to the latest Energy Performance Certificate?",
+              "type": "string",
+              "enum": ["A", "B", "C", "D", "E", "F", "G", "Exempt Property"]
+            }
+          },
+          "councilTax": {
+            "baspiRef": "A1.9",
+            "title": "Council Tax",
+            "type": "object",
+            "required": ["councilTaxBand", "councilTaxAffectingAlterations"],
+            "properties": {
+              "councilTaxBand": {
+                "baspiRef": "A1.9.1",
+                "RDSRef": "TenureAgreements/Taxes/{banding=?}",
+                "title": "Which Council Tax band does this property fall within?",
+                "type": "string",
+                "enum": ["A", "B", "C", "D", "E", "F", "G", "H"]
+              },
+              "councilTaxAffectingAlterations": {
+                "baspiRef": "A1.9.2",
+                "RDSRef": "TenureAgreements/Taxes/WorksAlterationsChanges",
+                "title": "Have you altered the property in any way to the extent that it might change the Council Tax band e.g. added a bedroom or substantially extended the property?",
+                "$ref": "#/definitions/yesNoDetailIfYes",
+                "description": "If yes, please give details"
               }
             }
           }
@@ -1352,23 +1382,23 @@
         },
         "consumerProtectionRegulationsDeclaration": {
           "baspiRef": "A13",
-          "title": "Consumer Protection Regulations - Declaration",
+          "title": "Consumer Protection Regulations - Seller's Declaration",
           "type": "object",
-          "description": "Digital signature to the follow declaration to be signed by all owners or their representative. By signing Part A of the form I/we confirm the answers to be truthful and accurate and to the best of my/our knowledge. The questions have been designed to assist with the disclosure of material information and any misleading or incorrect answers are likely to be exposed later in the legal process which may hinder my/our sale. I/we will provide my property lawyer with the additional documentation in support of the information supplied on this form. If there are any changes which alter the information provided, I/we will immediately notify the person marketing the property as well as my/our property lawyer.",
+          "description": "I/we confirm the answers to be truthful and accurate and to the best of my/our knowledge. The questions have been designed to assist with the disclosure of material information and any misleading or incorrect answers are likely to be exposed later in the legal process which may hinder my/our sale. I/we will provide my property lawyer with the additional documentation in support of the information supplied on this form. If there are any changes which alter the information provided, I/we will immediately notify the person marketing the property as well as my/our property lawyer.",
           "properties": {
             "name": {
               "baspiRef": "A13.4",
-              "title": "Print Name",
+              "title": "Full Name",
               "type": "string"
             },
-            "signatures": {
+            "confirmation": {
               "baspiRef": "A13.5",
-              "title": "Signatures",
-              "type": "string"
+              "title": "Confirmation",
+              "type": "boolean"
             },
             "date": {
               "baspiRef": "A13.6",
-              "title": "Date of signatures",
+              "title": "Date of confirmation",
               "type": "string",
               "format": "date"
             }
@@ -1413,35 +1443,6 @@
                   }
                 },
                 "required": ["firstName", "lastName"]
-              }
-            },
-            "sellersPropertyLawyer": {
-              "baspiRef": "B1.2",
-              "RDSRef": "Participants",
-              "title": "Seller’s property lawyer (if known)",
-              "type": "object",
-              "properties": {
-                "name": {
-                  "baspiRef": "B1.2.1",
-                  "title": "Name",
-                  "type": "string"
-                },
-                "address": {
-                  "baspiRef": "B1.2.2",
-                  "title": "Address",
-                  "$ref": "#/definitions/address"
-                },
-                "email": {
-                  "baspiRef": "B1.2.3",
-                  "title": "Email",
-                  "type": "string",
-                  "format": "email"
-                },
-                "reference": {
-                  "baspiRef": "B1.2.4",
-                  "title": "Reference",
-                  "type": "string"
-                }
               }
             },
             "sellersCapacity": {
@@ -1558,7 +1559,7 @@
             "titlePlanAccurate": {
               "baspiRef": "B2.4",
               "RDSRef": "Tenure/BoundaryDifferences,Tenure/CadastralMapOfParcels",
-              "title": "Does the title plan for the property accurately show the extent of the land and property which you are selling? [Note: If you are not sure, you can download a copy of the plan from HM Land Registry here]",
+              "title": "Does the title plan for the property accurately show the extent of the land and property which you are selling?",
               "$ref": "#/definitions/yesNoDetailIfYes"
             },
             "flyingFreehold": {
@@ -1902,7 +1903,7 @@
         },
         "digitalSignatures": {
           "baspiRef": "B8",
-          "title": "Digital signature to the follow declaration to be signed by all owners or their representative",
+          "title": "Confirmation to be supplied by all owners or their representative",
           "type": "object",
           "properties": {
             "confirmWillProvideAdditionalDocumentation": {
@@ -1916,22 +1917,6 @@
               "title": "I/we confirm that all information provided is accurate to the best of our knowledge and if we become aware of any change to/changes which alter the information supplied/provided prior to exchange of contracts for the sale of the property, I/we will update immediately notify the person marketing the property as well as my/our property lawyer. All sellers should sign this form",
               "type": "boolean",
               "const": true
-            },
-            "name": {
-              "baspiRef": "B8.3",
-              "title": "Print Name",
-              "type": "string"
-            },
-            "signatures": {
-              "baspiRef": "B8.4",
-              "title": "Signatures",
-              "type": "string"
-            },
-            "date": {
-              "baspiRef": "B8.5",
-              "title": "Date of signatures",
-              "type": "string",
-              "format": "date"
             }
           }
         }
