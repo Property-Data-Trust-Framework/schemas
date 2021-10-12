@@ -14,7 +14,7 @@
   ],
   "properties": {
     "$schema": {
-      "title": "The reference ($id) of the PDTF Schema used",
+      "title": "The version reference ($id) of the PDTF Schema used",
       "type": "string"
     },
     "transactionId": {
@@ -28,6 +28,23 @@
       "type": "integer"
     },
     "participants": {
+      "readRoles": [
+        "Buyer",
+        "Buyer's Solicitor",
+        "Estate Agent",
+        "Lender",
+        "Mortgage Broker",
+        "Seller",
+        "Seller's Solicitor",
+        "Surveyor"
+      ],
+      "writeRoles": [
+        "Buyer",
+        "Buyer's Solicitor",
+        "Estate Agent",
+        "Seller",
+        "Seller's Solicitor"
+      ],
       "baspiRef": "B1.2[SellersSolicitor]",
       "title": "Participants in this transaction",
       "type": "array",
@@ -168,6 +185,7 @@
       }
     },
     "materialFacts": {
+      "writeRoles": ["Estate Agent", "Seller", "Seller's Solicitor"],
       "baspiRef": "A",
       "title": "Disclosure of material facts at the point of marketing",
       "type": "object",
@@ -1357,32 +1375,16 @@
           }
         },
         "consumerProtectionRegulationsDeclaration": {
+          "writeRoles": ["Seller"],
           "baspiRef": "A13",
           "title": "Consumer Protection Regulations - Seller's Declaration",
-          "type": "object",
           "description": "I/we confirm the answers to be truthful and accurate and to the best of my/our knowledge. The questions have been designed to assist with the disclosure of material information and any misleading or incorrect answers are likely to be exposed later in the legal process which may hinder my/our sale. I/we will provide my property lawyer with the additional documentation in support of the information supplied on this form. If there are any changes which alter the information provided, I/we will immediately notify the person marketing the property as well as my/our property lawyer.",
-          "properties": {
-            "name": {
-              "baspiRef": "A13.4",
-              "title": "Full Name",
-              "type": "string"
-            },
-            "confirmation": {
-              "baspiRef": "A13.5",
-              "title": "Confirmation",
-              "type": "boolean"
-            },
-            "date": {
-              "baspiRef": "A13.6",
-              "title": "Date of confirmation",
-              "type": "string",
-              "format": "date"
-            }
-          }
+          "type": "boolean"
         }
       }
     },
     "additionalLegalInformation": {
+      "writeRoles": ["Seller", "Seller's Solicitor"],
       "baspiRef": "B",
       "title": "Additional information required for the legal process",
       "type": "object",
@@ -1878,6 +1880,7 @@
           }
         },
         "digitalSignatures": {
+          "writeRoles": ["Seller"],
           "baspiRef": "B8",
           "title": "Confirmation to be supplied by all owners or their representative",
           "type": "object",
@@ -1900,7 +1903,7 @@
     },
     "registeredTitles": {
       "RDSRef": "",
-      "title": "Titles as registered with HMLR",
+      "title": "Title(s) as registered with HMLR",
       "type": "array",
       "items": {
         "type": "object",
@@ -2257,8 +2260,10 @@
         "level": {
           "type": "string",
           "enum": [
-            "HumanConsumer",
-            "HumanProfessional",
+            "ConsumerParticipant",
+            "ProfessionalParticipant",
+            "ConsumerDocumentEvidenced",
+            "ProfessionalDocumentEvidenced",
             "Digital",
             "VerifiableDigital"
           ]
@@ -2275,19 +2280,25 @@
             {
               "properties": {
                 "level": {
-                  "enum": ["HumanConsumer"]
+                  "enum": ["ConsumerParticipant"]
+                },
+                "transactionUserId": {
+                  "type": "string"
                 },
                 "role": {
                   "type": "string",
                   "enum": ["Buyer", "Seller"]
                 }
               },
-              "required": ["role"]
+              "required": ["transactionUserId", "role"]
             },
             {
               "properties": {
                 "level": {
-                  "enum": ["HumanProfessional"]
+                  "enum": ["ProfessionalParticipant"]
+                },
+                "transactionUserId": {
+                  "type": "string"
                 },
                 "role": {
                   "type": "string",
@@ -2301,7 +2312,60 @@
                   ]
                 }
               },
-              "required": ["role"]
+              "required": ["transactionUserId", "role"]
+            },
+            {
+              "properties": {
+                "level": {
+                  "enum": ["ConsumerDocumentEvidenced"]
+                },
+                "transactionUserId": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "string",
+                  "enum": ["Buyer", "Seller"]
+                },
+                "documentSources": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              "required": ["transactionUserId", "role", "documentSources"]
+            },
+            {
+              "properties": {
+                "level": {
+                  "enum": ["ProfessionalDocumentEvidenced"]
+                },
+                "transactionUserId": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "BuyersSolicitor",
+                    "SellersSolicitor",
+                    "EstateAgent",
+                    "MortgageBroker",
+                    "Lender",
+                    "Surveyor"
+                  ]
+                },
+                "documentSources": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              "required": ["transactionUserId", "role", "documentSources"]
             },
             {
               "properties": {
