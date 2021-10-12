@@ -51,8 +51,8 @@
       "items": {
         "type": "object",
         "properties": {
-          "transactionUserId": {
-            "title": "Transaction user ID",
+          "transactionParticipantId": {
+            "title": "Transation participant ID",
             "description": "A unique ID generated when the participant is added to allow referencing across applications",
             "type": "string",
             "format": "uuid"
@@ -71,20 +71,9 @@
               "Seller's Solicitor",
               "Surveyor"
             ]
-          },
-          "status": {
-            "title": "Status",
-            "type": "string",
-            "enum": [
-              "Requests to join",
-              "Invited",
-              "Active",
-              "Inactive",
-              "Removed"
-            ]
           }
         },
-        "required": ["role", "status"]
+        "required": ["role"]
       },
       "dependencies": {
         "role": {
@@ -102,28 +91,11 @@
                   ]
                 },
                 "organisation": {
-                  "title": "Organisation",
+                  "title": "Organisation name",
                   "type": "string"
-                },
-                "caseReference": {
-                  "title": "Internal case management system reference",
-                  "type": "string"
-                },
-                "contacts": {
-                  "title": "Names of organisation members",
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "firstName": { "title": "First name", "type": "string" },
-                      "lastName": { "title": "Last name", "type": "string" },
-                      "email": { "title": "Email address", "type": "string" }
-                    },
-                    "required": ["firstName", "lastName", "email"]
-                  }
                 }
               },
-              "required": ["organisation", "caseReference"]
+              "required": ["organisation"]
             },
             {
               "properties": {
@@ -208,7 +180,6 @@
         "propertyToBeSold": {
           "baspiRef": "A1",
           "title": "Property to be sold",
-          "description": "Throughout this form this property may be referred to as ‘the property’, ‘this property’ or ‘your property’.",
           "type": "object",
           "required": [
             "address",
@@ -2335,7 +2306,11 @@
                   }
                 }
               },
-              "required": ["transactionUserId", "role", "documentSources"]
+              "required": [
+                "transactionParticipantId",
+                "role",
+                "documentSources"
+              ]
             },
             {
               "properties": {
@@ -2365,7 +2340,11 @@
                   }
                 }
               },
-              "required": ["transactionUserId", "role", "documentSources"]
+              "required": [
+                "transactionParticipantId",
+                "role",
+                "documentSources"
+              ]
             },
             {
               "properties": {
