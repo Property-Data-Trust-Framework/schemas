@@ -207,13 +207,13 @@
             "delayFactors": {
               "baspiRef": "A1.2",
               "RDSRef": "Metadata/PotentialDelays,Metadata/PotentialDelayDuration",
-              "title": "Are you aware of any factors which might delay or complicate the sale?",
+              "title": "Delay Factors",
               "$ref": "#/$defs/yesNoDetailIfYes",
-              "description": "E.g. matrimonial split, pending application for grant of probate, absent seller or unregistered title? If yes, provide details and likely timescale for delay (if known)"
+              "description": "Are you aware of any factors which might delay or complicate the sale? E.g. matrimonial split, pending application for grant of probate, absent seller or unregistered title? If yes, provide details and likely timescale for delay (if known)"
             },
             "ownership": {
               "baspiRef": "A1.3",
-              "title": "About the ownership of the property",
+              "title": "Ownership",
               "type": "object",
               "properties": {
                 "ownershipType": {
@@ -344,7 +344,7 @@
                             "largeAdditionalExpense": {
                               "baspiRef": "A1.5.2",
                               "RDSRef": "TenureAgreements/Repairs,TenureAgreements/ServicesCharges/Breakdown",
-                              "title": "Have you received notice of any large expense in addition to the annual payment in 1.5.1?",
+                              "title": "Have you received notice of any large expense in addition to the annual payment?",
                               "$ref": "#/$defs/yesNoDetailIfYes",
                               "description": "If yes, please provide details and confirm whether there is a reserve fund or sinking fund which will cover the cost of the works."
                             },
@@ -392,7 +392,7 @@
               "baspiRef": "A1.6",
               "RDSRef": "Services/Parking",
               "lawSocietyRef": "TA6/9.1",
-              "title": "What parking arrangements are there?",
+              "title": "Parking arrangements",
               "type": "object",
               "properties": {
                 "parkingArrangementsType": {
@@ -553,10 +553,17 @@
               "baspiRef": "1.8.3",
               "RDSRef": "Certificates/{category='energyEfficiency',standard='EPC',gradeLevelRating=?},Certificates/{category='energyEfficiency',standard='EPC',status='exempt'},",
               "lawSocietyRef": "TA6/7.6",
-              "title": "Energy Efficiency Rating",
-              "description": "What is the energy efficiency rating of the property according to the latest Energy Performance Certificate?",
-              "type": "string",
-              "enum": ["A", "B", "C", "D", "E", "F", "G", "Exempt Property"]
+              "title": "Energy Efficiency",
+              "type": "object",
+              "required": ["energyEfficiencyRating"],
+              "properties": {
+                "energyEfficiencyRating": {
+                  "title": "Energy Efficiency Rating",
+                  "description": "What is the energy efficiency rating of the property according to the latest Energy Performance Certificate?",
+                  "type": "string",
+                  "enum": ["A", "B", "C", "D", "E", "F", "G", "Exempt Property"]
+                }
+              }
             },
             "councilTax": {
               "baspiRef": "A1.9",
@@ -1350,7 +1357,8 @@
           "baspiRef": "A13",
           "title": "Consumer Protection Regulations - Seller's Declaration",
           "description": "I/we confirm the answers to be truthful and accurate and to the best of my/our knowledge. The questions have been designed to assist with the disclosure of material information and any misleading or incorrect answers are likely to be exposed later in the legal process which may hinder my/our sale. I/we will provide my property lawyer with the additional documentation in support of the information supplied on this form. If there are any changes which alter the information provided, I/we will immediately notify the person marketing the property as well as my/our property lawyer.",
-          "type": "boolean"
+          "type": "boolean",
+          "const": true
         }
       }
     },
