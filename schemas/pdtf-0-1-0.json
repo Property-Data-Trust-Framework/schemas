@@ -1,167 +1,25 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://homebuyingandsellinggroup.co.uk/schemas/0-1-0/pdtf.json",
+  "$id": "https://homebuyingandsellinggroup.co.uk/schemas/0.1.0/pdtf.json",
   "type": "object",
   "title": "Property Data Trust Framework Schema",
   "description": "A schema defining the PDTF data structure, supporting mapping to BASPI, Law Society and RICS Data Schema elements. Versioning is using SchemaVer",
-  "required": [
-    "$schema",
-    "transactionId",
-    "participants",
-    "materialFacts",
-    "additionalLegalInformation",
-    "registeredTitles"
-  ],
+  "required": ["$schema", "uprn", "propertyPack"],
   "properties": {
     "$schema": {
       "title": "The version reference ($id) of the PDTF Schema used",
       "type": "string"
-    },
-    "transactionId": {
-      "title": "Unique transaction ID generated when first created",
-      "type": "string",
-      "format": "uuid"
     },
     "uprn": {
       "RDSRef": "Property/GUID/{name='UPRN',id=?}",
       "title": "Unique Property Reference Number ",
       "type": "integer"
     },
-    "participants": {
-      "readRoles": [
-        "Buyer",
-        "Buyer's Solicitor",
-        "Estate Agent",
-        "Lender",
-        "Mortgage Broker",
-        "Seller",
-        "Seller's Solicitor",
-        "Surveyor"
-      ],
-      "writeRoles": [
-        "Buyer",
-        "Buyer's Solicitor",
-        "Estate Agent",
-        "Seller",
-        "Seller's Solicitor"
-      ],
-      "baspiRef": "B1.2[SellersSolicitor]",
-      "title": "Participants in this transaction",
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "transactionParticipantId": {
-            "title": "Transation participant ID",
-            "description": "A unique ID generated when the participant is added to allow referencing across applications",
-            "type": "string",
-            "format": "uuid"
-          },
-          "role": {
-            "title": "Role",
-            "type": "string",
-            "enum": [
-              "Prospective Buyer",
-              "Buyer",
-              "Buyer's Solicitor",
-              "Estate Agent",
-              "Lender",
-              "Mortgage Broker",
-              "Seller",
-              "Seller's Solicitor",
-              "Surveyor"
-            ]
-          }
-        },
-        "required": ["role"]
-      },
-      "dependencies": {
-        "role": {
-          "oneOf": [
-            {
-              "properties": {
-                "role": {
-                  "enum": [
-                    "Buyer's Solicitor",
-                    "Estate Agent",
-                    "Lender",
-                    "Mortgage Broker",
-                    "Seller's Solicitor",
-                    "Surveyor"
-                  ]
-                },
-                "organisation": {
-                  "title": "Organisation name",
-                  "type": "string"
-                }
-              },
-              "required": ["organisation"]
-            },
-            {
-              "properties": {
-                "role": {
-                  "enum": ["Prospective Buyer"]
-                },
-                "firstName": { "title": "First name", "type": "string" },
-                "middleNames": { "title": "Middle names", "type": "string" },
-                "lastName": { "title": "Last name", "type": "string" },
-                "email": {
-                  "title": "Email address",
-                  "type": "string",
-                  "format": "email"
-                },
-                "mobile": {
-                  "title": "Mobile phone number",
-                  "type": "string"
-                }
-              },
-              "required": ["firstName", "lastName", "email"]
-            },
-            {
-              "properties": {
-                "role": {
-                  "enum": ["Buyer", "Seller"]
-                },
-                "firstName": { "title": "First name", "type": "string" },
-                "middleNames": { "title": "Middle names", "type": "string" },
-                "lastName": { "title": "Last name", "type": "string" },
-                "email": {
-                  "title": "Email address",
-                  "type": "string",
-                  "format": "email"
-                },
-                "mobile": {
-                  "title": "Mobile phone number",
-                  "type": "string"
-                },
-                "dateOfBirth": {
-                  "title": "Date of birth",
-                  "type": "string",
-                  "format": "date"
-                },
-                "homeAddress": {
-                  "title": "Home address",
-                  "$ref": "#/$defs/address"
-                }
-              },
-              "required": [
-                "firstName",
-                "lastName",
-                "email",
-                "dateOfBirth",
-                "homeAddress"
-              ]
-            }
-          ]
-        }
-      }
-    },
     "propertyPack": {
       "title": "Property Pack",
       "type": "object",
       "properties": {
         "materialFacts": {
-          "writeRoles": ["Estate Agent", "Seller", "Seller's Solicitor"],
           "baspiRef": "A",
           "title": "Disclosure of material facts at the point of marketing",
           "type": "object",
@@ -1372,7 +1230,6 @@
               }
             },
             "consumerProtectionRegulationsDeclaration": {
-              "writeRoles": ["Seller"],
               "baspiRef": "A13",
               "title": "Consumer Protection Regulations - Seller's Declaration",
               "description": "I/we confirm the answers to be truthful and accurate and to the best of my/our knowledge. The questions have been designed to assist with the disclosure of material information and any misleading or incorrect answers are likely to be exposed later in the legal process which may hinder my/our sale. I/we will provide my property lawyer with the additional documentation in support of the information supplied on this form. If there are any changes which alter the information provided, I/we will immediately notify the person marketing the property as well as my/our property lawyer.",
@@ -1382,7 +1239,6 @@
           }
         },
         "additionalLegalInformation": {
-          "writeRoles": ["Seller", "Seller's Solicitor"],
           "baspiRef": "B",
           "title": "Additional information required for the legal process",
           "type": "object",
@@ -1395,10 +1251,9 @@
                 "namesOfLegalOwners": {
                   "baspiRef": "B1.1",
                   "RDSRef": "RightsHolders",
-                  "title": "Full names of all legal owner(s) [NB there could be up to 4 registered owners at HM Land Registry]",
+                  "title": "Full names of all legal owner(s)",
                   "type": "array",
                   "minItems": 1,
-                  "maxItems": 4,
                   "items": {
                     "type": "object",
                     "properties": {
@@ -1409,17 +1264,86 @@
                       },
                       "middleNames": {
                         "baspiRef": "B1.1.2",
-                        "title": "Middle Name(s)",
+                        "title": "Middle names",
                         "type": "string"
                       },
-                      "surname": {
+                      "lastName": {
                         "baspiRef": "B1.1.3",
-                        "title": "Surname",
+                        "title": "Last name",
                         "type": "string"
+                      },
+                      "email": {
+                        "title": "Email address",
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "mobile": {
+                        "title": "Mobile phone number",
+                        "type": "string"
+                      },
+                      "dateOfBirth": {
+                        "title": "Date of birth",
+                        "type": "string",
+                        "format": "date"
+                      },
+                      "homeAddress": {
+                        "title": "Home address",
+                        "$ref": "#/$defs/address"
                       }
                     },
-                    "required": ["firstName", "lastName"]
+                    "required": [
+                      "firstName",
+                      "lastName",
+                      "email",
+                      "dateOfBirth",
+                      "homeAddress"
+                    ]
                   }
+                },
+                "sellersSolicitor": {
+                  "baspiRef": "B1.2",
+                  "RDSRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
+                  "title": "Sellers Conveyancer",
+                  "type": "object",
+                  "properties": {
+                    "firstName": {
+                      "title": "First name",
+                      "type": "string"
+                    },
+                    "lastName": {
+                      "title": "Last name",
+                      "type": "string"
+                    },
+                    "email": {
+                      "title": "Email address",
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "mobile": {
+                      "title": "Mobile phone number",
+                      "type": "string"
+                    },
+                    "organisation": {
+                      "title": "Organisation",
+                      "type": "string"
+                    },
+                    "address": {
+                      "title": "Address",
+                      "$ref": "#/$defs/address"
+                    },
+                    "reference": {
+                      "title": "Reference",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "firstName",
+                    "lastName",
+                    "email",
+                    "organisation",
+                    "address",
+                    "reference"
+                  ]
                 },
                 "sellersCapacity": {
                   "baspiRef": "B1.3",
@@ -1878,7 +1802,6 @@
               }
             },
             "digitalSignatures": {
-              "writeRoles": ["Seller"],
               "baspiRef": "B8",
               "title": "Confirmation to be supplied by all owners or their representative",
               "type": "object",
@@ -2273,72 +2196,59 @@
       "properties": {
         "level": {
           "type": "string",
-          "enum": [
-            "ConsumerParticipant",
-            "ProfessionalParticipant",
-            "ConsumerDocumentEvidenced",
-            "ProfessionalDocumentEvidenced",
-            "Digital",
-            "VerifiableDigital"
-          ]
+          "enum": ["Individual", "Document", "Digital", "VerifiableDigital"]
         },
-        "modifiedOn": {
-          "type": "string",
-          "format": "date-time"
+        "collectedAt": {
+          "title": "Unix time stamp",
+          "type": "integer"
+        },
+        "sourceRights": {
+          "title": "Any associated copyright or restrictions to be displayed alongside data",
+          "type": "string"
         }
       },
-      "required": ["level"],
+      "required": ["level", "collectedAt"],
       "dependencies": {
         "level": {
           "oneOf": [
             {
               "properties": {
                 "level": {
-                  "enum": ["ConsumerParticipant"]
+                  "enum": ["Individual"]
                 },
-                "transactionParticipantId": {
+                "firstName": {
+                  "title": "First name",
                   "type": "string"
                 },
-                "role": {
+                "lastName": {
+                  "title": "Last name",
+                  "type": "string"
+                },
+                "email": {
+                  "title": "Verified email address",
                   "type": "string",
-                  "enum": ["Buyer", "Seller"]
+                  "format": "email"
                 }
               },
-              "required": ["transactionParticipantId", "role"]
+              "required": ["firstName", "lastName", "email"]
             },
             {
               "properties": {
                 "level": {
-                  "enum": ["ProfessionalParticipant"]
+                  "enum": ["Document"]
                 },
-                "transactionParticipantId": {
+                "firstName": {
+                  "title": "First name of document provider",
                   "type": "string"
                 },
-                "role": {
-                  "type": "string",
-                  "enum": [
-                    "BuyersSolicitor",
-                    "SellersSolicitor",
-                    "EstateAgent",
-                    "MortgageBroker",
-                    "Lender",
-                    "Surveyor"
-                  ]
-                }
-              },
-              "required": ["transactionParticipantId", "role"]
-            },
-            {
-              "properties": {
-                "level": {
-                  "enum": ["ConsumerDocumentEvidenced"]
-                },
-                "transactionParticipantId": {
+                "lastName": {
+                  "title": "Last name of document provider",
                   "type": "string"
                 },
-                "role": {
+                "email": {
+                  "title": "Verified email address of document provider",
                   "type": "string",
-                  "enum": ["Buyer", "Seller"]
+                  "format": "email"
                 },
                 "documentSources": {
                   "type": "array",
@@ -2349,45 +2259,7 @@
                   }
                 }
               },
-              "required": [
-                "transactionParticipantId",
-                "role",
-                "documentSources"
-              ]
-            },
-            {
-              "properties": {
-                "level": {
-                  "enum": ["ProfessionalDocumentEvidenced"]
-                },
-                "transactionParticipantId": {
-                  "type": "string"
-                },
-                "role": {
-                  "type": "string",
-                  "enum": [
-                    "BuyersSolicitor",
-                    "SellersSolicitor",
-                    "EstateAgent",
-                    "MortgageBroker",
-                    "Lender",
-                    "Surveyor"
-                  ]
-                },
-                "documentSources": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "format": "uri"
-                  }
-                }
-              },
-              "required": [
-                "transactionParticipantId",
-                "role",
-                "documentSources"
-              ]
+              "required": ["firstName", "lastName", "email", "documentSources"]
             },
             {
               "properties": {
@@ -2395,9 +2267,11 @@
                   "enum": ["Digital"]
                 },
                 "sourceName": {
+                  "description": "Name of original data source",
                   "type": "string"
                 },
                 "intermediaryName": {
+                  "description": "Identifier as registered of software provider who attests to the correctness of the source",
                   "type": "string"
                 }
               },
@@ -2419,7 +2293,8 @@
                   "type": "string",
                   "format": "uri"
                 },
-                "verificationResponse": {
+                "verificationResponseHash": {
+                  "description": "MD5 Hash of the expected response, or which matches a hash response itself in the case of private sources",
                   "type": "string"
                 }
               },
@@ -2427,7 +2302,7 @@
                 "sourceName",
                 "sourceUri",
                 "verficationUri",
-                "verificationResponse"
+                "verificationResponseHash"
               ]
             }
           ]
