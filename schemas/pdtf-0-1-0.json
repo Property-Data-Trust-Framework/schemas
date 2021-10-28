@@ -82,7 +82,7 @@
                       "baspiRef": "A1.3.1",
                       "RDSRef": "Tenure/Tenure",
                       "lawSocietyRef": "TA7/1.1",
-                      "title": "Choose the type of ownership",
+                      "title": "The type of ownership",
                       "description": "*A Managed Freehold is any freehold where there are shared amenities, the maintenance of which you pay for through an estate rentcharge, service charge, informal or formal contribution.",
                       "type": "string",
                       "enum": [
@@ -992,7 +992,7 @@
                           "RDSRef": "Objects/Condition=?",
                           "lawSocietyRef": "TA6/12.3c",
                           "title": "Is the heating system in good working order to your satisfaction?",
-                          "$ref": "#/$defs/yesNoDetailIfYes",
+                          "$ref": "#/$defs/yesNoDetailIfNo",
                           "description": "If 'No' please provide details"
                         }
                       }
@@ -1015,6 +1015,7 @@
                   "enum": ["Yes", "No"]
                 }
               },
+              "required": ["isInsured"],
               "dependencies": {
                 "isInsured": {
                   "oneOf": [
@@ -1054,7 +1055,7 @@
               "baspiRef": "A9",
               "title": "Boundaries",
               "type": "object",
-              "description": "You will need to check your title to answer these questions.  If you do not have a copy, for a small fee to HM Land Registry, you can download both the title register and the title plan of the property here.",
+              "description": "You will need to check your title to answer these questions.  If you do not have a copy, for a small fee to HM Land Registry, you can download both the title register and the title plan of the property at https://www.gov.uk/search-property-information-land-registry.",
               "properties": {
                 "partOutsideLegalOwnership": {
                   "baspiRef": "A9.1",
@@ -1300,7 +1301,7 @@
                     ]
                   }
                 },
-                "sellersSolicitor": {
+                "sellersConveyancer": {
                   "baspiRef": "B1.2",
                   "RDSRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
                   "title": "Sellers Conveyancer",
@@ -2169,145 +2170,6 @@
         }
       },
       "required": ["firstName", "lastName", "age"]
-    },
-    "claim": {
-      "type": "object",
-      "properties": {
-        "path": {
-          "title": "JSONPath to claimed data segment",
-          "type": "string"
-        },
-        "data": {
-          "title": "JSON data verifiable against path subschema",
-          "type": "string"
-        },
-        "provenance": {
-          "$ref": "#/$defs/provenance"
-        },
-        "append": {
-          "title": "Append flag signifying that data should be appended to the end of an array of items, not replace them",
-          "type": "boolean"
-        }
-      }
-    },
-    "provenance": {
-      "title": "",
-      "type": "object",
-      "properties": {
-        "level": {
-          "type": "string",
-          "enum": ["Individual", "Document", "Digital", "VerifiableDigital"]
-        },
-        "collectedAt": {
-          "title": "Unix time stamp",
-          "type": "integer"
-        },
-        "sourceRights": {
-          "title": "Any associated copyright or restrictions to be displayed alongside data",
-          "type": "string"
-        }
-      },
-      "required": ["level", "collectedAt"],
-      "dependencies": {
-        "level": {
-          "oneOf": [
-            {
-              "properties": {
-                "level": {
-                  "enum": ["Individual"]
-                },
-                "firstName": {
-                  "title": "First name",
-                  "type": "string"
-                },
-                "lastName": {
-                  "title": "Last name",
-                  "type": "string"
-                },
-                "email": {
-                  "title": "Verified email address",
-                  "type": "string",
-                  "format": "email"
-                }
-              },
-              "required": ["firstName", "lastName", "email"]
-            },
-            {
-              "properties": {
-                "level": {
-                  "enum": ["Document"]
-                },
-                "firstName": {
-                  "title": "First name of document provider",
-                  "type": "string"
-                },
-                "lastName": {
-                  "title": "Last name of document provider",
-                  "type": "string"
-                },
-                "email": {
-                  "title": "Verified email address of document provider",
-                  "type": "string",
-                  "format": "email"
-                },
-                "documentSources": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "format": "uri"
-                  }
-                }
-              },
-              "required": ["firstName", "lastName", "email", "documentSources"]
-            },
-            {
-              "properties": {
-                "level": {
-                  "enum": ["Digital"]
-                },
-                "sourceName": {
-                  "description": "Name of original data source",
-                  "type": "string"
-                },
-                "intermediaryName": {
-                  "description": "Identifier as registered of software provider who attests to the correctness of the source",
-                  "type": "string"
-                }
-              },
-              "required": ["sourceName", "intermediaryName"]
-            },
-            {
-              "properties": {
-                "level": {
-                  "enum": ["VerifiableDigital"]
-                },
-                "sourceName": {
-                  "type": "string"
-                },
-                "sourceUri": {
-                  "type": "string",
-                  "format": "uri"
-                },
-                "verificationUri": {
-                  "type": "string",
-                  "format": "uri"
-                },
-                "verificationResponseHash": {
-                  "description": "MD5 Hash of the expected response, or which matches a hash response itself in the case of private sources",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "sourceName",
-                "sourceUri",
-                "verficationUri",
-                "verificationResponseHash"
-              ]
-            }
-          ]
-        }
-      }
     }
   }
 }
