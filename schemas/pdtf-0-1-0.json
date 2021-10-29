@@ -77,6 +77,7 @@
                   "baspiRef": "A1.3",
                   "title": "Ownership",
                   "type": "object",
+                  "required": ["ownershipType"],
                   "properties": {
                     "ownershipType": {
                       "baspiRef": "A1.3.1",
@@ -94,7 +95,6 @@
                       ]
                     }
                   },
-                  "required": ["ownershipType"],
                   "dependencies": {
                     "ownershipType": {
                       "oneOf": [
@@ -114,6 +114,17 @@
                               "baspiRef": "A1.4",
                               "title": "Details of the lease",
                               "type": "object",
+                              "required": [
+                                "yearsRemaining",
+                                "currentGroundRent",
+                                "rentIncrease",
+                                "annualServiceCharge",
+                                "largeAdditionalExpense",
+                                "additionalFeesOnSale",
+                                "freeholderName",
+                                "managingAgentName",
+                                "managementCompanyDirectorRequirement"
+                              ],
                               "properties": {
                                 "yearsRemaining": {
                                   "baspiRef": "A1.4.1",
@@ -172,18 +183,7 @@
                                   "title": "Is the owner of the Property required to become a director in a management company for the maintenance of shared amenities?",
                                   "$ref": "#/$defs/yesNo"
                                 }
-                              },
-                              "required": [
-                                "yearsRemaining",
-                                "currentGroundRent",
-                                "rentIncrease",
-                                "annualServiceCharge",
-                                "largeAdditionalExpense",
-                                "additionalFeesOnSale",
-                                "freeholderName",
-                                "managingAgentName",
-                                "managementCompanyDirectorRequirement"
-                              ]
+                              }
                             }
                           }
                         },
@@ -196,6 +196,14 @@
                               "baspiRef": "A1.5",
                               "title": "Managed Freehold or Commonhold details",
                               "type": "object",
+                              "required": [
+                                "annualServiceCharge",
+                                "largeAdditionalExpense",
+                                "additionalFeesOnSale",
+                                "freeholderName",
+                                "managingAgentName",
+                                "managementCompanyDirectorRequirement"
+                              ],
                               "properties": {
                                 "annualServiceCharge": {
                                   "baspiRef": "A1.5.1",
@@ -234,15 +242,7 @@
                                   "title": "Is the owner of the Property required to become a director in a management company for the maintenance of shared amenities?",
                                   "$ref": "#/$defs/yesNo"
                                 }
-                              },
-                              "required": [
-                                "annualServiceCharge",
-                                "largeAdditionalExpense",
-                                "additionalFeesOnSale",
-                                "freeholderName",
-                                "managingAgentName",
-                                "managementCompanyDirectorRequirement"
-                              ]
+                              }
                             }
                           }
                         }
@@ -843,6 +843,7 @@
                   "lawSocietyRef": "TA6/12.4a",
                   "title": "Mains foul drainage",
                   "type": "object",
+                  "required": ["yesNo"],
                   "properties": {
                     "yesNo": {
                       "type": "string",
@@ -951,7 +952,7 @@
                               "$ref": "#/$defs/yesNoDetailIfYes"
                             }
                           },
-                          "required": ["connected"]
+                          "required": ["connected", "maintenanceAgreements"]
                         }
                       ]
                     }
@@ -1045,6 +1046,7 @@
               "baspiRef": "A8",
               "title": "Insurance",
               "type": "object",
+              "required": ["isInsured"],
               "properties": {
                 "isInsured": {
                   "baspiRef": "A8.1",
@@ -1055,7 +1057,6 @@
                   "enum": ["Yes", "No"]
                 }
               },
-              "required": ["isInsured"],
               "dependencies": {
                 "isInsured": {
                   "oneOf": [
@@ -1344,6 +1345,13 @@
                   "minItems": 1,
                   "items": {
                     "type": "object",
+                    "required": [
+                      "firstName",
+                      "lastName",
+                      "email",
+                      "dateOfBirth",
+                      "homeAddress"
+                    ],
                     "properties": {
                       "firstName": {
                         "baspiRef": "B1.1.1",
@@ -1378,14 +1386,7 @@
                         "title": "Home address",
                         "$ref": "#/$defs/address"
                       }
-                    },
-                    "required": [
-                      "firstName",
-                      "lastName",
-                      "email",
-                      "dateOfBirth",
-                      "homeAddress"
-                    ]
+                    }
                   }
                 },
                 "sellersConveyancer": {
@@ -1393,6 +1394,14 @@
                   "RDSRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
                   "title": "Sellers Conveyancer",
                   "type": "object",
+                  "required": [
+                    "firstName",
+                    "lastName",
+                    "email",
+                    "organisation",
+                    "address",
+                    "reference"
+                  ],
                   "properties": {
                     "firstName": {
                       "title": "First name",
@@ -1423,15 +1432,7 @@
                       "title": "Reference",
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "firstName",
-                    "lastName",
-                    "email",
-                    "organisation",
-                    "address",
-                    "reference"
-                  ]
+                  }
                 },
                 "sellersCapacity": {
                   "baspiRef": "B1.3",
@@ -1482,6 +1483,13 @@
               "baspiRef": "B2",
               "title": "About the Property",
               "type": "object",
+              "required": [
+                "legalBoundaries",
+                "haveBoundaryFeaturesMoved",
+                "adjacentLandIncluded",
+                "titlePlanAccurate",
+                "flyingFreehold"
+              ],
               "properties": {
                 "legalBoundaries": {
                   "baspiRef": "B2.1",
@@ -1564,6 +1572,11 @@
               "baspiRef": "B3",
               "title": "Services Crossing Other Property",
               "type": "object",
+              "required": [
+                "pipesWiresCablesDrainsToProperty",
+                "pipesWiresCablesDrainsFromProperty",
+                "formalOrInformalAgreements"
+              ],
               "properties": {
                 "pipesWiresCablesDrainsToProperty": {
                   "baspiRef": "B3.1",
@@ -1592,6 +1605,14 @@
               "baspiRef": "B4",
               "title": "Energy and Meters",
               "type": "object",
+              "required": [
+                "testedByQualifiedElectrician",
+                "electricalWorkSince2005",
+                "solarPanels",
+                "electricityMeterLocation",
+                "gasMeterLocation",
+                "stopcockAndWaterMeterLocation"
+              ],
               "properties": {
                 "testedByQualifiedElectrician": {
                   "baspiRef": "B4.1",
