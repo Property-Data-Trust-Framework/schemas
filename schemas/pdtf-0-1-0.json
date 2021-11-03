@@ -250,10 +250,11 @@
                   "lawSocietyRef": "TA6/9.1",
                   "title": "Parking arrangements",
                   "type": "object",
+                  "required": ["parkingArrangementsType"],
                   "properties": {
                     "parkingArrangementsType": {
                       "baspiRef": "A1.6.1",
-                      "title": "The type of parking arrangements",
+                      "title": "What parking arrangements are there?",
                       "type": "string",
                       "enum": [
                         "Garage",
@@ -268,7 +269,6 @@
                       ]
                     }
                   },
-                  "required": ["parkingArrangementsType"],
                   "dependencies": {
                     "parkingArrangementsType": {
                       "oneOf": [
@@ -299,7 +299,7 @@
                               "type": "string"
                             }
                           },
-                          "required": ["other"]
+                          "required": ["otherParkingType"]
                         }
                       ]
                     }
@@ -620,7 +620,7 @@
                 "listedBuildingApplication",
                 "infrastructureProject",
                 "partyWallAct",
-                "other"
+                "otherNotices"
               ],
               "properties": {
                 "neighbourDevelopment": {
@@ -726,18 +726,19 @@
               "title": "Fixtures and Fittings",
               "description": "NOTE:  This is so a buyer’s offer can take into account whether you are taking something of value or leaving extra items.  A full list will need to be completed after the sale is agreed.",
               "type": "object",
+              "required": ["itemsToRemove", "itemsToInclude"],
               "properties": {
                 "itemsToRemove": {
                   "baspiRef": "A6.1",
                   "RDSRef": "Objects/{isIncludedInExchange='no',class='fixture|fitting}",
-                  "title": "List any items, which would be considered a fixture or fitting, that you intend to take. E.g. Carpets, curtains, light fittings, fitted cupboards, etc",
-                  "type": "string"
+                  "title": "Are there any items, which would be considered a fixture or fitting, that you intend to take? E.g. Carpets, curtains, light fittings, fitted cupboards, etc",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
                 },
                 "itemsToInclude": {
                   "baspiRef": "A6.2",
                   "RDSRef": "Objects/{isIncludedInExchange='true',class='equipment|furniture}",
-                  "title": "What additional furniture or possessions are you very likely to include in the sale, irrespective of sale price?",
-                  "type": "string"
+                  "title": "Are there additional furniture items or possessions are you very likely to include in the sale, irrespective of sale price?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
                 }
               }
             },
@@ -861,7 +862,11 @@
                                 "No, it does not comply with the rules for discharge into a waterway."
                               ]
                             }
-                          }
+                          },
+                          "required": [
+                            "plantDrainsIntoWaterway",
+                            "dischageCompliesWithGBR"
+                          ]
                         },
                         {
                           "properties": {
@@ -904,7 +909,7 @@
                 "cableSatelliteTV",
                 "broadband",
                 "solarPanels",
-                "other"
+                "otherServices"
               ],
               "properties": {
                 "electricity": {
