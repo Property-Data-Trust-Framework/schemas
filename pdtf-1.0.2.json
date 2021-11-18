@@ -1,0 +1,2328 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://homebuyingandsellinggroup.co.uk/schemas/1.0.2/pdtf.json",
+  "type": "object",
+  "title": "Property Data Trust Framework Schema",
+  "description": "A schema defining the PDTF data structure, supporting mapping to BASPI, Law Society and RICS Data Schema elements. Versioning is using SchemaVer",
+  "required": ["$schema", "uprn", "propertyPack"],
+  "properties": {
+    "$schema": {
+      "title": "The version reference ($id) of the PDTF Schema used",
+      "type": "string"
+    },
+    "uprn": {
+      "RDSRef": "Property/GUID/{name='UPRN',id=?}",
+      "title": "Unique Property Reference Number ",
+      "type": "integer"
+    },
+    "propertyPack": {
+      "title": "Property Pack",
+      "type": "object",
+      "properties": {
+        "materialFacts": {
+          "baspiRef": "A",
+          "title": "Disclosure of material facts at the point of marketing",
+          "type": "object",
+          "required": [
+            "propertyToBeSold",
+            "disputesAndComplaints",
+            "alterationsAndChanges",
+            "notices",
+            "specialistIssues",
+            "fixturesAndFittings",
+            "waterAndDrainage",
+            "utilities",
+            "greenDealLoan",
+            "centralHeating",
+            "insurance",
+            "boundaries",
+            "rightsAndInformalArrangements",
+            "otherIssues",
+            "additionalInformation",
+            "consumerProtectionRegulationsDeclaration"
+          ],
+          "properties": {
+            "propertyToBeSold": {
+              "baspiRef": "A1",
+              "title": "Property to be sold",
+              "type": "object",
+              "required": [
+                "address",
+                "delayFactors",
+                "ownership",
+                "parkingArrangements",
+                "listingAndConservation",
+                "typeOfConstruction",
+                "energyEfficiency",
+                "councilTax"
+              ],
+              "properties": {
+                "address": {
+                  "baspiRef": "A1.1",
+                  "RDSRef": "Property/Address/xal:AddressDetails",
+                  "title": "Property Address",
+                  "$ref": "#/$defs/address"
+                },
+                "delayFactors": {
+                  "baspiRef": "A1.2",
+                  "RDSRef": "Metadata/PotentialDelays,Metadata/PotentialDelayDuration",
+                  "title": "Delay Factors",
+                  "$ref": "#/$defs/yesNoDetailIfYes",
+                  "description": "Are you aware of any factors which might delay or complicate the sale? E.g. matrimonial split, pending application for grant of probate, absent seller or unregistered title? If yes, provide details and likely timescale for delay (if known)"
+                },
+                "ownership": {
+                  "baspiRef": "A1.3",
+                  "title": "Ownership",
+                  "type": "object",
+                  "required": ["ownershipType"],
+                  "properties": {
+                    "ownershipType": {
+                      "baspiRef": "A1.3.1",
+                      "RDSRef": "Tenure/Tenure",
+                      "lawSocietyRef": "TA7/1.1",
+                      "title": "What type of ownership is the property?",
+                      "description": "*A Managed Freehold is any freehold where there are shared amenities, the maintenance of which you pay for through an estate rentcharge, service charge, informal or formal contribution.",
+                      "type": "string",
+                      "enum": [
+                        "Freehold",
+                        "Managed Freehold",
+                        "Leasehold",
+                        "Commonhold",
+                        "Other"
+                      ]
+                    }
+                  },
+                  "dependencies": {
+                    "ownershipType": {
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "ownershipType": {
+                              "enum": ["Freehold", "Other"]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "ownershipType": {
+                              "enum": ["Leasehold"]
+                            },
+                            "leaseholdDetails": {
+                              "baspiRef": "A1.4",
+                              "title": "Details of the lease",
+                              "type": "object",
+                              "required": [
+                                "yearsRemaining",
+                                "currentGroundRent",
+                                "rentIncrease",
+                                "annualServiceCharge",
+                                "largeAdditionalExpense",
+                                "additionalFeesOnSale",
+                                "freeholderName",
+                                "managingAgentName",
+                                "managementCompanyDirectorRequirement"
+                              ],
+                              "properties": {
+                                "yearsRemaining": {
+                                  "baspiRef": "A1.4.1",
+                                  "RDSRef": "Tenure/Remaining",
+                                  "title": "Number of years remaining on the lease",
+                                  "type": "integer"
+                                },
+                                "currentGroundRent": {
+                                  "baspiRef": "A1.4.2",
+                                  "RDSRef": "TenureAgreements/RentPayable/Value",
+                                  "lawSocietyRef": "TA7/1.2",
+                                  "title": "Current ground rent",
+                                  "type": "integer"
+                                },
+                                "rentIncrease": {
+                                  "baspiRef": "A1.4.3",
+                                  "RDSRef": "TenureAgreement/isRentChangeable, TenureAgreements/RentChanges",
+                                  "title": "Does the rent increase?",
+                                  "$ref": "#/$defs/yesNoDetailIfYes",
+                                  "description": "Please provide full details of the rent increase e.g. how often and by how much and when the next increase is due.  (If you do not have a copy of your lease to hand you can obtain a copy from HM Land Registry here for a small fee)"
+                                },
+                                "annualServiceCharge": {
+                                  "baspiRef": "A1.5.1",
+                                  "RDSRef": "TenureAgreements/ServiceCharges",
+                                  "title": "Amount of current annual service charge/estate rentcharge/maintenance contribution",
+                                  "type": "string"
+                                },
+                                "largeAdditionalExpense": {
+                                  "baspiRef": "A1.5.2",
+                                  "RDSRef": "TenureAgreements/Repairs,TenureAgreements/ServicesCharges/Breakdown",
+                                  "title": "Have you received notice of any large expense in addition to the annual payment?",
+                                  "$ref": "#/$defs/yesNoDetailIfYes",
+                                  "description": "If yes, please provide details and confirm whether there is a reserve fund or sinking fund which will cover the cost of the works."
+                                },
+                                "additionalFeesOnSale": {
+                                  "baspiRef": "A1.5.3",
+                                  "RDSRef": "TenureAgreements/LegalCosts/Actual, TenureAgreements/LegalCosts/Estimated",
+                                  "title": "Additional fees payable on sale or letting",
+                                  "type": "string"
+                                },
+                                "freeholderName": {
+                                  "baspiRef": "A1.5.4",
+                                  "RDSRef": "TenureAgreements/Assignor",
+                                  "title": "The name of the freeholder or rentcharge owner",
+                                  "type": "string"
+                                },
+                                "managingAgentName": {
+                                  "baspiRef": "A1.5.5",
+                                  "RDSRef": "Participants/Role",
+                                  "title": "The name of the managing agent",
+                                  "type": "string"
+                                },
+                                "managementCompanyDirectorRequirement": {
+                                  "baspiRef": "A1.5.6",
+                                  "RDSRef": "Property/Flags",
+                                  "title": "Is the owner of the Property required to become a director in a management company for the maintenance of shared amenities?",
+                                  "$ref": "#/$defs/yesNo"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "ownershipType": {
+                              "enum": ["Managed Freehold", "Commonhold"]
+                            },
+                            "managedFreeholdOrCommonhold": {
+                              "baspiRef": "A1.5",
+                              "title": "Managed Freehold or Commonhold details",
+                              "type": "object",
+                              "required": [
+                                "annualServiceCharge",
+                                "largeAdditionalExpense",
+                                "additionalFeesOnSale",
+                                "freeholderName",
+                                "managingAgentName",
+                                "managementCompanyDirectorRequirement"
+                              ],
+                              "properties": {
+                                "annualServiceCharge": {
+                                  "baspiRef": "A1.5.1",
+                                  "RDSRef": "TenureAgreements/ServiceCharges",
+                                  "title": "Amount of current annual service charge/estate rentcharge/maintenance contribution",
+                                  "type": "string"
+                                },
+                                "largeAdditionalExpense": {
+                                  "baspiRef": "A1.5.2",
+                                  "RDSRef": "TenureAgreements/Repairs,TenureAgreements/ServicesCharges/Breakdown",
+                                  "title": "Have you received notice of any large expense in addition to the annual payment?",
+                                  "$ref": "#/$defs/yesNoDetailIfYes",
+                                  "description": "If yes, please provide details and confirm whether there is a reserve fund or sinking fund which will cover the cost of the works."
+                                },
+                                "additionalFeesOnSale": {
+                                  "baspiRef": "A1.5.3",
+                                  "RDSRef": "TenureAgreements/LegalCosts/Actual, TenureAgreements/LegalCosts/Estimated",
+                                  "title": "Additional fees payable on sale or letting",
+                                  "type": "string"
+                                },
+                                "freeholderName": {
+                                  "baspiRef": "A1.5.4",
+                                  "RDSRef": "TenureAgreements/Assignor",
+                                  "title": "The name of the freeholder or rentcharge owner",
+                                  "type": "string"
+                                },
+                                "managingAgentName": {
+                                  "baspiRef": "A1.5.5",
+                                  "RDSRef": "Participants/Role",
+                                  "title": "The name of the managing agent",
+                                  "type": "string"
+                                },
+                                "managementCompanyDirectorRequirement": {
+                                  "baspiRef": "A1.5.6",
+                                  "RDSRef": "Property/Flags",
+                                  "title": "Is the owner of the Property required to become a director in a management company for the maintenance of shared amenities?",
+                                  "$ref": "#/$defs/yesNo"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                "parkingArrangements": {
+                  "baspiRef": "A1.6",
+                  "RDSRef": "Services/Parking",
+                  "lawSocietyRef": "TA6/9.1",
+                  "title": "Parking arrangements",
+                  "type": "object",
+                  "required": ["parkingArrangementsType"],
+                  "properties": {
+                    "parkingArrangementsType": {
+                      "baspiRef": "A1.6.1",
+                      "title": "What parking arrangements are there?",
+                      "type": "string",
+                      "enum": [
+                        "Garage",
+                        "Allocated parking space",
+                        "Driveway",
+                        "On street",
+                        "Resident permit",
+                        "Metered parking",
+                        "Communal parking",
+                        "None",
+                        "Other"
+                      ]
+                    }
+                  },
+                  "dependencies": {
+                    "parkingArrangementsType": {
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "parkingArrangementsType": {
+                              "enum": [
+                                "Garage",
+                                "Allocated parking space",
+                                "Driveway",
+                                "On street",
+                                "Resident permit",
+                                "Metered parking",
+                                "Communal parking",
+                                "None"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "parkingArrangementsType": {
+                              "enum": ["Other"]
+                            },
+                            "otherParkingType": {
+                              "baspiRef": "A1.6.2",
+                              "title": "Please describe the other parking arrangements",
+                              "type": "string"
+                            }
+                          },
+                          "required": ["otherParkingType"]
+                        }
+                      ]
+                    }
+                  }
+                },
+                "listingAndConservation": {
+                  "baspiRef": "1.7",
+                  "title": "Listing and Conservation",
+                  "type": "object",
+                  "required": [
+                    "isListed",
+                    "isConservationArea",
+                    "hasTreePreservationOrder"
+                  ],
+                  "properties": {
+                    "isListed": {
+                      "baspiRef": "A1.7.1",
+                      "RDSRef": "Protections",
+                      "lawSocietyRef": "TA6/4.7a",
+                      "title": "Is the property a listed building?",
+                      "$ref": "#/$defs/yesNoDetailIfYes",
+                      "description": "If yes, please provide details of the listing and any relevant documents"
+                    },
+                    "isConservationArea": {
+                      "baspiRef": "A1.7.2",
+                      "RDSRef": "Protections",
+                      "lawSocietyRef": "TA6/4.7b",
+                      "title": "Is the property in a designated conservation area?",
+                      "$ref": "#/$defs/yesNoDetailIfYes",
+                      "description": "If yes, please provide details of the listing and any relevant documents"
+                    },
+                    "hasTreePreservationOrder": {
+                      "baspiRef": "A1.7.3",
+                      "RDSRef": "Property/Flags",
+                      "lawSocietyRef": "TA6/4.7c",
+                      "title": "To your knowledge, does a tree preservation order apply to any trees on the property?",
+                      "type": "object",
+                      "properties": {
+                        "yesNo": {
+                          "type": "string",
+                          "title": "",
+                          "enum": ["Yes", "No"]
+                        }
+                      },
+                      "required": ["yesNo"],
+                      "dependencies": {
+                        "yesNo": {
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": ["No"]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": ["Yes"]
+                                },
+                                "details": {
+                                  "title": "Details",
+                                  "RDSRef": "Protections",
+                                  "type": "string"
+                                },
+                                "workCarriedOut": {
+                                  "RDSRef": "WorksAlterationsChanges",
+                                  "lawSocietyRef": "TA6/4.8",
+                                  "title": "If work has been carried out to any trees which are protected by the order, were the relevant consents obtained? Provide any relevant documentation",
+                                  "type": "string"
+                                }
+                              },
+                              "required": ["details", "workCarriedOut"]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "typeOfConstruction": {
+                  "baspiRef": "1.8",
+                  "title": "Type of Construction",
+                  "type": "object",
+                  "required": [
+                    "isStandardForm",
+                    "hasFlammableExternalWallSystem"
+                  ],
+                  "properties": {
+                    "isStandardForm": {
+                      "baspiRef": "A1.8.1",
+                      "RDSRef": "Buildings,BuildingSections/ConstructionType,ConstructionMaterials",
+                      "title": "Is the property built in a standard form of construction? E.g. brick and/or block with timber-supported roof comprising a tile, slate or thatch cover?",
+                      "$ref": "#/$defs/yesNoDetailIfNo"
+                    },
+                    "hasFlammableExternalWallSystem": {
+                      "baspiRef": "A1.8.2",
+                      "RDSRef": "Property/Flags,Certificates",
+                      "title": "Does the property have potentially flammable external wall system - including cladding and balconies etc.?",
+                      "type": "string",
+                      "enum": [
+                        "Yes (EWS form attached)",
+                        "Yes (No assement to hand)",
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                "energyEfficiency": {
+                  "baspiRef": "1.8.3",
+                  "RDSRef": "Certificates/{category='energyEfficiency',standard='EPC',gradeLevelRating=?},Certificates/{category='energyEfficiency',standard='EPC',status='exempt'},",
+                  "lawSocietyRef": "TA6/7.6",
+                  "title": "Energy Efficiency",
+                  "type": "object",
+                  "required": ["energyEfficiencyRating"],
+                  "properties": {
+                    "energyEfficiencyRating": {
+                      "title": "Energy Efficiency Rating",
+                      "description": "What is the energy efficiency rating of the property according to the latest Energy Performance Certificate?",
+                      "type": "string",
+                      "enum": [
+                        "A",
+                        "B",
+                        "C",
+                        "D",
+                        "E",
+                        "F",
+                        "G",
+                        "Exempt Property"
+                      ]
+                    }
+                  }
+                },
+                "councilTax": {
+                  "baspiRef": "A1.9",
+                  "title": "Council Tax",
+                  "type": "object",
+                  "required": [
+                    "councilTaxBand",
+                    "councilTaxAffectingAlterations"
+                  ],
+                  "properties": {
+                    "councilTaxBand": {
+                      "baspiRef": "A1.9.1",
+                      "RDSRef": "TenureAgreements/Taxes/{banding=?}",
+                      "title": "Which Council Tax band does this property fall within?",
+                      "type": "string",
+                      "enum": ["A", "B", "C", "D", "E", "F", "G", "H"]
+                    },
+                    "councilTaxAffectingAlterations": {
+                      "baspiRef": "A1.9.2",
+                      "RDSRef": "TenureAgreements/Taxes/WorksAlterationsChanges",
+                      "title": "Have you altered the property in any way to the extent that it might change the Council Tax band e.g. added a bedroom or substantially extended the property?",
+                      "$ref": "#/$defs/yesNoDetailIfYes",
+                      "description": "If yes, please give details"
+                    }
+                  }
+                }
+              }
+            },
+            "disputesAndComplaints": {
+              "baspiRef": "A2",
+              "title": "Disputes and Complaints",
+              "type": "object",
+              "required": ["hasDisputesAndComplaints"],
+              "properties": {
+                "hasDisputesAndComplaints": {
+                  "baspiRef": "A2.1",
+                  "RDSRef": "Tenure/DisputesComplaints,Tenure/LegalClaims",
+                  "lawSocietyRef": "TA6/2.1",
+                  "title": "Have any disputes or complaints occurred, or any actions taken place which might lead to a dispute, regarding this property, a property nearby, or their use?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                }
+              }
+            },
+            "alterationsAndChanges": {
+              "baspiRef": "A3",
+              "title": "Alterations and Changes to the Property",
+              "type": "object",
+              "required": [
+                "hasStructuralAlterations",
+                "windowReplacementsSince2002",
+                "hasAddedConservatory",
+                "planningPermissionBreaches",
+                "unresolvedPlanningIssues"
+              ],
+              "properties": {
+                "hasStructuralAlterations": {
+                  "baspiRef": "A3.1",
+                  "RDSRef": "WorksAlterationsChanges",
+                  "lawSocietyRef": "TA6/4.1a",
+                  "title": "Have there been any structural alterations, extensions, significant repairs or renewals to the property?  (e.g. extensions, loft or garage conversion, removal of internal walls or chimneys or change of use)",
+                  "$ref": "#/$defs/yesNoDetailConsents",
+                  "description": "If yes, for each change, please outline the nature of the work and confirm the year the change was completed"
+                },
+                "windowReplacementsSince2002": {
+                  "baspiRef": "A3.2",
+                  "RDSRef": "WorksAlterationsChanges",
+                  "lawSocietyRef": "TA6/4.1b",
+                  "title": "Since 1st April 2002 has replacement of any windows, roof windows, roof lights, glazed doors taken place?",
+                  "$ref": "#/$defs/yesNoDetailConsents",
+                  "description": "If yes, for each installation, please outline the nature of the work and confirm the year the installation was completed.  If you are not sure you may be able to find further details here"
+                },
+                "hasAddedConservatory": {
+                  "baspiRef": "A3.3",
+                  "RDSRef": "WorksAlterationsChanges",
+                  "lawSocietyRef": "TA6/4.1d",
+                  "title": "Has a conservatory been added?",
+                  "$ref": "#/$defs/yesNoDetailConsents",
+                  "description": "If yes, please confirm the year the installation was completed and whether any walls were removed and whether an exterior quality door separates the conservatory from the main building"
+                },
+                "planningPermissionBreaches": {
+                  "baspiRef": "A3.6",
+                  "RDSRef": "Property/Flags",
+                  "lawSocietyRef": "TA6/4.4",
+                  "title": "Are you aware of any breaches of planning permission conditions or building regulations consent conditions or work not having the necessary consents?",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "required": ["yesNo"],
+                  "dependencies": {
+                    "yesNo": {
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": ["No"]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": ["Yes"]
+                            },
+                            "details": {
+                              "RDSRef": "Buildings,BuildingsSections/StructureAuthorised,BuildingsSections/StructureUnauthorised",
+                              "title": "Details",
+                              "type": "string"
+                            },
+                            "willingToInsure": {
+                              "baspiRef": "A3.8",
+                              "RDSRef": "Insurance/isWillingToProvide",
+                              "title": "If yes, confirm whether you will pay for an insurance policy if the Local Authority still have power to enforce the breach.  Your property lawyer can obtain a quote for you.  (If you already have a policy please give it to your property lawyer and include details in Question 6 of Section B) [*Note: It will be a term of the insurance policy that the Local Authority is not contacted so if you have contacted the Local Authority the option of indemnity insurance will not be available.]",
+                              "type": "string",
+                              "enum": ["Yes", "No"]
+                            }
+                          },
+                          "required": ["details", "willingToInsure"]
+                        }
+                      ]
+                    }
+                  }
+                },
+                "unresolvedPlanningIssues": {
+                  "baspiRef": "A3.7",
+                  "RDSRef": "Buildings,BuildingsSections/StructureAuthorised,BuildingsSections/StructureUnauthorised",
+                  "title": "Are you aware of any unresolved planning or building control issues?",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "required": ["yesNo"],
+                  "dependencies": {
+                    "yesNo": {
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": ["No"]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": ["Yes"]
+                            },
+                            "details": {
+                              "RDSRef": "Buildings,BuildingsSections/StructureAuthorised,BuildingsSections/StructureUnauthorised",
+                              "title": "Details",
+                              "type": "string"
+                            },
+                            "willingToInsure": {
+                              "baspiRef": "A3.8",
+                              "RDSRef": "Insurance/isWillingToProvide",
+                              "title": "If yes, confirm whether you will pay for an insurance policy if the Local Authority still have power to enforce the breach.  Your property lawyer can obtain a quote for you.  (If you already have a policy please give it to your property lawyer and include details in Question 6 of Section B) [*Note: It will be a term of the insurance policy that the Local Authority is not contacted so if you have contacted the Local Authority the option of indemnity insurance will not be available.]",
+                              "type": "string",
+                              "enum": ["Yes", "No"]
+                            }
+                          },
+                          "required": ["details", "willingToInsure"]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "notices": {
+              "baspiRef": "A4",
+              "title": "Notices which Affect the Property",
+              "description": "Are you aware of, or have you received any of the following notices?",
+              "type": "object",
+              "required": [
+                "neighbourDevelopment",
+                "planningApplication",
+                "requiredMaintenance",
+                "listedBuildingApplication",
+                "infrastructureProject",
+                "partyWallAct",
+                "otherNotices"
+              ],
+              "properties": {
+                "neighbourDevelopment": {
+                  "baspiRef": "A4.1",
+                  "RDSRef": "Property/Flags,Planning",
+                  "lawSocietyRef": "TA6/3.1",
+                  "title": "The owner of a neighbouring property is proposing to develop property or land nearby, make alterations to nearby buildings or change the use?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "planningApplication": {
+                  "baspiRef": "A4.2",
+                  "RDSRef": "Property/Flags,Planning",
+                  "lawSocietyRef": "TA6/3.2",
+                  "title": "Any planning application that could affect the property, the enjoyment of it or the views from it?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "requiredMaintenance": {
+                  "baspiRef": "A4.3",
+                  "RDSRef": "Property/Flags,Notifications",
+                  "lawSocietyRef": "TA6/3.1",
+                  "title": "Notice informing you that maintenance, repairs or improvements are required to your property?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "listedBuildingApplication": {
+                  "baspiRef": "A4.4",
+                  "RDSRef": "Property/Flags,Protections",
+                  "lawSocietyRef": "TA6/3.1",
+                  "title": "Listed building application",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "infrastructureProject": {
+                  "baspiRef": "A4.5",
+                  "RDSRef": "Property/Flags,Planning",
+                  "lawSocietyRef": "TA6/3.1",
+                  "title": "Infrastructure project, proposed or in progress (i.e. wind turbine, railway, fracking, etc)",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "partyWallAct": {
+                  "baspiRef": "A4.6",
+                  "RDSRef": "Property/Flags,Notifications",
+                  "lawSocietyRef": "TA6/1.6",
+                  "title": "Notice under the Party Wall Act 1996 in respect of any shared or party boundaries?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "otherNotices": {
+                  "baspiRef": "A4.7",
+                  "RDSRef": "Property/Flags,Notifications",
+                  "lawSocietyRef": "TA6/3.1",
+                  "title": "Any other type of notice",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                }
+              }
+            },
+            "specialistIssues": {
+              "baspiRef": "A5",
+              "title": "Specialist Issues",
+              "type": "object",
+              "required": [
+                "dryRotEtcTreatment",
+                "containsAsbestos",
+                "japaneseKnotweed",
+                "subsidenceOrStructuralFault",
+                "ongoingHealthOrSafetyIssue"
+              ],
+              "properties": {
+                "dryRotEtcTreatment": {
+                  "baspiRef": "A5.1",
+                  "RDSRef": "Property/Flags,BuildingSections/EnvironmentalIssues",
+                  "title": "To your knowledge, has there been any preventative work for, or treatment of dry rot, wet rot or damp carried out at the property?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "containsAsbestos": {
+                  "baspiRef": "A5.2",
+                  "RDSRef": "Property/Flags,BuildingSections/EnvironmentalIssues",
+                  "title": "To your knowledge, does any part of your property contain Asbestos?",
+                  "$ref": "#/$defs/yesNoDetailIfYes",
+                  "description": "If yes, please state whether there is a management plan in place and attach a copy"
+                },
+                "japaneseKnotweed": {
+                  "baspiRef": "A5.3",
+                  "RDSRef": "Property/Flags,BuildingSections/EnvironmentalIssues,Use/EnvironmentalIssues",
+                  "lawSocietyRef": "TA6/7.8",
+                  "title": "To your knowledge, is the property or neighbouring land, affected by Japanese knotweed or other invasive species?  please state whether there is a management plan in place and supply a copy with this form",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "subsidenceOrStructuralFault": {
+                  "baspiRef": "A5.4",
+                  "RDSRef": "Property/Flags,BuildingSections/EnvironmentalIssues",
+                  "title": "To your knowledge, has the property ever been subject to subsidence or structural fault?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "ongoingHealthOrSafetyIssue": {
+                  "baspiRef": "A5.5",
+                  "RDSRef": "Property/Flags,BuildingSections/EnvironmentalIssues",
+                  "title": "Have you been notified by a relevant authority or qualified expert of an on-going health or safety issue with the property?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                }
+              }
+            },
+            "fixturesAndFittings": {
+              "baspiRef": "A6",
+              "lawSocietyRef": "TA10",
+              "title": "Fixtures and Fittings",
+              "description": "NOTE:  This is so a buyer’s offer can take into account whether you are taking something of value or leaving extra items.  A full list will need to be completed after the sale is agreed.",
+              "type": "object",
+              "required": ["itemsToRemove", "itemsToInclude"],
+              "properties": {
+                "itemsToRemove": {
+                  "baspiRef": "A6.1",
+                  "RDSRef": "Objects/{isIncludedInExchange='no',class='fixture|fitting}",
+                  "title": "Are there any items, which would be considered a fixture or fitting, that you intend to take? E.g. Carpets, curtains, light fittings, fitted cupboards, etc",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "itemsToInclude": {
+                  "baspiRef": "A6.2",
+                  "RDSRef": "Objects/{isIncludedInExchange='true',class='equipment|furniture}",
+                  "title": "Are there additional furniture items or possessions are you very likely to include in the sale, irrespective of sale price?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                }
+              }
+            },
+            "waterAndDrainage": {
+              "baspiRef": "A7",
+              "lawSocietyRef": "TA6/13",
+              "title": "Water and Drainage",
+              "description": "Please describe the water and drainage services that are connected to the property.",
+              "type": "object",
+              "required": [
+                "mainsWater",
+                "mainsSurfaceWaterDrainage",
+                "mainsFoulDrainage"
+              ],
+              "properties": {
+                "mainsWater": {
+                  "baspiRef": "A7.1.10",
+                  "RDSRef": "Services/PotableWaterSupply",
+                  "title": "Mains water",
+                  "$ref": "#/$defs/yesNoConnectedSupplier"
+                },
+                "mainsSurfaceWaterDrainage": {
+                  "baspiRef": "A7.1.12",
+                  "RDSRef": "Services/StormWaterDrainage",
+                  "lawSocietyRef": "TA6/12.4b",
+                  "title": "Mains surface water drainage",
+                  "$ref": "#/$defs/yesNoConnectedSupplier"
+                },
+                "mainsFoulDrainage": {
+                  "baspiRef": "A7.1.11",
+                  "RDSRef": "Services/WasteWaterSewarageDisposal",
+                  "lawSocietyRef": "TA6/12.4a",
+                  "title": "Mains foul drainage",
+                  "type": "object",
+                  "required": ["yesNo"],
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "dependencies": {
+                    "yesNo": {
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": ["No"]
+                            },
+                            "sustainableDrainageSystem": {
+                              "baspiRef": "A7.2.1",
+                              "RDSRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
+                              "title": "Sustainable Drainage System",
+                              "$ref": "#/$defs/yesNoConnectedSupplier"
+                            },
+                            "septicTank": {
+                              "baspiRef": "A7.2.2",
+                              "RDSRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
+                              "lawSocietyRef": "TA6/12.5",
+                              "title": "Septic tank",
+                              "$ref": "#/$defs/yesNoDetailIfYes",
+                              "description": "If yes, please specify date replaced or updated and date last emptied"
+                            },
+                            "cesspit": {
+                              "baspiRef": "A7.2.3",
+                              "RDSRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
+                              "lawSocietyRef": "TA6/12.7",
+                              "title": "Cesspit",
+                              "$ref": "#/$defs/yesNoDetailIfYes",
+                              "description": "If yes, please specify date last emptied"
+                            },
+                            "sewerageTreatmentPlant": {
+                              "baspiRef": "A7.2.4",
+                              "RDSRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
+                              "lawSocietyRef": "TA6/12.8",
+                              "title": "Sewerage treatment plant",
+                              "$ref": "#/$defs/yesNoDetailIfYes",
+                              "description": "If yes, please specify date last serviced"
+                            },
+                            "otherConnectedProperties": {
+                              "baspiRef": "A7.2.5",
+                              "RDSRef": "Services/OtherServices/SharedWith",
+                              "lawSocietyRef": "TA6/12.6",
+                              "title": "Do other properties connect to the septic tank, cesspit or sewerage treatment plant?",
+                              "$ref": "#/$defs/yesNoDetailIfYes",
+                              "description": "If yes, provide details of the properties sharing the system and explain how maintenance of the system is arranged and paid for."
+                            },
+                            "plantOnOtherLand": {
+                              "baspiRef": "A7.2.6",
+                              "RDSRef": "Services/OtherServices/Located,Services/OtherServices/{access=?}",
+                              "lawSocietyRef": "TA6/12.10",
+                              "title": "Is any part of the septic tank, cesspit or sewerage treatment plant located on someone else’s land?",
+                              "$ref": "#/$defs/yesNoDetailIfYes",
+                              "description": "If yes, please supply a plan showing the location of the system and how access is obtained."
+                            },
+                            "plantRegistered": {
+                              "baspiRef": "A7.2.7",
+                              "RDSRef": "Services/OtherServices/Certificates",
+                              "title": "Is the septic tank, cesspit or sewerage treatment plant registered with the Environment Agency or exempted?",
+                              "$ref": "#/$defs/yesNoDetailIfYes",
+                              "description": "If yes, please supply the appropriate permit to discharge or exemption certificate"
+                            },
+                            "plantDrainsIntoWaterway": {
+                              "baspiRef": "A7.2.8",
+                              "RDSRef": "Services/OtherServices/{isExternallyConnected='yes?true'}",
+                              "title": "Does the septic tank, cesspit or sewerage treatment plant drain into a waterway (lake, river, stream etc)",
+                              "type": "string",
+                              "enum": [
+                                "Yes",
+                                "No, the effluent is discharged through a soakaway system."
+                              ]
+                            },
+                            "dischageCompliesWithGBR": {
+                              "baspiRef": "A7.2.9",
+                              "RDSRef": "Services/OtherServices/ExternalConnections/Flags",
+                              "title": "If Yes, does it comply with the General Binding Rules for discharge into a waterway.  [NOTE: you can see the rules here.]",
+                              "type": "string",
+                              "enum": [
+                                "Yes",
+                                "No, it does not comply with the rules for discharge into a waterway."
+                              ]
+                            }
+                          },
+                          "required": [
+                            "plantDrainsIntoWaterway",
+                            "dischageCompliesWithGBR"
+                          ]
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": ["Yes"]
+                            },
+                            "connected": {
+                              "title": "Connected (Yes, No or Date to be connected)",
+                              "type": "string"
+                            },
+                            "supplier": {
+                              "title": "Supplier (if known)",
+                              "type": "string"
+                            },
+                            "maintenanceAgreements": {
+                              "title": "Do you have any licences, maintenance agreements, contracts or service agreements in relation to this service?",
+                              "$ref": "#/$defs/yesNoDetailIfYes"
+                            }
+                          },
+                          "required": ["connected", "maintenanceAgreements"]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "utilities": {
+              "baspiRef": "A7",
+              "lawSocietyRef": "TA6/13",
+              "title": "Utilities",
+              "description": "Please indicate which utilities are are connected to the property.",
+              "type": "object",
+              "required": [
+                "electricity",
+                "gas",
+                "lpg",
+                "oil",
+                "telephone",
+                "cableSatelliteTV",
+                "broadband",
+                "solarPanels",
+                "otherServices"
+              ],
+              "properties": {
+                "electricity": {
+                  "baspiRef": "A7.1.1",
+                  "RDSRef": "Services/Electricity",
+                  "title": "Electricity",
+                  "$ref": "#/$defs/yesNoConnectedSupplier"
+                },
+                "gas": {
+                  "baspiRef": "A7.1.2",
+                  "RDSRef": "Services/Gas",
+                  "title": "Gas",
+                  "$ref": "#/$defs/yesNoConnectedSupplier"
+                },
+                "lpg": {
+                  "baspiRef": "A7.1.3",
+                  "RDSRef": "Services/LiquefiedPetroleumGas",
+                  "title": "Liquid Petroleum Gas (LPG)",
+                  "$ref": "#/$defs/yesNoConnectedSupplier"
+                },
+                "oil": {
+                  "baspiRef": "A7.1.4",
+                  "RDSRef": "Services/Oil",
+                  "title": "Oil",
+                  "$ref": "#/$defs/yesNoConnectedSupplier"
+                },
+                "telephone": {
+                  "baspiRef": "A7.1.5",
+                  "RDSRef": "Services/Telephone",
+                  "title": "Telephone",
+                  "$ref": "#/$defs/yesNoConnectedSupplier"
+                },
+                "cableSatelliteTV": {
+                  "baspiRef": "A7.1.6",
+                  "RDSRef": "Services/CableSatelliteTV",
+                  "title": "Cable TV or satellite",
+                  "$ref": "#/$defs/yesNoConnectedSupplier"
+                },
+                "broadband": {
+                  "baspiRef": "A7.1.7",
+                  "title": "Broadband",
+                  "RDSRef": "Services/Internet",
+                  "$ref": "#/$defs/yesNoConnectedSupplier"
+                },
+                "solarPanels": {
+                  "baspiRef": "A7.1.8",
+                  "RDSRef": "Services/Internet??",
+                  "lawSocietyRef": "TA6/4.6",
+                  "title": "Solar or photovoltaic panels",
+                  "$ref": "#/$defs/yesNoConnectedSupplier"
+                },
+                "otherServices": {
+                  "baspiRef": "A7.1.9",
+                  "RDSRef": "Services/Other",
+                  "title": "Other",
+                  "description": "Other services include renewable technologies, for example ground source heat pumps, if you receive Renewable Heat Incentives please provide details and note that you will need to advise Ofgem when you complete the sale",
+                  "$ref": "#/$defs/yesNoConnectedSupplier"
+                }
+              }
+            },
+            "greenDealLoan": {
+              "baspiRef": "A7.3",
+              "RDSRef": "RightsHolders/Loans,RightsHolders/OtherDocumentation",
+              "lawSocietyRef": "TA6/7.7",
+              "title": "Green Deal Loan",
+              "type": "object",
+              "required": ["hasGreenDealLoan"],
+              "properties": {
+                "hasGreenDealLoan": {
+                  "title": "Is this property subject to a Green Deal loan or other financed home improvement scheme?",
+                  "description": "If yes, please provide details below including any outstanding payments for the renewable devices and any feed-in tariffs and a copy of your fuel bills",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                }
+              }
+            },
+            "centralHeating": {
+              "baspiRef": "A7.4",
+              "RDSRef": "Buildings|BuildingSections/isUnheated=no|yes|true|false",
+              "lawSocietyRef": "TA6/12.3",
+              "type": "object",
+              "required": ["hasCentralHeating"],
+              "properties": {
+                "hasCentralHeating": {
+                  "title": "Is there full/partial central heating in your property?",
+                  "$ref": "#/$defs/yesNoCentralHeatingDetailIfYes"
+                }
+              }
+            },
+            "insurance": {
+              "baspiRef": "A8",
+              "title": "Insurance",
+              "type": "object",
+              "required": ["isInsured"],
+              "properties": {
+                "isInsured": {
+                  "baspiRef": "A8.1",
+                  "RDSRef": "Insurance/isInsured=no|yes|true|false",
+                  "lawSocietyRef": "TA6/6.1",
+                  "title": "Do you insure the property?",
+                  "type": "string",
+                  "enum": ["Yes", "No"]
+                }
+              },
+              "dependencies": {
+                "isInsured": {
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "isInsured": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "isInsured": {
+                          "enum": ["Yes"]
+                        },
+                        "difficultiesObtainingInsurance": {
+                          "baspiRef": "A8.2",
+                          "RDSRef": "Insurance/Flags,Insurance/refusalReason=?",
+                          "lawSocietyRef": "TA6/6.4",
+                          "title": "Have you had any difficulty obtaining competitively priced building insurance due to the structure or location of the property or had insurance refused (e.g. high premiums, excess over £1,500, special conditions etc )",
+                          "$ref": "#/$defs/yesNoDetailIfYes"
+                        },
+                        "insuranceClaims": {
+                          "baspiRef": "A8.3",
+                          "RDSRef": "Insurance/Claims",
+                          "lawSocietyRef": "TA6/6.5",
+                          "title": "Have you ever made a claim against your building insurance in relation to the property?",
+                          "$ref": "#/$defs/yesNoDetailIfYes"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "boundaries": {
+              "baspiRef": "A9",
+              "title": "Boundaries",
+              "type": "object",
+              "description": "You will need to check your title to answer these questions.  If you do not have a copy, for a small fee to HM Land Registry, you can download both the title register and the title plan of the property at https://www.gov.uk/search-property-information-land-registry.",
+              "required": [
+                "partOutsideLegalOwnership",
+                "partOnSeparateSiteOrDeed",
+                "boundariesDifferFromTitlePlan",
+                "boundaryAlterationProposal"
+              ],
+              "properties": {
+                "partOutsideLegalOwnership": {
+                  "baspiRef": "A9.1",
+                  "RDSRef": "Tenure/Interests",
+                  "title": "Is any part of the property outside the seller’s legal ownership?",
+                  "$ref": "#/$defs/yesNoDetailIfYes",
+                  "description": "If yes, please provide details. E.g. parking, garden, outbuilding, accessway, etc"
+                },
+                "partOnSeparateSiteOrDeed": {
+                  "baspiRef": "A9.2",
+                  "RDSRef": "Tenure *with different property entity and references etc*",
+                  "title": "Is any part of the property on a separate site or separate title deed e.g. garden, outbuilding, parking, garage?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "boundariesDifferFromTitlePlan": {
+                  "baspiRef": "A9.3",
+                  "RDSRef": "Tenure/Boundaries,Tenure/BoundaryDifferences,Tenure/CadastralMapOfParcels",
+                  "title": "Do the boundaries differ from those shown on the title plan? (If you do not have a copy of the plan you can download it here)",
+                  "$ref": "#/$defs/yesNoDetailIfYes",
+                  "description": "If yes, please provide details of how they differ and why they changed and provide a plan showing where you believe the boundaries are"
+                },
+                "boundaryAlterationProposal": {
+                  "baspiRef": "A9.4",
+                  "RDSRef": "Tenure/Boundaries/proposedAlterations=?",
+                  "title": "Is there a current proposal with anyone to alter the boundaries of your property?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                }
+              }
+            },
+            "rightsAndInformalArrangements": {
+              "baspiRef": "A10",
+              "title": "Rights and Informal Arrangements",
+              "type": "object",
+              "required": [
+                "sharedContributions",
+                "neighbouringLandRights",
+                "accessRestrictionAttempts",
+                "rightsOrArrangements"
+              ],
+              "properties": {
+                "sharedContributions": {
+                  "baspiRef": "A10.1",
+                  "RDSRef": "Services/SharedCosts",
+                  "lawSocietyRef": "TA6/8.1",
+                  "title": "Other than service charges and estate rentcharges, do you have to contribute towards the shared cost of a jointly-used service such as a shared driveway, road, parking area, garden or drain?",
+                  "$ref": "#/$defs/yesNoDetailIfYes",
+                  "description": "If yes, please give details including who collects payments and organises the work, the amount of the payments in the last year and whether they are regular payments or only when maintenance work is required"
+                },
+                "neighbouringLandRights": {
+                  "baspiRef": "A10.2",
+                  "RDSRef": "Tenure/Rights,Tenure *with different property entity and references etc*",
+                  "lawSocietyRef": "TA6/8.2",
+                  "title": "Do any rights and arrangements exist over neighbouring land from which the property benefits?  (e.g. taking wheelie bins along an accessway through a neighbour’s back garden, parking, access to maintain the boundaries from the neighbour’s side etc)",
+                  "$ref": "#/$defs/yesNoDetailIfYes",
+                  "description": "If yes, please give details and provide a plan showing the route of the access, parking etc"
+                },
+                "accessRestrictionAttempts": {
+                  "baspiRef": "A10.3",
+                  "RDSRef": "Tenure/Restrictions",
+                  "lawSocietyRef": "TA6/8.3",
+                  "title": "Has anyone tried to stop you using an access way to the property or asked you to pay to use the access?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "rightsOrArrangements": {
+                  "baspiRef": "A10.4",
+                  "title": "Do you know if any of the following rights or arrangements affect the property?",
+                  "type": "object",
+                  "required": [
+                    "publicRightOfWay",
+                    "rightsofLightOrSupport",
+                    "rightsCreatedThroughCustom",
+                    "minesAndMinerals",
+                    "churchChancel",
+                    "otherRights"
+                  ],
+                  "properties": {
+                    "publicRightOfWay": {
+                      "baspiRef": "A10.4.1",
+                      "RDSRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities,Tenure/CadastralMapOfParcels",
+                      "lawSocietyRef": "TA6/8.6",
+                      "title": "A public right of way through and/or across your property, buildings or land",
+                      "$ref": "#/$defs/yesNoDetailIfYes",
+                      "description": "If yes, please mark the route on a plan of the property"
+                    },
+                    "rightsofLightOrSupport": {
+                      "baspiRef": "A10.4.2",
+                      "RDSRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                      "lawSocietyRef": "TA6/8.4a",
+                      "title": "Rights of light or support for other properties",
+                      "$ref": "#/$defs/yesNoDetailIfYes"
+                    },
+                    "rightsCreatedThroughCustom": {
+                      "baspiRef": "A10.4.3",
+                      "RDSRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                      "lawSocietyRef": "TA6/8.4c",
+                      "title": "Rights created through custom or use (e.g. rights to graze on other land or forage, rights of the lord of the manor or others to take things from your property etc)",
+                      "$ref": "#/$defs/yesNoDetailIfYes"
+                    },
+                    "minesAndMinerals": {
+                      "baspiRef": "A10.4.4",
+                      "RDSRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                      "lawSocietyRef": "TA6/8.5a",
+                      "title": "Mines and minerals under the property",
+                      "$ref": "#/$defs/yesNoDetailIfYes"
+                    },
+                    "churchChancel": {
+                      "baspiRef": "A10.4.5",
+                      "RDSRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                      "lawSocietyRef": "TA6/8.5b",
+                      "title": "Liability to contribute to the maintenance of a church chancel?",
+                      "$ref": "#/$defs/yesNoDetailIfYes"
+                    },
+                    "otherRights": {
+                      "baspiRef": "A10.4.6",
+                      "RDSRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                      "lawSocietyRef": "TA6/8.6",
+                      "title": "Any other rights or arrangements affecting the property?",
+                      "$ref": "#/$defs/yesNoDetailIfYes"
+                    }
+                  }
+                }
+              }
+            },
+            "otherIssues": {
+              "baspiRef": "A11",
+              "title": "Other Issues Affecting the Property",
+              "type": "object",
+              "required": [
+                "environmental",
+                "excessiveNoise",
+                "crime",
+                "cautionOrConviction",
+                "failedTransactionsInLast12Months",
+                "comments"
+              ],
+              "properties": {
+                "environmental": {
+                  "baspiRef": "A11.1",
+                  "RDSRef": "Sustainability/Environmental|Natural|Situational",
+                  "lawSocietyRef": "TA6/7",
+                  "title": "To your knowledge, has there been any environmental issues that affect the property or garden (for example, these could include air pollution, flooding, radon gas, mining, sink holes, quarrying or fracking etc)?",
+                  "$ref": "#/$defs/yesNoDetailIfYes",
+                  "description": "If yes, please provide details.  For example the level of air pollution, type of flooding (e.g. coastal, river, surface water, sewer, etc), level of radon, a copy of any radon report, location of fracking and whether any action has been taken to prevent harm."
+                },
+                "excessiveNoise": {
+                  "baspiRef": "A11.2",
+                  "RDSRef": "Tenure/OtherMaterialIssues",
+                  "title": "To your knowledge, has anyone occupying the property been disturbed by excessive noise which is likely to reoccur at the property?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "crime": {
+                  "baspiRef": "A11.3",
+                  "RDSRef": "Tenure/OtherMaterialIssues",
+                  "title": "To your knowledge, has the property been subject to any crime, burglary or violent death?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "cautionOrConviction": {
+                  "baspiRef": "A11.4",
+                  "RDSRef": "Tenure/OtherMaterialIssues",
+                  "title": "To your knowledge, has the property been occupied by someone who has been cautioned or convicted of a serious crime?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "failedTransactionsInLast12Months": {
+                  "baspiRef": "A11.5",
+                  "RDSRef": "Tenure/OtherMaterialIssues",
+                  "title": "Have there been any failed purchase transactions on the property within the last 12 months?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "comments": {
+                  "baspiRef": "A11.6",
+                  "RDSRef": "Tenure/OtherMaterialIssues,Tenure/OtherDocumentation",
+                  "title": "Please add any comments to the previous questions and provide any relevant documentation eg flood risk report, radon report and confirmation of any remedial measures on construction to reduce risk etc",
+                  "type": "string"
+                }
+              }
+            },
+            "additionalInformation": {
+              "baspiRef": "A12",
+              "title": "Additional Information",
+              "type": "object",
+              "required": [
+                "restrictionsOnUseNotCompliedWith",
+                "otherMaterialIssue"
+              ],
+              "properties": {
+                "restrictionsOnUseNotCompliedWith": {
+                  "baspiRef": "A12.1",
+                  "RDSRef": "Use/NonCompliance",
+                  "title": "Are you aware of any restrictions on the use or alteration of the property which have not been complied with?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "otherMaterialIssue": {
+                  "baspiRef": "A12.2",
+                  "RDSRef": "Tenure/OtherMaterialIssues",
+                  "title": "Are you aware of any other material issue or information which relates to the property or has anything occurred which may affect the average person’s decision to proceed? (This disclosure is required under the Consumer Protection from Unfair Trading Regulations 2008)",
+                  "$ref": "#/$defs/yesNoDetailIfYes",
+                  "description": "If yes, please describe this issue and any action that has been taken, if applicable ."
+                }
+              }
+            },
+            "consumerProtectionRegulationsDeclaration": {
+              "baspiRef": "A13",
+              "title": "Consumer Protection Regulations - Seller's Declaration",
+              "description": "I/we confirm the answers to be truthful and accurate and to the best of my/our knowledge. The questions have been designed to assist with the disclosure of material information and any misleading or incorrect answers are likely to be exposed later in the legal process which may hinder my/our sale. I/we will provide my property lawyer with the additional documentation in support of the information supplied on this form. If there are any changes which alter the information provided, I/we will immediately notify the person marketing the property as well as my/our property lawyer.",
+              "type": "boolean",
+              "const": true
+            }
+          }
+        },
+        "additionalLegalInformation": {
+          "baspiRef": "B",
+          "title": "Additional information required for the legal process",
+          "type": "object",
+          "required": [
+            "legalOwnership",
+            "aboutTheProperty",
+            "servicesCrossing",
+            "energyAndMeters",
+            "guaranteesWarrantiesAndIndemnityInsurances",
+            "occupiers",
+            "completionAndMoving",
+            "confirmationOfAccuracyByOwners"
+          ],
+          "properties": {
+            "legalOwnership": {
+              "baspiRef": "B1",
+              "title": "Legal Ownership",
+              "type": "object",
+              "required": [
+                "namesOfLegalOwners",
+                "sellersConveyancer",
+                "sellersCapacity"
+              ],
+              "properties": {
+                "namesOfLegalOwners": {
+                  "baspiRef": "B1.1",
+                  "RDSRef": "RightsHolders",
+                  "title": "Full names of all legal owner(s)",
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "title": "Owner name",
+                    "required": [
+                      "firstName",
+                      "lastName",
+                      "email",
+                      "dateOfBirth",
+                      "homeAddress"
+                    ],
+                    "properties": {
+                      "firstName": {
+                        "baspiRef": "B1.1.1",
+                        "title": "First name",
+                        "type": "string"
+                      },
+                      "middleNames": {
+                        "baspiRef": "B1.1.2",
+                        "title": "Middle names",
+                        "type": "string"
+                      },
+                      "lastName": {
+                        "baspiRef": "B1.1.3",
+                        "title": "Last name",
+                        "type": "string"
+                      },
+                      "email": {
+                        "title": "Email address",
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "mobile": {
+                        "title": "Mobile phone number",
+                        "type": "string"
+                      },
+                      "dateOfBirth": {
+                        "title": "Date of birth",
+                        "type": "string",
+                        "format": "date"
+                      },
+                      "homeAddress": {
+                        "title": "Home address",
+                        "$ref": "#/$defs/address"
+                      }
+                    }
+                  }
+                },
+                "sellersConveyancer": {
+                  "baspiRef": "B1.2",
+                  "RDSRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
+                  "title": "Sellers Conveyancer",
+                  "type": "object",
+                  "required": [
+                    "firstName",
+                    "lastName",
+                    "email",
+                    "organisation",
+                    "address",
+                    "reference"
+                  ],
+                  "properties": {
+                    "firstName": {
+                      "title": "First name",
+                      "type": "string"
+                    },
+                    "lastName": {
+                      "title": "Last name",
+                      "type": "string"
+                    },
+                    "email": {
+                      "title": "Email address",
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "mobile": {
+                      "title": "Mobile phone number",
+                      "type": "string"
+                    },
+                    "organisation": {
+                      "title": "Organisation",
+                      "type": "string"
+                    },
+                    "address": {
+                      "title": "Address",
+                      "$ref": "#/$defs/address"
+                    },
+                    "reference": {
+                      "title": "Reference",
+                      "type": "string"
+                    }
+                  }
+                },
+                "sellersCapacity": {
+                  "baspiRef": "B1.3",
+                  "RDSRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
+                  "title": "Capacity in which the Seller sells",
+                  "type": "string",
+                  "enum": [
+                    "Legal Owner",
+                    "Personal Representative for a Deceased Owner",
+                    "Under Power of Attorney",
+                    "Mortgagee in Possession",
+                    "Other (please give details)"
+                  ]
+                }
+              },
+              "dependencies": {
+                "sellersCapacity": {
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "sellersCapacity": {
+                          "enum": ["Legal Owner", "Mortgagee in Possession"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "sellersCapacity": {
+                          "enum": [
+                            "Personal Representative for a Deceased Owner",
+                            "Under Power of Attorney",
+                            "Other (please give details)"
+                          ]
+                        },
+                        "probateOrPowerOfAttorney": {
+                          "baspiRef": "B1.4",
+                          "RDSRef": "Participants/OtherDocumentation",
+                          "title": "Please provide details, and please provide your property lawyer with any probate, grant of representation or power of attorney.",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "aboutTheProperty": {
+              "baspiRef": "B2",
+              "title": "About the Property",
+              "type": "object",
+              "required": [
+                "legalBoundaries",
+                "haveBoundaryFeaturesMoved",
+                "adjacentLandIncluded",
+                "titlePlanAccurate",
+                "flyingFreehold"
+              ],
+              "properties": {
+                "legalBoundaries": {
+                  "baspiRef": "B2.1",
+                  "title": "Legal Boundaries - Please indicate who has repaired, or treated as belonging to them, each of the boundaries.  Identify each boundary as if you were looking at the property from the road",
+                  "type": "object",
+                  "properties": {
+                    "left": {
+                      "baspiRef": "B2.1.1",
+                      "RDSRef": "Tenure/Boundaries",
+                      "lawSocietyRef": "TA6/1.1a",
+                      "title": "On the left",
+                      "type": "string",
+                      "enum": ["Seller", "Shared", "Next-door neighbour"]
+                    },
+                    "right": {
+                      "baspiRef": "B2.1.2",
+                      "RDSRef": "Tenure/Boundaries",
+                      "lawSocietyRef": "TA6/1.1b",
+                      "title": "On the right",
+                      "type": "string",
+                      "enum": ["Seller", "Shared", "Next-door neighbour"]
+                    },
+                    "rear": {
+                      "baspiRef": "B2.1.3",
+                      "RDSRef": "Tenure/Boundaries",
+                      "lawSocietyRef": "TA6/1.1c",
+                      "title": "At the rear",
+                      "type": "string",
+                      "enum": ["Seller", "Shared", "Next-door neighbour"]
+                    },
+                    "front": {
+                      "baspiRef": "B2.1.4",
+                      "RDSRef": "Tenure/Boundaries",
+                      "lawSocietyRef": "TA6/1.1d",
+                      "title": "At the front",
+                      "type": "string",
+                      "enum": ["Seller", "Shared", "Next-door neighbour"]
+                    },
+                    "areBoundariesUniform": {
+                      "baspiRef": "B2.1.5",
+                      "RDSRef": "Tenure/Boundaries",
+                      "lawSocietyRef": "TA6/1.2",
+                      "title": "Are the boundaries uniform?",
+                      "$ref": "#/$defs/yesNoDetailIfNo",
+                      "description": "If no, please indicate ownership or those you have repaired by written description or marking them on a plan of the property"
+                    }
+                  }
+                },
+                "haveBoundaryFeaturesMoved": {
+                  "baspiRef": "B2.2",
+                  "RDSRef": "Tenure/Boundaries",
+                  "lawSocietyRef": "TA6/1.3",
+                  "title": "Has any boundary features been moved during your ownership or in the last 10 years, to your knowledge?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "adjacentLandIncluded": {
+                  "baspiRef": "B2.3",
+                  "RDSRef": "Property/Flags,Property/GUID/name='UPRN'&id=?",
+                  "lawSocietyRef": "TA6/1.4",
+                  "title": "Has any adjacent land or property been purchased by you that will be included in the sale?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "titlePlanAccurate": {
+                  "baspiRef": "B2.4",
+                  "RDSRef": "Tenure/BoundaryDifferences,Tenure/CadastralMapOfParcels",
+                  "title": "Does the title plan for the property accurately show the extent of the land and property which you are selling?",
+                  "$ref": "#/$defs/yesNoDetailIfNo"
+                },
+                "flyingFreehold": {
+                  "baspiRef": "B2.5",
+                  "RDSRef": "Tenure/tenure=?",
+                  "lawSocietyRef": "TA6/1.5",
+                  "title": "Is there a flying freehold?",
+                  "$ref": "#/$defs/yesNoDetailIfYes",
+                  "description": "NOTE: a flying freehold is when part of the property overhangs a neighbour’s property or an accessway – eg a terrace house where part of the upstairs is over an accessway which belongs to someone else."
+                }
+              }
+            },
+            "servicesCrossing": {
+              "baspiRef": "B3",
+              "title": "Services Crossing Other Property",
+              "type": "object",
+              "required": [
+                "pipesWiresCablesDrainsToProperty",
+                "pipesWiresCablesDrainsFromProperty",
+                "formalOrInformalAgreements"
+              ],
+              "properties": {
+                "pipesWiresCablesDrainsToProperty": {
+                  "baspiRef": "B3.1",
+                  "RDSRef": "Services/.../Located",
+                  "lawSocietyRef": "TA6/8.7",
+                  "title": "Are you aware of any pipes, wires, cables or drains bringing services to the property which cross any neighbouring land or property?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "pipesWiresCablesDrainsFromProperty": {
+                  "baspiRef": "B3.2",
+                  "RDSRef": "Services/.../Located *with Property entities and references for the related properties etc",
+                  "lawSocietyRef": "TA6/8.8",
+                  "title": "Are you aware of any pipes, wires, cables or drains taking services to neighbouring property cross this property?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "formalOrInformalAgreements": {
+                  "baspiRef": "B3.3",
+                  "RDSRef": "Services/.../Consent",
+                  "lawSocietyRef": "TA6/8.9",
+                  "title": "Are you aware of any formal or informal agreements or arrangements for pipes, wires cables or drains to cross either your property or neighbouring property?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                }
+              }
+            },
+            "energyAndMeters": {
+              "baspiRef": "B4",
+              "title": "Energy and Meters",
+              "type": "object",
+              "required": [
+                "testedByQualifiedElectrician",
+                "electricalWorkSince2005",
+                "solarPanels",
+                "electricityMeterLocation",
+                "gasMeterLocation",
+                "stopcockAndWaterMeterLocation"
+              ],
+              "properties": {
+                "testedByQualifiedElectrician": {
+                  "baspiRef": "B4.1",
+                  "RDSRef": "Objects/Servicing",
+                  "lawSocietyRef": "TA6/12.1",
+                  "title": "Please confirm the year that the electrics at the property were last tested by a qualified electrician.",
+                  "type": "string",
+                  "enum": ["Date", "N/A"],
+                  "description": "If you have not had them tested then select N/A"
+                },
+                "electricalWorkSince2005": {
+                  "baspiRef": "B4.2",
+                  "RDSRef": "WorksAlterationsChanges/Consent,WorksAlterationsChanges/Consent/Certificates",
+                  "lawSocietyRef": "TA6/12.2",
+                  "title": "Since 1st January 2005, has any electrical work been carried out to the property?",
+                  "$ref": "#/$defs/yesNoDetailIfYes",
+                  "description": "If yes, please provide details and supply the signed Electrical Safety Certificate (BS7671) and Building Regulations Compliance Certificate (or equivalent)"
+                },
+                "solarPanels": {
+                  "baspiRef": "B4.3",
+                  "title": "Solar or photovoltaic panels",
+                  "type": "object",
+                  "properties": {
+                    "hasSolarPanels": {
+                      "baspiRef": "B.4.3x",
+                      "RDSRef": "Property/Flags",
+                      "title": "Are there solar or photovoltaic panels installed at the property?",
+                      "type": "string",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "dependencies": {
+                    "hasSolarPanels": {
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "hasSolarPanels": {
+                              "enum": ["No"]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "hasSolarPanels": {
+                              "enum": ["Yes"]
+                            },
+                            "yearInstalled": {
+                              "baspiRef": "B4.3.1",
+                              "RDSRef": "Objects/Installation",
+                              "title": "What year were they installed?",
+                              "type": "number"
+                            },
+                            "panelsOwnedOutright": {
+                              "baspiRef": "",
+                              "RDSRef": "Objects/Ownership",
+                              "title": "Do you own the panels, and all equipment related to them, outright?",
+                              "$ref": "#/$defs/yesNoDetailIfYes",
+                              "description": "If yes, provide details of who owns them and the relevant documentation"
+                            },
+                            "panelProviderLease": {
+                              "baspiRef": "B4.3.2",
+                              "RDSRef": "Objects/Ownership",
+                              "title": "Is there an existing long lease of the roof/air space granted to a panel provider?",
+                              "$ref": "#/$defs/yesNoDetailIfYes",
+                              "description": "If yes, please supply copies of the relevant documents and the name of the provider"
+                            },
+                            "lastMaintained": {
+                              "baspiRef": "B4.3.4",
+                              "RDSRef": "Objects/Servicing",
+                              "title": "When was the system last maintained or serviced?",
+                              "type": "string",
+                              "format": "date"
+                            },
+                            "inGoodWorkingOrder": {
+                              "baspiRef": "B4.3.5",
+                              "RDSRef": "Objects/isNotWorking=yes|no|true|false",
+                              "title": "Is the system in good working order to your satisfaction?",
+                              "$ref": "#/$defs/yesNoDetailIfYes"
+                            },
+                            "isConnectedToNationalGrid": {
+                              "baspiRef": "B4.3.6",
+                              "RDSRef": "Objects/isExternallyConnected=yes|no|true|false,Connection,Objects/ExternalConnection",
+                              "title": "Is the system connected to the National Grid e.g. for feed-in tariffs",
+                              "$ref": "#/$defs/yesNo"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                "electricityMeterLocation": {
+                  "baspiRef": "B4.4",
+                  "RDSRef": "Objects/class='meters|'&access=?&accessLocation=?",
+                  "title": "Please describe, or attach a photograph of, the location of any electricity meter(if any):",
+                  "type": "string"
+                },
+                "gasMeterLocation": {
+                  "baspiRef": "B4.5",
+                  "RDSRef": "Objects/class='meters'&access=?&accessLocation=?",
+                  "title": "Please describe, or attach a photograph of, the location of any gas meter (if any)",
+                  "type": "string"
+                },
+                "stopcockAndWaterMeterLocation": {
+                  "baspiRef": "B4.6",
+                  "RDSRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
+                  "title": "Please describe, or attach a photograph of, the location of the stopcock and water meter(if any)",
+                  "type": "string"
+                }
+              }
+            },
+            "guaranteesWarrantiesAndIndemnityInsurances": {
+              "baspiRef": "B5",
+              "title": "Guarantees, Warranties and Indemnity Insurances",
+              "type": "object",
+              "properties": {
+                "hasValidGuaranteesOrWarranties": {
+                  "baspiRef": "B5.1",
+                  "RDSRef": "Certificates",
+                  "title": "Are there any valid guarantees or warranties relating to this property?",
+                  "type": "string",
+                  "enum": ["Yes", "No"]
+                }
+              },
+              "dependencies": {
+                "hasValidGuaranteesOrWarranties": {
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "hasValidGuaranteesOrWarranties": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "hasValidGuaranteesOrWarranties": {
+                          "enum": ["Yes"]
+                        },
+                        "newHomeWarranty": {
+                          "baspiRef": "B5.1.1",
+                          "RDSRef": "Certificates",
+                          "lawSocietyRef": "TA6/5.1a",
+                          "title": "New Home Warranty",
+                          "$ref": "#/$defs/yesNoDetailIfYes",
+                          "description": "If yes, please confirm the name of the warranty provider and the date of the warranty:"
+                        },
+                        "roofingWork": {
+                          "baspiRef": "B5.1.2",
+                          "RDSRef": "Certificates",
+                          "lawSocietyRef": "TA6/5.1f",
+                          "title": "Roofing work",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "dampProofingTreatment": {
+                          "baspiRef": "B5.1.3",
+                          "RDSRef": "Certificates",
+                          "lawSocietyRef": "TA6/5.1b",
+                          "title": "Damp proofing treatment",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "timberRotOrInfestationTreatment": {
+                          "baspiRef": "B5.1.4",
+                          "RDSRef": "Certificates",
+                          "lawSocietyRef": "TA6/5.1c",
+                          "title": "Timber rot or infestation treatment",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "centralHeatingAndorPlumbing": {
+                          "baspiRef": "B5.1.5",
+                          "RDSRef": "Certificates",
+                          "lawSocietyRef": "TA6/5.1g",
+                          "title": "Central heating and/or plumbing",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "doubleGlazing": {
+                          "baspiRef": "B5.1.6",
+                          "RDSRef": "Certificates",
+                          "lawSocietyRef": "TA6/5.1d",
+                          "title": "Double glazing (windows, doors, roof lights, conservatory etc)",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "electricalRepairOrInstallation": {
+                          "baspiRef": "B5.1.7",
+                          "RDSRef": "Certificates",
+                          "lawSocietyRef": "TA6/5.1e",
+                          "title": "Electrical repair or installation",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "subsidenceWork": {
+                          "baspiRef": "B5.1.8",
+                          "RDSRef": "Certificates",
+                          "lawSocietyRef": "TA6/5.1h",
+                          "title": "Preventative work and/or remedial action relating to subsidence",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "solarPanels": {
+                          "baspiRef": "B5.1.9",
+                          "RDSRef": "Certificates",
+                          "title": "Solar panels",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "otherGuarantees": {
+                          "baspiRef": "B5.1.10",
+                          "RDSRef": "Certificates",
+                          "lawSocietyRef": "TA6/5.1i",
+                          "title": "Other Guarantees or Warranties:",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "willLeaveGuaranteePaperwork": {
+                          "baspiRef": "B5.1.11",
+                          "RDSRef": "Property/Flags",
+                          "title": "Please confirm that you will leave all paperwork relating to any guarantee or warranty at the property when you move out",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "outstandingClaimsOrApplications": {
+                          "baspiRef": "B5.2",
+                          "RDSRef": "Certificates",
+                          "lawSocietyRef": "TA6/5.2",
+                          "title": "Are there any outstanding claims or current applications relating to any of the above?",
+                          "$ref": "#/$defs/yesNoDetailIfYes"
+                        },
+                        "titleDefectInsurance": {
+                          "baspiRef": "B5.3",
+                          "RDSRef": "Certificates",
+                          "title": "Do you have any title defect insurance policies e.g. for breach of planning permission, buildings regulations, restrictions, chancel repair etc",
+                          "$ref": "#/$defs/yesNoDetailIfYes",
+                          "description": "If yes, please provide details and give the policy to your property lawyer"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "occupiers": {
+              "baspiRef": "B6",
+              "title": "Occupiers",
+              "type": "object",
+              "properties": {
+                "sellerLivesAtProperty": {
+                  "baspiRef": "B6.1",
+                  "RDSRef": "Property/Flags",
+                  "lawSocietyRef": "TA6/11.1",
+                  "title": "Does the seller live at the property?",
+                  "$ref": "#/$defs/yesNo"
+                },
+                "otherOver17sAtProperty": {
+                  "baspiRef": "B6.2",
+                  "RDSRef": "Participants",
+                  "lawSocietyRef": "TA6/11.3",
+                  "title": "Please specify the full names and ages of anyone aged over 17, other than the owner(s), who live at the property?",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/fullNameAndAge"
+                  }
+                },
+                "over17sWillSignToConfirmWillVacate": {
+                  "baspiRef": "B6.4",
+                  "RDSRef": "RightsHolders,TenureAgreements,Notifications",
+                  "lawSocietyRef": "TA6/11.5",
+                  "title": "Have all occupiers aged over 17, agreed to sign the contract to confirm that they will vacate the property prior to completion of the sale?",
+                  "$ref": "#/$defs/yesNoDetailIfYes",
+                  "description": "If 'No', please provide details (e.g. the property is sold let to tenants) and supply a copy of the tenancy agreement together with a copy of any notice to quit which has been served upon them."
+                }
+              }
+            },
+            "completionAndMoving": {
+              "baspiRef": "B7",
+              "title": "Completion and Moving",
+              "type": "object",
+              "properties": {
+                "willRemoveAllRubbish": {
+                  "baspiRef": "B7.1",
+                  "RDSRef": "RightsHolders/Flags",
+                  "lawSocietyRef": "TA6/14.4",
+                  "title": "Please confirm that on completion you will remove all rubbish and items not included in the sale from the property including its garden, loft and any sheds or outbuildings.",
+                  "type": "boolean",
+                  "const": true
+                },
+                "otherPropertyInChain": {
+                  "baspiRef": "B7.2",
+                  "RDSRef": "RightsHolders/Flags",
+                  "lawSocietyRef": "TA6/14.1",
+                  "title": "Will you need the purchase, sale or remortgage of another property to co-ordinate with the sale of this property?",
+                  "$ref": "#/$defs/yesNo"
+                },
+                "moveRestrictionDates": {
+                  "baspiRef": "B7.3",
+                  "RDSRef": "RightsHolders/Text",
+                  "lawSocietyRef": "TA6/14.2",
+                  "title": "Are there any dates on which you cannot move? [Note: The moving date will not be fixed until contracts are exchanged i.e. have become binding. Until then you should only make provisional removal arrangements.]",
+                  "$ref": "#/$defs/yesNoDetailIfYes",
+                  "description": "If yes, please give details of dates on which the seller cannot complete/move [Note: you do not need to be physically present on the day of Completion so long as the property is cleared]. Note: Timescales to completion vary depending on the complexity of the transaction, length of the chain and requirements of the people involved. When the property is cleared out you will be expected to take reasonable care when clearing the property, leaving it clean and tidy and repairing any damage caused when removing items from the property and making safe any light or electrical fittings which are being removed.\n\nKeys for all door and window locks, along with any alarm codes, should be available for the buyer on the day of completion.  If there is any reason why you cannot do this you should let the estate agent and your property lawyer know. For all internet connected services eg doorbells, boiler controls, burglar alarms, CCTV cameras etc) access to them will need to be provided to the buyer on the day of completion so that they can control them or sign up to the service.  If there is any reason why you cannot do this you should let the estate agent and your property lawyer know."
+                }
+              }
+            },
+            "confirmationOfAccuracyByOwners": {
+              "baspiRef": "B8",
+              "title": "Confirmation to be supplied by all owners or their representative",
+              "type": "object",
+              "properties": {
+                "confirmWillProvideAdditionalDocumentation": {
+                  "baspiRef": "B8.1",
+                  "title": "I/we will provide my property lawyer with the additional documentation in support of the information supplied on this form.",
+                  "type": "boolean",
+                  "const": true
+                },
+                "confirmInformationIsAccurate": {
+                  "baspiRef": "B8.2",
+                  "title": "I/we confirm that all information provided is accurate to the best of our knowledge and if we become aware of any change to/changes which alter the information supplied/provided prior to exchange of contracts for the sale of the property, I/we will update immediately notify the person marketing the property as well as my/our property lawyer. All sellers should sign this form",
+                  "type": "boolean",
+                  "const": true
+                }
+              }
+            }
+          }
+        },
+        "registeredTitles": {
+          "RDSRef": "",
+          "title": "Title(s) as registered with HMLR",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "title": "Registered Title",
+            "properties": {
+              "titleNumber": {
+                "RDSRef": "",
+                "title": "Title Number",
+                "type": "string"
+              },
+              "classTitleCode": {
+                "RDSRef": "",
+                "title": "Class of Title",
+                "type": "string",
+                "enum": [
+                  "AF",
+                  "QF",
+                  "PF",
+                  "AL",
+                  "GL",
+                  "QL",
+                  "PL",
+                  "SF",
+                  "CF",
+                  "SL",
+                  "CL",
+                  "AR",
+                  "PR",
+                  "QR",
+                  "CN"
+                ]
+              },
+              "estateInterestCode": {
+                "RDSRef": "",
+                "title": "Estate Interest",
+                "type": "string",
+                "enum": ["EL", "FA", "FC", "MA", "PG", "RC", "RP", "RT"]
+              },
+              "registeredStatus": {
+                "RDSRef": "",
+                "title": "Registered Status",
+                "type": "string",
+                "enum": ["", "Pending"]
+              },
+              "titleExtents": {
+                "RDSRef": "",
+                "title": "Title Extents",
+                "description": "One or more index polygons describing indicative location of registered title from National Polygon Dataset",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "$ref": "https://geojson.org/schema/GeoJSON.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "yesNo": {
+      "type": "object",
+      "properties": {
+        "yesNo": {
+          "type": "string",
+          "title": "",
+          "enum": ["Yes", "No"]
+        }
+      },
+      "required": ["yesNo"]
+    },
+    "yesNoDetailIfYes": {
+      "type": "object",
+      "properties": {
+        "yesNo": {
+          "type": "string",
+          "title": "",
+          "enum": ["Yes", "No"]
+        }
+      },
+      "required": ["yesNo"],
+      "dependencies": {
+        "yesNo": {
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "title": "Details",
+                  "type": "string"
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        }
+      }
+    },
+    "yesNoCentralHeatingDetailIfYes": {
+      "type": "object",
+      "properties": {
+        "yesNo": {
+          "type": "string",
+          "title": "",
+          "enum": ["Yes", "No"]
+        }
+      },
+      "required": ["yesNo"],
+      "dependencies": {
+        "yesNo": {
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "centralHeatingFuel": {
+                  "baspiRef": "A7.5.1",
+                  "RDSRef": "Buildings|BuildingSections/Heating/isGas=no|yes|true|false",
+                  "lawSocietyRef": "TA6/12.3a",
+                  "title": "Please provide details of the type of fuel which the system and boiler runs on",
+                  "type": "string"
+                },
+                "centralHeatingInstalled": {
+                  "baspiRef": "A7.5.2",
+                  "RDSRef": "Objects/Installed",
+                  "lawSocietyRef": "TA6/12.3b",
+                  "title": "When was the heating system and boiler installed?",
+                  "type": "string",
+                  "format": "date"
+                },
+                "boilerInstallationCertificate": {
+                  "baspiRef": "A7.5.3",
+                  "RDSRef": "Objects/Installation,Objects/Certificates",
+                  "lawSocietyRef": "TA6/12.3b",
+                  "title": "Was a gas boiler installed after 1st April 2005, or a solid fuel or oil boiler installed after 1 October 2010?",
+                  "$ref": "#/$defs/yesNoDetailIfYes",
+                  "description": "If yes, please supply a copy of the installation completion certificate from a competent person qualified under the relevant self-certification scheme e.g. HETAS etc"
+                },
+                "heatingLastServiced": {
+                  "baspiRef": "A7.5.4",
+                  "RDSRef": "Objects/Maintenance",
+                  "lawSocietyRef": "TA6/12.3d",
+                  "title": "When was the heating system and boiler last serviced or maintained?",
+                  "type": "string",
+                  "format": "date"
+                },
+                "heatingServiceReport": {
+                  "baspiRef": "A7.5.5",
+                  "RDSRef": "Objects/Servicing",
+                  "lawSocietyRef": "TA6/12.3d",
+                  "title": "Please provide a copy of the service or maintenance works report",
+                  "type": "string"
+                },
+                "heatingInGoodWorkingOrder": {
+                  "baspiRef": "A7.5.6",
+                  "RDSRef": "Objects/Condition=?",
+                  "lawSocietyRef": "TA6/12.3c",
+                  "title": "Is the heating system in good working order to your satisfaction?",
+                  "$ref": "#/$defs/yesNoDetailIfNo",
+                  "description": "If 'No' please provide details"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "yesNoDetailIfNo": {
+      "type": "object",
+      "properties": {
+        "yesNo": {
+          "type": "string",
+          "title": "",
+          "enum": ["Yes", "No"]
+        }
+      },
+      "required": ["yesNo"],
+      "dependencies": {
+        "yesNo": {
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                },
+                "details": {
+                  "title": "Details",
+                  "type": "string"
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        }
+      }
+    },
+    "yesNoNotRequiredDetailIfNoNotRequired": {
+      "type": "object",
+      "properties": {
+        "yesNo": {
+          "type": "string",
+          "title": "",
+          "enum": ["Yes", "No", "Not required"]
+        }
+      },
+      "required": ["yesNo"],
+      "dependencies": {
+        "yesNo": {
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                }
+              },
+              "required": ["documents"]
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No", "Not required"]
+                },
+                "reasons": {
+                  "title": "Please outline the reasons why",
+                  "type": "string"
+                }
+              },
+              "required": ["reasons"]
+            }
+          ]
+        }
+      }
+    },
+    "yesNoConnectedSupplier": {
+      "type": "object",
+      "properties": {
+        "yesNo": {
+          "type": "string",
+          "title": "",
+          "enum": ["Yes", "No"]
+        }
+      },
+      "required": ["yesNo"],
+      "dependencies": {
+        "yesNo": {
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "connected": {
+                  "title": "Connected? (Yes, No or Date to be connected)",
+                  "type": "string"
+                },
+                "supplier": {
+                  "title": "Supplier (if known)",
+                  "type": "string"
+                },
+                "maintenanceAgreements": {
+                  "BASPIRef": "A7.2",
+                  "RDSRef": "Services/Certificates,Services/OtherServices/Certificates",
+                  "title": "Do you have any licences, maintenance agreements, contracts or service agreements in relation to this service?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                }
+              },
+              "required": ["connected"]
+            }
+          ]
+        }
+      }
+    },
+    "yesNoDetailConsents": {
+      "type": "object",
+      "properties": {
+        "yesNo": {
+          "type": "string",
+          "title": "",
+          "enum": ["Yes", "No"]
+        }
+      },
+      "required": ["yesNo"],
+      "dependencies": {
+        "yesNo": {
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "title": "Details",
+                  "type": "string"
+                },
+                "buildingRegApproval": {
+                  "baspiRef": "A3.4.1",
+                  "RDSRef": "WorksAlterationsChanges/ConsentApproval",
+                  "lawSocietyRef": "TA6/4.2",
+                  "title": "Was building regulation approval and a completion certificate obtained or an equivalent Competent Person Scheme Certificate?",
+                  "$ref": "#/$defs/yesNoNotRequiredDetailIfNoNotRequired"
+                },
+                "planningPermission": {
+                  "baspiRef": "A3.4.2",
+                  "RDSRef": "WorksAlterationsChanges/ConsentApproval",
+                  "lawSocietyRef": "TA6/4.2",
+                  "title": "Was planning permission obtained?",
+                  "$ref": "#/$defs/yesNoNotRequiredDetailIfNoNotRequired"
+                },
+                "listedBuildingConsent": {
+                  "baspiRef": "A3.4.3",
+                  "RDSRef": "WorksAlterationsChanges/ConsentApproval",
+                  "lawSocietyRef": "TA6/4.2",
+                  "title": "Was listed building consent obtained?",
+                  "$ref": "#/$defs/yesNoNotRequiredDetailIfNoNotRequired"
+                },
+                "deedRestrictionConsent": {
+                  "baspiRef": "A3.4.4",
+                  "RDSRef": "WorksAlterationsChanges/ConsentApproval",
+                  "lawSocietyRef": "TA6/4.2",
+                  "title": "Was any consent under a restriction in the deeds obtained? E.g. if your deeds require consent from someone else to alter or extend the property",
+                  "$ref": "#/$defs/yesNoNotRequiredDetailIfNoNotRequired"
+                },
+                "unfinished": {
+                  "baspiRef": "A3.5",
+                  "RDSRef": "WorksAlterationsChanges/isIncomplete",
+                  "lawSocietyRef": "TA6/4.3",
+                  "title": "Are any of the works listed above unfinished?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                }
+              },
+              "required": [
+                "details",
+                "buildingRegApproval",
+                "planningPermission",
+                "listedBuildingConsent",
+                "deedRestrictionConsent",
+                "unfinished"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "address": {
+      "type": "object",
+      "properties": {
+        "address1": {
+          "title": "Address 1",
+          "type": "string"
+        },
+        "address2": {
+          "title": "Address 2",
+          "type": "string"
+        },
+        "town": {
+          "title": "Town",
+          "type": "string"
+        },
+        "county": {
+          "title": "County",
+          "type": "string"
+        },
+        "postcode": {
+          "title": "Postcode",
+          "type": "string"
+        }
+      },
+      "required": ["address1", "postcode"]
+    },
+    "fullNameAndAge": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "title": "First Name",
+          "type": "string"
+        },
+        "middleNames": {
+          "title": "Middle name(s) if any",
+          "type": "string"
+        },
+        "lastName": {
+          "title": "LastName",
+          "type": "string"
+        },
+        "age": {
+          "title": "Age",
+          "type": "integer"
+        }
+      },
+      "required": ["firstName", "lastName", "age"]
+    }
+  }
+}
