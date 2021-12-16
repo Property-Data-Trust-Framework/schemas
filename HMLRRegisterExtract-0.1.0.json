@@ -1,13 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
-  "$id": "https://homebuyingandsellinggroup.co.uk/schemas/1.0.2/HMLRRegisterExtractRepresentation.json",
+  "$id": "https://homebuyingandsellinggroup.co.uk/schemas/HMLRRegisterExtract0.1.0.json",
   "title": "Property Data Trust Framework HMLR Register Extract representation",
-  "description": "A schema mirroring the V2_1 SOAP version of the HMLR Register Extract web service. Versioning is using SchemaVer",
+  "description": "A schema mirroring the V2_1 XML version of the HMLR Register Extract web service. Versioning is using SchemaVer",
   "definitions": {
-    "DateTimeType": {
-      "type": "string",
-      "format": "date-time"
-    },
     "BinaryObjectType": {
       "type": "object",
       "properties": {
@@ -16,15 +12,6 @@
         "format": { "type": "string" },
         "mimeCode": { "type": "string" },
         "characterSetCode": { "type": "string" }
-      }
-    },
-    "DateType": {
-      "type": "object",
-      "properties": {
-        "Value": {
-          "type": "string",
-          "format": "date"
-        }
       }
     },
     "Q1AttachmentType": {
@@ -36,17 +23,19 @@
         },
         "Title": { "type": "string" },
         "Description": { "type": "string" },
-        "Date": { "$ref": "#/definitions/DateType" },
+        "Date": { "type": "string", "format": "date" },
         "CopyrightNotices": { "type": "string" }
       }
     },
     "AmountInfillType": { "type": "string" },
     "ChargeDateInfillType": {
-      "$ref": "#/definitions/DateType"
+      "type": "string",
+      "format": "date"
     },
     "ChargePartyInfillType": { "type": "string" },
     "DateInfillType": {
-      "$ref": "#/definitions/DateType"
+      "type": "string",
+      "format": "date"
     },
     "DeedDateInfillType": { "type": "string" },
     "DeedExtentInfillType": { "type": "string" },
@@ -97,7 +86,7 @@
       "properties": {
         "EntryNumber": { "type": "string" },
         "EntryText": { "type": "string" },
-        "RegistrationDate": { "$ref": "#/definitions/DateType" },
+        "RegistrationDate": { "type": "string", "format": "date" },
         "SubRegisterCode": { "$ref": "#/definitions/SubRegisterCodeType" },
         "ScheduleCode": {
           "type": "string",
@@ -208,13 +197,13 @@
         "LandRegistryOfficeName": {
           "$ref": "#/definitions/LandRegistryOfficeNameTextType"
         },
-        "LatestEditionDate": { "$ref": "#/definitions/DateType" },
+        "LatestEditionDate": { "type": "string", "format": "date" },
         "PostcodeZone": {
           "type": "array",
           "items": { "$ref": "#/definitions/Q1PostcodeZoneType" },
           "minItems": 0
         },
-        "RegistrationDate": { "$ref": "#/definitions/DateType" }
+        "RegistrationDate": { "type": "string", "format": "date" }
       }
     },
     "Q1TitleType": {
@@ -391,7 +380,7 @@
       "type": "object",
       "required": ["CautionerParty", "RegisteredProprietorParty"],
       "properties": {
-        "CurrentProprietorshipDate": { "$ref": "#/definitions/DateType" },
+        "CurrentProprietorshipDate": { "type": "string", "format": "date" },
         "CautionerParty": {
           "type": "array",
           "items": { "$ref": "#/definitions/Q1PartyType" },
@@ -490,7 +479,7 @@
       "type": "object",
       "required": ["RegisteredCharge", "ChargeProprietor"],
       "properties": {
-        "ChargeDate": { "$ref": "#/definitions/DateType" },
+        "ChargeDate": { "type": "string", "format": "date" },
         "RegisteredCharge": { "$ref": "#/definitions/Q1ChargeType" },
         "ChargeProprietor": { "$ref": "#/definitions/Q1ChargeProprietorType" }
       }
@@ -500,7 +489,7 @@
       "required": ["RegisteredCharge", "ChargeProprietor"],
       "properties": {
         "ChargeID": { "type": "string" },
-        "ChargeDate": { "$ref": "#/definitions/DateType" },
+        "ChargeDate": { "type": "string", "format": "date" },
         "RegisteredCharge": { "$ref": "#/definitions/Q1ChargeType" },
         "ChargeProprietor": { "$ref": "#/definitions/Q1ChargeProprietorType" },
         "SubCharge": {
@@ -664,8 +653,8 @@
         "Proprietorship"
       ],
       "properties": {
-        "OfficialCopyDateTime": { "$ref": "#/definitions/DateTimeType" },
-        "EditionDate": { "$ref": "#/definitions/DateType" },
+        "OfficialCopyDateTime": { "type": "string", "format": "date-time" },
+        "EditionDate": { "type": "string", "format": "date" },
         "PricePaidEntry": { "$ref": "#/definitions/Q1PricePaidEntryType" },
         "PropertyAddress": {
           "type": "array",
