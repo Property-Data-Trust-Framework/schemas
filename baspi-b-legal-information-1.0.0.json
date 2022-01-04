@@ -35,13 +35,7 @@
           "items": {
             "type": "object",
             "title": "Owner name",
-            "required": [
-              "firstName",
-              "lastName",
-              "email",
-              "dateOfBirth",
-              "homeAddress"
-            ],
+            "required": ["firstName", "lastName", "email"],
             "properties": {
               "firstName": {
                 "baspiRef": "B1.1.1",
@@ -57,24 +51,6 @@
                 "baspiRef": "B1.1.3",
                 "title": "Last name",
                 "type": "string"
-              },
-              "email": {
-                "title": "Email address",
-                "type": "string",
-                "format": "email"
-              },
-              "mobile": {
-                "title": "Mobile phone number",
-                "type": "string"
-              },
-              "dateOfBirth": {
-                "title": "Date of birth",
-                "type": "string",
-                "format": "date"
-              },
-              "homeAddress": {
-                "title": "Home address",
-                "$ref": "#/$defs/address"
               }
             }
           }
@@ -87,9 +63,8 @@
           "required": [
             "firstName",
             "lastName",
-            "email",
-            "organisation",
             "address",
+            "email",
             "reference"
           ],
           "properties": {
@@ -101,22 +76,14 @@
               "title": "Last name",
               "type": "string"
             },
+            "address": {
+              "title": "Address",
+              "$ref": "#/$defs/address"
+            },
             "email": {
               "title": "Email address",
               "type": "string",
               "format": "email"
-            },
-            "mobile": {
-              "title": "Mobile phone number",
-              "type": "string"
-            },
-            "organisation": {
-              "title": "Organisation",
-              "type": "string"
-            },
-            "address": {
-              "title": "Address",
-              "$ref": "#/$defs/address"
             },
             "reference": {
               "title": "Reference",
@@ -128,44 +95,53 @@
           "baspiRef": "B1.3",
           "RDSRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
           "title": "Capacity in which the Seller sells",
-          "type": "string",
-          "enum": [
-            "Legal Owner",
-            "Personal Representative for a Deceased Owner",
-            "Under Power of Attorney",
-            "Mortgagee in Possession",
-            "Other (please give details)"
-          ]
-        }
-      },
-      "dependencies": {
-        "sellersCapacity": {
-          "oneOf": [
-            {
-              "properties": {
-                "sellersCapacity": {
-                  "enum": ["Legal Owner", "Mortgagee in Possession"]
-                }
-              }
-            },
-            {
-              "properties": {
-                "sellersCapacity": {
-                  "enum": [
-                    "Personal Representative for a Deceased Owner",
-                    "Under Power of Attorney",
-                    "Other (please give details)"
-                  ]
-                },
-                "probateOrPowerOfAttorney": {
-                  "baspiRef": "B1.4",
-                  "RDSRef": "Participants/OtherDocumentation",
-                  "title": "Please provide details, and please provide your property lawyer with any probate, grant of representation or power of attorney.",
-                  "type": "string"
-                }
-              }
+          "description": "If necessary please provide your property lawyer with any probate, grant of representation or power of attorney.",
+          "type": "object",
+          "required": ["capacity"],
+          "properties": {
+            "capacity": {
+              "type": "string",
+              "title": "",
+              "enum": [
+                "Legal Owner",
+                "Personal Representative for a Deceased Owner",
+                "Under Power of Attorney",
+                "Mortgagee in Possession",
+                "Other (please give details)"
+              ]
             }
-          ]
+          },
+          "dependencies": {
+            "capacity": {
+              "oneOf": [
+                {
+                  "properties": {
+                    "capacity": {
+                      "enum": ["Legal Owner", "Mortgagee in Possession"]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "capacity": {
+                      "enum": [
+                        "Personal Representative for a Deceased Owner",
+                        "Under Power of Attorney",
+                        "Other (please give details)"
+                      ]
+                    },
+                    "probateOrPowerOfAttorney": {
+                      "baspiRef": "B1.4",
+                      "RDSRef": "Participants/OtherDocumentation",
+                      "title": "Please provide details.",
+                      "type": "string"
+                    }
+                  },
+                  "required": ["probateOrPowerOfAttorney"]
+                }
+              ]
+            }
+          }
         }
       }
     },
@@ -183,7 +159,8 @@
       "properties": {
         "legalBoundaries": {
           "baspiRef": "B2.1",
-          "title": "Legal Boundaries - Please indicate who has repaired, or treated as belonging to them, each of the boundaries.  Identify each boundary as if you were looking at the property from the road",
+          "title": "Legal Boundaries",
+          "description": "Please indicate who has repaired, or treated as belonging to them, each of the boundaries.  Identify each boundary as if you were looking at the property from the road",
           "type": "object",
           "properties": {
             "left": {
@@ -226,7 +203,8 @@
               "$ref": "#/$defs/yesNoDetailIfNo",
               "description": "If no, please indicate ownership or those you have repaired by written description or marking them on a plan of the property"
             }
-          }
+          },
+          "required": ["left", "right", "rear", "front", "areBoundariesUniform"]
         },
         "haveBoundaryFeaturesMoved": {
           "baspiRef": "B2.2",
@@ -397,7 +375,7 @@
         "electricityMeterLocation": {
           "baspiRef": "B4.4",
           "RDSRef": "Objects/class='meters|'&access=?&accessLocation=?",
-          "title": "Please describe, or attach a photograph of, the location of any electricity meter(if any):",
+          "title": "Please describe, or attach a photograph of, the location of any electricity meter (if any)",
           "type": "string"
         },
         "gasMeterLocation": {
@@ -409,7 +387,7 @@
         "stopcockAndWaterMeterLocation": {
           "baspiRef": "B4.6",
           "RDSRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
-          "title": "Please describe, or attach a photograph of, the location of the stopcock and water meter(if any)",
+          "title": "Please describe, or attach a photograph of, the location of the stopcock and water meter (if any)",
           "type": "string"
         }
       }
@@ -418,6 +396,7 @@
       "baspiRef": "B5",
       "title": "Guarantees, Warranties and Indemnity Insurances",
       "type": "object",
+      "required": ["hasValidGuaranteesOrWarranties"],
       "properties": {
         "hasValidGuaranteesOrWarranties": {
           "baspiRef": "B5.1",
@@ -509,7 +488,7 @@
                   "baspiRef": "B5.1.10",
                   "RDSRef": "Certificates",
                   "lawSocietyRef": "TA6/5.1i",
-                  "title": "Other Guarantees or Warranties:",
+                  "title": "Other Guarantees or Warranties",
                   "$ref": "#/$defs/yesNo"
                 },
                 "willLeaveGuaranteePaperwork": {
@@ -532,7 +511,22 @@
                   "$ref": "#/$defs/yesNoDetailIfYes",
                   "description": "If yes, please provide details and give the policy to your property lawyer"
                 }
-              }
+              },
+              "required": [
+                "newHomeWarranty",
+                "roofingWork",
+                "dampProofingTreatment",
+                "timberRotOrInfestationTreatment",
+                "centralHeatingAndorPlumbing",
+                "doubleGlazing",
+                "electricalRepairOrInstallation",
+                "subsidenceWork",
+                "solarPanels",
+                "otherGuarantees",
+                "willLeaveGuaranteePaperwork",
+                "outstandingClaimsOrApplications",
+                "titleDefectInsurance"
+              ]
             }
           ]
         }
@@ -542,6 +536,11 @@
       "baspiRef": "B6",
       "title": "Occupiers",
       "type": "object",
+      "required": [
+        "sellerLivesAtProperty",
+        "otherOver17sAtProperty",
+        "over17sWillSignToConfirmWillVacate"
+      ],
       "properties": {
         "sellerLivesAtProperty": {
           "baspiRef": "B6.1",
@@ -565,7 +564,7 @@
           "RDSRef": "RightsHolders,TenureAgreements,Notifications",
           "lawSocietyRef": "TA6/11.5",
           "title": "Have all occupiers aged over 17, agreed to sign the contract to confirm that they will vacate the property prior to completion of the sale?",
-          "$ref": "#/$defs/yesNoDetailIfYes",
+          "$ref": "#/$defs/yesNoDetailIfNo",
           "description": "If 'No', please provide details (e.g. the property is sold let to tenants) and supply a copy of the tenancy agreement together with a copy of any notice to quit which has been served upon them."
         }
       }
@@ -574,12 +573,18 @@
       "baspiRef": "B7",
       "title": "Completion and Moving",
       "type": "object",
+      "required": [
+        "willRemoveAllRubbish",
+        "otherPropertyInChain",
+        "moveRestrictionDates"
+      ],
       "properties": {
         "willRemoveAllRubbish": {
           "baspiRef": "B7.1",
           "RDSRef": "RightsHolders/Flags",
           "lawSocietyRef": "TA6/14.4",
           "title": "Please confirm that on completion you will remove all rubbish and items not included in the sale from the property including its garden, loft and any sheds or outbuildings.",
+          "description": "When the property is cleared out you will be expected to take reasonable care when clearing the property, leaving it clean and tidy and repairing any damage caused when removing items from the property and making safe any light or electrical fittings which are being removed.\n\nKeys for all door and window locks, along with any alarm codes, should be available for the buyer on the day of completion.  If there is any reason why you cannot do this you should let the estate agent and your property lawyer know. For all internet connected services eg doorbells, boiler controls, burglar alarms, CCTV cameras etc) access to them will need to be provided to the buyer on the day of completion so that they can control them or sign up to the service.  If there is any reason why you cannot do this you should let the estate agent and your property lawyer know.",
           "type": "boolean",
           "const": true
         },
@@ -588,7 +593,7 @@
           "RDSRef": "RightsHolders/Flags",
           "lawSocietyRef": "TA6/14.1",
           "title": "Will you need the purchase, sale or remortgage of another property to co-ordinate with the sale of this property?",
-          "$ref": "#/$defs/yesNo"
+          "$ref": "#/$defs/yesNoDetailIfYes"
         },
         "moveRestrictionDates": {
           "baspiRef": "B7.3",
@@ -596,7 +601,7 @@
           "lawSocietyRef": "TA6/14.2",
           "title": "Are there any dates on which you cannot move? [Note: The moving date will not be fixed until contracts are exchanged i.e. have become binding. Until then you should only make provisional removal arrangements.]",
           "$ref": "#/$defs/yesNoDetailIfYes",
-          "description": "If yes, please give details of dates on which the seller cannot complete/move [Note: you do not need to be physically present on the day of Completion so long as the property is cleared]. Note: Timescales to completion vary depending on the complexity of the transaction, length of the chain and requirements of the people involved. When the property is cleared out you will be expected to take reasonable care when clearing the property, leaving it clean and tidy and repairing any damage caused when removing items from the property and making safe any light or electrical fittings which are being removed.\n\nKeys for all door and window locks, along with any alarm codes, should be available for the buyer on the day of completion.  If there is any reason why you cannot do this you should let the estate agent and your property lawyer know. For all internet connected services eg doorbells, boiler controls, burglar alarms, CCTV cameras etc) access to them will need to be provided to the buyer on the day of completion so that they can control them or sign up to the service.  If there is any reason why you cannot do this you should let the estate agent and your property lawyer know."
+          "description": "If yes, please give details of dates on which the seller cannot complete/move [Note: you do not need to be physically present on the day of Completion so long as the property is cleared]. Note: Timescales to completion vary depending on the complexity of the transaction, length of the chain and requirements of the people involved."
         }
       }
     },
@@ -604,6 +609,10 @@
       "baspiRef": "B8",
       "title": "Confirmation to be supplied by all owners or their representative",
       "type": "object",
+      "required": [
+        "confirmWillProvideAdditionalDocumentation",
+        "confirmInformationIsAccurate"
+      ],
       "properties": {
         "confirmWillProvideAdditionalDocumentation": {
           "baspiRef": "B8.1",
