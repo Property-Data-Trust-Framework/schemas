@@ -1,12 +1,12 @@
-import jp from "jsonpointer";
+const jp = require("jsonpointer");
 
-import {
+const {
   propertyPackSchema,
   validator,
   getSubschema,
   getSubschemaValidator
-} from "../index.js";
-import examplePropertyPack from "./examplePropertyPack.json";
+} = require("../../index.js");
+const examplePropertyPack = require("./examplePropertyPack.json");
 
 test("exports a property pack schema", () => {
   expect(propertyPackSchema).not.toBeNull();
