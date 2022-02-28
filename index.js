@@ -2,14 +2,14 @@ import { dereference } from "@jdw/jst";
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
 
-import propertyPack from "./schemas/property-pack.json";
-import baspiMaterialFacts from "./schemas/baspi-a-material-facts.json";
-import baspiLegalInformation from "./schemas/baspi-b-legal-information.json";
-import energyPerformanceCertificate from "./schemas/energy-performance-certificate.json";
-import titleDeed from "./schemas/title-deed.json";
-import geoJson from "./schemas/GeoJSON.json";
-import pdtfClaim from "./schemas/pdtf-claim.json";
-import verifiedClaim from "./schemas/verified_claims-12.json";
+import propertyPack from "./src/schemas/property-pack.json";
+import baspiMaterialFacts from "./src/schemas/baspi-a-material-facts.json";
+import baspiLegalInformation from "./src/schemas/baspi-b-legal-information.json";
+import energyPerformanceCertificate from "./src/schemas/energy-performance-certificate.json";
+import titleDeed from "./src/schemas/title-deed.json";
+import geoJson from "./src/schemas/GeoJSON.json";
+import pdtfClaim from "./src/schemas/pdtf-claim.json";
+import verifiedClaim from "./src/schemas/verified_claims-12.json";
 
 const subSchemas = {
   "https://homebuyingandsellinggroup.co.uk/schemas/baspi-a-material-facts.json":
