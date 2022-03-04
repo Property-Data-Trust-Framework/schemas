@@ -14,6 +14,7 @@ test("exports a property pack schema", () => {
 
 test("sample is valid", () => {
   const isValid = validator(examplePropertyPack);
+  console.log(validator.errors);
   expect(isValid).toBe(true);
 });
 

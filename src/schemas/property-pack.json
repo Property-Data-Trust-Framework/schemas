@@ -3,7 +3,7 @@
   "$id": "https://homebuyingandsellinggroup.co.uk/schemas/property-pack.json",
   "type": "object",
   "title": "Property Data Trust Framework Schema",
-  "description": "A schema defining the PDTF data structure, supporting mapping to BASPI, Law Society and RICS Data Schema elements.",
+  "description": "A schema defining the PDTF Property Pack data structure, supporting mapping to BASPI, Law Society and RICS Data Schema elements.",
   "required": ["$schema", "uprn", "propertyPack"],
   "properties": {
     "$schema": {
@@ -18,7 +18,59 @@
     "propertyPack": {
       "title": "Property Pack",
       "type": "object",
+      "required": ["sellers"],
       "properties": {
+        "sellers": {
+          "RDSRef": "",
+          "title": "About the sellers",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "title": "Seller information",
+            "required": [
+              "firstName",
+              "lastName",
+              "dateOfBirth",
+              "emailAddress",
+              "address"
+            ],
+            "properties": {
+              "firstName": {
+                "RDSRef": "",
+                "title": "First name",
+                "type": "string"
+              },
+              "middleNames": {
+                "title": "Middle name(s)",
+                "type": "string"
+              },
+              "lastName": {
+                "title": "Last name",
+                "type": "string"
+              },
+              "dateOfBirth": {
+                "title": "Date of birth",
+                "type": "string",
+                "format": "date"
+              },
+              "emailAddress": {
+                "title": "Email address",
+                "type": "string",
+                "format": "email"
+              },
+              "address": {
+                "title": "Address",
+                "$ref": "#/$defs/address"
+              },
+              "amlCheckResult": {
+                "title": "AML check result",
+                "type": "string",
+                "enum": ["clear", "consider"]
+              }
+            }
+          }
+        },
         "materialFacts": {
           "$ref": "https://homebuyingandsellinggroup.co.uk/schemas/baspi-a-material-facts.json"
         },
@@ -94,6 +146,36 @@
           "$ref": "https://homebuyingandsellinggroup.co.uk/schemas/energy-performance-certificate.json"
         }
       }
+    }
+  },
+  "$defs": {
+    "address": {
+      "type": "object",
+      "properties": {
+        "address1": {
+          "title": "Address 1",
+          "type": "string",
+          "minLength": 1
+        },
+        "address2": {
+          "title": "Address 2",
+          "type": "string"
+        },
+        "town": {
+          "title": "Town",
+          "type": "string"
+        },
+        "county": {
+          "title": "County",
+          "type": "string"
+        },
+        "postcode": {
+          "title": "Postcode",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["address1", "postcode"]
     }
   }
 }
