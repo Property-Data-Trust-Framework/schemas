@@ -39,7 +39,7 @@ const getSubschema = (path) => {
     return schema;
   }
   return pathArray.reduce((propertyPackSchema, pathElement) => {
-    return propertyPackSchema["properties"][pathElement];
+    return propertyPackSchema.properties[pathElement];
   }, propertyPackSchema);
 };
 
@@ -47,11 +47,53 @@ const getSubschemaValidator = (path) => {
   return ajv.getSchema(path) || ajv.compile(getSubschema(path));
 };
 
+const getTitleAtPath = (schema, path, rootPath = path) => {
+  if (path === "") path = "/";
+  let pathArray = path.split("/").slice(1);
+  if (pathArray.length === 1 && pathArray[0] === "") {
+    if (schema.title) return schema.title;
+    // no 'title' property present, so we use the property name to create a readable descriptor
+    const propertyName = rootPath
+      .split("/")
+      .pop()
+      .replace(/([A-Z])/g, " $1")
+      .toLowerCase()
+      .trim();
+    return propertyName.charAt(0).toUpperCase() + propertyName.slice(1);
+  }
+  const propertyName = pathArray.shift();
+  const subPath = "/" + pathArray.join("/");
+  let subSchema = schema.properties?.[propertyName];
+  if (subSchema) {
+    return getTitleAtPath(subSchema, subPath, rootPath);
+  }
+  if (schema.type === "array") {
+    subSchema = schema.items;
+    return getTitleAtPath(subSchema, subPath, rootPath);
+  }
+  const dependencies = schema.dependencies;
+  if (dependencies) {
+    // only single dependency discriminator, oneOf keyword is supported
+    const dependencyDiscriminator = Object.keys(dependencies)[0];
+    const oneOfs = dependencies[dependencyDiscriminator].oneOf;
+    const matchingOneOf = oneOfs.find(
+      (oneOf) => oneOf["properties"][propertyName]
+    );
+    if (matchingOneOf)
+      return getTitleAtPath(
+        matchingOneOf["properties"][propertyName],
+        subPath,
+        rootPath
+      );
+  }
+};
+
 module.exports = {
   propertyPackSchema,
   validator,
   getSubschema,
   getSubschemaValidator,
+  getTitleAtPath,
   pdtfClaim,
   verifiedClaim
 };

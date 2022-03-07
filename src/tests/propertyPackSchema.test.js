@@ -4,7 +4,8 @@ const {
   propertyPackSchema,
   validator,
   getSubschema,
-  getSubschemaValidator
+  getSubschemaValidator,
+  getTitleAtPath
 } = require("../../index.js");
 const examplePropertyPack = require("./examplePropertyPack.json");
 
@@ -27,6 +28,16 @@ test("invalid sample is invalid", () => {
   expect(isValid).toBe(false);
 });
 
+test("sample with missing dependent required fields is invalid", () => {
+  const clonedExamplePropertyPack = JSON.parse(
+    JSON.stringify(examplePropertyPack)
+  );
+  clonedExamplePropertyPack.propertyPack.materialFacts.ownership.ownershipType =
+    "leashold";
+  const isValid = validator(clonedExamplePropertyPack);
+  expect(isValid).toBe(false);
+});
+
 test("correctly gets a subschema", () => {
   const subschema = getSubschema("/propertyPack/materialFacts/notices");
   expect(subschema.title).toBe("Notices which Affect the Property");
@@ -42,4 +53,57 @@ test("correctly gets a working subschema validator", () => {
   data.neighbourDevelopment.yesNo = "Invalid string";
   isValid = validator(data);
   expect(isValid).toBe(false);
+});
+
+test("correctly gets titles across schemas, arrays and non-existient title properties", () => {
+  expect(
+    getTitleAtPath(
+      propertyPackSchema,
+      "/propertyPack/materialFacts/ownership/ownershipType"
+    )
+  ).toBe("What type of ownership is the property?");
+  expect(
+    getTitleAtPath(
+      propertyPackSchema,
+      "/propertyPack/materialFacts/ownership/leaseholdDetails/lengthOfLeaseInYears"
+    )
+  ).toBe("Length of lease (years)");
+  expect(
+    getTitleAtPath(
+      propertyPackSchema,
+      "/propertyPack/materialFacts/ownership/managedFreeholdOrCommonhold/annualServiceCharge"
+    )
+  ).toBe(
+    "Amount of current annual service charge/estate rentcharge/maintenance contribution (£)"
+  );
+  expect(
+    getTitleAtPath(
+      propertyPackSchema,
+      "/propertyPack/materialFacts/invalidPath"
+    )
+  ).toBe(undefined);
+  expect(
+    getTitleAtPath(
+      propertyPackSchema,
+      "/propertyPack/titlesToBeSold/0/registerExtract"
+    )
+  ).toBe("Property Data Trust Framework HMLR Register Extract representation");
+  expect(
+    getTitleAtPath(
+      propertyPackSchema,
+      "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/PropertyAddress"
+    )
+  ).toBe("Property address");
+  expect(
+    getTitleAtPath(
+      propertyPackSchema,
+      "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/InvalidProp"
+    )
+  ).toBe(undefined);
+  expect(
+    getTitleAtPath(
+      propertyPackSchema,
+      "/propertyPack/energyPerformanceCertificate/certificate/currentEnergyRating"
+    )
+  ).toBe("Current energy rating");
 });

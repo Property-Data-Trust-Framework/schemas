@@ -53,7 +53,14 @@
     "RDSRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
     "title": "Sellers Conveyancer",
     "type": "object",
-    "required": ["firstName", "lastName", "address", "email", "reference"],
+    "required": [
+      "firstName",
+      "lastName",
+      "address",
+      "email",
+      "organisation",
+      "reference"
+    ],
     "properties": {
       "firstName": {
         "title": "First name",
@@ -63,15 +70,20 @@
         "title": "Last name",
         "type": "string"
       },
-      "address": {
-        "title": "Address",
-        "$ref": "#/$defs/address"
-      },
       "email": {
         "title": "Email address",
         "type": "string",
         "format": "email"
       },
+      "organisation": {
+        "title": "Organisation",
+        "type": "string"
+      },
+      "address": {
+        "title": "Address",
+        "$ref": "#/$defs/address"
+      },
+
       "reference": {
         "title": "Reference",
         "type": "string"
@@ -315,8 +327,8 @@
                     "baspiRef": "",
                     "RDSRef": "Objects/Ownership",
                     "title": "Do you own the panels, and all equipment related to them, outright?",
-                    "$ref": "#/$defs/yesNoDetailIfYes",
-                    "description": "If yes, provide details of who owns them and the relevant documentation"
+                    "$ref": "#/$defs/yesNoDetailIfNo",
+                    "description": "If no, provide details of who owns them and the relevant documentation"
                   },
                   "panelProviderLease": {
                     "baspiRef": "B4.3.2",
@@ -366,7 +378,7 @@
       "stopcockAndWaterMeterLocation": {
         "baspiRef": "B4.6",
         "RDSRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
-        "title": "Please describe, or attach a photograph of, the location of the stopcock and water meter",
+        "title": "Please describe, or attach a photograph of, the location of any stopcock and water meter",
         "type": "string"
       },
       "photovoltaicMeterPanelLocation": {
@@ -375,7 +387,7 @@
         "title": "Please describe, or attach a photograph of, the location of any photovoltaic panel meter",
         "type": "string"
       },
-      "photovoltaicMeterBatteriesLocation": {
+      "photovoltaicBatteriesLocation": {
         "baspiRef": "B4.8",
         "RDSRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
         "title": "Please describe, or attach a photograph of, the location of any photovoltaic batteries",
@@ -461,7 +473,8 @@
               "hasValidGuaranteesOrWarranties": {
                 "enum": ["No"]
               }
-            }
+            },
+            "additionalProperties": false
           },
           {
             "properties": {
@@ -542,7 +555,8 @@
                 "baspiRef": "B5.1.11",
                 "RDSRef": "Property/Flags",
                 "title": "Please confirm that you will leave all paperwork relating to any guarantee or warranty at the property when you move out",
-                "$ref": "#/$defs/yesNo"
+                "type": "boolean",
+                "const": true
               },
               "outstandingClaimsOrApplications": {
                 "baspiRef": "B5.2",

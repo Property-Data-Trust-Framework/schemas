@@ -9,9 +9,9 @@
     "address",
     "delayFactors",
     "ownership",
-    "parkingArrangements",
+    "parking",
     "listingAndConservation",
-    "hasFlammableExternalWallSystem",
+    "flammableExternalWallSystem",
     "energyEfficiency",
     "councilTax",
     "disputesAndComplaints",
@@ -95,8 +95,8 @@
                     "annualServiceCharge",
                     "largeAdditionalExpense",
                     "additionalFeesOnSale",
-                    "freeholderName",
-                    "managingAgentName",
+                    "freeholderContactDetails",
+                    "managingAgentContactDetails",
                     "managementCompanyDirectorRequirement"
                   ],
                   "properties": {
@@ -165,7 +165,8 @@
                     }
                   }
                 }
-              }
+              },
+              "required": ["leaseholdDetails"]
             },
             {
               "properties": {
@@ -180,8 +181,8 @@
                     "annualServiceCharge",
                     "largeAdditionalExpense",
                     "additionalFeesOnSale",
-                    "freeholderName",
-                    "managingAgentName",
+                    "freeholderContactDetails",
+                    "managingAgentContactDetails",
                     "managementCompanyDirectorRequirement"
                   ],
                   "properties": {
@@ -209,13 +210,13 @@
                     "freeholderContactDetails": {
                       "baspiRef": "A1.5.4",
                       "RDSRef": "TenureAgreements/Assignor",
-                      "title": "The name, address and email address of the freeholder or rentcharge owner",
+                      "title": "The contact details of the freeholder or rentcharge owner",
                       "$ref": "#/$defs/contactDetails"
                     },
                     "managingAgentContactDetails": {
                       "baspiRef": "A1.5.5",
                       "RDSRef": "Participants/Role",
-                      "title": "The name, address and email address of the managing agent",
+                      "title": "The contact details of the managing agent",
                       "$ref": "#/$defs/contactDetails"
                     },
                     "managementCompanyDirectorRequirement": {
@@ -226,75 +227,84 @@
                     }
                   }
                 }
-              }
+              },
+              "required": ["managedFreeholdOrCommonhold"]
             }
           ]
         }
       }
     },
-    "parkingArrangements": {
+    "parking": {
       "baspiRef": "A1.6",
       "RDSRef": "Services/Parking",
       "lawSocietyRef": "TA6/9.1",
-      "title": "Parking arrangements",
+      "title": "Parking",
       "type": "object",
-      "required": ["parkingArrangementsType", "electricVehicleChargingPoint"],
+      "required": ["parkingArrangements", "electricVehicleChargingPoint"],
       "properties": {
-        "parkingArrangementsType": {
-          "baspiRef": "A1.6.1",
-          "title": "What parking arrangements are there?",
-          "type": "string",
-          "enum": [
-            "Garage",
-            "Allocated parking space",
-            "Driveway",
-            "On street",
-            "Resident permit",
-            "Metered parking",
-            "Communal parking",
-            "None",
-            "Other"
-          ]
+        "parkingArrangements": {
+          "type": "object",
+          "title": "Parking arrangements",
+          "required": ["parkingArrangementsType"],
+          "properties": {
+            "parkingArrangementsType": {
+              "baspiRef": "A1.6.1",
+              "title": "What type of parking arrangements are there?",
+              "type": "string",
+              "enum": [
+                "Garage",
+                "Allocated parking space",
+                "Driveway",
+                "On street",
+                "Resident permit",
+                "Metered parking",
+                "Communal parking",
+                "None",
+                "Other"
+              ]
+            }
+          },
+          "dependencies": {
+            "parkingArrangementsType": {
+              "oneOf": [
+                {
+                  "properties": {
+                    "parkingArrangementsType": {
+                      "enum": [
+                        "Garage",
+                        "Allocated parking space",
+                        "Driveway",
+                        "On street",
+                        "Resident permit",
+                        "Metered parking",
+                        "Communal parking",
+                        "None"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                {
+                  "properties": {
+                    "parkingArrangementsType": {
+                      "enum": ["Other"]
+                    },
+                    "otherParkingType": {
+                      "baspiRef": "A1.6.2",
+                      "title": "Please describe the other parking arrangements",
+                      "type": "string"
+                    }
+                  },
+                  "required": ["otherParkingType"]
+                }
+              ]
+            }
+          }
         },
         "electricVehicleChargingPoint": {
           "baspiRef": "A1.6.1",
           "title": "Is there an electric vehicle charging point belonging to the property?",
           "$ref": "#/$defs/yesNo"
-        }
-      },
-      "dependencies": {
-        "parkingArrangementsType": {
-          "oneOf": [
-            {
-              "properties": {
-                "parkingArrangementsType": {
-                  "enum": [
-                    "Garage",
-                    "Allocated parking space",
-                    "Driveway",
-                    "On street",
-                    "Resident permit",
-                    "Metered parking",
-                    "Communal parking",
-                    "None"
-                  ]
-                }
-              }
-            },
-            {
-              "properties": {
-                "parkingArrangementsType": {
-                  "enum": ["Other"]
-                },
-                "otherParkingType": {
-                  "baspiRef": "A1.6.2",
-                  "title": "Please describe the other parking arrangements",
-                  "type": "string"
-                }
-              },
-              "required": ["otherParkingType"]
-            }
-          ]
         }
       }
     },
@@ -375,16 +385,25 @@
         }
       }
     },
-    "hasFlammableExternalWallSystem": {
+    "flammableExternalWallSystem": {
       "baspiRef": "A1.8.2",
       "RDSRef": "Property/Flags,Certificates",
-      "title": "Does the property have potentially flammable external wall system - including cladding and balconies etc?",
-      "type": "string",
-      "enum": [
-        "Yes (EWS form attached)",
-        "Yes (No external wall system review to hand)",
-        "No"
-      ]
+      "type": "object",
+      "required": ["hasFlammableExternalWallSystem"],
+      "properties": {
+        "hasFlammableExternalWallSystem": {
+          "baspiRef": "A2.1",
+          "RDSRef": "Tenure/DisputesComplaints,Tenure/LegalClaims",
+          "lawSocietyRef": "TA6/2.1",
+          "title": "Does the property have potentially flammable external wall system - including cladding and balconies etc?",
+          "type": "string",
+          "enum": [
+            "Yes (EWS form attached)",
+            "Yes (No external wall system review to hand)",
+            "No"
+          ]
+        }
+      }
     },
     "energyEfficiency": {
       "baspiRef": "1.8.3",
@@ -577,7 +596,7 @@
     "notices": {
       "baspiRef": "A4",
       "title": "Notices which Affect the Property",
-      "description": "Are you aware of, or have you received any of the following notices?",
+      "description": "Are you aware of, or have you received, any of the following notices?",
       "type": "object",
       "required": [
         "neighbourDevelopment",
@@ -1118,7 +1137,7 @@
         "partOnSeparateSiteOrDeed": {
           "baspiRef": "A9.2",
           "RDSRef": "Tenure *with different property entity and references etc*",
-          "title": "Is any part of the property on a separate site or separate title deed e.g. garden, outbuilding, parking, garage?",
+          "title": "Is any part of the property on a separate site or separate title number e.g. garden, outbuilding, parking, garage?",
           "$ref": "#/$defs/yesNoDetailIfYes"
         },
         "boundariesDifferFromTitlePlan": {
@@ -1300,7 +1319,7 @@
           "RDSRef": "Tenure/OtherMaterialIssues",
           "title": "Are you aware of any other material issue or information which relates to the property or has anything occurred which may affect the average person’s decision to proceed? (This disclosure is required under the Consumer Protection from Unfair Trading Regulations 2008)",
           "$ref": "#/$defs/yesNoDetailIfYes",
-          "description": "If yes, please describe this issue and any action that has been taken, if applicable ."
+          "description": "If yes, please describe this issue and any action that has been taken, if applicable."
         }
       }
     },
