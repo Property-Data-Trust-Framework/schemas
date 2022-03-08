@@ -63,7 +63,9 @@ const getTitleAtPath = (schema, path, rootPath = path) => {
   }
   const propertyName = pathArray.shift();
   const subPath = "/" + pathArray.join("/");
-  let subSchema = schema.properties?.[propertyName];
+  let subSchema = schema.properties
+    ? schema.properties[propertyName]
+    : undefined;
   if (subSchema) {
     return getTitleAtPath(subSchema, subPath, rootPath);
   }
