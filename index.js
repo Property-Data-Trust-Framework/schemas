@@ -52,6 +52,7 @@ const getTitleAtPath = (schema, path, rootPath = path) => {
   let pathArray = path.split("/").slice(1);
   if (pathArray.length === 1 && pathArray[0] === "") {
     if (schema.title) return schema.title;
+    if (schema.title === "") return ""; // deliberately blank
     // no 'title' property present, so we use the property name to create a readable descriptor
     const propertyName = rootPath
       .split("/")

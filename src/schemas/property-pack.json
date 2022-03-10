@@ -22,62 +22,63 @@
       "properties": {
         "sellers": {
           "RDSRef": "",
-          "title": "About the sellers",
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "type": "object",
-            "title": "Seller information",
-            "required": [
-              "name",
-              "dateOfBirth",
-              "mobileNumber",
-              "email",
-              "address"
-            ],
-            "properties": {
-              "name": {
-                "title": "Name",
+          "title": "The sellers",
+          "type": "object",
+          "properties": {
+            "sellerInformation": {
+              "title": "Information about the sellers",
+              "type": "array",
+              "minItems": 1,
+              "items": {
                 "type": "object",
-                "required": ["firstName", "lastName"],
+                "title": "Seller Details",
+                "required": [
+                  "name",
+                  "dateOfBirth",
+                  "mobileNumber",
+                  "email",
+                  "address"
+                ],
                 "properties": {
-                  "firstName": {
-                    "RDSRef": "",
-                    "title": "First name",
+                  "name": {
+                    "title": "Name",
+                    "type": "object",
+                    "required": ["firstName", "lastName"],
+                    "properties": {
+                      "firstName": {
+                        "RDSRef": "",
+                        "title": "First name",
+                        "type": "string"
+                      },
+                      "middleNames": {
+                        "title": "Middle name(s)",
+                        "type": "string"
+                      },
+                      "lastName": {
+                        "title": "Last name",
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "dateOfBirth": {
+                    "title": "Date of birth",
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "mobileNumber": {
+                    "title": "Mobile number",
                     "type": "string"
                   },
-                  "middleNames": {
-                    "title": "Middle name(s)",
-                    "type": "string"
+                  "email": {
+                    "title": "Email address",
+                    "type": "string",
+                    "format": "email"
                   },
-                  "lastName": {
-                    "title": "Last name",
-                    "type": "string"
+                  "address": {
+                    "title": "Address",
+                    "$ref": "#/$defs/address"
                   }
                 }
-              },
-              "dateOfBirth": {
-                "title": "Date of birth",
-                "type": "string",
-                "format": "date"
-              },
-              "mobileNumber": {
-                "title": "Mobile number",
-                "type": "string"
-              },
-              "email": {
-                "title": "Email address",
-                "type": "string",
-                "format": "email"
-              },
-              "address": {
-                "title": "Address",
-                "$ref": "#/$defs/address"
-              },
-              "amlCheckResult": {
-                "title": "AML check result",
-                "type": "string",
-                "enum": ["clear", "consider"]
               }
             }
           }
