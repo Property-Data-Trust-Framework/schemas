@@ -4,11 +4,11 @@
   "definitions": {
     "date_type": {
       "type": "string",
-      "pattern": "^(?:(?:(?:(?:(?:[1-9]\\d)(?:0[48]|[2468][048]|[13579][26])|(?:(?:[2468][048]|[13579][26])00))(\\/|-|\\.)(?:0?2\\1(?:29)))|(?:(?:[1-9]\\d{3})(\\/|-|\\.)(?:(?:(?:0?[13578]|1[02])\\2(?:31))|(?:(?:0?[13-9]|1[0-2])\\2(?:29|30))|(?:(?:0?[1-9])|(?:1[0-2]))\\2(?:0?[1-9]|1\\d|2[0-8])))))$"
+      "format": "date"
     },
     "time_type": {
       "type": "string",
-      "pattern": "^(?:[\\+-]?\\d{4}(?!\\d{2}\\b))(?:(-?)(?:(?:0[1-9]|1[0-2])(?:\\1(?:[12]\\d|0[1-9]|3[01]))?|W(?:[0-4]\\d|5[0-2])(?:-?[1-7])?|(?:00[1-9]|0[1-9]\\d|[12]\\d{2}|3(?:[0-5]\\d|6[1-6])))(?:[T\\s](?:(?:(?:[01]\\d|2[0-3])(?:(:?)[0-5]\\d)?|24\\:?00)(?:[\\.,]\\d+(?!:))?)?(?:\\2[0-5]\\d(?:[\\.,]\\d+)?)?(?:[zZ]|(?:[\\+-])(?:[01]\\d|2[0-3]):?(?:[0-5]\\d)?)?)?)?$"
+      "format": "date-time"
     },
     "document_number": {
       "type": "string"
@@ -77,7 +77,7 @@
         "type": {
           "type": "string"
         },
-        "policy":{
+        "policy": {
           "type": "string"
         },
         "procedure": {
@@ -94,7 +94,7 @@
         "type": {
           "type": "string"
         },
-        "policy":{
+        "policy": {
           "type": "string"
         },
         "procedure": {
@@ -123,15 +123,13 @@
           "$ref": "#/definitions/attachments"
         }
       },
-      "required": [
-        "type"
-      ],
+      "required": ["type"],
       "allOf": [
         {
           "if": {
             "properties": {
               "type": {
-                "value": "electronic_signature"
+                "const": "electronic_signature"
               }
             }
           },
@@ -157,6 +155,7 @@
           "if": {
             "properties": {
               "type": {
+                "type": "string",
                 "pattern": "^(id_)*document$"
               }
             }
@@ -200,7 +199,7 @@
           "if": {
             "properties": {
               "type": {
-                "value": "electronic_record"
+                "const": "electronic_record"
               }
             }
           },
@@ -269,7 +268,7 @@
                         "type": "string"
                       },
                       "jurisdiction": {
-                         "type": "string"
+                        "type": "string"
                       }
                     }
                   }
@@ -283,7 +282,7 @@
           "if": {
             "properties": {
               "type": {
-                "value": "vouch"
+                "const": "vouch"
               }
             }
           },
@@ -372,7 +371,7 @@
           "if": {
             "properties": {
               "type": {
-                "value": "utility_bill"
+                "const": "utility_bill"
               }
             }
           },
@@ -424,10 +423,7 @@
           "contentEncoding": "base64"
         }
       },
-      "required": [
-        "alg",
-        "value"
-      ]
+      "required": ["alg", "value"]
     },
     "external_attachment": {
       "type": "object",
@@ -450,10 +446,7 @@
           "minimum": 1
         }
       },
-      "required": [
-        "digest",
-        "url"
-      ]
+      "required": ["digest", "url"]
     },
     "embedded_attachment": {
       "type": "object",
@@ -469,10 +462,7 @@
           "contentEncoding": "base64"
         }
       },
-      "required": [
-        "content_type",
-        "content"
-      ]
+      "required": ["content_type", "content"]
     },
     "attachments": {
       "type": "array",
@@ -503,7 +493,7 @@
             "assurance_process": {
               "type": "object",
               "properties": {
-                "policy":{
+                "policy": {
                   "type": "string"
                 },
                 "procedure": {
@@ -532,9 +522,7 @@
               }
             }
           },
-          "required": [
-            "trust_framework"
-          ],
+          "required": ["trust_framework"],
           "additionalProperties": true
         },
         "claims": {
@@ -542,30 +530,27 @@
           "minProperties": 1
         }
       },
-      "required": [
-        "verification",
-        "claims"
-      ],
+      "required": ["verification", "claims"],
       "additionalProperties": false
     },
     "distributed_claims_available_def": {
       "type": "object",
       "properties": {},
       "additionalProperties": {
-        "$ref": "verified_claims_request-12.json#definitions/verified_claims_def"
+        "$ref": "#/definitions/verified_claims_def"
       }
     },
     "aggregated_claims": {
+      "type": "object",
       "properties": {
         "JWT": {
           "type": "string"
         }
       },
-      "required": [
-        "JWT"
-      ]
+      "required": ["JWT"]
     },
     "distributed_claims": {
+      "type": "object",
       "properties": {
         "endpoint": {
           "type": "string"
@@ -574,10 +559,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "endpoint",
-        "access_token"
-      ]
+      "required": ["endpoint", "access_token"]
     },
     "_claim_sources": {
       "anyOf": [
@@ -590,6 +572,8 @@
       ]
     }
   },
+  "type": "object",
+  "required": ["verified_claims"],
   "properties": {
     "verified_claims": {
       "anyOf": [

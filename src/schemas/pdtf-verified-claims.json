@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://openid.net/schemas/verified_claims-12.json",
-  "definitions": {
+  "$id": "https://openid.net/schemas/pdtf-verified-claims.json",
+  "$defs": {
     "date_type": {
       "type": "string",
       "format": "date"
@@ -20,10 +20,10 @@
           "type": "string"
         },
         "document_number": {
-          "$ref": "#/definitions/document_number"
+          "$ref": "#/$defs/document_number"
         },
         "number": {
-          "$ref": "#/definitions/document_number"
+          "$ref": "#/$defs/document_number"
         },
         "personal_number": {
           "type": "string"
@@ -32,10 +32,10 @@
           "type": "string"
         },
         "date_of_issuance": {
-          "$ref": "#/definitions/date_type"
+          "$ref": "#/$defs/date_type"
         },
         "date_of_expiry": {
-          "$ref": "#/definitions/date_type"
+          "$ref": "#/$defs/date_type"
         },
         "issuer": {
           "type": "object",
@@ -95,7 +95,7 @@
           "enum": ["document", "electronic_record", "vouch"]
         },
         "attachments": {
-          "$ref": "#/definitions/attachments"
+          "$ref": "#/$defs/attachments"
         }
       },
       "required": ["type"],
@@ -104,17 +104,17 @@
           "if": {
             "properties": {
               "type": {
-                "pattern": "document"
+                "const": "document"
               }
             }
           },
           "then": {
             "properties": {
               "validation_method": {
-                "$ref": "#/definitions/validation_method"
+                "$ref": "#/$defs/validation_method"
               },
               "verification_method": {
-                "$ref": "#/definitions/verification_method"
+                "$ref": "#/$defs/verification_method"
               },
               "verifier": {
                 "type": "object",
@@ -128,10 +128,10 @@
                 }
               },
               "time": {
-                "$ref": "#/definitions/time_type"
+                "$ref": "#/$defs/time_type"
               },
               "document_details": {
-                "$ref": "#/definitions/document_details"
+                "$ref": "#/$defs/document_details"
               }
             }
           },
@@ -148,10 +148,10 @@
           "then": {
             "properties": {
               "validation_method": {
-                "$ref": "#/definitions/validation_method"
+                "$ref": "#/$defs/validation_method"
               },
               "verification_method": {
-                "$ref": "#/definitions/verification_method"
+                "$ref": "#/$defs/verification_method"
               },
               "verifier": {
                 "type": "object",
@@ -165,7 +165,7 @@
                 }
               },
               "time": {
-                "$ref": "#/definitions/time_type"
+                "$ref": "#/$defs/time_type"
               },
               "record": {
                 "type": "object",
@@ -177,10 +177,10 @@
                     "type": "string"
                   },
                   "created_at": {
-                    "$ref": "#/definitions/date_type"
+                    "$ref": "#/$defs/date_type"
                   },
                   "date_of_expiry": {
-                    "$ref": "#/definitions/date_type"
+                    "$ref": "#/$defs/date_type"
                   },
                   "source": {
                     "type": "object",
@@ -231,10 +231,10 @@
           "then": {
             "properties": {
               "validation_method": {
-                "$ref": "#/definitions/validation_method"
+                "$ref": "#/$defs/validation_method"
               },
               "verification_method": {
-                "$ref": "#/definitions/verification_method"
+                "$ref": "#/$defs/verification_method"
               },
               "verifier": {
                 "type": "object",
@@ -248,7 +248,7 @@
                 }
               },
               "time": {
-                "$ref": "#/definitions/time_type"
+                "$ref": "#/$defs/time_type"
               },
               "attestation": {
                 "type": "object",
@@ -264,10 +264,10 @@
                     "type": "string"
                   },
                   "date_of_issuance": {
-                    "$ref": "#/definitions/date_type"
+                    "$ref": "#/$defs/date_type"
                   },
                   "date_of_expiry": {
-                    "$ref": "#/definitions/date_type"
+                    "$ref": "#/$defs/date_type"
                   },
                   "voucher": {
                     "type": "object",
@@ -276,7 +276,7 @@
                         "type": "string"
                       },
                       "birthdate": {
-                        "$ref": "#/definitions/date_type"
+                        "$ref": "#/$defs/date_type"
                       },
                       "formatted": {
                         "type": "string"
@@ -332,7 +332,7 @@
           "type": "string"
         },
         "digest": {
-          "$ref": "#/definitions/digest"
+          "$ref": "#/$defs/digest"
         },
         "url": {
           "type": "string",
@@ -347,65 +347,67 @@
         }
       },
       "required": ["digest", "url"]
-    }
-  },
-  "attachments": {
-    "type": "array",
-    "minItems": 1,
-    "items": {
-      "$ref": "#/definitions/external_attachment"
-    }
-  },
-  "verified_claims_def": {
-    "type": "object",
-    "properties": {
-      "verification": {
-        "type": "object",
-        "properties": {
-          "trust_framework": {
-            "type": "string",
-            "const": "uk_pdtf"
-          },
-          "time": {
-            "$ref": "#/definitions/time_type"
-          },
-          "evidence": {
-            "type": "array",
-            "minItems": 1,
-            "items": {
-              "oneOf": [
-                {
-                  "$ref": "#/definitions/evidence"
-                }
-              ]
-            }
-          }
-        },
-        "required": ["trust_framework"],
-        "additionalProperties": true
-      },
-      "claims": {
-        "type": "object",
-        "patternProperties": {
-          "^(/|([a-zA-Z0-9/-]+)+$)": { "type": "string" }
-        },
-        "minProperties": 1,
-        "additionalProperties": false
+    },
+    "attachments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/external_attachment"
       }
     },
-    "required": ["verification", "claims"],
-    "additionalProperties": false
+    "verified_claims_def": {
+      "type": "object",
+      "properties": {
+        "verification": {
+          "type": "object",
+          "properties": {
+            "trust_framework": {
+              "type": "string",
+              "const": "uk_pdtf"
+            },
+            "time": {
+              "$ref": "#/$defs/time_type"
+            },
+            "evidence": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/evidence"
+                  }
+                ]
+              }
+            }
+          },
+          "required": ["trust_framework"],
+          "additionalProperties": true
+        },
+        "claims": {
+          "type": "object",
+          "patternProperties": {
+            "^(/|([a-zA-Z0-9/-]+)+$)": { "type": "object" }
+          },
+          "minProperties": 1,
+          "additionalProperties": false
+        }
+      },
+      "required": ["verification", "claims"],
+      "additionalProperties": false
+    }
   },
+  "type": "object",
+  "required": ["verified_claims"],
   "properties": {
     "verified_claims": {
       "anyOf": [
         {
-          "$ref": "#/definitions/verified_claims_def"
+          "$ref": "#/$defs/verified_claims_def"
         },
         {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/verified_claims_def"
+            "$ref": "#/$defs/verified_claims_def"
           }
         }
       ]

@@ -7,7 +7,7 @@ const {
   getSubschemaValidator,
   getTitleAtPath
 } = require("../../index.js");
-const examplePropertyPack = require("./examplePropertyPack.json");
+const examplePropertyPack = require("../examples/examplePropertyPack.json");
 
 test("exports a property pack schema", () => {
   expect(propertyPackSchema).not.toBeNull();
@@ -15,7 +15,6 @@ test("exports a property pack schema", () => {
 
 test("sample is valid", () => {
   const isValid = validator(examplePropertyPack);
-  console.log(validator.errors);
   expect(isValid).toBe(true);
 });
 
