@@ -26,6 +26,7 @@ const propertyPackSchema = dereference(propertyPack, (id) => subSchemas[id]);
 
 const ajv = new Ajv({
   allErrors: true,
+  // schema contains additional baspiRef and RDSRef metadata which is not strictly valid
   strictSchema: false
 });
 // Adds date formats among other types to the validator.
