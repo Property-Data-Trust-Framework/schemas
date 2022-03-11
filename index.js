@@ -8,8 +8,7 @@ const baspiLegalInformation = require("./src/schemas/baspi-b-legal-information.j
 const energyPerformanceCertificate = require("./src/schemas/energy-performance-certificate.json");
 const titleDeed = require("./src/schemas/title-deed.json");
 const geoJson = require("./src/schemas/GeoJSON.json");
-const pdtfClaim = require("./src/schemas/pdtf-claim.json");
-const verifiedClaim = require("./src/schemas/verified_claims-12.json");
+const verifiedClaimsSchema = require("./src/schemas/pdtf-verified-claims.json");
 
 const subSchemas = {
   "https://homebuyingandsellinggroup.co.uk/schemas/baspi-a-material-facts.json":
@@ -98,6 +97,5 @@ module.exports = {
   getSubschema,
   getSubschemaValidator,
   getTitleAtPath,
-  pdtfClaim,
-  verifiedClaim
+  verifiedClaimsSchema
 };
