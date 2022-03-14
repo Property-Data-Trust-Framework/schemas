@@ -5,7 +5,7 @@ const {
   validator,
   getSubschema,
   getSubschemaValidator,
-  getTitleAtPath
+  getTitleAtPath,
 } = require("../../index.js");
 const examplePropertyPack = require("../examples/examplePropertyPack.json");
 
@@ -37,9 +37,25 @@ test("sample with missing dependent required fields is invalid", () => {
   expect(isValid).toBe(false);
 });
 
+test("correctly gets a top level subschema", () => {
+  const subschema = getSubschema("/propertyPack");
+  expect(subschema.title).toBe("Property Pack");
+});
+
 test("correctly gets a subschema", () => {
   const subschema = getSubschema("/propertyPack/materialFacts/notices");
   expect(subschema.title).toBe("Notices which Affect the Property");
+});
+
+test("correctly gets a subschema validator which is already cached", () => {
+  const validator = getSubschemaValidator(
+    "/propertyPack/energyPerformanceCertificate"
+  );
+  expect(validator).not.toBeNull();
+  const anotherValidator = getSubschemaValidator(
+    "/propertyPack/energyPerformanceCertificate"
+  );
+  expect(anotherValidator).not.toBeNull();
 });
 
 test("correctly gets a working subschema validator", () => {

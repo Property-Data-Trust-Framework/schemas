@@ -18,7 +18,7 @@ const subSchemas = {
   "https://homebuyingandsellinggroup.co.uk/schemas/energy-performance-certificate.json":
     energyPerformanceCertificate,
   "https://geojson.org/schema/GeoJSON.json": geoJson,
-  "https://homebuyingandsellinggroup.co.uk/schemas/title-deed.json": titleDeed
+  "https://homebuyingandsellinggroup.co.uk/schemas/title-deed.json": titleDeed,
 };
 
 const propertyPackSchema = dereference(propertyPack, (id) => subSchemas[id]);
@@ -26,7 +26,7 @@ const propertyPackSchema = dereference(propertyPack, (id) => subSchemas[id]);
 const ajv = new Ajv({
   allErrors: true,
   // schema contains additional baspiRef and RDSRef metadata which is not strictly valid
-  strictSchema: false
+  strictSchema: false,
 });
 // Adds date formats among other types to the validator.
 addFormats(ajv);
@@ -36,7 +36,7 @@ const validator = ajv.compile(propertyPackSchema);
 const getSubschema = (path) => {
   const pathArray = path.split("/").slice(1);
   if (pathArray.length < 1) {
-    return schema;
+    return propertyPackSchema;
   }
   return pathArray.reduce((propertyPackSchema, pathElement) => {
     return propertyPackSchema.properties[pathElement];
@@ -44,7 +44,14 @@ const getSubschema = (path) => {
 };
 
 const getSubschemaValidator = (path) => {
-  return ajv.getSchema(path) || ajv.compile(getSubschema(path));
+  const subSchema = getSubschema(path);
+  let validator = ajv.getSchema(path);
+  if (!validator && subSchema.$id) validator = ajv.getSchema(subSchema.$id);
+  if (!validator) {
+    ajv.addSchema(subSchema, path);
+    validator = ajv.getSchema(path);
+  }
+  return validator;
 };
 
 const getTitleAtPath = (schema, path, rootPath = path) => {
@@ -97,5 +104,5 @@ module.exports = {
   getSubschema,
   getSubschemaValidator,
   getTitleAtPath,
-  verifiedClaimsSchema
+  verifiedClaimsSchema,
 };
