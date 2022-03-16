@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://homebuyingandsellinggroup.co.uk/schemas/title-deed.json",
-  "title": "Property Data Trust Framework HMLR Register Extract representation",
+  "title": "HMLR Official Copy Register Extract",
   "description": "A schema mirroring the V2_1 XML version of the HMLR Register Extract web service.",
   "definitions": {
     "BinaryObjectType": {
@@ -107,7 +107,7 @@
             "130"
           ]
         },
-        "Infills": { "$ref": "#/definitions/Q1InfillDetailsType" }
+        "Infills": { "type": "object" }
       }
     },
     "Q1PricePaidEntryType": {
@@ -131,11 +131,6 @@
     "AddressLineType": {
       "type": "object",
       "properties": {
-        "IndexNumeric": {
-          "type": "array",
-          "items": { "type": "number" },
-          "minItems": 0
-        },
         "Line": {
           "type": "array",
           "items": { "type": "string" },
@@ -152,27 +147,22 @@
       }
     },
     "ClassOfTitleCodeType": {
-      "type": "object",
-      "properties": {
-        "Value": {
-          "type": "string",
-          "enum": [
-            "10",
-            "20",
-            "30",
-            "40",
-            "50",
-            "60",
-            "70",
-            "80",
-            "90",
-            "100",
-            "110",
-            "120",
-            "130"
-          ]
-        }
-      }
+      "type": "string",
+      "enum": [
+        "10",
+        "20",
+        "30",
+        "40",
+        "50",
+        "60",
+        "70",
+        "80",
+        "90",
+        "100",
+        "110",
+        "120",
+        "130"
+      ]
     },
     "IndicatorType": {
       "type": "string",
@@ -198,11 +188,7 @@
           "$ref": "#/definitions/LandRegistryOfficeNameTextType"
         },
         "LatestEditionDate": { "type": "string", "format": "date" },
-        "PostcodeZone": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1PostcodeZoneType" },
-          "minItems": 0
-        },
+        "PostcodeZone": { "$ref": "#/definitions/Q1PostcodeZoneType" },
         "RegistrationDate": { "type": "string", "format": "date" }
       }
     },
@@ -316,9 +302,14 @@
       "properties": {
         "Name": { "$ref": "#/definitions/Q1NameType" },
         "Alias": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1NameType" },
-          "minItems": 0
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1NameType" },
+              "minItems": 0
+            },
+            { "$ref": "#/definitions/Q1NameType" }
+          ]
         }
       }
     },
@@ -345,31 +336,32 @@
       "required": ["CharityName", "CharityType"],
       "properties": {
         "CharityName": {
-          "type": "array",
-          "items": { "type": "string" },
-          "minItems": 1
+          "oneOf": [
+            { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+            { "type": "string" }
+          ]
         },
         "CharityAddress": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1AddressType" },
-          "minItems": 0
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1AddressType" },
+              "minItems": 0
+            },
+            { "$ref": "#/definitions/Q1AddressType" }
+          ]
         },
         "CharityType": { "$ref": "#/definitions/CharityCodeType" }
       }
     },
     "Q1PartyType": {
       "type": "object",
-      "required": ["PrivateIndividual", "Organization"],
       "properties": {
         "PrivateIndividual": {
           "$ref": "#/definitions/Q1PrivateIndividualType"
         },
         "Organization": { "$ref": "#/definitions/Q1OrganizationType" },
-        "Address": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1AddressType" },
-          "minItems": 0
-        },
+        "Address": { "$ref": "#/definitions/Q1AddressType" },
         "CharityDetails": { "$ref": "#/definitions/Q1CharityDetailsType" },
         "TradingName": { "type": "string" },
         "PartyNumber": { "type": "string" },
@@ -378,18 +370,27 @@
     },
     "Q1ProprietorshipType": {
       "type": "object",
-      "required": ["CautionerParty", "RegisteredProprietorParty"],
       "properties": {
         "CurrentProprietorshipDate": { "type": "string", "format": "date" },
         "CautionerParty": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1PartyType" },
-          "minItems": 1
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1PartyType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1PartyType" }
+          ]
         },
         "RegisteredProprietorParty": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1PartyType" },
-          "minItems": 1
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1PartyType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1PartyType" }
+          ]
         }
       }
     },
@@ -449,9 +450,14 @@
       "required": ["RestrictionEntry"],
       "properties": {
         "RestrictionEntry": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1RestrictionEntryType" },
-          "minItems": 1
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1RestrictionEntryType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1RestrictionEntryType" }
+          ]
         }
       }
     },
@@ -468,9 +474,14 @@
       "required": ["ChargeeParty", "EntryDetails"],
       "properties": {
         "ChargeeParty": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1PartyType" },
-          "minItems": 1
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1PartyType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1PartyType" }
+          ]
         },
         "EntryDetails": { "$ref": "#/definitions/Q1EntryDetailsType" }
       }
@@ -493,9 +504,14 @@
         "RegisteredCharge": { "$ref": "#/definitions/Q1ChargeType" },
         "ChargeProprietor": { "$ref": "#/definitions/Q1ChargeProprietorType" },
         "SubCharge": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1SubChargeDetailsType" },
-          "minItems": 0
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1SubChargeDetailsType" },
+              "minItems": 0
+            },
+            { "$ref": "#/definitions/Q1SubChargeDetailsType" }
+          ]
         }
       }
     },
@@ -504,9 +520,14 @@
       "required": ["ChargeEntry"],
       "properties": {
         "ChargeEntry": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1ChargeDetailsType" },
-          "minItems": 1
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1ChargeDetailsType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1ChargeDetailsType" }
+          ]
         }
       }
     },
@@ -526,9 +547,14 @@
       "required": ["AgreedNoticeEntry"],
       "properties": {
         "AgreedNoticeEntry": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1AgreedNoticeType" },
-          "minItems": 1
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1AgreedNoticeType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1AgreedNoticeType" }
+          ]
         }
       }
     },
@@ -537,9 +563,14 @@
       "required": ["EntryDetails"],
       "properties": {
         "EntryDetails": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1EntryDetailsType" },
-          "minItems": 1
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1EntryDetailsType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1EntryDetailsType" }
+          ]
         }
       }
     },
@@ -561,9 +592,14 @@
       "required": ["HomeRightsEntry"],
       "properties": {
         "HomeRightsEntry": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1HomeRightsType" },
-          "minItems": 1
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1HomeRightsType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1HomeRightsType" }
+          ]
         }
       }
     },
@@ -601,9 +637,10 @@
         },
         "DocumentDate": { "type": "string" },
         "EntryNumber": {
-          "type": "array",
-          "items": { "type": "string" },
-          "minItems": 1
+          "oneOf": [
+            { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+            { "type": "string" }
+          ]
         },
         "PlanOnlyIndicator": { "$ref": "#/definitions/IndicatorType" },
         "FiledUnder": { "type": "string" },
@@ -615,9 +652,14 @@
       "required": ["Document"],
       "properties": {
         "Document": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1DocumentEntryType" },
-          "minItems": 1
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1DocumentEntryType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1DocumentEntryType" }
+          ]
         }
       }
     },
@@ -636,9 +678,16 @@
       "required": ["UnilateralNoticeEntry"],
       "properties": {
         "UnilateralNoticeEntry": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1UnilateralNoticeDetailsType" },
-          "minItems": 1
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Q1UnilateralNoticeDetailsType"
+              },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1UnilateralNoticeDetailsType" }
+          ]
         }
       }
     },
@@ -656,11 +705,7 @@
         "OfficialCopyDateTime": { "type": "string", "format": "date-time" },
         "EditionDate": { "type": "string", "format": "date" },
         "PricePaidEntry": { "$ref": "#/definitions/Q1PricePaidEntryType" },
-        "PropertyAddress": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1AddressType" },
-          "minItems": 1
-        },
+        "PropertyAddress": { "$ref": "#/definitions/Q1AddressType" },
         "Title": { "$ref": "#/definitions/Q1TitleType" },
         "RegisterEntryIndicators": {
           "$ref": "#/definitions/Q1RegisterEntryIndicatorsType"
@@ -697,9 +742,10 @@
       "type": "object",
       "properties": {
         "EntryText": {
-          "type": "array",
-          "items": { "type": "string" },
-          "minItems": 0
+          "oneOf": [
+            { "type": "array", "items": { "type": "string" }, "minItems": 0 },
+            { "type": "string" }
+          ]
         }
       }
     },
@@ -711,9 +757,10 @@
         "EntryDate": { "type": "string" },
         "EntryType": { "type": "string" },
         "EntryText": {
-          "type": "array",
-          "items": { "type": "string" },
-          "minItems": 1
+          "oneOf": [
+            { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+            { "type": "string" }
+          ]
         }
       }
     },
@@ -723,9 +770,14 @@
       "properties": {
         "ScheduleType": { "type": "string" },
         "ScheduleEntry": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1RegisterEntryType" },
-          "minItems": 1
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1RegisterEntryType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1RegisterEntryType" }
+          ]
         }
       }
     },
@@ -735,14 +787,24 @@
       "properties": {
         "DistrictDetails": { "$ref": "#/definitions/Q1DistrictDetailsType" },
         "RegisterEntry": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1RegisterEntryType" },
-          "minItems": 1
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1RegisterEntryType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1RegisterEntryType" }
+          ]
         },
         "Schedule": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/Q1ScheduleType" },
-          "minItems": 0
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1ScheduleType" },
+              "minItems": 0
+            },
+            { "$ref": "#/definitions/Q1ScheduleType" }
+          ]
         }
       }
     },
@@ -765,6 +827,7 @@
     }
   },
   "type": "object",
+  "required": ["OCSummaryData", "OCRegisterData"],
   "properties": {
     "OCSummaryData": {
       "title": "Official Copy Summary Data",

@@ -38,8 +38,9 @@ const getSubschema = (path) => {
   if (pathArray.length < 1) {
     return propertyPackSchema;
   }
-  return pathArray.reduce((propertyPackSchema, pathElement) => {
-    return propertyPackSchema.properties[pathElement];
+  return pathArray.reduce((schema, pathElement) => {
+    if (schema.type === "array") return schema.items;
+    return schema.properties[pathElement];
   }, propertyPackSchema);
 };
 

@@ -1,8 +1,5 @@
-const jp = require("jsonpointer");
 const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
-
-const { getSubschemaValidator, getTitleAtPath } = require("../../index.js");
 
 const verifiedClaimsSchema = require("../schemas/pdtf-verified-claims.json");
 const exampleElectronicRecord = require("../examples/exampleElectronicRecord.json");
@@ -11,7 +8,7 @@ const exampleDocumentedVouch = require("../examples/exampleDocumentedVouch.json"
 
 const ajv = new Ajv({
   allErrors: true,
-  strictSchema: false
+  strictSchema: false,
 });
 addFormats(ajv);
 
@@ -39,7 +36,7 @@ test("claim with missing claims is invalid", () => {
   expect(isValid).toBe(false);
 });
 
-test.only("claim with invalid claims path is invalid", () => {
+test("claim with invalid claims path is invalid", () => {
   const clonedVouch = JSON.parse(JSON.stringify(exampleVouch));
   const originalPath = Object.keys(clonedVouch.claims)[0];
   const data = clonedVouch.claims[originalPath];

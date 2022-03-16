@@ -15,6 +15,7 @@ test("exports a property pack schema", () => {
 
 test("sample is valid", () => {
   const isValid = validator(examplePropertyPack);
+  if (!isValid) console.log(validator.errors);
   expect(isValid).toBe(true);
 });
 
@@ -47,6 +48,20 @@ test("correctly gets a subschema", () => {
   expect(subschema.title).toBe("Notices which Affect the Property");
 });
 
+test("correctly gets a subschema through an arrays element", () => {
+  const subschema = getSubschema(
+    "/propertyPack/titlesToBeSold/0/registerExtract"
+  );
+  expect(subschema.title).toBe("HMLR Official Copy Register Extract");
+});
+
+test("correctly gets another subschema through an arrays element", () => {
+  const subschema = getSubschema(
+    "/propertyPack/sellers/sellerInformation/0/name/firstName"
+  );
+  expect(subschema.title).toBe("First name");
+});
+
 test("correctly gets a subschema validator which is already cached", () => {
   const validator = getSubschemaValidator(
     "/propertyPack/energyPerformanceCertificate"
@@ -58,7 +73,7 @@ test("correctly gets a subschema validator which is already cached", () => {
   expect(anotherValidator).not.toBeNull();
 });
 
-test("correctly gets a working subschema validator", () => {
+test("correctly gets a subschema validator which validates", () => {
   const path = "/propertyPack/materialFacts/notices";
   const validator = getSubschemaValidator(path);
   const data = jp.get(examplePropertyPack, path);
@@ -102,7 +117,7 @@ test("correctly gets titles across schemas, arrays and non-existient title prope
       propertyPackSchema,
       "/propertyPack/titlesToBeSold/0/registerExtract"
     )
-  ).toBe("Property Data Trust Framework HMLR Register Extract representation");
+  ).toBe("HMLR Official Copy Register Extract");
   expect(
     getTitleAtPath(
       propertyPackSchema,
