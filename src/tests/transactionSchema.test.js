@@ -1,40 +1,40 @@
 const jp = require("jsonpointer");
 
 const {
-  propertyPackSchema,
+  transactionSchema,
   validator,
   getSubschema,
   getSubschemaValidator,
   getTitleAtPath,
 } = require("../../index.js");
-const examplePropertyPack = require("../examples/examplePropertyPack.json");
+const exampleTransaction = require("../examples/exampleTransaction.json");
 
 test("exports a property pack schema", () => {
-  expect(propertyPackSchema).not.toBeNull();
+  expect(transactionSchema).not.toBeNull();
 });
 
 test("sample is valid", () => {
-  const isValid = validator(examplePropertyPack);
+  const isValid = validator(exampleTransaction);
   if (!isValid) console.log(validator.errors);
   expect(isValid).toBe(true);
 });
 
 test("invalid sample is invalid", () => {
-  const clonedExamplePropertyPack = JSON.parse(
-    JSON.stringify(examplePropertyPack)
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
   );
-  delete clonedExamplePropertyPack.propertyPack.materialFacts.notices;
-  const isValid = validator(clonedExamplePropertyPack);
+  delete clonedExampleTransaction.propertyPack.materialFacts.notices;
+  const isValid = validator(clonedExampleTransaction);
   expect(isValid).toBe(false);
 });
 
 test("sample with missing dependent required fields is invalid", () => {
-  const clonedExamplePropertyPack = JSON.parse(
-    JSON.stringify(examplePropertyPack)
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
   );
-  clonedExamplePropertyPack.propertyPack.materialFacts.ownership.ownershipType =
+  clonedExampleTransaction.propertyPack.materialFacts.ownership.ownershipType =
     "leashold";
-  const isValid = validator(clonedExamplePropertyPack);
+  const isValid = validator(clonedExampleTransaction);
   expect(isValid).toBe(false);
 });
 
@@ -56,9 +56,7 @@ test("correctly gets a subschema through an arrays element", () => {
 });
 
 test("correctly gets another subschema through an arrays element", () => {
-  const subschema = getSubschema(
-    "/propertyPack/sellers/sellerInformation/0/name/firstName"
-  );
+  const subschema = getSubschema("/participants/0/name/firstName");
   expect(subschema.title).toBe("First name");
 });
 
@@ -76,7 +74,7 @@ test("correctly gets a subschema validator which is already cached", () => {
 test("correctly gets a subschema validator which validates", () => {
   const path = "/propertyPack/materialFacts/notices";
   const validator = getSubschemaValidator(path);
-  const data = jp.get(examplePropertyPack, path);
+  const data = jp.get(exampleTransaction, path);
   expect(data.neighbourDevelopment.yesNo).toBe("No");
   let isValid = validator(data);
   expect(isValid).toBe(true);
@@ -88,51 +86,48 @@ test("correctly gets a subschema validator which validates", () => {
 test("correctly gets titles across schemas, arrays and non-existient title properties", () => {
   expect(
     getTitleAtPath(
-      propertyPackSchema,
+      transactionSchema,
       "/propertyPack/materialFacts/ownership/ownershipType"
     )
   ).toBe("What type of ownership is the property?");
   expect(
     getTitleAtPath(
-      propertyPackSchema,
+      transactionSchema,
       "/propertyPack/materialFacts/ownership/leaseholdDetails/lengthOfLeaseInYears"
     )
   ).toBe("Length of lease (years)");
   expect(
     getTitleAtPath(
-      propertyPackSchema,
+      transactionSchema,
       "/propertyPack/materialFacts/ownership/managedFreeholdOrCommonhold/annualServiceCharge"
     )
   ).toBe(
     "Amount of current annual service charge/estate rentcharge/maintenance contribution (£)"
   );
   expect(
-    getTitleAtPath(
-      propertyPackSchema,
-      "/propertyPack/materialFacts/invalidPath"
-    )
+    getTitleAtPath(transactionSchema, "/propertyPack/materialFacts/invalidPath")
   ).toBe(undefined);
   expect(
     getTitleAtPath(
-      propertyPackSchema,
+      transactionSchema,
       "/propertyPack/titlesToBeSold/0/registerExtract"
     )
   ).toBe("HMLR Official Copy Register Extract");
   expect(
     getTitleAtPath(
-      propertyPackSchema,
+      transactionSchema,
       "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/PropertyAddress"
     )
   ).toBe("Property address");
   expect(
     getTitleAtPath(
-      propertyPackSchema,
+      transactionSchema,
       "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/InvalidProp"
     )
   ).toBe(undefined);
   expect(
     getTitleAtPath(
-      propertyPackSchema,
+      transactionSchema,
       "/propertyPack/energyPerformanceCertificate/certificate/currentEnergyRating"
     )
   ).toBe("Current energy rating");

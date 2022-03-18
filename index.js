@@ -2,7 +2,7 @@ const { dereference } = require("@jdw/jst");
 const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
 
-const propertyPack = require("./src/schemas/property-pack.json");
+const pdtfTransaction = require("./src/schemas/pdtf-transaction.json");
 const baspiMaterialFacts = require("./src/schemas/baspi-a-material-facts.json");
 const baspiLegalInformation = require("./src/schemas/baspi-b-legal-information.json");
 const energyPerformanceCertificate = require("./src/schemas/energy-performance-certificate.json");
@@ -21,7 +21,7 @@ const subSchemas = {
   "https://homebuyingandsellinggroup.co.uk/schemas/title-deed.json": titleDeed,
 };
 
-const propertyPackSchema = dereference(propertyPack, (id) => subSchemas[id]);
+const transactionSchema = dereference(pdtfTransaction, (id) => subSchemas[id]);
 
 const ajv = new Ajv({
   allErrors: true,
@@ -31,17 +31,17 @@ const ajv = new Ajv({
 // Adds date formats among other types to the validator.
 addFormats(ajv);
 
-const validator = ajv.compile(propertyPackSchema);
+const validator = ajv.compile(transactionSchema);
 
 const getSubschema = (path) => {
   const pathArray = path.split("/").slice(1);
   if (pathArray.length < 1) {
-    return propertyPackSchema;
+    return transactionSchema;
   }
   return pathArray.reduce((schema, pathElement) => {
     if (schema.type === "array") return schema.items;
     return schema.properties[pathElement];
-  }, propertyPackSchema);
+  }, transactionSchema);
 };
 
 const getSubschemaValidator = (path) => {
@@ -100,7 +100,7 @@ const getTitleAtPath = (schema, path, rootPath = path) => {
 };
 
 module.exports = {
-  propertyPackSchema,
+  transactionSchema,
   validator,
   getSubschema,
   getSubschemaValidator,
