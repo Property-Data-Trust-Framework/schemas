@@ -4,8 +4,11 @@
   "type": "object",
   "title": "Property Data Trust Framework Transaction Schema",
   "description": "A schema defining the PDTF transaction data structure, supporting mapping to BASPI, Law Society and RICS Data Schema elements.",
-  "required": ["transactionId", "participants", "propertyPack"],
+  "required": ["$schema", "transactionId", "participants", "propertyPack"],
   "properties": {
+    "$schema": {
+      "type": "string"
+    },
     "transactionId": {
       "title": "UUID for the transaction",
       "type": "string",
@@ -30,19 +33,18 @@
           "name": {
             "title": "",
             "type": "object",
-            "required": ["firstName", "lastName"],
+            "required": ["forenames", "surname"],
             "properties": {
-              "firstName": {
-                "RDSRef": "",
-                "title": "First name",
+              "forenames": {
+                "title": "Forenames",
                 "type": "string"
               },
-              "middleNames": {
-                "title": "Middle name(s)",
+              "preferredName": {
+                "title": "Preferred name / known as",
                 "type": "string"
               },
-              "lastName": {
-                "title": "Last name",
+              "surname": {
+                "title": "Surname",
                 "type": "string"
               }
             }
@@ -79,6 +81,7 @@
             "enum": [
               "Seller",
               "Seller's Conveyancer",
+              "Prospective Buyer",
               "Buyer",
               "Buyer's Conveyancer",
               "Estate Agent"
@@ -130,6 +133,97 @@
           "RDSRef": "",
           "title": "Energy Performance Certificate",
           "$ref": "https://homebuyingandsellinggroup.co.uk/schemas/energy-performance-certificate.json"
+        },
+        "risks": {
+          "RDSRef": "",
+          "title": "Risks",
+          "type": "object",
+          "properties": {
+            "coalMining": {
+              "title": "Coal mining",
+              "$ref": "#/$defs/riskIndicatorAndSearch"
+            },
+            "flood": {
+              "title": "Flood",
+              "$ref": "#/$defs/riskIndicatorAndSearch"
+            },
+            "miningAndGroundStability": {
+              "title": "Mining and ground stability",
+              "type": "object",
+              "properties": {
+                "bathStone": {
+                  "title": "Bath Stone",
+                  "$ref": "#/$defs/riskIndicatorAndSearch"
+                },
+                "metalliferousTin": {
+                  "title": "Matalliferous (Tin)",
+                  "$ref": "#/$defs/riskIndicatorAndSearch"
+                },
+                "kaolinAndBallClay": {
+                  "title": "Kaolin and ball clay",
+                  "$ref": "#/$defs/riskIndicatorAndSearch"
+                },
+                "limestone": {
+                  "title": "Limestone",
+                  "$ref": "#/$defs/riskIndicatorAndSearch"
+                },
+                "brine": {
+                  "title": "Brine",
+                  "$ref": "#/$defs/riskIndicatorAndSearch"
+                },
+                "groundStability": {
+                  "title": "Ground stability",
+                  "$ref": "#/$defs/riskIndicatorAndSearch"
+                },
+                "nonCoalMining": {
+                  "title": "Non coal mining",
+                  "$ref": "#/$defs/riskIndicatorAndSearch"
+                },
+                "groundMovement": {
+                  "title": "Ground movement",
+                  "$ref": "#/$defs/riskIndicatorAndSearch"
+                },
+                "mineral": {
+                  "title": "Mineral",
+                  "$ref": "#/$defs/riskIndicatorAndSearch"
+                }
+              }
+            },
+            "energyAndInfrastructure": {
+              "title": "Energy and infrastructure",
+              "type": "object",
+              "properties": {
+                "hs2": {
+                  "title": "HS2",
+                  "$ref": "#/$defs/riskIndicatorAndSearch"
+                },
+                "crossrail": {
+                  "title": "Crossrail",
+                  "$ref": "#/$defs/riskIndicatorAndSearch"
+                },
+                "londonUnderground": {
+                  "title": "London Underground",
+                  "$ref": "#/$defs/riskIndicatorAndSearch"
+                },
+                "energyExploration": {
+                  "title": "Energy exploration",
+                  "$ref": "#/$defs/riskIndicatorAndSearch"
+                },
+                "windFarms": {
+                  "title": "Wind farms",
+                  "$ref": "#/$defs/riskIndicatorAndSearch"
+                },
+                "solarFarms": {
+                  "title": "Solar farms",
+                  "$ref": "#/$defs/riskIndicatorAndSearch"
+                },
+                "renewablePowerPlants": {
+                  "title": "Renewable power plants",
+                  "$ref": "#/$defs/riskIndicatorAndSearch"
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -159,6 +253,17 @@
           "title": "Postcode",
           "type": "string",
           "minLength": 1
+        }
+      },
+      "required": ["address1", "postcode"]
+    },
+    "riskIndicatorAndSearch": {
+      "type": "object",
+      "properties": {
+        "hasRisk": {
+          "title": "",
+          "type": "string",
+          "enum": ["Yes", "No"]
         }
       },
       "required": ["address1", "postcode"]
