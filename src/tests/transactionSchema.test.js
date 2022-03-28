@@ -4,6 +4,7 @@ const {
   transactionSchema,
   validator,
   getSubschema,
+  isPathValid,
   getSubschemaValidator,
   getTitleAtPath,
 } = require("../../index.js");
@@ -41,6 +42,26 @@ test("sample with missing dependent required fields is invalid", () => {
 test("correctly gets a top level subschema", () => {
   const subschema = getSubschema("/propertyPack");
   expect(subschema.title).toBe("Property Pack");
+});
+
+test("correctly identifies a valid path", () => {
+  const isValid = isPathValid("/propertyPack/materialFacts");
+  expect(isValid).toBe(true);
+});
+
+test("correctly identifies an undefined invalid path", () => {
+  const isValid = isPathValid("/propertyPack/materialItems");
+  expect(isValid).toBe(false);
+});
+
+test("correctly identifies an error generating invalid path", () => {
+  const isValid = isPathValid("/propertyPack/materialItems/someProperty/item");
+  expect(isValid).toBe(false);
+});
+
+test("correctly identifies an array invalid path", () => {
+  const isValid = isPathValid("/propertyPack/materialFacts/1/item");
+  expect(isValid).toBe(false);
 });
 
 test("correctly gets a subschema", () => {

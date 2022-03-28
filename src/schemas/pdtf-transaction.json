@@ -4,7 +4,13 @@
   "type": "object",
   "title": "Property Data Trust Framework Transaction Schema",
   "description": "A schema defining the PDTF transaction data structure, supporting mapping to BASPI, Law Society and RICS Data Schema elements.",
-  "required": ["$schema", "transactionId", "participants", "propertyPack"],
+  "required": [
+    "$schema",
+    "transactionId",
+    "status",
+    "participants",
+    "propertyPack"
+  ],
   "properties": {
     "$schema": {
       "type": "string"
@@ -14,6 +20,10 @@
       "type": "string",
       "format": "uuid"
     },
+    "status": {
+      "type": "string",
+      "enum": ["active", "cancelled", "completed"]
+    },
     "participants": {
       "title": "Transaction participants",
       "type": "array",
@@ -21,14 +31,7 @@
       "items": {
         "type": "object",
         "title": "Participant Details",
-        "required": [
-          "name",
-          "dateOfBirth",
-          "phone",
-          "email",
-          "address",
-          "role"
-        ],
+        "required": ["name", "email", "role"],
         "properties": {
           "name": {
             "title": "",

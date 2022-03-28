@@ -44,6 +44,13 @@ const getSubschema = (path) => {
   }, transactionSchema);
 };
 
+const isPathValid = (path) => {
+  try {
+    return getSubschema(path) !== undefined;
+  } catch (err) {
+    return false;
+  }
+};
 const getSubschemaValidator = (path) => {
   const subSchema = getSubschema(path);
   let validator = ajv.getSchema(path);
@@ -103,6 +110,7 @@ module.exports = {
   transactionSchema,
   validator,
   getSubschema,
+  isPathValid,
   getSubschemaValidator,
   getTitleAtPath,
   verifiedClaimsSchema,
