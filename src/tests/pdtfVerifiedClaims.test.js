@@ -29,6 +29,20 @@ test("valid documented vouch sample is valid", () => {
   expect(isValid).toBe(true);
 });
 
+test("sample with primitive claims value is valid", () => {
+  const clonedVouch = JSON.parse(JSON.stringify(exampleVouch));
+  clonedVouch.claims = { "/propertyPack/uprn": 123456 };
+  const isValid = validator({ verified_claims: clonedVouch });
+  expect(isValid).toBe(true);
+});
+
+test("sample with undefined claims value is also valid, but this would fail when the payload is validated", () => {
+  const clonedVouch = JSON.parse(JSON.stringify(exampleVouch));
+  clonedVouch.claims = { "/propertyPack/uprn": undefined };
+  const isValid = validator({ verified_claims: clonedVouch });
+  expect(isValid).toBe(true);
+});
+
 test("claim with missing claims is invalid", () => {
   const clonedVouch = JSON.parse(JSON.stringify(exampleVouch));
   delete clonedVouch.claims;

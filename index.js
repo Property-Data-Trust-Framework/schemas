@@ -11,14 +11,15 @@ const geoJson = require("./src/schemas/GeoJSON.json");
 const verifiedClaimsSchema = require("./src/schemas/pdtf-verified-claims.json");
 
 const subSchemas = {
-  "https://homebuyingandsellinggroup.co.uk/schemas/baspi-a-material-facts.json":
+  "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/baspi-a-material-facts.json":
     baspiMaterialFacts,
-  "https://homebuyingandsellinggroup.co.uk/schemas/baspi-b-legal-information.json":
+  "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/baspi-b-legal-information.json":
     baspiLegalInformation,
-  "https://homebuyingandsellinggroup.co.uk/schemas/energy-performance-certificate.json":
+  "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/energy-performance-certificate.json":
     energyPerformanceCertificate,
   "https://geojson.org/schema/GeoJSON.json": geoJson,
-  "https://homebuyingandsellinggroup.co.uk/schemas/title-deed.json": titleDeed,
+  "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/title-deed.json":
+    titleDeed,
 };
 
 const transactionSchema = dereference(pdtfTransaction, (id) => subSchemas[id]);
@@ -51,6 +52,7 @@ const isPathValid = (path) => {
     return false;
   }
 };
+
 const getSubschemaValidator = (path) => {
   const subSchema = getSubschema(path);
   let validator = ajv.getSchema(path);
