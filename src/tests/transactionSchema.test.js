@@ -77,8 +77,8 @@ test("correctly gets a subschema through an arrays element", () => {
 });
 
 test("correctly gets another subschema through an arrays element", () => {
-  const subschema = getSubschema("/participants/0/name/forenames");
-  expect(subschema.title).toBe("Forenames");
+  const subschema = getSubschema("/participants/0/name/firstName");
+  expect(subschema.title).toBe("First name");
 });
 
 test("correctly gets a subschema validator which is already cached", () => {
