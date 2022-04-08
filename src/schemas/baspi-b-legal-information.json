@@ -658,7 +658,8 @@
     "required": [
       "willRemoveAllRubbish",
       "otherPropertyInChain",
-      "moveRestrictionDates"
+      "moveRestrictionDates",
+      "digitalPropertyLogbook"
     ],
     "properties": {
       "willRemoveAllRubbish": {
@@ -758,6 +759,49 @@
                   }
                 },
                 "required": ["restrictedDates"]
+              }
+            ]
+          }
+        }
+      },
+      "digitalPropertyLogbook": {
+        "baspiRef": "B7.5",
+        "RDSRef": "",
+        "title": "Do you have a Digital Property Logbook?",
+        "description": "See https://www.rlba.org.uk/what-is-a-property-logbook? [NOTE: If you do not, check if you have documents form when you bought your property provided by your property lawyer at the time.  It is recommended that you provide your property lawyer with access to avoid duplication and delays]",
+        "type": "object",
+        "properties": {
+          "yesNo": {
+            "type": "string",
+            "title": "",
+            "enum": ["No", "Yes"]
+          }
+        },
+        "required": ["yesNo"],
+        "dependencies": {
+          "yesNo": {
+            "oneOf": [
+              {
+                "properties": {
+                  "yesNo": {
+                    "enum": ["No"]
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "properties": {
+                  "yesNo": {
+                    "enum": ["Yes"]
+                  },
+                  "willHandoverLogbook": {
+                    "title": "Please confirm that on completion you will provide the buyer with the login and password to the Property Logbook.",
+                    "description": "[NOTE: It is recommended that you reset the password before handing it over to avoid security issues by passing on your own password.]",
+                    "type": "boolean",
+                    "const": true
+                  }
+                },
+                "required": ["willHandoverLogbook"]
               }
             ]
           }

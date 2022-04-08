@@ -12,7 +12,7 @@
     "ownership",
     "parking",
     "listingAndConservation",
-    "flammableExternalWallSystem",
+    "typeOfConstruction",
     "energyEfficiency",
     "councilTax",
     "disputesAndComplaints",
@@ -401,12 +401,18 @@
         }
       }
     },
-    "flammableExternalWallSystem": {
-      "baspiRef": "A1.8.2",
-      "RDSRef": "Property/Flags,Certificates",
+    "typeOfConstruction": {
+      "baspiRef": "1.8",
+      "title": "Type of Construction",
       "type": "object",
-      "required": ["hasFlammableExternalWallSystem"],
+      "required": ["isStandardForm", "hasFlammableExternalWallSystem"],
       "properties": {
+        "isStandardForm": {
+          "baspiRef": "A1.8.1",
+          "RDSRef": "Buildings,BuildingSections/ConstructionType,ConstructionMaterials",
+          "title": "Is the property built in a standard form of construction? E.g. brick and/or block with timber-supported roof comprising a tile or slate cover?",
+          "$ref": "#/$defs/yesNoDetailIfNo"
+        },
         "hasFlammableExternalWallSystem": {
           "baspiRef": "A2.1",
           "RDSRef": "Tenure/DisputesComplaints,Tenure/LegalClaims",
@@ -422,18 +428,25 @@
       }
     },
     "energyEfficiency": {
-      "baspiRef": "1.8.3",
       "RDSRef": "Certificates/{category='energyEfficiency',standard='EPC',gradeLevelRating=?},Certificates/{category='energyEfficiency',standard='EPC',status='exempt'},",
       "lawSocietyRef": "TA6/7.6",
       "title": "Energy Efficiency",
       "type": "object",
-      "required": ["energyEfficiencyRating"],
+      "required": ["energyEfficiencyRating", "hasSprayFoamInstalled"],
       "properties": {
         "energyEfficiencyRating": {
+          "baspiRef": "1.8.3",
           "title": "Energy Efficiency Rating",
           "description": "What is the energy efficiency rating of the property according to the latest Energy Performance Certificate (EPC)?",
           "type": "string",
           "enum": ["A", "B", "C", "D", "E", "F", "G", "Exempt Property"]
+        },
+        "hasSprayFoamInstalled": {
+          "baspiRef": "A1.8.4",
+          "RDSRef": "",
+          "title": "Has spray foam insulation been installed at the property?",
+          "$ref": "#/$defs/yesNoDetailIfYes",
+          "description": "If yes, please give details together with certification from BBA or KIWA and the installation warranty for the work carried out."
         }
       }
     },
