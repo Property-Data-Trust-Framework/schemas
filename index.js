@@ -108,6 +108,34 @@ const getTitleAtPath = (schema, path, rootPath = path) => {
   }
 };
 
+const validateVerifiedClaims = (verifiedClaimsArray) => {
+  const validationErrorsArr = [];
+  const vClaimSchValidation = validateVClaim({
+    verified_claims: verifiedClaimsArray,
+  });
+
+  if (!vClaimSchValidation) {
+    validationErrorsArr.push(validateVClaim.errors);
+  }
+
+  verifiedClaimsArray.forEach((claim) => {
+    const [path] = Object.keys(claim.claims);
+
+    const validPath = isPathValid(path);
+    if (validPath) {
+      const validator = getSubschemaValidator(path);
+      const isValid = validator(claim.claims[path]);
+      if (!isValid) {
+        validationErrorsArr.push(JSON.stringify(validator.errors));
+      }
+    } else {
+      validationErrorsArr.push(`Path ${path} is not a valid PDTF schema path`);
+    }
+  });
+  return validationErrorsArr;
+};
+
+
 module.exports = {
   transactionSchema,
   validator,
@@ -116,4 +144,5 @@ module.exports = {
   getSubschemaValidator,
   getTitleAtPath,
   verifiedClaimsSchema,
+  validateVerifiedClaims
 };
