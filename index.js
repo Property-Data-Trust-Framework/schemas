@@ -40,6 +40,16 @@ const getSubschema = (path) => {
     return transactionSchema;
   }
   return pathArray.reduce((schema, pathElement) => {
+    const dependencies = schema.dependencies;
+    if (dependencies) {
+      // only single dependency discriminator, oneOf keyword is supported
+      const dependencyDiscriminator = Object.keys(dependencies)[0];
+      const oneOfs = dependencies[dependencyDiscriminator].oneOf;
+      const matchingOneOf = oneOfs.find(
+        (oneOf) => oneOf["properties"][pathElement]
+      );
+      if (matchingOneOf) return matchingOneOf["properties"][pathElement];
+    }
     if (schema.type === "array") return schema.items;
     return schema.properties[pathElement];
   }, transactionSchema);

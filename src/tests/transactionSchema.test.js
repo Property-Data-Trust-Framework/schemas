@@ -81,6 +81,27 @@ test("correctly gets another subschema through an arrays element", () => {
   expect(subschema.title).toBe("First name");
 });
 
+test("correctly gets a subschema through a dependency", () => {
+  const subschema = getSubschema(
+    "/propertyPack/materialFacts/delayFactors/hasDelayFactors/details"
+  );
+  expect(subschema.title).toBe("Details");
+});
+
+test("correctly gets another subschema through a dependency", () => {
+  const subschema = getSubschema(
+    "/propertyPack/materialFacts/ownership/leaseholdDetails/lengthOfLeaseInYears"
+  );
+  expect(subschema.title).toBe("Length of lease (years)");
+});
+
+test("correctly gets yet another subschema through a dependency", () => {
+  const subschema = getSubschema(
+    "/propertyPack/materialFacts/ownership/leaseholdDetails/rentIncrease/details"
+  );
+  expect(subschema.title).toBe("Details");
+});
+
 test("correctly gets a subschema validator which is already cached", () => {
   const validator = getSubschemaValidator(
     "/propertyPack/energyPerformanceCertificate"
