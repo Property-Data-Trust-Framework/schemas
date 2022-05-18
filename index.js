@@ -40,6 +40,8 @@ const getSubschema = (path) => {
     return transactionSchema;
   }
   return pathArray.reduce((schema, pathElement) => {
+    if (schema.type === "array") return schema.items;
+    if (schema.properties[pathElement]) return schema.properties[pathElement];
     const dependencies = schema.dependencies;
     if (dependencies) {
       // only single dependency discriminator, oneOf keyword is supported
@@ -50,8 +52,7 @@ const getSubschema = (path) => {
       );
       if (matchingOneOf) return matchingOneOf["properties"][pathElement];
     }
-    if (schema.type === "array") return schema.items;
-    return schema.properties[pathElement];
+    return undefined;
   }, transactionSchema);
 };
 

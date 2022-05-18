@@ -102,6 +102,14 @@ test("correctly gets yet another subschema through a dependency", () => {
   expect(subschema.title).toBe("Details");
 });
 
+test("correctly gets yet, yet another subschema through a dependency", () => {
+  const subschema = getSubschema(
+    "/propertyPack/materialFacts/listingAndConservation/isConservationArea/yesNo"
+  );
+  expect(subschema.type).toBe("string");
+  expect(subschema.enum).toStrictEqual(["Yes", "No"]);
+});
+
 test("correctly gets a subschema validator which is already cached", () => {
   const validator = getSubschemaValidator(
     "/propertyPack/energyPerformanceCertificate"
