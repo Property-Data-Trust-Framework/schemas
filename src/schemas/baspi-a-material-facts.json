@@ -1005,90 +1005,89 @@
       "baspiRef": "A7.4",
       "RDSRef": "Buildings|BuildingSections/isUnheated=no|yes|true|false",
       "lawSocietyRef": "TA6/12.3",
+      "title": "Central Heating",
       "type": "object",
       "required": ["hasCentralHeating"],
       "properties": {
         "hasCentralHeating": {
           "title": "Is there full/partial central heating in your property?",
-          "yesNoCentralHeatingDetailIfYes": {
-            "type": "object",
-            "properties": {
-              "yesNo": {
-                "type": "string",
-                "title": "",
-                "enum": ["Yes", "No"]
-              }
+          "type": "string",
+          "enum": ["Yes", "No"]
+        }
+      },
+      "dependencies": {
+        "hasCentralHeating": {
+          "oneOf": [
+            {
+              "properties": {
+                "hasCentralHeating": {
+                  "enum": ["No"]
+                }
+              },
+              "additionalProperties": false
             },
-            "required": ["yesNo"],
-            "dependencies": {
-              "yesNo": {
-                "oneOf": [
-                  {
-                    "properties": {
-                      "yesNo": {
-                        "enum": ["No"]
-                      }
+            {
+              "properties": {
+                "hasCentralHeating": {
+                  "enum": ["Yes"]
+                },
+                "centralHeatingDetails": {
+                  "type": "object",
+                  "title": "Central Heating Details",
+                  "properties": {
+                    "centralHeatingFuel": {
+                      "baspiRef": "A7.5.1",
+                      "RDSRef": "Buildings|BuildingSections/Heating/isGas=no|yes|true|false",
+                      "lawSocietyRef": "TA6/12.3a",
+                      "title": "Please provide details of the type of fuel which the system and boiler runs on",
+                      "type": "string",
+                      "minLength": 1
                     },
-                    "additionalProperties": false
-                  },
-                  {
-                    "properties": {
-                      "yesNo": {
-                        "enum": ["Yes"]
-                      },
-                      "centralHeatingFuel": {
-                        "baspiRef": "A7.5.1",
-                        "RDSRef": "Buildings|BuildingSections/Heating/isGas=no|yes|true|false",
-                        "lawSocietyRef": "TA6/12.3a",
-                        "title": "Please provide details of the type of fuel which the system and boiler runs on",
-                        "type": "string",
-                        "minLength": 1
-                      },
-                      "centralHeatingInstalled": {
-                        "baspiRef": "A7.5.2",
-                        "RDSRef": "Objects/Installed",
-                        "lawSocietyRef": "TA6/12.3b",
-                        "title": "When was the heating system and boiler installed?",
-                        "type": "string",
-                        "format": "date"
-                      },
-                      "boilerInstallationCertificate": {
-                        "baspiRef": "A7.5.3",
-                        "RDSRef": "Objects/Installation,Objects/Certificates",
-                        "lawSocietyRef": "TA6/12.3b",
-                        "title": "Was a gas boiler installed after 1st April 2005, or a solid fuel or oil boiler installed after 1 October 2010?",
-                        "$ref": "#/$defs/yesNoDetailIfYes",
-                        "description": "If yes, please supply a copy of the installation completion certificate from a competent person qualified under the relevant self-certification scheme e.g. HETAS etc"
-                      },
-                      "heatingLastServiced": {
-                        "baspiRef": "A7.5.4",
-                        "RDSRef": "Objects/Maintenance",
-                        "lawSocietyRef": "TA6/12.3d",
-                        "title": "When was the heating system and boiler last serviced or maintained?",
-                        "type": "string",
-                        "format": "date"
-                      },
-                      "heatingServiceReport": {
-                        "baspiRef": "A7.5.5",
-                        "RDSRef": "Objects/Servicing",
-                        "lawSocietyRef": "TA6/12.3d",
-                        "title": "Please provide a copy of the service or maintenance works report",
-                        "type": "string"
-                      },
-                      "heatingInGoodWorkingOrder": {
-                        "baspiRef": "A7.5.6",
-                        "RDSRef": "Objects/Condition=?",
-                        "lawSocietyRef": "TA6/12.3c",
-                        "title": "Is the heating system in good working order to your satisfaction?",
-                        "$ref": "#/$defs/yesNoDetailIfNo",
-                        "description": "If 'No' please provide details"
-                      }
+                    "centralHeatingInstalled": {
+                      "baspiRef": "A7.5.2",
+                      "RDSRef": "Objects/Installed",
+                      "lawSocietyRef": "TA6/12.3b",
+                      "title": "When was the heating system and boiler installed?",
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "boilerInstallationCertificate": {
+                      "baspiRef": "A7.5.3",
+                      "RDSRef": "Objects/Installation,Objects/Certificates",
+                      "lawSocietyRef": "TA6/12.3b",
+                      "title": "Was a gas boiler installed after 1st April 2005, or a solid fuel or oil boiler installed after 1 October 2010?",
+                      "$ref": "#/$defs/yesNoDetailIfYes",
+                      "description": "If yes, please supply a copy of the installation completion certificate from a competent person qualified under the relevant self-certification scheme e.g. HETAS etc"
+                    },
+                    "heatingLastServiced": {
+                      "baspiRef": "A7.5.4",
+                      "RDSRef": "Objects/Maintenance",
+                      "lawSocietyRef": "TA6/12.3d",
+                      "title": "When was the heating system and boiler last serviced or maintained? Please provide a copy of the service or maintenance works report ",
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "heatingInGoodWorkingOrder": {
+                      "baspiRef": "A7.5.6",
+                      "RDSRef": "Objects/Condition=?",
+                      "lawSocietyRef": "TA6/12.3c",
+                      "title": "Is the heating system in good working order to your satisfaction?",
+                      "$ref": "#/$defs/yesNoDetailIfNo",
+                      "description": "If 'No' please provide details"
                     }
-                  }
-                ]
-              }
+                  },
+                  "required": [
+                    "centralHeatingFuel",
+                    "centralHeatingInstalled",
+                    "boilerInstallationCertificate",
+                    "heatingLastServiced",
+                    "heatingInGoodWorkingOrder"
+                  ]
+                }
+              },
+              "required": ["centralHeatingDetails"]
             }
-          }
+          ]
         }
       }
     },
