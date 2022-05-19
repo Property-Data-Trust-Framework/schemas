@@ -7,6 +7,7 @@ const {
   isPathValid,
   getSubschemaValidator,
   getTitleAtPath,
+  validateVerifiedClaims
 } = require("../../index.js");
 const exampleTransaction = require("../examples/exampleTransaction.json");
 
@@ -181,4 +182,210 @@ test("correctly gets titles across schemas, arrays and non-existient title prope
       "/propertyPack/energyPerformanceCertificate/certificate/currentEnergyRating"
     )
   ).toBe("Current energy rating");
+});
+
+test("returns an array with an error stating if path is incorrect", () => {
+  const vClaims = [
+    {
+      verification: {
+        trust_framework: "uk_pdtf",
+        time: "2022-01-25T13:16:44.527Z",
+        evidence: [
+          {
+            verification_method: {
+              type: "auth",
+            },
+            type: "vouch",
+            attestation: {
+              voucher: {
+                name: "Maria Harris",
+              },
+              type: "digital_attestation",
+            },
+          },
+          {
+            type: "document",
+            attachments: [
+              {
+                digest: {
+                  alg: "md5",
+                  value: "randomHashValue",
+                },
+                url: "https://fakeFileStore.com/some/kind/of/file",
+                desc: "proofOfAddress.pdf",
+              },
+            ],
+          },
+        ],
+      },
+      claims: {
+        "/propertyPack/INVALID/materialFacts/councilTax": {
+          councilTaxBand: "D",
+          councilTaxAffectingAlterations: {
+            yesNo: "Yes",
+            details:
+              "Extension added in 2005 to add bedroom with ensuite shower room. Certificate of Compliance issued 17th Feb 2006 and council tax updated",
+          },
+        },
+      },
+    },
+  ];
+  expect(validateVerifiedClaims(vClaims)).toEqual([
+    "Path /propertyPack/INVALID/materialFacts/councilTax is not a valid PDTF schema path",
+  ]);
+});
+
+test("returns an empty array if path is correct", () => {
+  const vClaims = [
+    {
+      verification: {
+        trust_framework: "uk_pdtf",
+        time: "2022-01-25T13:16:44.527Z",
+        evidence: [
+          {
+            verification_method: {
+              type: "auth",
+            },
+            type: "vouch",
+            attestation: {
+              voucher: {
+                name: "Maria Harris",
+              },
+              type: "digital_attestation",
+            },
+          },
+          {
+            type: "document",
+            attachments: [
+              {
+                digest: {
+                  alg: "md5",
+                  value: "randomHashValue",
+                },
+                url: "https://fakeFileStore.com/some/kind/of/file",
+                desc: "proofOfAddress.pdf",
+              },
+            ],
+          },
+        ],
+      },
+      claims: {
+        "/propertyPack/materialFacts/councilTax": {
+          councilTaxBand: "D",
+          councilTaxAffectingAlterations: {
+            yesNo: "Yes",
+            details:
+              "Extension added in 2005 to add bedroom with ensuite shower room. Certificate of Compliance issued 17th Feb 2006 and council tax updated",
+          },
+        },
+      },
+    },
+  ];
+  expect(validateVerifiedClaims(vClaims)).toEqual([]);
+});
+
+test("returns an array of errors if data in the path is in invalid format", () => {
+  const vClaims = [
+    {
+      verification: {
+        trust_framework: "uk_pdtf",
+        time: "2022-01-25T13:16:44.527Z",
+        evidence: [
+          {
+            verification_method: {
+              type: "auth",
+            },
+            type: "vouch",
+            attestation: {
+              voucher: {
+                name: "Maria Harris",
+              },
+              type: "digital_attestation",
+            },
+          },
+          {
+            type: "document",
+            attachments: [
+              {
+                digest: {
+                  alg: "md5",
+                  value: "randomHashValue",
+                },
+                url: "https://fakeFileStore.com/some/kind/of/file",
+                desc: "proofOfAddress.pdf",
+              },
+            ],
+          },
+        ],
+      },
+      claims: {
+        "/propertyPack/materialFacts/councilTax": {
+          councilTaxBand: "D",
+          councilTaxAffectingAlterationsINVALID: {
+            yesNo: "Yes",
+            details:
+              "Extension added in 2005 to add bedroom with ensuite shower room. Certificate of Compliance issued 17th Feb 2006 and council tax updated",
+          },
+        },
+      },
+    },
+  ];
+  expect(validateVerifiedClaims(vClaims)).toEqual([
+    {
+      instancePath: "",
+      schemaPath: "#/required",
+      keyword: "required",
+      params: { missingProperty: "councilTaxAffectingAlterations" },
+      message: "must have required property 'councilTaxAffectingAlterations'",
+    },
+  ]);
+});
+
+test("returns an empty array of errors if data in the path is in valid format", () => {
+  const vClaims = [
+    {
+      verification: {
+        trust_framework: "uk_pdtf",
+        time: "2022-01-25T13:16:44.527Z",
+        evidence: [
+          {
+            verification_method: {
+              type: "auth",
+            },
+            type: "vouch",
+            attestation: {
+              voucher: {
+                name: "Maria Harris",
+              },
+              type: "digital_attestation",
+            },
+          },
+          {
+            type: "document",
+            attachments: [
+              {
+                digest: {
+                  alg: "md5",
+                  value: "randomHashValue",
+                },
+                url: "https://fakeFileStore.com/some/kind/of/file",
+                desc: "proofOfAddress.pdf",
+              },
+            ],
+          },
+        ],
+      },
+      claims: {
+        "/propertyPack/materialFacts/councilTax": {
+          councilTaxBand: "D",
+          councilTaxAffectingAlterations: {
+            yesNo: "Yes",
+            details:
+              "Extension added in 2005 to add bedroom with ensuite shower room. Certificate of Compliance issued 17th Feb 2006 and council tax updated",
+          },
+        },
+      },
+    },
+  ];
+  expect(validateVerifiedClaims(vClaims)).toEqual([]);
 });
