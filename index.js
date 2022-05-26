@@ -120,8 +120,7 @@ const getTitleAtPath = (schema, path, rootPath = path) => {
 };
 
 const validateVerifiedClaims = (verifiedClaimsArray) => {
-
-const validatorVClaims = ajv.compile(verifiedClaimsSchema);
+  const validatorVClaims = ajv.compile(verifiedClaimsSchema);
 
   const validationErrorsArr = [];
   const vClaimSchValidation = validatorVClaims({
@@ -133,22 +132,27 @@ const validatorVClaims = ajv.compile(verifiedClaimsSchema);
   }
 
   verifiedClaimsArray.forEach((claim) => {
-    const [path] = Object.keys(claim.claims);
+    const paths = Object.keys(claim.claims);
 
-    const validPath = isPathValid(path);
-    if (validPath) {
-      const subValidator = getSubschemaValidator(path);
-      const isValid = subValidator(claim.claims[path]);
-      if (!isValid) {
-        validationErrorsArr.push(...subValidator.errors);
+    for (const path of paths) {
+      const validPath = isPathValid(path);
+      if (validPath) {
+        const subValidator = getSubschemaValidator(path);
+        const isValid = subValidator(claim.claims[path]);
+        if (!isValid) {
+          validationErrorsArr.push(...subValidator.errors);
+        }
+      } else {
+        validationErrorsArr.push(
+          `Path ${path} is not a valid PDTF schema path`
+        );
       }
-    } else {
-      validationErrorsArr.push(`Path ${path} is not a valid PDTF schema path`);
     }
   });
 
   return validationErrorsArr;
 };
+
 
 
 module.exports = {
