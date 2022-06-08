@@ -119,17 +119,21 @@ const getTitleAtPath = (schema, path, rootPath = path) => {
   }
 };
 
-const validateVerifiedClaims = (verifiedClaimsArray) => {
+const validateVerifiedClaims = (verifiedClaims) => {
   const validatorVClaims = ajv.compile(verifiedClaimsSchema);
 
   const validationErrorsArr = [];
   const vClaimSchValidation = validatorVClaims({
-    verified_claims: verifiedClaimsArray,
+    verified_claims: verifiedClaims,
   });
 
   if (!vClaimSchValidation) {
     validationErrorsArr.push(validatorVClaims.errors);
   }
+
+  const verifiedClaimsArray = Array.isArray(verifiedClaims)
+    ? verifiedClaims
+    : [verifiedClaims];
 
   verifiedClaimsArray.forEach((claim) => {
     const paths = Object.keys(claim.claims);
@@ -153,8 +157,6 @@ const validateVerifiedClaims = (verifiedClaimsArray) => {
   return validationErrorsArr;
 };
 
-
-
 module.exports = {
   transactionSchema,
   validator,
@@ -163,5 +165,5 @@ module.exports = {
   getSubschemaValidator,
   getTitleAtPath,
   verifiedClaimsSchema,
-  validateVerifiedClaims
+  validateVerifiedClaims,
 };
