@@ -792,7 +792,7 @@
             "yesNo": {
               "type": "string",
               "title": "",
-              "enum": ["Yes", "No"]
+              "enum": ["Yes", "To be connected", "No"]
             }
           },
           "dependencies": {
@@ -887,11 +887,6 @@
                     "yesNo": {
                       "enum": ["Yes"]
                     },
-                    "connected": {
-                      "title": "Connected (Yes, No or Date to be connected)",
-                      "type": "string",
-                      "minLength": 1
-                    },
                     "supplier": {
                       "title": "Supplier (if known)",
                       "type": "string",
@@ -902,7 +897,30 @@
                       "$ref": "#/$defs/yesNoDetailIfYes"
                     }
                   },
-                  "required": ["connected", "maintenanceAgreements"]
+                  "required": ["maintenanceAgreements"]
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": ["To be connected"]
+                    },
+                    "dateToBeConnected": {
+                      "title": "Date to be connected",
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "supplier": {
+                      "title": "Supplier (if known)",
+                      "type": "string"
+                    },
+                    "maintenanceAgreements": {
+                      "BASPIRef": "A7.2",
+                      "RDSRef": "Services/Certificates,Services/OtherServices/Certificates",
+                      "title": "Do you have any licences, maintenance agreements, contracts or service agreements in relation to this service?",
+                      "$ref": "#/$defs/yesNoDetailIfYes"
+                    }
+                  },
+                  "required": ["dateToBeConnected", "maintenanceAgreements"]
                 }
               ]
             }
@@ -1529,7 +1547,7 @@
                   "$ref": "#/$defs/yesNoDetailIfYes"
                 }
               },
-              "required": ["connected"]
+              "required": ["maintenanceAgreements"]
             },
             {
               "properties": {
@@ -1552,7 +1570,7 @@
                   "$ref": "#/$defs/yesNoDetailIfYes"
                 }
               },
-              "required": ["dateToBeConnected"]
+              "required": ["dateToBeConnected", "maintenanceAgreements"]
             }
           ]
         }
