@@ -372,7 +372,8 @@
                     "yesNo": {
                       "enum": ["No"]
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 },
                 {
                   "properties": {
@@ -545,7 +546,8 @@
                     "yesNo": {
                       "enum": ["No"]
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 },
                 {
                   "properties": {
@@ -593,7 +595,8 @@
                     "yesNo": {
                       "enum": ["No"]
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 },
                 {
                   "properties": {
@@ -709,7 +712,7 @@
         "containsAsbestos": {
           "baspiRef": "A5.2",
           "RDSRef": "Property/Flags,BuildingSections/EnvironmentalIssues",
-          "title": "To your knowledge, does any part of your property contain Asbestos?",
+          "title": "To your knowledge, does any part of your property contain asbestos?",
           "$ref": "#/$defs/yesNoDetailIfYes",
           "description": "If yes, please state whether there is a management plan in place and attach a copy"
         },
@@ -717,7 +720,8 @@
           "baspiRef": "A5.3",
           "RDSRef": "Property/Flags,BuildingSections/EnvironmentalIssues,Use/EnvironmentalIssues",
           "lawSocietyRef": "TA6/7.8",
-          "title": "To your knowledge, is the property or neighbouring land, affected by Japanese knotweed or other invasive species?  please state whether there is a management plan in place and supply a copy with this form",
+          "title": "To your knowledge, is the property or neighbouring land, affected by Japanese knotweed or other invasive species?",
+          "description": "If so please state whether there is a management plan in place and attach a copy",
           "$ref": "#/$defs/yesNoDetailIfYes"
         },
         "subsidenceOrStructuralFault": {
@@ -738,7 +742,7 @@
       "baspiRef": "A6",
       "lawSocietyRef": "TA10",
       "title": "Fixtures and Fittings",
-      "description": "NOTE:  This is so a buyer's offer can take into account whether you are taking something of value or leaving extra items.  A full list will need to be completed after the sale is agreed.",
+      "description": "This is so a buyer's offer can take into account whether you are taking something of value or leaving extra items.  A full list will need to be completed after the sale is agreed.",
       "type": "object",
       "required": ["itemsToRemove", "itemsToInclude"],
       "properties": {
@@ -860,26 +864,64 @@
                       "baspiRef": "A7.2.8",
                       "RDSRef": "Services/OtherServices/{isExternallyConnected='yes?true'}",
                       "title": "Does the septic tank, cesspit or sewerage treatment plant drain into a waterway (lake, river, stream etc)",
-                      "type": "string",
-                      "enum": [
-                        "Yes",
-                        "No, the effluent is discharged through a soakaway system."
-                      ]
-                    },
-                    "dischageCompliesWithGBR": {
-                      "baspiRef": "A7.2.9",
-                      "RDSRef": "Services/OtherServices/ExternalConnections/Flags",
-                      "title": "If Yes, does it comply with the General Binding Rules for discharge into a waterway.  [NOTE: you can see the rules here.]",
-                      "type": "string",
-                      "enum": [
-                        "Yes",
-                        "No, it does not comply with the rules for discharge into a waterway."
-                      ]
+                      "type": "object",
+                      "properties": {
+                        "yesNo": {
+                          "type": "string",
+                          "title": "",
+                          "enum": [
+                            "Yes",
+                            "No, the effluent is discharged through a soakaway system."
+                          ]
+                        }
+                      },
+                      "required": ["yesNo"],
+                      "dependencies": {
+                        "yesNo": {
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No, the effluent is discharged through a soakaway system."
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": ["Yes"]
+                                },
+                                "dischargeCompliesWithGBR": {
+                                  "baspiRef": "A7.2.9",
+                                  "RDSRef": "Services/OtherServices/ExternalConnections/Flags",
+                                  "title": "Does it comply with the General Binding Rules for discharge into a waterway?",
+                                  "type": "string",
+                                  "enum": [
+                                    "Yes",
+                                    "No, it does not comply with the rules for discharge into a waterway."
+                                  ]
+                                }
+                              },
+                              "required": ["dischargeCompliesWithGBR"]
+                            }
+                          ]
+                        }
+                      }
                     }
                   },
+                  "additionalProperties": false,
                   "required": [
-                    "plantDrainsIntoWaterway",
-                    "dischageCompliesWithGBR"
+                    "sustainableDrainageSystem",
+                    "septicTank",
+                    "cesspit",
+                    "sewerageTreatmentPlant",
+                    "otherConnectedProperties",
+                    "plantOnOtherLand",
+                    "plantRegistered",
+                    "plantDrainsIntoWaterway"
                   ]
                 },
                 {
@@ -897,6 +939,7 @@
                       "$ref": "#/$defs/yesNoDetailIfYes"
                     }
                   },
+                  "additionalProperties": false,
                   "required": ["maintenanceAgreements"]
                 },
                 {
@@ -920,6 +963,7 @@
                       "$ref": "#/$defs/yesNoDetailIfYes"
                     }
                   },
+                  "additionalProperties": false,
                   "required": ["dateToBeConnected", "maintenanceAgreements"]
                 }
               ]
@@ -1057,9 +1101,44 @@
                       "baspiRef": "A7.5.1",
                       "RDSRef": "Buildings|BuildingSections/Heating/isGas=no|yes|true|false",
                       "lawSocietyRef": "TA6/12.3a",
-                      "title": "Please provide details of the type of fuel which the system and boiler runs on",
-                      "type": "string",
-                      "minLength": 1
+                      "type": "object",
+                      "title": "Central Heating Fuel",
+                      "required": ["centralHeatingFuelType"],
+                      "properties": {
+                        "centralHeatingFuelType": {
+                          "baspiRef": "A1.6.1",
+                          "title": "What type of fuel does the system and boiler run on?",
+                          "type": "string",
+                          "enum": ["Gas", "Electricity", "Oil", "LPG", "Other"]
+                        }
+                      },
+                      "dependencies": {
+                        "centralHeatingFuelType": {
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "centralHeatingFuelType": {
+                                  "enum": ["Gas", "Electricity", "Oil", "LPG"]
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            {
+                              "properties": {
+                                "centralHeatingFuelType": {
+                                  "enum": ["Other"]
+                                },
+                                "otherCentralHeatingFuelType": {
+                                  "title": "Please describe the other fuel type",
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "required": ["otherCentralHeatingFuelType"]
+                            }
+                          ]
+                        }
+                      }
                     },
                     "centralHeatingInstalled": {
                       "baspiRef": "A7.5.2",
@@ -1073,7 +1152,7 @@
                       "baspiRef": "A7.5.3",
                       "RDSRef": "Objects/Installation,Objects/Certificates",
                       "lawSocietyRef": "TA6/12.3b",
-                      "title": "Was a gas boiler installed after 1st April 2005, or a solid fuel or oil boiler installed after 1 October 2010?",
+                      "title": "Was a gas boiler installed after 1st April 2005, or a solid fuel or oil boiler installed after 1st October 2010?",
                       "$ref": "#/$defs/yesNoDetailIfYes",
                       "description": "If yes, please supply a copy of the installation completion certificate from a competent person qualified under the relevant self-certification scheme e.g. HETAS etc"
                     },
@@ -1241,7 +1320,7 @@
           "type": "object",
           "required": [
             "publicRightOfWay",
-            "rightsofLightOrSupport",
+            "rightsOfLightOrSupport",
             "rightsCreatedThroughCustom",
             "minesAndMinerals",
             "churchChancel",
@@ -1256,7 +1335,7 @@
               "$ref": "#/$defs/yesNoDetailIfYes",
               "description": "If yes, please mark the route on a plan of the property"
             },
-            "rightsofLightOrSupport": {
+            "rightsOfLightOrSupport": {
               "baspiRef": "A10.4.2",
               "RDSRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
               "lawSocietyRef": "TA6/8.4a",
@@ -1304,8 +1383,7 @@
         "excessiveNoise",
         "crime",
         "cautionOrConviction",
-        "failedTransactionsInLast12Months",
-        "comments"
+        "failedTransactionsInLast12Months"
       ],
       "properties": {
         "environmental": {
@@ -1339,12 +1417,6 @@
           "RDSRef": "Tenure/OtherMaterialIssues",
           "title": "Have there been any failed purchase transactions on the property within the last 12 months?",
           "$ref": "#/$defs/yesNoDetailIfYes"
-        },
-        "comments": {
-          "baspiRef": "A11.6",
-          "RDSRef": "Tenure/OtherMaterialIssues,Tenure/OtherDocumentation",
-          "title": "Please add any comments to the previous questions and provide any relevant documentation eg flood risk report, radon report and confirmation of any remedial measures on construction to reduce risk etc",
-          "type": "string"
         }
       }
     },
@@ -1472,7 +1544,7 @@
         }
       }
     },
-    "yesNoNotRequiredDetailIfNoNotRequired": {
+    "yesNoNotRequiredDetailIfNo": {
       "type": "object",
       "properties": {
         "yesNo": {
@@ -1488,7 +1560,7 @@
             {
               "properties": {
                 "yesNo": {
-                  "enum": ["Yes"]
+                  "enum": ["Yes", "Not required"]
                 }
               },
               "additionalProperties": false
@@ -1496,15 +1568,15 @@
             {
               "properties": {
                 "yesNo": {
-                  "enum": ["No", "Not required"]
+                  "enum": ["No"]
                 },
-                "reasons": {
+                "details": {
                   "title": "Please outline the reasons why",
                   "type": "string",
                   "minLength": 1
                 }
               },
-              "required": ["reasons"]
+              "required": ["details"]
             }
           ]
         }
@@ -1594,7 +1666,8 @@
                 "yesNo": {
                   "enum": ["No"]
                 }
-              }
+              },
+              "additionalProperties": false
             },
             {
               "properties": {
@@ -1611,28 +1684,28 @@
                   "RDSRef": "WorksAlterationsChanges/ConsentApproval",
                   "lawSocietyRef": "TA6/4.2",
                   "title": "Was building regulation approval and a completion certificate obtained or an equivalent Competent Person Scheme Certificate?",
-                  "$ref": "#/$defs/yesNoNotRequiredDetailIfNoNotRequired"
+                  "$ref": "#/$defs/yesNoNotRequiredDetailIfNo"
                 },
                 "planningPermission": {
                   "baspiRef": "A3.4.2",
                   "RDSRef": "WorksAlterationsChanges/ConsentApproval",
                   "lawSocietyRef": "TA6/4.2",
                   "title": "Was planning permission obtained?",
-                  "$ref": "#/$defs/yesNoNotRequiredDetailIfNoNotRequired"
+                  "$ref": "#/$defs/yesNoNotRequiredDetailIfNo"
                 },
                 "listedBuildingConsent": {
                   "baspiRef": "A3.4.3",
                   "RDSRef": "WorksAlterationsChanges/ConsentApproval",
                   "lawSocietyRef": "TA6/4.2",
                   "title": "Was listed building consent obtained?",
-                  "$ref": "#/$defs/yesNoNotRequiredDetailIfNoNotRequired"
+                  "$ref": "#/$defs/yesNoNotRequiredDetailIfNo"
                 },
                 "deedRestrictionConsent": {
                   "baspiRef": "A3.4.4",
                   "RDSRef": "WorksAlterationsChanges/ConsentApproval",
                   "lawSocietyRef": "TA6/4.2",
                   "title": "Was any consent under a restriction in the deeds obtained? E.g. if your deeds require consent from someone else to alter or extend the property",
-                  "$ref": "#/$defs/yesNoNotRequiredDetailIfNoNotRequired"
+                  "$ref": "#/$defs/yesNoNotRequiredDetailIfNo"
                 },
                 "unfinished": {
                   "baspiRef": "A3.5",
@@ -1689,11 +1762,13 @@
         "firstName": {
           "RDSRef": "",
           "title": "First name",
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "lastName": {
           "title": "Last name",
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "emailAddress": {
           "title": "Email address",
