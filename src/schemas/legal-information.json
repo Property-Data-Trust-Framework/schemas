@@ -65,7 +65,7 @@
             "Personal Representative for a Deceased Owner",
             "Under Power of Attorney",
             "Mortgagee in Possession",
-            "Other (please give details)"
+            "Other"
           ]
         }
       },
@@ -86,17 +86,17 @@
                   "enum": [
                     "Personal Representative for a Deceased Owner",
                     "Under Power of Attorney",
-                    "Other (please give details)"
+                    "Other"
                   ]
                 },
-                "probateOrPowerOfAttorney": {
+                "sellersCapacityDetails": {
                   "baspiRef": "B1.4",
                   "RDSRef": "Participants/OtherDocumentation",
-                  "title": "Please provide details.",
+                  "title": "Please provide details and provide any probate, grant of representation or power of attorney ",
                   "type": "string"
                 }
               },
-              "required": ["probateOrPowerOfAttorney"]
+              "required": ["sellersCapacityDetails"]
             }
           ]
         }
@@ -309,7 +309,7 @@
                       "baspiRef": "B4.3.5",
                       "RDSRef": "Objects/isNotWorking=yes|no|true|false",
                       "title": "Is the system in good working order to your satisfaction?",
-                      "$ref": "#/$defs/yesNoDetailIfYes"
+                      "$ref": "#/$defs/yesNoDetailIfNo"
                     },
                     "isConnectedToNationalGrid": {
                       "baspiRef": "B4.3.6",
@@ -318,7 +318,15 @@
                       "type": "string",
                       "enum": ["Yes (FiT)", "Yes (SEG)", "No"]
                     }
-                  }
+                  },
+                  "required": [
+                    "yearInstalled",
+                    "panelsOwnedOutright",
+                    "panelProviderLease",
+                    "lastMaintained",
+                    "inGoodWorkingOrder",
+                    "isConnectedToNationalGrid"
+                  ]
                 }
               ]
             }
@@ -589,7 +597,7 @@
                 "type": "string"
               },
               "lastName": {
-                "title": "LastName",
+                "title": "Last Name",
                 "type": "string",
                 "minLength": 1
               },

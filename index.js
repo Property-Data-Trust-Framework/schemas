@@ -3,18 +3,18 @@ const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
 
 const pdtfTransaction = require("./src/schemas/pdtf-transaction.json");
-const baspiMaterialFacts = require("./src/schemas/baspi-a-material-facts.json");
-const baspiLegalInformation = require("./src/schemas/baspi-b-legal-information.json");
+const materialFacts = require("./src/schemas/material-facts.json");
+const legalInformation = require("./src/schemas/legal-information.json");
 const energyPerformanceCertificate = require("./src/schemas/energy-performance-certificate.json");
 const titleDeed = require("./src/schemas/title-deed.json");
 const geoJson = require("./src/schemas/GeoJSON.json");
 const verifiedClaimsSchema = require("./src/schemas/pdtf-verified-claims.json");
 
 const subSchemas = {
-  "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/baspi-a-material-facts.json":
-    baspiMaterialFacts,
-  "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/baspi-b-legal-information.json":
-    baspiLegalInformation,
+  "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/material-facts.json":
+    materialFacts,
+  "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/legal-information.json":
+    legalInformation,
   "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/energy-performance-certificate.json":
     energyPerformanceCertificate,
   "https://geojson.org/schema/GeoJSON.json": geoJson,
@@ -39,6 +39,7 @@ const getSubschema = (path) => {
   if (pathArray.length < 1) {
     return transactionSchema;
   }
+
   return pathArray.reduce((schema, pathElement) => {
     if (schema.type === "array") return schema.items;
     if (schema.properties[pathElement]) return schema.properties[pathElement];

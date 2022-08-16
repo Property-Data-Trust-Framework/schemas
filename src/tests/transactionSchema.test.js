@@ -90,14 +90,14 @@ test("correctly gets a subschema through a dependency", () => {
 
 test("correctly gets another subschema through a dependency", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/ownership/leaseholdDetails/lengthOfLeaseInYears"
+    "/propertyPack/materialFacts/ownership/lengthOfLeaseInYears"
   );
   expect(subschema.title).toBe("Length of lease (years)");
 });
 
 test("correctly gets yet another subschema through a dependency", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/ownership/leaseholdDetails/rentIncrease/details"
+    "/propertyPack/materialFacts/ownership/rentIncrease/details"
   );
   expect(subschema.title).toBe("Details");
 });
@@ -143,13 +143,13 @@ test("correctly gets titles across schemas, arrays and non-existient title prope
   expect(
     getTitleAtPath(
       transactionSchema,
-      "/propertyPack/materialFacts/ownership/leaseholdDetails/lengthOfLeaseInYears"
+      "/propertyPack/materialFacts/ownership/lengthOfLeaseInYears"
     )
   ).toBe("Length of lease (years)");
   expect(
     getTitleAtPath(
       transactionSchema,
-      "/propertyPack/materialFacts/ownership/managedFreeholdOrCommonhold/annualServiceCharge"
+      "/propertyPack/materialFacts/ownership/annualServiceCharge"
     )
   ).toBe(
     "Amount of current annual service charge/estate rentcharge/maintenance contribution (£)"
