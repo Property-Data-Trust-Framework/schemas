@@ -4,7 +4,7 @@ const exampleVouch = require("../examples/exampleVouch.json");
 const exampleDocumentedVouch = require("../examples/exampleDocumentedVouch.json");
 
 test("returns an empty array for a valid claim", () => {
-  expect(validateVerifiedClaims(exampleVouch)).toEqual([]);
+  expect(validateVerifiedClaims([exampleVouch])).toEqual([]);
 });
 
 test("returns an empty array for a valid array of claims", () => {
@@ -19,7 +19,7 @@ test("returns an array with an error stating if path is incorrect", () => {
   clonedVouch.claims = {
     "/propertyPack/INVALID/materialFacts/councilTax": data,
   };
-  expect(validateVerifiedClaims(clonedVouch)).toEqual([
+  expect(validateVerifiedClaims([clonedVouch])).toEqual([
     "Path /propertyPack/INVALID/materialFacts/councilTax is not a valid PDTF schema path",
   ]);
 });
@@ -36,7 +36,7 @@ test("returns an array of errors if data in the path is in invalid format", () =
       },
     },
   };
-  expect(validateVerifiedClaims(clonedVouch)).toEqual([
+  expect(validateVerifiedClaims([clonedVouch])).toEqual([
     {
       instancePath: "",
       schemaPath: "#/required",
@@ -67,7 +67,7 @@ test("returns an array of errors for verified claim with multiple paths", () => 
       },
     },
   };
-  expect(validateVerifiedClaims(clonedVouch)).toEqual([
+  expect(validateVerifiedClaims([clonedVouch])).toEqual([
     "Path /propertyPack/materialFacts/cousncilTaxBad is not a valid PDTF schema path",
     "Path /propertyPack/materialFacts/councilTaxBadTwo is not a valid PDTF schema path",
   ]);
@@ -92,5 +92,5 @@ test("returns an empty array of errors for verified claim with multiple valid pa
       postcode: "property.postcode",
     },
   };
-  expect(validateVerifiedClaims(clonedVouch)).toEqual([]);
+  expect(validateVerifiedClaims([clonedVouch])).toEqual([]);
 });
