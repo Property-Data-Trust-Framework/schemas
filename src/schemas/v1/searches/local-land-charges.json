@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v1/searches/local-land-charges.json",
+  "type": "array",
+  "description": "The list of individual entries on the register of Land Charges",
+  "items": {
+    "type": "object",
+    "properties": {
+      "part": {
+        "title": "Part number",
+        "description": "The part number from the LLC1 form which this entry falls into.",
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 12
+      },
+      "partTitle": {
+        "title": "Part title",
+        "description": "The title of the part of the LLC1 form which this entry falls into.",
+        "type": "string",
+        "enum": [
+          "General financial charges",
+          "Specific financial charges",
+          "Planning charges",
+          "Miscellaneous charges",
+          "Fenland ways maintenance charges",
+          "Land compensation charges",
+          "New towns charges",
+          "Civil aviation charges",
+          "Opencast coal charges",
+          "Listed buildings charges",
+          "Light obstruction notices",
+          "Drainage scheme charges"
+        ]
+      },
+      "chargeDescription": {
+        "title": "Description of Charge",
+        "description": "The description of the charge, as entered on the Land Charges register.",
+        "type": "string",
+        "minLength": 1
+      },
+      "originatingAuthority": {
+        "title": "Originating Authority",
+        "description": "The authority that this register entry came from. Note that National Park Authorities overlap Local Authorities, and so there can be more than one source of charges.",
+        "type": "string",
+        "minLength": 1
+      },
+      "inspectionAddress": {
+        "title": "Place where documents can be inspected",
+        "description": "The place where the land charges can be inspected. This is typically an address, but for councils where visiting is not permitted, it may be some other description.",
+        "type": "string",
+        "minLength": 1
+      },
+      "registrationDate": {
+        "title": "Date of Registration",
+        "description": "The date on which this entry was made in the register of Land Charges.",
+        "type": "string",
+        "format": "date"
+      }
+    },
+    "required": [
+      "part",
+      "partTitle",
+      "chargeDescription",
+      "originatingAuthority",
+      "inspectionAddress",
+      "registrationDate"
+    ]
+  }
+}

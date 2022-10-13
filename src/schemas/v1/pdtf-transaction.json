@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/pdtf-transaction.json",
+  "$id": "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json",
   "type": "object",
   "title": "Property Data Trust Framework Transaction Schema",
   "description": "A schema defining the PDTF transaction data structure, supporting mapping to BASPI, Law Society and RICS Data Schema elements.",
@@ -107,10 +107,10 @@
       "type": "object",
       "properties": {
         "materialFacts": {
-          "$ref": "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/material-facts.json"
+          "$ref": "https://trust.propdata.org.uk/schemas/v1/material-facts.json"
         },
         "additionalLegalInfo": {
-          "$ref": "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/legal-information.json"
+          "$ref": "https://trust.propdata.org.uk/schemas/v1/legal-information.json"
         },
         "titlesToBeSold": {
           "RDSRef": "",
@@ -125,6 +125,11 @@
                 "title": "Title Number",
                 "type": "string"
               },
+              "titleIncludedInSale": {
+                "RDSRef": "",
+                "title": "Confirms that this associated title is included in the sale",
+                "type": "boolean"
+              },
               "titleExtents": {
                 "RDSRef": "",
                 "title": "Title Extents",
@@ -136,7 +141,7 @@
               },
               "registerExtract": {
                 "title": "HMLR Register Extract",
-                "$ref": "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/title-deed.json"
+                "$ref": "https://trust.propdata.org.uk/schemas/v1/title-deed.json"
               }
             }
           }
@@ -144,98 +149,12 @@
         "energyPerformanceCertificate": {
           "RDSRef": "",
           "title": "Energy Performance Certificate",
-          "$ref": "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/energy-performance-certificate.json"
+          "$ref": "https://trust.propdata.org.uk/schemas/v1/energy-performance-certificate.json"
         },
-        "risks": {
+        "searches": {
           "RDSRef": "",
-          "title": "Risks",
-          "type": "object",
-          "properties": {
-            "coalMining": {
-              "title": "Coal mining",
-              "$ref": "#/$defs/riskIndicatorAndSearch"
-            },
-            "flood": {
-              "title": "Flood",
-              "$ref": "#/$defs/riskIndicatorAndSearch"
-            },
-            "miningAndGroundStability": {
-              "title": "Mining and ground stability",
-              "type": "object",
-              "properties": {
-                "bathStone": {
-                  "title": "Bath Stone",
-                  "$ref": "#/$defs/riskIndicatorAndSearch"
-                },
-                "metalliferousTin": {
-                  "title": "Matalliferous (Tin)",
-                  "$ref": "#/$defs/riskIndicatorAndSearch"
-                },
-                "kaolinAndBallClay": {
-                  "title": "Kaolin and ball clay",
-                  "$ref": "#/$defs/riskIndicatorAndSearch"
-                },
-                "limestone": {
-                  "title": "Limestone",
-                  "$ref": "#/$defs/riskIndicatorAndSearch"
-                },
-                "brine": {
-                  "title": "Brine",
-                  "$ref": "#/$defs/riskIndicatorAndSearch"
-                },
-                "groundStability": {
-                  "title": "Ground stability",
-                  "$ref": "#/$defs/riskIndicatorAndSearch"
-                },
-                "nonCoalMining": {
-                  "title": "Non coal mining",
-                  "$ref": "#/$defs/riskIndicatorAndSearch"
-                },
-                "groundMovement": {
-                  "title": "Ground movement",
-                  "$ref": "#/$defs/riskIndicatorAndSearch"
-                },
-                "mineral": {
-                  "title": "Mineral",
-                  "$ref": "#/$defs/riskIndicatorAndSearch"
-                }
-              }
-            },
-            "energyAndInfrastructure": {
-              "title": "Energy and infrastructure",
-              "type": "object",
-              "properties": {
-                "hs2": {
-                  "title": "HS2",
-                  "$ref": "#/$defs/riskIndicatorAndSearch"
-                },
-                "crossrail": {
-                  "title": "Crossrail",
-                  "$ref": "#/$defs/riskIndicatorAndSearch"
-                },
-                "londonUnderground": {
-                  "title": "London Underground",
-                  "$ref": "#/$defs/riskIndicatorAndSearch"
-                },
-                "energyExploration": {
-                  "title": "Energy exploration",
-                  "$ref": "#/$defs/riskIndicatorAndSearch"
-                },
-                "windFarms": {
-                  "title": "Wind farms",
-                  "$ref": "#/$defs/riskIndicatorAndSearch"
-                },
-                "solarFarms": {
-                  "title": "Solar farms",
-                  "$ref": "#/$defs/riskIndicatorAndSearch"
-                },
-                "renewablePowerPlants": {
-                  "title": "Renewable power plants",
-                  "$ref": "#/$defs/riskIndicatorAndSearch"
-                }
-              }
-            }
-          }
+          "title": "Searches",
+          "$ref": "https://trust.propdata.org.uk/schemas/v1/searches.json"
         }
       }
     }
@@ -268,17 +187,6 @@
         }
       },
       "required": ["line1", "postcode"]
-    },
-    "riskIndicatorAndSearch": {
-      "type": "object",
-      "properties": {
-        "hasRisk": {
-          "title": "",
-          "type": "string",
-          "enum": ["Yes", "No"]
-        }
-      },
-      "required": ["hasRisk"]
     }
   }
 }

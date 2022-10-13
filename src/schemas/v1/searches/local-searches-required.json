@@ -1,0 +1,861 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v1/searches/local-searches-required.json",
+  "type": "object",
+  "title": "Local Search Enquiries",
+  "description": "The results of a standard CON29R search",
+  "properties": {
+    "planningAndBuildingRegulations": {
+      "type": "object",
+      "con29RRef": "Part 1",
+      "title": "Planning and Building Regulations",
+      "properties": {
+        "decisionsAndPendingApplications": {
+          "con29RRef": "1.1",
+          "title": "Planning and building decisions and pending applications",
+          "description": "Which of the following relating to the property have been granted, issued or refused or (where applicable) are the subject of pending applications or agreements?",
+          "type": "object",
+          "properties": {
+            "planningPermission": {
+              "con29RRef": "1.1(a)",
+              "title": "A planning permission",
+              "$ref": "#/$defs/planningApplicationList"
+            },
+            "listedBuildingConsent": {
+              "con29RRef": "1.1(b)",
+              "title": "A listed building consent",
+              "$ref": "#/$defs/planningApplicationList"
+            },
+            "conservationAreaConsent": {
+              "con29RRef": "1.1(c)",
+              "title": "A conservation area consent",
+              "$ref": "#/$defs/planningApplicationList"
+            },
+            "lawfulnessOfExistingUse": {
+              "con29RRef": "1.1(d)",
+              "title": "A certificate of lawfulness of existing use or development",
+              "$ref": "#/$defs/planningApplicationList"
+            },
+            "certificateOfLawfulnessOfProposedUse": {
+              "con29RRef": "1.1(e)",
+              "title": "A certificate of lawfulness of proposed use or development",
+              "$ref": "#/$defs/planningApplicationList"
+            },
+            "lawfulnessOfProposedListedWorks": {
+              "con29RRef": "1.1(f)",
+              "title": "A certificate of lawfulness of proposed works for listed buildings",
+              "$ref": "#/$defs/planningApplicationList"
+            },
+            "heritagePartnershipAgreement": {
+              "con29RRef": "1.1(g)",
+              "title": "A heritage partnership agreement",
+              "$ref": "#/$defs/planningApplicationList"
+            },
+            "listedBuildingConsentOrder": {
+              "con29RRef": "1.1(h)",
+              "title": "A listed building consent order",
+              "$ref": "#/$defs/planningApplicationList"
+            },
+            "localListedBuildingConsentOrder": {
+              "con29RRef": "1.1(i)",
+              "title": "A local listed building consent order",
+              "$ref": "#/$defs/planningApplicationList"
+            },
+            "buildingRegulationsApproval": {
+              "con29RRef": "1.1(j)",
+              "title": "Building regulations approval",
+              "$ref": "#/$defs/planningApplicationList"
+            },
+            "buildingRegulationsCompletion": {
+              "con29RRef": "1.1(k)",
+              "title": "A building regulation completion certificate",
+              "$ref": "#/$defs/planningApplicationList"
+            },
+            "buildingRegulationsSelfCertification": {
+              "con29RRef": "1.1(l)",
+              "title": "Any building regulations certificate or notice issued in respect of work carried out under a competent person self-certification scheme",
+              "$ref": "#/$defs/planningApplicationList"
+            },
+            "planningStartDate": {
+              "title": "The earliest date from which planning applications would have been included in this list",
+              "type": "string",
+              "format": "date"
+            },
+            "buildingControlStartDate": {
+              "title": "The earliest date from which building control decisions would have been included in this list",
+              "type": "string",
+              "format": "date"
+            }
+          }
+        },
+        "designationsAndProposals": {
+          "con29RRef": "1.2",
+          "title": "Planning designations and proposals",
+          "description": "What designations of land use for the property, or the area, and what specific proposals for the property, are contained in any existing or proposed development plan?",
+          "type": "object",
+          "properties": {
+            "plans": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "title": "Local plan",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "title": "What is the name of the plan?",
+                    "minLength": 1
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "What is the current status of the plan?",
+                    "minLength": 1
+                  },
+                  "statusDate": {
+                    "type": "string",
+                    "title": "When did the plan move to this status?",
+                    "minLength": 1
+                  },
+                  "designations": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "title": "Local plan designation",
+                      "properties": {
+                        "designationType": {
+                          "type": "string",
+                          "title": "What type of designation is this?",
+                          "minLength": 1
+                        },
+                        "description": {
+                          "type": "string",
+                          "title": "What is the description given for this designation?",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "roadsAndPublicRightsOfWay": {
+      "con29RRef": "Part 2",
+      "title": "Roads and Public Rights of Way",
+      "type": "object",
+      "properties": {
+        "roadsFootwaysAndFootpaths": {
+          "type": "object",
+          "con29RRef": "2.1",
+          "title": "Which of the roads, footways, and footpaths named in the application for this search are:",
+          "properties": {
+            "highwaysMaintainableAtPublicExpense": {
+              "con29RRef": "2.1(a)",
+              "title": "Highways maintainable at public expense",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/road"
+              }
+            },
+            "subjectToAdoption": {
+              "con29RRef": "2.1(b)",
+              "title": "Subject to adoption and supported by a bond or waiver",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/road"
+              }
+            },
+            "toBeMadeUpWithReclaim": {
+              "con29RRef": "2.1(c)",
+              "title": "To be made up by a local authority who will reclaim the cost from frontagers",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/road"
+              }
+            },
+            "toBeMadeUpWithoutReclaim": {
+              "con29RRef": "2.1(d)",
+              "title": "To be adopted by a local authority without reclaiming the cost from the frontagers",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/road"
+              }
+            }
+          }
+        },
+        "publicRightsOfWay": {
+          "title": "Public rights of way",
+          "type": "object",
+          "properties": {
+            "shownOnDefinitiveMap": {
+              "con29RRef": "2.2",
+              "title": "Is any public right of way which abuts on, or crosses the property, shown on a definitive map or revised definitive map?",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "pendingApplicationsToRecord": {
+              "con29RRef": "2.3",
+              "title": "Are there any pending applications to record a public right of way that abuts, or crosses the property, on the Register?",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "legalOrdersToStop": {
+              "con29RRef": "2.4",
+              "title": "Are there any legal orders to stop up, divert, alter, or create a public right of way which abuts, or crosses the property not yet implemented or shown on a definitive map?",
+              "description": "If so, please attach a plan showing the approximate route",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            }
+          }
+        }
+      }
+    },
+    "otherMatters": {
+      "con29RRef": "Part 3",
+      "title": "Other Matters",
+      "description": "Apart from matters entered on the registers of local land charges, do any of the following matters apply to the property?",
+      "type": "object",
+      "properties": {
+        "landRequiredForPublicPurposes": {
+          "con29RRef": "3.1",
+          "title": "Land required for public purposes",
+          "description": "Is the property included in land required for public purposes?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "landToBeAcquiredForRoadWorks": {
+          "con29RRef": "3.2",
+          "title": "Land to be acquired for road works",
+          "description": "Is the property included in land to be acquired for road works?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "drainageMatters": {
+          "con29RRef": "3.3",
+          "title": "Drainage matters",
+          "type": "object",
+          "properties": {
+            "propertyServedByASustainableUrbanDrainage": {
+              "con29RRef": "3.3(a)",
+              "title": "Is the property served by a sustainable urban drainage?",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "suDsFeaturesWithinTheBoundaryOfTheProperty": {
+              "con29RRef": "3.3(b)",
+              "title": "Are there SuDS features within the boundary of the property? If yes, is the owner responsible for maintenance?",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "ifPropertyBenefitsFromASuDsForWhichThereIsAChargeWhoBillsThePropertyForSurfaceWaterDrainageCharge": {
+              "con29RRef": "3.3(c)",
+              "title": "If the property benefits from a SuDS for which there is a charge, who bills the property for surface water drainage charge?",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            }
+          }
+        },
+        "nearbyRoadSchemes": {
+          "con29RRef": "3.4",
+          "title": "Nearby road schemes",
+          "description": "Is the property (or will it be) within 200 meters of any of the following?",
+          "type": "object",
+          "properties": {
+            "centreLineOfANewTrunkRoadOrSpecialRoadSpecifiedInAnyOrderDraftOrderOrScheme": {
+              "con29RRef": "3.4(a)",
+              "title": "the centre line of a new trunk road or special road specified in any order, draft order or scheme;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "centreLineOfAProposedAlterationOrImprovementToAnExistingRoad": {
+              "con29RRef": "3.4(b)",
+              "title": "the centre line of a proposed alteration or improvement to an existing road involving construction of a subway, underpass, flyover, footbridge, elevated road or dual carriageway;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "outerLimitsOfConstructionWorksForAProposedAlterationOrImprovementToAnExistingRoad": {
+              "con29RRef": "3.4(c)",
+              "title": "the outer limits of construction works for a proposed alteration or improvement to an existing road, involving:-",
+              "type": "object",
+              "properties": {
+                "constructionOfARoundaboutOtherThanAMiniRoundabout": {
+                  "con29RRef": "3.4(c)(i)",
+                  "title": "construction of a roundabout (other than a mini roundabout); or",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "wideningByConstructionOfOneOrMoreAdditionalTrafficLanes": {
+                  "con29RRef": "3.4(c)(ii)",
+                  "title": "widening by construction of one or more additional traffic lanes;",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                }
+              }
+            },
+            "outerLimitsOf": {
+              "con29RRef": "3.4(d)",
+              "title": "the outer limits of:",
+              "type": "object",
+              "properties": {
+                "constructionOfANewRoadToBeBuiltByALocalAuthority": {
+                  "con29RRef": "3.4(d)(1)",
+                  "title": "construction of a new road to be built by a local authority;",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "approvedAlterationOrImprovementToAnExistingRoad": {
+                  "con29RRef": "3.4(d)(ii)",
+                  "title": "an approved alteration or improvement to an existing road involving construction of a subway, underpass, flyover, footbridge, elevated road or dual carriageway;",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "constructionOfARoundaboutOtherThanAMiniRoundaboutOrWideningByConstructionOfOneOrMoreAdditionalTrafficLanes": {
+                  "con29RRef": "3.4(d)(iii)",
+                  "title": "construction of a roundabout (other than a mini roundabout) or widening by construction of one or more additional traffic lanes;",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                }
+              }
+            },
+            "centreLineOfTheProposedRouteOfANewRoad": {
+              "con29RRef": "3.4(e)",
+              "title": "the centre line of the proposed route of a new road under proposals published for public consultation;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "outerLimitsOfConstructionUnderProposalsUnderPublicConsultation": {
+              "con29RRef": "3.4(f)",
+              "title": "the outer limits of (under proposals published for public consultation)",
+              "type": "object",
+              "properties": {
+                "constructionOfAProposedAlterationOrImprovementToAnExistingRoad": {
+                  "con29RRef": "3.4(f)(i)",
+                  "title": "construction of a proposed alteration or improvement to an existing road involving construction of a subway, underpass, flyover, footbridge, elevated road or dual carriageway;",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "constructionOfARoundaboutOtherThanAMiniRoundabout": {
+                  "con29RRef": "3.4(f)(ii)",
+                  "title": "construction of a roundabout (other than a mini roundabout);",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "wideningByConstructionOfOneOrMoreAdditionalTrafficLanes": {
+                  "con29RRef": "3.4(f)(iii)",
+                  "title": "widening by construction of one or more additional traffic lanes",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                }
+              }
+            }
+          }
+        },
+        "nearbyRailwaySchemes": {
+          "con29RRef": "3.5",
+          "title": "Nearby railway schemes",
+          "type": "object",
+          "properties": {
+            "propertyWithin200MetersOfTheCentreLineOfAProposedRailwayTramwayLightRailwayOrMonorail": {
+              "con29RRef": "3.5(a)",
+              "title": "Is the property (or will it be) within 200 meters of the centre line of a proposed railway, tramway, light railway or monorail?",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "proposalsForARailwayTramwayLightRailwayOrMonorail": {
+              "con29RRef": "3.5(b)",
+              "title": "Are there are any proposals for a railway, tramway, light railway or monorail within the Local Authority's boundary?",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            }
+          }
+        },
+        "trafficSchemes": {
+          "con29RRef": "3.6",
+          "title": "Traffic schemes",
+          "description": "Has a local authority approved but not yet implemented any of the following for the roads, footways and footpaths which are named in Box B and C and are within 200 metres of the boundaries of the property?",
+          "type": "object",
+          "properties": {
+            "permanentStoppingUpOrDiversion": {
+              "con29RRef": "3.6(a)",
+              "title": "permanent stopping up or diversion;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "waitingOrLoadingRestrictions": {
+              "con29RRef": "3.6(b)",
+              "title": "waiting or loading restrictions;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "oneWayDriving": {
+              "con29RRef": "3.6(c)",
+              "title": "one way driving;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "prohibitionOfDriving": {
+              "con29RRef": "3.6(d)",
+              "title": "prohibition of driving;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "pedestrianisation": {
+              "con29RRef": "3.6(e)",
+              "title": "pedestrianisation;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "vehicleWidthOrWeightRestriction": {
+              "con29RRef": "3.6(f)",
+              "title": "vehicle width or weight restriction;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "trafficCalmingWorks": {
+              "con29RRef": "3.6(g)",
+              "title": "traffic calming works including road humps;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "residentsParkingControls": {
+              "con29RRef": "3.6(h)",
+              "title": "residents parking controls;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "minorRoadWideningOrImprovement": {
+              "con29RRef": "3.6(i)",
+              "title": "minor road widening or improvement;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "pedestrianCrossings": {
+              "con29RRef": "3.6(j)",
+              "title": "pedestrian crossings;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "cycleTracks": {
+              "con29RRef": "3.6(k)",
+              "title": "cycle tracks;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "bridgeBuilding": {
+              "con29RRef": "3.6(l)",
+              "title": "bridge building",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            }
+          }
+        },
+        "outstandingNotices": {
+          "con29RRef": "3.7",
+          "title": "Outstanding notices",
+          "description": "Do any statutory notices which relate to the following matters subsist in relation to the property other than those revealed in a response to any other enquiry in this form?",
+          "type": "object",
+          "properties": {
+            "buildingWorks": {
+              "con29RRef": "3.7(a)",
+              "title": "building works;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "environment": {
+              "con29RRef": "3.7(b)",
+              "title": "environment;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "healthAndSafety": {
+              "con29RRef": "3.7(c)",
+              "title": "health and safety;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "housing": {
+              "con29RRef": "3.7(d)",
+              "title": "(housing;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "highways": {
+              "con29RRef": "3.7(e)",
+              "title": "highways;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "publicHealth": {
+              "con29RRef": "3.7(f)",
+              "title": "public health;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "floodAndCostalErosionRiskManagement": {
+              "con29RRef": "3.7(g)",
+              "title": "flood and costal erosion risk management",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            }
+          }
+        },
+        "contraventionOfBuildingRegulations": {
+          "con29RRef": "3.8",
+          "title": "Contravention of building regulations",
+          "description": "Has a local authority authorised in relation to the property any proceedings for the contravention of any provision contained in building regulations?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "noticesOrdersDirectionsAndProceedingsUnderPlanningActs": {
+          "con29RRef": "3.9",
+          "title": "Notices, orders, directions and proceedings under Planning Acts",
+          "description": "Do any of the following subsist in relation to the property, or has a local authority decided to issue, serve, make or commence any of the following?",
+          "type": "object",
+          "properties": {
+            "enforcementNotice": {
+              "con29RRef": "3.9(a)",
+              "title": "an enforcement notice;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "stopNotice": {
+              "con29RRef": "3.9(b)",
+              "title": "a stop notice;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "listedBuildingEnforcementNotice": {
+              "con29RRef": "3.9(c)",
+              "title": "(a listed building enforcement notice;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "breachOfConditionNotice": {
+              "con29RRef": "3.9(d)",
+              "title": "a breach of condition notice;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "planningContraventionNotice": {
+              "con29RRef": "3.9(e)",
+              "title": "a planning contravention notice;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "anotherNoticeRelatingToBreachOfPlanningControl": {
+              "con29RRef": "3.9(f)",
+              "title": "another notice relating to breach of planning control;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "listedBuildingRepairsNotice": {
+              "con29RRef": "3.9(g)",
+              "title": "a listed building repairs notice;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "inTheCaseOfAListedBuildingDeliberatelyAllowedToFallIntoDisrepairACompulsoryPurchaseOrderWithADirectionForMinimumCompensation": {
+              "con29RRef": "3.9(h)",
+              "title": "in the case of a listed building deliberately allowed to fall into disrepair, a compulsory purchase order with a direction for minimum compensation;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "buildingPreservationNotice": {
+              "con29RRef": "3.9(i)",
+              "title": "a building preservation notice;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "directionRestrictingPermittedDevelopment": {
+              "con29RRef": "3.9(j)",
+              "title": "a direction restricting permitted development;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "orderRevokingOrModifyingPlanningPermission": {
+              "con29RRef": "3.9(k)",
+              "title": "an order revoking or modifying planning permission;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "orderRequiringDiscontinuanceOfUseOrAlterationOrRemovalOfBuildingOrWorks": {
+              "con29RRef": "3.9(l)",
+              "title": "an order requiring discontinuance of use or alteration or removal of building or works;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "treePreservationOrder": {
+              "con29RRef": "3.9(m)",
+              "title": "a tree preservation order;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "proceedingsToEnforceAPlanningAgreementOrPlanningContribution": {
+              "con29RRef": "3.9(n)",
+              "title": "proceedings to enforce a planning agreement or planning contribution",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            }
+          }
+        },
+        "communityInfrastructureLevy": {
+          "con29RRef": "3.10",
+          "title": "Community infrastructure levy (CIL)",
+          "type": "object",
+          "properties": {
+            "cilChargingSchedule": {
+              "con29RRef": "3.10(a)",
+              "title": "Is there a CIL charging schedule?",
+              "$ref": "#/$defs/yesNo"
+            },
+            "doAnyOfTheFollowingSubsistInRelationToTheProperty": {
+              "con29RRef": "3.10(b)",
+              "title": "If, yes, do any of the following subsist in relation to the property, or has a local authority decided to issue, serve, make or commence any of the following:-",
+              "type": "object",
+              "properties": {
+                "liabilityNotice": {
+                  "con29RRef": "3.10(b)(i)",
+                  "title": "a liability notice?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "noticeOfChargeableDevelopment": {
+                  "con29RRef": "3.10(b)(ii)",
+                  "title": "a notice of chargeable development?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "demandNotice": {
+                  "con29RRef": "3.10(b)(iii)",
+                  "title": "a demand notice?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "defaultLiabilityNotice": {
+                  "con29RRef": "3.10(b)(iv)",
+                  "title": "a default liability notice?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "assumptionOfLiabilityNotice": {
+                  "con29RRef": "3.10(b)(v)",
+                  "title": "an assumption of liability notice?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "commencementNotice": {
+                  "con29RRef": "3.10(b)(vi)",
+                  "title": "a commencement notice?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                }
+              }
+            },
+            "demandNoticeBeenSuspended": {
+              "con29RRef": "3.10(c)",
+              "title": "Has any demand notice been suspended?",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "localAuthorityReceivedFullOrPartPaymentOfAnyCilLiability": {
+              "con29RRef": "3.10(d)",
+              "title": "Has the Local Authority received full or part payment of any CIL liability?",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "localAuthorityReceivedAnyAppealAgainstAnyOfTheAbove": {
+              "con29RRef": "3.10(e)",
+              "title": "Has the Local Authority received any appeal against any of the above?",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "decisionBeenTakenToApplyForALiabilityOrder": {
+              "con29RRef": "3.10(f)",
+              "title": "Has a decision been taken to apply for a liability order?",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "liabilityOrderBeenGranted": {
+              "con29RRef": "3.10(g)",
+              "title": "Has a liability order been granted?",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "otherEnforcementMeasuresBeenTaken": {
+              "con29RRef": "3.10(h)",
+              "title": "Have any other enforcement measures been taken?",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            }
+          }
+        },
+        "conservationArea": {
+          "con29RRef": "3.11",
+          "title": "Conservation area",
+          "description": "Do any of the following apply to the property?",
+          "type": "object",
+          "properties": {
+            "makingOfTheAreaAConservationAreaBefore31August1974": {
+              "con29RRef": "3.11(a)",
+              "title": "the making of the area a conservation area before 31 August 1974;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "unimplementedResolutionToDesignateTheAreaAConservationArea": {
+              "con29RRef": "3.11(b)",
+              "title": "an unimplemented resolution to designate the area a conservation area",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            }
+          }
+        },
+        "compulsoryPurchase": {
+          "con29RRef": "3.12",
+          "title": "Compulsory purchase",
+          "description": "Has any enforceable order or decision been made to compulsorily purchase or acquire the property?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "contaminatedLand": {
+          "con29RRef": "3.13",
+          "title": "Contaminated land",
+          "description": "Do any of the following apply (including any relating land adjacent to or adjoining the property which has been identified as contaminated land because it is in such a condition that harm or pollution of controlled waters might be caused on the property)?",
+          "type": "object",
+          "properties": {
+            "contaminatedLandNotice": {
+              "con29RRef": "3.13(a)",
+              "title": "contaminated land notice;",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "inRelationToARegisterMaintainedUnderSection_78R": {
+              "con29RRef": "3.13(b)",
+              "title": "in relation to a register maintained under section 78R of the Environmental Protection Act 1990",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "decisionToMakeAnEntry": {
+              "con29RRef": "3.13(b)(i)",
+              "title": "a decision to make an entry",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "entry": {
+              "con29RRef": "3.13(b)(ii)",
+              "title": "an entry",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            }
+          },
+          "consultationWithTheOwnerOrOccupierOfThePropertyConductedUnderSection78G3": {
+            "con29RRef": "3.13(c)",
+            "title": "consultation with the owner or occupier of the property conducted under section 78G(3) of the Environmental Protection Act 1990 before the service of a remediation notice",
+            "$ref": "#/$defs/yesNoDetailIfYes"
+          }
+        },
+        "radonGas": {
+          "con29RRef": "3.14",
+          "title": "Radon gas",
+          "description": "Do records indicate that the property is in a 'Radon Affected Area' as identified by the Public Health England or Public Health Wales?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "assetsOfCommunityValue": {
+          "con29RRef": "3.15",
+          "title": "Assets of Community Value",
+          "type": "object",
+          "properties": {
+            "propertyBeenNominatedAsAnAssetOfCommunityValue": {
+              "con29RRef": "3.15(a)",
+              "title": "Has the property been nominated as an asset of community value? If so:- ",
+              "type": "object",
+              "properties": {
+                "listedAsAnAssetOfCommunityValue": {
+                  "con29RRef": "3.15(a)(i)",
+                  "title": "Is it listed as an asset of community value?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "excludedAndPlacedOnTheNominatedButNotListedList": {
+                  "con29RRef": "3.15(a)(ii)",
+                  "title": "Was it excluded and placed on the 'nominated but not listed' list?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "listingExpired": {
+                  "con29RRef": "3.15(a)(iii)",
+                  "title": "Has the listing expired?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "localAuthorityReviewingOrProposingToReviewTheListing": {
+                  "con29RRef": "3.15(a)(iv)",
+                  "title": "Is the Local Authority reviewing or proposing to review the listing?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "subsistingAppealsAgainstTheListing": {
+                  "con29RRef": "3.15(a)(v)",
+                  "title": "Are there any subsisting appeals against the listing?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                }
+              }
+            },
+            "propertyIsListed": {
+              "con29RRef": "3.15(b)",
+              "title": "If the property is listed:",
+              "type": "object",
+              "properties": {
+                "localAuthorityDecidedToApplyToTheLandRegistry": {
+                  "con29RRef": "3.15(b)(i)",
+                  "title": "Has the Local Authority decided to apply to the Land Registry for an entry or cancellation of a restriction in respect of listed land affecting the property?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "lheLocalAuthorityReceivedANoticeOfDisposal": {
+                  "con29RRef": "3.15(b)(ii)",
+                  "title": "Has the Local Authority received a notice of disposal?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                },
+                "communityInterestGroupRequestedToBeTreatedAsABidder": {
+                  "con29RRef": "3.15(b)(iii)",
+                  "title": "Has any community interest group requested to be treated as a bidder?",
+                  "$ref": "#/$defs/yesNoDetailIfYes"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "yesNo": {
+      "type": "object",
+      "properties": {
+        "yesNo": {
+          "type": "string",
+          "title": "",
+          "enum": ["Yes", "No"]
+        }
+      },
+      "required": ["yesNo"]
+    },
+    "yesNoDetailIfYes": {
+      "type": "object",
+      "properties": {
+        "yesNo": {
+          "type": "string",
+          "title": "",
+          "enum": ["Yes", "No"]
+        }
+      },
+      "required": ["yesNo"],
+      "dependencies": {
+        "yesNo": {
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "title": "Details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        }
+      }
+    },
+    "planningApplicationList": {
+      "type": "array",
+      "title": "Planning applications list",
+      "items": {
+        "type": "object",
+        "title": "Planning application",
+        "properties": {
+          "refNumber": {
+            "type": "string",
+            "title": "Reference number for the planning application; optional for proposals"
+          },
+          "isProposal": {
+            "title": "Is this a proposal?",
+            "type": "string",
+            "enum": ["Yes", "No"]
+          },
+          "applicationDate": {
+            "title": "On what date was the application made?",
+            "type": "string",
+            "format": "date"
+          },
+          "decision": {
+            "title": "What decision was made?",
+            "type": "string",
+            "minLength": 1
+          },
+          "decisionDate": {
+            "title": "When was the decision made?",
+            "type": "string",
+            "format": "date"
+          },
+          "applicationType": {
+            "title": "What type of application was this?",
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": ["isProposal", "applicationDate", "applicationType"]
+      }
+    },
+    "road": {
+      "type": "object",
+      "title": "What is the status of the road or footpath?",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "What is the name of the road or footpath?",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "title": "Where does the responsibility for maintenance lie?",
+          "enum": ["public", "private", "section 38", "unchecked"]
+        }
+      }
+    }
+  }
+}

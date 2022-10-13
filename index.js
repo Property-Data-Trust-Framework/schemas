@@ -2,24 +2,33 @@ const { dereference } = require("@jdw/jst");
 const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
 
-const pdtfTransaction = require("./src/schemas/pdtf-transaction.json");
-const materialFacts = require("./src/schemas/material-facts.json");
-const legalInformation = require("./src/schemas/legal-information.json");
-const energyPerformanceCertificate = require("./src/schemas/energy-performance-certificate.json");
-const titleDeed = require("./src/schemas/title-deed.json");
-const geoJson = require("./src/schemas/GeoJSON.json");
-const verifiedClaimsSchema = require("./src/schemas/pdtf-verified-claims.json");
+const pdtfTransaction = require("./src/schemas/v1/pdtf-transaction.json");
+const materialFacts = require("./src/schemas/v1/material-facts.json");
+const legalInformation = require("./src/schemas/v1/legal-information.json");
+const energyPerformanceCertificate = require("./src/schemas/v1/energy-performance-certificate.json");
+const titleDeed = require("./src/schemas/v1/title-deed.json");
+const searches = require("./src/schemas/v1/searches.json");
+const localLandCharges = require("./src/schemas/v1/searches/local-land-charges.json");
+const localSearchesRequired = require("./src/schemas/v1/searches/local-searches-required.json");
+const drainageAndWater = require("./src/schemas/v1/searches/drainage-and-water.json");
+const geoJson = require("./src/schemas/v1/GeoJSON.json");
+const verifiedClaimsSchema = require("./src/schemas/v1/pdtf-verified-claims.json");
 
 const subSchemas = {
-  "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/material-facts.json":
-    materialFacts,
-  "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/legal-information.json":
+  "https://trust.propdata.org.uk/schemas/v1/material-facts.json": materialFacts,
+  "https://trust.propdata.org.uk/schemas/v1/legal-information.json":
     legalInformation,
-  "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/energy-performance-certificate.json":
+  "https://trust.propdata.org.uk/schemas/v1/energy-performance-certificate.json":
     energyPerformanceCertificate,
   "https://geojson.org/schema/GeoJSON.json": geoJson,
-  "https://raw.githubusercontent.com/Property-Data-Trust-Framework/schemas/master/src/schemas/title-deed.json":
-    titleDeed,
+  "https://trust.propdata.org.uk/schemas/v1/title-deed.json": titleDeed,
+  "https://trust.propdata.org.uk/schemas/v1/searches.json": searches,
+  "https://trust.propdata.org.uk/schemas/v1/searches/local-land-charges.json":
+    localLandCharges,
+  "https://trust.propdata.org.uk/schemas/v1/searches/local-searches-required.json":
+    localSearchesRequired,
+  "https://trust.propdata.org.uk/schemas/v1/searches/drainage-and-water.json":
+    drainageAndWater,
 };
 
 const transactionSchema = dereference(pdtfTransaction, (id) => subSchemas[id]);
