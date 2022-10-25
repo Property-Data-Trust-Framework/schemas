@@ -181,4 +181,10 @@ test("correctly gets titles across schemas, arrays and non-existient title prope
       "/propertyPack/energyPerformanceCertificate/certificate/currentEnergyRating"
     )
   ).toBe("Current energy rating");
+  expect(
+    getTitleAtPath(
+      transactionSchema,
+      "/propertyPack/additionalLegalInfo/occupiers/otherOver17sAtProperty/over17sNames/0/firstName"
+    )
+  ).toBe("First Name");
 });
