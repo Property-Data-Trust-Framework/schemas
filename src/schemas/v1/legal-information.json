@@ -105,6 +105,7 @@
     },
     "legalBoundaries": {
       "baspiRef": "B2.1",
+      "lawSocietyRef": "TA6/1",
       "title": "Legal Boundaries",
       "description": "Please indicate who has repaired, or treated as belonging to them, each of the boundaries.  Identify each boundary as if you were looking at the property from the road",
       "type": "object",
@@ -281,12 +282,14 @@
                     },
                     "yearInstalled": {
                       "baspiRef": "B4.3.1",
+                      "lawSocietyRef": "TA6/4.6a",
                       "RDSRef": "Objects/Installation",
                       "title": "What year were they installed?",
                       "type": "number"
                     },
                     "panelsOwnedOutright": {
                       "baspiRef": "",
+                      "lawSocietyRef": "TA6/4.6b",
                       "RDSRef": "Objects/Ownership",
                       "title": "Do you own the panels, and all equipment related to them, outright?",
                       "$ref": "#/$defs/yesNoDetailIfNo",
@@ -294,6 +297,7 @@
                     },
                     "panelProviderLease": {
                       "baspiRef": "B4.3.2",
+                      "lawSocietyRef": "TA6/4.6c",
                       "RDSRef": "Objects/Ownership",
                       "title": "Is there an existing long lease of the roof/air space granted to a panel provider?",
                       "$ref": "#/$defs/yesNoDetailIfYes",
@@ -367,7 +371,6 @@
     },
     "smartHomeSystems": {
       "baspiRef": "B7.4",
-      "RDSRef": "",
       "title": "Smart Home Systems",
       "type": "object",
       "required": ["hasSmartHomeSystems"],
@@ -460,7 +463,7 @@
                   "baspiRef": "B5.1.1",
                   "RDSRef": "Certificates",
                   "lawSocietyRef": "TA6/5.1a",
-                  "title": "New Home Warranty",
+                  "title": "New Home Warranty (NHBC or similar)",
                   "$ref": "#/$defs/yesNoDetailIfYes",
                   "description": "If yes, please confirm the name of the warranty provider and the date of the warranty:"
                 },
@@ -510,7 +513,7 @@
                   "baspiRef": "B5.1.8",
                   "RDSRef": "Certificates",
                   "lawSocietyRef": "TA6/5.1h",
-                  "title": "Preventative work and/or remedial action relating to subsidence",
+                  "title": "Underpinning or other preventative work and/or remedial action relating to subsidence",
                   "$ref": "#/$defs/yesNo"
                 },
                 "solarPanels": {
@@ -571,10 +574,7 @@
       "baspiRef": "B6",
       "title": "Occupiers",
       "type": "object",
-      "required": [
-        "sellerLivesAtProperty",
-        "over17sWillSignToConfirmWillVacate"
-      ],
+      "required": ["sellerLivesAtProperty", "otherOver17sAtProperty"],
       "properties": {
         "sellerLivesAtProperty": {
           "baspiRef": "B6.1",
@@ -586,41 +586,87 @@
         "otherOver17sAtProperty": {
           "baspiRef": "B6.2",
           "RDSRef": "Participants",
-          "lawSocietyRef": "TA6/11.3",
-          "title": "Please specify the full names and ages of anyone aged over 17, other than the owner(s), who live at the property?",
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "firstName": {
-                "title": "First Name",
-                "type": "string",
-                "minLength": 1
-              },
-              "middleNames": {
-                "title": "Middle name(s) if any",
-                "type": "string"
-              },
-              "lastName": {
-                "title": "Last Name",
-                "type": "string",
-                "minLength": 1
-              },
-              "age": {
-                "title": "Age",
-                "type": "integer"
-              }
-            },
-            "required": ["firstName", "lastName", "age"]
+          "lawSocietyRef": "TA6/11.1",
+          "title": "Does anyone else, aged 17 or over, live at the property?",
+          "type": "object",
+          "properties": {
+            "hasOver17s": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["hasOver17s"],
+          "dependencies": {
+            "yesNo": {
+              "oneOf": [
+                {
+                  "properties": {
+                    "hasOver17s": {
+                      "enum": ["No"]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                {
+                  "properties": {
+                    "hasOver17s": {
+                      "enum": ["Yes"]
+                    },
+                    "over17sNames": {
+                      "lawSocietyRef": "TA6/11.3",
+                      "title": "Please specify their full names and ages.",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "firstName": {
+                            "title": "First Name",
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "middleNames": {
+                            "title": "Middle name(s) if any",
+                            "type": "string"
+                          },
+                          "lastName": {
+                            "title": "Last Name",
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "age": {
+                            "title": "Age",
+                            "type": "integer"
+                          }
+                        },
+                        "required": ["firstName", "lastName", "age"]
+                      }
+                    },
+                    "over17sTenantsOrLodgers": {
+                      "baspiRef": "B6.1",
+                      "RDSRef": "Property/Flags",
+                      "lawSocietyRef": "TA6/11.1",
+                      "title": "Are any of them tenants or lodgers?",
+                      "$ref": "#/$defs/yesNo"
+                    },
+                    "over17sWillSignToConfirmWillVacate": {
+                      "baspiRef": "B6.4",
+                      "RDSRef": "RightsHolders,TenureAgreements,Notifications",
+                      "lawSocietyRef": "TA6/11.5",
+                      "title": "Have all occupiers aged over 17, agreed to sign the contract to confirm that they will vacate the property prior to completion of the sale?",
+                      "$ref": "#/$defs/yesNoDetailIfNo",
+                      "description": "If 'No', please provide details (e.g. the property is sold let to tenants) and supply a copy of the tenancy agreement together with a copy of any notice to quit which has been served upon them."
+                    }
+                  },
+                  "required": [
+                    "over17sNames",
+                    "over17sTenantsOrLodgers",
+                    "over17sWillSignToConfirmWillVacate"
+                  ]
+                }
+              ]
+            }
           }
-        },
-        "over17sWillSignToConfirmWillVacate": {
-          "baspiRef": "B6.4",
-          "RDSRef": "RightsHolders,TenureAgreements,Notifications",
-          "lawSocietyRef": "TA6/11.5",
-          "title": "Have all occupiers aged over 17, agreed to sign the contract to confirm that they will vacate the property prior to completion of the sale?",
-          "$ref": "#/$defs/yesNoDetailIfNo",
-          "description": "If 'No', please provide details (e.g. the property is sold let to tenants) and supply a copy of the tenancy agreement together with a copy of any notice to quit which has been served upon them."
         }
       }
     },
@@ -736,9 +782,13 @@
             }
           }
         },
+        "sufficientToRepayAllMortgages": {
+          "lawSocietyRef": "TA6/14.3",
+          "title": "Will the sale price be sufficient to repay all mortgages and charges secured on the property?",
+          "$ref": "#/$defs/yesNo"
+        },
         "digitalPropertyLogbook": {
           "baspiRef": "B7.5",
-          "RDSRef": "",
           "title": "Do you have a Digital Property Logbook?",
           "description": "See https://www.rlba.org.uk/what-is-a-property-logbook?",
           "type": "object",

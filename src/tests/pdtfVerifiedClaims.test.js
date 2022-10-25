@@ -1,7 +1,7 @@
 const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
 
-const verifiedClaimsSchema = require("../schemas/pdtf-verified-claims.json");
+const verifiedClaimsSchema = require("../schemas/v1/pdtf-verified-claims.json");
 const exampleElectronicRecord = require("../examples/exampleElectronicRecord.json");
 const exampleVouch = require("../examples/exampleVouch.json");
 const exampleDocumentedVouch = require("../examples/exampleDocumentedVouch.json");
