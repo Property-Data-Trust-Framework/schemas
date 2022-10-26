@@ -684,6 +684,7 @@
       "type": "object",
       "required": [
         "hasStructuralAlterations",
+        "changeOfUse",
         "windowReplacementsSince2002",
         "hasAddedConservatory",
         "planningPermissionBreaches",
@@ -696,14 +697,15 @@
           "lawSocietyRef": "TA6/4.1a",
           "title": "Have there been any structural alterations, extensions, significant repairs or renewals to the property?  (e.g. extensions, loft or garage conversion, removal of internal walls or chimneys)",
           "$ref": "#/$defs/yesNoDetailConsents",
-          "description": "If yes, for each change, please outline the nature of the work and confirm the year the change was completed"
+          "description": "If yes, for each change, please outline the nature of the work and provide the dates of all work underaken."
         },
         "changeOfUse": {
+          "baspiRef": "A3.1",
           "RDSRef": "WorksAlterationsChanges",
           "lawSocietyRef": "TA6/4.1b",
           "title": "Has there been any change of use (e.g. from an office to a residence?",
           "$ref": "#/$defs/yesNoDetailConsents",
-          "description": "If yes, for each change, please outline the nature of the work and confirm the year the change was completed."
+          "description": "If yes, please confirm the year the change was completed."
         },
         "windowReplacementsSince2002": {
           "baspiRef": "A3.2",
@@ -773,6 +775,7 @@
         },
         "unresolvedPlanningIssues": {
           "baspiRef": "A3.7",
+          "lawSocietyRef": "TA6/4.5",
           "RDSRef": "Buildings,BuildingsSections/StructureAuthorised,BuildingsSections/StructureUnauthorised",
           "title": "Are you aware of any unresolved planning or building control issues?",
           "type": "object",
@@ -939,7 +942,7 @@
       "baspiRef": "A6",
       "lawSocietyRef": "TA10",
       "title": "Fixtures and Fittings",
-      "description": "This is so a buyer's offer can take into account whether you are taking something of value or leaving extra items.  A full list will need to be completed after the sale is agreed.",
+      "description": "This is so a buyer’s offer can take into account whether you are taking something of value or leaving extra items.  A full list will need to be completed after the sale is agreed.",
       "type": "object",
       "required": ["itemsToRemove", "itemsToInclude"],
       "properties": {
@@ -1047,7 +1050,7 @@
                       "baspiRef": "A7.2.6",
                       "RDSRef": "Services/OtherServices/Located,Services/OtherServices/{access=?}",
                       "lawSocietyRef": "TA6/12.10",
-                      "title": "Is any part of the septic tank, cesspit or sewerage treatment plant located on someone else's land?",
+                      "title": "Is any part of the septic tank, cesspit or sewerage treatment plant located on someone else’s land?",
                       "$ref": "#/$defs/yesNoDetailIfYes",
                       "description": "If yes, please supply a plan showing the location of the system and how access is obtained."
                     },
@@ -1263,7 +1266,7 @@
         "hasGreenDealLoan": {
           "baspiRef": "A7.3",
           "title": "Is this property subject to a Green Deal loan or other financed home improvement scheme?",
-          "description": "If yes, please provide details below including any outstanding payments for the renewable devices and any feed-in tariffs and a copy of your fuel bills",
+          "description": "If yes, please provide details below including any outstanding payments for the renewable devices and any feed-in tariffs and a copy of your last electricity bill",
           "$ref": "#/$defs/yesNoDetailIfYes"
         }
       }
@@ -1424,6 +1427,7 @@
                   "minLength": 1
                 }
               },
+              "required": ["details"],
               "additionalProperties": false
             },
             {
@@ -1467,7 +1471,7 @@
         "partOutsideLegalOwnership": {
           "baspiRef": "A9.1",
           "RDSRef": "Tenure/Interests",
-          "title": "Is any part of the property outside the seller's legal ownership?",
+          "title": "Is any part of the property outside the seller’s legal ownership?",
           "$ref": "#/$defs/yesNoDetailIfYes",
           "description": "If yes, please provide details. E.g. parking, garden, outbuilding, accessway, etc"
         },
@@ -1604,7 +1608,7 @@
           "lawSocietyRef": "TA6/7",
           "title": "To your knowledge, has there been any environmental issues that affect the property or garden (for example, these could include air pollution, flooding, radon gas, mining, sink holes, quarrying or fracking etc)?",
           "$ref": "#/$defs/yesNoDetailIfYes",
-          "description": "If yes, please provide details.  For example the level of air pollution, type of flooding (e.g. ground water, coastal, river, surface water, sewer, etc), level of radon, a copy of any radon report, location of fracking and whether any action has been taken to prevent harm."
+          "description": "If yes, please provide details.  For example the level of air pollution, type of flooding (e.g. ground water, coastal, river, surface water, sewer, etc), level of radon, a copy of any radon report, location of fracking etc, and whether any action has been taken to prevent harm."
         },
         "excessiveNoise": {
           "baspiRef": "A11.2",
@@ -1661,7 +1665,7 @@
       "properties": {
         "consumerProtectionRegulationsResponse": {
           "baspiRef": "A13.1",
-          "title": "Seller's declaration",
+          "title": "Seller’s declaration",
           "description": "I/we confirm the answers to be truthful and accurate and to the best of my/our knowledge. The questions have been designed to assist with the disclosure of material information and any misleading or incorrect answers are likely to be exposed later in the legal process which may hinder my/our sale. I/we will provide my property lawyer with the additional documentation in support of the information supplied on this form. If there are any changes which alter the information provided, I/we will immediately notify the person marketing the property as well as my/our property lawyer.",
           "type": "boolean"
         }
@@ -1903,12 +1907,6 @@
                   "RDSRef": "WorksAlterationsChanges/ConsentApproval",
                   "lawSocietyRef": "TA6/4.4",
                   "title": "Was planning permission obtained?",
-                  "$ref": "#/$defs/yesNoNotRequiredDetailIfNo"
-                },
-                "unresolvedIssues": {
-                  "RDSRef": "WorksAlterationsChanges/ConsentApproval",
-                  "lawSocietyRef": "TA6/4.5",
-                  "title": "Are there any planning or building control issues to resolve?",
                   "$ref": "#/$defs/yesNoNotRequiredDetailIfNo"
                 },
                 "listedBuildingConsent": {
