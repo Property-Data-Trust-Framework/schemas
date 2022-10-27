@@ -135,6 +135,7 @@
     },
     "ownership": {
       "baspiRef": "A1.3",
+      "lawSocietyRef": "TA7/1",
       "title": "Ownership",
       "type": "object",
       "required": ["ownershipType"],
@@ -428,7 +429,11 @@
       "lawSocietyRef": "TA6/9",
       "title": "Parking",
       "type": "object",
-      "required": ["parkingArrangements", "electricVehicleChargingPoint"],
+      "required": [
+        "parkingArrangements",
+        "controlledParking",
+        "electricVehicleChargingPoint"
+      ],
       "properties": {
         "parkingArrangements": {
           "lawSocietyRef": "TA6/9.1",
@@ -451,11 +456,6 @@
                 "None",
                 "Other"
               ]
-            },
-            "controlledParking": {
-              "lawSocietyRef": "TA6/9.2",
-              "title": "Is the property in a controlled parking zone or within a local authority parking scheme?",
-              "$ref": "#/$defs/yesNo"
             }
           },
           "dependencies": {
@@ -495,6 +495,11 @@
             }
           }
         },
+        "controlledParking": {
+          "lawSocietyRef": "TA6/9.2",
+          "title": "Is the property in a controlled parking zone or within a local authority parking scheme?",
+          "$ref": "#/$defs/yesNo"
+        },
         "electricVehicleChargingPoint": {
           "baspiRef": "A1.6.1",
           "title": "Is there an electric vehicle charging point belonging to the property?",
@@ -504,6 +509,7 @@
     },
     "listingAndConservation": {
       "baspiRef": "1.7",
+      "lawSocietyRef": "TA6/4.7",
       "title": "Listing and Conservation",
       "type": "object",
       "required": [
@@ -607,13 +613,13 @@
     },
     "energyEfficiency": {
       "RDSRef": "Certificates/{category='energyEfficiency',standard='EPC',gradeLevelRating=?},Certificates/{category='energyEfficiency',standard='EPC',status='exempt'},",
-      "lawSocietyRef": "TA6/7.6",
       "title": "Energy Efficiency",
       "type": "object",
       "required": ["energyEfficiencyRating", "hasSprayFoamInstalled"],
       "properties": {
         "energyEfficiencyRating": {
           "baspiRef": "1.8.3",
+          "lawSocietyRef": "TA6/7.6",
           "title": "Energy Efficiency Rating",
           "description": "What is the energy efficiency rating of the property according to the latest Energy Performance Certificate (EPC)?",
           "type": "string",
@@ -626,7 +632,8 @@
             "F",
             "G",
             "Exempt Property",
-            "Survey Instructed"
+            "Survey Instructed",
+            "No Certificate"
           ]
         },
         "hasSprayFoamInstalled": {
@@ -680,6 +687,7 @@
     },
     "alterationsAndChanges": {
       "baspiRef": "A3",
+      "lawSocietyRef": "TA6/4.1",
       "title": "Alterations and Changes to the Property",
       "type": "object",
       "required": [
@@ -827,6 +835,7 @@
     },
     "notices": {
       "baspiRef": "A4",
+      "lawSocietyRef": "TA6/3",
       "title": "Notices which Affect the Property",
       "description": "Are you aware of, or have you received, any of the following notices?",
       "type": "object",
@@ -1258,13 +1267,13 @@
     "greenDealLoan": {
       "baspiRef": "A7.3",
       "RDSRef": "RightsHolders/Loans,RightsHolders/OtherDocumentation",
-      "lawSocietyRef": "TA6/7.7",
       "title": "Green Deal Loan",
       "type": "object",
       "required": ["hasGreenDealLoan"],
       "properties": {
         "hasGreenDealLoan": {
           "baspiRef": "A7.3",
+          "lawSocietyRef": "TA6/7.7",
           "title": "Is this property subject to a Green Deal loan or other financed home improvement scheme?",
           "description": "If yes, please provide details below including any outstanding payments for the renewable devices and any feed-in tariffs and a copy of your last electricity bill",
           "$ref": "#/$defs/yesNoDetailIfYes"
@@ -1274,13 +1283,13 @@
     "centralHeating": {
       "baspiRef": "A7.4",
       "RDSRef": "Buildings|BuildingSections/isUnheated=no|yes|true|false",
-      "lawSocietyRef": "TA6/12.3",
       "title": "Central Heating",
       "type": "object",
       "required": ["hasCentralHeating"],
       "properties": {
         "hasCentralHeating": {
           "baspiRef": "A7.4",
+          "lawSocietyRef": "TA6/12.3",
           "title": "Is there full/partial central heating in your property?",
           "type": "string",
           "enum": ["Yes", "No"]
@@ -1309,13 +1318,13 @@
                     "centralHeatingFuel": {
                       "baspiRef": "A7.5.1",
                       "RDSRef": "Buildings|BuildingSections/Heating/isGas=no|yes|true|false",
-                      "lawSocietyRef": "TA6/12.3a",
                       "type": "object",
                       "title": "Central Heating Fuel",
                       "required": ["centralHeatingFuelType"],
                       "properties": {
                         "centralHeatingFuelType": {
                           "baspiRef": "A7.5.1a",
+                          "lawSocietyRef": "TA6/12.3a",
                           "title": "What type of fuel does the system and boiler run on?",
                           "type": "string",
                           "enum": ["Gas", "Electricity", "Oil", "LPG", "Other"]
@@ -1339,6 +1348,7 @@
                                 },
                                 "otherCentralHeatingFuelType": {
                                   "baspiRef": "A7.5.1b",
+                                  "lawSocietyRef": "TA6/12.3a",
                                   "title": "Please describe the other fuel type",
                                   "type": "string",
                                   "minLength": 1
@@ -1400,6 +1410,7 @@
     },
     "insurance": {
       "baspiRef": "A8",
+      "lawSocietyRef": "TA6/6",
       "title": "Insurance",
       "type": "object",
       "required": ["isInsured"],
@@ -1458,6 +1469,7 @@
     },
     "boundaries": {
       "baspiRef": "A9",
+      "lawSocietyRef": "TA6/1",
       "title": "Boundaries",
       "type": "object",
       "description": "You will need to check your title to answer these questions.  If you do not have a copy, for a small fee to HM Land Registry, you can download both the title register and the title plan of the property at https://www.gov.uk/search-property-information-land-registry.",
@@ -1498,6 +1510,7 @@
     },
     "rightsAndInformalArrangements": {
       "baspiRef": "A10",
+      "lawSocietyRef": "TA6/8",
       "title": "Rights and Informal Arrangements",
       "type": "object",
       "required": [
@@ -1532,6 +1545,7 @@
         },
         "rightsOrArrangements": {
           "baspiRef": "A10.4",
+          "lawSocietyRef": "TA6/8.4",
           "title": "Do you know if any of the following rights or arrangements affect the property?",
           "type": "object",
           "required": [
@@ -1969,8 +1983,7 @@
           "type": "string",
           "minLength": 1
         }
-      },
-      "required": ["line1", "postcode"]
+      }
     },
     "contactDetails": {
       "type": "object",
