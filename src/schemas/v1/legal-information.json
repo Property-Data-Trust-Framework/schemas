@@ -574,7 +574,7 @@
       "lawSocietyRef": "TA6/11",
       "title": "Occupiers",
       "type": "object",
-      "required": ["sellerLivesAtProperty", "hasOthersAgedOver17"],
+      "required": ["sellerLivesAtProperty", "hasOthersAged17OrOver"],
       "properties": {
         "sellerLivesAtProperty": {
           "baspiRef": "B6.1",
@@ -583,7 +583,7 @@
           "title": "Does the seller live at the property?",
           "$ref": "#/$defs/yesNo"
         },
-        "hasOthersAgedOver17": {
+        "hasOthersAged17OrOver": {
           "baspiRef": "B6.2",
           "RDSRef": "Participants",
           "lawSocietyRef": "TA6/11.2",
@@ -592,13 +592,12 @@
           "enum": ["Yes", "No"]
         }
       },
-
       "dependencies": {
-        "hasOthersAgedOver17": {
+        "hasOthersAged17OrOver": {
           "oneOf": [
             {
               "properties": {
-                "hasOthersAgedOver17": {
+                "hasOthersAged17OrOver": {
                   "enum": ["No"]
                 }
               },
@@ -606,7 +605,7 @@
             },
             {
               "properties": {
-                "hasOthersAgedOver17": {
+                "hasOthersAged17OrOver": {
                   "enum": ["Yes"]
                 },
                 "aged17OrOverNames": {
@@ -646,54 +645,64 @@
                   "title": "Are any of them tenants or lodgers?",
                   "$ref": "#/$defs/yesNo"
                 },
-                "soldWithVacantPosesssion": {
+                "vacantPossesssion": {
                   "lawSocietyRef": "TA6/11.5",
-                  "type": "string",
-                  "title": "Is the property being sold with vacant possession?",
-                  "enum": ["Yes", "No"]
+                  "type": "object",
+                  "required": ["soldWithVacantPossession"],
+                  "properties": {
+                    "soldWithVacantPosesssion": {
+                      "type": "string",
+                      "title": "Is the property being sold with vacant possession?",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "dependencies": {
+                    "soldWithVacantPossession": {
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "soldWithVacantPossesssion": {
+                              "enum": ["No"]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "properties": {
+                            "soldWithVacantPosesssion": {
+                              "enum": ["Yes"]
+                            },
+                            "aged17OrOverAgreedToLeave": {
+                              "baspiRef": "B6.4",
+                              "RDSRef": "RightsHolders,TenureAgreements,Notifications",
+                              "lawSocietyRef": "TA6/11.5a",
+                              "title": "Have all occupiers aged 17 or over agreed to leave prior to completion?",
+                              "$ref": "#/$defs/yesNo"
+                            },
+                            "aged17OrOverWillSignToConfirmWillVacate": {
+                              "baspiRef": "B6.4",
+                              "RDSRef": "RightsHolders,TenureAgreements,Notifications",
+                              "lawSocietyRef": "TA6/11.5b",
+                              "title": "Have all occupiers aged 17 or over, agreed to sign the sale contract?",
+                              "$ref": "#/$defs/yesNoDetailIfNo",
+                              "description": "If 'No', please supply other evidence that the property will be vacant on completion."
+                            }
+                          },
+                          "required": [
+                            "aged17OrOverAgreedToLeave",
+                            "aged17OrOverWillSignToConfirmWillVacate"
+                          ]
+                        }
+                      ]
+                    }
+                  }
                 }
               },
               "required": [
                 "aged17OrOverNames",
                 "aged17OrOverTenantsOrLodgers",
-                "soldWithVacantPosesssion"
-              ],
-              "dependencies": {
-                "soldWithVacantPosesssion": {
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "soldWithVacantPosesssion": {
-                          "enum": ["No"]
-                        }
-                      },
-                      "additionalProperties": false
-                    },
-                    {
-                      "properties": {
-                        "soldWithVacantPosesssion": {
-                          "enum": ["Yes"]
-                        },
-                        "aged17OrOverAgreedToLeave": {
-                          "baspiRef": "B6.4",
-                          "RDSRef": "RightsHolders,TenureAgreements,Notifications",
-                          "lawSocietyRef": "TA6/11.5a",
-                          "title": "Have all occupiers aged 17 or over agreed to leave prior to completion?",
-                          "$ref": "#/$defs/yesNo"
-                        },
-                        "aged17OrOverWillSignToConfirmWillVacate": {
-                          "baspiRef": "B6.4",
-                          "RDSRef": "RightsHolders,TenureAgreements,Notifications",
-                          "lawSocietyRef": "TA6/11.5b",
-                          "title": "Have all occupiers aged 17 or over, agreed to sign the sale contract?",
-                          "$ref": "#/$defs/yesNoDetailIfNo",
-                          "description": "If 'No', please supply other evidence that the property will be vacant on completion."
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
+                "vacantPossession"
+              ]
             }
           ]
         }
