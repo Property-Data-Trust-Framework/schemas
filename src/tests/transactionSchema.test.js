@@ -184,7 +184,7 @@ test("correctly gets titles across schemas, arrays and non-existient title prope
   expect(
     getTitleAtPath(
       transactionSchema,
-      "/propertyPack/additionalLegalInfo/occupiers/aged17OrOverNames/0/firstName"
+      "/propertyPack/additionalLegalInfo/occupiers/othersAged17OrOver/aged17OrOverNames/0/firstName"
     )
   ).toBe("First Name");
 });
