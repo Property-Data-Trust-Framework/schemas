@@ -117,7 +117,6 @@
         "areBoundariesUniform",
         "haveBoundaryFeaturesMoved",
         "adjacentLandIncluded",
-        "titlePlanAccurate",
         "flyingFreehold"
       ],
       "properties": {
@@ -174,12 +173,6 @@
           "lawSocietyRef": "TA6/1.4",
           "title": "Has any adjacent land or property been purchased by you that will be included in the sale?",
           "$ref": "#/$defs/yesNoDetailIfYes"
-        },
-        "titlePlanAccurate": {
-          "baspiRef": "B2.4",
-          "RDSRef": "Tenure/BoundaryDifferences,Tenure/CadastralMapOfParcels",
-          "title": "Does the title plan for the property accurately show the extent of the land and property which you are selling?",
-          "$ref": "#/$defs/yesNoDetailIfNo"
         },
         "flyingFreehold": {
           "baspiRef": "B2.5",
@@ -581,7 +574,7 @@
       "lawSocietyRef": "TA6/11",
       "title": "Occupiers",
       "type": "object",
-      "required": ["sellerLivesAtProperty", "otherOver17sAtProperty"],
+      "required": ["sellerLivesAtProperty", "hasOthersAgedOver17"],
       "properties": {
         "sellerLivesAtProperty": {
           "baspiRef": "B6.1",
@@ -590,90 +583,119 @@
           "title": "Does the seller live at the property?",
           "$ref": "#/$defs/yesNo"
         },
-        "otherOver17sAtProperty": {
+        "hasOthersAgedOver17": {
           "baspiRef": "B6.2",
           "RDSRef": "Participants",
           "lawSocietyRef": "TA6/11.2",
           "title": "Does anyone else, aged 17 or over, live at the property?",
-          "type": "object",
-          "properties": {
-            "hasOver17s": {
-              "type": "string",
-              "title": "",
-              "enum": ["Yes", "No"]
-            }
-          },
-          "required": ["hasOver17s"],
-          "dependencies": {
-            "hasOver17s": {
-              "oneOf": [
-                {
-                  "properties": {
-                    "hasOver17s": {
-                      "enum": ["No"]
-                    }
-                  },
-                  "additionalProperties": false
+          "type": "string",
+          "enum": ["Yes", "No"]
+        }
+      },
+
+      "dependencies": {
+        "hasOthersAgedOver17": {
+          "oneOf": [
+            {
+              "properties": {
+                "hasOthersAgedOver17": {
+                  "enum": ["No"]
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "properties": {
+                "hasOthersAgedOver17": {
+                  "enum": ["Yes"]
                 },
-                {
-                  "properties": {
-                    "hasOver17s": {
-                      "enum": ["Yes"]
-                    },
-                    "over17sNames": {
-                      "lawSocietyRef": "TA6/11.3",
-                      "title": "Please specify their full names and ages.",
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "firstName": {
-                            "title": "First Name",
-                            "type": "string",
-                            "minLength": 1
-                          },
-                          "middleNames": {
-                            "title": "Middle name(s) if any",
-                            "type": "string"
-                          },
-                          "lastName": {
-                            "title": "Last Name",
-                            "type": "string",
-                            "minLength": 1
-                          },
-                          "age": {
-                            "title": "Age",
-                            "type": "integer"
-                          }
-                        },
-                        "required": ["firstName", "lastName", "age"]
+                "aged17OrOverNames": {
+                  "lawSocietyRef": "TA6/11.3",
+                  "title": "Please specify their full names and ages.",
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "firstName": {
+                        "title": "First Name",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "middleNames": {
+                        "title": "Middle name(s) if any",
+                        "type": "string"
+                      },
+                      "lastName": {
+                        "title": "Last Name",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "age": {
+                        "title": "Age",
+                        "type": "integer"
                       }
                     },
-                    "over17sTenantsOrLodgers": {
-                      "baspiRef": "B6.1",
-                      "RDSRef": "Property/Flags",
-                      "lawSocietyRef": "TA6/11.4",
-                      "title": "Are any of them tenants or lodgers?",
-                      "$ref": "#/$defs/yesNo"
+                    "required": ["firstName", "lastName", "age"]
+                  }
+                },
+                "aged17OrOverTenantsOrLodgers": {
+                  "baspiRef": "B6.1",
+                  "RDSRef": "Property/Flags",
+                  "lawSocietyRef": "TA6/11.4",
+                  "title": "Are any of them tenants or lodgers?",
+                  "$ref": "#/$defs/yesNo"
+                },
+                "soldWithVacantPosesssion": {
+                  "lawSocietyRef": "TA6/11.5",
+                  "type": "string",
+                  "title": "Is the property being sold with vacant possession?",
+                  "enum": ["Yes", "No"]
+                }
+              },
+              "required": [
+                "aged17OrOverNames",
+                "aged17OrOverTenantsOrLodgers",
+                "soldWithVacantPosesssion"
+              ],
+              "dependencies": {
+                "soldWithVacantPosesssion": {
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "soldWithVacantPosesssion": {
+                          "enum": ["No"]
+                        }
+                      },
+                      "additionalProperties": false
                     },
-                    "over17sWillSignToConfirmWillVacate": {
-                      "baspiRef": "B6.4",
-                      "RDSRef": "RightsHolders,TenureAgreements,Notifications",
-                      "lawSocietyRef": "TA6/11.5",
-                      "title": "Have all occupiers aged over 17, agreed to sign the contract to confirm that they will vacate the property prior to completion of the sale?",
-                      "$ref": "#/$defs/yesNoDetailIfNo",
-                      "description": "If 'No', please provide details (e.g. the property is sold let to tenants) and supply a copy of the tenancy agreement together with a copy of any notice to quit which has been served upon them."
+                    {
+                      "properties": {
+                        "soldWithVacantPosesssion": {
+                          "enum": ["Yes"]
+                        },
+                        "aged17OrOverAgreedToLeave": {
+                          "baspiRef": "B6.4",
+                          "RDSRef": "RightsHolders,TenureAgreements,Notifications",
+                          "lawSocietyRef": "TA6/11.5a",
+                          "title": "Have all occupiers aged 17 or over agreed to leave prior to completion?",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "aged17OrOverWillSignToConfirmWillVacate": {
+                          "baspiRef": "B6.4",
+                          "RDSRef": "RightsHolders,TenureAgreements,Notifications",
+                          "lawSocietyRef": "TA6/11.5b",
+                          "title": "Have all occupiers aged 17 or over, agreed to sign the sale contract?",
+                          "$ref": "#/$defs/yesNoDetailIfNo",
+                          "description": "If 'No', please supply other evidence that the property will be vacant on completion."
+                        }
+                      }
                     }
-                  },
-                  "required": [
-                    "over17sNames",
-                    "over17sTenantsOrLodgers",
-                    "over17sWillSignToConfirmWillVacate"
                   ]
                 }
-              ]
+              }
             }
-          }
+          ]
         }
       }
     },

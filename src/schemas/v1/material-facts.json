@@ -602,12 +602,8 @@
           "baspiRef": "A2.1",
           "RDSRef": "Tenure/DisputesComplaints,Tenure/LegalClaims",
           "title": "Does the property have potentially flammable external wall system - including cladding and balconies etc?",
-          "type": "string",
-          "enum": [
-            "Yes (EWS form attached)",
-            "Yes (No external wall system review to hand)",
-            "No"
-          ]
+          "$ref": "#/$defs/yesNoDetailIfYes",
+          "description": "If yes, please give details and attach an EWS form or state if none is to hand"
         }
       }
     },
@@ -1055,6 +1051,12 @@
                       "$ref": "#/$defs/yesNoDetailIfYes",
                       "description": "If yes, provide details of the properties sharing the system and explain how maintenance of the system is arranged and paid for."
                     },
+                    "yearSystemInstalled": {
+                      "lawSocietyRef": "TA6/12.9",
+                      "title": "What year was the system installed?",
+                      "type": "integer",
+                      "minimum": 1000
+                    },
                     "plantOnOtherLand": {
                       "baspiRef": "A7.2.6",
                       "RDSRef": "Services/OtherServices/Located,Services/OtherServices/{access=?}",
@@ -1129,6 +1131,7 @@
                     "cesspit",
                     "sewerageTreatmentPlant",
                     "otherConnectedProperties",
+                    "yearSystemInstalled",
                     "plantOnOtherLand",
                     "plantRegistered",
                     "plantDrainsIntoWaterway"
@@ -1450,7 +1453,7 @@
                   "baspiRef": "A8.2",
                   "RDSRef": "Insurance/Flags,Insurance/refusalReason=?",
                   "lawSocietyRef": "TA6/6.4",
-                  "title": "Have you had any difficulty obtaining competitively priced building insurance due to the structure or location of the property or had insurance refused (e.g. high premiums, excess over £1,500, special conditions etc )",
+                  "title": "Have you had any difficulty obtaining competitively priced building insurance due to the structure or location of the property or had insurance refused (e.g. high premiums, excess over £1,500, special conditions etc)",
                   "$ref": "#/$defs/yesNoDetailIfYes"
                 },
                 "insuranceClaims": {
@@ -1609,20 +1612,141 @@
       "title": "Other Issues Affecting the Property",
       "type": "object",
       "required": [
-        "environmental",
+        "flooding",
+        "radon",
+        "otherEnvironmental",
         "excessiveNoise",
         "crime",
         "cautionOrConviction",
         "failedTransactionsInLast12Months"
       ],
       "properties": {
-        "environmental": {
+        "flooding": {
           "baspiRef": "A11.1",
           "RDSRef": "Sustainability/Environmental|Natural|Situational",
-          "lawSocietyRef": "TA6/7",
-          "title": "To your knowledge, has there been any environmental issues that affect the property or garden (for example, these could include air pollution, flooding, radon gas, mining, sink holes, quarrying or fracking etc)?",
+          "lawSocietyRef": "TA6/7.1",
+          "title": "Flooding",
+          "type": "object",
+          "required": ["floodRiskReport", "hasBeenFlooded"],
+          "properties": {
+            "floodRiskReport": {
+              "baspiRef": "A11.1",
+              "RDSRef": "Sustainability/Environmental|Natural|Situational",
+              "lawSocietyRef": "TA6/7.3",
+              "title": "Has a Flood Risk Report been prepared?",
+              "$ref": "#/$defs/yesNoDetailIfYes",
+              "description": "If yes, please supply a copy."
+            },
+            "hasBeenFlooded": {
+              "title": "Has any part of the property (whether buildings or surrounding garden or land) ever been flooded?",
+              "lawSocietyRef": "TA6/7.2",
+              "type": "string",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "dependencies": {
+            "hasBeenFlooded": {
+              "oneOf": [
+                {
+                  "properties": {
+                    "hasBeenFlooded": {
+                      "enum": ["No"]
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                {
+                  "properties": {
+                    "hasBeenFlooded": {
+                      "enum": ["Yes"]
+                    },
+                    "details": {
+                      "lawSocietyRef": "TA6/7.1",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "typeOfFlooding": {
+                      "baspiRef": "A11.1",
+                      "RDSRef": "Sustainability/Environmental|Natural|Situational",
+                      "lawSocietyRef": "TA6/7.2",
+                      "title": "What type of flooding occurred?",
+                      "type": "object",
+                      "properties": {
+                        "groundWater": {
+                          "lawSocietyRef": "TA6/7.2a",
+                          "title": "Ground water",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "sewer": {
+                          "lawSocietyRef": "TA6/7.2b",
+                          "title": "Sewer",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "surfaceWater": {
+                          "lawSocietyRef": "TA6/7.2c",
+                          "title": "Surface water",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "coastal": {
+                          "lawSocietyRef": "TA6/7.2d",
+                          "title": "Coastal flooding",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "river": {
+                          "lawSocietyRef": "TA6/7.2e",
+                          "title": "River flooding",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "other": {
+                          "title": "Other",
+                          "$ref": "#/$defs/yesNoDetailIfYes",
+                          "description": "Please state"
+                        }
+                      },
+                      "required": [
+                        "groundWater",
+                        "sewer",
+                        "surfaceWater",
+                        "coastal",
+                        "river",
+                        "other"
+                      ]
+                    }
+                  },
+                  "required": ["typeOfFlooding", "details"]
+                }
+              ]
+            }
+          }
+        },
+        "radon": {
+          "baspiRef": "A11.1",
+          "RDSRef": "Sustainability/Environmental|Natural|Situational",
+          "lawSocietyRef": "TA6/7.4",
+          "title": "Radon",
+          "type": "object",
+          "required": ["remedialMeasuresOnConstruction", "radonTest"],
+          "properties": {
+            "radonTest": {
+              "lawSocietyRef": "TA6/7.4",
+              "title": "Has a Radon test been carried out on the property?",
+              "$ref": "#/$defs/yesNoDetailIfYes",
+              "description": "If yes, please supply a copy of the report and indicate if the test result was below the recommended level."
+            },
+            "remedialMeasuresOnConstruction": {
+              "RDSRef": "Sustainability/Environmental|Natural|Situational",
+              "lawSocietyRef": "TA6/7.5",
+              "title": "Were any remedial measures undertaken on construction to reduce Radon gas levels on the property?",
+              "$ref": "#/$defs/yesNo"
+            }
+          }
+        },
+        "otherEnvironmental": {
+          "baspiRef": "A11.1",
+          "RDSRef": "Sustainability/Environmental|Natural|Situational",
+          "title": "To your knowledge, have there been any other environmental issues that affect the property or garden (for example, these could include air pollution, mining, sink holes, quarrying or fracking etc)?",
           "$ref": "#/$defs/yesNoDetailIfYes",
-          "description": "If yes, please provide details.  For example the level of air pollution, type of flooding (e.g. ground water, coastal, river, surface water, sewer, etc), level of radon, a copy of any radon report, location of fracking etc, and whether any action has been taken to prevent harm."
+          "description": "If yes, please provide details. For example the level of air pollution, location of fracking etc, and whether any action has been taken to prevent harm."
         },
         "excessiveNoise": {
           "baspiRef": "A11.2",
@@ -1989,13 +2113,8 @@
     "contactDetails": {
       "type": "object",
       "properties": {
-        "firstName": {
-          "title": "First name",
-          "type": "string",
-          "minLength": 1
-        },
-        "lastName": {
-          "title": "Last name",
+        "nameOrOrganisation": {
+          "title": "Name or organisation",
           "type": "string",
           "minLength": 1
         },
@@ -2006,33 +2125,12 @@
         },
         "address": {
           "title": "Address",
-          "type": "object",
-          "properties": {
-            "line1": {
-              "title": "Address 1",
-              "type": "string",
-              "minLength": 1
-            },
-            "line2": {
-              "title": "Address 2",
-              "type": "string"
-            },
-            "town": {
-              "title": "Town",
-              "type": "string"
-            },
-            "county": {
-              "title": "County",
-              "type": "string"
-            },
-            "postcode": {
-              "title": "Postcode",
-              "type": "string",
-              "minLength": 1
-            }
-          }
+
+          "type": "string",
+          "minLength": 1
         }
-      }
+      },
+      "required": ["nameOrOrganisation"]
     }
   }
 }
