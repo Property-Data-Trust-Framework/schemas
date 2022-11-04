@@ -161,6 +161,7 @@
     "ownership": {
       "baspiRef": "A1.3",
       "lawSocietyRef": "TA7/1",
+      "ntsRef": "A1.1",
       "title": "Ownership",
       "type": "object",
       "required": ["ownershipType"],
@@ -170,16 +171,9 @@
           "RDSRef": "Tenure/Tenure",
           "lawSocietyRef": "TA7/1.1",
           "title": "What type of ownership is the property?",
-          "description": "A Managed Freehold is any freehold where there are shared amenities, the maintenance of which you pay for through an estate rentcharge, service charge, informal or formal contribution.",
+          "description": "Choose Freehold if your property is a Managed Freehold or Commonhold. Choose Leasehold if your property is under a Shared Ownership arrangement.",
           "type": "string",
-          "enum": [
-            "Freehold",
-            "Managed Freehold",
-            "Leasehold",
-            "Commonhold",
-            "Shared Ownership",
-            "Other"
-          ]
+          "enum": ["Freehold", "Leasehold", "Other"]
         }
       },
       "dependencies": {
@@ -189,9 +183,243 @@
               "properties": {
                 "ownershipType": {
                   "enum": ["Freehold"]
+                },
+                "wholeFreeholdForSale": {
+                  "title": "Is the entire freehold being sold?",
+                  "description": "If not, describe the share for sale (e.g. Ground floor flat only)",
+                  "$ref": "#/$defs/yesNoDetailIfNo"
+                },
+                "managedFreeholdOrCommonhold": {
+                  "type": "object",
+                  "properties": {
+                    "isManagedFreeholdOrCommonhold": {
+                      "title": "Is the Freehold a Managed Freehold or Commonhold?",
+                      "description": "A Managed Freehold is any freehold where there are shared amenities, the maintenance of which you pay for through an estate rentcharge, service charge, informal or formal contribution.",
+                      "type": "string",
+                      "enum": ["Neither", "Managed Freehold", "Commonhold"]
+                    }
+                  },
+                  "required": ["isManagedFreeholdOrCommonhold"],
+                  "dependencies": {
+                    "isManagedFreeholdOrCommonhold": {
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "isManagedFreeholdOrCommonhold": {
+                              "enum": ["Neither"]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "properties": {
+                            "isManagedFreeholdOrCommonhold": {
+                              "enum": ["Managed Freehold", "Commonhold"]
+                            },
+                            "annualServiceCharge": {
+                              "baspiRef": "A1.5.1",
+                              "lawSocietyRef": "TA6/10.1",
+                              "ntsRef": "A1.6",
+                              "RDSRef": "TenureAgreements/ServiceCharges",
+                              "title": "Amount of current annual service charge/estate rentcharge/maintenance contribution (£)",
+                              "type": "number"
+                            },
+                            "largeAdditionalExpense": {
+                              "baspiRef": "A1.5.2",
+                              "lawSocietyRef": "TA6/10.1",
+                              "RDSRef": "TenureAgreements/Repairs,TenureAgreements/ServicesCharges/Breakdown",
+                              "title": "Have you received notice of any large expense in addition to the annual payment?",
+                              "$ref": "#/$defs/yesNoDetailIfYes",
+                              "description": "If yes, please provide details and confirm whether there is a reserve fund or sinking fund which will cover the cost of the works."
+                            },
+                            "additionalFeesOnSale": {
+                              "baspiRef": "A1.5.3",
+                              "lawSocietyRef": "TA6/10.1",
+                              "RDSRef": "TenureAgreements/LegalCosts/Actual, TenureAgreements/LegalCosts/Estimated",
+                              "title": "Additional fees payable on sale (£)",
+                              "type": "number"
+                            },
+                            "freeholderContactDetails": {
+                              "baspiRef": "A1.5.4",
+                              "lawSocietyRef": "TA7/4.1a",
+                              "RDSRef": "TenureAgreements/Assignor",
+                              "title": "The contact details of the freeholder or rentcharge owner",
+                              "$ref": "#/$defs/contactDetails"
+                            },
+                            "managingAgentContactDetails": {
+                              "baspiRef": "A1.5.5",
+                              "lawSocietyRef": "TA7/4.1b",
+                              "RDSRef": "Participants/Role",
+                              "title": "The contact details of the managing agent",
+                              "$ref": "#/$defs/contactDetails"
+                            },
+                            "managementCompanyDirectorRequirement": {
+                              "baspiRef": "A1.5.6",
+                              "RDSRef": "Property/Flags",
+                              "title": "Is the owner of the property required to become a director in a management company for the maintenance of shared amenities?",
+                              "$ref": "#/$defs/yesNo"
+                            }
+                          },
+                          "required": [
+                            "annualServiceCharge",
+                            "largeAdditionalExpense",
+                            "additionalFeesOnSale",
+                            "freeholderContactDetails",
+                            "managingAgentContactDetails",
+                            "managementCompanyDirectorRequirement"
+                          ]
+                        }
+                      ]
+                    }
+                  }
                 }
               },
               "additionalProperties": false
+            },
+            {
+              "properties": {
+                "ownershipType": {
+                  "enum": ["Leasehold"]
+                },
+                "sharedOwnership": {
+                  "type": "object",
+                  "properties": {
+                    "isSharedOwnership": {
+                      "title": "Is the property under Shared Owenership or a Part-buy Part-rent arrangement?",
+                      "type": "string",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "required": ["isSharedOwnership"],
+                  "dependencies": {
+                    "isSharedOwnership": {
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "isSharedOwnership": {
+                              "enum": ["No"]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "properties": {
+                            "isSharedOwnership": {
+                              "enum": ["Yes"]
+                            },
+                            "sharedOwnershipPercentage": {
+                              "ntsRef": "A1.7",
+                              "title": "Shared ownership percentage",
+                              "type": "integer",
+                              "minimum": 5,
+                              "exclusiveMaximum": 100
+                            },
+                            "sharedOwnershipRent": {
+                              "ntsRef": "A1.7",
+                              "title": "Shared ownership rent (£)",
+                              "type": "number",
+                              "minimum": 0
+                            },
+                            "sharedOwnershipRentFrequency": {
+                              "ntsRef": "A1.7",
+                              "title": "Shared ownership rent frequency",
+                              "type": "string",
+                              "enum": ["Yearly", "Monthly", "Weekly"]
+                            }
+                          },
+                          "required": [
+                            "sharedOwnershipPercentage",
+                            "sharedOwnershipRent",
+                            "sharedOwnershipRentFrequency"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                "startYearOfLease": {
+                  "baspiRef": "A1.4.1b",
+                  "ntsRef": "A1.2",
+                  "title": "Year that the lease commenced",
+                  "type": "integer",
+                  "minimum": 1000
+                },
+                "lengthOfLeaseInYears": {
+                  "baspiRef": "A1.4.1a",
+                  "ntsRef": "A1.3",
+                  "title": "Length of lease (years)",
+                  "type": "integer"
+                },
+                "currentGroundRent": {
+                  "baspiRef": "A1.4.2",
+                  "ntsRef": "A1.4",
+                  "RDSRef": "TenureAgreements/RentPayable/Value",
+                  "lawSocietyRef": "TA7/1.2a",
+                  "title": "Current annual ground rent (£)",
+                  "type": "number"
+                },
+                "rentIncrease": {
+                  "baspiRef": "A1.4.3",
+                  "ntsRef": "A1.5",
+                  "RDSRef": "TenureAgreement/isRentChangeable, TenureAgreements/RentChanges",
+                  "title": "Does the ground rent increase?",
+                  "$ref": "#/$defs/yesNoDetailIfYes",
+                  "description": "Please provide full details of the ground rent increase e.g. how often and by how much and when the next increase is due."
+                },
+                "annualServiceCharge": {
+                  "baspiRef": "A1.5.1",
+                  "ntsRef": "A1.6",
+                  "RDSRef": "TenureAgreements/ServiceCharges",
+                  "title": "Amount of current annual service charge/estate rentcharge/maintenance contribution (£)",
+                  "type": "number"
+                },
+                "largeAdditionalExpense": {
+                  "baspiRef": "A1.5.2",
+                  "RDSRef": "TenureAgreements/Repairs,TenureAgreements/ServicesCharges/Breakdown",
+                  "title": "Have you received notice of any large expense in addition to the annual payment?",
+                  "$ref": "#/$defs/yesNoDetailIfYes",
+                  "description": "If yes, please provide details and confirm whether there is a reserve fund or sinking fund which will cover the cost of the works."
+                },
+                "additionalFeesOnSale": {
+                  "baspiRef": "A1.5.3",
+                  "RDSRef": "TenureAgreements/LegalCosts/Actual, TenureAgreements/LegalCosts/Estimated",
+                  "title": "Additional fees payable on sale (£)",
+                  "type": "number"
+                },
+                "freeholderContactDetails": {
+                  "baspiRef": "A1.5.4",
+                  "lawSocietyRef": "TA7/4.1a",
+                  "RDSRef": "TenureAgreements/Assignor",
+                  "title": "The name, address and email address of the freeholder or rentcharge owner",
+                  "$ref": "#/$defs/contactDetails"
+                },
+                "managingAgentContactDetails": {
+                  "baspiRef": "A1.5.5",
+                  "lawSocietyRef": "TA7/4.1b",
+                  "RDSRef": "Participants/Role",
+                  "title": "The name, address and email address of the managing agent",
+                  "$ref": "#/$defs/contactDetails"
+                },
+                "managementCompanyDirectorRequirement": {
+                  "baspiRef": "A1.5.6",
+                  "RDSRef": "Property/Flags",
+                  "title": "Is the owner of the property required to become a director in a management company for the maintenance of shared amenities?",
+                  "$ref": "#/$defs/yesNo"
+                }
+              },
+              "required": [
+                "sharedOwnership",
+                "startYearOfLease",
+                "lengthOfLeaseInYears",
+                "currentGroundRent",
+                "rentIncrease",
+                "annualServiceCharge",
+                "largeAdditionalExpense",
+                "additionalFeesOnSale",
+                "freeholderContactDetails",
+                "managingAgentContactDetails",
+                "managementCompanyDirectorRequirement"
+              ]
             },
             {
               "properties": {
@@ -207,242 +435,6 @@
               },
               "required": ["otherOwnershipDetails"],
               "additionalProperties": false
-            },
-            {
-              "properties": {
-                "ownershipType": {
-                  "enum": ["Leasehold"]
-                },
-                "startYearOfLease": {
-                  "baspiRef": "A1.4.1b",
-                  "title": "Year that the lease commenced",
-                  "type": "integer",
-                  "minimum": 1000
-                },
-                "lengthOfLeaseInYears": {
-                  "baspiRef": "A1.4.1a",
-                  "title": "Length of lease (years)",
-                  "type": "integer"
-                },
-                "currentGroundRent": {
-                  "baspiRef": "A1.4.2",
-                  "RDSRef": "TenureAgreements/RentPayable/Value",
-                  "lawSocietyRef": "TA7/1.2",
-                  "title": "Current annual ground rent (£)",
-                  "type": "number"
-                },
-                "rentIncrease": {
-                  "baspiRef": "A1.4.3",
-                  "RDSRef": "TenureAgreement/isRentChangeable, TenureAgreements/RentChanges",
-                  "title": "Does the ground rent increase?",
-                  "$ref": "#/$defs/yesNoDetailIfYes",
-                  "description": "Please provide full details of the ground rent increase e.g. how often and by how much and when the next increase is due."
-                },
-                "annualServiceCharge": {
-                  "baspiRef": "A1.5.1",
-                  "RDSRef": "TenureAgreements/ServiceCharges",
-                  "title": "Amount of current annual service charge/estate rentcharge/maintenance contribution (£)",
-                  "type": "number"
-                },
-                "largeAdditionalExpense": {
-                  "baspiRef": "A1.5.2",
-                  "RDSRef": "TenureAgreements/Repairs,TenureAgreements/ServicesCharges/Breakdown",
-                  "title": "Have you received notice of any large expense in addition to the annual payment?",
-                  "$ref": "#/$defs/yesNoDetailIfYes",
-                  "description": "If yes, please provide details and confirm whether there is a reserve fund or sinking fund which will cover the cost of the works."
-                },
-                "additionalFeesOnSale": {
-                  "baspiRef": "A1.5.3",
-                  "RDSRef": "TenureAgreements/LegalCosts/Actual, TenureAgreements/LegalCosts/Estimated",
-                  "title": "Additional fees payable on sale (£)",
-                  "type": "number"
-                },
-                "freeholderContactDetails": {
-                  "baspiRef": "A1.5.4",
-                  "RDSRef": "TenureAgreements/Assignor",
-                  "title": "The name, address and email address of the freeholder or rentcharge owner",
-                  "$ref": "#/$defs/contactDetails"
-                },
-                "managingAgentContactDetails": {
-                  "baspiRef": "A1.5.5",
-                  "RDSRef": "Participants/Role",
-                  "title": "The name, address and email address of the managing agent",
-                  "$ref": "#/$defs/contactDetails"
-                },
-                "managementCompanyDirectorRequirement": {
-                  "baspiRef": "A1.5.6",
-                  "RDSRef": "Property/Flags",
-                  "title": "Is the owner of the property required to become a director in a management company for the maintenance of shared amenities?",
-                  "$ref": "#/$defs/yesNo"
-                }
-              },
-              "required": [
-                "startYearOfLease",
-                "lengthOfLeaseInYears",
-                "currentGroundRent",
-                "rentIncrease",
-                "annualServiceCharge",
-                "largeAdditionalExpense",
-                "additionalFeesOnSale",
-                "freeholderContactDetails",
-                "managingAgentContactDetails",
-                "managementCompanyDirectorRequirement"
-              ]
-            },
-            {
-              "properties": {
-                "ownershipType": {
-                  "enum": ["Managed Freehold", "Commonhold"]
-                },
-                "annualServiceCharge": {
-                  "baspiRef": "A1.5.1",
-                  "lawSocietyRef": "TA6/10.1",
-                  "RDSRef": "TenureAgreements/ServiceCharges",
-                  "title": "Amount of current annual service charge/estate rentcharge/maintenance contribution (£)",
-                  "type": "number"
-                },
-                "largeAdditionalExpense": {
-                  "baspiRef": "A1.5.2",
-                  "lawSocietyRef": "TA6/10.1",
-                  "RDSRef": "TenureAgreements/Repairs,TenureAgreements/ServicesCharges/Breakdown",
-                  "title": "Have you received notice of any large expense in addition to the annual payment?",
-                  "$ref": "#/$defs/yesNoDetailIfYes",
-                  "description": "If yes, please provide details and confirm whether there is a reserve fund or sinking fund which will cover the cost of the works."
-                },
-                "additionalFeesOnSale": {
-                  "baspiRef": "A1.5.3",
-                  "lawSocietyRef": "TA6/10.1",
-                  "RDSRef": "TenureAgreements/LegalCosts/Actual, TenureAgreements/LegalCosts/Estimated",
-                  "title": "Additional fees payable on sale (£)",
-                  "type": "number"
-                },
-                "freeholderContactDetails": {
-                  "baspiRef": "A1.5.4",
-                  "RDSRef": "TenureAgreements/Assignor",
-                  "title": "The contact details of the freeholder or rentcharge owner",
-                  "$ref": "#/$defs/contactDetails"
-                },
-                "managingAgentContactDetails": {
-                  "baspiRef": "A1.5.5",
-                  "RDSRef": "Participants/Role",
-                  "title": "The contact details of the managing agent",
-                  "$ref": "#/$defs/contactDetails"
-                },
-                "managementCompanyDirectorRequirement": {
-                  "baspiRef": "A1.5.6",
-                  "RDSRef": "Property/Flags",
-                  "title": "Is the owner of the property required to become a director in a management company for the maintenance of shared amenities?",
-                  "$ref": "#/$defs/yesNo"
-                }
-              },
-              "required": [
-                "annualServiceCharge",
-                "largeAdditionalExpense",
-                "additionalFeesOnSale",
-                "freeholderContactDetails",
-                "managingAgentContactDetails",
-                "managementCompanyDirectorRequirement"
-              ]
-            },
-            {
-              "properties": {
-                "ownershipType": {
-                  "enum": ["Shared Ownership"]
-                },
-                "sharedOwnershipPercentage": {
-                  "title": "Shared ownership percentage",
-                  "type": "integer",
-                  "minimum": 5,
-                  "exclusiveMaximum": 100
-                },
-                "sharedOwnershipRent": {
-                  "title": "Shared ownership rent (£)",
-                  "type": "number",
-                  "minimum": 0
-                },
-                "sharedOwnershipRentFrequency": {
-                  "title": "Shared ownership rent frequency",
-                  "type": "string",
-                  "enum": ["Yearly", "Monthly", "Weekly"]
-                },
-                "startYearOfLease": {
-                  "baspiRef": "A1.4.1b",
-                  "title": "Year that the lease commenced",
-                  "type": "integer",
-                  "minimum": 1000
-                },
-                "lengthOfLeaseInYears": {
-                  "baspiRef": "A1.4.1a",
-                  "title": "Length of lease (years)",
-                  "type": "integer"
-                },
-                "currentGroundRent": {
-                  "baspiRef": "A1.4.2",
-                  "RDSRef": "TenureAgreements/RentPayable/Value",
-                  "lawSocietyRef": "TA7/1.2",
-                  "title": "Current annual ground rent (£)",
-                  "type": "number"
-                },
-                "rentIncrease": {
-                  "baspiRef": "A1.4.3",
-                  "RDSRef": "TenureAgreement/isRentChangeable, TenureAgreements/RentChanges",
-                  "title": "Does the ground rent increase?",
-                  "$ref": "#/$defs/yesNoDetailIfYes",
-                  "description": "Please provide full details of the ground rent increase e.g. how often and by how much and when the next increase is due."
-                },
-                "annualServiceCharge": {
-                  "baspiRef": "A1.5.1",
-                  "RDSRef": "TenureAgreements/ServiceCharges",
-                  "title": "Amount of current annual service charge/estate rentcharge/maintenance contribution (£)",
-                  "type": "number"
-                },
-                "largeAdditionalExpense": {
-                  "baspiRef": "A1.5.2",
-                  "RDSRef": "TenureAgreements/Repairs,TenureAgreements/ServicesCharges/Breakdown",
-                  "title": "Have you received notice of any large expense in addition to the annual payment?",
-                  "$ref": "#/$defs/yesNoDetailIfYes",
-                  "description": "If yes, please provide details and confirm whether there is a reserve fund or sinking fund which will cover the cost of the works."
-                },
-                "additionalFeesOnSale": {
-                  "baspiRef": "A1.5.3",
-                  "RDSRef": "TenureAgreements/LegalCosts/Actual, TenureAgreements/LegalCosts/Estimated",
-                  "title": "Additional fees payable on sale or letting (£)",
-                  "type": "number"
-                },
-                "freeholderContactDetails": {
-                  "baspiRef": "A1.5.4",
-                  "RDSRef": "TenureAgreements/Assignor",
-                  "title": "The contact details of the freeholder or rentcharge owner",
-                  "$ref": "#/$defs/contactDetails"
-                },
-                "managingAgentContactDetails": {
-                  "baspiRef": "A1.5.5",
-                  "RDSRef": "Participants/Role",
-                  "title": "The contact details of the managing agent",
-                  "$ref": "#/$defs/contactDetails"
-                },
-                "managementCompanyDirectorRequirement": {
-                  "baspiRef": "A1.5.6",
-                  "RDSRef": "Property/Flags",
-                  "title": "Is the owner of the Property required to become a director in a management company for the maintenance of shared amenities?",
-                  "$ref": "#/$defs/yesNo"
-                }
-              },
-              "required": [
-                "sharedOwnershipPercentage",
-                "sharedOwnershipRent",
-                "sharedOwnershipRentFrequency",
-                "startYearOfLease",
-                "lengthOfLeaseInYears",
-                "currentGroundRent",
-                "rentIncrease",
-                "annualServiceCharge",
-                "largeAdditionalExpense",
-                "additionalFeesOnSale",
-                "freeholderContactDetails",
-                "managingAgentContactDetails",
-                "managementCompanyDirectorRequirement"
-              ]
             }
           ]
         }
