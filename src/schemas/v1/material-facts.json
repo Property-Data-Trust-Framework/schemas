@@ -32,11 +32,6 @@
     "consumerProtectionRegulationsDeclaration"
   ],
   "properties": {
-    "uprn": {
-      "RDSRef": "Property/GUID/{name='UPRN',id=?}",
-      "title": "Unique Property Reference Number ",
-      "type": "integer"
-    },
     "address": {
       "baspiRef": "A1.1",
       "lawSocietyRef": "TA6/0",
@@ -44,60 +39,91 @@
       "title": "Property Address",
       "$ref": "#/$defs/address"
     },
+    "uprn": {
+      "baspiRef": "A1.1.1",
+      "RDSRef": "Property/GUID/{name='UPRN',id=?}",
+      "title": "Unique Property Reference Number ",
+      "type": "integer"
+    },
     "propertyType": {
+      "title": "Type of property",
       "type": "string"
     },
     "isNewBuild": {
+      "title": "Is the property a New Build?",
       "type": "boolean"
     },
     "location": {
-      "latitude": {
-        "type": "number",
-        "minimum": -90,
-        "maximum": 90
-      },
-      "longitude": {
-        "type": "number",
-        "minimum": -180,
-        "maximum": 180
+      "title": "Geographical location",
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "title": "Latitude",
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "longitude": {
+          "title": "Longitude",
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        }
       }
     },
     "localAuthority": {
-      "localAuthorityName": {
-        "type": "string"
-      },
-      "localAuthorityReference": {
-        "type": "string"
+      "title": "Local authority",
+      "type": "object",
+      "properties": {
+        "localAuthorityName": {
+          "title": "Local authority name",
+          "type": "string"
+        },
+        "localAuthorityReference": {
+          "title": "Local authority reference",
+          "type": "string"
+        }
       }
     },
     "priceInformation": {
-      "price": {
-        "type": "number",
-        "minimum": 1
-      },
-      "priceQualifier": {
-        "type": "string",
-        "enum": [
-          "POA",
-          "Guide price",
-          "Fixed price",
-          "Offers in excess of",
-          "Offers in region of",
-          "Sale by tender"
-        ]
+      "ntsRef": "A3",
+      "title": "Price information",
+      "type": "object",
+      "properties": {
+        "price": {
+          "ntsRef": "A3.1",
+          "title": "Price",
+          "type": "number",
+          "minimum": 1
+        },
+        "priceQualifier": {
+          "ntsRef": "A3.2",
+          "title": "Price type",
+          "type": "string",
+          "enum": [
+            "POA",
+            "Guide price",
+            "Fixed price",
+            "Offers in excess of",
+            "Offers in region of",
+            "Sale by tender"
+          ]
+        }
       }
     },
     "summaryDescription": {
+      "title": "Summary description",
       "type": "string"
     },
     "media": {
+      "title": "Media",
       "type": "array",
       "items": {
         "type": "object",
-        "title": "Media item",
         "required": ["mediaUrl"],
         "properties": {
           "mediaType": {
+            "title": "Type of media",
             "type": "string",
             "enum": [
               "Image",
@@ -110,12 +136,11 @@
             ]
           },
           "mediaUrl": {
+            "title": "Media URL",
             "type": "string",
             "format": "uri"
           },
-          "caption": {
-            "type": "string"
-          }
+          "caption": { "title": "Caption", "type": "string" }
         }
       }
     },
@@ -642,12 +667,14 @@
     },
     "councilTax": {
       "baspiRef": "A1.9",
+      "ntsRef": "A2",
       "title": "Council Tax",
       "type": "object",
       "required": ["councilTaxBand", "councilTaxAffectingAlterations"],
       "properties": {
         "councilTaxBand": {
           "baspiRef": "A1.9.1",
+          "ntsRef": "A2.1",
           "RDSRef": "TenureAgreements/Taxes/{banding=?}",
           "title": "Which Council Tax band does this property fall within?",
           "type": "string",
