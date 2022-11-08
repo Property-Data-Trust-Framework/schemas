@@ -110,6 +110,14 @@ test("correctly gets yet, yet another subschema through a dependency", () => {
   expect(subschema.enum).toStrictEqual(["Yes", "No"]);
 });
 
+test("correctly gets yet, yet, yet another subschema through a dependency", () => {
+  const subschema = getSubschema(
+    "/propertyPack/materialFacts/otherIssues/flooding/typeOfFlooding/groundWater/yesNo"
+  );
+  expect(subschema.type).toBe("string");
+  expect(subschema.enum).toStrictEqual(["Yes", "No"]);
+});
+
 test("correctly gets a subschema validator which is already cached", () => {
   const validator = getSubschemaValidator(
     "/propertyPack/energyPerformanceCertificate"
