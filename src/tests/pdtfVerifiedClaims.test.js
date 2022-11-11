@@ -9,6 +9,7 @@ const exampleDocumentedVouch = require("../examples/exampleDocumentedVouch.json"
 const ajv = new Ajv({
   allErrors: true,
   strictSchema: false,
+  discriminator: true,
 });
 addFormats(ajv);
 
