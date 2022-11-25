@@ -6,7 +6,7 @@
   "description": "A schema defining Part B of BASPI v2.0 spporting mapping to BASPI, Law Society and RICS Data Schema elements.",
   "baspiRef": "B",
   "required": [
-    "namesOfLegalOwners",
+    "legalOwners",
     "sellersCapacity",
     "legalBoundaries",
     "servicesCrossing",
@@ -18,37 +18,45 @@
     "confirmationOfAccuracyByOwners"
   ],
   "properties": {
-    "namesOfLegalOwners": {
-      "baspiRef": "B1.1",
-      "RDSRef": "RightsHolders",
-      "title": "Full names of all legal owner(s)",
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "object",
-        "baspiRef": "B1.1.1",
-        "title": "Owner name",
-        "required": ["firstName", "lastName"],
-        "properties": {
-          "firstName": {
+    "legalOwners": {
+      "baspiRef": "B1",
+      "title": "Legal Owners",
+      "type": "object",
+      "properties": {
+        "namesOfLegalOwners": {
+          "baspiRef": "B1.1",
+          "RDSRef": "RightsHolders",
+          "title": "Full names of all legal owner(s)",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
             "baspiRef": "B1.1.1",
-            "title": "First name",
-            "type": "string",
-            "minLength": 1
-          },
-          "middleNames": {
-            "baspiRef": "B1.1.2",
-            "title": "Middle names",
-            "type": "string"
-          },
-          "lastName": {
-            "baspiRef": "B1.1.3",
-            "title": "Last name",
-            "type": "string",
-            "minLength": 1
+            "title": "Owner name",
+            "required": ["firstName", "lastName"],
+            "properties": {
+              "firstName": {
+                "baspiRef": "B1.1.1",
+                "title": "First name",
+                "type": "string",
+                "minLength": 1
+              },
+              "middleNames": {
+                "baspiRef": "B1.1.2",
+                "title": "Middle names",
+                "type": "string"
+              },
+              "lastName": {
+                "baspiRef": "B1.1.3",
+                "title": "Last name",
+                "type": "string",
+                "minLength": 1
+              }
+            }
           }
         }
-      }
+      },
+      "required": ["namesOfLegalOwners"]
     },
     "sellersCapacity": {
       "baspiRef": "B1.3",
@@ -70,38 +78,34 @@
           ]
         }
       },
-      "dependencies": {
-        "capacity": {
-          "oneOf": [
-            {
-              "properties": {
-                "capacity": {
-                  "enum": ["Legal Owner", "Mortgagee in Possession"]
-                }
-              },
-              "additionalProperties": false
-            },
-            {
-              "properties": {
-                "capacity": {
-                  "enum": [
-                    "Personal Representative for a Deceased Owner",
-                    "Under Power of Attorney",
-                    "Other"
-                  ]
-                },
-                "sellersCapacityDetails": {
-                  "baspiRef": "B1.4",
-                  "RDSRef": "Participants/OtherDocumentation",
-                  "title": "Please provide details and provide any probate, grant of representation or power of attorney ",
-                  "type": "string"
-                }
-              },
-              "required": ["sellersCapacityDetails"]
+      "discriminator": { "propertyName": "capacity" },
+      "oneOf": [
+        {
+          "properties": {
+            "capacity": {
+              "enum": ["Legal Owner", "Mortgagee in Possession"]
             }
-          ]
+          }
+        },
+        {
+          "properties": {
+            "capacity": {
+              "enum": [
+                "Personal Representative for a Deceased Owner",
+                "Under Power of Attorney",
+                "Other"
+              ]
+            },
+            "sellersCapacityDetails": {
+              "baspiRef": "B1.4",
+              "RDSRef": "Participants/OtherDocumentation",
+              "title": "Please provide details and provide any probate, grant of representation or power of attorney ",
+              "type": "string"
+            }
+          },
+          "required": ["sellersCapacityDetails"]
         }
-      }
+      ]
     },
     "legalBoundaries": {
       "baspiRef": "B2.1",
@@ -258,78 +262,86 @@
             }
           },
           "required": ["hasSolarPanels"],
-          "dependencies": {
-            "hasSolarPanels": {
-              "oneOf": [
-                {
-                  "properties": {
-                    "hasSolarPanels": {
-                      "enum": ["No"]
-                    }
-                  },
-                  "additionalProperties": false
-                },
-                {
-                  "properties": {
-                    "hasSolarPanels": {
-                      "enum": ["Yes"]
-                    },
-                    "yearInstalled": {
-                      "baspiRef": "B4.3.1",
-                      "lawSocietyRef": "TA6/4.6a",
-                      "RDSRef": "Objects/Installation",
-                      "title": "What year were they installed?",
-                      "type": "number"
-                    },
-                    "panelsOwnedOutright": {
-                      "baspiRef": "",
-                      "lawSocietyRef": "TA6/4.6b",
-                      "RDSRef": "Objects/Ownership",
-                      "title": "Do you own the panels, and all equipment related to them, outright?",
-                      "$ref": "#/$defs/yesNoDetailIfNo",
-                      "description": "If no, provide details of who owns them and the relevant documentation"
-                    },
-                    "panelProviderLease": {
-                      "baspiRef": "B4.3.2",
-                      "lawSocietyRef": "TA6/4.6c",
-                      "RDSRef": "Objects/Ownership",
-                      "title": "Is there an existing long lease of the roof/air space granted to a panel provider?",
-                      "$ref": "#/$defs/yesNoDetailIfYes",
-                      "description": "If yes, please supply copies of the relevant documents and the name of the provider"
-                    },
-                    "lastMaintained": {
-                      "baspiRef": "B4.3.4",
-                      "RDSRef": "Objects/Servicing",
-                      "title": "When was the system last maintained or serviced?",
-                      "type": "string",
-                      "format": "date"
-                    },
-                    "inGoodWorkingOrder": {
-                      "baspiRef": "B4.3.5",
-                      "RDSRef": "Objects/isNotWorking=yes|no|true|false",
-                      "title": "Is the system in good working order to your satisfaction?",
-                      "$ref": "#/$defs/yesNoDetailIfNo"
-                    },
-                    "isConnectedToNationalGrid": {
-                      "baspiRef": "B4.3.6",
-                      "RDSRef": "Objects/isExternallyConnected=yes|no|true|false,Connection,Objects/ExternalConnection",
-                      "title": "Is the system connected to the National Grid e.g. for feed-in tariffs (FiT) or Smart Export Guarantee (SEG)",
-                      "type": "string",
-                      "enum": ["Yes (FiT)", "Yes (SEG)", "No"]
-                    }
-                  },
-                  "required": [
-                    "yearInstalled",
-                    "panelsOwnedOutright",
-                    "panelProviderLease",
-                    "lastMaintained",
-                    "inGoodWorkingOrder",
-                    "isConnectedToNationalGrid"
-                  ]
+          "discriminator": { "propertyName": "hasSolarPanels" },
+          "oneOf": [
+            {
+              "properties": {
+                "hasSolarPanels": {
+                  "enum": ["No"]
                 }
+              }
+            },
+            {
+              "properties": {
+                "hasSolarPanels": {
+                  "enum": ["Yes"]
+                },
+                "yearInstalled": {
+                  "baspiRef": "B4.3.1",
+                  "lawSocietyRef": "TA6/4.6a",
+                  "RDSRef": "Objects/Installation",
+                  "title": "What year were they installed?",
+                  "type": "number"
+                },
+                "panelsOwnedOutright": {
+                  "baspiRef": "",
+                  "lawSocietyRef": "TA6/4.6b",
+                  "RDSRef": "Objects/Ownership",
+                  "title": "Do you own the panels, and all equipment related to them, outright?",
+                  "$ref": "#/$defs/yesNoDetailIfNo",
+                  "description": "If no, provide details of who owns them and the relevant documentation"
+                },
+                "panelProviderLease": {
+                  "baspiRef": "B4.3.2",
+                  "lawSocietyRef": "TA6/4.6c",
+                  "RDSRef": "Objects/Ownership",
+                  "title": "Is there an existing long lease of the roof/air space granted to a panel provider?",
+                  "$ref": "#/$defs/yesNoDetailIfYes",
+                  "description": "If yes, please supply copies of the relevant documents and the name of the provider"
+                },
+                "lastMaintained": {
+                  "baspiRef": "B4.3.4",
+                  "RDSRef": "Objects/Servicing",
+                  "title": "When was the system last maintained or serviced?",
+                  "type": "string",
+                  "format": "date"
+                },
+                "inGoodWorkingOrder": {
+                  "baspiRef": "B4.3.5",
+                  "RDSRef": "Objects/isNotWorking=yes|no|true|false",
+                  "title": "Is the system in good working order to your satisfaction?",
+                  "$ref": "#/$defs/yesNoDetailIfNo"
+                },
+                "isConnectedToNationalGrid": {
+                  "baspiRef": "B4.3.6",
+                  "RDSRef": "Objects/isExternallyConnected=yes|no|true|false,Connection,Objects/ExternalConnection",
+                  "title": "Is the system connected to the National Grid e.g. for feed-in tariffs (FiT) or Smart Export Guarantee (SEG)",
+                  "type": "string",
+                  "enum": ["Yes (FiT)", "Yes (SEG)", "No"]
+                },
+                "photovoltaicMeterPanelLocation": {
+                  "baspiRef": "B4.7",
+                  "RDSRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
+                  "title": "Please describe, or attach a photograph of, the location of any photovoltaic panel meter",
+                  "type": "string"
+                },
+                "photovoltaicBatteriesLocation": {
+                  "baspiRef": "B4.8",
+                  "RDSRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
+                  "title": "Please describe, or attach a photograph of, the location of any photovoltaic batteries",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "yearInstalled",
+                "panelsOwnedOutright",
+                "panelProviderLease",
+                "lastMaintained",
+                "inGoodWorkingOrder",
+                "isConnectedToNationalGrid"
               ]
             }
-          }
+          ]
         },
         "electricityMeterLocation": {
           "baspiRef": "B4.4",
@@ -351,18 +363,6 @@
           "RDSRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
           "title": "Please describe, or attach a photograph of, the location of any stopcock and water meter",
           "type": "string"
-        },
-        "photovoltaicMeterPanelLocation": {
-          "baspiRef": "B4.7",
-          "RDSRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
-          "title": "Please describe, or attach a photograph of, the location of any photovoltaic panel meter",
-          "type": "string"
-        },
-        "photovoltaicBatteriesLocation": {
-          "baspiRef": "B4.8",
-          "RDSRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
-          "title": "Please describe, or attach a photograph of, the location of any photovoltaic batteries",
-          "type": "string"
         }
       }
     },
@@ -378,53 +378,49 @@
           "enum": ["Yes", "No"]
         }
       },
-      "dependencies": {
-        "hasSmartHomeSystems": {
-          "oneOf": [
-            {
-              "properties": {
-                "hasSmartHomeSystems": {
-                  "enum": ["No"]
-                }
-              },
-              "additionalProperties": false
-            },
-            {
-              "properties": {
-                "hasSmartHomeSystems": {
-                  "enum": ["Yes"]
-                },
-                "heatingAndPower": {
-                  "title": "Heating and Power",
-                  "description": "E.g. remote boiler control, solar panels, EV charging point, power storage, indoor or outdoor lighting systems",
-                  "$ref": "#/$defs/yesNoDetailIfYes"
-                },
-                "security": {
-                  "title": "Security",
-                  "description": "E.g. CCTV, alarms, barriers, doors or gates",
-                  "$ref": "#/$defs/yesNoDetailIfYes"
-                },
-                "entertainment": {
-                  "title": "Entertainment",
-                  "description": "E.g. integrated audio system",
-                  "$ref": "#/$defs/yesNoDetailIfYes"
-                },
-                "handoverOnCompletion": {
-                  "title": "Confirm that you will handover details on day of completion",
-                  "description": "Confirm that you will provide the buyer with the login, password and link to user instructions for the relevant system(s). [NOTE: It is recommended that you reset the password before handing it over to avoid security issues by passing on your own password.]",
-                  "type": "boolean"
-                }
-              },
-              "required": [
-                "heatingAndPower",
-                "security",
-                "entertainment",
-                "handoverOnCompletion"
-              ]
+      "discriminator": { "propertyName": "hasSmartHomeSystems" },
+      "oneOf": [
+        {
+          "properties": {
+            "hasSmartHomeSystems": {
+              "enum": ["No"]
             }
+          }
+        },
+        {
+          "properties": {
+            "hasSmartHomeSystems": {
+              "enum": ["Yes"]
+            },
+            "heatingAndPower": {
+              "title": "Heating and Power",
+              "description": "E.g. remote boiler control, solar panels, EV charging point, power storage, indoor or outdoor lighting systems",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "security": {
+              "title": "Security",
+              "description": "E.g. CCTV, alarms, barriers, doors or gates",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "entertainment": {
+              "title": "Entertainment",
+              "description": "E.g. integrated audio system",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "handoverOnCompletion": {
+              "title": "Confirm that you will handover details on day of completion",
+              "description": "Confirm that you will provide the buyer with the login, password and link to user instructions for the relevant system(s). [NOTE: It is recommended that you reset the password before handing it over to avoid security issues by passing on your own password.]",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "heatingAndPower",
+            "security",
+            "entertainment",
+            "handoverOnCompletion"
           ]
         }
-      }
+      ]
     },
     "guaranteesWarrantiesAndIndemnityInsurances": {
       "baspiRef": "B5",
@@ -442,132 +438,128 @@
           "enum": ["Yes", "No"]
         }
       },
-      "dependencies": {
-        "hasValidGuaranteesOrWarranties": {
-          "oneOf": [
-            {
-              "properties": {
-                "hasValidGuaranteesOrWarranties": {
-                  "enum": ["No"]
-                }
-              },
-              "additionalProperties": false
-            },
-            {
-              "properties": {
-                "hasValidGuaranteesOrWarranties": {
-                  "enum": ["Yes"]
-                },
-                "newHomeWarranty": {
-                  "baspiRef": "B5.1.1",
-                  "RDSRef": "Certificates",
-                  "lawSocietyRef": "TA6/5.1a",
-                  "title": "New Home Warranty (NHBC or similar)",
-                  "$ref": "#/$defs/yesNoDetailIfYes",
-                  "description": "If yes, please confirm the name of the warranty provider and the date of the warranty:"
-                },
-                "roofingWork": {
-                  "baspiRef": "B5.1.2",
-                  "RDSRef": "Certificates",
-                  "lawSocietyRef": "TA6/5.1f",
-                  "title": "Roofing work",
-                  "$ref": "#/$defs/yesNo"
-                },
-                "dampProofingTreatment": {
-                  "baspiRef": "B5.1.3",
-                  "RDSRef": "Certificates",
-                  "lawSocietyRef": "TA6/5.1b",
-                  "title": "Damp proofing treatment",
-                  "$ref": "#/$defs/yesNo"
-                },
-                "timberRotOrInfestationTreatment": {
-                  "baspiRef": "B5.1.4",
-                  "RDSRef": "Certificates",
-                  "lawSocietyRef": "TA6/5.1c",
-                  "title": "Timber rot or infestation treatment",
-                  "$ref": "#/$defs/yesNo"
-                },
-                "centralHeatingAndorPlumbing": {
-                  "baspiRef": "B5.1.5",
-                  "RDSRef": "Certificates",
-                  "lawSocietyRef": "TA6/5.1g",
-                  "title": "Central heating and/or plumbing",
-                  "$ref": "#/$defs/yesNo"
-                },
-                "doubleGlazing": {
-                  "baspiRef": "B5.1.6",
-                  "RDSRef": "Certificates",
-                  "lawSocietyRef": "TA6/5.1d",
-                  "title": "Double glazing (windows, doors, roof lights, conservatory etc)",
-                  "$ref": "#/$defs/yesNo"
-                },
-                "electricalRepairOrInstallation": {
-                  "baspiRef": "B5.1.7",
-                  "RDSRef": "Certificates",
-                  "lawSocietyRef": "TA6/5.1e",
-                  "title": "Electrical repair or installation",
-                  "$ref": "#/$defs/yesNo"
-                },
-                "subsidenceWork": {
-                  "baspiRef": "B5.1.8",
-                  "RDSRef": "Certificates",
-                  "lawSocietyRef": "TA6/5.1h",
-                  "title": "Underpinning or other preventative work and/or remedial action relating to subsidence",
-                  "$ref": "#/$defs/yesNo"
-                },
-                "solarPanels": {
-                  "baspiRef": "B5.1.9",
-                  "RDSRef": "Certificates",
-                  "title": "Solar panels",
-                  "$ref": "#/$defs/yesNo"
-                },
-                "otherGuarantees": {
-                  "baspiRef": "B5.1.10",
-                  "RDSRef": "Certificates",
-                  "lawSocietyRef": "TA6/5.1i",
-                  "title": "Other Guarantees or Warranties",
-                  "$ref": "#/$defs/yesNo"
-                },
-                "willLeaveGuaranteePaperwork": {
-                  "baspiRef": "B5.1.11",
-                  "RDSRef": "Property/Flags",
-                  "title": "Please confirm that you will leave all paperwork relating to any guarantee or warranty at the property when you move out",
-                  "type": "boolean"
-                },
-                "outstandingClaimsOrApplications": {
-                  "baspiRef": "B5.2",
-                  "RDSRef": "Certificates",
-                  "lawSocietyRef": "TA6/5.2",
-                  "title": "Are there any outstanding claims or current applications relating to any of the above?",
-                  "$ref": "#/$defs/yesNoDetailIfYes"
-                },
-                "titleDefectInsurance": {
-                  "baspiRef": "B5.3",
-                  "RDSRef": "Certificates",
-                  "title": "Do you have any title defect insurance policies e.g. for breach of planning permission, buildings regulations, restrictions, chancel repair etc",
-                  "$ref": "#/$defs/yesNoDetailIfYes",
-                  "description": "If yes, please provide details and give the policy to your property lawyer"
-                }
-              },
-              "required": [
-                "newHomeWarranty",
-                "roofingWork",
-                "dampProofingTreatment",
-                "timberRotOrInfestationTreatment",
-                "centralHeatingAndorPlumbing",
-                "doubleGlazing",
-                "electricalRepairOrInstallation",
-                "subsidenceWork",
-                "solarPanels",
-                "otherGuarantees",
-                "willLeaveGuaranteePaperwork",
-                "outstandingClaimsOrApplications",
-                "titleDefectInsurance"
-              ]
+      "discriminator": { "propertyName": "hasValidGuaranteesOrWarranties" },
+      "oneOf": [
+        {
+          "properties": {
+            "hasValidGuaranteesOrWarranties": {
+              "enum": ["No"]
             }
+          }
+        },
+        {
+          "properties": {
+            "hasValidGuaranteesOrWarranties": {
+              "enum": ["Yes"]
+            },
+            "newHomeWarranty": {
+              "baspiRef": "B5.1.1",
+              "RDSRef": "Certificates",
+              "lawSocietyRef": "TA6/5.1a",
+              "title": "New Home Warranty (NHBC or similar)",
+              "$ref": "#/$defs/yesNoDetailIfYes",
+              "description": "If yes, please confirm the name of the warranty provider and the date of the warranty:"
+            },
+            "roofingWork": {
+              "baspiRef": "B5.1.2",
+              "RDSRef": "Certificates",
+              "lawSocietyRef": "TA6/5.1f",
+              "title": "Roofing work",
+              "$ref": "#/$defs/yesNo"
+            },
+            "dampProofingTreatment": {
+              "baspiRef": "B5.1.3",
+              "RDSRef": "Certificates",
+              "lawSocietyRef": "TA6/5.1b",
+              "title": "Damp proofing treatment",
+              "$ref": "#/$defs/yesNo"
+            },
+            "timberRotOrInfestationTreatment": {
+              "baspiRef": "B5.1.4",
+              "RDSRef": "Certificates",
+              "lawSocietyRef": "TA6/5.1c",
+              "title": "Timber rot or infestation treatment",
+              "$ref": "#/$defs/yesNo"
+            },
+            "centralHeatingAndorPlumbing": {
+              "baspiRef": "B5.1.5",
+              "RDSRef": "Certificates",
+              "lawSocietyRef": "TA6/5.1g",
+              "title": "Central heating and/or plumbing",
+              "$ref": "#/$defs/yesNo"
+            },
+            "doubleGlazing": {
+              "baspiRef": "B5.1.6",
+              "RDSRef": "Certificates",
+              "lawSocietyRef": "TA6/5.1d",
+              "title": "Double glazing (windows, doors, roof lights, conservatory etc)",
+              "$ref": "#/$defs/yesNo"
+            },
+            "electricalRepairOrInstallation": {
+              "baspiRef": "B5.1.7",
+              "RDSRef": "Certificates",
+              "lawSocietyRef": "TA6/5.1e",
+              "title": "Electrical repair or installation",
+              "$ref": "#/$defs/yesNo"
+            },
+            "subsidenceWork": {
+              "baspiRef": "B5.1.8",
+              "RDSRef": "Certificates",
+              "lawSocietyRef": "TA6/5.1h",
+              "title": "Underpinning or other preventative work and/or remedial action relating to subsidence",
+              "$ref": "#/$defs/yesNo"
+            },
+            "solarPanels": {
+              "baspiRef": "B5.1.9",
+              "RDSRef": "Certificates",
+              "title": "Solar panels",
+              "$ref": "#/$defs/yesNo"
+            },
+            "otherGuarantees": {
+              "baspiRef": "B5.1.10",
+              "RDSRef": "Certificates",
+              "lawSocietyRef": "TA6/5.1i",
+              "title": "Other Guarantees or Warranties",
+              "$ref": "#/$defs/yesNo"
+            },
+            "willLeaveGuaranteePaperwork": {
+              "baspiRef": "B5.1.11",
+              "RDSRef": "Property/Flags",
+              "title": "Please confirm that you will leave all paperwork relating to any guarantee or warranty at the property when you move out",
+              "type": "boolean"
+            },
+            "outstandingClaimsOrApplications": {
+              "baspiRef": "B5.2",
+              "RDSRef": "Certificates",
+              "lawSocietyRef": "TA6/5.2",
+              "title": "Are there any outstanding claims or current applications relating to any of the above?",
+              "$ref": "#/$defs/yesNoDetailIfYes"
+            },
+            "titleDefectInsurance": {
+              "baspiRef": "B5.3",
+              "RDSRef": "Certificates",
+              "title": "Do you have any title defect insurance policies e.g. for breach of planning permission, buildings regulations, restrictions, chancel repair etc",
+              "$ref": "#/$defs/yesNoDetailIfYes",
+              "description": "If yes, please provide details and give the policy to your property lawyer"
+            }
+          },
+          "required": [
+            "newHomeWarranty",
+            "roofingWork",
+            "dampProofingTreatment",
+            "timberRotOrInfestationTreatment",
+            "centralHeatingAndorPlumbing",
+            "doubleGlazing",
+            "electricalRepairOrInstallation",
+            "subsidenceWork",
+            "solarPanels",
+            "otherGuarantees",
+            "willLeaveGuaranteePaperwork",
+            "outstandingClaimsOrApplications",
+            "titleDefectInsurance"
           ]
         }
-      }
+      ]
     },
     "occupiers": {
       "baspiRef": "B6",
@@ -599,121 +591,115 @@
               "enum": ["Yes", "No"]
             }
           },
-          "dependencies": {
-            "hasOthersAged17OrOver": {
-              "oneOf": [
-                {
-                  "properties": {
-                    "hasOthersAged17OrOver": {
-                      "enum": ["No"]
-                    }
-                  },
-                  "additionalProperties": false
+          "discriminator": { "propertyName": "hasOthersAged17OrOver" },
+          "oneOf": [
+            {
+              "properties": {
+                "hasOthersAged17OrOver": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "hasOthersAged17OrOver": {
+                  "enum": ["Yes"]
                 },
-                {
-                  "properties": {
-                    "hasOthersAged17OrOver": {
-                      "enum": ["Yes"]
-                    },
-                    "aged17OrOverNames": {
-                      "lawSocietyRef": "TA6/11.3",
-                      "title": "Please specify their full names and ages.",
-                      "type": "array",
-                      "minItems": 1,
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "firstName": {
-                            "title": "First Name",
-                            "type": "string",
-                            "minLength": 1
-                          },
-                          "middleNames": {
-                            "title": "Middle name(s) if any",
-                            "type": "string"
-                          },
-                          "lastName": {
-                            "title": "Last Name",
-                            "type": "string",
-                            "minLength": 1
-                          },
-                          "age": {
-                            "title": "Age",
-                            "type": "integer"
-                          }
-                        },
-                        "required": ["firstName", "lastName", "age"]
+                "aged17OrOverNames": {
+                  "lawSocietyRef": "TA6/11.3",
+                  "title": "Please specify their full names and ages.",
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "firstName": {
+                        "title": "First Name",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "middleNames": {
+                        "title": "Middle name(s) if any",
+                        "type": "string"
+                      },
+                      "lastName": {
+                        "title": "Last Name",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "age": {
+                        "title": "Age",
+                        "type": "integer"
                       }
                     },
-                    "aged17OrOverTenantsOrLodgers": {
-                      "baspiRef": "B6.1",
-                      "RDSRef": "Property/Flags",
-                      "lawSocietyRef": "TA6/11.4",
-                      "title": "Are any of them tenants or lodgers?",
-                      "$ref": "#/$defs/yesNo"
-                    },
-                    "vacantPossession": {
-                      "lawSocietyRef": "TA6/11.5",
-                      "type": "object",
-                      "required": ["soldWithVacantPossession"],
+                    "required": ["firstName", "lastName", "age"]
+                  }
+                },
+                "aged17OrOverTenantsOrLodgers": {
+                  "baspiRef": "B6.1",
+                  "RDSRef": "Property/Flags",
+                  "lawSocietyRef": "TA6/11.4",
+                  "title": "Are any of them tenants or lodgers?",
+                  "$ref": "#/$defs/yesNo"
+                },
+                "vacantPossession": {
+                  "lawSocietyRef": "TA6/11.5",
+                  "type": "object",
+                  "required": ["soldWithVacantPossession"],
+                  "properties": {
+                    "soldWithVacantPossession": {
+                      "type": "string",
+                      "title": "Is the property being sold with vacant possession?",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "discriminator": {
+                    "propertyName": "soldWithVacantPossession"
+                  },
+                  "oneOf": [
+                    {
                       "properties": {
                         "soldWithVacantPossession": {
-                          "type": "string",
-                          "title": "Is the property being sold with vacant possession?",
-                          "enum": ["Yes", "No"]
-                        }
-                      },
-                      "dependencies": {
-                        "soldWithVacantPossession": {
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "soldWithVacantPossession": {
-                                  "enum": ["No"]
-                                }
-                              },
-                              "additionalProperties": false
-                            },
-                            {
-                              "properties": {
-                                "soldWithVacantPossession": {
-                                  "enum": ["Yes"]
-                                },
-                                "aged17OrOverAgreedToLeave": {
-                                  "baspiRef": "B6.4",
-                                  "RDSRef": "RightsHolders,TenureAgreements,Notifications",
-                                  "lawSocietyRef": "TA6/11.5a",
-                                  "title": "Have all occupiers aged 17 or over agreed to leave prior to completion?",
-                                  "$ref": "#/$defs/yesNo"
-                                },
-                                "aged17OrOverWillSignToConfirmWillVacate": {
-                                  "baspiRef": "B6.4",
-                                  "RDSRef": "RightsHolders,TenureAgreements,Notifications",
-                                  "lawSocietyRef": "TA6/11.5b",
-                                  "title": "Have all occupiers aged 17 or over, agreed to sign the sale contract?",
-                                  "$ref": "#/$defs/yesNoDetailIfNo",
-                                  "description": "If 'No', please supply other evidence that the property will be vacant on completion."
-                                }
-                              },
-                              "required": [
-                                "aged17OrOverAgreedToLeave",
-                                "aged17OrOverWillSignToConfirmWillVacate"
-                              ]
-                            }
-                          ]
+                          "enum": ["No"]
                         }
                       }
+                    },
+                    {
+                      "properties": {
+                        "soldWithVacantPossession": {
+                          "enum": ["Yes"]
+                        },
+                        "aged17OrOverAgreedToLeave": {
+                          "baspiRef": "B6.4",
+                          "RDSRef": "RightsHolders,TenureAgreements,Notifications",
+                          "lawSocietyRef": "TA6/11.5a",
+                          "title": "Have all occupiers aged 17 or over agreed to leave prior to completion?",
+                          "$ref": "#/$defs/yesNo"
+                        },
+                        "aged17OrOverWillSignToConfirmWillVacate": {
+                          "baspiRef": "B6.4",
+                          "RDSRef": "RightsHolders,TenureAgreements,Notifications",
+                          "lawSocietyRef": "TA6/11.5b",
+                          "title": "Have all occupiers aged 17 or over, agreed to sign the sale contract?",
+                          "$ref": "#/$defs/yesNoDetailIfNo",
+                          "description": "If 'No', please supply other evidence that the property will be vacant on completion."
+                        }
+                      },
+                      "required": [
+                        "aged17OrOverAgreedToLeave",
+                        "aged17OrOverWillSignToConfirmWillVacate"
+                      ]
                     }
-                  },
-                  "required": [
-                    "aged17OrOverNames",
-                    "aged17OrOverTenantsOrLodgers",
-                    "vacantPossession"
                   ]
                 }
+              },
+              "required": [
+                "aged17OrOverNames",
+                "aged17OrOverTenantsOrLodgers",
+                "vacantPossession"
               ]
             }
-          }
+          ]
         }
       }
     },
@@ -751,39 +737,32 @@
             }
           },
           "required": ["yesNo"],
-          "dependencies": {
-            "yesNo": {
-              "oneOf": [
-                {
-                  "properties": {
-                    "yesNo": {
-                      "enum": ["No"]
-                    }
-                  },
-                  "additionalProperties": false
-                },
-                {
-                  "properties": {
-                    "yesNo": {
-                      "enum": ["Yes"]
-                    },
-                    "propertyDependencyType": {
-                      "type": "string",
-                      "enum": ["Sale", "Purchase", "Remortgage"]
-                    },
-                    "dependentPropertyAddress": {
-                      "title": "Address",
-                      "$ref": "#/$defs/address"
-                    }
-                  },
-                  "required": [
-                    "propertyDependencyType",
-                    "dependentPropertyAddress"
-                  ]
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
                 }
-              ]
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "propertyDependencyType": {
+                  "type": "string",
+                  "enum": ["Sale", "Purchase", "Remortgage"]
+                },
+                "dependentPropertyAddress": {
+                  "title": "Address",
+                  "$ref": "#/$defs/address"
+                }
+              },
+              "required": ["propertyDependencyType", "dependentPropertyAddress"]
             }
-          }
+          ]
         },
         "moveRestrictionDates": {
           "baspiRef": "B7.3",
@@ -796,39 +775,35 @@
             "yesNo": {
               "type": "string",
               "title": "",
-              "enum": ["No", "Yes"]
+              "enum": ["Yes", "No"]
             }
           },
           "required": ["yesNo"],
-          "dependencies": {
-            "yesNo": {
-              "oneOf": [
-                {
-                  "properties": {
-                    "yesNo": {
-                      "enum": ["No"]
-                    }
-                  },
-                  "additionalProperties": false
-                },
-                {
-                  "properties": {
-                    "yesNo": {
-                      "enum": ["Yes"]
-                    },
-                    "restrictedDates": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "format": "date"
-                      }
-                    }
-                  },
-                  "required": ["restrictedDates"]
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
                 }
-              ]
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "restrictedDates": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                }
+              },
+              "required": ["restrictedDates"]
             }
-          }
+          ]
         },
         "sufficientToRepayAllMortgages": {
           "lawSocietyRef": "TA6/14.3",
@@ -844,36 +819,32 @@
             "yesNo": {
               "type": "string",
               "title": "",
-              "enum": ["No", "Yes"]
+              "enum": ["Yes", "No"]
             }
           },
           "required": ["yesNo"],
-          "dependencies": {
-            "yesNo": {
-              "oneOf": [
-                {
-                  "properties": {
-                    "yesNo": {
-                      "enum": ["No"]
-                    }
-                  },
-                  "additionalProperties": false
-                },
-                {
-                  "properties": {
-                    "yesNo": {
-                      "enum": ["Yes"]
-                    },
-                    "willHandoverLogbook": {
-                      "title": "Please confirm that on completion you will transfer it to the new owner",
-                      "type": "boolean"
-                    }
-                  },
-                  "required": ["willHandoverLogbook"]
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
                 }
-              ]
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "willHandoverLogbook": {
+                  "title": "Please confirm that on completion you will transfer it to the new owner",
+                  "type": "boolean"
+                }
+              },
+              "required": ["willHandoverLogbook"]
             }
-          }
+          ]
         }
       }
     },
@@ -921,33 +892,29 @@
         }
       },
       "required": ["yesNo"],
-      "dependencies": {
-        "yesNo": {
-          "oneOf": [
-            {
-              "properties": {
-                "yesNo": {
-                  "enum": ["No"]
-                }
-              },
-              "additionalProperties": false
-            },
-            {
-              "properties": {
-                "yesNo": {
-                  "enum": ["Yes"]
-                },
-                "details": {
-                  "title": "Details",
-                  "type": "string",
-                  "minLength": 1
-                }
-              },
-              "required": ["details"]
+      "discriminator": { "propertyName": "yesNo" },
+      "oneOf": [
+        {
+          "properties": {
+            "yesNo": {
+              "enum": ["No"]
             }
-          ]
+          }
+        },
+        {
+          "properties": {
+            "yesNo": {
+              "enum": ["Yes"]
+            },
+            "details": {
+              "title": "Details",
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": ["details"]
         }
-      }
+      ]
     },
     "yesNoDetailIfNo": {
       "type": "object",
@@ -959,33 +926,29 @@
         }
       },
       "required": ["yesNo"],
-      "dependencies": {
-        "yesNo": {
-          "oneOf": [
-            {
-              "properties": {
-                "yesNo": {
-                  "enum": ["Yes"]
-                }
-              },
-              "additionalProperties": false
-            },
-            {
-              "properties": {
-                "yesNo": {
-                  "enum": ["No"]
-                },
-                "details": {
-                  "title": "Details",
-                  "type": "string",
-                  "minLength": 1
-                }
-              },
-              "required": ["details"]
+      "discriminator": { "propertyName": "yesNo" },
+      "oneOf": [
+        {
+          "properties": {
+            "yesNo": {
+              "enum": ["Yes"]
             }
-          ]
+          }
+        },
+        {
+          "properties": {
+            "yesNo": {
+              "enum": ["No"]
+            },
+            "details": {
+              "title": "Details",
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": ["details"]
         }
-      }
+      ]
     },
     "yesNoNotRequiredDetailIfNoNotRequired": {
       "type": "object",
@@ -997,33 +960,29 @@
         }
       },
       "required": ["yesNo"],
-      "dependencies": {
-        "yesNo": {
-          "oneOf": [
-            {
-              "properties": {
-                "yesNo": {
-                  "enum": ["Yes"]
-                }
-              },
-              "additionalProperties": false
-            },
-            {
-              "properties": {
-                "yesNo": {
-                  "enum": ["No", "Not required"]
-                },
-                "details": {
-                  "title": "Please outline the reasons why",
-                  "type": "string",
-                  "minLength": 1
-                }
-              },
-              "required": ["details"]
+      "discriminator": { "propertyName": "yesNo" },
+      "oneOf": [
+        {
+          "properties": {
+            "yesNo": {
+              "enum": ["Yes"]
             }
-          ]
+          }
+        },
+        {
+          "properties": {
+            "yesNo": {
+              "enum": ["No", "Not required"]
+            },
+            "details": {
+              "title": "Please outline the reasons why",
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": ["details"]
         }
-      }
+      ]
     },
     "address": {
       "type": "object",

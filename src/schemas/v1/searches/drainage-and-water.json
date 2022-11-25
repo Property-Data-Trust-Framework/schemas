@@ -199,33 +199,29 @@
         }
       },
       "required": ["yesNo"],
-      "dependencies": {
-        "yesNo": {
-          "oneOf": [
-            {
-              "properties": {
-                "yesNo": {
-                  "enum": ["No"]
-                }
-              },
-              "additionalProperties": false
-            },
-            {
-              "properties": {
-                "yesNo": {
-                  "enum": ["Yes"]
-                },
-                "details": {
-                  "title": "Details",
-                  "type": "string",
-                  "minLength": 1
-                }
-              },
-              "required": ["details"]
+      "discriminator": { "propertyName": "yesNo" },
+      "oneOf": [
+        {
+          "properties": {
+            "yesNo": {
+              "enum": ["No"]
             }
-          ]
+          }
+        },
+        {
+          "properties": {
+            "yesNo": {
+              "enum": ["Yes"]
+            },
+            "details": {
+              "title": "Details",
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": ["details"]
         }
-      }
+      ]
     },
     "yesNoDetailIfNo": {
       "type": "object",
@@ -237,33 +233,29 @@
         }
       },
       "required": ["yesNo"],
-      "dependencies": {
-        "yesNo": {
-          "oneOf": [
-            {
-              "properties": {
-                "yesNo": {
-                  "enum": ["Yes"]
-                }
-              },
-              "additionalProperties": false
-            },
-            {
-              "properties": {
-                "yesNo": {
-                  "enum": ["No"]
-                },
-                "details": {
-                  "title": "Details",
-                  "type": "string",
-                  "minLength": 1
-                }
-              },
-              "required": ["details"]
+      "discriminator": { "propertyName": "yesNo" },
+      "oneOf": [
+        {
+          "properties": {
+            "yesNo": {
+              "enum": ["Yes"]
             }
-          ]
+          }
+        },
+        {
+          "properties": {
+            "yesNo": {
+              "enum": ["No"]
+            },
+            "details": {
+              "title": "Details",
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": ["details"]
         }
-      }
+      ]
     }
   }
 }

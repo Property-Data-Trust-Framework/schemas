@@ -37,6 +37,7 @@ const ajv = new Ajv({
   allErrors: true,
   // schema contains additional baspiRef and RDSRef metadata which is not strictly valid
   strictSchema: false,
+  discriminator: true,
 });
 // Adds date formats among other types to the validator.
 addFormats(ajv);
@@ -45,18 +46,14 @@ const validator = ajv.compile(transactionSchema);
 
 const getSubschema = (path) => {
   const pathArray = path.split("/").slice(1);
-  if (pathArray.length < 1) {
-    return transactionSchema;
-  }
-
+  if (pathArray.length < 1) return transactionSchema;
   return pathArray.reduce((schema, pathElement) => {
     if (schema.type === "array") return schema.items;
     if (schema.properties[pathElement]) return schema.properties[pathElement];
-    const dependencies = schema.dependencies;
-    if (dependencies) {
+    const discriminator = schema.discriminator?.propertyName;
+    if (discriminator) {
       // only single dependency discriminator, oneOf keyword is supported
-      const dependencyDiscriminator = Object.keys(dependencies)[0];
-      const oneOfs = dependencies[dependencyDiscriminator].oneOf;
+      const oneOfs = schema.oneOf;
       const matchingOneOf = oneOfs.find(
         (oneOf) => oneOf["properties"][pathElement]
       );
@@ -112,11 +109,10 @@ const getTitleAtPath = (schema, path, rootPath = path) => {
     subSchema = schema.items;
     return getTitleAtPath(subSchema, subPath, rootPath);
   }
-  const dependencies = schema.dependencies;
-  if (dependencies) {
+  const discriminator = schema.discriminator?.propertyName;
+  if (discriminator) {
     // only single dependency discriminator, oneOf keyword is supported
-    const dependencyDiscriminator = Object.keys(dependencies)[0];
-    const oneOfs = dependencies[dependencyDiscriminator].oneOf;
+    const oneOfs = schema.oneOf;
     const matchingOneOf = oneOfs.find(
       (oneOf) => oneOf["properties"][propertyName]
     );
