@@ -33,7 +33,7 @@ test("sample with missing dependent required fields is invalid", () => {
   const clonedExampleTransaction = JSON.parse(
     JSON.stringify(exampleTransaction)
   );
-  clonedExampleTransaction.propertyPack.materialFacts.ownership.ownershipType =
+  clonedExampleTransaction.propertyPack.materialFacts.ownership.ownershipsToBeTransferred[0].ownershipType =
     "leashold";
   const isValid = validator(clonedExampleTransaction);
   expect(isValid).toBe(false);
@@ -90,14 +90,14 @@ test("correctly gets a subschema through a dependency", () => {
 
 test("correctly gets another subschema through a dependency", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/ownership/lengthOfLeaseInYears"
+    "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/lengthOfLeaseInYears"
   );
   expect(subschema.title).toBe("Length of lease (years)");
 });
 
 test("correctly gets yet another subschema through a dependency", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/ownership/rentIncrease/details"
+    "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/rentIncrease/details"
   );
   expect(subschema.title).toBe("Details");
 });
@@ -145,19 +145,19 @@ test("correctly gets titles across schemas, arrays and non-existient title prope
   expect(
     getTitleAtPath(
       transactionSchema,
-      "/propertyPack/materialFacts/ownership/ownershipType"
+      "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/ownershipType"
     )
   ).toBe("What type of ownership is the property?");
   expect(
     getTitleAtPath(
       transactionSchema,
-      "/propertyPack/materialFacts/ownership/lengthOfLeaseInYears"
+      "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/lengthOfLeaseInYears"
     )
   ).toBe("Length of lease (years)");
   expect(
     getTitleAtPath(
       transactionSchema,
-      "/propertyPack/materialFacts/ownership/annualServiceCharge"
+      "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/annualServiceCharge"
     )
   ).toBe(
     "Amount of current annual service charge/estate rentcharge/maintenance contribution (£)"
