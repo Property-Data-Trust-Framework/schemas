@@ -48,16 +48,19 @@ const getSubschema = (path) => {
   const pathArray = path.split("/").slice(1);
   if (pathArray.length < 1) return transactionSchema;
   return pathArray.reduce((schema, pathElement) => {
-    if (schema.type === "array") return schema.items;
-    if (schema.properties[pathElement]) return schema.properties[pathElement];
-    const discriminator = schema.discriminator?.propertyName;
-    if (discriminator) {
-      // only single dependency discriminator, oneOf keyword is supported
-      const oneOfs = schema.oneOf;
-      const matchingOneOf = oneOfs.find(
-        (oneOf) => oneOf["properties"][pathElement]
-      );
-      if (matchingOneOf) return matchingOneOf["properties"][pathElement];
+    const { type, items, properties, oneOf } = schema;
+    if (type === "array") return items;
+    if (properties?.[pathElement]) return properties[pathElement];
+    if (oneOf) {
+      let matchingProperty;
+      oneOf.forEach((aOneOf) => {
+        if (aOneOf.type === "array" && !Number.isNaN(pathElement)) {
+          matchingProperty = aOneOf.items;
+        } else if (aOneOf.properties?.[pathElement]) {
+          matchingProperty = aOneOf.properties?.[pathElement];
+        }
+      });
+      if (matchingProperty) return matchingProperty;
     }
     return undefined;
   }, transactionSchema);

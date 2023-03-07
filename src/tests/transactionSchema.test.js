@@ -118,6 +118,27 @@ test("correctly gets yet, yet, yet another subschema through a dependency", () =
   expect(subschema.enum).toStrictEqual(["Yes", "No"]);
 });
 
+test("correctly gets yet, yet, yet another subschema through a second item dependency", () => {
+  const subschema = getSubschema(
+    "/propertyPack/materialFacts/otherIssues/flooding/typeOfFlooding"
+  );
+  expect(subschema.type).toBe("object");
+});
+
+test("correctly gets yes another subschema but through a non-baspi oneOf structure", () => {
+  const subschema = getSubschema(
+    "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/RestrictionDetails/RestrictionEntry/ChargeRestriction/EntryDetails/EntryText"
+  );
+  expect(subschema).toEqual({ type: "string" });
+});
+
+test("correctly gets yes another subschema but through a non-baspi oneOf structure with array option", () => {
+  const subschema = getSubschema(
+    "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/RestrictionDetails/RestrictionEntry/0/ChargeRestriction/EntryDetails/EntryText"
+  );
+  expect(subschema).toEqual({ type: "string" });
+});
+
 test("correctly gets a subschema validator which is already cached", () => {
   const validator = getSubschemaValidator(
     "/propertyPack/energyPerformanceCertificate"
