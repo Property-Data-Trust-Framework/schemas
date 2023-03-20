@@ -3,7 +3,7 @@
   "$id": "https://trust.propdata.org.uk/schemas/v2/material-facts.json",
   "type": "object",
   "title": "Material facts at the point of marketing",
-  "description": "BASPI v2.0 Part A - Disclosure of material facts at the point of marketing, supporting mapping to BASPI, Law Society, NTS and RICS Data Schema elements.",
+  "description": "Disclosure of material facts at the point of marketing, supporting mapping to BASPI, Law Society, NTS and RICS Data Schema elements.",
   "baspiRef": "A",
   "required": [
     "uprn",
@@ -601,12 +601,17 @@
           "title": "Is the property built in a standard form of construction? E.g. brick and/or block with timber-supported roof comprising a tile or slate cover?",
           "$ref": "#/$defs/yesNoDetailIfNo"
         },
-        "hasFlammableExternalWallSystem": {
+        "buildingSafetyRemediation": {
           "baspiRef": "A1.8.2",
-          "RDSRef": "Tenure/DisputesComplaints,Tenure/LegalClaims",
-          "title": "Does the property have potentially flammable external wall system - including cladding and balconies etc?",
+          "title": "Are you aware of any remediation required to the property due to building safety?",
+          "description": "This could be due to the property being high risk because of the building height or because of works completed without buildings regulations.",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "hasSprayFoamInstalled": {
+          "baspiRef": "A1.8.4",
+          "title": "Has spray foam insulation been installed at the property?",
           "$ref": "#/$defs/yesNoDetailIfYes",
-          "description": "If yes, please give details and attach an EWS form or state if none is to hand"
+          "description": "If yes, please give details together with certification from BBA or KIWA and the installation warranty for the work carried out."
         }
       }
     },
@@ -634,12 +639,6 @@
             "Survey Instructed",
             "No Certificate"
           ]
-        },
-        "hasSprayFoamInstalled": {
-          "baspiRef": "A1.8.4",
-          "title": "Has spray foam insulation been installed at the property?",
-          "$ref": "#/$defs/yesNoDetailIfYes",
-          "description": "If yes, please give details together with certification from BBA or KIWA and the installation warranty for the work carried out."
         }
       }
     },
@@ -655,8 +654,9 @@
           "ntsRef": "A2.1",
           "RDSRef": "TenureAgreements/Taxes/{banding=?}",
           "title": "Which Council Tax band does this property fall within?",
+          "description": "Band I relates to Wales only",
           "type": "string",
-          "enum": ["A", "B", "C", "D", "E", "F", "G", "H"]
+          "enum": ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
         },
         "councilTaxAffectingAlterations": {
           "baspiRef": "A1.9.2",
@@ -709,7 +709,7 @@
           "description": "If yes, for each change, please outline the nature of the work and provide the dates of all work underaken."
         },
         "changeOfUse": {
-          "baspiRef": "A3.1",
+          "baspiRef": "A3.2",
           "RDSRef": "WorksAlterationsChanges",
           "lawSocietyRef": "TA6/4.1b",
           "title": "Has there been any change of use (e.g. from an office to a residence?",
@@ -717,7 +717,7 @@
           "description": "If yes, please confirm the year the change was completed."
         },
         "windowReplacementsSince2002": {
-          "baspiRef": "A3.2",
+          "baspiRef": "A3.3",
           "RDSRef": "WorksAlterationsChanges",
           "lawSocietyRef": "TA6/4.1c",
           "title": "Since 1st April 2002 has replacement of any windows, roof windows, roof lights, glazed doors taken place?",
@@ -725,15 +725,23 @@
           "description": "If yes, for each installation, please outline the nature of the work and confirm the year the installation was completed."
         },
         "hasAddedConservatory": {
-          "baspiRef": "A3.3",
+          "baspiRef": "A3.4",
           "RDSRef": "WorksAlterationsChanges",
           "lawSocietyRef": "TA6/4.1d",
           "title": "Has a conservatory been added?",
           "$ref": "#/$defs/yesNoDetailConsents",
           "description": "If yes, confirm the year the installation was completed and whether any walls were removed, an exterior quality door separates the conservatory from the main building and, since the conservatory was added, has any replacement or refurbishment of the roof been undertaken that reduces the glazed area of the roof?"
         },
-        "planningPermissionBreaches": {
+        "worksUnfinished": {
           "baspiRef": "A3.6",
+          "RDSRef": "WorksAlterationsChanges/isIncomplete",
+          "lawSocietyRef": "TA6/4.3",
+          "title": "Are any of the works listed above unfinished?",
+          "description": "If yes, please provide details and explain why.",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "planningPermissionBreaches": {
+          "baspiRef": "A3.7",
           "RDSRef": "Property/Flags",
           "lawSocietyRef": "TA6/4.4",
           "title": "Are you aware of any breaches of planning permission conditions or building regulations consent conditions or work not having the necessary consents?",
@@ -769,7 +777,7 @@
                 "willingToInsure": {
                   "baspiRef": "A3.8",
                   "RDSRef": "Insurance/isWillingToProvide",
-                  "title": "If yes, confirm whether you will pay for an insurance policy if the Local Authority still have power to enforce the breach.  Your property lawyer can obtain a quote for you.  (If you already have a policy please give it to your property lawyer and include details in Question 6 of Section B) [*Note: It will be a term of the insurance policy that the Local Authority is not contacted so if you have contacted the Local Authority the option of indemnity insurance will not be available.]",
+                  "title": "If yes, confirm whether you will pay for an insurance policy if the Local Authority still have power to enforce the breach. Your property lawyer can obtain a quote for you. (If you already have a policy please give it to your property lawyer and include details in Question 6 of Section B) [*Note: It will be a term of the insurance policy that the Local Authority is not contacted so if you have contacted the Local Authority the option of indemnity insurance will not be available.]",
                   "type": "string",
                   "enum": ["Yes", "No"]
                 }
@@ -779,7 +787,7 @@
           ]
         },
         "unresolvedPlanningIssues": {
-          "baspiRef": "A3.7",
+          "baspiRef": "A3.8",
           "lawSocietyRef": "TA6/4.5",
           "RDSRef": "Buildings,BuildingsSections/StructureAuthorised,BuildingsSections/StructureUnauthorised",
           "title": "Are you aware of any unresolved planning or building control issues?",
@@ -813,9 +821,9 @@
                   "minLength": 1
                 },
                 "willingToInsure": {
-                  "baspiRef": "A3.8",
+                  "baspiRef": "A3.9",
                   "RDSRef": "Insurance/isWillingToProvide",
-                  "title": "If yes, confirm whether you will pay for an insurance policy if the Local Authority still have power to enforce the breach.  Your property lawyer can obtain a quote for you.  (If you already have a policy please give it to your property lawyer and include details in Question 6 of Section B) [*Note: It will be a term of the insurance policy that the Local Authority is not contacted so if you have contacted the Local Authority the option of indemnity insurance will not be available.]",
+                  "title": "If yes, confirm whether you will pay for an insurance policy if the Local Authority still have power to enforce the breach. Your property lawyer can obtain a quote for you. (If you already have a policy please give it to your property lawyer and include details in Question 6 of Section B) [*Note: It will be a term of the insurance policy that the Local Authority is not contacted so if you have contacted the Local Authority the option of indemnity insurance will not be available.]",
                   "type": "string",
                   "enum": ["Yes", "No"]
                 }
@@ -1010,13 +1018,13 @@
                   "enum": ["No"]
                 },
                 "sustainableDrainageSystem": {
-                  "baspiRef": "A7.2.1",
+                  "baspiRef": "A7.1i",
                   "RDSRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
                   "title": "Sustainable Drainage System",
                   "$ref": "#/$defs/yesNoConnectedSupplier"
                 },
                 "septicTank": {
-                  "baspiRef": "A7.2.2",
+                  "baspiRef": "A7.1j",
                   "RDSRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
                   "lawSocietyRef": "TA6/12.5",
                   "title": "Septic tank",
@@ -1024,7 +1032,7 @@
                   "description": "If yes, please specify date replaced or updated and date last emptied"
                 },
                 "cesspit": {
-                  "baspiRef": "A7.2.3",
+                  "baspiRef": "A7.1k",
                   "RDSRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
                   "lawSocietyRef": "TA6/12.7",
                   "title": "Cesspit",
@@ -1032,7 +1040,7 @@
                   "description": "If yes, please specify date last emptied"
                 },
                 "sewerageTreatmentPlant": {
-                  "baspiRef": "A7.2.4",
+                  "baspiRef": "A7.1l",
                   "RDSRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
                   "lawSocietyRef": "TA6/12.8",
                   "title": "Sewerage treatment plant",
@@ -1040,7 +1048,7 @@
                   "description": "If yes, please specify date last serviced"
                 },
                 "otherConnectedProperties": {
-                  "baspiRef": "A7.2.5",
+                  "baspiRef": "A7.1.1",
                   "RDSRef": "Services/OtherServices/SharedWith",
                   "lawSocietyRef": "TA6/12.6",
                   "title": "Do other properties connect to the septic tank, cesspit or sewerage treatment plant?",
@@ -1054,7 +1062,7 @@
                   "minimum": 1000
                 },
                 "plantOnOtherLand": {
-                  "baspiRef": "A7.2.6",
+                  "baspiRef": "A7.1.2",
                   "RDSRef": "Services/OtherServices/Located,Services/OtherServices/{access=?}",
                   "lawSocietyRef": "TA6/12.10",
                   "title": "Is any part of the septic tank, cesspit or sewerage treatment plant located on someone else’s land?",
@@ -1062,14 +1070,14 @@
                   "description": "If yes, please supply a plan showing the location of the system and how access is obtained."
                 },
                 "plantRegistered": {
-                  "baspiRef": "A7.2.7",
+                  "baspiRef": "A7.1.3",
                   "RDSRef": "Services/OtherServices/Certificates",
                   "title": "Is the septic tank, cesspit or sewerage treatment plant registered with the Environment Agency or exempted?",
                   "$ref": "#/$defs/yesNoDetailIfYes",
                   "description": "If yes, please supply the appropriate permit to discharge or exemption certificate"
                 },
                 "plantDrainsIntoWaterway": {
-                  "baspiRef": "A7.2.8",
+                  "baspiRef": "A7.1.4",
                   "RDSRef": "Services/OtherServices/{isExternallyConnected='yes?true'}",
                   "title": "Does the septic tank, cesspit or sewerage treatment plant drain into a waterway (lake, river, stream etc)",
                   "type": "object",
@@ -1101,7 +1109,7 @@
                           "enum": ["Yes"]
                         },
                         "dischargeCompliesWithGBR": {
-                          "baspiRef": "A7.2.9",
+                          "baspiRef": "A7.1.4.1",
                           "RDSRef": "Services/OtherServices/ExternalConnections/Flags",
                           "title": "Does it comply with the General Binding Rules for discharge into a waterway?",
                           "type": "string",
@@ -1186,33 +1194,33 @@
       ],
       "properties": {
         "electricity": {
-          "baspiRef": "A7.1.1",
+          "baspiRef": "A7.1a",
           "lawSocietyRef": "TA6/13.1",
           "RDSRef": "Services/Electricity",
           "title": "Electricity",
           "$ref": "#/$defs/yesNoConnectedSupplier"
         },
         "gas": {
-          "baspiRef": "A7.1.2",
+          "baspiRef": "A7.1b",
           "lawSocietyRef": "TA6/13.2",
           "RDSRef": "Services/Gas",
           "title": "Gas",
           "$ref": "#/$defs/yesNoConnectedSupplier"
         },
         "lpg": {
-          "baspiRef": "A7.1.3",
+          "baspiRef": "A7.1c",
           "RDSRef": "Services/LiquefiedPetroleumGas",
           "title": "Liquid Petroleum Gas (LPG)",
           "$ref": "#/$defs/yesNoConnectedSupplier"
         },
         "oil": {
-          "baspiRef": "A7.1.4",
+          "baspiRef": "A7.1d",
           "RDSRef": "Services/Oil",
           "title": "Oil",
           "$ref": "#/$defs/yesNoConnectedSupplier"
         },
         "telephone": {
-          "baspiRef": "A7.1.5",
+          "baspiRef": "A7.1e",
           "lawSocietyRef": "TA6/13.5",
           "RDSRef": "Services/Telephone",
           "title": "Telephone",
@@ -1226,20 +1234,19 @@
           "$ref": "#/$defs/yesNoConnectedSupplier"
         },
         "broadband": {
-          "baspiRef": "A7.1.7",
+          "baspiRef": "A7.1f",
           "title": "Broadband",
           "RDSRef": "Services/Internet",
           "$ref": "#/$defs/yesNoConnectedSupplier"
         },
         "solarPanels": {
-          "baspiRef": "A7.1.8",
-          "RDSRef": "Services/Internet??",
+          "baspiRef": "A7.1g",
           "lawSocietyRef": "TA6/4.6",
           "title": "Solar or photovoltaic panels",
           "$ref": "#/$defs/yesNoConnectedSupplier"
         },
         "otherServices": {
-          "baspiRef": "A7.1.9",
+          "baspiRef": "A7.1h",
           "RDSRef": "Services/Other",
           "title": "Other",
           "description": "Other services include renewable technologies, for example ground source heat pumps, if you receive Renewable Heat Incentives please provide details and note that you will need to advise Ofgem when you complete the sale",
@@ -1352,7 +1359,7 @@
                   "format": "date"
                 },
                 "boilerInstallationCertificate": {
-                  "baspiRef": "A7.5.3",
+                  "baspiRef": "A7.4.1a",
                   "RDSRef": "Objects/Installation,Objects/Certificates",
                   "lawSocietyRef": "TA6/12.3b",
                   "title": "Was a gas boiler installed after 1st April 2005, or a solid fuel or oil boiler installed after 1st October 2010?",
@@ -1360,7 +1367,7 @@
                   "description": "If yes, please supply a copy of the installation completion certificate from a competent person qualified under the relevant self-certification scheme e.g. HETAS etc"
                 },
                 "heatingLastServiced": {
-                  "baspiRef": "A7.5.4",
+                  "baspiRef": "A7.4.2",
                   "RDSRef": "Objects/Maintenance",
                   "lawSocietyRef": "TA6/12.3d",
                   "title": "When was the heating system and boiler last serviced or maintained? Please provide a copy of the service or maintenance works report ",
@@ -1368,7 +1375,7 @@
                   "format": "date"
                 },
                 "heatingInGoodWorkingOrder": {
-                  "baspiRef": "A7.5.6",
+                  "baspiRef": "A7.4.3",
                   "RDSRef": "Objects/Condition=?",
                   "lawSocietyRef": "TA6/12.3c",
                   "title": "Is the heating system in good working order to your satisfaction?",
@@ -1974,39 +1981,32 @@
               "minLength": 1
             },
             "buildingRegApproval": {
-              "baspiRef": "A3.4.1",
+              "baspiRef": "A3.5.1",
               "RDSRef": "WorksAlterationsChanges/ConsentApproval",
               "lawSocietyRef": "TA6/4.2",
               "title": "Was building regulation approval and a completion certificate obtained or an equivalent Competent Person Scheme Certificate?",
               "$ref": "#/$defs/yesNoNotRequiredDetailIfNo"
             },
             "planningPermission": {
-              "baspiRef": "A3.4.2",
+              "baspiRef": "A3.5.2",
               "RDSRef": "WorksAlterationsChanges/ConsentApproval",
               "lawSocietyRef": "TA6/4.4",
               "title": "Was planning permission obtained?",
               "$ref": "#/$defs/yesNoNotRequiredDetailIfNo"
             },
             "listedBuildingConsent": {
-              "baspiRef": "A3.4.3",
+              "baspiRef": "A3.5.3",
               "RDSRef": "WorksAlterationsChanges/ConsentApproval",
               "lawSocietyRef": "TA6/4.2",
               "title": "Was listed building consent obtained?",
               "$ref": "#/$defs/yesNoNotRequiredDetailIfNo"
             },
             "deedRestrictionConsent": {
-              "baspiRef": "A3.4.4",
+              "baspiRef": "A3.5.4",
               "RDSRef": "WorksAlterationsChanges/ConsentApproval",
               "lawSocietyRef": "TA6/4.2",
               "title": "Was any consent under a restriction in the deeds obtained? E.g. if your deeds require consent from someone else to alter or extend the property",
               "$ref": "#/$defs/yesNoNotRequiredDetailIfNo"
-            },
-            "unfinished": {
-              "baspiRef": "A3.5",
-              "RDSRef": "WorksAlterationsChanges/isIncomplete",
-              "lawSocietyRef": "TA6/4.3",
-              "title": "Are any of the works listed above unfinished?",
-              "$ref": "#/$defs/yesNoDetailIfYes"
             }
           },
           "required": [
@@ -2014,8 +2014,7 @@
             "buildingRegApproval",
             "planningPermission",
             "listedBuildingConsent",
-            "deedRestrictionConsent",
-            "unfinished"
+            "deedRestrictionConsent"
           ]
         }
       ]
