@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v1/minified-pdtf-transaction.json",
+  "title": "Property Data Trust Framework Transaction Schema",
+  "description": "A schema defining search results containing minimal elements of the PDTF transaction data structure.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "$schema",
+      "transactionId",
+      "status",
+      "uprn",
+      "createdAt",
+      "updatedAt"
+    ],
+    "properties": {
+      "transactionId": {
+        "title": "UUID for the transaction",
+        "type": "string",
+        "format": "uuid"
+      },
+      "status": {
+        "type": "string",
+        "enum": ["active", "cancelled", "completed"]
+      },
+      "uprn": {
+        "type": "integer"
+      },
+      "createdAt": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "updatedAt": {
+        "type": "string",
+        "format": "date-time"
+      }
+    }
+  }
+}

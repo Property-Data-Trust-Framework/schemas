@@ -1,0 +1,261 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v1/searches/drainage-and-water.json",
+  "type": "object",
+  "properties": {
+    "maps": {
+      "type": "object",
+      "con29DWRef": "1",
+      "title": "Maps",
+      "properties": {
+        "publicSewerMapAttached": {
+          "con29DWRef": "1.1",
+          "title": "Is a copy of an extract from the public sewer map attached?",
+          "$ref": "#/$defs/yesNoDetailIfNo"
+        },
+        "waterworksMapAttached": {
+          "con29DWRef": "1.2",
+          "title": "Is a copy of an extract from the map of waterworks attached?",
+          "$ref": "#/$defs/yesNoDetailIfNo"
+        }
+      },
+      "required": ["publicSewerMapAttached", "waterworksMapAttached"]
+    },
+    "drainage": {
+      "type": "object",
+      "con29DWRef": "2",
+      "title": "Drainage",
+      "properties": {
+        "publicFoulDrainage": {
+          "con29DWRef": "2.1",
+          "title": "Does foul water from the property drain to a public sewer?",
+          "$ref": "#/$defs/yesNoDetailIfNo"
+        },
+        "publicSurfaceDrainage": {
+          "con29DWRef": "2.2",
+          "title": "Does surface water from the property drain to a public sewer?",
+          "$ref": "#/$defs/yesNoDetailIfNo"
+        },
+        "surfaceDrainageCharge": {
+          "con29DWRef": "2.3",
+          "title": "Is a surface water drainage charge payable?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "publicDrainWithinBoundaries": {
+          "con29DWRef": "2.4",
+          "title": "Does the public sewer map indicate any public sewer, disposal main or lateral drain within the boundaries of the property?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "publicSewerWithin100ft": {
+          "con29DWRef": "2.5",
+          "title": "Does the public sewer map indicate any public sewer within 30.48 meters (100 feet) of any buildings within the property?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "sewersSubjectOfAdoptionAgreement": {
+          "con29DWRef": "2.6",
+          "title": "Are any sewers or lateral drains serving, or which are proposed to serve the property, the subject of an existing adoption agreement or an application for such an agreement?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "sewerageUndertakerApproval": {
+          "con29DWRef": "2.7",
+          "title": "Has the sewerage undertaker approved or been consulted about any plans to erect a building or extension on the property over, or in the vicinity of, a public sewer, disposal main or drain?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "riskOfInternalFlooding": {
+          "con29DWRef": "2.8",
+          "title": "Is any building which is or Charging forms part of the property, at risk of internal flooding due to overloaded public sewers?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "distanceToNearestSewerageTreatment": {
+          "con29DWRef": "2.9",
+          "title": "Please state the distance from the property to the nearest boundary of the nearest sewage treatment works.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "publicFoulDrainage",
+        "publicSurfaceDrainage",
+        "surfaceDrainageCharge",
+        "publicDrainWithinBoundaries",
+        "publicSewerWithin100ft",
+        "sewersSubjectOfAdoptionAgreement",
+        "sewerageUndertakerApproval",
+        "riskOfInternalFlooding",
+        "distanceToNearestSewerageTreatment"
+      ]
+    },
+    "water": {
+      "type": "object",
+      "con29DWRef": "3",
+      "title": "Drainage",
+      "properties": {
+        "mainsWaterConnected": {
+          "con29DWRef": "3.1",
+          "title": "Is the property connected to the main water supply?",
+          "$ref": "#/$defs/yesNoDetailIfNo"
+        },
+        "waterMainsWithinBoundaries": {
+          "con29DWRef": "3.2",
+          "title": "Are there any water mains, resource mains or discharge pipes within the boundaries of the property?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "waterMainsSubjectOfAdoptionAgreement": {
+          "con29DWRef": "3.3",
+          "title": "Is any water main or service pipe serving, or which is proposed to serve the property, the subject of an existing adoption agreement or an application for such an agreement?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "lowWaterPressureRisk": {
+          "con29DWRef": "3.4",
+          "title": "Is the property at risk of receiving low water pressure or flow?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "waterQualityAnalysis": {
+          "con29DWRef": "3.5",
+          "title": "Please include details of a water quality analysis made by the water undertaker for the water supply zone in respect of the most recent calendar year.",
+          "altTitle": "What is the classification of the water supply for the property?",
+          "type": "string",
+          "minLength": 1
+        },
+        "authorisedDeparturesFrom2000Regulations": {
+          "con29DWRef": "3.6",
+          "title": "Are there any departures authorised by the Secretary of State or National Assembly for Wales under Part 6 of the 2000 Regulations from the provisions of Part 3 of those Regulations.",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        },
+        "waterMeterLocation": {
+          "con29DWRef": "3.7",
+          "title": "Is there a water meter serving the property?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
+        }
+      },
+      "required": [
+        "mainsWaterConnected",
+        "waterMainsWithinBoundaries",
+        "waterMainsSubjectOfAdoptionAgreement",
+        "lowWaterPressureRisk",
+        "waterQualityAnalysis",
+        "authorisedDeparturesFrom2000Regulations",
+        "waterMeterLocation"
+      ]
+    },
+    "charging": {
+      "type": "object",
+      "con29DWRef": "4",
+      "title": "Charging",
+      "properties": {
+        "sewerageProvider": {
+          "con29DWRef": "4.1.1",
+          "title": "Who is responsible for providing the sewerage services for the property?",
+          "type": "string",
+          "minLength": 1
+        },
+        "waterProvider": {
+          "con29DWRef": "4.1.2",
+          "title": "Who is responsible for providing the water services for the property?",
+          "type": "string",
+          "minLength": 1
+        },
+        "sewerageBills": {
+          "con29DWRef": "4.2",
+          "title": "Who bills the property for sewerage services?",
+          "type": "string",
+          "minLength": 1
+        },
+        "waterBills": {
+          "con29DWRef": "4.3",
+          "title": "Who bills the property for water services?",
+          "type": "string",
+          "minLength": 1
+        },
+        "currentChargingBasis": {
+          "con29DWRef": "4.4",
+          "title": "What is the current basis for charging for sewerage and/or water services at the property?",
+          "type": "string",
+          "minLength": 1
+        },
+        "consequentialChargingBasis": {
+          "con29DWRef": "4.5",
+          "title": "Will the basis for charging for sewerage and water services at the property change as a consequence of a change of occupation?"
+        }
+      },
+      "required": [
+        "sewerageProvider",
+        "waterProvider",
+        "sewerageBills",
+        "waterBills",
+        "currentChargingBasis",
+        "consequentialChargingBasis"
+      ]
+    }
+  },
+  "$defs": {
+    "yesNoDetailIfYes": {
+      "type": "object",
+      "properties": {
+        "yesNo": {
+          "type": "string",
+          "title": "",
+          "enum": ["Yes", "No"]
+        }
+      },
+      "required": ["yesNo"],
+      "discriminator": { "propertyName": "yesNo" },
+      "oneOf": [
+        {
+          "properties": {
+            "yesNo": {
+              "enum": ["No"]
+            }
+          }
+        },
+        {
+          "properties": {
+            "yesNo": {
+              "enum": ["Yes"]
+            },
+            "details": {
+              "title": "Details",
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": ["details"]
+        }
+      ]
+    },
+    "yesNoDetailIfNo": {
+      "type": "object",
+      "properties": {
+        "yesNo": {
+          "type": "string",
+          "title": "",
+          "enum": ["Yes", "No"]
+        }
+      },
+      "required": ["yesNo"],
+      "discriminator": { "propertyName": "yesNo" },
+      "oneOf": [
+        {
+          "properties": {
+            "yesNo": {
+              "enum": ["Yes"]
+            }
+          }
+        },
+        {
+          "properties": {
+            "yesNo": {
+              "enum": ["No"]
+            },
+            "details": {
+              "title": "Details",
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": ["details"]
+        }
+      ]
+    }
+  }
+}

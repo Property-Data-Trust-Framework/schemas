@@ -1,0 +1,2064 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v1/leasehold-information.json",
+  "type": "object",
+  "title": "LPE1",
+  "description": "Leasehold Property Enquiries - Fourth Edition 2023",
+  "baspiRef": "A",
+  "required": [
+    "contactDetails",
+    "transferAndRegistration",
+    "groundRent",
+    "serviceCharge",
+    "buildingsInsurance",
+    "disputesAndEnfranchisement",
+    "general",
+    "requiredDocuments",
+    "declaration"
+  ],
+  "properties": {
+    "contactDetails": {
+      "lpe1Ref": "1",
+      "title": "Contact Details",
+      "description": "Complete the details for the relevant parties",
+      "type": "object",
+      "required": [
+        "noticeOfAssignmentAndCharge",
+        "collectsGroundRent",
+        "collectsServiceCharges",
+        "collectsbuildingInsurancePremiums",
+        "dealsWithDayToDayMaintenanceOfManagedArea",
+        "dealsWithDayToDayMaintenanceOfBuilding"
+      ],
+      "properties": {
+        "landlord": {
+          "lpe1Ref": "1.1",
+          "title": "Landlord",
+          "type": "object",
+          "properties": {
+            "contact": {
+              "$ref": "#/$defs/contact"
+            },
+            "bankDetails": {
+              "$ref": "#/$defs/bankDetails"
+            }
+          }
+        },
+        "managementCompany": {
+          "lpe1Ref": "1.2",
+          "title": "Management Company",
+          "type": "object",
+          "properties": {
+            "contact": {
+              "$ref": "#/$defs/contact"
+            },
+            "bankDetails": {
+              "$ref": "#/$defs/bankDetails"
+            }
+          }
+        },
+        "managingAgent": {
+          "lpe1Ref": "1.3",
+          "title": "Managing Agent",
+          "type": "object",
+          "properties": {
+            "contact": {
+              "$ref": "#/$defs/contact"
+            },
+            "appointedBy": {
+              "title": "Appointed by",
+              "type": "string",
+              "enum": ["Management Company", "Landlord", "Other"]
+            },
+            "bankDetails": {
+              "$ref": "#/$defs/bankDetails"
+            }
+          }
+        },
+        "residentTenantsAssociation": {
+          "lpe1Ref": "1.4",
+          "title": "Residents'/Tenants' Association",
+          "type": "object",
+          "properties": {
+            "contact": {
+              "$ref": "#/$defs/contact"
+            },
+            "bankDetails": {
+              "$ref": "#/$defs/bankDetails"
+            }
+          }
+        },
+        "legalRepresentative": {
+          "lpe1Ref": "1.5",
+          "title": "Legal Representative of one of the above",
+          "type": "object",
+          "properties": {
+            "contact": {
+              "$ref": "#/$defs/contact"
+            },
+            "appointedBy": {
+              "title": "Appointed by",
+              "type": "string",
+              "enum": [
+                "Management Company",
+                "Landlord",
+                "Managing Agent",
+                "Residents'/Tenants' Association",
+                "Other"
+              ]
+            }
+          }
+        },
+        "noticeOfAssignmentAndCharge": {
+          "lpe1Ref": "1.6",
+          "title": "Who accepts service of the Notice of Assignment & Charge?",
+          "description": "Tick the box beside each applicable party and state the total fee including VAT for notice of assignment and charge. Tick 'Notice via email' to confirm whether you will accept notice via email",
+          "type": "object",
+          "properties": {
+            "landlord": {
+              "title": "Landlord",
+              "$ref": "#/defs/noticeOfAssignmentAndChargeParty"
+            },
+            "managementCompany": {
+              "title": "Management Company",
+              "$ref": "#/defs/noticeOfAssignmentAndChargeParty"
+            },
+            "managingAgent": {
+              "title": "Managing Agent",
+              "$ref": "#/defs/noticeOfAssignmentAndChargeParty"
+            },
+            "other": {
+              "type": "object",
+              "properties": {
+                "isApplicableParty": {
+                  "type": "boolean"
+                }
+              },
+              "required": ["isApplicableParty"],
+              "discriminator": { "propertyName": "isApplicableParty" },
+              "oneOf": [
+                {
+                  "properties": {
+                    "isApplicableParty": {
+                      "const": false
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "isApplicableParty": {
+                      "const": true
+                    },
+                    "fee": {
+                      "title": "Total Fee including VAT",
+                      "type": "number"
+                    },
+                    "noticeViaEmail": {
+                      "type": "boolean"
+                    }
+                  },
+                  "contact": {
+                    "$ref": "#/$defs/contact"
+                  },
+                  "capacity": {
+                    "title": "Capacity (e.g. Landlord's lawyer)",
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "required": [
+                    "feeIncludingVAT",
+                    "noticeViaEmail",
+                    "contact",
+                    "capacity"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "collectsGroundRent": {
+          "lpe1Ref": "1.7",
+          "title": "Who collects the Ground Rent?",
+          "type": "string",
+          "enum": ["Landlord", "Management Company", "Managing Agent", "N/A"]
+        },
+        "collectsServiceCharges": {
+          "lpe1Ref": "1.8",
+          "title": "Who collects the Service Charges?",
+          "type": "string",
+          "enum": ["Landlord", "Management Company", "Managing Agent", "N/A"]
+        },
+        "collectsbuildingInsurancePremiums": {
+          "lpe1Ref": "1.9",
+          "title": "Who collects the building insurance premiums?",
+          "type": "string",
+          "enum": ["Landlord", "Management Company", "Managing Agent", "N/A"]
+        },
+        "dealsWithDayToDayMaintenanceOfManagedArea": {
+          "lpe1Ref": "1.11",
+          "title": "Who deals with the day to day maintenance of the Managed Area?",
+          "type": "string",
+          "enum": [
+            "Landlord",
+            "Management Company",
+            "Managing Agent",
+            "the Lessees",
+            "N/A"
+          ]
+        },
+        "organisesBuildingInsurance": {
+          "lpe1Ref": "1.12",
+          "title": "Who organises and administers the buildings insurance?",
+          "type": "string",
+          "enum": [
+            "Landlord",
+            "Management Company",
+            "Managing Agent",
+            "the Lessees",
+            "N/A"
+          ]
+        },
+        "dealsWithDayToDayMaintenanceOfBuilding": {
+          "lpe1Ref": "1.10",
+          "title": "Who deals with the day to day maintenance of the building?",
+          "type": "string",
+          "enum": [
+            "Landlord",
+            "Management Company",
+            "Managing Agent",
+            "the Lessees"
+          ]
+        }
+      },
+      "discriminator": {
+        "propertyName": "dealsWithDayToDayMaintenanceOfBuilding"
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "dealsWithDayToDayMaintenanceOfBuilding": {
+              "enum": ["Landlord", "Management Company", "Managing Agent"]
+            }
+          }
+        },
+        {
+          "properties": {
+            "dealsWithDayToDayMaintenanceOfBuilding": {
+              "enum": ["the Lessees"]
+            },
+            "lesseeInCharge": {
+              "lpe1Ref": "1.10.1",
+              "title": "Please provide contact details of the Lessee in charge",
+              "$ref": "#/$defs/contact"
+            }
+          },
+          "required": ["lesseeInCharge"]
+        }
+      ]
+    },
+    "transferAndRegistration": {
+      "lpe1Ref": "2",
+      "title": "Transfer and Registration",
+      "type": "object",
+      "required": [
+        "deedOfCovenantRequired",
+        "licenceToAssignRequired",
+        "awareOfConsents",
+        "requirementsToBeMemberOfManagementCompany",
+        "procedureForObtainingCertificate"
+      ],
+      "properties": {
+        "deedOfCovenantRequired": {
+          "lpe1Ref": "2.1",
+          "title": "Is a Deed of Covenant Required?",
+          "type": "object",
+          "properties": {
+            "yesNoNotKnown": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No", "Not Known"]
+            }
+          },
+          "required": ["yesNoNotKnown"],
+          "discriminator": { "propertyName": "yesNoNotKnown" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNoNotKnown": {
+                  "enum": ["No", "Not Known"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNoNotKnown": {
+                  "enum": ["Yes"]
+                },
+                "costsApplicableToTheDeed": {
+                  "lpe1Ref": "2.1.1",
+                  "title": "Confirm the costs applicable to the Deed including VAT",
+                  "type": "number"
+                },
+                "personWhoDealsWithTheDeedOfCovenant": {
+                  "lpe1Ref": "2.1.2",
+                  "title": "Provide details of the person who deals with the Deed of Covenant",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "costsApplicableToTheDeed",
+                "personWhoDealsWithTheDeedOfCovenant"
+              ]
+            }
+          ]
+        },
+        "licenceToAssignRequired": {
+          "lpe1Ref": "2.2",
+          "title": "Is a License to Assign required?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "requirements": {
+                  "lpe1Ref": "2.3",
+                  "title": "Specify requirements e.g. references, and any costs applicable to the Licence",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["requirements"]
+            }
+          ]
+        },
+        "awareOfConsents": {
+          "lpe1Ref": "2.4",
+          "title": "Are you aware of consent having been given to any alterations or additions to the Property?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "2.4.1",
+                  "title": "Provide details and copies of any consent",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "requirementsToBeMemberOfManagementCompany": {
+          "lpe1Ref": "2.5",
+          "title": "Is the incoming Lessee required to take a share in, or Yes become a member of, the Management Company?",
+          "type": "object",
+          "properties": {
+            "yesNoNotApplicable": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No", "N/A"]
+            }
+          },
+          "required": ["yesNoNotApplicable"],
+          "discriminator": { "propertyName": "yesNoNotApplicable" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNoNotApplicable": {
+                  "enum": ["No", "N/A"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNoNotApplicable": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "2.5.1",
+                  "title": "Provide details of the procedures and fees. Include details of the person who deals with the new certificate or share.",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "procedureForObtainingCertificate": {
+          "title": "What is the procedure and cost for obtaining a certificate in accordance with a restriction in the Proprietorship Register at the Land Registry, if applicable?",
+          "type": "string"
+        }
+      }
+    },
+    "groundRent": {
+      "lpe1Ref": "3",
+      "title": "Ground Rent",
+      "type": "object",
+      "required": [
+        "groundRentPayable",
+        "groundRentPaidUpToDate",
+        "lastDemandPeriod",
+        "requirementsToBeMemberOfManagementCompany"
+      ],
+      "properties": {
+        "groundRentPayable": {
+          "lpe1Ref": "3.1",
+          "title": "What is the annual Ground Rent payable for the Property?",
+          "type": "number"
+        },
+        "groundRentPaidUpToDate": {
+          "lpe1Ref": "3.2",
+          "type": "object",
+          "title": "Is the Ground Rent paid up to date?",
+          "properties": {
+            "yesNoNotApplicable": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No", "N/A"]
+            }
+          },
+          "required": ["yesNoNotApplicable"],
+          "discriminator": { "propertyName": "yesNoNotApplicable" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNoNotApplicable": {
+                  "enum": ["Yes", "N/A"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNoNotApplicable": {
+                  "enum": ["No"]
+                },
+                "details": {
+                  "lpe1Ref": "3.2.1",
+                  "title": "Supply details of the arrears",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "lastDemandPeriod": {
+          "lpe1Ref": "3.3",
+          "title": "What period is covered by the last demand?",
+          "type": "object",
+          "properties": {
+            "from": {
+              "type": "string",
+              "format": "date"
+            },
+            "to": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        }
+      }
+    },
+    "serviceCharge": {
+      "lpe1Ref": "4",
+      "title": "Service Charge",
+      "type": "object",
+      "required": [
+        "propertiesContributingToMaintenaceOfManagedArea",
+        "serviceChargePayable",
+        "serviceChargePaidUpToDate",
+        "excessPaymentAnticipated",
+        "lastDemandPeriod",
+        "hasInabilityToCollectAffectedMaintenance",
+        "reserveFund",
+        "lastDecoratedPeriod",
+        "section20WorksProposed",
+        "increaseInServiceChargeAnticipated",
+        "outstandingServiceChargeConsultation",
+        "japaneseKnotweedAffectingManagedAreas",
+        "transferFees",
+        "allPropertiesContribute",
+        "deedOfCertificateServed",
+        "landlordsCertificateServed"
+      ],
+      "properties": {
+        "propertiesContributingToMaintenaceOfManagedArea": {
+          "lpe1Ref": "4.1",
+          "title": "How many properties contribute toward the maintenance of the Managed Area?",
+          "type": "number"
+        },
+        "serviceChargePayable": {
+          "lpe1Ref": "4.1.11",
+          "title": "What is the current annual Service Charge for the £ Property?",
+          "type": "number"
+        },
+        "adHocExpenses": {
+          "lpe1Ref": "4.1.2",
+          "title": "If the Service Charge has been collected on an 'ad hoc' basis, what have been the expenses over the last 3 years?",
+          "type": "string"
+        },
+        "serviceChargePaidUpToDate": {
+          "lpe1Ref": "4.2",
+          "type": "object",
+          "title": "Is the Service Charge paid up to date for the Property?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                },
+                "details": {
+                  "lpe1Ref": "4.2.1",
+                  "title": "Supply details of the arrears",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "excessPaymentAnticipated": {
+          "lpe1Ref": "4.3",
+          "type": "object",
+          "title": " Is any excess payment anticipated for the Property at the Yes end of the financial year?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "4.3.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "lastDemandPeriod": {
+          "lpe1Ref": "4.4",
+          "title": "What period is covered by the last demand?",
+          "type": "object",
+          "properties": {
+            "from": {
+              "title": "From",
+              "type": "string",
+              "format": "date"
+            },
+            "to": {
+              "title": "To",
+              "type": "string",
+              "format": "date"
+            }
+          }
+        },
+        "hasInabilityToCollectAffectedMaintenance": {
+          "lpe1Ref": "4.5",
+          "type": "object",
+          "title": "In the last 12 months, has any inability to collect payments, from any party, affected (or is it likely to Yes affect), the maintenance of the Managed Area?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "4.5.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "reserveFund": {
+          "lpe1Ref": "4.6",
+          "type": "object",
+          "title": "Does a Reserve Fund apply to the Managed Area?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "4.6.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sufficentToCoverSection20Expenditure": {
+                  "lpe1Ref": "4.6.2",
+                  "title": "Is the amount expected to be sufficient to cover the known Section 20 expenditure?",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "required": ["yesNo"],
+                  "discriminator": { "propertyName": "yesNo" },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["Yes"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["No"]
+                        },
+                        "details": {
+                          "lpe1Ref": "4.6.3",
+                          "title": "Supply details",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": ["details"]
+                    }
+                  ]
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "lastDecoratedPeriod": {
+          "lpe1Ref": "4.7",
+          "title": "Confirm the date when the Managed Areas were last decorated, internally and externally.",
+          "type": "object",
+          "properties": {
+            "internally": {
+              "title": "Internally",
+              "type": "object",
+              "properties": {
+                "from": {
+                  "title": "To",
+                  "type": "string",
+                  "format": "date"
+                },
+                "to": {
+                  "title": "To",
+                  "type": "string",
+                  "format": "date"
+                }
+              }
+            },
+            "externally": {
+              "title": "Externally",
+              "type": "object",
+              "properties": {
+                "from": {
+                  "title": "To",
+                  "type": "string",
+                  "format": "date"
+                },
+                "to": {
+                  "title": "To",
+                  "type": "string",
+                  "format": "date"
+                }
+              }
+            }
+          }
+        },
+        "section20WorksProposed": {
+          "lpe1Ref": "4.8",
+          "type": "object",
+          "title": "Within the next 2 years, are any Section 20 works proposed to the Property?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Completed but unpaid", "Due", "Anticipated", "N/A"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["N/A"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Completed but unpaid", "Due", "Anticipated"]
+                },
+                "details": {
+                  "lpe1Ref": "4.8.1",
+                  "title": "If so, provide details of the works and the contribution anticipated from the Lessee",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "increaseInServiceChargeAnticipated": {
+          "lpe1Ref": "4.9",
+          "title": "Is any increase in the Service Charge over 10% or £100, whichever is the greater, anticipated in the next 2 years?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "4.9.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "outstandingServiceChargeConsultation": {
+          "lpe1Ref": "4.10",
+          "title": "Are there any outstanding Service Charge consultation procedures?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "4.10.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "japaneseKnotweedAffectingManagedAreas": {
+          "lpe1Ref": "4.11",
+          "title": "Are the Managed Areas known to be affected by Japanese knotweed?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "4.11.1",
+                  "title": "Provide details and a copy of any Japanese knotweed management plan in place.",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "transferFees": {
+          "lpe1Ref": "4.12",
+          "title": "Are there any transfer fees deferred service charges or similar fees, expressed as a percentage of the Property's value, payable on an event such as resale or subletting?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "4.12.1",
+                  "title": "Provide details.",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "allPropertiesContribute": {
+          "lpe1Ref": "4.13",
+          "title": "Do all properties in the Managed Area contribute to the Service Charge?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                },
+                "details": {
+                  "lpe1Ref": "4.13.1",
+                  "title": "Provide details.",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "deedOfCertificateServed": {
+          "lpe1Ref": "4.14",
+          "title": "Has a Leaseholder Deed of Certificate been served on the Landlord in relation to the property or remedial works required to the property?",
+          "type": "object",
+          "properties": {
+            "yesNoNotApplicable": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No Certificate Served", "N/A"]
+            }
+          },
+          "required": ["yesNoNotApplicable"]
+        },
+        "landlordsCertificateServed": {
+          "lpe1Ref": "4.14",
+          "title": "Has a Landlord's Certificate been served?",
+          "type": "object",
+          "properties": {
+            "yesNoNotApplicable": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No Certificate Served", "N/A"]
+            }
+          },
+          "required": ["yesNoNotApplicable"]
+        }
+      }
+    },
+    "buildingsInsurance": {
+      "lpe1Ref": "5",
+      "title": "Buildings Insurance",
+      "type": "object",
+      "required": [
+        "premiumsPaidUpToDate",
+        "lastDemandPeriod",
+        "premiumPaidinFull",
+        "claimsMade",
+        "claimsAnticipated",
+        "managedAreasCoveredByPolicy",
+        "standardTermsAvailable",
+        "nonComplianceWithConditions",
+        "buildingsReinstatementCostAssessment",
+        "premiumIncludedInServiceCharge"
+      ],
+      "properties": {
+        "premiumsPaidUpToDate": {
+          "lpe1Ref": "5.1",
+          "type": "object",
+          "title": "Are the buildings insurance premium contributions paid up to date for the Managed Areas including the Property?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                },
+                "details": {
+                  "lpe1Ref": "5.1.1",
+                  "title": "Provide details of the arrears",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "lastDemandPeriod": {
+          "lpe1Ref": "5.2",
+          "title": "What period is covered by the last demand?",
+          "type": "object",
+          "properties": {
+            "from": {
+              "type": "string",
+              "format": "date"
+            },
+            "to": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        },
+        "premiumPaidinFull": {
+          "lpe1Ref": "5.3",
+          "type": "object",
+          "title": "Has the premium been paid in full?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                },
+                "details": {
+                  "lpe1Ref": "5.3.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "claimsMade": {
+          "lpe1Ref": "5.4",
+          "type": "object",
+          "title": "Have any claims been made against the policy during Yes the last 3 years?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "5.4.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "claimsAnticipated": {
+          "lpe1Ref": "5.5",
+          "type": "object",
+          "title": "Are any claims anticipated?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "5.5.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "managedAreasCoveredByPolicy": {
+          "lpe1Ref": "4.6",
+          "type": "object",
+          "title": "Are the Managed Areas covered by the policy?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "riskAssessments": {
+                  "lpe1Ref": "5.6.1",
+                  "title": "Whas risk assessments have been completed?",
+                  "type": "object",
+                  "properties": {
+                    "assessmentsCarriedOut": {
+                      "type": "string",
+                      "enum": [
+                        "None",
+                        "Fire risk assessment",
+                        "External wall fire risk assessment",
+                        "Both"
+                      ]
+                    }
+                  },
+                  "required": ["assessmentsCarriedOut"],
+                  "discriminator": { "propertyName": "assessmentsCarriedOut" },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "assessmentsCarriedOut": {
+                          "enum": ["None"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "assessmentsCarriedOut": {
+                          "enum": [
+                            "Fire risk assessment",
+                            "External Wall fire risk assessment",
+                            "Both"
+                          ]
+                        },
+                        "urgentWorksRecommended": {
+                          "lpe1Ref": "5.6.2(i)",
+                          "title": "Have urgent or essential works been recommended?",
+                          "type": "string",
+                          "enum": ["Yes", "No"]
+                        }
+                      },
+                      "required": ["urgentWorksRecommended"],
+                      "discriminator": {
+                        "propertyName": "urgentWorksRecommended"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "urgentWorksRecommended": {
+                              "enum": ["No"]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "urgentWorksRecommended": {
+                              "enum": ["Yes"]
+                            },
+                            "urgentWorksCarriedOut": {
+                              "lpe1Ref": "5.6.2(ii)",
+                              "title": "Have these been carried out?",
+                              "type": "string",
+                              "enum": ["Yes", "No"]
+                            },
+                            "outstandingEnforcementAction": {
+                              "lpe1Ref": "5.6.2(iii)",
+                              "title": "Is there any outstanding enforcement action Yes against the landlord or accountable person (such as outstanding enforcement notices)?",
+                              "type": "string",
+                              "enum": ["Yes", "No"]
+                            }
+                          },
+                          "required": [
+                            "urgentWorksCarriedOut",
+                            "outstandingEnforcementAction"
+                          ],
+                          "discriminator": {
+                            "propertyName": "outstandingEnforcementAction"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "outstandingEnforcementAction": {
+                                  "enum": ["No"]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "outstandingEnforcementAction": {
+                                  "enum": ["Yes"]
+                                },
+                                "dateRemedialActionRequired": {
+                                  "lpe1Ref": "5.6.2(iv)",
+                                  "title": "By what date is remedial action required?",
+                                  "type": "string",
+                                  "format": "date"
+                                }
+                              },
+                              "required": ["dateRemedialActionRequired"]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "required": ["riskAssessments"]
+            }
+          ]
+        },
+        "standardTermsAvailable": {
+          "lpe1Ref": "5.7",
+          "type": "object",
+          "title": "Are you aware of any reason why comprehensive insurance will not be available on standard terms in future?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "5.7.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "nonComplianceWithConditions": {
+          "lpe1Ref": "5.8",
+          "type": "object",
+          "title": "Are you aware of any non-compliance with the insurance conditions that would render the policy void?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "5.8.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "buildingsReinstatementCostAssessment": {
+          "lpe1Ref": "5.9",
+          "title": "Please confirm the date of the last buildings reinstatement/cost assessment.",
+          "type": "string",
+          "format": "date"
+        },
+        "premiumIncludedInServiceCharge": {
+          "lpe1Ref": "5.10",
+          "type": "object",
+          "title": "Is the insurance premium included in the service charge Yes budget?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                },
+                "details": {
+                  "lpe1Ref": "5.10.1",
+                  "title": "confirm the annual amount payable for the Property",
+                  "type": "number"
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        }
+      }
+    },
+    "disputesAndEnfranchisement": {
+      "lpe1Ref": "6",
+      "title": "Disputes & Enfranchisement",
+      "type": "object",
+      "required": [
+        "ongoingForfeitureProceedings",
+        "unresolvedDisputes",
+        "enfranchisementSteps",
+        "breachOfTermsOfLease"
+      ],
+      "properties": {
+        "ongoingForfeitureProceedings": {
+          "lpe1Ref": "6.1",
+          "type": "object",
+          "title": "Are there any on-going forfeiture proceedings in relation to the Property?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          }
+        },
+        "unresolvedDisputes": {
+          "lpe1Ref": "6.2",
+          "type": "object",
+          "title": "Are there any documented unresolved disputes with the Yes Lessees of any of the properties in the Managed Area?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "6.2.1",
+                  "title": "To the extent permitted by the UK General Data Protection Regulations, please supply details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "enfranchisementSteps": {
+          "lpe1Ref": "6.3",
+          "type": "object",
+          "title": "Have any steps been taken by anyone to enfranchise, exercise the right to manage, form a right to enfranchise or management company, extend the term of the lease of the Property or anything similar?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No", "Not Known"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No", "Not Known"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "5.8.1",
+                  "title": "Provide details and copies of relevant documentation",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "breachOfTermsOfLease": {
+          "lpe1Ref": "6.4",
+          "type": "object",
+          "title": "Are you aware of any breach of the terms of the lease of this Property?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "6.4.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        }
+      }
+    },
+    "general": {
+      "lpe1Ref": "7",
+      "title": "General",
+      "type": "object",
+      "required": [
+        "otherPropertiesInManagedArea",
+        "leasedOnSimilarTerms",
+        "buildingKnownToBeHMO",
+        "additionalParkingRegulations",
+        "restrictionOnKeepingPets"
+      ],
+      "properties": {
+        "otherPropertiesInManagedArea": {
+          "lpe1Ref": "7.1",
+          "title": "How many other properties are there in the Managed Area?",
+          "type": "number"
+        },
+        "leasedOnSimilarTerms": {
+          "lpe1Ref": "7.2",
+          "type": "object",
+          "title": "Are they all leased on leases with similar terms?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No", "Not Known"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes", "Not Known"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                },
+                "details": {
+                  "lpe1Ref": "7.2.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "buildingKnownToBeHMO": {
+          "lpe1Ref": "7.3",
+          "type": "object",
+          "title": "Is the building in which the Property is situated known to be an HMO?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No", "Not Known"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No", "Not Known"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "7.3.1",
+                  "title": "Confirm that regulations applicable to section 257 Housing Act 2004 HMOs have been complied with",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "additionalParkingRegulations": {
+          "lpe1Ref": "7.4",
+          "type": "object",
+          "title": "Are there any parking regulations or restrictions in addition to any set out in the lease?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "7.4.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "restrictionOnKeepingPets": {
+          "lpe1Ref": "7.5",
+          "type": "object",
+          "title": "Is there a restriction in the lease on keeping pets?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "lpe1Ref": "7.5.1",
+                  "title": "Provide outline the requirements.",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        }
+      }
+    },
+    "requiredDocuments": {
+      "lpe1Ref": "8",
+      "title": "Required Documents",
+      "description": "Please provide the following applicable documents:",
+      "type": "object",
+      "required": [
+        "serviceChargeAccounts",
+        "buildingsInsurancePolicy",
+        "managedAreasBuildingsInsurancePolicy",
+        "serviceChargeEstimatesCurrent",
+        "serviceChargeEstimatesPrevious",
+        "proposedWorksNotices",
+        "forfeitureDocumentation",
+        "additionalRegulationsNotInLease",
+        "deedsOfVariation",
+        "deedOfCovenant",
+        "certificateOfCompliance",
+        "licenceToAssign",
+        "permissionToAlter",
+        "noticesServedOnLessee",
+        "asbestosSurvey",
+        "managedAreaFireRiskAssessment",
+        "memorandumAndArticles",
+        "managementCompanyAGMMinutes",
+        "deedOfCertificate",
+        "landlordsCertificate",
+        "enforcementNotices"
+      ],
+      "properties": {
+        "serviceChargeAccounts": {
+          "lpe1Ref": "8.1",
+          "title": "The last 3 years published Service Charge accounts.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "buildingsInsurancePolicy": {
+          "lpe1Ref": "8.2",
+          "title": "Buildings insurance policy and schedule.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "managedAreasBuildingsInsurancePolicy": {
+          "lpe1Ref": "8.3",
+          "title": "Buildings insurance policy and schedule for the Managed Areas.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "serviceChargeEstimatesCurrent": {
+          "lpe1Ref": "8.4",
+          "title": "Service charge estimate for the current year and details of the anticipated payments on account for the Property.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "serviceChargeEstimatesPrevious": {
+          "lpe1Ref": "8.5",
+          "title": "Service charge estimate for the previous year for which accounts have not yet been prepared for the Property.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "proposedWorksNotices": {
+          "lpe1Ref": "8.6",
+          "title": "Copies of any notices served on the Lessees under Section 20 in respect of any proposed works or any works which have not yet been paid for.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "forfeitureDocumentation": {
+          "lpe1Ref": "8.7",
+          "title": "Documentation relating to any forfeiture proceedings applicable to the Property.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "additionalRegulationsNotInLease": {
+          "lpe1Ref": "8.8",
+          "title": "Any additional regulations or rules affecting the Property which are not contained in the lease.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "deedsOfVariation": {
+          "lpe1Ref": "8.9",
+          "title": "Any Deeds of Variation or other document varying the terms of the lease of this Property.",
+          "type": "string",
+          "enum": [
+            "Enclosed",
+            "To follow",
+            "Landlord's lawyer provides",
+            "Please supply draft",
+            "N/A"
+          ]
+        },
+        "deedOfCovenant": {
+          "lpe1Ref": "8.10",
+          "title": "Any required Deed of Covenant.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "certificateOfCompliance": {
+          "lpe1Ref": "8.11",
+          "title": "Any Certificate of Compliance.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "certificateOfComplianceFee": {
+          "lpe1Ref": "8.11",
+          "title": "Certificate of Compliance fee.",
+          "type": "number"
+        },
+        "licenceToAssign": {
+          "lpe1Ref": "8.12",
+          "title": "Any required Licence to Assign.",
+          "type": "string",
+          "enum": [
+            "Enclosed",
+            "To follow",
+            "Landlord's lawyer provides",
+            "Please supply draft",
+            "N/A"
+          ]
+        },
+        "permissionToAlter": {
+          "lpe1Ref": "8.13",
+          "title": "Copy of any permission to alter the Property which has been issued.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "noticesServedOnLessee": {
+          "lpe1Ref": "8.14",
+          "title": "Copy of any known notices served on the Lessee and documentation arising from them.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "asbestosSurvey": {
+          "lpe1Ref": "8.15",
+          "title": "Asbestos Survey for parts of the Managed Area built or converted before 2001.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "managedAreaFireRiskAssessment": {
+          "lpe1Ref": "8.16",
+          "title": "Fire Risk Assessment for the Managed Area.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "memorandumAndArticles": {
+          "lpe1Ref": "8.17",
+          "title": "Memorandum and Articles of Association of the Management Company.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "managementCompanyAGMMinutes": {
+          "lpe1Ref": "8.18",
+          "title": "Minutes from the last AGM for the Management Company.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "deedOfCertificate": {
+          "lpe1Ref": "8.19",
+          "title": "Leaseholder Deed of Certificate.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "landlordsCertificate": {
+          "lpe1Ref": "8.20",
+          "title": "Landlord's Certificate.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "enforcementNotices": {
+          "lpe1Ref": "8.21",
+          "title": "Known enforcement notices served on the landlord or accountable person (where the building is residential and is at least 18 meters or 7 storeys).",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        }
+      }
+    },
+    "confirmation": {
+      "lpe1Ref": "9",
+      "title": "Confirmation",
+      "description": "By checking the box you are .",
+      "type": "object",
+      "required": ["response"],
+      "properties": {
+        "response": {
+          "baspiRef": "A13.1",
+          "title": "Declaration",
+          "description": "I/we confirm that I am the person authorised to provide the information which I have completed in it on behalf of those parties which I have selected from the list, and that a buyer may rely on the information which I have supplied without applying to any other party except where I have left a section blank because I do not have the authority to provide the information",
+          "type": "boolean"
+        },
+        "capacity": {
+          "title": "Confirm the capacity in which the answers are given.",
+          "type": "string",
+          "enum": [
+            "Managing Agent",
+            "Management Company",
+            "Landlord",
+            "Residents' Association"
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "contact": {
+      "type": "object",
+      "properties": {
+        "nameOrOrganisation": {
+          "title": "Name or organisation",
+          "type": "string",
+          "minLength": 1
+        },
+        "address": {
+          "title": "Address",
+          "type": "string",
+          "minLength": 1
+        },
+        "telephone": {
+          "title": "Address",
+          "type": "string",
+          "minLength": 1
+        },
+        "emailAddress": {
+          "title": "Email address",
+          "type": "string",
+          "format": "email"
+        }
+      },
+      "required": ["nameOrOrganisation"]
+    },
+    "bankDetails": {
+      "type": "object",
+      "properties": {
+        "accountName": {
+          "title": "Account name",
+          "type": "string",
+          "minLength": 1
+        },
+        "sortCode": {
+          "title": "Sort code",
+          "type": "string",
+          "minLength": 1
+        },
+        "accountNumber": {
+          "title": "Account number",
+          "type": "integer"
+        },
+        "reference": {
+          "title": "Reference to quote",
+          "type": "string",
+          "minLength": 1
+        },
+        "feeType": {
+          "title": "Type of fee",
+          "type": "string",
+          "enum": [
+            "Ground rent",
+            "Service charges",
+            "Administration fees",
+            "All"
+          ]
+        }
+      }
+    },
+    "noticeOfAssignmentAndChargeParty": {
+      "type": "object",
+      "properties": {
+        "isApplicableParty": {
+          "type": "boolean"
+        }
+      },
+      "required": ["isApplicableParty"],
+      "discriminator": { "propertyName": "isApplicableParty" },
+      "oneOf": [
+        {
+          "properties": {
+            "isApplicableParty": {
+              "const": false
+            }
+          }
+        },
+        {
+          "properties": {
+            "isApplicableParty": {
+              "const": true
+            },
+            "fee": {
+              "title": "Total Fee including VAT",
+              "type": "number"
+            },
+            "noticeViaEmail": {
+              "type": "boolean"
+            }
+          },
+          "required": ["feeIncludingVAT", "noticeViaEmail"]
+        }
+      ]
+    }
+  }
+}

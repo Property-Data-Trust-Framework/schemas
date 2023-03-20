@@ -1,0 +1,191 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json",
+  "type": "object",
+  "title": "Property Data Trust Framework Transaction Schema",
+  "description": "A schema defining the PDTF transaction data structure, supporting mapping to BASPI, Law Society and RICS Data Schema elements.",
+  "required": [
+    "$schema",
+    "transactionId",
+    "status",
+    "participants",
+    "propertyPack"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "transactionId": {
+      "title": "UUID for the transaction",
+      "type": "string"
+    },
+    "externalIds": {
+      "type": "object"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "cancelled", "completed"]
+    },
+    "participants": {
+      "title": "Transaction participants",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "title": "Participant Details",
+        "required": ["name", "email", "role"],
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "object",
+            "required": ["firstName", "lastName"],
+            "properties": {
+              "firstName": {
+                "title": "First name",
+                "type": "string",
+                "minLength": 1
+              },
+              "middleName": {
+                "title": "Middle name(s)",
+                "type": "string"
+              },
+              "lastName": {
+                "title": "lastName",
+                "type": "string",
+                "minLength": 1
+              },
+              "preferredName": {
+                "title": "Preferred name / known as",
+                "type": "string"
+              }
+            }
+          },
+          "dateOfBirth": {
+            "title": "Date of birth",
+            "type": "string",
+            "format": "date"
+          },
+          "phone": {
+            "title": "Phone number",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email address",
+            "type": "string",
+            "format": "email"
+          },
+          "address": {
+            "title": "Address",
+            "$ref": "#/$defs/address"
+          },
+          "organisation": {
+            "title": "Organisation",
+            "type": "string"
+          },
+          "organisationReference": {
+            "title": "Reference",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string",
+            "enum": [
+              "Seller",
+              "Seller's Conveyancer",
+              "Prospective Buyer",
+              "Buyer",
+              "Buyer's Conveyancer",
+              "Estate Agent"
+            ]
+          },
+          "externalIds": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "propertyPack": {
+      "title": "Property Pack",
+      "type": "object",
+      "properties": {
+        "materialFacts": {
+          "$ref": "https://trust.propdata.org.uk/schemas/v1/material-facts.json"
+        },
+        "additionalLegalInfo": {
+          "$ref": "https://trust.propdata.org.uk/schemas/v1/legal-information.json"
+        },
+        "titlesToBeSold": {
+          "RDSRef": "",
+          "title": "Title(s) as registered with HMLR which are included in the sale",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "title": "Registered Title",
+            "properties": {
+              "titleNumber": {
+                "RDSRef": "",
+                "title": "Title Number",
+                "type": "string"
+              },
+              "titleIncludedInSale": {
+                "RDSRef": "",
+                "title": "Confirms that this associated title is included in the sale",
+                "type": "boolean"
+              },
+              "titleExtents": {
+                "RDSRef": "",
+                "title": "Title Extents",
+                "description": "One or more index polygons describing indicative location of registered title from National Polygon Dataset, JSON.stringified to ensure compatibility",
+                "type": "string"
+              },
+              "registerExtract": {
+                "title": "HMLR Register Extract",
+                "$ref": "https://trust.propdata.org.uk/schemas/v1/title-deed.json"
+              }
+            }
+          }
+        },
+        "energyPerformanceCertificate": {
+          "RDSRef": "",
+          "title": "Energy Performance Certificate",
+          "$ref": "https://trust.propdata.org.uk/schemas/v1/energy-performance-certificate.json"
+        },
+        "searches": {
+          "RDSRef": "",
+          "title": "Searches",
+          "$ref": "https://trust.propdata.org.uk/schemas/v1/searches.json"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "address": {
+      "type": "object",
+      "properties": {
+        "line1": {
+          "title": "Address 1",
+          "type": "string",
+          "minLength": 1
+        },
+        "line2": {
+          "title": "Address 2",
+          "type": "string"
+        },
+        "town": {
+          "title": "Town",
+          "type": "string"
+        },
+        "county": {
+          "title": "County",
+          "type": "string"
+        },
+        "postcode": {
+          "title": "Postcode",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["line1", "postcode"]
+    }
+  }
+}

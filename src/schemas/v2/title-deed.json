@@ -1,0 +1,841 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v1/title-deed.json",
+  "title": "HMLR Official Copy Register Extract",
+  "description": "A schema mirroring the V2_1 XML version of the HMLR Register Extract web service.",
+  "definitions": {
+    "BinaryObjectType": {
+      "type": "object",
+      "properties": {
+        "data": { "type": "string" },
+        "filename": { "type": "string" },
+        "format": { "type": "string" },
+        "mimeCode": { "type": "string" },
+        "characterSetCode": { "type": "string" }
+      }
+    },
+    "Q1AttachmentType": {
+      "type": "object",
+      "required": ["EmbeddedFileBinaryObject"],
+      "properties": {
+        "EmbeddedFileBinaryObject": {
+          "$ref": "#/definitions/BinaryObjectType"
+        },
+        "Title": { "type": "string" },
+        "Description": { "type": "string" },
+        "Date": { "type": "string", "format": "date" },
+        "CopyrightNotices": { "type": "string" }
+      }
+    },
+    "AmountInfillType": { "type": "string" },
+    "ChargeDateInfillType": {
+      "type": "string",
+      "format": "date"
+    },
+    "ChargePartyInfillType": { "type": "string" },
+    "DateInfillType": {
+      "type": "string",
+      "format": "date"
+    },
+    "DeedDateInfillType": { "type": "string" },
+    "DeedExtentInfillType": { "type": "string" },
+    "DeedPartyInfillType": { "type": "string" },
+    "DeedTypeInfillType": { "type": "string" },
+    "ExtentOfLandInfillType": { "type": "string" },
+    "MiscTextInfillType": { "type": "string" },
+    "NameInfillType": { "type": "string" },
+    "NoteInfillType": { "type": "string" },
+    "OptMiscTextInfillType": { "type": "string" },
+    "PlansRefInfillType": { "type": "string" },
+    "Q2TextType": { "type": "string" },
+    "TitleNumberInfillType": { "type": "string" },
+    "VerbatimTextInfillType": { "type": "string" },
+    "Q1InfillDetailsType": {
+      "type": "object",
+      "required": ["AmountOrChargeDateOrChargeParty"],
+      "properties": {
+        "AmountOrChargeDateOrChargeParty": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              { "$ref": "#/definitions/AmountInfillType" },
+              { "$ref": "#/definitions/ChargeDateInfillType" },
+              { "$ref": "#/definitions/ChargePartyInfillType" },
+              { "$ref": "#/definitions/DateInfillType" },
+              { "$ref": "#/definitions/DeedDateInfillType" },
+              { "$ref": "#/definitions/DeedExtentInfillType" },
+              { "$ref": "#/definitions/DeedPartyInfillType" },
+              { "$ref": "#/definitions/DeedTypeInfillType" },
+              { "$ref": "#/definitions/ExtentOfLandInfillType" },
+              { "$ref": "#/definitions/MiscTextInfillType" },
+              { "$ref": "#/definitions/NameInfillType" },
+              { "$ref": "#/definitions/NoteInfillType" },
+              { "$ref": "#/definitions/OptMiscTextInfillType" },
+              { "$ref": "#/definitions/PlansRefInfillType" },
+              { "$ref": "#/definitions/TitleNumberInfillType" },
+              { "$ref": "#/definitions/VerbatimTextInfillType" }
+            ]
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "Q1EntryDetailsType": {
+      "type": "object",
+      "required": ["EntryNumber", "EntryText"],
+      "properties": {
+        "EntryNumber": { "type": "string" },
+        "EntryText": { "type": "string" },
+        "RegistrationDate": { "type": "string", "format": "date" },
+        "SubRegisterCode": { "$ref": "#/definitions/SubRegisterCodeType" },
+        "ScheduleCode": {
+          "type": "string",
+          "enum": [
+            "0",
+            "10",
+            "20",
+            "30",
+            "40",
+            "50",
+            "60",
+            "70",
+            "80",
+            "90",
+            "100",
+            "110",
+            "120",
+            "130"
+          ]
+        },
+        "Infills": { "type": "object" }
+      }
+    },
+    "Q1PricePaidEntryType": {
+      "type": "object",
+      "required": ["EntryDetails"],
+      "properties": {
+        "MultipleTitleIndicator": {
+          "type": "string",
+          "enum": ["2", "MoreThan2"]
+        },
+        "EntryDetails": { "$ref": "#/definitions/Q1EntryDetailsType" }
+      }
+    },
+    "Q1PostcodeZoneType": {
+      "type": "object",
+      "required": ["Postcode"],
+      "properties": {
+        "Postcode": { "type": "string" }
+      }
+    },
+    "AddressLineType": {
+      "type": "object",
+      "properties": {
+        "Line": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 0
+        }
+      }
+    },
+    "Q1AddressType": {
+      "type": "object",
+      "required": ["AddressLine"],
+      "properties": {
+        "PostcodeZone": { "$ref": "#/definitions/Q1PostcodeZoneType" },
+        "AddressLine": { "$ref": "#/definitions/AddressLineType" }
+      }
+    },
+    "ClassOfTitleCodeType": {
+      "type": "string",
+      "enum": [
+        "10",
+        "20",
+        "30",
+        "40",
+        "50",
+        "60",
+        "70",
+        "80",
+        "90",
+        "100",
+        "110",
+        "120",
+        "130"
+      ]
+    },
+    "IndicatorType": {
+      "type": "string",
+      "enum": ["true", "false"]
+    },
+    "DistrictNameTextType": { "type": "string" },
+    "AdministrativeAreaTextType": { "type": "string" },
+    "LandRegistryOfficeNameTextType": { "type": "string" },
+    "Q1TitleRegistrationDetailsType": {
+      "type": "object",
+      "required": [
+        "DistrictName",
+        "AdministrativeArea",
+        "LandRegistryOfficeName",
+        "LatestEditionDate"
+      ],
+      "properties": {
+        "DistrictName": { "$ref": "#/definitions/DistrictNameTextType" },
+        "AdministrativeArea": {
+          "$ref": "#/definitions/AdministrativeAreaTextType"
+        },
+        "LandRegistryOfficeName": {
+          "$ref": "#/definitions/LandRegistryOfficeNameTextType"
+        },
+        "LatestEditionDate": { "type": "string", "format": "date" },
+        "PostcodeZone": { "$ref": "#/definitions/Q1PostcodeZoneType" },
+        "RegistrationDate": { "type": "string", "format": "date" }
+      }
+    },
+    "Q1TitleType": {
+      "type": "object",
+      "required": [
+        "TitleNumber",
+        "ClassOfTitleCode",
+        "CommonholdIndicator",
+        "TitleRegistrationDetails"
+      ],
+      "properties": {
+        "TitleNumber": { "$ref": "#/definitions/Q2TextType" },
+        "ClassOfTitleCode": { "$ref": "#/definitions/ClassOfTitleCodeType" },
+        "CommonholdIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "TitleRegistrationDetails": {
+          "$ref": "#/definitions/Q1TitleRegistrationDetailsType"
+        }
+      }
+    },
+    "Q1RegisterEntryIndicatorsType": {
+      "type": "object",
+      "required": [
+        "AgreedNoticeIndicator",
+        "BankruptcyIndicator",
+        "CautionIndicator",
+        "CCBIIndicator",
+        "ChargeeIndicator",
+        "ChargeIndicator",
+        "ChargeRelatedRestrictionIndicator",
+        "ChargeRestrictionIndicator",
+        "CreditorsNoticeIndicator",
+        "DeathOfProprietorIndicator",
+        "DeedOfPostponementIndicator",
+        "DiscountChargeIndicator",
+        "EquitableChargeIndicator",
+        "GreenOutEntryIndicator",
+        "HomeRightsChangeOfAddressIndicator",
+        "HomeRightsIndicator",
+        "LeaseHoldTitleIndicator",
+        "MultipleChargeIndicator",
+        "NonChargeRestrictionIndicator",
+        "NotedChargeIndicator",
+        "PricePaidIndicator",
+        "PropertyDescriptionNotesIndicator",
+        "RentChargeIndicator",
+        "RightOfPreEmptionIndicator",
+        "ScheduleOfLeasesIndicator",
+        "SubChargeIndicator",
+        "UnidentifiedEntryIndicator",
+        "UnilateralNoticeBeneficiaryIndicator",
+        "UnilateralNoticeIndicator",
+        "VendorsLienIndicator"
+      ],
+      "properties": {
+        "AgreedNoticeIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "BankruptcyIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "CautionIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "CCBIIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "ChargeeIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "ChargeIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "ChargeRelatedRestrictionIndicator": {
+          "$ref": "#/definitions/IndicatorType"
+        },
+        "ChargeRestrictionIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "CreditorsNoticeIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "DeathOfProprietorIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "DeedOfPostponementIndicator": {
+          "$ref": "#/definitions/IndicatorType"
+        },
+        "DiscountChargeIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "EquitableChargeIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "GreenOutEntryIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "HomeRightsChangeOfAddressIndicator": {
+          "$ref": "#/definitions/IndicatorType"
+        },
+        "HomeRightsIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "LeaseHoldTitleIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "MultipleChargeIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "NonChargeRestrictionIndicator": {
+          "$ref": "#/definitions/IndicatorType"
+        },
+        "NotedChargeIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "PricePaidIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "PropertyDescriptionNotesIndicator": {
+          "$ref": "#/definitions/IndicatorType"
+        },
+        "RentChargeIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "RightOfPreEmptionIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "ScheduleOfLeasesIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "SubChargeIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "UnidentifiedEntryIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "UnilateralNoticeBeneficiaryIndicator": {
+          "$ref": "#/definitions/IndicatorType"
+        },
+        "UnilateralNoticeIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "VendorsLienIndicator": { "$ref": "#/definitions/IndicatorType" }
+      }
+    },
+    "Q1NameType": {
+      "type": "object",
+      "required": ["SurnameName"],
+      "properties": {
+        "ForenamesName": { "type": "string" },
+        "SurnameName": { "type": "string" }
+      }
+    },
+    "Q1PrivateIndividualType": {
+      "type": "object",
+      "required": ["Name"],
+      "properties": {
+        "Name": { "$ref": "#/definitions/Q1NameType" },
+        "Alias": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1NameType" },
+              "minItems": 0
+            },
+            { "$ref": "#/definitions/Q1NameType" }
+          ]
+        }
+      }
+    },
+    "OrganisationNameTextType": { "type": "string" },
+    "CompanyRegistrationNumberTextType": { "type": "string" },
+    "Q1OrganizationType": {
+      "type": "object",
+      "required": ["Name"],
+      "properties": {
+        "Name": { "$ref": "#/definitions/OrganisationNameTextType" },
+        "CompanyRegistrationNumber": {
+          "$ref": "#/definitions/CompanyRegistrationNumberTextType"
+        }
+      }
+    },
+    "CharityCodeType": {
+      "type": "object",
+      "properties": {
+        "Value": { "$ref": "#/definitions/CharityCodeContentType" }
+      }
+    },
+    "Q1CharityDetailsType": {
+      "type": "object",
+      "required": ["CharityName", "CharityType"],
+      "properties": {
+        "CharityName": {
+          "oneOf": [
+            { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+            { "type": "string" }
+          ]
+        },
+        "CharityAddress": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1AddressType" },
+              "minItems": 0
+            },
+            { "$ref": "#/definitions/Q1AddressType" }
+          ]
+        },
+        "CharityType": { "$ref": "#/definitions/CharityCodeType" }
+      }
+    },
+    "Q1PartyType": {
+      "type": "object",
+      "properties": {
+        "PrivateIndividual": {
+          "$ref": "#/definitions/Q1PrivateIndividualType"
+        },
+        "Organization": { "$ref": "#/definitions/Q1OrganizationType" },
+        "Address": { "$ref": "#/definitions/Q1AddressType" },
+        "CharityDetails": { "$ref": "#/definitions/Q1CharityDetailsType" },
+        "TradingName": { "type": "string" },
+        "PartyNumber": { "type": "string" },
+        "PartyDescription": { "type": "string" }
+      }
+    },
+    "Q1ProprietorshipType": {
+      "type": "object",
+      "properties": {
+        "CurrentProprietorshipDate": { "type": "string", "format": "date" },
+        "CautionerParty": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1PartyType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1PartyType" }
+          ]
+        },
+        "RegisteredProprietorParty": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1PartyType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1PartyType" }
+          ]
+        }
+      }
+    },
+    "LeaseTermTextType": { "type": "string" },
+    "RentAmountTextType": { "type": "string" },
+    "Q1LeaseType": {
+      "type": "object",
+      "required": ["LeaseTerm", "LeaseDate", "LeaseParty", "EntryDetails"],
+      "properties": {
+        "LeaseTerm": { "$ref": "#/definitions/LeaseTermTextType" },
+        "LeaseDate": { "type": "string" },
+        "Rent": { "$ref": "#/definitions/RentAmountTextType" },
+        "LeaseParty": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Q1PartyType" },
+          "minItems": 2
+        },
+        "EntryDetails": { "$ref": "#/definitions/Q1EntryDetailsType" }
+      }
+    },
+    "Q1LeaseEntriesType": {
+      "type": "object",
+      "required": ["LeaseEntry"],
+      "properties": {
+        "LeaseEntry": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Q1LeaseType" },
+          "minItems": 1
+        }
+      }
+    },
+    "RestrictionCodeType": {
+      "type": "string",
+      "enum": ["0", "10", "20", "30"]
+    },
+    "Q1RestrictionType": {
+      "type": "object",
+      "required": ["RestrictionTypeCode", "EntryDetails"],
+      "properties": {
+        "RestrictionTypeCode": { "$ref": "#/definitions/RestrictionCodeType" },
+        "ChargeID": { "type": "string" },
+        "EntryDetails": { "$ref": "#/definitions/Q1EntryDetailsType" }
+      }
+    },
+    "Q1RestrictionEntryType": {
+      "type": "object",
+      "properties": {
+        "ChargeRelatedRestriction": {
+          "$ref": "#/definitions/Q1RestrictionType"
+        },
+        "ChargeRestriction": { "$ref": "#/definitions/Q1RestrictionType" },
+        "NonChargeRestriction": { "$ref": "#/definitions/Q1RestrictionType" }
+      }
+    },
+    "Q1RestrictionDetailsType": {
+      "type": "object",
+      "required": ["RestrictionEntry"],
+      "properties": {
+        "RestrictionEntry": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1RestrictionEntryType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1RestrictionEntryType" }
+          ]
+        }
+      }
+    },
+    "Q1ChargeType": {
+      "type": "object",
+      "required": ["EntryDetails"],
+      "properties": {
+        "MultipleTitleIndicator": { "type": "string" },
+        "EntryDetails": { "$ref": "#/definitions/Q1EntryDetailsType" }
+      }
+    },
+    "Q1ChargeProprietorType": {
+      "type": "object",
+      "required": ["ChargeeParty", "EntryDetails"],
+      "properties": {
+        "ChargeeParty": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1PartyType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1PartyType" }
+          ]
+        },
+        "EntryDetails": { "$ref": "#/definitions/Q1EntryDetailsType" }
+      }
+    },
+    "Q1SubChargeDetailsType": {
+      "type": "object",
+      "required": ["RegisteredCharge", "ChargeProprietor"],
+      "properties": {
+        "ChargeDate": { "type": "string", "format": "date" },
+        "RegisteredCharge": { "$ref": "#/definitions/Q1ChargeType" },
+        "ChargeProprietor": { "$ref": "#/definitions/Q1ChargeProprietorType" }
+      }
+    },
+    "Q1ChargeDetailsType": {
+      "type": "object",
+      "required": ["RegisteredCharge", "ChargeProprietor"],
+      "properties": {
+        "ChargeID": { "type": "string" },
+        "ChargeDate": { "type": "string", "format": "date" },
+        "RegisteredCharge": { "$ref": "#/definitions/Q1ChargeType" },
+        "ChargeProprietor": { "$ref": "#/definitions/Q1ChargeProprietorType" },
+        "SubCharge": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1SubChargeDetailsType" },
+              "minItems": 0
+            },
+            { "$ref": "#/definitions/Q1SubChargeDetailsType" }
+          ]
+        }
+      }
+    },
+    "Q1ChargeEntriesType": {
+      "type": "object",
+      "required": ["ChargeEntry"],
+      "properties": {
+        "ChargeEntry": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1ChargeDetailsType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1ChargeDetailsType" }
+          ]
+        }
+      }
+    },
+    "Q1AgreedNoticeType": {
+      "type": "object",
+      "required": ["EntryDetails"],
+      "properties": {
+        "AgreedNoticeType": {
+          "type": "string",
+          "enum": ["10", "20"]
+        },
+        "EntryDetails": { "$ref": "#/definitions/Q1EntryDetailsType" }
+      }
+    },
+    "Q1AgreedNoticeEntriesType": {
+      "type": "object",
+      "required": ["AgreedNoticeEntry"],
+      "properties": {
+        "AgreedNoticeEntry": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1AgreedNoticeType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1AgreedNoticeType" }
+          ]
+        }
+      }
+    },
+    "Q1EntriesType": {
+      "type": "object",
+      "required": ["EntryDetails"],
+      "properties": {
+        "EntryDetails": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1EntryDetailsType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1EntryDetailsType" }
+          ]
+        }
+      }
+    },
+    "Q1HomeRightsType": {
+      "type": "object",
+      "required": ["ChangeOfAddressIndicator", "HomeRightsEntryDetails"],
+      "properties": {
+        "ChangeOfAddressIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "HomeRightsEntryDetails": {
+          "$ref": "#/definitions/Q1EntryDetailsType"
+        },
+        "ChangeOfAddressEntryDetails": {
+          "$ref": "#/definitions/Q1EntryDetailsType"
+        }
+      }
+    },
+    "Q1HomeRightsEntriesType": {
+      "type": "object",
+      "required": ["HomeRightsEntry"],
+      "properties": {
+        "HomeRightsEntry": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1HomeRightsType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1HomeRightsType" }
+          ]
+        }
+      }
+    },
+    "Q1DocumentEntryType": {
+      "type": "object",
+      "required": [
+        "DocumentType",
+        "EntryNumber",
+        "PlanOnlyIndicator",
+        "RegisterDescription"
+      ],
+      "properties": {
+        "DocumentType": {
+          "type": "string",
+          "enum": [
+            "10",
+            "20",
+            "30",
+            "40",
+            "50",
+            "60",
+            "70",
+            "80",
+            "90",
+            "100",
+            "110",
+            "120",
+            "130",
+            "140",
+            "150",
+            "160",
+            "170",
+            "180"
+          ]
+        },
+        "DocumentDate": { "type": "string" },
+        "EntryNumber": {
+          "oneOf": [
+            { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+            { "type": "string" }
+          ]
+        },
+        "PlanOnlyIndicator": { "$ref": "#/definitions/IndicatorType" },
+        "FiledUnder": { "type": "string" },
+        "RegisterDescription": { "type": "string" }
+      }
+    },
+    "Q1DocumentDetailsType": {
+      "type": "object",
+      "required": ["Document"],
+      "properties": {
+        "Document": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1DocumentEntryType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1DocumentEntryType" }
+          ]
+        }
+      }
+    },
+    "Q1UnilateralNoticeDetailsType": {
+      "type": "object",
+      "required": ["UnilateralNotice", "UnilateralNoticeBeneficiary"],
+      "properties": {
+        "UnilateralNotice": { "$ref": "#/definitions/Q1EntryDetailsType" },
+        "UnilateralNoticeBeneficiary": {
+          "$ref": "#/definitions/Q1EntryDetailsType"
+        }
+      }
+    },
+    "Q1UnilateralNoticeEntriesType": {
+      "type": "object",
+      "required": ["UnilateralNoticeEntry"],
+      "properties": {
+        "UnilateralNoticeEntry": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Q1UnilateralNoticeDetailsType"
+              },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1UnilateralNoticeDetailsType" }
+          ]
+        }
+      }
+    },
+    "Q1OCSummaryDataType": {
+      "type": "object",
+      "required": [
+        "OfficialCopyDateTime",
+        "EditionDate",
+        "PropertyAddress",
+        "Title",
+        "RegisterEntryIndicators",
+        "Proprietorship"
+      ],
+      "properties": {
+        "OfficialCopyDateTime": { "type": "string", "format": "date-time" },
+        "EditionDate": { "type": "string", "format": "date" },
+        "PricePaidEntry": { "$ref": "#/definitions/Q1PricePaidEntryType" },
+        "PropertyAddress": { "$ref": "#/definitions/Q1AddressType" },
+        "Title": { "$ref": "#/definitions/Q1TitleType" },
+        "RegisterEntryIndicators": {
+          "$ref": "#/definitions/Q1RegisterEntryIndicatorsType"
+        },
+        "Proprietorship": { "$ref": "#/definitions/Q1ProprietorshipType" },
+        "Lease": { "$ref": "#/definitions/Q1LeaseEntriesType" },
+        "RestrictionDetails": {
+          "$ref": "#/definitions/Q1RestrictionDetailsType"
+        },
+        "Charge": { "$ref": "#/definitions/Q1ChargeEntriesType" },
+        "AgreedNotice": { "$ref": "#/definitions/Q1AgreedNoticeEntriesType" },
+        "Bankruptcy": { "$ref": "#/definitions/Q1EntriesType" },
+        "Caution": { "$ref": "#/definitions/Q1EntriesType" },
+        "DeedOfPostponement": { "$ref": "#/definitions/Q1EntriesType" },
+        "GreenOutEntry": { "$ref": "#/definitions/Q1EntriesType" },
+        "HomeRights": { "$ref": "#/definitions/Q1HomeRightsEntriesType" },
+        "RentCharge": { "$ref": "#/definitions/Q1EntriesType" },
+        "VendorsLien": { "$ref": "#/definitions/Q1EntriesType" },
+        "RightOfPreEmption": { "$ref": "#/definitions/Q1EntriesType" },
+        "DocumentDetails": { "$ref": "#/definitions/Q1DocumentDetailsType" },
+        "UnilateralNoticeDetails": {
+          "$ref": "#/definitions/Q1UnilateralNoticeEntriesType"
+        },
+        "DeathOfProprietor": { "$ref": "#/definitions/Q1EntriesType" },
+        "DiscountCharge": { "$ref": "#/definitions/Q1EntriesType" },
+        "EquitableCharge": { "$ref": "#/definitions/Q1EntriesType" },
+        "NotedCharge": { "$ref": "#/definitions/Q1EntriesType" },
+        "CreditorsNotice": { "$ref": "#/definitions/Q1EntriesType" },
+        "UnidentifiedEntry": { "$ref": "#/definitions/Q1EntriesType" },
+        "CCBIEntry": { "$ref": "#/definitions/Q1EntriesType" }
+      }
+    },
+    "Q1DistrictDetailsType": {
+      "type": "object",
+      "properties": {
+        "EntryText": {
+          "oneOf": [
+            { "type": "array", "items": { "type": "string" }, "minItems": 0 },
+            { "type": "string" }
+          ]
+        }
+      }
+    },
+    "Q1RegisterEntryType": {
+      "type": "object",
+      "required": ["EntryNumber", "EntryText"],
+      "properties": {
+        "EntryNumber": { "type": "string" },
+        "EntryDate": { "type": "string" },
+        "EntryType": { "type": "string" },
+        "EntryText": {
+          "oneOf": [
+            { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+            { "type": "string" }
+          ]
+        }
+      }
+    },
+    "Q1ScheduleType": {
+      "type": "object",
+      "required": ["ScheduleType", "ScheduleEntry"],
+      "properties": {
+        "ScheduleType": { "type": "string" },
+        "ScheduleEntry": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1RegisterEntryType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1RegisterEntryType" }
+          ]
+        }
+      }
+    },
+    "Q1RegisterType": {
+      "type": "object",
+      "required": ["RegisterEntry"],
+      "properties": {
+        "DistrictDetails": { "$ref": "#/definitions/Q1DistrictDetailsType" },
+        "RegisterEntry": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1RegisterEntryType" },
+              "minItems": 1
+            },
+            { "$ref": "#/definitions/Q1RegisterEntryType" }
+          ]
+        },
+        "Schedule": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Q1ScheduleType" },
+              "minItems": 0
+            },
+            { "$ref": "#/definitions/Q1ScheduleType" }
+          ]
+        }
+      }
+    },
+    "Q1OCRegisterDataType": {
+      "type": "object",
+      "required": ["PropertyRegister", "ProprietorshipRegister"],
+      "properties": {
+        "PropertyRegister": { "$ref": "#/definitions/Q1RegisterType" },
+        "ProprietorshipRegister": { "$ref": "#/definitions/Q1RegisterType" },
+        "ChargesRegister": { "$ref": "#/definitions/Q1RegisterType" }
+      }
+    },
+    "SubRegisterCodeType": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D"]
+    },
+    "CharityCodeContentType": {
+      "type": "string",
+      "enum": ["C", "R", "S"]
+    }
+  },
+  "type": "object",
+  "required": ["OCSummaryData", "OCRegisterData"],
+  "properties": {
+    "OCSummaryData": {
+      "title": "Official Copy Summary Data",
+      "$ref": "#/definitions/Q1OCSummaryDataType"
+    },
+    "OCRegisterData": {
+      "title": "Official Copy Register Data",
+      "$ref": "#/definitions/Q1OCRegisterDataType"
+    }
+  }
+}
