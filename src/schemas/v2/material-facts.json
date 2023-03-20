@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://trust.propdata.org.uk/schemas/v1/material-facts.json",
+  "$id": "https://trust.propdata.org.uk/schemas/v2/material-facts.json",
   "type": "object",
   "title": "Material facts at the point of marketing",
   "description": "BASPI v2.0 Part A - Disclosure of material facts at the point of marketing, supporting mapping to BASPI, Law Society, NTS and RICS Data Schema elements.",
@@ -1137,15 +1137,8 @@
                   "title": "Supplier (if known)",
                   "type": "string",
                   "minLength": 1
-                },
-                "maintenanceAgreements": {
-                  "baspiRef": "A7.2",
-                  "RDSRef": "Services/Certificates,Services/OtherServices/Certificates",
-                  "title": "Do you have any licences, maintenance agreements, contracts or service agreements in relation to this service?",
-                  "$ref": "#/$defs/yesNoDetailIfYes"
                 }
-              },
-              "required": ["maintenanceAgreements"]
+              }
             },
             {
               "properties": {
@@ -1160,24 +1153,24 @@
                 "supplier": {
                   "title": "Supplier (if known)",
                   "type": "string"
-                },
-                "maintenanceAgreements": {
-                  "baspiRef": "A7.2",
-                  "RDSRef": "Services/Certificates,Services/OtherServices/Certificates",
-                  "title": "Do you have any licences, maintenance agreements, contracts or service agreements in relation to this service?",
-                  "$ref": "#/$defs/yesNoDetailIfYes"
                 }
               },
-              "required": ["dateToBeConnected", "maintenanceAgreements"]
+              "required": ["dateToBeConnected"]
             }
           ]
+        },
+        "maintenanceAgreements": {
+          "baspiRef": "A7.2",
+          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates",
+          "title": "Do you have any licences, maintenance agreements, contracts or service agreements in relation to these services?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
         }
       }
     },
     "utilities": {
       "baspiRef": "A7",
       "lawSocietyRef": "TA6/13",
-      "title": "Utilities",
+      "title": "Connected utilities",
       "description": "Please indicate which utilities are are connected to the property.",
       "type": "object",
       "required": [
@@ -1251,6 +1244,12 @@
           "title": "Other",
           "description": "Other services include renewable technologies, for example ground source heat pumps, if you receive Renewable Heat Incentives please provide details and note that you will need to advise Ofgem when you complete the sale",
           "$ref": "#/$defs/yesNoConnectedSupplier"
+        },
+        "maintenanceAgreements": {
+          "baspiRef": "A7.2",
+          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates",
+          "title": "Do you have any licences, maintenance agreements, contracts or service agreements in relation to connected services?",
+          "$ref": "#/$defs/yesNoDetailIfYes"
         }
       }
     },
@@ -1923,15 +1922,8 @@
             "supplier": {
               "title": "Supplier (if known)",
               "type": "string"
-            },
-            "maintenanceAgreements": {
-              "baspiRef": "A7.2",
-              "RDSRef": "Services/Certificates,Services/OtherServices/Certificates",
-              "title": "Do you have any licences, maintenance agreements, contracts or service agreements in relation to this service?",
-              "$ref": "#/$defs/yesNoDetailIfYes"
             }
-          },
-          "required": ["maintenanceAgreements"]
+          }
         },
         {
           "properties": {
@@ -1946,15 +1938,9 @@
             "supplier": {
               "title": "Supplier (if known)",
               "type": "string"
-            },
-            "maintenanceAgreements": {
-              "baspiRef": "A7.2",
-              "RDSRef": "Services/Certificates,Services/OtherServices/Certificates",
-              "title": "Do you have any licences, maintenance agreements, contracts or service agreements in relation to this service?",
-              "$ref": "#/$defs/yesNoDetailIfYes"
             }
           },
-          "required": ["dateToBeConnected", "maintenanceAgreements"]
+          "required": ["dateToBeConnected"]
         }
       ]
     },
