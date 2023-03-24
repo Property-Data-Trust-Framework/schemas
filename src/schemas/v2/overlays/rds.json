@@ -1,0 +1,1088 @@
+{
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "materialFacts": {
+          "properties": {
+            "address": {
+              "RDSRef": "Property/Address/xal:AddressDetails"
+            },
+            "uprn": {
+              "RDSRef": "Property/GUID/{name='UPRN',id=?}"
+            },
+            "ownership": {
+              "properties": {
+                "ownershipsToBeTransferred": {
+                  "items": {
+                    "properties": {
+                      "ownershipType": {
+                        "RDSRef": "Tenure/Tenure"
+                      }
+                    },
+                    "oneOf": [
+                      null,
+                      {
+                        "properties": {
+                          "annualServiceCharge": {
+                            "RDSRef": "TenureAgreements/ServiceCharges"
+                          },
+                          "largeAdditionalExpense": {
+                            "RDSRef": "TenureAgreements/Repairs,TenureAgreements/ServicesCharges/Breakdown"
+                          },
+                          "additionalFeesOnSale": {
+                            "RDSRef": "TenureAgreements/LegalCosts/Actual, TenureAgreements/LegalCosts/Estimated"
+                          },
+                          "freeholderContactDetails": {
+                            "RDSRef": "TenureAgreements/Assignor"
+                          },
+                          "managingAgentContactDetails": {
+                            "RDSRef": "Participants/Role"
+                          },
+                          "managementCompanyDirectorRequirement": {
+                            "RDSRef": "Property/Flags"
+                          }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "currentGroundRent": {
+                            "RDSRef": "TenureAgreements/RentPayable/Value"
+                          },
+                          "rentIncrease": {
+                            "RDSRef": "TenureAgreement/isRentChangeable, TenureAgreements/RentChanges"
+                          },
+                          "annualServiceCharge": {
+                            "RDSRef": "TenureAgreements/ServiceCharges"
+                          },
+                          "largeAdditionalExpense": {
+                            "RDSRef": "TenureAgreements/Repairs,TenureAgreements/ServicesCharges/Breakdown"
+                          },
+                          "additionalFeesOnSale": {
+                            "RDSRef": "TenureAgreements/LegalCosts/Actual, TenureAgreements/LegalCosts/Estimated"
+                          },
+                          "freeholderContactDetails": {
+                            "RDSRef": "TenureAgreements/Assignor"
+                          },
+                          "managingAgentContactDetails": {
+                            "RDSRef": "Participants/Role"
+                          },
+                          "managementCompanyDirectorRequirement": {
+                            "RDSRef": "Property/Flags"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "parking": {
+              "RDSRef": "Services/Parking"
+            },
+            "listingAndConservation": {
+              "properties": {
+                "isListed": {
+                  "RDSRef": "Protections"
+                },
+                "isConservationArea": {
+                  "RDSRef": "Protections"
+                },
+                "hasTreePreservationOrder": {
+                  "RDSRef": "Property/Flags",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "details": {
+                          "RDSRef": "Protections"
+                        },
+                        "workCarriedOut": {
+                          "RDSRef": "WorksAlterationsChanges"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "typeOfConstruction": {
+              "properties": {
+                "isStandardForm": {
+                  "RDSRef": "Buildings,BuildingSections/ConstructionType,ConstructionMaterials"
+                },
+                "hasFlammableExternalWallSystem": {
+                  "RDSRef": "Tenure/DisputesComplaints,Tenure/LegalClaims"
+                }
+              }
+            },
+            "energyEfficiency": {
+              "RDSRef": "Certificates/{category='energyEfficiency',standard='EPC',gradeLevelRating=?},Certificates/{category='energyEfficiency',standard='EPC',status='exempt'},"
+            },
+            "councilTax": {
+              "properties": {
+                "councilTaxBand": {
+                  "RDSRef": "TenureAgreements/Taxes/{banding=?}"
+                },
+                "councilTaxAffectingAlterations": {
+                  "RDSRef": "TenureAgreements/Taxes/WorksAlterationsChanges"
+                }
+              }
+            },
+            "disputesAndComplaints": {
+              "properties": {
+                "hasDisputesAndComplaints": {
+                  "RDSRef": "Tenure/DisputesComplaints,Tenure/LegalClaims"
+                }
+              }
+            },
+            "alterationsAndChanges": {
+              "properties": {
+                "hasStructuralAlterations": {
+                  "RDSRef": "WorksAlterationsChanges",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "buildingRegApproval": {
+                          "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                        },
+                        "planningPermission": {
+                          "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                        },
+                        "listedBuildingConsent": {
+                          "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                        },
+                        "deedRestrictionConsent": {
+                          "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                        },
+                        "unfinished": {
+                          "RDSRef": "WorksAlterationsChanges/isIncomplete"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "changeOfUse": {
+                  "RDSRef": "WorksAlterationsChanges",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "buildingRegApproval": {
+                          "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                        },
+                        "planningPermission": {
+                          "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                        },
+                        "listedBuildingConsent": {
+                          "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                        },
+                        "deedRestrictionConsent": {
+                          "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                        },
+                        "unfinished": {
+                          "RDSRef": "WorksAlterationsChanges/isIncomplete"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "windowReplacementsSince2002": {
+                  "RDSRef": "WorksAlterationsChanges",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "buildingRegApproval": {
+                          "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                        },
+                        "planningPermission": {
+                          "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                        },
+                        "listedBuildingConsent": {
+                          "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                        },
+                        "deedRestrictionConsent": {
+                          "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                        },
+                        "unfinished": {
+                          "RDSRef": "WorksAlterationsChanges/isIncomplete"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "hasAddedConservatory": {
+                  "RDSRef": "WorksAlterationsChanges",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "buildingRegApproval": {
+                          "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                        },
+                        "planningPermission": {
+                          "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                        },
+                        "listedBuildingConsent": {
+                          "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                        },
+                        "deedRestrictionConsent": {
+                          "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                        },
+                        "unfinished": {
+                          "RDSRef": "WorksAlterationsChanges/isIncomplete"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "planningPermissionBreaches": {
+                  "RDSRef": "Property/Flags",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "details": {
+                          "RDSRef": "Buildings,BuildingsSections/StructureAuthorised,BuildingsSections/StructureUnauthorised"
+                        },
+                        "willingToInsure": {
+                          "RDSRef": "Insurance/isWillingToProvide"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "unresolvedPlanningIssues": {
+                  "RDSRef": "Buildings,BuildingsSections/StructureAuthorised,BuildingsSections/StructureUnauthorised",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "details": {
+                          "RDSRef": "Buildings,BuildingsSections/StructureAuthorised,BuildingsSections/StructureUnauthorised"
+                        },
+                        "willingToInsure": {
+                          "RDSRef": "Insurance/isWillingToProvide"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "notices": {
+              "properties": {
+                "neighbourDevelopment": {
+                  "RDSRef": "Property/Flags,Planning"
+                },
+                "planningApplication": {
+                  "RDSRef": "Property/Flags,Planning"
+                },
+                "requiredMaintenance": {
+                  "RDSRef": "Property/Flags,Notifications"
+                },
+                "listedBuildingApplication": {
+                  "RDSRef": "Property/Flags,Protections"
+                },
+                "infrastructureProject": {
+                  "RDSRef": "Property/Flags,Planning"
+                },
+                "partyWallAct": {
+                  "RDSRef": "Property/Flags,Notifications"
+                },
+                "otherNotices": {
+                  "RDSRef": "Property/Flags,Notifications"
+                }
+              }
+            },
+            "specialistIssues": {
+              "properties": {
+                "dryRotEtcTreatment": {
+                  "RDSRef": "Property/Flags,BuildingSections/EnvironmentalIssues"
+                },
+                "containsAsbestos": {
+                  "RDSRef": "Property/Flags,BuildingSections/EnvironmentalIssues"
+                },
+                "japaneseKnotweed": {
+                  "RDSRef": "Property/Flags,BuildingSections/EnvironmentalIssues,Use/EnvironmentalIssues"
+                },
+                "subsidenceOrStructuralFault": {
+                  "RDSRef": "Property/Flags,BuildingSections/EnvironmentalIssues"
+                },
+                "ongoingHealthOrSafetyIssue": {
+                  "RDSRef": "Property/Flags,BuildingSections/EnvironmentalIssues"
+                }
+              }
+            },
+            "fixturesAndFittings": {
+              "properties": {
+                "itemsToRemove": {
+                  "RDSRef": "Objects/{isIncludedInExchange='no',class='fixture|fitting}"
+                },
+                "itemsToInclude": {
+                  "RDSRef": "Objects/{isIncludedInExchange='true',class='equipment|furniture}"
+                }
+              }
+            },
+            "waterAndDrainage": {
+              "properties": {
+                "mainsWater": {
+                  "RDSRef": "Services/PotableWaterSupply",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "mainsSurfaceWaterDrainage": {
+                  "RDSRef": "Services/StormWaterDrainage",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "mainsFoulDrainage": {
+                  "RDSRef": "Services/WasteWaterSewarageDisposal",
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "sustainableDrainageSystem": {
+                          "RDSRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
+                          "oneOf": [
+                            null,
+                            {
+                              "properties": {
+                                "maintenanceAgreements": {
+                                  "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "maintenanceAgreements": {
+                                  "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "septicTank": {
+                          "RDSRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates"
+                        },
+                        "cesspit": {
+                          "RDSRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates"
+                        },
+                        "sewerageTreatmentPlant": {
+                          "RDSRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates"
+                        },
+                        "otherConnectedProperties": {
+                          "RDSRef": "Services/OtherServices/SharedWith"
+                        },
+                        "plantOnOtherLand": {
+                          "RDSRef": "Services/OtherServices/Located,Services/OtherServices/{access=?}"
+                        },
+                        "plantRegistered": {
+                          "RDSRef": "Services/OtherServices/Certificates"
+                        },
+                        "plantDrainsIntoWaterway": {
+                          "RDSRef": "Services/OtherServices/{isExternallyConnected='yes?true'}",
+                          "oneOf": [
+                            null,
+                            {
+                              "properties": {
+                                "dischargeCompliesWithGBR": {
+                                  "RDSRef": "Services/OtherServices/ExternalConnections/Flags"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "utilities": {
+              "properties": {
+                "electricity": {
+                  "RDSRef": "Services/Electricity",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "gas": {
+                  "RDSRef": "Services/Gas",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "lpg": {
+                  "RDSRef": "Services/LiquefiedPetroleumGas",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "oil": {
+                  "RDSRef": "Services/Oil",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "telephone": {
+                  "RDSRef": "Services/Telephone",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "cableSatelliteTV": {
+                  "RDSRef": "Services/CableSatelliteTV",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "broadband": {
+                  "RDSRef": "Services/Internet",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "solarPanels": {
+                  "RDSRef": "Services/Internet??",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "otherServices": {
+                  "RDSRef": "Services/Other",
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "maintenanceAgreements": {
+                          "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "greenDealLoan": {
+              "RDSRef": "RightsHolders/Loans,RightsHolders/OtherDocumentation"
+            },
+            "centralHeating": {
+              "RDSRef": "Buildings|BuildingSections/isUnheated=no|yes|true|false",
+              "oneOf": [
+                null,
+                {
+                  "properties": {
+                    "centralHeatingDetails": {
+                      "properties": {
+                        "centralHeatingFuel": {
+                          "RDSRef": "Buildings|BuildingSections/Heating/isGas=no|yes|true|false"
+                        },
+                        "centralHeatingInstalled": {
+                          "RDSRef": "Objects/Installed"
+                        },
+                        "boilerInstallationCertificate": {
+                          "RDSRef": "Objects/Installation,Objects/Certificates"
+                        },
+                        "heatingLastServiced": {
+                          "RDSRef": "Objects/Maintenance"
+                        },
+                        "heatingInGoodWorkingOrder": {
+                          "RDSRef": "Objects/Condition=?"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "insurance": {
+              "properties": {
+                "isInsured": {
+                  "RDSRef": "Insurance/isInsured=no|yes|true|false"
+                }
+              },
+              "oneOf": [
+                null,
+                {
+                  "properties": {
+                    "difficultiesObtainingInsurance": {
+                      "RDSRef": "Insurance/Flags,Insurance/refusalReason=?"
+                    },
+                    "insuranceClaims": {
+                      "RDSRef": "Insurance/Claims"
+                    }
+                  }
+                }
+              ]
+            },
+            "boundaries": {
+              "properties": {
+                "partOutsideLegalOwnership": {
+                  "RDSRef": "Tenure/Interests"
+                },
+                "partOnSeparateSiteOrDeed": {
+                  "RDSRef": "Tenure *with different property entity and references etc*"
+                },
+                "boundariesDifferFromTitlePlan": {
+                  "RDSRef": "Tenure/Boundaries,Tenure/BoundaryDifferences,Tenure/CadastralMapOfParcels"
+                },
+                "boundaryAlterationProposal": {
+                  "RDSRef": "Tenure/Boundaries/proposedAlterations=?"
+                }
+              }
+            },
+            "rightsAndInformalArrangements": {
+              "properties": {
+                "sharedContributions": {
+                  "RDSRef": "Services/SharedCosts"
+                },
+                "neighbouringLandRights": {
+                  "RDSRef": "Tenure/Rights,Tenure *with different property entity and references etc*"
+                },
+                "accessRestrictionAttempts": {
+                  "RDSRef": "Tenure/Restrictions"
+                },
+                "rightsOrArrangements": {
+                  "properties": {
+                    "publicRightOfWay": {
+                      "RDSRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities,Tenure/CadastralMapOfParcels"
+                    },
+                    "rightsOfLightOrSupport": {
+                      "RDSRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities"
+                    },
+                    "rightsCreatedThroughCustom": {
+                      "RDSRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities"
+                    },
+                    "minesAndMinerals": {
+                      "RDSRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities"
+                    },
+                    "churchChancel": {
+                      "RDSRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities"
+                    },
+                    "otherRights": {
+                      "RDSRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities"
+                    }
+                  }
+                }
+              }
+            },
+            "otherIssues": {
+              "properties": {
+                "flooding": {
+                  "RDSRef": "Sustainability/Environmental|Natural|Situational",
+                  "properties": {
+                    "floodRiskReport": {
+                      "RDSRef": "Sustainability/Environmental|Natural|Situational"
+                    }
+                  },
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "typeOfFlooding": {
+                          "RDSRef": "Sustainability/Environmental|Natural|Situational"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "radon": {
+                  "RDSRef": "Sustainability/Environmental|Natural|Situational",
+                  "properties": {
+                    "remedialMeasuresOnConstruction": {
+                      "RDSRef": "Sustainability/Environmental|Natural|Situational"
+                    }
+                  }
+                },
+                "otherEnvironmental": {
+                  "RDSRef": "Sustainability/Environmental|Natural|Situational"
+                },
+                "excessiveNoise": {
+                  "RDSRef": "Tenure/OtherMaterialIssues"
+                },
+                "crime": {
+                  "RDSRef": "Tenure/OtherMaterialIssues"
+                },
+                "cautionOrConviction": {
+                  "RDSRef": "Tenure/OtherMaterialIssues"
+                },
+                "failedTransactionsInLast12Months": {
+                  "RDSRef": "Tenure/OtherMaterialIssues"
+                }
+              }
+            },
+            "additionalInformation": {
+              "properties": {
+                "restrictionsOnUseNotCompliedWith": {
+                  "RDSRef": "Use/NonCompliance"
+                },
+                "otherMaterialIssue": {
+                  "RDSRef": "Tenure/OtherMaterialIssues"
+                }
+              }
+            }
+          },
+          "$defs": {
+            "yesNoConnectedSupplier": {
+              "oneOf": [
+                null,
+                {
+                  "properties": {
+                    "maintenanceAgreements": {
+                      "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "maintenanceAgreements": {
+                      "RDSRef": "Services/Certificates,Services/OtherServices/Certificates"
+                    }
+                  }
+                }
+              ]
+            },
+            "yesNoDetailConsents": {
+              "oneOf": [
+                null,
+                {
+                  "properties": {
+                    "buildingRegApproval": {
+                      "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                    },
+                    "planningPermission": {
+                      "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                    },
+                    "listedBuildingConsent": {
+                      "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                    },
+                    "deedRestrictionConsent": {
+                      "RDSRef": "WorksAlterationsChanges/ConsentApproval"
+                    },
+                    "unfinished": {
+                      "RDSRef": "WorksAlterationsChanges/isIncomplete"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "additionalLegalInfo": {
+          "properties": {
+            "legalOwners": {
+              "properties": {
+                "namesOfLegalOwners": {
+                  "RDSRef": "RightsHolders"
+                }
+              }
+            },
+            "sellersCapacity": {
+              "RDSRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
+              "oneOf": [
+                null,
+                {
+                  "properties": {
+                    "sellersCapacityDetails": {
+                      "RDSRef": "Participants/OtherDocumentation"
+                    }
+                  }
+                }
+              ]
+            },
+            "legalBoundaries": {
+              "properties": {
+                "left": {
+                  "RDSRef": "Tenure/Boundaries"
+                },
+                "right": {
+                  "RDSRef": "Tenure/Boundaries"
+                },
+                "rear": {
+                  "RDSRef": "Tenure/Boundaries"
+                },
+                "front": {
+                  "RDSRef": "Tenure/Boundaries"
+                },
+                "areBoundariesUniform": {
+                  "RDSRef": "Tenure/Boundaries"
+                },
+                "haveBoundaryFeaturesMoved": {
+                  "RDSRef": "Tenure/Boundaries"
+                },
+                "adjacentLandIncluded": {
+                  "RDSRef": "Property/Flags,Property/GUID/name='UPRN'&id=?"
+                },
+                "flyingFreehold": {
+                  "RDSRef": "Tenure/tenure=?"
+                }
+              }
+            },
+            "servicesCrossing": {
+              "properties": {
+                "pipesWiresCablesDrainsToProperty": {
+                  "RDSRef": "Services/.../Located"
+                },
+                "pipesWiresCablesDrainsFromProperty": {
+                  "RDSRef": "Services/.../Located *with Property entities and references for the related properties etc"
+                },
+                "formalOrInformalAgreements": {
+                  "RDSRef": "Services/.../Consent"
+                }
+              }
+            },
+            "energyAndMeters": {
+              "properties": {
+                "testedByQualifiedElectrician": {
+                  "RDSRef": "Objects/Servicing"
+                },
+                "electricalWorkSince2005": {
+                  "RDSRef": "WorksAlterationsChanges/Consent,WorksAlterationsChanges/Consent/Certificates"
+                },
+                "solarPanels": {
+                  "properties": {
+                    "hasSolarPanels": {
+                      "RDSRef": "Property/Flags"
+                    }
+                  },
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "yearInstalled": {
+                          "RDSRef": "Objects/Installation"
+                        },
+                        "panelsOwnedOutright": {
+                          "RDSRef": "Objects/Ownership"
+                        },
+                        "panelProviderLease": {
+                          "RDSRef": "Objects/Ownership"
+                        },
+                        "lastMaintained": {
+                          "RDSRef": "Objects/Servicing"
+                        },
+                        "inGoodWorkingOrder": {
+                          "RDSRef": "Objects/isNotWorking=yes|no|true|false"
+                        },
+                        "isConnectedToNationalGrid": {
+                          "RDSRef": "Objects/isExternallyConnected=yes|no|true|false,Connection,Objects/ExternalConnection"
+                        },
+                        "photovoltaicMeterPanelLocation": {
+                          "RDSRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?"
+                        },
+                        "photovoltaicBatteriesLocation": {
+                          "RDSRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "electricityMeterLocation": {
+                  "RDSRef": "Objects/class='meters|'&access=?&accessLocation=?"
+                },
+                "gasMeterLocation": {
+                  "RDSRef": "Objects/class='meters'&access=?&accessLocation=?"
+                },
+                "stopcockAndWaterMeterLocation": {
+                  "RDSRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?"
+                }
+              }
+            },
+            "guaranteesWarrantiesAndIndemnityInsurances": {
+              "properties": {
+                "hasValidGuaranteesOrWarranties": {
+                  "RDSRef": "Certificates"
+                }
+              },
+              "oneOf": [
+                null,
+                {
+                  "properties": {
+                    "newHomeWarranty": {
+                      "RDSRef": "Certificates"
+                    },
+                    "roofingWork": {
+                      "RDSRef": "Certificates"
+                    },
+                    "dampProofingTreatment": {
+                      "RDSRef": "Certificates"
+                    },
+                    "timberRotOrInfestationTreatment": {
+                      "RDSRef": "Certificates"
+                    },
+                    "centralHeatingAndorPlumbing": {
+                      "RDSRef": "Certificates"
+                    },
+                    "doubleGlazing": {
+                      "RDSRef": "Certificates"
+                    },
+                    "electricalRepairOrInstallation": {
+                      "RDSRef": "Certificates"
+                    },
+                    "subsidenceWork": {
+                      "RDSRef": "Certificates"
+                    },
+                    "solarPanels": {
+                      "RDSRef": "Certificates"
+                    },
+                    "otherGuarantees": {
+                      "RDSRef": "Certificates"
+                    },
+                    "willLeaveGuaranteePaperwork": {
+                      "RDSRef": "Property/Flags"
+                    },
+                    "outstandingClaimsOrApplications": {
+                      "RDSRef": "Certificates"
+                    },
+                    "titleDefectInsurance": {
+                      "RDSRef": "Certificates"
+                    }
+                  }
+                }
+              ]
+            },
+            "occupiers": {
+              "properties": {
+                "sellerLivesAtProperty": {
+                  "RDSRef": "Property/Flags"
+                },
+                "othersAged17OrOver": {
+                  "RDSRef": "Participants",
+                  "properties": {
+                    "hasOthersAged17OrOver": {
+                      "RDSRef": "Participants"
+                    }
+                  },
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "aged17OrOverTenantsOrLodgers": {
+                          "RDSRef": "Property/Flags"
+                        },
+                        "vacantPossession": {
+                          "oneOf": [
+                            null,
+                            {
+                              "properties": {
+                                "aged17OrOverAgreedToLeave": {
+                                  "RDSRef": "RightsHolders,TenureAgreements,Notifications"
+                                },
+                                "aged17OrOverWillSignToConfirmWillVacate": {
+                                  "RDSRef": "RightsHolders,TenureAgreements,Notifications"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "completionAndMoving": {
+              "properties": {
+                "willRemoveAllRubbish": {
+                  "RDSRef": "RightsHolders/Flags"
+                },
+                "otherPropertyInChain": {
+                  "RDSRef": "RightsHolders/Flags"
+                },
+                "moveRestrictionDates": {
+                  "RDSRef": "RightsHolders/Text"
+                }
+              }
+            }
+          }
+        },
+        "titlesToBeSold": {
+          "RDSRef": "",
+          "items": {
+            "properties": {
+              "titleNumber": {
+                "RDSRef": ""
+              },
+              "titleIncludedInSale": {
+                "RDSRef": ""
+              },
+              "titleExtents": {
+                "RDSRef": ""
+              }
+            }
+          }
+        },
+        "energyPerformanceCertificate": {
+          "RDSRef": ""
+        },
+        "searches": {
+          "RDSRef": ""
+        }
+      }
+    }
+  }
+}
