@@ -12,14 +12,56 @@ const searches = require("../schemas/v1/searches.json");
 const localLandCharges = require("../schemas/v1/searches/local-land-charges.json");
 const localSearchesRequired = require("../schemas/v1/searches/local-searches-required.json");
 const drainageAndWater = require("../schemas/v1/searches/drainage-and-water.json");
+const leaseholdInformation = require("../schemas/v1/leasehold-information.json");
 const geoJson = require("../schemas/v1/GeoJSON.json");
 
-const extractOverlay = (sourceSchema, propertyNames) => {
+const alwaysInclude = [
+  // "properties",
+  "yesNo",
+  "details",
+  "supplier",
+  "dateToBeConnected",
+  "line1",
+  "line2",
+  "town",
+  "county",
+  "postcode",
+  "firstName",
+  "lastName",
+  "emailAddress",
+  "nameOrOrganisation",
+  "title",
+  "description",
+  "enum",
+];
+
+const extractFields = [
+  "baspiRef",
+  "ntsRef",
+  "ta6Ref",
+  "ta7Ref",
+  "ta10Ref",
+  "lawSocietyRef",
+  "lpe1Ref",
+  "con29RRef",
+  "con29DWRef",
+  "llc1Ref",
+];
+
+const extractOverlay = (sourceSchema, refName, alsoInclude) => {
   const returnSchema = {};
+  const includeProperties = [...alwaysInclude, ...alsoInclude];
   traverse(sourceSchema).forEach(function (element) {
-    const path = "/" + this.path.join("/");
-    if (propertyNames.includes(this.key)) {
-      jp.set(returnSchema, path, element);
+    if (element[refName]) {
+      const path = "/" + this.path.join("/");
+      // console.log(`Found ${refName} at ${path}`);
+      // console.log(`element[refName] = ${element[refName]}`);
+      jp.set(returnSchema, `${path}/${refName}`, element[refName]);
+      includeProperties.forEach((property) => {
+        if (element[property]) {
+          jp.set(returnSchema, `${path}/${property}`, element[property]);
+        }
+      });
     }
   });
   return returnSchema;
@@ -29,6 +71,57 @@ const deleteProperties = (sourceSchema, propertyNames) => {
   traverse(sourceSchema).forEach(function (element) {
     if (propertyNames.includes(this.key)) {
       this.delete(true); // true = stop here
+    }
+  });
+  return sourceSchema;
+};
+
+const hoistOneOfs = (sourceSchema) => {
+  traverse(sourceSchema).forEach(function (element) {
+    // console.log(`element = ${element}`);
+    newElement = JSON.parse(JSON.stringify(element));
+    if (newElement.oneOf && newElement.discriminator) {
+      const discriminatorPropertyName = newElement.discriminator.propertyName;
+      let hoistedProperties = {};
+      newElement.oneOf.forEach((item) => {
+        oneOfProperties = item.properties;
+        hoistedProperties = { ...hoistedProperties, ...oneOfProperties };
+      });
+      delete hoistedProperties[discriminatorPropertyName];
+      newElement.properties = {
+        ...element.properties,
+        ...hoistedProperties,
+      };
+      delete newElement.oneOf;
+      delete newElement.discriminator;
+      this.update(newElement);
+    }
+  });
+  return sourceSchema;
+};
+
+const hoistOneOfsAndPreserveRequired = (sourceSchema) => {
+  traverse(sourceSchema).forEach(function (element) {
+    newElement = JSON.parse(JSON.stringify(element));
+    if (newElement.oneOf && newElement.discriminator) {
+      const discriminatorPropertyName = newElement.discriminator.propertyName;
+      let hoistedProperties = {};
+      newElement.oneOf.forEach((item) => {
+        oneOfProperties = item.properties;
+        hoistedProperties = { ...hoistedProperties, ...oneOfProperties };
+        itemPropertyKeys = Object.keys(item.properties);
+        itemPropertyKeys.forEach((itemPropertyKey) => {
+          if (itemPropertyKey !== discriminatorPropertyName) {
+            delete oneOfProperties[itemPropertyKey];
+          }
+        });
+      });
+      delete hoistedProperties[discriminatorPropertyName];
+      // newElement.properties = {
+      //   ...newElement.properties,
+      //   ...hoistedProperties,
+      // };
+      this.update(newElement);
     }
   });
   return sourceSchema;
@@ -49,43 +142,58 @@ const subSchemas = {
     localSearchesRequired,
   "https://trust.propdata.org.uk/schemas/v1/searches/drainage-and-water.json":
     drainageAndWater,
+  "https://trust.propdata.org.uk/schemas/v1/leasehold-information.json":
+    leaseholdInformation,
 };
 
 const originalSchema = dereference(pdtfTransaction, (id) => subSchemas[id]);
+fs.writeFileSync(
+  "../schemas/v2/full.json",
+  JSON.stringify(originalSchema, null, 2)
+);
 
-const extractions = {
-  baspi: [
-    "baspiRef",
+let baspiOverlay = extractOverlay(originalSchema, "baspiRef", [
+  "title",
+  "description",
+  "enum",
+  "required",
+  "discriminator",
+  "oneOf",
+]);
+baspiOverlay = hoistOneOfsAndPreserveRequired(baspiOverlay);
+
+fs.writeFileSync(
+  "../schemas/v2/overlays/baspi.json",
+  JSON.stringify(baspiOverlay, null, 2)
+);
+console.log(`BASPI written`);
+let fieldsExtracted = ["baspiRef"];
+
+let coreSchema = hoistOneOfs(originalSchema);
+
+extractFields.forEach((key) => {
+  const refName = key + "Ref";
+  let overlay = extractOverlay(originalSchema, refName, [
     "title",
     "description",
     "enum",
-    "required",
-    "discriminator",
-    "oneOf",
-  ],
-  nts: ["ntsRef", "title", "description", "enum"],
-  ta6: ["TA6Ref", "title", "enum"],
-  ta7: ["TA7Ref", "title", "enum"],
-  rds: ["RDSRef"],
-  lpe1: ["lpe1Ref"],
-  con29R: ["con29RRef"],
-  con29DW: ["con29DWRef"],
-  llc1: ["llc1Ref"],
-};
-
-let fieldsExtracted = [];
-Object.entries(extractions).forEach(([key, value]) => {
-  const overlay = extractOverlay(originalSchema, value);
-  fs.writeFileSync(
-    `../schemas/v2/overlays/${key}.json`,
-    JSON.stringify(overlay, null, 2)
-  );
-  fieldsExtracted = [...fieldsExtracted, ...value];
+  ]);
+  // overlay = hoistOneOfsAndPreserveRequired(overlay);
+  const fileName = `../schemas/v2/overlays/${key}.json`;
+  fs.writeFileSync(fileName, JSON.stringify(overlay, null, 2));
+  console.log(`Overlay ${key} written to ${fileName}`);
 });
 
-fieldsExtracted = [...new Set(fieldsExtracted)]; // remove duplicates
-const coreSchema = deleteProperties(originalSchema, fieldsExtracted);
+coreSchema = deleteProperties(originalSchema, [
+  "title",
+  "description",
+  "enum",
+  "required",
+  ...extractFields,
+]);
+
 fs.writeFileSync(
   "../schemas/v2/core.json",
   JSON.stringify(coreSchema, null, 2)
 );
+console.log("Core schema written to ../schemas/v2/core.json");
