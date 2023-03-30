@@ -9,12 +9,13 @@
     "contactDetails",
     "transferAndRegistration",
     "groundRent",
+    "ownershipAndManagement",
     "serviceCharge",
     "buildingsInsurance",
     "disputesAndEnfranchisement",
     "general",
     "requiredDocuments",
-    "declaration"
+    "confirmation"
   ],
   "properties": {
     "contactDetails": {
@@ -37,6 +38,20 @@
           "type": "object",
           "properties": {
             "contact": {
+              "TA7Ref": "4.1a",
+              "$ref": "#/$defs/contact"
+            },
+            "bankDetails": {
+              "$ref": "#/$defs/bankDetails"
+            }
+          }
+        },
+        "rentchargeOwner": {
+          "fme1Ref": "1.1",
+          "title": "Rentcharge Owner",
+          "type": "object",
+          "properties": {
+            "contact": {
               "$ref": "#/$defs/contact"
             },
             "bankDetails": {
@@ -46,10 +61,12 @@
         },
         "managementCompany": {
           "lpe1Ref": "1.2",
+          "fme1Ref": "1.2",
           "title": "Management Company",
           "type": "object",
           "properties": {
             "contact": {
+              "TA7Ref": "4.1b",
               "$ref": "#/$defs/contact"
             },
             "bankDetails": {
@@ -59,10 +76,12 @@
         },
         "managingAgent": {
           "lpe1Ref": "1.3",
+          "fme1Ref": "1.3",
           "title": "Managing Agent",
           "type": "object",
           "properties": {
             "contact": {
+              "TA7Ref": "4.1c",
               "$ref": "#/$defs/contact"
             },
             "appointedBy": {
@@ -90,6 +109,7 @@
         },
         "legalRepresentative": {
           "lpe1Ref": "1.5",
+          "fme1Ref": "1.4",
           "title": "Legal Representative of one of the above",
           "type": "object",
           "properties": {
@@ -117,15 +137,15 @@
           "properties": {
             "landlord": {
               "title": "Landlord",
-              "$ref": "#/defs/noticeOfAssignmentAndChargeParty"
+              "$ref": "#/$defs/noticeOfAssignmentAndChargeParty"
             },
             "managementCompany": {
               "title": "Management Company",
-              "$ref": "#/defs/noticeOfAssignmentAndChargeParty"
+              "$ref": "#/$defs/noticeOfAssignmentAndChargeParty"
             },
             "managingAgent": {
               "title": "Managing Agent",
-              "$ref": "#/defs/noticeOfAssignmentAndChargeParty"
+              "$ref": "#/$defs/noticeOfAssignmentAndChargeParty"
             },
             "other": {
               "type": "object",
@@ -176,6 +196,112 @@
             }
           }
         },
+        "noticeOfTransferAndCharge": {
+          "fme1Ref": "1.5",
+          "title": "Who accepts service of the Notice of Transfer & Charge?",
+          "description": "Tick the box beside each party and state the total fee including VAT for notice of transfer and charge. Tick 'Notice via email' column to confirm whether you will accept notice via email.",
+          "type": "object",
+          "properties": {
+            "rentchargeOwner": {
+              "title": "Rentcharge Owner",
+              "$ref": "#/$defs/noticeOfAssignmentAndChargeParty"
+            },
+            "managementCompany": {
+              "title": "Management Company",
+              "$ref": "#/$defs/noticeOfAssignmentAndChargeParty"
+            },
+            "managingAgent": {
+              "title": "Managing Agent",
+              "$ref": "#/$defs/noticeOfAssignmentAndChargeParty"
+            },
+            "legalRepresentative": {
+              "title": "Legal Representative",
+              "$ref": "#/$defs/noticeOfAssignmentAndChargeParty"
+            },
+            "other": {
+              "type": "object",
+              "properties": {
+                "isApplicableParty": {
+                  "type": "boolean"
+                }
+              },
+              "required": ["isApplicableParty"],
+              "discriminator": { "propertyName": "isApplicableParty" },
+              "oneOf": [
+                {
+                  "properties": {
+                    "isApplicableParty": {
+                      "const": false
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "isApplicableParty": {
+                      "const": true
+                    },
+                    "fee": {
+                      "title": "Total Fee including VAT",
+                      "type": "number"
+                    },
+                    "noticeViaEmail": {
+                      "type": "boolean"
+                    }
+                  },
+                  "contact": {
+                    "$ref": "#/$defs/contact"
+                  },
+                  "capacity": {
+                    "title": "Capacity (e.g. Management Company's lawyer)",
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "required": [
+                    "feeIncludingVAT",
+                    "noticeViaEmail",
+                    "contact",
+                    "capacity"
+                  ]
+                }
+              ]
+            },
+            "otherDetailsRequired": {
+              "fme1Ref": "1.5.1",
+              "title": "Are details other than the incoming owner's name, address and lender name required?",
+              "type": "object",
+              "properties": {
+                "isOtherDetailsRequired": {
+                  "title": "",
+                  "type": "string",
+                  "enum": ["Yes", "No"]
+                }
+              },
+              "discriminator": { "propertyName": "isOtherDetailsRequired" },
+              "oneOf": [
+                {
+                  "properties": {
+                    "isOtherDetailsRequired": {
+                      "const": "No"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "isOtherDetailsRequired": {
+                      "const": "Yes"
+                    },
+                    "details": {
+                      "title": "If Yes, please detail required additional information to be included with the notice of disposition",
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": ["details"]
+                }
+              ]
+            }
+          }
+        },
         "collectsGroundRent": {
           "lpe1Ref": "1.7",
           "title": "Who collects the Ground Rent?",
@@ -184,9 +310,16 @@
         },
         "collectsServiceCharges": {
           "lpe1Ref": "1.8",
+          "fme1Ref": "1.6",
           "title": "Who collects the Service Charges?",
           "type": "string",
-          "enum": ["Landlord", "Management Company", "Managing Agent", "N/A"]
+          "enum": [
+            "Rentcharge Owner",
+            "Landlord",
+            "Management Company",
+            "Managing Agent",
+            "N/A"
+          ]
         },
         "collectsbuildingInsurancePremiums": {
           "lpe1Ref": "1.9",
@@ -196,9 +329,11 @@
         },
         "dealsWithDayToDayMaintenanceOfManagedArea": {
           "lpe1Ref": "1.11",
+          "fme1Ref": "1.7",
           "title": "Who deals with the day to day maintenance of the Managed Area?",
           "type": "string",
           "enum": [
+            "Rentcharge Owner",
             "Landlord",
             "Management Company",
             "Managing Agent",
@@ -208,9 +343,12 @@
         },
         "organisesBuildingInsurance": {
           "lpe1Ref": "1.12",
+          "fme1Ref": "1.8",
+          "TA7Ref": "5.1",
           "title": "Who organises and administers the buildings insurance?",
           "type": "string",
           "enum": [
+            "Rentcharge Owner",
             "Landlord",
             "Management Company",
             "Managing Agent",
@@ -270,6 +408,7 @@
       "properties": {
         "deedOfCovenantRequired": {
           "lpe1Ref": "2.1",
+          "fme1Ref": "2.1",
           "title": "Is a Deed of Covenant Required?",
           "type": "object",
           "properties": {
@@ -296,11 +435,13 @@
                 },
                 "costsApplicableToTheDeed": {
                   "lpe1Ref": "2.1.1",
+                  "fme1Ref": "2.1.1",
                   "title": "Confirm the costs applicable to the Deed including VAT",
                   "type": "number"
                 },
                 "personWhoDealsWithTheDeedOfCovenant": {
                   "lpe1Ref": "2.1.2",
+                  "fme1Ref": "2.1.2",
                   "title": "Provide details of the person who deals with the Deed of Covenant",
                   "type": "string",
                   "minLength": 1
@@ -351,6 +492,8 @@
         },
         "awareOfConsents": {
           "lpe1Ref": "2.4",
+          "fme1Ref": "2.2",
+          "TA7Ref": "9.3",
           "title": "Are you aware of consent having been given to any alterations or additions to the Property?",
           "type": "object",
           "properties": {
@@ -376,7 +519,43 @@
                 },
                 "details": {
                   "lpe1Ref": "2.4.1",
+                  "fme1Ref": "2.2.1",
                   "title": "Provide details and copies of any consent",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "changesInTermOfLease": {
+          "TA7Ref": "7.1",
+          "title": "Is the seller aware of any changes in the terms of the lease or of the landlord giving any consents under the lease?",
+          "type": "object",
+          "properties": {
+            "isSellerAwareOfChanges": {
+              "title": "",
+              "type": "string",
+              "enum": ["Yes", "No", "Attached", "To follow", "Lost"]
+            }
+          },
+          "discriminator": { "propertyName": "isSellerAwareOfChanges" },
+          "oneOf": [
+            {
+              "properties": {
+                "isSellerAwareOfChanges": {
+                  "enum": ["No", "Attached", "To follow", "Lost"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "isSellerAwareOfChanges": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "title": "If Yes, please supply a copy or, if not in writing, please give details:",
                   "type": "string",
                   "minLength": 1
                 }
@@ -413,6 +592,7 @@
                 },
                 "details": {
                   "lpe1Ref": "2.5.1",
+                  "fme1Ref": "2.4",
                   "title": "Provide details of the procedures and fees. Include details of the person who deals with the new certificate or share.",
                   "type": "string",
                   "minLength": 1
@@ -433,16 +613,81 @@
       "title": "Ground Rent",
       "type": "object",
       "required": [
+        "typeOfLeasehold",
+        "isGroundRentPayable",
         "groundRentPayable",
+        "groundRentFrequency",
+        "rentSubjectToIncrease",
         "groundRentPaidUpToDate",
         "lastDemandPeriod",
         "requirementsToBeMemberOfManagementCompany"
       ],
       "properties": {
+        "typeOfLeasehold": {
+          "TA7Ref": "1.1",
+          "title": "What type of leasehold property does the seller own?",
+          "description": "‘Flat’ includes maisonette and apartment.",
+          "type": "string",
+          "enum": ["Flat", "Shared Ownership", "Long leasehold house"]
+        },
+        "isGroundRentPayable": {
+          "TA7Ref": "1.2",
+          "title": "Does the seller pay rent for the property?",
+          "type": "string",
+          "enum": ["Yes", "No"]
+        },
         "groundRentPayable": {
           "lpe1Ref": "3.1",
+          "TA7Ref": "1.2a",
           "title": "What is the annual Ground Rent payable for the Property?",
           "type": "number"
+        },
+        "groundRentFrequency": {
+          "TA7Ref": "1.2b",
+          "title": "How regularly is the rent paid? (e.g. annually)",
+          "type": "string"
+        },
+        "rentSubjectToIncrease": {
+          "TA7Ref": "1.2c",
+          "type": "object",
+          "title": "Is the rent subject to increase?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "rentReviewed": {
+                  "TA7Ref": "1.2d",
+                  "title": "How often is the rent reviewed?",
+                  "type": "string"
+                },
+                "rentIncreaseCalculated": {
+                  "TA7Ref": "1.2e",
+                  "title": "How is the increase calculated?",
+                  "description": "eg set figure, doubling, in line with Retail Price Index, Consumer Price Index, etc",
+                  "type": "string"
+                }
+              },
+              "required": ["rentReviewed", "rentIncreaseCalculated"]
+            }
+          ]
         },
         "groundRentPaidUpToDate": {
           "lpe1Ref": "3.2",
@@ -498,11 +743,145 @@
         }
       }
     },
+    "ownershipAndManagement": {
+      "TA7Ref": "2",
+      "title": "Ownership and management",
+      "type": "object",
+      "required": [
+        "freeholdOwner",
+        "hasHeadlease",
+        "buildingManager",
+        "hasTenantCompanyDissolved",
+        "isManagingAgentEmployed"
+      ],
+      "properties": {
+        "freeholdOwner": {
+          "TA7Ref": "2.1",
+          "title": "Is the freeholder a person or a company that the tenants control?",
+          "type": "string",
+          "enum": ["Yes", "No"]
+        },
+        "hasHeadlease": {
+          "TA7Ref": "2.2",
+          "title": "Is there a headlease?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "headLeaseholderControlled": {
+                  "TA7Ref": "1.2d",
+                  "title": "If Yes, is the head leaseholder a person or company that is controlled by the tenants?",
+                  "type": "string",
+                  "enum": ["Yes", "No"]
+                }
+              },
+              "required": ["headLeaseholderControlled"]
+            }
+          ]
+        },
+        "buildingManager": {
+          "TA7Ref": "2.3",
+          "title": "Who is responsible for managing the building?",
+          "type": "object",
+          "required": ["buildingManagerType"],
+          "properties": {
+            "buildingManagerType": {
+              "title": "",
+              "type": "string",
+              "enum": [
+                "Freeholder",
+                "Headleaseholder",
+                "Management company named in lease of the property",
+                "Right to manage company set up by the tenants under statutory rights",
+                "Other (please specify)"
+              ]
+            }
+          },
+          "discriminator": { "propertyName": "buildingManagerType" },
+          "oneOf": [
+            {
+              "properties": {
+                "buildingManagerType": {
+                  "enum": ["Freeholder"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "buildingManagerType": {
+                  "enum": ["Headleaseholder"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "buildingManagerType": {
+                  "enum": ["Management company named in lease of the property"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "buildingManagerType": {
+                  "enum": [
+                    "Right to manage company set up by the tenants under statutory rights"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "buildingManagerType": {
+                  "enum": ["Other (please specify)"]
+                },
+                "details": {
+                  "title": "Please specify",
+                  "type": "string"
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "hasTenantCompanyDissolved": {
+          "TA7Ref": "2.4",
+          "title": "Has any tenants’ management company been dissolved or struck off the register at Companies House?",
+          "type": "string",
+          "enum": ["Yes", "No"]
+        },
+        "isManagingAgentEmployed": {
+          "TA7Ref": "2.5",
+          "title": "Does the landlord, tenants’ management company or Right to Manage company employ a managing agent to collect rent or manage the building?",
+          "type": "string",
+          "enum": ["Yes", "No"]
+        }
+      }
+    },
     "serviceCharge": {
       "lpe1Ref": "4",
       "title": "Service Charge",
       "type": "object",
       "required": [
+        "sellerContributingToServiceCharge",
         "propertiesContributingToMaintenaceOfManagedArea",
         "serviceChargePayable",
         "serviceChargePaidUpToDate",
@@ -521,6 +900,225 @@
         "landlordsCertificateServed"
       ],
       "properties": {
+        "sellerContributingToServiceCharge": {
+          "TA7Ref": "5.4",
+          "title": "Does the seller contribute to the cost of maintaining the building?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "likelyExpenseInServiceCharge": {
+                  "TA7Ref": "5.5",
+                  "title": "Does the seller know of any expense (e.g. the cost of redecoration of outside or communal areas not usually incurred annually) likely to be shown in the service charge accounts within the next three years? If Yes, please give details:",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "required": ["yesNo"],
+                  "discriminator": { "propertyName": "yesNo" },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["Yes"]
+                        },
+                        "details": {
+                          "title": "Details",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["details"]
+                    }
+                  ]
+                },
+                "problemInServiceChargeLevel": {
+                  "TA7Ref": "5.6",
+                  "title": "Does the seller know of any problems in the last three years regarding the level of service charges or with the management? If Yes, please give details:",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "required": ["yesNo"],
+                  "discriminator": { "propertyName": "yesNo" },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["Yes"]
+                        },
+                        "details": {
+                          "title": "Details",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["details"]
+                    }
+                  ]
+                },
+                "serviceChargeChallenged": {
+                  "TA7Ref": "5.7",
+                  "title": "Has the seller challenged the service charge or any expense in the last three years? If Yes, please give details:",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "required": ["yesNo"],
+                  "discriminator": { "propertyName": "yesNo" },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["Yes"]
+                        },
+                        "details": {
+                          "title": "Details",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["details"]
+                    }
+                  ]
+                },
+                "dangerousCladdingOrDefects": {
+                  "TA7Ref": "5.8",
+                  "title": "Does the seller know of the existence or suspected existence in the building of dangerous cladding or any other defects that create a building safety risk?",
+                  "type": "string",
+                  "enum": ["Yes", "No"]
+                },
+                "difficultyInCollectingServiceCharge": {
+                  "TA7Ref": "5.9",
+                  "title": "Is the seller aware of any difficulties encountered in collecting the service charges from other flat owners? If Yes, please give details:",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "required": ["yesNo"],
+                  "discriminator": { "propertyName": "yesNo" },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["Yes"]
+                        },
+                        "details": {
+                          "title": "Details",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["details"]
+                    }
+                  ]
+                },
+                "serviceChargeOwed": {
+                  "TA7Ref": "5.10",
+                  "title": "Does the seller owe any service charges, rent, insurance premium or other financial contribution? If Yes, please give details:",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "required": ["yesNo"],
+                  "discriminator": { "propertyName": "yesNo" },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["Yes"]
+                        },
+                        "details": {
+                          "title": "Details",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["details"]
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "likelyExpenseInServiceCharge",
+                "problemInServiceChargeLevel",
+                "serviceChargeChallenged",
+                "dangerousCladdingOrDefects",
+                "difficultyInCollectingServiceCharge",
+                "serviceChargeOwed"
+              ]
+            }
+          ]
+        },
         "propertiesContributingToMaintenaceOfManagedArea": {
           "lpe1Ref": "4.1",
           "title": "How many properties contribute toward the maintenance of the Managed Area?",
@@ -744,6 +1342,7 @@
           "type": "object",
           "properties": {
             "internally": {
+              "TA7Ref": "5.3",
               "title": "Internally",
               "type": "object",
               "properties": {
@@ -760,6 +1359,7 @@
               }
             },
             "externally": {
+              "TA7Ref": "5.2",
               "title": "Externally",
               "type": "object",
               "properties": {
@@ -1001,6 +1601,7 @@
         },
         "deedOfCertificateServed": {
           "lpe1Ref": "4.14",
+          "TA7Ref": "11.1",
           "title": "Has a Leaseholder Deed of Certificate been served on the Landlord in relation to the property or remedial works required to the property?",
           "type": "object",
           "properties": {
@@ -1010,6 +1611,37 @@
               "enum": ["Yes", "No Certificate Served", "N/A"]
             }
           },
+          "discriminator": { "propertyName": "yesNoNotApplicable" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNoNotApplicable": {
+                  "enum": ["N/A"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNoNotApplicable": {
+                  "enum": ["No Certificate Served"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNoNotApplicable": {
+                  "enum": ["Yes"]
+                },
+                "sellerCompletedDeedOfCertificate": {
+                  "TA7Ref": "11.3a",
+                  "title": "Did the seller (the current leaseholder) complete the deed of certificate or was it completed by a previous leaseholder?",
+                  "type": "string",
+                  "enum": ["Current leaseholder", "Previous leaseholder"]
+                }
+              },
+              "required": ["sellerCompletedDeedOfCertificate"]
+            }
+          ],
           "required": ["yesNoNotApplicable"]
         },
         "landlordsCertificateServed": {
@@ -1467,12 +2099,84 @@
       "title": "Disputes & Enfranchisement",
       "type": "object",
       "required": [
+        "sellerRecievedComplaint",
+        "sellerSentComplaint",
         "ongoingForfeitureProceedings",
         "unresolvedDisputes",
         "enfranchisementSteps",
         "breachOfTermsOfLease"
       ],
       "properties": {
+        "sellerRecievedComplaint": {
+          "TA7Ref": "8.1",
+          "title": "Has the seller received any complaint from the landlord, the management company or any neighbour about anything the seller has or has not done? If Yes, please give details",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "sellerSentComplaint": {
+          "TA7Ref": "8.2",
+          "title": "Has the seller complained or had cause to complain to or about the landlord, the management company, or any neighbour? If Yes, please give details:",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
         "ongoingForfeitureProceedings": {
           "lpe1Ref": "6.1",
           "type": "object",
@@ -1603,6 +2307,12 @@
       "title": "General",
       "type": "object",
       "required": [
+        "sellerAwareOfAlterations",
+        "sellerOwnedProperty",
+        "sellerServedNoticeOnLandlord",
+        "sellerAwareOfNoticeOfCollectivePurchase",
+        "sellerAwareOfResponse",
+        "isLeaseQualifying",
         "otherPropertiesInManagedArea",
         "leasedOnSimilarTerms",
         "buildingKnownToBeHMO",
@@ -1610,6 +2320,94 @@
         "restrictionOnKeepingPets"
       ],
       "properties": {
+        "sellerAwareOfAlterations": {
+          "TA7Ref": "9.1",
+          "title": "Is the seller aware of any alterations having been made to the property since the lease was originally granted?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "TA7Ref": "9.2",
+                  "title": "Please give details of these alterations",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "sellerOwnedProperty": {
+          "TA7Ref": "10.1",
+          "title": "Has the seller owned the property for at least two years?",
+          "type": "string",
+          "enum": ["Yes", "No"]
+        },
+        "sellerServedNoticeOnLandlord": {
+          "TA7Ref": "10.2",
+          "title": "Has the seller served on the landlord a formal notice stating the seller’s wish to buy the freehold or be granted an extended lease? If Yes, please supply a copy.",
+          "type": "string",
+          "enum": [
+            "Yes",
+            "No",
+            "Not known",
+            "Not required",
+            "Attached",
+            "To follow"
+          ]
+        },
+        "sellerAwareOfNoticeOfCollectivePurchase": {
+          "TA7Ref": "10.3",
+          "title": "Is the seller aware of the service of any notice relating to the possible collective purchase of the freehold of the building or part of it by a group of tenants? If Yes, please supply a copy.",
+          "type": "string",
+          "enum": [
+            "Yes",
+            "No",
+            "Not known",
+            "Not required",
+            "Attached",
+            "To follow"
+          ]
+        },
+        "sellerAwareOfResponse": {
+          "TA7Ref": "10.4",
+          "title": "Is the seller aware of any response to a notice disclosed in replies to 10.2 and 10.3 above? If Yes, please supply a copy",
+          "type": "string",
+          "enum": [
+            "Yes",
+            "No",
+            "Not known",
+            "Not required",
+            "Attached",
+            "To follow"
+          ]
+        },
+        "isLeaseQualifying": {
+          "TA7Ref": "11.2",
+          "title": "Is the lease of the property a qualifying lease?",
+          "type": "string",
+          "enum": ["Yes", "No"]
+        },
         "otherPropertiesInManagedArea": {
           "lpe1Ref": "7.1",
           "title": "How many other properties are there in the Managed Area?",
@@ -1771,7 +2569,11 @@
       "description": "Please provide the following applicable documents:",
       "type": "object",
       "required": [
+        "noticeOfSale",
+        "noticeOfBuildingCondition",
+        "landlordNotifiedOfSale",
         "serviceChargeAccounts",
+        "groundRent",
         "buildingsInsurancePolicy",
         "managedAreasBuildingsInsurancePolicy",
         "serviceChargeEstimatesCurrent",
@@ -1794,17 +2596,62 @@
         "enforcementNotices"
       ],
       "properties": {
+        "noticeOfSale": {
+          "TA7Ref": "6.1",
+          "title": "Has the seller received a notice that the landlord wants to sell the building? If Yes, please supply a copy.",
+          "type": "string",
+          "enum": ["Yes", "No", "Attached", "To follow", "Lost"]
+        },
+        "noticeOfBuildingCondition": {
+          "TA7Ref": "6.2",
+          "title": "Has the seller received any other notice about the building, its use, its condition or its repair and maintenance? If Yes, please supply a copy.",
+          "type": "string",
+          "enum": ["Yes", "No", "Attached", "To follow", "Lost"]
+        },
+        "landlordNotifiedOfSale": {
+          "TA7Ref": "11.4",
+          "title": "Has the freeholder / landlord been notified of the intention to sell?",
+          "type": "string",
+          "enum": ["Yes", "No"]
+        },
+        "copyOfcorrespondence": {
+          "TA7Ref": "3.2",
+          "title": "Please supply a copy of any correspondence from the landlord, any management company and any managing agent.",
+          "type": "string",
+          "enum": ["Attached", "To follow"]
+        },
         "serviceChargeAccounts": {
           "lpe1Ref": "8.1",
+          "TA7Ref": "3.3a",
           "title": "The last 3 years published Service Charge accounts.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "groundRent": {
+          "TA7Ref": "3.3b",
+          "title": "Please supply a copy of any invoices or demands and any statements and receipts for the payment of ground rent for the last three years.",
           "type": "string",
           "enum": ["Enclosed", "To follow", "N/A"]
         },
         "buildingsInsurancePolicy": {
           "lpe1Ref": "8.2",
+          "TA7Ref": "3.4",
           "title": "Buildings insurance policy and schedule.",
-          "type": "string",
-          "enum": ["Enclosed", "To follow", "N/A"]
+          "type": "object",
+          "properties": {
+            "arrangedBySeller": {
+              "TA7Ref": "3.4a",
+              "title": "Arranged by the seller and a receipt for payment of the last premium",
+              "type": "string",
+              "enum": ["Attached", "To follow"]
+            },
+            "arrangedByLandlord": {
+              "TA7Ref": "3.4b",
+              "title": "Arranged by the landlord or management company and the schedule for the current year",
+              "type": "string",
+              "enum": ["Attached", "To follow"]
+            }
+          }
         },
         "managedAreasBuildingsInsurancePolicy": {
           "lpe1Ref": "8.3",
@@ -1838,12 +2685,14 @@
         },
         "additionalRegulationsNotInLease": {
           "lpe1Ref": "8.8",
+          "TA7Ref": "3.1b",
           "title": "Any additional regulations or rules affecting the Property which are not contained in the lease.",
           "type": "string",
           "enum": ["Enclosed", "To follow", "N/A"]
         },
         "deedsOfVariation": {
           "lpe1Ref": "8.9",
+          "TA7Ref": "3.1a",
           "title": "Any Deeds of Variation or other document varying the terms of the lease of this Property.",
           "type": "string",
           "enum": [
@@ -1856,6 +2705,7 @@
         },
         "deedOfCovenant": {
           "lpe1Ref": "8.10",
+          "TA7Ref": "3.1a",
           "title": "Any required Deed of Covenant.",
           "type": "string",
           "enum": ["Enclosed", "To follow", "N/A"]
@@ -1909,9 +2759,22 @@
         },
         "memorandumAndArticles": {
           "lpe1Ref": "8.17",
+          "TA7Ref": "3.5a",
           "title": "Memorandum and Articles of Association of the Management Company.",
           "type": "string",
           "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "shareOrMembershipCertificate": {
+          "TA7Ref": "3.5b",
+          "title": "Share or membership certificate",
+          "type": "string",
+          "enum": ["Attached", "To follow"]
+        },
+        "companyAccounts": {
+          "TA7Ref": "3.5c",
+          "title": "Company accounts for the past three years",
+          "type": "string",
+          "enum": ["Attached", "To follow"]
         },
         "managementCompanyAGMMinutes": {
           "lpe1Ref": "8.18",
@@ -1921,12 +2784,14 @@
         },
         "deedOfCertificate": {
           "lpe1Ref": "8.19",
+          "TA7Ref": "3.1a",
           "title": "Leaseholder Deed of Certificate.",
           "type": "string",
           "enum": ["Enclosed", "To follow", "N/A"]
         },
         "landlordsCertificate": {
           "lpe1Ref": "8.20",
+          "TA7Ref": "11.5",
           "title": "Landlord's Certificate.",
           "type": "string",
           "enum": ["Enclosed", "To follow", "N/A"]
@@ -1974,13 +2839,31 @@
           "type": "string",
           "minLength": 1
         },
-        "address": {
-          "title": "Address",
+        "addressLine1": {
+          "title": "Address line 1",
+          "type": "string",
+          "minLength": 1
+        },
+        "addressLine2": {
+          "title": "Address line 2",
+          "type": "string"
+        },
+        "addressLine3": {
+          "title": "Address line 3",
+          "type": "string"
+        },
+        "town": {
+          "title": "Town/City",
+          "type": "string",
+          "minLength": 1
+        },
+        "postcode": {
+          "title": "Postcode",
           "type": "string",
           "minLength": 1
         },
         "telephone": {
-          "title": "Address",
+          "title": "Telephone",
           "type": "string",
           "minLength": 1
         },
@@ -1990,7 +2873,13 @@
           "format": "email"
         }
       },
-      "required": ["nameOrOrganisation"]
+      "required": [
+        "nameOrOrganisation",
+        "addressLine1",
+        "postcode",
+        "telephone",
+        "emailAddress"
+      ]
     },
     "bankDetails": {
       "type": "object",
