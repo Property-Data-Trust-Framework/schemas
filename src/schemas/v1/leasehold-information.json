@@ -46,8 +46,22 @@
             }
           }
         },
+        "rentchargeOwner": {
+          "fme1Ref": "1.1",
+          "title": "Rentcharge Owner",
+          "type": "object",
+          "properties": {
+            "contact": {
+              "$ref": "#/$defs/contact"
+            },
+            "bankDetails": {
+              "$ref": "#/$defs/bankDetails"
+            }
+          }
+        },
         "managementCompany": {
           "lpe1Ref": "1.2",
+          "fme1Ref": "1.2",
           "title": "Management Company",
           "type": "object",
           "properties": {
@@ -62,6 +76,7 @@
         },
         "managingAgent": {
           "lpe1Ref": "1.3",
+          "fme1Ref": "1.3",
           "title": "Managing Agent",
           "type": "object",
           "properties": {
@@ -94,6 +109,7 @@
         },
         "legalRepresentative": {
           "lpe1Ref": "1.5",
+          "fme1Ref": "1.4",
           "title": "Legal Representative of one of the above",
           "type": "object",
           "properties": {
@@ -180,6 +196,112 @@
             }
           }
         },
+        "noticeOfTransferAndCharge": {
+          "fme1Ref": "1.5",
+          "title": "Who accepts service of the Notice of Transfer & Charge?",
+          "description": "Tick the box beside each party and state the total fee including VAT for notice of transfer and charge. Tick 'Notice via email' column to confirm whether you will accept notice via email.",
+          "type": "object",
+          "properties": {
+            "rentchargeOwner": {
+              "title": "Rentcharge Owner",
+              "$ref": "#/$defs/noticeOfAssignmentAndChargeParty"
+            },
+            "managementCompany": {
+              "title": "Management Company",
+              "$ref": "#/$defs/noticeOfAssignmentAndChargeParty"
+            },
+            "managingAgent": {
+              "title": "Managing Agent",
+              "$ref": "#/$defs/noticeOfAssignmentAndChargeParty"
+            },
+            "legalRepresentative": {
+              "title": "Legal Representative",
+              "$ref": "#/$defs/noticeOfAssignmentAndChargeParty"
+            },
+            "other": {
+              "type": "object",
+              "properties": {
+                "isApplicableParty": {
+                  "type": "boolean"
+                }
+              },
+              "required": ["isApplicableParty"],
+              "discriminator": { "propertyName": "isApplicableParty" },
+              "oneOf": [
+                {
+                  "properties": {
+                    "isApplicableParty": {
+                      "const": false
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "isApplicableParty": {
+                      "const": true
+                    },
+                    "fee": {
+                      "title": "Total Fee including VAT",
+                      "type": "number"
+                    },
+                    "noticeViaEmail": {
+                      "type": "boolean"
+                    }
+                  },
+                  "contact": {
+                    "$ref": "#/$defs/contact"
+                  },
+                  "capacity": {
+                    "title": "Capacity (e.g. Management Company's lawyer)",
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "required": [
+                    "feeIncludingVAT",
+                    "noticeViaEmail",
+                    "contact",
+                    "capacity"
+                  ]
+                }
+              ]
+            },
+            "otherDetailsRequired": {
+              "fme1Ref": "1.5.1",
+              "title": "Are details other than the incoming owner's name, address and lender name required?",
+              "type": "object",
+              "properties": {
+                "isOtherDetailsRequired": {
+                  "title": "",
+                  "type": "string",
+                  "enum": ["Yes", "No"]
+                }
+              },
+              "discriminator": { "propertyName": "isOtherDetailsRequired" },
+              "oneOf": [
+                {
+                  "properties": {
+                    "isOtherDetailsRequired": {
+                      "const": "No"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "isOtherDetailsRequired": {
+                      "const": "Yes"
+                    },
+                    "details": {
+                      "title": "If Yes, please detail required additional information to be included with the notice of disposition",
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": ["details"]
+                }
+              ]
+            }
+          }
+        },
         "collectsGroundRent": {
           "lpe1Ref": "1.7",
           "title": "Who collects the Ground Rent?",
@@ -188,9 +310,16 @@
         },
         "collectsServiceCharges": {
           "lpe1Ref": "1.8",
+          "fme1Ref": "1.6",
           "title": "Who collects the Service Charges?",
           "type": "string",
-          "enum": ["Landlord", "Management Company", "Managing Agent", "N/A"]
+          "enum": [
+            "Rentcharge Owner",
+            "Landlord",
+            "Management Company",
+            "Managing Agent",
+            "N/A"
+          ]
         },
         "collectsbuildingInsurancePremiums": {
           "lpe1Ref": "1.9",
@@ -200,9 +329,11 @@
         },
         "dealsWithDayToDayMaintenanceOfManagedArea": {
           "lpe1Ref": "1.11",
+          "fme1Ref": "1.7",
           "title": "Who deals with the day to day maintenance of the Managed Area?",
           "type": "string",
           "enum": [
+            "Rentcharge Owner",
             "Landlord",
             "Management Company",
             "Managing Agent",
@@ -212,10 +343,12 @@
         },
         "organisesBuildingInsurance": {
           "lpe1Ref": "1.12",
+          "fme1Ref": "1.8",
           "TA7Ref": "5.1",
           "title": "Who organises and administers the buildings insurance?",
           "type": "string",
           "enum": [
+            "Rentcharge Owner",
             "Landlord",
             "Management Company",
             "Managing Agent",
@@ -275,6 +408,7 @@
       "properties": {
         "deedOfCovenantRequired": {
           "lpe1Ref": "2.1",
+          "fme1Ref": "2.1",
           "title": "Is a Deed of Covenant Required?",
           "type": "object",
           "properties": {
@@ -301,11 +435,13 @@
                 },
                 "costsApplicableToTheDeed": {
                   "lpe1Ref": "2.1.1",
+                  "fme1Ref": "2.1.1",
                   "title": "Confirm the costs applicable to the Deed including VAT",
                   "type": "number"
                 },
                 "personWhoDealsWithTheDeedOfCovenant": {
                   "lpe1Ref": "2.1.2",
+                  "fme1Ref": "2.1.2",
                   "title": "Provide details of the person who deals with the Deed of Covenant",
                   "type": "string",
                   "minLength": 1
@@ -356,6 +492,7 @@
         },
         "awareOfConsents": {
           "lpe1Ref": "2.4",
+          "fme1Ref": "2.2",
           "TA7Ref": "9.3",
           "title": "Are you aware of consent having been given to any alterations or additions to the Property?",
           "type": "object",
@@ -382,6 +519,7 @@
                 },
                 "details": {
                   "lpe1Ref": "2.4.1",
+                  "fme1Ref": "2.2.1",
                   "title": "Provide details and copies of any consent",
                   "type": "string",
                   "minLength": 1
@@ -454,6 +592,7 @@
                 },
                 "details": {
                   "lpe1Ref": "2.5.1",
+                  "fme1Ref": "2.4",
                   "title": "Provide details of the procedures and fees. Include details of the person who deals with the new certificate or share.",
                   "type": "string",
                   "minLength": 1
