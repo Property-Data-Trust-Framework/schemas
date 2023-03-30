@@ -3,17 +3,7 @@ const traverse = require("traverse");
 const jp = require("jsonpointer");
 const fs = require("fs");
 
-const pdtfTransaction = require("../schemas/v1/pdtf-transaction.json");
-const materialFacts = require("../schemas/v1/material-facts.json");
-const legalInformation = require("../schemas/v1/legal-information.json");
-const energyPerformanceCertificate = require("../schemas/v1/energy-performance-certificate.json");
-const titleDeed = require("../schemas/v1/title-deed.json");
-const searches = require("../schemas/v1/searches.json");
-const localLandCharges = require("../schemas/v1/searches/local-land-charges.json");
-const localSearchesRequired = require("../schemas/v1/searches/local-searches-required.json");
-const drainageAndWater = require("../schemas/v1/searches/drainage-and-water.json");
-const leaseholdInformation = require("../schemas/v1/leasehold-information.json");
-const geoJson = require("../schemas/v1/GeoJSON.json");
+const combinedSchema = require("../schemas/v2/combined.json");
 
 const alwaysInclude = [
   // "properties",
@@ -122,8 +112,6 @@ const hoistOneOfsAndPreserveRequired = (sourceSchema) => {
         });
       });
       delete hoistedProperties[discriminatorPropertyName];
-      console.log("existing properties", newElement.properties);
-      console.log("hoistedProperties", hoistedProperties);
       newElement.properties = {
         ...newElement.properties,
         ...hoistedProperties,
@@ -134,32 +122,7 @@ const hoistOneOfsAndPreserveRequired = (sourceSchema) => {
   return sourceSchema;
 };
 
-const subSchemas = {
-  "https://trust.propdata.org.uk/schemas/v1/material-facts.json": materialFacts,
-  "https://trust.propdata.org.uk/schemas/v1/legal-information.json":
-    legalInformation,
-  "https://trust.propdata.org.uk/schemas/v1/energy-performance-certificate.json":
-    energyPerformanceCertificate,
-  "https://geojson.org/schema/GeoJSON.json": geoJson,
-  "https://trust.propdata.org.uk/schemas/v1/title-deed.json": titleDeed,
-  "https://trust.propdata.org.uk/schemas/v1/searches.json": searches,
-  "https://trust.propdata.org.uk/schemas/v1/searches/local-land-charges.json":
-    localLandCharges,
-  "https://trust.propdata.org.uk/schemas/v1/searches/local-searches-required.json":
-    localSearchesRequired,
-  "https://trust.propdata.org.uk/schemas/v1/searches/drainage-and-water.json":
-    drainageAndWater,
-  "https://trust.propdata.org.uk/schemas/v1/leasehold-information.json":
-    leaseholdInformation,
-};
-
-const originalSchema = dereference(pdtfTransaction, (id) => subSchemas[id]);
-fs.writeFileSync(
-  "../schemas/v2/full.json",
-  JSON.stringify(originalSchema, null, 2)
-);
-
-let baspiOverlay = extractOverlay(originalSchema, "baspiRef", [
+let baspiOverlay = extractOverlay(combinedSchema, "baspiRef", [
   "title",
   "description",
   "enum",
@@ -167,7 +130,7 @@ let baspiOverlay = extractOverlay(originalSchema, "baspiRef", [
   "discriminator",
   "oneOf",
 ]);
-baspiOverlay = hoistOneOfsAndPreserveRequired(baspiOverlay);
+// baspiOverlay = hoistOneOfsAndPreserveRequired(baspiOverlay);
 
 fs.writeFileSync(
   "../schemas/v2/overlays/baspi.json",
@@ -176,20 +139,19 @@ fs.writeFileSync(
 console.log(`BASPI written`);
 let fieldsExtracted = ["baspiRef"];
 
-let coreSchema = hoistOneOfs(originalSchema);
+extractFields.forEach((key) => {
+  let overlay = extractOverlay(combinedSchema, key, [
+    "title",
+    "description",
+    "enum",
+  ]);
+  // overlay = hoistOneOfsAndPreserveRequired(overlay);
+  const fileName = `../schemas/v2/overlays/${key.slice(0, -3)}.json`; // remove Ref
+  fs.writeFileSync(fileName, JSON.stringify(overlay, null, 2));
+  console.log(`Overlay ${key} written to ${fileName}`);
+});
 
-// extractFields.forEach((key) => {
-//   const refName = key + "Ref";
-//   let overlay = extractOverlay(originalSchema, refName, [
-//     "title",
-//     "description",
-//     "enum",
-//   ]);
-//   // overlay = hoistOneOfsAndPreserveRequired(overlay);
-//   const fileName = `../schemas/v2/overlays/${key.slice(0, -3)}.json`; // remove Ref
-//   fs.writeFileSync(fileName, JSON.stringify(overlay, null, 2));
-//   console.log(`Overlay ${key} written to ${fileName}`);
-// });
+let coreSchema = hoistOneOfs(originalSchema);
 
 coreSchema = deleteProperties(originalSchema, [
   "title",
