@@ -19,80 +19,6 @@
     "confirmation"
   ],
   "properties": {
-    "typeOfLeasehold": {
-      "type": "object",
-      "properties": {
-        "leaseholdType": {
-          "baspiRef": "A1.3.1",
-          "ta7Ref": "1.1",
-          "title": "What type of leasehold property does the seller own?",
-          "description": "‘Flat’ includes maisonette and apartment.",
-          "type": "string",
-          "enum": ["Flat", "Shared Ownership", "Long leasehold house"]
-        }
-      },
-      "discriminator": { "propertyName": "leaseholdType" },
-      "oneOf": [
-        {
-          "properties": {
-            "leaseholdType": {
-              "enum": ["Flat", "Shared Ownership", "Long leasehold house"]
-            }
-          }
-        },
-        {
-          "properties": {
-            "leaseholdType": {
-              "enum": ["Shared Ownership"]
-            },
-            "sharedOwnershipPercentage": {
-              "baspiRef": "A1.3.1.1",
-              "ntsRef": "A1.7.1",
-              "title": "Shared ownership percentage",
-              "type": "integer",
-              "minimum": 5,
-              "exclusiveMaximum": 100
-            },
-            "sharedOwnershipRent": {
-              "baspiRef": "A1.3.1.2",
-              "ntsRef": "A1.7.2",
-              "title": "Shared ownership rent (£)",
-              "type": "number",
-              "minimum": 0
-            },
-            "sharedOwnershipRentFrequency": {
-              "baspiRef": "A1.3.1.3",
-              "ntsRef": "A1.7.3",
-              "title": "Shared ownership rent frequency",
-              "type": "string",
-              "enum": ["Yearly", "Monthly", "Weekly"]
-            }
-          },
-          "required": [
-            "sharedOwnershipPercentage",
-            "sharedOwnershipRent",
-            "sharedOwnershipRentFrequency"
-          ]
-        }
-      ]
-    },
-    "leaseTerm": {
-      "type": "object",
-      "properties": {
-        "startYearOfLease": {
-          "baspiRef": "A1.4.1b",
-          "ntsRef": "A1.2",
-          "title": "Year that the lease commenced",
-          "type": "integer"
-        },
-        "lengthOfLeaseInYears": {
-          "baspiRef": "A1.4.1a",
-          "ntsRef": "A1.3",
-          "title": "Length of lease (years)",
-          "type": "integer"
-        }
-      }
-    },
     "contactDetails": {
       "ta7Ref": "4.1",
       "lpe1Ref": "1",
@@ -915,7 +841,7 @@
                 "Headleaseholder",
                 "Management company named in lease of the property",
                 "Right to manage company set up by the tenants under statutory rights",
-                "Other (please specify)"
+                "Other"
               ]
             }
           },
@@ -924,28 +850,10 @@
             {
               "properties": {
                 "buildingManagerType": {
-                  "enum": ["Freeholder"]
-                }
-              }
-            },
-            {
-              "properties": {
-                "buildingManagerType": {
-                  "enum": ["Headleaseholder"]
-                }
-              }
-            },
-            {
-              "properties": {
-                "buildingManagerType": {
-                  "enum": ["Management company named in lease of the property"]
-                }
-              }
-            },
-            {
-              "properties": {
-                "buildingManagerType": {
                   "enum": [
+                    "Freeholder",
+                    "Headleaseholder",
+                    "Management company named in lease of the property",
                     "Right to manage company set up by the tenants under statutory rights"
                   ]
                 }
@@ -954,7 +862,7 @@
             {
               "properties": {
                 "buildingManagerType": {
-                  "enum": ["Other (please specify)"]
+                  "enum": ["Other"]
                 },
                 "details": {
                   "title": "Please specify",
@@ -1682,7 +1590,7 @@
                 },
                 "deedOfCertificateServed": {
                   "lpe1Ref": "4.14",
-                  "ta7Ref": "11.1",
+                  "ta7Ref": "11.3",
                   "title": "Has a Leaseholder Deed of Certificate been served on the Landlord in relation to the property or remedial works required to the property?",
                   "type": "object",
                   "properties": {
@@ -2433,6 +2341,80 @@
         "restrictionOnKeepingPets"
       ],
       "properties": {
+        "typeOfLeasehold": {
+          "type": "object",
+          "properties": {
+            "leaseholdType": {
+              "baspiRef": "A1.3.1",
+              "ta7Ref": "1.1",
+              "title": "What type of leasehold property does the seller own?",
+              "description": "‘Flat’ includes maisonette and apartment.",
+              "type": "string",
+              "enum": ["Flat", "Shared Ownership", "Long leasehold house"]
+            }
+          },
+          "discriminator": { "propertyName": "leaseholdType" },
+          "oneOf": [
+            {
+              "properties": {
+                "leaseholdType": {
+                  "enum": ["Flat", "Long leasehold house"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "leaseholdType": {
+                  "enum": ["Shared Ownership"]
+                },
+                "sharedOwnershipPercentage": {
+                  "baspiRef": "A1.3.1.1",
+                  "ntsRef": "A1.7.1",
+                  "title": "Shared ownership percentage",
+                  "type": "integer",
+                  "minimum": 5,
+                  "exclusiveMaximum": 100
+                },
+                "sharedOwnershipRent": {
+                  "baspiRef": "A1.3.1.2",
+                  "ntsRef": "A1.7.2",
+                  "title": "Shared ownership rent (£)",
+                  "type": "number",
+                  "minimum": 0
+                },
+                "sharedOwnershipRentFrequency": {
+                  "baspiRef": "A1.3.1.3",
+                  "ntsRef": "A1.7.3",
+                  "title": "Shared ownership rent frequency",
+                  "type": "string",
+                  "enum": ["Yearly", "Monthly", "Weekly"]
+                }
+              },
+              "required": [
+                "sharedOwnershipPercentage",
+                "sharedOwnershipRent",
+                "sharedOwnershipRentFrequency"
+              ]
+            }
+          ]
+        },
+        "leaseTerm": {
+          "type": "object",
+          "properties": {
+            "startYearOfLease": {
+              "baspiRef": "A1.4.1b",
+              "ntsRef": "A1.2",
+              "title": "Year that the lease commenced",
+              "type": "integer"
+            },
+            "lengthOfLeaseInYears": {
+              "baspiRef": "A1.4.1a",
+              "ntsRef": "A1.3",
+              "title": "Length of lease (years)",
+              "type": "integer"
+            }
+          }
+        },
         "sellerAwareOfAlterations": {
           "ta7Ref": "9.1",
           "title": "Is the seller aware of any alterations having been made to the property since the lease was originally granted?",
@@ -2925,7 +2907,6 @@
       "required": ["response"],
       "properties": {
         "response": {
-          "baspiRef": "A13.1",
           "title": "Declaration",
           "description": "I/we confirm that I am the person authorised to provide the information which I have completed in it on behalf of those parties which I have selected from the list, and that a buyer may rely on the information which I have supplied without applying to any other party except where I have left a section blank because I do not have the authority to provide the information",
           "type": "boolean"
