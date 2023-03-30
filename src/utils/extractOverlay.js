@@ -33,6 +33,8 @@ const alwaysInclude = [
   "title",
   "description",
   "enum",
+  "oneOf",
+  "discriminator",
 ];
 
 const extractFields = [
@@ -46,6 +48,7 @@ const extractFields = [
   "con29RRef",
   "con29DWRef",
   "llc1Ref",
+  "RDSRef",
 ];
 
 const extractOverlay = (sourceSchema, refName, alsoInclude) => {
@@ -54,11 +57,12 @@ const extractOverlay = (sourceSchema, refName, alsoInclude) => {
   traverse(sourceSchema).forEach(function (element) {
     if (element[refName]) {
       const path = "/" + this.path.join("/");
-      // console.log(`Found ${refName} at ${path}`);
+      // console.log(`Found ${element[refName]} at ${path}`);
       // console.log(`element[refName] = ${element[refName]}`);
       jp.set(returnSchema, `${path}/${refName}`, element[refName]);
       includeProperties.forEach((property) => {
         if (element[property]) {
+          // console.log(`Found ${property} at ${path}`);
           jp.set(returnSchema, `${path}/${property}`, element[property]);
         }
       });
@@ -105,6 +109,7 @@ const hoistOneOfsAndPreserveRequired = (sourceSchema) => {
     newElement = JSON.parse(JSON.stringify(element));
     if (newElement.oneOf && newElement.discriminator) {
       const discriminatorPropertyName = newElement.discriminator.propertyName;
+      console.log("hoisting", this.path.join("/"));
       let hoistedProperties = {};
       newElement.oneOf.forEach((item) => {
         oneOfProperties = item.properties;
@@ -117,10 +122,12 @@ const hoistOneOfsAndPreserveRequired = (sourceSchema) => {
         });
       });
       delete hoistedProperties[discriminatorPropertyName];
-      // newElement.properties = {
-      //   ...newElement.properties,
-      //   ...hoistedProperties,
-      // };
+      console.log("existing properties", newElement.properties);
+      console.log("hoistedProperties", hoistedProperties);
+      newElement.properties = {
+        ...newElement.properties,
+        ...hoistedProperties,
+      };
       this.update(newElement);
     }
   });
@@ -171,24 +178,26 @@ let fieldsExtracted = ["baspiRef"];
 
 let coreSchema = hoistOneOfs(originalSchema);
 
-extractFields.forEach((key) => {
-  const refName = key + "Ref";
-  let overlay = extractOverlay(originalSchema, refName, [
-    "title",
-    "description",
-    "enum",
-  ]);
-  // overlay = hoistOneOfsAndPreserveRequired(overlay);
-  const fileName = `../schemas/v2/overlays/${key}.json`;
-  fs.writeFileSync(fileName, JSON.stringify(overlay, null, 2));
-  console.log(`Overlay ${key} written to ${fileName}`);
-});
+// extractFields.forEach((key) => {
+//   const refName = key + "Ref";
+//   let overlay = extractOverlay(originalSchema, refName, [
+//     "title",
+//     "description",
+//     "enum",
+//   ]);
+//   // overlay = hoistOneOfsAndPreserveRequired(overlay);
+//   const fileName = `../schemas/v2/overlays/${key.slice(0, -3)}.json`; // remove Ref
+//   fs.writeFileSync(fileName, JSON.stringify(overlay, null, 2));
+//   console.log(`Overlay ${key} written to ${fileName}`);
+// });
 
 coreSchema = deleteProperties(originalSchema, [
   "title",
   "description",
   "enum",
   "required",
+  "$schema",
+  "$id",
   ...extractFields,
 ]);
 
