@@ -12,28 +12,24 @@ const {
 const exampleTransaction = require("../../examples/v2/exampleTransaction.json");
 const schemaId =
   "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json";
+const validator = getValidator(schemaId);
+const transactionSchema = getTransactionSchema(schemaId);
 
-test.only("exports a property pack schema, v1 by default", () => {
+test("exports a property pack schema, v1 by default", () => {
   expect(getTransactionSchema().$id).toEqual(
     "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json"
   );
 });
 
-test.only("exports a property pack schema, v2 when specified default", () => {
+test("exports a property pack schema, v2 when specified default", () => {
   expect(getTransactionSchema(schemaId).$id).toEqual(
     "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json"
   );
 });
 
-// test if ajv can compile the schema
 test("can compile a schema", () => {
   const schema = getTransactionSchema(schemaId);
-  const testSchema =
-    schema.properties.propertyPack.properties.materialFacts.properties.ownership
-      .properties.ownershipsToBeTransferred.items.oneOf[2].properties
-      .leaseholdInformation.properties.contactDetails.properties
-      .noticeOfAssignmentAndCharge.properties.landlord;
-  console.log(testSchema);
+  const testSchema = schema;
   const validator = ajv.compile(testSchema);
   expect(validator).toBeDefined();
 });
@@ -44,7 +40,6 @@ test("can create a validator", () => {
 });
 
 test("sample is valid", () => {
-  const validator = getValidator(schemaId);
   const isValid = validator(exampleTransaction);
   if (!isValid) console.log(validator.errors);
   expect(isValid).toBe(true);
@@ -64,7 +59,7 @@ test("sample with missing dependent required fields is invalid", () => {
     JSON.stringify(exampleTransaction)
   );
   clonedExampleTransaction.propertyPack.materialFacts.ownership.ownershipsToBeTransferred[0].ownershipType =
-    "leashold";
+    "leasehold";
   const isValid = validator(clonedExampleTransaction);
   expect(isValid).toBe(false);
 });
@@ -202,17 +197,15 @@ test("correctly gets titles across schemas, arrays and non-existient title prope
   expect(
     getTitleAtPath(
       transactionSchema,
-      "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/lengthOfLeaseInYears"
+      "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/leaseholdInformation/general/leaseTerm/lengthOfLeaseInYears"
     )
   ).toBe("Length of lease (years)");
   expect(
     getTitleAtPath(
       transactionSchema,
-      "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/annualServiceCharge"
+      "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/leaseholdInformation/serviceCharge/annualServiceCharge"
     )
-  ).toBe(
-    "Amount of current annual service charge/estate rentcharge/maintenance contribution (£)"
-  );
+  ).toBe("Amount of current annual service charge (£)");
   expect(
     getTitleAtPath(transactionSchema, "/propertyPack/materialFacts/invalidPath")
   ).toBe(undefined);
@@ -237,13 +230,13 @@ test("correctly gets titles across schemas, arrays and non-existient title prope
   expect(
     getTitleAtPath(
       transactionSchema,
-      "/propertyPack/energyPerformanceCertificate/certificate/currentEnergyRating"
+      "/propertyPack/materialFacts/energyEfficiency/certificate/currentEnergyRating"
     )
-  ).toBe("Current energy rating");
+  ).toBe("Current energy efficiency rating");
   expect(
     getTitleAtPath(
       transactionSchema,
-      "/propertyPack/additionalLegalInfo/occupiers/othersAged17OrOver/aged17OrOverNames/0/firstName"
+      "/propertyPack/additionalLegalInfo/occupiers/othersAged17OrOver/aged17OrOverNames"
     )
-  ).toBe("First Name");
+  ).toBe("Please provide their full names and ages.");
 });
