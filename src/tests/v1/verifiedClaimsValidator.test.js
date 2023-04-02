@@ -1,7 +1,7 @@
-const { validateVerifiedClaims } = require("../../index.js");
+const { validateVerifiedClaims } = require("../../../index.js");
 
-const exampleVouch = require("../examples/exampleVouch.json");
-const exampleDocumentedVouch = require("../examples/exampleDocumentedVouch.json");
+const exampleVouch = require("../../examples/v1/exampleVouch.json");
+const exampleDocumentedVouch = require("../../examples/v1/exampleDocumentedVouch.json");
 
 test("returns an empty array for a valid claim", () => {
   expect(validateVerifiedClaims([exampleVouch])).toEqual([]);

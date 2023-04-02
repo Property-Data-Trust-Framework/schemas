@@ -1,7 +1,16 @@
 const { dereference } = require("@jdw/jst");
 const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
+const ajv = new Ajv({
+  allErrors: true,
+  // schema contains additional baspiRef and RDSRef metadata which is not strictly valid
+  strictSchema: false,
+  discriminator: true,
+});
+// Adds date formats among other types to the validator.
+addFormats(ajv);
 
+// v1, deprecated direct access
 const pdtfTransaction = require("./src/schemas/v1/pdtf-transaction.json");
 const materialFacts = require("./src/schemas/v1/material-facts.json");
 const legalInformation = require("./src/schemas/v1/legal-information.json");
@@ -13,7 +22,6 @@ const localSearchesRequired = require("./src/schemas/v1/searches/local-searches-
 const drainageAndWater = require("./src/schemas/v1/searches/drainage-and-water.json");
 const geoJson = require("./src/schemas/v1/GeoJSON.json");
 const verifiedClaimsSchema = require("./src/schemas/v1/pdtf-verified-claims.json");
-
 const subSchemas = {
   "https://trust.propdata.org.uk/schemas/v1/material-facts.json": materialFacts,
   "https://trust.propdata.org.uk/schemas/v1/legal-information.json":
@@ -30,23 +38,31 @@ const subSchemas = {
   "https://trust.propdata.org.uk/schemas/v1/searches/drainage-and-water.json":
     drainageAndWater,
 };
-
 const transactionSchema = dereference(pdtfTransaction, (id) => subSchemas[id]);
-
-const ajv = new Ajv({
-  allErrors: true,
-  // schema contains additional baspiRef and RDSRef metadata which is not strictly valid
-  strictSchema: false,
-  discriminator: true,
-});
-// Adds date formats among other types to the validator.
-addFormats(ajv);
-
 const validator = ajv.compile(transactionSchema);
 
-const getSubschema = (path) => {
+// v2, via accessor functions
+const combinedSchema = require("./src/schemas/v2/combined.json");
+const transactionSchemas = {
+  "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json":
+    transactionSchema,
+  "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json":
+    combinedSchema,
+};
+
+const getTransactionSchema = (
+  schemaId = "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json"
+) => {
+  return transactionSchemas[schemaId];
+};
+const getValidator = (schemaId) => {
+  return ajv.compile(getTransactionSchema(schemaId));
+};
+
+const getSubschema = (path, schemaId) => {
+  const sourceSchema = getTransactionSchema(schemaId);
   const pathArray = path.split("/").slice(1);
-  if (pathArray.length < 1) return transactionSchema;
+  if (pathArray.length < 1) return sourceSchema;
   return pathArray.reduce((schema, pathElement) => {
     const { type, items, properties, oneOf } = schema;
     if (type === "array") return items;
@@ -63,20 +79,26 @@ const getSubschema = (path) => {
       if (matchingProperty) return matchingProperty;
     }
     return undefined;
-  }, transactionSchema);
+  }, sourceSchema);
 };
 
-const isPathValid = (path) => {
+const isPathValid = (
+  path,
+  schemaId = "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json"
+) => {
   try {
-    return getSubschema(path) !== undefined;
+    return getSubschema(path, schemaId) !== undefined;
   } catch (err) {
     return false;
   }
 };
 
-const getSubschemaValidator = (path) => {
-  const subSchema = getSubschema(path);
-  let validator = ajv.getSchema(path);
+const getSubschemaValidator = (
+  path,
+  schemaId = "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json"
+) => {
+  const subSchema = getSubschema(path, schemaId);
+  let validator = ajv.getSchema(path, schemaId);
   if (!validator && subSchema.$id) validator = ajv.getSchema(subSchema.$id);
   if (!validator) {
     ajv.addSchema(subSchema, path);
@@ -85,6 +107,7 @@ const getSubschemaValidator = (path) => {
   return validator;
 };
 
+// v1, deprecated
 const getTitleAtPath = (schema, path, rootPath = path) => {
   if (path === "") path = "/";
   let pathArray = path.split("/").slice(1);
@@ -167,8 +190,11 @@ const validateVerifiedClaims = (verifiedClaims) => {
 };
 
 module.exports = {
-  transactionSchema,
-  validator,
+  ajv,
+  transactionSchema, // v1 deprecated
+  validator, // v1 deprecated
+  getTransactionSchema,
+  getValidator,
   getSubschema,
   isPathValid,
   getSubschemaValidator,

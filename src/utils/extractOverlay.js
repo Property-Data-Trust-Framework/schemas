@@ -137,29 +137,29 @@ fs.writeFileSync(
   JSON.stringify(baspiOverlay, null, 2)
 );
 console.log(`BASPI written`);
-let fieldsExtracted = ["baspiRef"];
 
-extractFields.forEach((key) => {
-  let overlay = extractOverlay(combinedSchema, key, [
-    "title",
-    "description",
-    "enum",
-  ]);
-  // overlay = hoistOneOfsAndPreserveRequired(overlay);
-  const fileName = `../schemas/v2/overlays/${key.slice(0, -3)}.json`; // remove Ref
-  fs.writeFileSync(fileName, JSON.stringify(overlay, null, 2));
-  console.log(`Overlay ${key} written to ${fileName}`);
-});
+// extractFields.forEach((key) => {
+//   let overlay = extractOverlay(combinedSchema, key, [
+//     "title",
+//     "description",
+//     "enum",
+//   ]);
+//   // overlay = hoistOneOfsAndPreserveRequired(overlay);
+//   const fileName = `../schemas/v2/overlays/${key.slice(0, -3)}.json`; // remove Ref
+//   fs.writeFileSync(fileName, JSON.stringify(overlay, null, 2));
+//   console.log(`Overlay ${key} written to ${fileName}`);
+// });
 
-let coreSchema = hoistOneOfs(originalSchema);
+let coreSchema = hoistOneOfs(combinedSchema);
 
-coreSchema = deleteProperties(originalSchema, [
+coreSchema = deleteProperties(coreSchema, [
   "title",
   "description",
   "enum",
   "required",
   "$schema",
   "$id",
+  "baspiRef",
   ...extractFields,
 ]);
 

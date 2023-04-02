@@ -1,20 +1,50 @@
 const jp = require("jsonpointer");
 
 const {
-  transactionSchema,
-  validator,
+  ajv,
+  getTransactionSchema,
+  getValidator,
   getSubschema,
   isPathValid,
   getSubschemaValidator,
   getTitleAtPath,
-} = require("../../index.js");
-const exampleTransaction = require("../examples/exampleTransaction.json");
+} = require("../../../index.js");
+const exampleTransaction = require("../../examples/v2/exampleTransaction.json");
+const schemaId =
+  "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json";
 
-test("exports a property pack schema", () => {
-  expect(transactionSchema).not.toBeNull();
+test.only("exports a property pack schema, v1 by default", () => {
+  expect(getTransactionSchema().$id).toEqual(
+    "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json"
+  );
+});
+
+test.only("exports a property pack schema, v2 when specified default", () => {
+  expect(getTransactionSchema(schemaId).$id).toEqual(
+    "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json"
+  );
+});
+
+// test if ajv can compile the schema
+test("can compile a schema", () => {
+  const schema = getTransactionSchema(schemaId);
+  const testSchema =
+    schema.properties.propertyPack.properties.materialFacts.properties.ownership
+      .properties.ownershipsToBeTransferred.items.oneOf[2].properties
+      .leaseholdInformation.properties.contactDetails.properties
+      .noticeOfAssignmentAndCharge.properties.landlord;
+  console.log(testSchema);
+  const validator = ajv.compile(testSchema);
+  expect(validator).toBeDefined();
+});
+
+test("can create a validator", () => {
+  const validator = getValidator(schemaId);
+  expect(validator).toBeDefined();
 });
 
 test("sample is valid", () => {
+  const validator = getValidator(schemaId);
   const isValid = validator(exampleTransaction);
   if (!isValid) console.log(validator.errors);
   expect(isValid).toBe(true);
