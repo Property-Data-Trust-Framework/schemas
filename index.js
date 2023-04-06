@@ -1,4 +1,5 @@
 const { dereference } = require("@jdw/jst");
+const merge = require("deepmerge");
 const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
 const ajv = new Ajv({
@@ -22,6 +23,7 @@ const localSearchesRequired = require("./src/schemas/v1/searches/local-searches-
 const drainageAndWater = require("./src/schemas/v1/searches/drainage-and-water.json");
 const geoJson = require("./src/schemas/v1/GeoJSON.json");
 const verifiedClaimsSchema = require("./src/schemas/v1/pdtf-verified-claims.json");
+
 const subSchemas = {
   "https://trust.propdata.org.uk/schemas/v1/material-facts.json": materialFacts,
   "https://trust.propdata.org.uk/schemas/v1/legal-information.json":
@@ -41,26 +43,69 @@ const subSchemas = {
 const transactionSchema = dereference(pdtfTransaction, (id) => subSchemas[id]);
 const validator = ajv.compile(transactionSchema);
 
-// v2, via accessor functions
+// v2, via accessor functions and overlays
 const combinedSchema = require("./src/schemas/v2/combined.json");
+const coreSchema = require("./src/schemas/v2/core.json");
+
+const baspiOverlay = require("./src/schemas/v2/overlays/baspi.json");
+// const ta6Overlay = require("./src/schemas/v2/overlays/ta6.json");
+// const ta7Overlay = require("./src/schemas/v2/overlays/ta7.json");
+// const lpe1Overlay = require("./src/schemas/v2/overlays/lpe1.json");
+// const fme1Overlay = require("./src/schemas/v2/overlays/fme1.json");
+// const llc1Overlay = require("./src/schemas/v2/overlays/llc1.json");
+// const con29ROverlay = require("./src/schemas/v2/overlays/con29R.json");
+// const con29DWOverlay = require("./src/schemas/v2/overlays/con29DW.json");
+// const rdsOverlay = require("./src/schemas/v2/overlays/rds.json");
+// const oc1Overlay = require("./src/schemas/v2/overlays/oc1.json");
+
+const overlays = { baspiV4: baspiOverlay };
+
 const transactionSchemas = {
   "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json":
     transactionSchema,
-  "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json":
-    combinedSchema,
+  "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json": coreSchema,
+};
+
+const combineMerge = (target, source, options) => {
+  const destination = target.slice();
+  source.forEach((item, index) => {
+    if (typeof destination[index] === "undefined") {
+      destination[index] = options.cloneUnlessOtherwiseSpecified(item, options);
+    } else if (options.isMergeableObject(item)) {
+      destination[index] = merge(target[index], item, options);
+    } else if (target.indexOf(item) === -1) {
+      destination.push(item);
+    }
+  });
+  return destination;
 };
 
 const getTransactionSchema = (
-  schemaId = "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json"
+  schemaId = "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json",
+  overlay = "baspiV4"
 ) => {
-  return transactionSchemas[schemaId];
-};
-const getValidator = (schemaId) => {
-  return ajv.compile(getTransactionSchema(schemaId));
+  const sourceSchema = transactionSchemas[schemaId];
+  const overlaySchema = overlays[overlay];
+  if (!overlaySchema) return sourceSchema;
+  const mergedSchema = merge(overlaySchema, sourceSchema, {
+    arrayMerge: combineMerge,
+  });
+  // console.log("mergedSchema", mergedSchema);
+  return mergedSchema;
 };
 
-const getSubschema = (path, schemaId) => {
-  const sourceSchema = getTransactionSchema(schemaId);
+const getValidator = (schemaId, overlay = "baspiV4") => {
+  let validator = ajv.getSchema(schemaId);
+  if (!validator) {
+    const schema = getTransactionSchema(schemaId, overlay);
+    ajv.addSchema(schema, schemaId);
+    validator = ajv.getSchema(schemaId);
+  }
+  return validator;
+};
+
+// common functions for v1 and v2
+const getSubschema = (path, sourceSchema = transactionSchema) => {
   const pathArray = path.split("/").slice(1);
   if (pathArray.length < 1) return sourceSchema;
   return pathArray.reduce((schema, pathElement) => {
@@ -82,23 +127,19 @@ const getSubschema = (path, schemaId) => {
   }, sourceSchema);
 };
 
-const isPathValid = (
-  path,
-  schemaId = "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json"
-) => {
+const isPathValid = (path, schema = transactionSchema) => {
   try {
-    return getSubschema(path, schemaId) !== undefined;
+    return getSubschema(path, schema) !== undefined;
   } catch (err) {
     return false;
   }
 };
 
-const getSubschemaValidator = (
-  path,
-  schemaId = "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json"
-) => {
-  const subSchema = getSubschema(path, schemaId);
-  let validator = ajv.getSchema(path, schemaId);
+const getSubschemaValidator = (path, schema = transactionSchema) => {
+  const subSchema = getSubschema(path, schema);
+  // see if we can retrieve the schema by path
+  let validator = ajv.getSchema(path);
+  // retrieve whole schema by $id if available
   if (!validator && subSchema.$id) validator = ajv.getSchema(subSchema.$id);
   if (!validator) {
     ajv.addSchema(subSchema, path);

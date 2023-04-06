@@ -34,7 +34,7 @@ test("sample with missing dependent required fields is invalid", () => {
     JSON.stringify(exampleTransaction)
   );
   clonedExampleTransaction.propertyPack.materialFacts.ownership.ownershipsToBeTransferred[0].ownershipType =
-    "leashold";
+    "leasehold";
   const isValid = validator(clonedExampleTransaction);
   expect(isValid).toBe(false);
 });

@@ -1,0 +1,162 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v2/overlays/nts.json",
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "materialFacts": {
+          "properties": {
+            "priceInformation": {
+              "ntsRef": "A3",
+              "title": "Price information",
+              "properties": {
+                "price": {
+                  "ntsRef": "A3.1",
+                  "title": "Price"
+                },
+                "priceQualifier": {
+                  "ntsRef": "A3.2",
+                  "title": "Price type",
+                  "enum": [
+                    "POA",
+                    "Guide price",
+                    "Fixed price",
+                    "Offers in excess of",
+                    "Offers in region of",
+                    "Sale by tender"
+                  ]
+                }
+              }
+            },
+            "ownership": {
+              "ntsRef": "A1.1",
+              "title": "Ownership",
+              "properties": {
+                "ownershipsToBeTransferred": {
+                  "items": {
+                    "oneOf": [
+                      null,
+                      null,
+                      {
+                        "properties": {
+                          "leaseholdInformation": {
+                            "properties": {
+                              "groundRent": {
+                                "oneOf": [
+                                  null,
+                                  {
+                                    "properties": {
+                                      "annualGroundRent": {
+                                        "ntsRef": "A1.4",
+                                        "title": "What is the annual ground rent payable?"
+                                      },
+                                      "rentSubjectToIncrease": {
+                                        "ntsRef": "A1.5",
+                                        "title": "Is the rent subject to increase?",
+                                        "discriminator": {
+                                          "propertyName": "yesNo"
+                                        },
+                                        "oneOf": [
+                                          {
+                                            "properties": {
+                                              "yesNo": {
+                                                "enum": [
+                                                  "No"
+                                                ]
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "properties": {
+                                              "yesNo": {
+                                                "enum": [
+                                                  "Yes"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              "general": {
+                                "properties": {
+                                  "typeOfLeasehold": {
+                                    "oneOf": [
+                                      null,
+                                      {
+                                        "properties": {
+                                          "sharedOwnershipPercentage": {
+                                            "ntsRef": "A1.7.1",
+                                            "title": "Shared ownership percentage"
+                                          },
+                                          "sharedOwnershipRent": {
+                                            "ntsRef": "A1.7.2",
+                                            "title": "Shared ownership rent (£)"
+                                          },
+                                          "sharedOwnershipRentFrequency": {
+                                            "ntsRef": "A1.7.3",
+                                            "title": "Shared ownership rent frequency",
+                                            "enum": [
+                                              "Yearly",
+                                              "Monthly",
+                                              "Weekly"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  "leaseTerm": {
+                                    "properties": {
+                                      "startYearOfLease": {
+                                        "ntsRef": "A1.2",
+                                        "title": "Year that the lease commenced"
+                                      },
+                                      "lengthOfLeaseInYears": {
+                                        "ntsRef": "A1.3",
+                                        "title": "Length of lease (years)"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "councilTax": {
+              "ntsRef": "A2",
+              "title": "Council Tax",
+              "properties": {
+                "councilTaxBand": {
+                  "ntsRef": "A2.1",
+                  "title": "Which Council Tax band does this property fall within?",
+                  "description": "Band I relates to Wales only",
+                  "enum": [
+                    "A",
+                    "B",
+                    "C",
+                    "D",
+                    "E",
+                    "F",
+                    "G",
+                    "H",
+                    "I"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

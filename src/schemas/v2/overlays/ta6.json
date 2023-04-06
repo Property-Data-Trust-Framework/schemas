@@ -1,0 +1,2311 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v2/overlays/ta6.json",
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "materialFacts": {
+          "properties": {
+            "address": {
+              "ta6Ref": "0.1",
+              "title": "Property Address",
+              "properties": {
+                "line1": {
+                  "ta6Ref": "0.1.1",
+                  "title": "Address line 1"
+                },
+                "line2": {
+                  "ta6Ref": "0.1.2",
+                  "title": "Address line 2"
+                },
+                "line3": {
+                  "ta6Ref": "0.1.3",
+                  "title": "Address line 3"
+                },
+                "town": {
+                  "ta6Ref": "0.1.4",
+                  "title": "Town"
+                },
+                "postcode": {
+                  "ta6Ref": "0.1.5",
+                  "title": "Postcode"
+                }
+              }
+            },
+            "parking": {
+              "ta6Ref": "9",
+              "title": "Parking",
+              "properties": {
+                "parkingArrangements": {
+                  "ta6Ref": "9.1",
+                  "title": "Parking arrangements",
+                  "discriminator": {
+                    "propertyName": "parkingArrangementsType"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "parkingArrangementsType": {
+                          "enum": [
+                            "Garage",
+                            "Allocated parking space",
+                            "Driveway",
+                            "On street",
+                            "Resident permit",
+                            "Metered parking",
+                            "Communal parking",
+                            "None"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "parkingArrangementsType": {
+                          "enum": [
+                            "Other"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "controlledParking": {
+                  "ta6Ref": "9.2",
+                  "title": "Is the property in a controlled parking zone or within a local authority parking scheme?"
+                }
+              }
+            },
+            "listingAndConservation": {
+              "ta6Ref": "4.7",
+              "title": "Listing and Conservation",
+              "properties": {
+                "isListed": {
+                  "ta6Ref": "4.7a",
+                  "title": "Is the property a listed building in England or Wales?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "isConservationArea": {
+                  "ta6Ref": "4.7b",
+                  "title": "Is the property in a designated conservation area?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "hasTreePreservationOrder": {
+                  "ta6Ref": "4.8",
+                  "title": "To your knowledge, does a tree preservation order apply to any trees within the boundaries of the property?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "workCarriedOut": {
+                          "ta6Ref": "4.8a",
+                          "title": "Has work been carried out to any trees which are protected by the order?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "energyEfficiency": {
+              "properties": {
+                "certificate": {
+                  "properties": {
+                    "currentEnergyRating": {
+                      "ta6Ref": "7.6",
+                      "title": "Current energy efficiency rating",
+                      "description": "What is the energy efficiency rating of the property according to the latest Energy Performance Certificate (EPC)?",
+                      "enum": [
+                        "A",
+                        "B",
+                        "C",
+                        "D",
+                        "E",
+                        "F",
+                        "G",
+                        "Exempt Property",
+                        "Survey Instructed",
+                        "No Certificate"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "disputesAndComplaints": {
+              "properties": {
+                "hasDisputesAndComplaints": {
+                  "ta6Ref": "2.1",
+                  "title": "Have any disputes or complaints occurred, regarding this property, a property nearby, or their use?",
+                  "description": "E.g boundary disagreement, noise, trespass etc",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "leadingToDisputesAndComplaints": {
+                  "ta6Ref": "2.2",
+                  "title": "Is the seller aware of anything which might lead to a dispute about the property or a property nearby?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "alterationsAndChanges": {
+              "ta6Ref": "4.1",
+              "title": "Alterations and Changes to the Property",
+              "description": "Have any of the following changes been made to the whole or any part of the property (including the garden)?",
+              "properties": {
+                "hasStructuralAlterations": {
+                  "ta6Ref": "4.1a",
+                  "title": "Have there been any structural alterations, extensions, significant repairs or renewals to the property? (e.g. extensions, loft or garage conversion, removal of internal walls or chimneys)",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6Ref": "4.1a1",
+                          "title": "Please give details including dates of all work undertaken"
+                        },
+                        "buildingRegApproval": {
+                          "ta6Ref": "4.2",
+                          "title": "Was Building Regulation approval and a completion certificate obtained or an equivalent Competent Person Scheme Certificate?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "attachments": {
+                                  "ta6Ref": "4.2.2",
+                                  "title": "Please provide a copy of the documents",
+                                  "enum": [
+                                    "Attached",
+                                    "To follow"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                },
+                                "details": {
+                                  "ta6Ref": "4.2.3",
+                                  "title": "Please outline the reasons why",
+                                  "description": "e.g. the work was exempt from Building Regulations"
+                                }
+                              }
+                            }
+                          ],
+                          "properties": {
+                            "yesNo": {
+                              "ta6Ref": "4.2.1",
+                              "enum": [
+                                "Yes",
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        },
+                        "planningPermission": {
+                          "ta6Ref": "4.2.1",
+                          "title": "Was planning permission obtained?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "attachments": {
+                                  "ta6Ref": "4.2.2",
+                                  "title": "Please provide a copy of the documents",
+                                  "enum": [
+                                    "Attached",
+                                    "To follow"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                },
+                                "details": {
+                                  "ta6Ref": "4.2.3",
+                                  "title": "Please outline the reasons why",
+                                  "description": "e.g. permitted development rights applied"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "4.1a1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                "changeOfUse": {
+                  "ta6Ref": "4.1b",
+                  "title": "Has there been any change of use (e.g. from an office to a residence?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "buildingRegApproval": {
+                          "ta6Ref": "4.2",
+                          "title": "Was building regulation approval and a completion certificate obtained or an equivalent Competent Person Scheme Certificate?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "attachments": {
+                                  "ta6Ref": "4.2.2",
+                                  "title": "Please provide a copy of the documents",
+                                  "enum": [
+                                    "Attached",
+                                    "To follow"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                },
+                                "details": {
+                                  "ta6Ref": "4.2.3",
+                                  "title": "Please outline the reasons why",
+                                  "description": "e.g. the work was exempt from Building Regulations"
+                                }
+                              }
+                            }
+                          ],
+                          "properties": {
+                            "yesNo": {
+                              "ta6Ref": "4.2.1",
+                              "enum": [
+                                "Yes",
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        },
+                        "planningPermission": {
+                          "ta6Ref": "4.2",
+                          "title": "Was planning permission obtained?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "attachments": {
+                                  "ta6Ref": "4.2.2",
+                                  "title": "Please provide a copy of the documents",
+                                  "enum": [
+                                    "Attached",
+                                    "To follow"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                },
+                                "details": {
+                                  "ta6Ref": "4.2.3",
+                                  "title": "Please outline the reasons why",
+                                  "description": "e.g. permitted development rights applied"
+                                }
+                              }
+                            }
+                          ],
+                          "properties": {
+                            "yesNo": {
+                              "ta6Ref": "4.2.1",
+                              "enum": [
+                                "Yes",
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        },
+                        "listedBuildingConsent": {
+                          "ta6Ref": "4.2",
+                          "title": "Was listed building consent obtained?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "windowReplacementsSince2002": {
+                  "ta6Ref": "4.1c",
+                  "title": "Since 1st April 2002 has replacement of any windows, roof windows, roof lights, glazed doors taken place?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "buildingRegApproval": {
+                          "ta6Ref": "4.2",
+                          "title": "Was building regulation approval and a completion certificate obtained or an equivalent Competent Person Scheme Certificate?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "attachments": {
+                                  "ta6Ref": "4.2.2",
+                                  "title": "Please provide a copy of the documents",
+                                  "enum": [
+                                    "Attached",
+                                    "To follow"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                },
+                                "details": {
+                                  "ta6Ref": "4.2.3",
+                                  "title": "Please outline the reasons why",
+                                  "description": "e.g. the work was exempt from Building Regulations"
+                                }
+                              }
+                            }
+                          ],
+                          "properties": {
+                            "yesNo": {
+                              "ta6Ref": "4.2.1",
+                              "enum": [
+                                "Yes",
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        },
+                        "planningPermission": {
+                          "ta6Ref": "4.2",
+                          "title": "Was planning permission obtained?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "attachments": {
+                                  "ta6Ref": "4.2.2",
+                                  "title": "Please provide a copy of the documents",
+                                  "enum": [
+                                    "Attached",
+                                    "To follow"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                },
+                                "details": {
+                                  "ta6Ref": "4.2.3",
+                                  "title": "Please outline the reasons why",
+                                  "description": "e.g. permitted development rights applied"
+                                }
+                              }
+                            }
+                          ],
+                          "properties": {
+                            "yesNo": {
+                              "ta6Ref": "4.2.1",
+                              "enum": [
+                                "Yes",
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        },
+                        "listedBuildingConsent": {
+                          "oneOf": [
+                            null,
+                            {
+                              "properties": {
+                                "details": {
+                                  "ta6Ref": "4.2.3",
+                                  "title": "Please outline the reasons why"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "hasAddedConservatory": {
+                  "ta6Ref": "4.1d",
+                  "title": "Has a conservatory been added?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "buildingRegApproval": {
+                          "ta6Ref": "4.2",
+                          "title": "Was building regulation approval and a completion certificate obtained or an equivalent Competent Person Scheme Certificate?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "attachments": {
+                                  "ta6Ref": "4.2.2",
+                                  "title": "Please provide a copy of the documents",
+                                  "enum": [
+                                    "Attached",
+                                    "To follow"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                },
+                                "details": {
+                                  "ta6Ref": "4.2.3",
+                                  "title": "Please outline the reasons why",
+                                  "description": "e.g. the work was exempt from Building Regulations"
+                                }
+                              }
+                            }
+                          ],
+                          "properties": {
+                            "yesNo": {
+                              "ta6Ref": "4.2.1",
+                              "enum": [
+                                "Yes",
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        },
+                        "planningPermission": {
+                          "ta6Ref": "4.2",
+                          "title": "Was planning permission obtained?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "attachments": {
+                                  "ta6Ref": "4.2.2",
+                                  "title": "Please provide a copy of the documents",
+                                  "enum": [
+                                    "Attached",
+                                    "To follow"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                },
+                                "details": {
+                                  "ta6Ref": "4.2.3",
+                                  "title": "Please outline the reasons why",
+                                  "description": "e.g. permitted development rights applied"
+                                }
+                              }
+                            }
+                          ],
+                          "properties": {
+                            "yesNo": {
+                              "ta6Ref": "4.2.1",
+                              "enum": [
+                                "Yes",
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        },
+                        "listedBuildingConsent": {
+                          "ta6Ref": "4.2",
+                          "title": "Was listed building consent obtained?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "deedRestrictionConsent": {
+                          "ta6Ref": "4.2",
+                          "title": "Was any consent under a restriction in the deeds obtained? E.g. if your deeds require consent from someone else to alter or extend the property",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "worksUnfinished": {
+                  "ta6Ref": "4.3",
+                  "title": "Are any of the works listed above unfinished?",
+                  "description": "If yes, please provide details and explain why.",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "planningPermissionBreaches": {
+                  "ta6Ref": "4.4",
+                  "title": "Are you aware of any breaches of planning permission conditions or building regulations consent conditions or work not having the necessary consents?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "unresolvedPlanningIssues": {
+                  "ta6Ref": "4.5",
+                  "title": "Are you aware of any unresolved planning or building control issues?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "notices": {
+              "ta6Ref": "3",
+              "title": "Notices which Affect the Property",
+              "description": "Are you aware of, or have you received, any of the following notices?",
+              "properties": {
+                "neighbourDevelopment": {
+                  "ta6Ref": "3.1",
+                  "title": "The owner of a neighbouring property is proposing to develop property or land nearby, make alterations to nearby buildings or change the use?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "planningApplication": {
+                  "ta6Ref": "3.2",
+                  "title": "Any planning application that could affect the property, the enjoyment of it or the views from it?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "requiredMaintenance": {
+                  "ta6Ref": "3.1",
+                  "title": "Notice informing you that maintenance, repairs or improvements are required to your property?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "listedBuildingApplication": {
+                  "ta6Ref": "3.1",
+                  "title": "Listed building application",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "infrastructureProject": {
+                  "ta6Ref": "3.1",
+                  "title": "Infrastructure project, proposed or in progress (i.e. wind turbine, railway, fracking, etc)",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "partyWallAct": {
+                  "ta6Ref": "1.6",
+                  "title": "Notice under the Party Wall Act 1996 in respect of any shared or party boundaries?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "otherNotices": {
+                  "ta6Ref": "3.1",
+                  "title": "Any other type of notice",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "specialistIssues": {
+              "properties": {
+                "japaneseKnotweed": {
+                  "ta6Ref": "7.8",
+                  "title": "To your knowledge, is the property or neighbouring land, affected by Japanese knotweed or other invasive species?",
+                  "description": "If so ",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "connectedUtilities": {
+              "ta6Ref": "13",
+              "title": "Connected utilities",
+              "description": "Please indicate which utilities are are connected to the property.",
+              "properties": {
+                "mainsElectricity": {
+                  "ta6Ref": "13.1",
+                  "title": "Mains electricity",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "mainsGas": {
+                  "ta6Ref": "13.2",
+                  "title": "Mains gas",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "telephone": {
+                  "ta6Ref": "13.5",
+                  "title": "Telephone",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "cableSatelliteTV": {
+                  "ta6Ref": "13.6",
+                  "title": "Cable TV or satellite",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "solarPanels": {
+                  "ta6Ref": "4.6",
+                  "title": "Solar or photovoltaic panels",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "waterAndDrainage": {
+              "ta6Ref": "13",
+              "title": "Water and Drainage",
+              "description": "Please describe the water and drainage services that are connected to the property.",
+              "properties": {
+                "mainsWater": {
+                  "ta6Ref": "13.3",
+                  "title": "Mains water",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "mainsSurfaceWaterDrainage": {
+                  "ta6Ref": "12.4b",
+                  "title": "Mains surface water drainage",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "mainsFoulDrainage": {
+                  "ta6Ref": "12.4a",
+                  "title": "Mains foul drainage",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        },
+                        "septicTank": {
+                          "ta6Ref": "12.5a",
+                          "title": "Septic tank",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "dateReplaced": {
+                                  "ta6Ref": "12.5.1",
+                                  "title": "Date replaced or upgraded"
+                                },
+                                "dateLastEmptied": {
+                                  "ta6Ref": "12.7",
+                                  "title": "Date last emptied"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "cesspit": {
+                          "ta6Ref": "12.5b",
+                          "title": "Cesspit",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "sewerageTreatmentPlant": {
+                          "ta6Ref": "12.5a",
+                          "title": "Sewerage treatment plant",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "dateInstalled": {
+                                  "ta6Ref": "12.9",
+                                  "title": "Date installed"
+                                },
+                                "dateLastServiced": {
+                                  "ta6Ref": "12.8",
+                                  "title": "Date last serviced"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "otherConnectedProperties": {
+                          "ta6Ref": "12.6",
+                          "title": "Do other properties connect to the septic tank, cesspit or sewerage treatment plant?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "numberOfPropertiesSharing": {
+                                  "ta6Ref": "A7.1.1.2",
+                                  "title": "How many other properties?"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "plantOnOtherLand": {
+                          "ta6Ref": "12.10",
+                          "title": "Is any part of the septic tank, cesspit or sewerage treatment plant located on someone else’s land?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "attachments": {
+                                  "ta6Ref": "12.10.1",
+                                  "title": "Please supply a plan showing the location of the system and how access is obtained.",
+                                  "enum": [
+                                    "Attached",
+                                    "To follow"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "greenDealLoan": {
+              "properties": {
+                "hasGreenDealLoan": {
+                  "ta6Ref": "7.7",
+                  "title": "Is this property subject to a Green Deal loan or other financed home improvement scheme?",
+                  "description": "If yes, please provide details below including any outstanding payments for the renewable devices and any feed-in tariffs and a copy of your last electricity bill",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "centralHeating": {
+              "properties": {
+                "hasCentralHeating": {
+                  "ta6Ref": "12.3",
+                  "title": "Is there full/partial central heating in your property?",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              },
+              "oneOf": [
+                null,
+                {
+                  "properties": {
+                    "centralHeatingDetails": {
+                      "properties": {
+                        "centralHeatingFuel": {
+                          "properties": {
+                            "centralHeatingFuelType": {
+                              "ta6Ref": "12.3a",
+                              "title": "What type of fuel does the system and boiler run on?",
+                              "enum": [
+                                "Gas",
+                                "Electricity",
+                                "Oil",
+                                "LPG",
+                                "Other"
+                              ]
+                            }
+                          },
+                          "oneOf": [
+                            null,
+                            {
+                              "properties": {
+                                "otherCentralHeatingFuelType": {
+                                  "ta6Ref": "12.3a",
+                                  "title": "Please describe the other fuel type"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "centralHeatingInstalled": {
+                          "ta6Ref": "12.3b",
+                          "title": "When was the heating system and boiler installed?"
+                        },
+                        "boilerInstallationCertificate": {
+                          "ta6Ref": "12.3b",
+                          "title": "Was a gas boiler installed after 1st April 2005, or a solid fuel or oil boiler installed after 1st October 2010?",
+                          "description": "If yes, ",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "heatingLastServicedDate": {
+                          "ta6Ref": "12.3d",
+                          "title": "When was the heating system and boiler last serviced or maintained?"
+                        },
+                        "heatingInGoodWorkingOrder": {
+                          "ta6Ref": "12.3c",
+                          "title": "Is the heating system in good working order to your satisfaction?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "insurance": {
+              "ta6Ref": "6",
+              "title": "Insurance",
+              "discriminator": {
+                "propertyName": "isInsured"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "isInsured": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "isInsured": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "difficultiesObtainingInsurance": {
+                      "ta6Ref": "6.4",
+                      "title": "Have you had any difficulty obtaining competitively priced building insurance due to the structure or location of the property or had insurance refused?",
+                      "description": "(e.g. high premiums, excess over £1,500, special conditions etc)",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "insuranceClaims": {
+                      "ta6Ref": "6.5",
+                      "title": "Have you ever made a claim against your building insurance in relation to the property?",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "properties": {
+                "isInsured": {
+                  "ta6Ref": "6.1",
+                  "title": "Do you insure the property?",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              }
+            },
+            "boundaries": {
+              "ta6Ref": "1",
+              "title": "Boundaries",
+              "description": "You will need to check your title to answer these questions. If you do not have a copy, for a small fee to HM Land Registry, you can download both the title register and the title plan of the property at https://www.gov.uk/search-property-information-land-registry."
+            },
+            "rightsAndInformalArrangements": {
+              "ta6Ref": "8",
+              "title": "Rights and Informal Arrangements",
+              "properties": {
+                "sharedContributions": {
+                  "ta6Ref": "8.1",
+                  "title": "Other than service charges and estate rentcharges, do you have to contribute towards the shared cost of a jointly-used service such as a shared driveway, road, parking area, garden or drain?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "neighbouringLandRights": {
+                  "ta6Ref": "8.2",
+                  "title": "Do any rights and arrangements exist over neighbouring land from which the property benefits?  (e.g. taking wheelie bins along an accessway through a neighbour’s back garden, parking, access to maintain the boundaries from the neighbour’s side etc)",
+                  "description": "If yes,",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "accessRestrictionAttempts": {
+                  "ta6Ref": "8.3",
+                  "title": "Has anyone tried to stop you using an access way to the property or asked you to pay to use the access?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "rightsOrArrangements": {
+                  "ta6Ref": "8.4",
+                  "title": "Do you know if any of the following rights or arrangements affect the property?",
+                  "properties": {
+                    "publicRightOfWay": {
+                      "ta6Ref": "8.6",
+                      "title": "A public right of way through and/or across your property, buildings or land",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "rightsOfLightOrSupport": {
+                      "ta6Ref": "8.4a",
+                      "title": "Rights of light or support for other properties",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "rightsCreatedThroughCustom": {
+                      "ta6Ref": "8.4c",
+                      "title": "Rights created through custom or use (e.g. rights to graze on other land or forage, rights of the lord of the manor or others to take things from your property etc)",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "minesAndMinerals": {
+                      "ta6Ref": "8.5a",
+                      "title": "Mines and minerals under the property",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "churchChancel": {
+                      "ta6Ref": "8.5b",
+                      "title": "Liability to contribute to the maintenance of a church chancel?",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "otherRights": {
+                      "ta6Ref": "8.6",
+                      "title": "Any other rights or arrangements affecting the property?",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "environmentalIssues": {
+              "properties": {
+                "flooding": {
+                  "ta6Ref": "7.1",
+                  "title": "Flooding",
+                  "discriminator": {
+                    "propertyName": "hasBeenFlooded"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "hasBeenFlooded": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "hasBeenFlooded": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6Ref": "7.1",
+                          "title": "Please state when the flooding occurred and identify the parts that flooded"
+                        },
+                        "typeOfFlooding": {
+                          "ta6Ref": "7.2",
+                          "title": "What type of flooding occurred?",
+                          "properties": {
+                            "groundWater": {
+                              "ta6Ref": "7.2a",
+                              "title": "Ground water"
+                            },
+                            "sewer": {
+                              "ta6Ref": "7.2b",
+                              "title": "Sewer"
+                            },
+                            "surfaceWater": {
+                              "ta6Ref": "7.2c",
+                              "title": "Surface water"
+                            },
+                            "coastal": {
+                              "ta6Ref": "7.2d",
+                              "title": "Coastal flooding"
+                            },
+                            "river": {
+                              "ta6Ref": "7.2e",
+                              "title": "River flooding"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "floodRiskReport": {
+                      "ta6Ref": "7.3",
+                      "title": "Has a Flood Risk Report been prepared?",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "hasBeenFlooded": {
+                      "ta6Ref": "7.2",
+                      "title": "Has any part of the property (whether buildings or surrounding garden or land) ever been flooded?",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                "radon": {
+                  "ta6Ref": "7.4",
+                  "title": "Radon",
+                  "properties": {
+                    "radonTest": {
+                      "ta6Ref": "7.4",
+                      "title": "Has a Radon test been carried out on the property?",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "remedialMeasuresOnConstruction": {
+                      "ta6Ref": "7.5",
+                      "title": "Were any remedial measures undertaken on construction to reduce Radon gas levels on the property?"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
