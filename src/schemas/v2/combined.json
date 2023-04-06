@@ -155,6 +155,7 @@
             "insurance",
             "boundaries",
             "rightsAndInformalArrangements",
+            "environmentalIssues",
             "otherIssues",
             "additionalInformation",
             "consumerProtectionRegulationsDeclaration"
@@ -7051,7 +7052,8 @@
               "type": "object",
               "baspiRequired": [
                 "isStandardForm",
-                "hasFlammableExternalWallSystem"
+                "buildingSafetyRemediation",
+                "sprayFoamInsulation"
               ],
               "properties": {
                 "isStandardForm": {
@@ -7142,38 +7144,38 @@
                     }
                   ]
                 },
-                "hasSprayFoamInstalled": {
+                "sprayFoamInsulation": {
                   "baspiRef": "A1.8.4",
                   "title": "Has spray foam insulation been installed at the property?",
                   "type": "object",
                   "properties": {
-                    "yesNo": {
+                    "hasSprayFoamInstalled": {
                       "baspiRef": "A1.8.4.1",
                       "type": "string",
                       "title": "",
                       "enum": ["Yes", "No"]
                     }
                   },
-                  "baspiRequired": ["yesNo"],
+                  "baspiRequired": ["hasSprayFoamInstalled"],
                   "discriminator": {
-                    "propertyName": "yesNo"
+                    "propertyName": "hasSprayFoamInstalled"
                   },
                   "oneOf": [
                     {
                       "properties": {
-                        "yesNo": {
+                        "hasSprayFoamInstalled": {
                           "enum": ["No"]
                         }
                       }
                     },
                     {
                       "properties": {
-                        "yesNo": {
+                        "hasSprayFoamInstalled": {
                           "enum": ["Yes"]
                         },
                         "details": {
                           "baspiRef": "A1.8.4.2",
-                          "title": "Details",
+                          "title": "Please give details together with certification from BBA or KIWA and the installation warranty for the work carried out",
                           "type": "string",
                           "minLength": 1
                         },
@@ -7186,8 +7188,7 @@
                       },
                       "baspiRequired": ["details", "attachments"]
                     }
-                  ],
-                  "description": "If yes, please give details together with certification from BBA or KIWA and the installation warranty for the work carried out."
+                  ]
                 }
               }
             },
@@ -7196,6 +7197,7 @@
               "rdsRef": "Certificates/{category='energyEfficiency',standard='EPC',gradeLevelRating=?},Certificates/{category='energyEfficiency',standard='EPC',status='exempt'},",
               "title": "Energy Efficiency",
               "type": "object",
+              "baspiRequired": ["certificate"],
               "properties": {
                 "certificate": {
                   "baspiRef": "A1.8.3.1",

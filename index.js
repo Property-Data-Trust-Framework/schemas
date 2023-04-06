@@ -105,7 +105,8 @@ const getValidator = (schemaId, overlay = "baspiV4") => {
 };
 
 // common functions for v1 and v2
-const getSubschema = (path, sourceSchema = transactionSchema) => {
+const getSubschema = (path, schemaId, overlay) => {
+  const sourceSchema = getTransactionSchema(schemaId, overlay);
   const pathArray = path.split("/").slice(1);
   if (pathArray.length < 1) return sourceSchema;
   return pathArray.reduce((schema, pathElement) => {
@@ -127,23 +128,25 @@ const getSubschema = (path, sourceSchema = transactionSchema) => {
   }, sourceSchema);
 };
 
-const isPathValid = (path, schema = transactionSchema) => {
+const isPathValid = (path, schemaId, overlay) => {
+  const schema = getTransactionSchema(schemaId, overlay);
   try {
-    return getSubschema(path, schema) !== undefined;
+    return getSubschema(path, schemaId, overlay) !== undefined;
   } catch (err) {
     return false;
   }
 };
 
-const getSubschemaValidator = (path, schema = transactionSchema) => {
-  const subSchema = getSubschema(path, schema);
+const getSubschemaValidator = (path, schemaId, overlay) => {
+  const subSchema = getSubschema(path, schemaId, overlay);
   // see if we can retrieve the schema by path
-  let validator = ajv.getSchema(path);
+  const cacheKey = `${path}-${schemaId}`;
+  let validator = ajv.getSchema(cacheKey);
   // retrieve whole schema by $id if available
-  if (!validator && subSchema.$id) validator = ajv.getSchema(subSchema.$id);
+  if (!validator && subSchema.$id) validator = ajv.getSchema(cacheKey);
   if (!validator) {
-    ajv.addSchema(subSchema, path);
-    validator = ajv.getSchema(path);
+    ajv.addSchema(subSchema, cacheKey);
+    validator = ajv.getSchema(cacheKey);
   }
   return validator;
 };

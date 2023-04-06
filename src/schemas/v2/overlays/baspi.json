@@ -61,6 +61,7 @@
             "insurance",
             "boundaries",
             "rightsAndInformalArrangements",
+            "environmentalIssues",
             "otherIssues",
             "additionalInformation",
             "consumerProtectionRegulationsDeclaration"
@@ -1204,7 +1205,8 @@
               "title": "Type of Construction",
               "required": [
                 "isStandardForm",
-                "hasFlammableExternalWallSystem"
+                "buildingSafetyRemediation",
+                "sprayFoamInsulation"
               ],
               "properties": {
                 "isStandardForm": {
@@ -1309,17 +1311,16 @@
                     }
                   }
                 },
-                "hasSprayFoamInstalled": {
+                "sprayFoamInsulation": {
                   "baspiRef": "A1.8.4",
                   "title": "Has spray foam insulation been installed at the property?",
-                  "description": "If yes, please give details together with certification from BBA or KIWA and the installation warranty for the work carried out.",
                   "discriminator": {
-                    "propertyName": "yesNo"
+                    "propertyName": "hasSprayFoamInstalled"
                   },
                   "oneOf": [
                     {
                       "properties": {
-                        "yesNo": {
+                        "hasSprayFoamInstalled": {
                           "enum": [
                             "No"
                           ]
@@ -1328,14 +1329,14 @@
                     },
                     {
                       "properties": {
-                        "yesNo": {
+                        "hasSprayFoamInstalled": {
                           "enum": [
                             "Yes"
                           ]
                         },
                         "details": {
                           "baspiRef": "A1.8.4.2",
-                          "title": "Details"
+                          "title": "Please give details together with certification from BBA or KIWA and the installation warranty for the work carried out"
                         },
                         "attachments": {
                           "baspiRef": "A1.8.4.3",
@@ -1353,10 +1354,10 @@
                     }
                   ],
                   "required": [
-                    "yesNo"
+                    "hasSprayFoamInstalled"
                   ],
                   "properties": {
-                    "yesNo": {
+                    "hasSprayFoamInstalled": {
                       "baspiRef": "A1.8.4.1",
                       "enum": [
                         "Yes",
@@ -1370,6 +1371,9 @@
             "energyEfficiency": {
               "baspiRef": "A1.8.3",
               "title": "Energy Efficiency",
+              "required": [
+                "certificate"
+              ],
               "properties": {
                 "certificate": {
                   "baspiRef": "A1.8.3.1",
