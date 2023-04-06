@@ -182,6 +182,7 @@
                 "ownershipsToBeTransferred": {
                   "baspiRef": "A1.3",
                   "title": "Ownerships to be transferred on sale",
+                  "minItems": 1,
                   "items": {
                     "baspiRef": "A1.3.0",
                     "title": "Ownership to be transferred",
@@ -249,6 +250,10 @@
                           "managedFreeholdOrCommonholdInformation": {
                             "baspiRef": "A1.5",
                             "title": "Managed freehold or commonhold information",
+                            "required": [
+                              "contactDetails",
+                              "serviceCharge"
+                            ],
                             "properties": {
                               "contactDetails": {
                                 "properties": {
@@ -305,7 +310,10 @@
                               }
                             }
                           }
-                        }
+                        },
+                        "required": [
+                          "managedFreeholdOrCommonholdInformation"
+                        ]
                       },
                       {
                         "properties": {
@@ -320,7 +328,7 @@
                             "required": [
                               "contactDetails",
                               "groundRent",
-                              "ownershipAndManagement",
+                              "transferAndRegistration",
                               "serviceCharge",
                               "general"
                             ],
@@ -328,16 +336,28 @@
                               "contactDetails": {
                                 "baspiRef": "A1.5.4",
                                 "title": "Contact Details",
+                                "required": [
+                                  "contacts"
+                                ],
                                 "properties": {
                                   "contacts": {
                                     "baspiRef": "A1.5.4.",
                                     "title": "Contacts",
                                     "description": "Complete the details for the relevant parties",
+                                    "required": [
+                                      "landlord",
+                                      "managingAgent"
+                                    ],
                                     "properties": {
                                       "landlord": {
                                         "baspiRef": "A1.5.4",
                                         "title": "Landlord",
                                         "description": "The landlord (or freeholder) may be, for example, a private individual, a housing association, or a management company owned by the residents",
+                                        "required": [
+                                          "nameOrOrganisation",
+                                          "address",
+                                          "emailAddress"
+                                        ],
                                         "properties": {
                                           "contact": {
                                             "baspiRef": "A1.5.4.1",
@@ -349,6 +369,10 @@
                                               "address": {
                                                 "baspiRef": "A1.5.4.1.2",
                                                 "title": "Address",
+                                                "required": [
+                                                  "line1",
+                                                  "postcode"
+                                                ],
                                                 "properties": {
                                                   "line1": {
                                                     "baspiRef": "A1.5.4.1.2.1",
@@ -387,6 +411,11 @@
                                         "properties": {
                                           "contact": {
                                             "baspiRef": "A1.5.5.1",
+                                            "required": [
+                                              "nameOrOrganisation",
+                                              "address",
+                                              "emailAddress"
+                                            ],
                                             "properties": {
                                               "nameOrOrganisation": {
                                                 "baspiRef": "A1.5.5.1.1",
@@ -395,6 +424,10 @@
                                               "address": {
                                                 "baspiRef": "A1.5.5.1.2",
                                                 "title": "Address",
+                                                "required": [
+                                                  "line1",
+                                                  "postcode"
+                                                ],
                                                 "properties": {
                                                   "line1": {
                                                     "baspiRef": "A1.5.5.1.2.1",
@@ -425,12 +458,28 @@
                                             }
                                           }
                                         }
+                                      },
+                                      "residentTenantsAssociation": {
+                                        "properties": {
+                                          "contact": {
+                                            "required": [
+                                              "nameOrOrganisation",
+                                              "line1",
+                                              "postcode"
+                                            ]
+                                          }
+                                        }
                                       }
                                     }
                                   }
                                 }
                               },
                               "transferAndRegistration": {
+                                "baspiRef": "A1.5.6",
+                                "title": "Transfer and Registration",
+                                "required": [
+                                  "requirementsToBeMemberOfManagementCompany"
+                                ],
                                 "properties": {
                                   "requirementsToBeMemberOfManagementCompany": {
                                     "baspiRef": "A1.5.6",
@@ -494,7 +543,7 @@
                                       },
                                       "rentSubjectToIncrease": {
                                         "baspiRef": "A1.4.2.3",
-                                        "title": "Is the rent subject to increase?",
+                                        "title": "Is the ground rent subject to increase?",
                                         "discriminator": {
                                           "propertyName": "yesNo"
                                         },
@@ -515,7 +564,7 @@
                                                   "Yes"
                                                 ]
                                               },
-                                              "rentReviewed": {
+                                              "rentReviewFrequency": {
                                                 "baspiRef": "A1.4.2.3.1",
                                                 "title": "How often is the rent reviewed?"
                                               },
@@ -526,7 +575,7 @@
                                               }
                                             },
                                             "required": [
-                                              "rentReviewed",
+                                              "rentReviewFrequency",
                                               "rentIncreaseCalculated"
                                             ]
                                           }
@@ -535,7 +584,11 @@
                                           "yesNo"
                                         ]
                                       }
-                                    }
+                                    },
+                                    "required": [
+                                      "annualGroundRent",
+                                      "rentSubjectToIncrease"
+                                    ]
                                   }
                                 ],
                                 "required": [
@@ -661,7 +714,7 @@
                                         "properties": {
                                           "leaseholdType": {
                                             "enum": [
-                                              "Shared Ownership"
+                                              "Shared ownership"
                                             ]
                                           },
                                           "sharedOwnershipPercentage": {
@@ -699,7 +752,7 @@
                                         "description": "‘Flat’ includes maisonette and apartment.",
                                         "enum": [
                                           "Flat",
-                                          "Shared Ownership",
+                                          "Shared ownership",
                                           "Long leasehold house"
                                         ]
                                       }
@@ -722,7 +775,10 @@
                               }
                             }
                           }
-                        }
+                        },
+                        "required": [
+                          "leaseholdInformation"
+                        ]
                       },
                       {
                         "properties": {
@@ -6775,6 +6831,7 @@
                 "namesOfLegalOwners": {
                   "baspiRef": "B1.1",
                   "title": "Names of all legal owners",
+                  "minItems": 1,
                   "items": {
                     "baspiRef": "B1.1",
                     "title": "Legal owner",

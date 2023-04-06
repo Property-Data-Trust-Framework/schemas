@@ -26,7 +26,22 @@ const overlayIncludeProperties = [
   "description",
   "enum",
   "discriminator",
+  "minItems",
 ];
+
+const combineMerge = (target, source, options) => {
+  const destination = target.slice();
+  source.forEach((item, index) => {
+    if (typeof destination[index] === "undefined") {
+      destination[index] = options.cloneUnlessOtherwiseSpecified(item, options);
+    } else if (options.isMergeableObject(item)) {
+      destination[index] = merge(target[index], item, options);
+    } else if (target.indexOf(item) === -1) {
+      destination.push(item);
+    }
+  });
+  return destination;
+};
 
 const extractOverlay = (sourceSchema, ref) => {
   const refName = `${ref}Ref`;
@@ -75,6 +90,8 @@ const deleteProperties = (sourceSchema, propertyNames) => {
   return sourceSchema;
 };
 
+const overlays = {};
+
 extractFields.forEach((key) => {
   let overlay = extractOverlay(combinedSchema, key, [
     "title",
@@ -82,6 +99,7 @@ extractFields.forEach((key) => {
     "enum",
     "discriminator",
   ]);
+  overlays[key] = overlay;
   const fileName = `../schemas/v2/overlays/${key}.json`;
   fs.writeFileSync(fileName, JSON.stringify(overlay, null, 2));
   console.log(`Overlay ${key} written to ${fileName}`);
@@ -98,3 +116,13 @@ fs.writeFileSync(
   JSON.stringify(coreSchema, null, 2)
 );
 console.log("Core schema written to ../schemas/v2/core.json");
+console.log(overlays.baspi);
+const mergedSchema = merge(overlays.baspi, coreSchema, {
+  arrayMerge: combineMerge,
+});
+
+fs.writeFileSync(
+  "../schemas/v2/merged.json",
+  JSON.stringify(mergedSchema, null, 2)
+);
+console.log("Merged schema written to ../schemas/v2/merged.json");
