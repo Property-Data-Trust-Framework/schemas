@@ -4047,6 +4047,96 @@
                                         },
                                         "type": "object"
                                       },
+                                      "reserveFund": {
+                                        "baspiRef": "1.5.2.1",
+                                        "title": "Does a Reserve Fund apply to the Managed Area?",
+                                        "discriminator": {
+                                          "propertyName": "yesNo"
+                                        },
+                                        "oneOf": [
+                                          {
+                                            "properties": {
+                                              "yesNo": {
+                                                "enum": [
+                                                  "No"
+                                                ]
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "properties": {
+                                              "yesNo": {
+                                                "enum": [
+                                                  "Yes"
+                                                ]
+                                              },
+                                              "details": {
+                                                "baspiRef": "1.5.2.1.2",
+                                                "title": "Provide details",
+                                                "type": "string",
+                                                "minLength": 1
+                                              },
+                                              "sufficentToCoverSection20Expenditure": {
+                                                "title": "Is the amount expected to be sufficient to cover the known Section 20 expenditure?",
+                                                "type": "object",
+                                                "properties": {
+                                                  "yesNo": {
+                                                    "type": "string",
+                                                    "title": "",
+                                                    "enum": [
+                                                      "Yes",
+                                                      "No"
+                                                    ]
+                                                  }
+                                                },
+                                                "oneOf": [
+                                                  {
+                                                    "properties": {
+                                                      "yesNo": {
+                                                        "enum": [
+                                                          "Yes"
+                                                        ]
+                                                      }
+                                                    }
+                                                  },
+                                                  {
+                                                    "properties": {
+                                                      "yesNo": {
+                                                        "enum": [
+                                                          "No"
+                                                        ]
+                                                      },
+                                                      "details": {
+                                                        "title": "Supply details",
+                                                        "type": "string",
+                                                        "minLength": 1
+                                                      }
+                                                    }
+                                                  }
+                                                ]
+                                              }
+                                            },
+                                            "required": [
+                                              "details"
+                                            ]
+                                          }
+                                        ],
+                                        "required": [
+                                          "yesNo"
+                                        ],
+                                        "properties": {
+                                          "yesNo": {
+                                            "baspiRef": "1.5.2.1.1",
+                                            "enum": [
+                                              "Yes",
+                                              "No"
+                                            ],
+                                            "type": "string",
+                                            "title": ""
+                                          }
+                                        },
+                                        "type": "object"
+                                      },
                                       "problemInServiceChargeLevel": {
                                         "title": "Does the seller know of any problems in the last three years regarding the level of service charges or with the management? If Yes, please give details:",
                                         "type": "object",
@@ -4256,7 +4346,7 @@
                                       },
                                       "excessPaymentAnticipated": {
                                         "type": "object",
-                                        "title": " Is any excess payment anticipated for the Property at the end of the financial year?",
+                                        "title": "Is any excess payment anticipated for the Property at the end of the financial year?",
                                         "properties": {
                                           "yesNo": {
                                             "type": "string",
@@ -4343,84 +4433,6 @@
                                                 "title": "Provide details",
                                                 "type": "string",
                                                 "minLength": 1
-                                              }
-                                            }
-                                          }
-                                        ]
-                                      },
-                                      "reserveFund": {
-                                        "type": "object",
-                                        "title": "Does a Reserve Fund apply to the Managed Area?",
-                                        "properties": {
-                                          "yesNo": {
-                                            "type": "string",
-                                            "title": "",
-                                            "enum": [
-                                              "Yes",
-                                              "No"
-                                            ]
-                                          }
-                                        },
-                                        "oneOf": [
-                                          {
-                                            "properties": {
-                                              "yesNo": {
-                                                "enum": [
-                                                  "No"
-                                                ]
-                                              }
-                                            }
-                                          },
-                                          {
-                                            "properties": {
-                                              "yesNo": {
-                                                "enum": [
-                                                  "Yes"
-                                                ]
-                                              },
-                                              "details": {
-                                                "title": "Provide details",
-                                                "type": "string",
-                                                "minLength": 1
-                                              },
-                                              "sufficentToCoverSection20Expenditure": {
-                                                "title": "Is the amount expected to be sufficient to cover the known Section 20 expenditure?",
-                                                "type": "object",
-                                                "properties": {
-                                                  "yesNo": {
-                                                    "type": "string",
-                                                    "title": "",
-                                                    "enum": [
-                                                      "Yes",
-                                                      "No"
-                                                    ]
-                                                  }
-                                                },
-                                                "oneOf": [
-                                                  {
-                                                    "properties": {
-                                                      "yesNo": {
-                                                        "enum": [
-                                                          "Yes"
-                                                        ]
-                                                      }
-                                                    }
-                                                  },
-                                                  {
-                                                    "properties": {
-                                                      "yesNo": {
-                                                        "enum": [
-                                                          "No"
-                                                        ]
-                                                      },
-                                                      "details": {
-                                                        "title": "Supply details",
-                                                        "type": "string",
-                                                        "minLength": 1
-                                                      }
-                                                    }
-                                                  }
-                                                ]
                                               }
                                             }
                                           }
@@ -4769,7 +4781,12 @@
                                           }
                                         }
                                       }
-                                    }
+                                    },
+                                    "required": [
+                                      "annualServiceCharge",
+                                      "largeAdditionalExpense",
+                                      "reserveFund"
+                                    ]
                                   }
                                 ],
                                 "required": [
@@ -15166,7 +15183,7 @@
                     "titleDefectInsurance": {
                       "baspiRef": "B5.3",
                       "title": "Do you have any title defect insurance policies?",
-                      "description": " e.g. for breach of planning permission, buildings regulations, restrictions, chancel repair etc",
+                      "description": "e.g. for breach of planning permission, buildings regulations, restrictions, chancel repair etc",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
