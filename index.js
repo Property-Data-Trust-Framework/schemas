@@ -58,7 +58,7 @@ const baspiOverlay = require("./src/schemas/v2/overlays/baspi.json");
 // const rdsOverlay = require("./src/schemas/v2/overlays/rds.json");
 // const oc1Overlay = require("./src/schemas/v2/overlays/oc1.json");
 
-const overlays = { baspiV4: baspiOverlay };
+const overlays = { baspiV4: baspiOverlay, null: {} };
 
 const transactionSchemas = {
   "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json":
@@ -139,8 +139,8 @@ const isPathValid = (path, schemaId, overlay) => {
 
 const getSubschemaValidator = (path, schemaId, overlay) => {
   const subSchema = getSubschema(path, schemaId, overlay);
-  // see if we can retrieve the schema by path
-  const cacheKey = `${path}-${schemaId}`;
+  // see if we can retrieve the schema by path, schemaId and overlay
+  const cacheKey = `${path}-${schemaId}-${overlay}`;
   let validator = ajv.getSchema(cacheKey);
   // retrieve whole schema by $id if available
   if (!validator && subSchema.$id) validator = ajv.getSchema(cacheKey);
@@ -195,7 +195,7 @@ const getTitleAtPath = (schema, path, rootPath = path) => {
   }
 };
 
-const validateVerifiedClaims = (verifiedClaims) => {
+const validateVerifiedClaims = (verifiedClaims, schemaId, overlay) => {
   const validatorVClaims = ajv.compile(verifiedClaimsSchema);
 
   const validationErrorsArr = [];
@@ -213,11 +213,10 @@ const validateVerifiedClaims = (verifiedClaims) => {
 
   verifiedClaimsArray.forEach((claim) => {
     const paths = Object.keys(claim.claims);
-
     for (const path of paths) {
-      const validPath = isPathValid(path);
+      const validPath = isPathValid(path, schemaId, overlay);
       if (validPath) {
-        const subValidator = getSubschemaValidator(path);
+        const subValidator = getSubschemaValidator(path, schemaId, overlay);
         const isValid = subValidator(claim.claims[path]);
         if (!isValid) {
           validationErrorsArr.push(...subValidator.errors);
