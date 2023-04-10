@@ -112,17 +112,7 @@ const coreSchema = deleteProperties(combinedSchema, [
 ]);
 
 fs.writeFileSync(
-  "../schemas/v2/core.json",
+  "../schemas/v2/pdtf-transaction.json",
   JSON.stringify(coreSchema, null, 2)
 );
-console.log("Core schema written to ../schemas/v2/core.json");
-console.log(overlays.baspi);
-const mergedSchema = merge(overlays.baspi, coreSchema, {
-  arrayMerge: combineMerge,
-});
-
-fs.writeFileSync(
-  "../schemas/v2/merged.json",
-  JSON.stringify(mergedSchema, null, 2)
-);
-console.log("Merged schema written to ../schemas/v2/merged.json");
+console.log("Core schema written to ../schemas/v2/pdtf-transaction.json");

@@ -45,7 +45,7 @@ const validator = ajv.compile(transactionSchema);
 
 // v2, via accessor functions and overlays
 const combinedSchema = require("./src/schemas/v2/combined.json");
-const coreSchema = require("./src/schemas/v2/core.json");
+const v2CoreSchema = require("./src/schemas/v2/pdtf-transaction.json");
 
 const baspiOverlay = require("./src/schemas/v2/overlays/baspi.json");
 // const ta6Overlay = require("./src/schemas/v2/overlays/ta6.json");
@@ -63,7 +63,8 @@ const overlays = { baspiV4: baspiOverlay, null: {} };
 const transactionSchemas = {
   "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json":
     transactionSchema,
-  "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json": coreSchema,
+  "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json":
+    v2CoreSchema,
 };
 
 const combineMerge = (target, source, options) => {
