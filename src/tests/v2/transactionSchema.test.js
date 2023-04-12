@@ -110,7 +110,9 @@ test("correctly gets a subschema through a dependency", () => {
     "/propertyPack/materialFacts/delayFactors/hasDelayFactors/details",
     schemaId
   );
-  expect(subschema.title).toBe("Details");
+  expect(subschema.title).toBe(
+    "Provide details and likely timescale for delay (if known)"
+  );
 });
 
 test("correctly gets another subschema through a dependency", () => {

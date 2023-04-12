@@ -118,7 +118,7 @@
                 "hasDelayFactors": {
                   "baspiRef": "A1.2.1",
                   "title": "Are you aware of any factors which might delay or complicate the sale?",
-                  "description": "E.g. family split, pending application for grant of probate, absent seller or unregistered title? If yes, provide details and likely timescale for delay (if known)",
+                  "description": "E.g. family split, pending application for grant of probate, absent seller or unregistered title?",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -141,7 +141,7 @@
                         },
                         "details": {
                           "baspiRef": "A1.2.2",
-                          "title": "Details"
+                          "title": "Provide details and likely timescale for delay (if known)"
                         },
                         "attachments": {
                           "baspiRef": "A1.2.3",
@@ -223,7 +223,7 @@
                                   },
                                   "details": {
                                     "baspiRef": "A1.3.0.2.2",
-                                    "title": "describe the share for sale (e.g. Ground floor flat only)"
+                                    "title": "Describe the share for sale (e.g. Ground floor flat only)"
                                   }
                                 },
                                 "required": [
@@ -233,7 +233,16 @@
                             ],
                             "required": [
                               "yesNo"
-                            ]
+                            ],
+                            "properties": {
+                              "yesNo": {
+                                "baspiRef": "A1.3.0.2.1",
+                                "enum": [
+                                  "Yes",
+                                  "No"
+                                ]
+                              }
+                            }
                           }
                         },
                         "required": [
@@ -260,7 +269,25 @@
                                 "properties": {
                                   "rentchargeOwner": {
                                     "baspiRef": "A1.5.4",
-                                    "title": "Rentcharge Owner"
+                                    "title": "Rentcharge Owner",
+                                    "properties": {
+                                      "contact": {
+                                        "required": [
+                                          "nameOrOrganisation",
+                                          "line1",
+                                          "postcode",
+                                          "emailAddress"
+                                        ],
+                                        "properties": {
+                                          "address": {
+                                            "required": [
+                                              "line1",
+                                              "postcode"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
                                   },
                                   "managingAgent": {
                                     "baspiRef": "A1.5.5",
@@ -268,6 +295,13 @@
                                     "properties": {
                                       "contact": {
                                         "baspiRef": "A1.5.5.1",
+                                        "required": [
+                                          "nameOrOrganisation",
+                                          "line1",
+                                          "postcode",
+                                          "telephone",
+                                          "emailAddress"
+                                        ],
                                         "properties": {
                                           "nameOrOrganisation": {
                                             "baspiRef": "A1.5.5.1.1",
@@ -276,6 +310,10 @@
                                           "address": {
                                             "baspiRef": "A1.5.5.1.2",
                                             "title": "Address",
+                                            "required": [
+                                              "line1",
+                                              "postcode"
+                                            ],
                                             "properties": {
                                               "line1": {
                                                 "baspiRef": "A1.5.5.1.2.1",
@@ -2774,7 +2812,6 @@
                 "worksUnfinished": {
                   "baspiRef": "A3.6",
                   "title": "Are any of the works listed above unfinished?",
-                  "description": "If yes, please provide details and explain why.",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -2797,7 +2834,7 @@
                         },
                         "details": {
                           "baspiRef": "A3.6.2",
-                          "title": "Details"
+                          "title": "Please provide details and explain why"
                         },
                         "attachments": {
                           "baspiRef": "A3.6.3",
@@ -3303,7 +3340,7 @@
                 },
                 "otherNotices": {
                   "baspiRef": "A4.7",
-                  "title": "Any other type of notice",
+                  "title": "Any other type of notice?",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -3427,7 +3464,6 @@
                 "containsAsbestos": {
                   "baspiRef": "A5.2",
                   "title": "To your knowledge, does any part of your property contain asbestos?",
-                  "description": "If yes, please state whether there is a management plan in place and attach a copy",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -3450,7 +3486,7 @@
                         },
                         "details": {
                           "baspiRef": "A5.2.2",
-                          "title": "Details"
+                          "title": "Please state whether there is a management plan in place and attach a copy"
                         },
                         "attachments": {
                           "baspiRef": "A5.2.3",
@@ -3483,7 +3519,6 @@
                 "japaneseKnotweed": {
                   "baspiRef": "A5.3",
                   "title": "To your knowledge, is the property or neighbouring land, affected by Japanese knotweed or other invasive species?",
-                  "description": "If so ",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -4831,6 +4866,10 @@
                                     "Yes"
                                   ]
                                 },
+                                "numberOfPropertiesSharing": {
+                                  "baspiRef": "A7.1.1.1",
+                                  "title": "How many other properties?"
+                                },
                                 "details": {
                                   "baspiRef": "A7.1.1.2",
                                   "title": "Provide details of the properties sharing the system and explain how maintenance of the system is arranged and paid for"
@@ -5100,7 +5139,6 @@
                 "hasGreenDealLoan": {
                   "baspiRef": "A7.3",
                   "title": "Is this property subject to a Green Deal loan or other financed home improvement scheme?",
-                  "description": "If yes, please provide details below including any outstanding payments for the renewable devices and any feed-in tariffs and a copy of your last electricity bill",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -5123,7 +5161,7 @@
                         },
                         "details": {
                           "baspiRef": "A7.3.2",
-                          "title": "Details"
+                          "title": "Please provide details below including any outstanding payments for the renewable devices and any feed-in tariffs and a copy of your last electricity bill"
                         },
                         "attachments": {
                           "baspiRef": "A7.3.3",
@@ -5247,7 +5285,6 @@
                         "boilerInstallationCertificate": {
                           "baspiRef": "A7.4.1.1",
                           "title": "Was a gas boiler installed after 1st April 2005, or a solid fuel or oil boiler installed after 1st October 2010?",
-                          "description": "If yes, ",
                           "discriminator": {
                             "propertyName": "yesNo"
                           },
@@ -5785,7 +5822,6 @@
                 "neighbouringLandRights": {
                   "baspiRef": "A10.2",
                   "title": "Do any rights and arrangements exist over neighbouring land from which the property benefits?  (e.g. taking wheelie bins along an accessway through a neighbour’s back garden, parking, access to maintain the boundaries from the neighbour’s side etc)",
-                  "description": "If yes,",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -8965,7 +9001,7 @@
                 },
                 "confirmInformationIsAccurate": {
                   "baspiRef": "B8.2",
-                  "title": "I/we confirm that all information provided is accurate to the best of our knowledge and if we become aware of any change to/changes which alter the information supplied/provided prior to exchange of contracts for the sale of the property, I/we will update immediately notify the person marketing the property as well as my/our property lawyer. All sellers should sign this form"
+                  "title": "I/we confirm that all information provided is accurate to the best of our knowledge and if we become aware of any change to/changes which alter the information supplied/provided prior to exchange of contracts for the sale of the property, I/we will update immediately notify the person marketing the property as well as my/our property lawyer"
                 }
               }
             }
