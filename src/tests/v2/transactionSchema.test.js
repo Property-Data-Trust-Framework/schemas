@@ -117,7 +117,7 @@ test("correctly gets a subschema through a dependency", () => {
 
 test("correctly gets another subschema through a dependency", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/leaseholdInformation/general/leaseTerm/lengthOfLeaseInYears",
+    "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/leaseholdInformation/leaseTerm/lengthOfLeaseInYears",
     schemaId
   );
   expect(subschema.title).toBe("Length of lease (years)");
@@ -200,7 +200,7 @@ test("correctly gets titles across schemas, arrays and non-existient title prope
   expect(
     getTitleAtPath(
       v2TransactionSchema,
-      "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/leaseholdInformation/general/leaseTerm/lengthOfLeaseInYears"
+      "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/leaseholdInformation/leaseTerm/lengthOfLeaseInYears"
     )
   ).toBe("Length of lease (years)");
   expect(

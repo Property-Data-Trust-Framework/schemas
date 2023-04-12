@@ -365,13 +365,95 @@
                             "baspiRef": "A1.5",
                             "title": "Leasehold information",
                             "required": [
+                              "typeOfLeasehold",
+                              "leaseTerm",
                               "contactDetails",
                               "groundRent",
                               "transferAndRegistration",
-                              "serviceCharge",
-                              "general"
+                              "serviceCharge"
                             ],
                             "properties": {
+                              "typeOfLeasehold": {
+                                "baspiRef": "A1.3.1",
+                                "discriminator": {
+                                  "propertyName": "leaseholdType"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "leaseholdType": {
+                                        "enum": [
+                                          "Flat",
+                                          "Long leasehold house"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "leaseholdType": {
+                                        "enum": [
+                                          "Shared ownership"
+                                        ]
+                                      },
+                                      "sharedOwnershipPercentage": {
+                                        "baspiRef": "A1.3.1.1",
+                                        "title": "Shared ownership percentage"
+                                      },
+                                      "sharedOwnershipRent": {
+                                        "baspiRef": "A1.3.1.2",
+                                        "title": "Shared ownership rent (£)"
+                                      },
+                                      "sharedOwnershipRentFrequency": {
+                                        "baspiRef": "A1.3.1.3",
+                                        "title": "Shared ownership rent frequency",
+                                        "enum": [
+                                          "Yearly",
+                                          "Monthly",
+                                          "Weekly"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "sharedOwnershipPercentage",
+                                      "sharedOwnershipRent",
+                                      "sharedOwnershipRentFrequency"
+                                    ]
+                                  }
+                                ],
+                                "required": [
+                                  "leaseholdType"
+                                ],
+                                "properties": {
+                                  "leaseholdType": {
+                                    "baspiRef": "A1.3.1",
+                                    "title": "What type of leasehold property does the seller own?",
+                                    "description": "‘Flat’ includes maisonette and apartment.",
+                                    "enum": [
+                                      "Flat",
+                                      "Shared ownership",
+                                      "Long leasehold house"
+                                    ]
+                                  }
+                                }
+                              },
+                              "leaseTerm": {
+                                "baspiRef": "A1.4.1",
+                                "required": [
+                                  "startYearOfLease",
+                                  "lengthOfLeaseInYears"
+                                ],
+                                "properties": {
+                                  "startYearOfLease": {
+                                    "baspiRef": "A1.4.1.1",
+                                    "title": "Year that the lease commenced"
+                                  },
+                                  "lengthOfLeaseInYears": {
+                                    "baspiRef": "A1.4.1.2",
+                                    "title": "Length of lease (years)"
+                                  }
+                                }
+                              },
                               "contactDetails": {
                                 "baspiRef": "A1.5.4",
                                 "title": "Contact Details",
@@ -779,95 +861,6 @@
                                       "Yes",
                                       "No"
                                     ]
-                                  }
-                                }
-                              },
-                              "general": {
-                                "required": [
-                                  "typeOfLeasehold",
-                                  "leaseTerm"
-                                ],
-                                "properties": {
-                                  "typeOfLeasehold": {
-                                    "baspiRef": "A1.3.1",
-                                    "discriminator": {
-                                      "propertyName": "leaseholdType"
-                                    },
-                                    "oneOf": [
-                                      {
-                                        "properties": {
-                                          "leaseholdType": {
-                                            "enum": [
-                                              "Flat",
-                                              "Long leasehold house"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "leaseholdType": {
-                                            "enum": [
-                                              "Shared ownership"
-                                            ]
-                                          },
-                                          "sharedOwnershipPercentage": {
-                                            "baspiRef": "A1.3.1.1",
-                                            "title": "Shared ownership percentage"
-                                          },
-                                          "sharedOwnershipRent": {
-                                            "baspiRef": "A1.3.1.2",
-                                            "title": "Shared ownership rent (£)"
-                                          },
-                                          "sharedOwnershipRentFrequency": {
-                                            "baspiRef": "A1.3.1.3",
-                                            "title": "Shared ownership rent frequency",
-                                            "enum": [
-                                              "Yearly",
-                                              "Monthly",
-                                              "Weekly"
-                                            ]
-                                          }
-                                        },
-                                        "required": [
-                                          "sharedOwnershipPercentage",
-                                          "sharedOwnershipRent",
-                                          "sharedOwnershipRentFrequency"
-                                        ]
-                                      }
-                                    ],
-                                    "required": [
-                                      "leaseholdType"
-                                    ],
-                                    "properties": {
-                                      "leaseholdType": {
-                                        "baspiRef": "A1.3.1",
-                                        "title": "What type of leasehold property does the seller own?",
-                                        "description": "‘Flat’ includes maisonette and apartment.",
-                                        "enum": [
-                                          "Flat",
-                                          "Shared ownership",
-                                          "Long leasehold house"
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  "leaseTerm": {
-                                    "baspiRef": "A1.4.1",
-                                    "required": [
-                                      "startYearOfLease",
-                                      "lengthOfLeaseInYears"
-                                    ],
-                                    "properties": {
-                                      "startYearOfLease": {
-                                        "baspiRef": "A1.4.1.1",
-                                        "title": "Year that the lease commenced"
-                                      },
-                                      "lengthOfLeaseInYears": {
-                                        "baspiRef": "A1.4.1.2",
-                                        "title": "Length of lease (years)"
-                                      }
-                                    }
                                   }
                                 }
                               }
@@ -3791,8 +3784,8 @@
               "title": "Connected utilities",
               "description": "Please indicate which utilities are are connected to the property.",
               "required": [
-                "electricity",
-                "gas",
+                "mainsElectricity",
+                "mainsGas",
                 "lpg",
                 "oil",
                 "telephone",
@@ -6859,7 +6852,7 @@
                         },
                         "details": {
                           "baspiRef": "A12.2.2",
-                          "title": "please describe this issue and any action that has been taken, if applicable."
+                          "title": "Please describe this issue and any action that has been taken, if applicable."
                         },
                         "attachments": {
                           "baspiRef": "A12.2.3",
@@ -7097,6 +7090,8 @@
                           ]
                         },
                         "uniformBoundaries": {
+                          "baspiRef": "B2.1.0.2",
+                          "title": "Please indicate who has repaired, or treated as belonging to them, each of the boundaries. Identify each boundary as if you were looking at the property from the road.",
                           "properties": {
                             "left": {
                               "baspiRef": "B2.1.1",
@@ -7189,6 +7184,7 @@
                   "properties": {
                     "areBoundariesUniform": {
                       "baspiRef": "B2.1.0.1",
+                      "title": "Are the boundaries uniform?",
                       "enum": [
                         "Yes",
                         "No",

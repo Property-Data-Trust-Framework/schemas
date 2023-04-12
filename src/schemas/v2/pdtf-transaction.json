@@ -2325,6 +2325,75 @@
                             "title": "Leasehold information",
                             "type": "object",
                             "properties": {
+                              "typeOfLeasehold": {
+                                "type": "object",
+                                "properties": {
+                                  "leaseholdType": {
+                                    "title": "What type of leasehold property does the seller own?",
+                                    "description": "‘Flat’ includes maisonette and apartment.",
+                                    "type": "string",
+                                    "enum": [
+                                      "Flat",
+                                      "Shared ownership",
+                                      "Long leasehold house"
+                                    ]
+                                  }
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "leaseholdType": {
+                                        "enum": [
+                                          "Flat",
+                                          "Long leasehold house"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "leaseholdType": {
+                                        "enum": [
+                                          "Shared ownership"
+                                        ]
+                                      },
+                                      "sharedOwnershipPercentage": {
+                                        "title": "Shared ownership percentage",
+                                        "type": "integer",
+                                        "minimum": 5,
+                                        "exclusiveMaximum": 100
+                                      },
+                                      "sharedOwnershipRent": {
+                                        "title": "Shared ownership rent (£)",
+                                        "type": "number",
+                                        "minimum": 0
+                                      },
+                                      "sharedOwnershipRentFrequency": {
+                                        "title": "Shared ownership rent frequency",
+                                        "type": "string",
+                                        "enum": [
+                                          "Yearly",
+                                          "Monthly",
+                                          "Weekly"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              "leaseTerm": {
+                                "type": "object",
+                                "properties": {
+                                  "startYearOfLease": {
+                                    "title": "Year that the lease commenced",
+                                    "type": "integer"
+                                  },
+                                  "lengthOfLeaseInYears": {
+                                    "title": "Length of lease (years)",
+                                    "type": "integer"
+                                  }
+                                }
+                              },
                               "contactDetails": {
                                 "title": "Contact Details",
                                 "type": "object",
@@ -5453,75 +5522,6 @@
                                 "title": "General",
                                 "type": "object",
                                 "properties": {
-                                  "typeOfLeasehold": {
-                                    "type": "object",
-                                    "properties": {
-                                      "leaseholdType": {
-                                        "title": "What type of leasehold property does the seller own?",
-                                        "description": "‘Flat’ includes maisonette and apartment.",
-                                        "type": "string",
-                                        "enum": [
-                                          "Flat",
-                                          "Shared ownership",
-                                          "Long leasehold house"
-                                        ]
-                                      }
-                                    },
-                                    "oneOf": [
-                                      {
-                                        "properties": {
-                                          "leaseholdType": {
-                                            "enum": [
-                                              "Flat",
-                                              "Long leasehold house"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "leaseholdType": {
-                                            "enum": [
-                                              "Shared ownership"
-                                            ]
-                                          },
-                                          "sharedOwnershipPercentage": {
-                                            "title": "Shared ownership percentage",
-                                            "type": "integer",
-                                            "minimum": 5,
-                                            "exclusiveMaximum": 100
-                                          },
-                                          "sharedOwnershipRent": {
-                                            "title": "Shared ownership rent (£)",
-                                            "type": "number",
-                                            "minimum": 0
-                                          },
-                                          "sharedOwnershipRentFrequency": {
-                                            "title": "Shared ownership rent frequency",
-                                            "type": "string",
-                                            "enum": [
-                                              "Yearly",
-                                              "Monthly",
-                                              "Weekly"
-                                            ]
-                                          }
-                                        }
-                                      }
-                                    ]
-                                  },
-                                  "leaseTerm": {
-                                    "type": "object",
-                                    "properties": {
-                                      "startYearOfLease": {
-                                        "title": "Year that the lease commenced",
-                                        "type": "integer"
-                                      },
-                                      "lengthOfLeaseInYears": {
-                                        "title": "Length of lease (years)",
-                                        "type": "integer"
-                                      }
-                                    }
-                                  },
                                   "sellerAwareOfAlterations": {
                                     "title": "Is the seller aware of any alterations having been made to the property since the lease was originally granted?",
                                     "type": "object",
@@ -11460,7 +11460,7 @@
                           ]
                         },
                         "details": {
-                          "title": "please describe this issue and any action that has been taken, if applicable.",
+                          "title": "Please describe this issue and any action that has been taken, if applicable.",
                           "type": "string",
                           "minLength": 1
                         },
@@ -11640,7 +11640,7 @@
                   "properties": {
                     "areBoundariesUniform": {
                       "TA6Ref": "1.2",
-                      "title": "",
+                      "title": "Are the boundaries uniform?",
                       "type": "string",
                       "enum": [
                         "Yes",
