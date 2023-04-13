@@ -496,6 +496,7 @@
                             "properties": {
                               "contactDetails": {
                                 "fme1Ref": "1",
+                                "baspiRef": "A1.5.1",
                                 "title": "Contact Details",
                                 "description": "Complete the details for the relevant parties",
                                 "type": "object",
@@ -505,15 +506,32 @@
                                   "dealsWithDayToDayMaintenanceOfManagedArea",
                                   "organisesManagedAreaInsurance"
                                 ],
+                                "baspiRequired": [
+                                  "rentchargeOwner",
+                                  "managingAgent"
+                                ],
                                 "properties": {
                                   "rentchargeOwner": {
                                     "baspiRef": "A1.5.4",
                                     "fme1Ref": "1.1",
                                     "title": "Rentcharge Owner",
                                     "type": "object",
+                                    "fme1Required": ["contact"],
+                                    "baspiRequired": ["contact"],
                                     "properties": {
                                       "contact": {
                                         "type": "object",
+                                        "fme1Required": [
+                                          "nameOrOrganisation",
+                                          "address",
+                                          "telephone",
+                                          "emailAddress"
+                                        ],
+                                        "baspiRequired": [
+                                          "nameOrOrganisation",
+                                          "address",
+                                          "emailAddress"
+                                        ],
                                         "properties": {
                                           "nameOrOrganisation": {
                                             "title": "Name or organisation",
@@ -566,20 +584,7 @@
                                             "type": "string",
                                             "format": "email"
                                           }
-                                        },
-                                        "fme1Required": [
-                                          "nameOrOrganisation",
-                                          "line1",
-                                          "postcode",
-                                          "telephone",
-                                          "emailAddress"
-                                        ],
-                                        "baspiRequired": [
-                                          "nameOrOrganisation",
-                                          "line1",
-                                          "postcode",
-                                          "emailAddress"
-                                        ]
+                                        }
                                       },
                                       "bankDetails": {
                                         "type": "object",
@@ -723,11 +728,23 @@
                                     "fme1Ref": "1.3",
                                     "title": "Managing Agent",
                                     "type": "object",
+                                    "fme1Required": ["contact"],
+                                    "baspiRequired": ["contact"],
                                     "properties": {
                                       "contact": {
                                         "baspiRef": "A1.5.5.1",
                                         "ta7Ref": "4.1c",
                                         "type": "object",
+                                        "fme1Required": [
+                                          "nameOrOrganisation",
+                                          "telephone",
+                                          "emailAddress"
+                                        ],
+                                        "baspiRequired": [
+                                          "nameOrOrganisation",
+                                          "telephone",
+                                          "emailAddress"
+                                        ],
                                         "properties": {
                                           "nameOrOrganisation": {
                                             "baspiRef": "A1.5.5.1.1",
@@ -788,21 +805,7 @@
                                             "type": "string",
                                             "format": "email"
                                           }
-                                        },
-                                        "fme1Required": [
-                                          "nameOrOrganisation",
-                                          "line1",
-                                          "postcode",
-                                          "telephone",
-                                          "emailAddress"
-                                        ],
-                                        "baspiRequired": [
-                                          "nameOrOrganisation",
-                                          "line1",
-                                          "postcode",
-                                          "telephone",
-                                          "emailAddress"
-                                        ]
+                                        }
                                       },
                                       "appointedBy": {
                                         "title": "Appointed by",
@@ -1267,7 +1270,7 @@
                                       "Rentcharge Owner",
                                       "Management Company",
                                       "Managing Agent",
-                                      "N/A"
+                                      "Not applicable"
                                     ]
                                   },
                                   "dealsWithDayToDayMaintenanceOfManagedArea": {
@@ -1278,7 +1281,7 @@
                                       "Rentcharge Owner",
                                       "Management Company",
                                       "Managing Agent",
-                                      "N/A"
+                                      "Not applicable"
                                     ]
                                   },
                                   "organisesManagedAreaInsurance": {
@@ -1289,7 +1292,7 @@
                                       "Rentcharge Owner",
                                       "Management Company",
                                       "Managing Agent",
-                                      "N/A"
+                                      "Not applicable"
                                     ]
                                   }
                                 }
@@ -1437,6 +1440,7 @@
                                 }
                               },
                               "serviceCharge": {
+                                "baspiRef": "A1.5.1",
                                 "fme1Ref": "3",
                                 "title": "Service Charge",
                                 "type": "object",
@@ -1809,7 +1813,7 @@
                                           "Completed but unpaid",
                                           "Due",
                                           "Anticipated",
-                                          "N/A"
+                                          "Not applicable"
                                         ]
                                       }
                                     },
@@ -1821,7 +1825,7 @@
                                       {
                                         "properties": {
                                           "yesNo": {
-                                            "enum": ["N/A"]
+                                            "enum": ["Not applicable"]
                                           }
                                         }
                                       },
@@ -2417,37 +2421,61 @@
                                     "fme1Ref": "6.1",
                                     "title": "The last 3 years published Service Charge accounts.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "managedAreasInsurancePolicy": {
                                     "fme1Ref": "6.2",
                                     "title": "Managed Areas insurance policy and schedule.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "serviceChargeEstimatesCurrent": {
                                     "fme1Ref": "6.3",
                                     "title": "Service charge estimate for the current year and details of the anticipated payments on account for the Property.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "serviceChargeEstimatesPrevious": {
                                     "fme1Ref": "6.4",
                                     "title": "Service charge estimate for the previous year for which accounts have not yet been prepared for the Property.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "proposedWorksNotices": {
                                     "fme1Ref": "6.5",
                                     "title": "Copies of any notices served on the Owners in respect of any proposed works or any works which have not yet been paid for.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "additionalRegulationsNotInTransfer": {
                                     "fme1Ref": "6.6",
                                     "title": "Any additional regulations or rules affecting the Property which are not contained in the transfer.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "deedOfCovenant": {
                                     "fme1Ref": "6.7",
@@ -2457,7 +2485,7 @@
                                       "Enclosed",
                                       "To follow",
                                       "Buyer's lawyer to draft",
-                                      "N/A"
+                                      "Not applicable"
                                     ]
                                   },
                                   "certificateOfCompliance": {
@@ -2468,50 +2496,78 @@
                                       "Enclosed",
                                       "To follow",
                                       "Buyer's lawyer to draft",
-                                      "N/A"
+                                      "Not applicable"
                                     ]
                                   },
                                   "permissionToAlter": {
                                     "fme1Ref": "6.9",
                                     "title": "Copy of any permission to alter the Property which has been issued.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "noticesServedOnOwner": {
                                     "fme1Ref": "6.10",
                                     "title": "Copy of any known notices served on the Owner and documentation arising from them.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "asbestosSurvey": {
                                     "fme1Ref": "6.11",
                                     "title": "Asbestos Survey for buildings part of the Managed Area built or converted before 2001.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "managedAreaFireRiskAssessment": {
                                     "fme1Ref": "6.12",
                                     "title": "Fire Risk Assessment for communal areas in buildings forming part of the Managed Area.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "memorandumAndArticles": {
                                     "fme1Ref": "6.13",
                                     "title": "Memorandum and Articles of Association of the Management Company.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "managementCompanyAGMMinutes": {
                                     "fme1Ref": "6.14",
                                     "title": "Minutes from the last AGM for the Management Company.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "feesForAdminServices": {
                                     "fme1Ref": "6.15",
                                     "title": "Menu of fees for your administrative services.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   }
                                 }
                               },
@@ -2705,22 +2761,24 @@
                                         "title": "Landlord",
                                         "description": "The landlord (or freeholder) may be, for example, a private individual, a housing association, or a management company owned by the residents",
                                         "type": "object",
-                                        "lpe1Required": [
-                                          "nameOrOrganisation",
-                                          "address",
-                                          "telephone",
-                                          "emailAddress"
-                                        ],
-                                        "baspiRequired": [
-                                          "nameOrOrganisation",
-                                          "address",
-                                          "emailAddress"
-                                        ],
+                                        "lpe1Required": ["contact"],
+                                        "baspiRequired": ["contact"],
                                         "properties": {
                                           "contact": {
                                             "baspiRef": "A1.5.4.1",
                                             "ta7Ref": "4.1a",
                                             "type": "object",
+                                            "lpe1Required": [
+                                              "nameOrOrganisation",
+                                              "address",
+                                              "telephone",
+                                              "emailAddress"
+                                            ],
+                                            "baspiRequired": [
+                                              "nameOrOrganisation",
+                                              "address",
+                                              "emailAddress"
+                                            ],
                                             "properties": {
                                               "nameOrOrganisation": {
                                                 "baspiRef": "A1.5.4.1.1",
@@ -2820,9 +2878,10 @@
                                         }
                                       },
                                       "rentchargeOwner": {
-                                        "fme1Ref": "1.1",
+                                        "lpe1Ref": "1.1",
                                         "title": "Rentcharge Owner",
                                         "type": "object",
+                                        "lpe1Required": ["contact"],
                                         "properties": {
                                           "contact": {
                                             "type": "object",
@@ -2859,7 +2918,7 @@
                                                     "minLength": 1
                                                   }
                                                 },
-                                                "lpe1Required": [
+                                                "fme1Required": [
                                                   "line1",
                                                   "postcode"
                                                 ]
@@ -2920,7 +2979,6 @@
                                       },
                                       "managementCompany": {
                                         "lpe1Ref": "1.2",
-                                        "fme1Ref": "1.2",
                                         "title": "Management Company",
                                         "type": "object",
                                         "properties": {
@@ -3027,11 +3085,23 @@
                                         "title": "Managing Agent",
                                         "description": "A managing agent may be employed by the landlord or by the tenants’ management company to collect the rent and/or manage the building.",
                                         "type": "object",
+                                        "baspiRequired": ["contact"],
                                         "properties": {
                                           "contact": {
                                             "baspiRef": "A1.5.5.1",
                                             "ta7Ref": "4.1c",
                                             "type": "object",
+                                            "lpe1Required": [
+                                              "nameOrOrganisation",
+                                              "address",
+                                              "telephone",
+                                              "emailAddress"
+                                            ],
+                                            "baspiRequired": [
+                                              "nameOrOrganisation",
+                                              "address",
+                                              "emailAddress"
+                                            ],
                                             "properties": {
                                               "nameOrOrganisation": {
                                                 "baspiRef": "A1.5.5.1.1",
@@ -3092,18 +3162,7 @@
                                                 "type": "string",
                                                 "format": "email"
                                               }
-                                            },
-                                            "lpe1Required": [
-                                              "nameOrOrganisation",
-                                              "address",
-                                              "telephone",
-                                              "emailAddress"
-                                            ],
-                                            "baspiRequired": [
-                                              "nameOrOrganisation",
-                                              "address",
-                                              "emailAddress"
-                                            ]
+                                            }
                                           },
                                           "appointedBy": {
                                             "title": "Appointed by",
@@ -3953,7 +4012,7 @@
                                           "Landlord",
                                           "Management Company",
                                           "Managing Agent",
-                                          "N/A"
+                                          "Not applicable"
                                         ]
                                       },
                                       "collectsServiceCharges": {
@@ -3966,7 +4025,7 @@
                                           "Landlord",
                                           "Management Company",
                                           "Managing Agent",
-                                          "N/A"
+                                          "Not applicable"
                                         ]
                                       },
                                       "collectsbuildingInsurancePremiums": {
@@ -3977,7 +4036,7 @@
                                           "Landlord",
                                           "Management Company",
                                           "Managing Agent",
-                                          "N/A"
+                                          "Not applicable"
                                         ]
                                       },
                                       "dealsWithDayToDayMaintenanceOfManagedArea": {
@@ -3991,7 +4050,7 @@
                                           "Management Company",
                                           "Managing Agent",
                                           "the Lessees",
-                                          "N/A"
+                                          "Not applicable"
                                         ]
                                       },
                                       "organisesBuildingInsurance": {
@@ -4006,7 +4065,7 @@
                                           "Management Company",
                                           "Managing Agent",
                                           "the Lessees",
-                                          "N/A"
+                                          "Not applicable"
                                         ]
                                       },
                                       "dealsWithDayToDayMaintenanceOfBuilding": {
@@ -4313,7 +4372,7 @@
                                         "baspiRef": "A1.5.6.1",
                                         "type": "string",
                                         "title": "",
-                                        "enum": ["Yes", "No", "N/A"]
+                                        "enum": ["Yes", "No", "Not applicable"]
                                       }
                                     },
                                     "lpe1Required": ["yesNoNotApplicable"],
@@ -4325,7 +4384,7 @@
                                       {
                                         "properties": {
                                           "yesNoNotApplicable": {
-                                            "enum": ["No", "N/A"]
+                                            "enum": ["No", "Not applicable"]
                                           }
                                         }
                                       },
@@ -4441,7 +4500,7 @@
                                                 "baspiRef": "A1.4.2.3.3",
                                                 "ta7Ref": "1.2e",
                                                 "title": "How is the increase calculated?",
-                                                "description": "eg set figure, doubling, in line with Retail Price Index, Consumer Price Index, etc",
+                                                "description": "e.g. set figure, doubling, in line with Retail Price Index, Consumer Price Index, etc",
                                                 "type": "string"
                                               }
                                             },
@@ -4464,7 +4523,11 @@
                                           "yesNoNotApplicable": {
                                             "type": "string",
                                             "title": "",
-                                            "enum": ["Yes", "No", "N/A"]
+                                            "enum": [
+                                              "Yes",
+                                              "No",
+                                              "Not applicable"
+                                            ]
                                           }
                                         },
                                         "lpe1Required": ["yesNoNotApplicable"],
@@ -4475,7 +4538,10 @@
                                           {
                                             "properties": {
                                               "yesNoNotApplicable": {
-                                                "enum": ["Yes", "N/A"]
+                                                "enum": [
+                                                  "Yes",
+                                                  "Not applicable"
+                                                ]
                                               }
                                             }
                                           },
@@ -5162,7 +5228,7 @@
                                               "Completed but unpaid",
                                               "Due",
                                               "Anticipated",
-                                              "N/A"
+                                              "Not applicable"
                                             ]
                                           }
                                         },
@@ -5174,7 +5240,7 @@
                                           {
                                             "properties": {
                                               "yesNo": {
-                                                "enum": ["N/A"]
+                                                "enum": ["Not applicable"]
                                               }
                                             }
                                           },
@@ -5405,7 +5471,7 @@
                                             "enum": [
                                               "Yes",
                                               "No Certificate Served",
-                                              "N/A"
+                                              "Not applicable"
                                             ]
                                           }
                                         },
@@ -5416,7 +5482,7 @@
                                           {
                                             "properties": {
                                               "yesNoNotApplicable": {
-                                                "enum": ["N/A"]
+                                                "enum": ["Not applicable"]
                                               }
                                             }
                                           },
@@ -5462,7 +5528,7 @@
                                             "enum": [
                                               "Yes",
                                               "No Certificate Served",
-                                              "N/A"
+                                              "Not applicable"
                                             ]
                                           }
                                         },
@@ -6526,13 +6592,21 @@
                                     "ta7Ref": "3.3a",
                                     "title": "The last 3 years published Service Charge accounts.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "groundRent": {
                                     "ta7Ref": "3.3b",
                                     "title": "Please supply a copy of any invoices or demands and any statements and receipts for the payment of ground rent for the last three years.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "buildingsInsurancePolicy": {
                                     "lpe1Ref": "8.2",
@@ -6558,38 +6632,62 @@
                                     "lpe1Ref": "8.3",
                                     "title": "Buildings insurance policy and schedule for the Managed Areas.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "serviceChargeEstimatesCurrent": {
                                     "lpe1Ref": "8.4",
                                     "title": "Service charge estimate for the current year and details of the anticipated payments on account for the Property.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "serviceChargeEstimatesPrevious": {
                                     "lpe1Ref": "8.5",
                                     "title": "Service charge estimate for the previous year for which accounts have not yet been prepared for the Property.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "proposedWorksNotices": {
                                     "lpe1Ref": "8.6",
                                     "title": "Copies of any notices served on the Lessees under Section 20 in respect of any proposed works or any works which have not yet been paid for.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "forfeitureDocumentation": {
                                     "lpe1Ref": "8.7",
                                     "title": "Documentation relating to any forfeiture proceedings applicable to the Property.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "additionalRegulationsNotInLease": {
                                     "lpe1Ref": "8.8",
                                     "ta7Ref": "3.1b",
                                     "title": "Any additional regulations or rules affecting the Property which are not contained in the lease.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "deedsOfVariation": {
                                     "lpe1Ref": "8.9",
@@ -6601,7 +6699,7 @@
                                       "To follow",
                                       "Landlord's lawyer provides",
                                       "Please supply draft",
-                                      "N/A"
+                                      "Not applicable"
                                     ]
                                   },
                                   "deedOfCovenant": {
@@ -6609,13 +6707,21 @@
                                     "ta7Ref": "3.1a",
                                     "title": "Any required Deed of Covenant.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "certificateOfCompliance": {
                                     "lpe1Ref": "8.11",
                                     "title": "Any Certificate of Compliance.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "certificateOfComplianceFee": {
                                     "lpe1Ref": "8.11",
@@ -6631,39 +6737,59 @@
                                       "To follow",
                                       "Landlord's lawyer provides",
                                       "Please supply draft",
-                                      "N/A"
+                                      "Not applicable"
                                     ]
                                   },
                                   "permissionToAlter": {
                                     "lpe1Ref": "8.13",
                                     "title": "Copy of any permission to alter the Property which has been issued.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "noticesServedOnLessee": {
                                     "lpe1Ref": "8.14",
                                     "title": "Copy of any known notices served on the Lessee and documentation arising from them.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "asbestosSurvey": {
                                     "lpe1Ref": "8.15",
                                     "title": "Asbestos Survey for parts of the Managed Area built or converted before 2001.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "managedAreaFireRiskAssessment": {
                                     "lpe1Ref": "8.16",
                                     "title": "Fire Risk Assessment for the Managed Area.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "memorandumAndArticles": {
                                     "lpe1Ref": "8.17",
                                     "ta7Ref": "3.5a",
                                     "title": "Memorandum and Articles of Association of the Management Company.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "shareOrMembershipCertificate": {
                                     "ta7Ref": "3.5b",
@@ -6681,27 +6807,43 @@
                                     "lpe1Ref": "8.18",
                                     "title": "Minutes from the last AGM for the Management Company.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "deedOfCertificate": {
                                     "lpe1Ref": "8.19",
                                     "ta7Ref": "3.1a",
                                     "title": "Leaseholder Deed of Certificate.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "landlordsCertificate": {
                                     "lpe1Ref": "8.20",
                                     "ta7Ref": "11.5",
                                     "title": "Landlord's Certificate.",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "enforcementNotices": {
                                     "lpe1Ref": "8.21",
                                     "title": "Known enforcement notices served on the landlord or accountable person (where the building is residential and is at least 18 meters or 7 storeys).",
                                     "type": "string",
-                                    "enum": ["Enclosed", "To follow", "N/A"]
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   }
                                 }
                               },
@@ -10606,7 +10748,11 @@
                                   "baspiRef": "A7.1.0.16.3",
                                   "title": "If installed after Jan 1991 supply the Building Regulations approval or equivalent",
                                   "type": "string",
-                                  "enum": ["Attached", "To follow", "N/A"]
+                                  "enum": [
+                                    "Attached",
+                                    "To follow",
+                                    "Not applicable"
+                                  ]
                                 }
                               },
                               "baspiRequired": [
@@ -11065,7 +11211,7 @@
                           "baspiRef": "A7.4.2.2",
                           "title": "Please provide a copy of the service or maintenance works report.",
                           "type": "string",
-                          "enum": ["Attached", "To follow", "N/A"]
+                          "enum": ["Attached", "To follow", "Not applicable"]
                         },
                         "heatingInGoodWorkingOrder": {
                           "baspiRef": "A7.4.3",
@@ -12708,7 +12854,7 @@
                       "TA6Ref": "1.2",
                       "title": "Are the boundaries uniform?",
                       "type": "string",
-                      "enum": ["Yes", "No", "N/A"]
+                      "enum": ["Yes", "No", "Not applicable"]
                     }
                   },
                   "discriminator": {
@@ -12805,7 +12951,7 @@
                     {
                       "properties": {
                         "areBoundariesUniform": {
-                          "enum": ["N/A"]
+                          "enum": ["Not applicable"]
                         }
                       }
                     }
@@ -12823,7 +12969,7 @@
                       "TA6Ref": "1.3.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "No", "N/A"]
+                      "enum": ["Yes", "No", "Not applicable"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -12834,7 +12980,7 @@
                     {
                       "properties": {
                         "yesNo": {
-                          "enum": ["No", "N/A"]
+                          "enum": ["No", "Not applicable"]
                         }
                       }
                     },
@@ -12867,7 +13013,7 @@
                       "TA6Ref": "1.4.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "No", "N/A"]
+                      "enum": ["Yes", "No", "Not applicable"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -12878,7 +13024,7 @@
                     {
                       "properties": {
                         "yesNo": {
-                          "enum": ["No", "N/A"]
+                          "enum": ["No", "Not applicable"]
                         }
                       }
                     },
@@ -12904,7 +13050,7 @@
                   "rdsRef": "Tenure/tenure=?",
                   "TA6Ref": "1.5",
                   "title": "Is there a flying freehold?",
-                  "description": "NOTE: a flying freehold is when part of the property overhangs a neighbour’s property or an accessway - eg a terrace house where part of the upstairs is over an accessway which belongs to someone else.",
+                  "description": "NOTE: a flying freehold is when part of the property overhangs a neighbour’s property or an accessway - e.g. a terrace house where part of the upstairs is over an accessway which belongs to someone else.",
                   "type": "object",
                   "properties": {
                     "yesNo": {
@@ -12912,7 +13058,7 @@
                       "TA6Ref": "1.5.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "No", "N/A"]
+                      "enum": ["Yes", "No", "Not applicable"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -12923,7 +13069,7 @@
                     {
                       "properties": {
                         "yesNo": {
-                          "enum": ["No", "N/A"]
+                          "enum": ["No", "Not applicable"]
                         }
                       }
                     },
@@ -14183,7 +14329,7 @@
                                 },
                                 "details": {
                                   "baspiRef": "B6.4.1",
-                                  "title": "Please provide details (eg the property is sold let to tenants)",
+                                  "title": "Please provide details (e.g. the property is sold let to tenants)",
                                   "type": "string",
                                   "minLength": 1
                                 },
@@ -14300,7 +14446,7 @@
                   "rdsRef": "RightsHolders/Flags",
                   "ta6Ref": "14.4",
                   "title": "Please confirm that on completion you will remove all rubbish and items not included in the sale from the property including its garden, loft and any sheds or outbuildings.",
-                  "description": "When the property is cleared out you will be expected to take reasonable care when clearing the property, leaving it clean and tidy and repairing any damage caused when removing items from the property and making safe any light or electrical fittings which are being removed.\n\nKeys for all door and window locks, along with any alarm codes, should be available for the buyer on the day of completion.  If there is any reason why you cannot do this you should let the estate agent and your property lawyer know. For all internet connected services eg doorbells, boiler controls, burglar alarms, CCTV cameras etc) access to them will need to be provided to the buyer on the day of completion so that they can control them or sign up to the service.  If there is any reason why you cannot do this you should let the estate agent and your property lawyer know.",
+                  "description": "When the property is cleared out you will be expected to take reasonable care when clearing the property, leaving it clean and tidy and repairing any damage caused when removing items from the property and making safe any light or electrical fittings which are being removed.\n\nKeys for all door and window locks, along with any alarm codes, should be available for the buyer on the day of completion.  If there is any reason why you cannot do this you should let the estate agent and your property lawyer know. For all internet connected services e.g. doorbells, boiler controls, burglar alarms, CCTV cameras etc) access to them will need to be provided to the buyer on the day of completion so that they can control them or sign up to the service.  If there is any reason why you cannot do this you should let the estate agent and your property lawyer know.",
                   "type": "boolean"
                 },
                 "otherPropertyInChain": {
