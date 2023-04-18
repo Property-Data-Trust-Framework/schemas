@@ -359,7 +359,108 @@
                               },
                               "serviceCharge": {
                                 "baspiRef": "A1.5.1",
-                                "title": "Service Charge"
+                                "title": "Service Charge",
+                                "required": [
+                                  "annualServiceCharge",
+                                  "largeAdditionalExpense",
+                                  "reserveFund"
+                                ],
+                                "properties": {
+                                  "annualServiceCharge": {
+                                    "baspiRef": "A1.5.1.1.2",
+                                    "title": "What is the annual Service Charge payable by this Property?",
+                                    "description": "This should include any sums payable for the maintenance of the managed area"
+                                  },
+                                  "largeAdditionalExpense": {
+                                    "baspiRef": "A1.5.2.1",
+                                    "title": "Does the seller know of any expense (e.g. the cost of redecoration of outside or communal areas not usually incurred annually) likely to be shown in the service charge accounts within the next three years?",
+                                    "discriminator": {
+                                      "propertyName": "yesNo"
+                                    },
+                                    "oneOf": [
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "No"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "Yes"
+                                            ]
+                                          },
+                                          "details": {
+                                            "baspiRef": "A1.5.2.3",
+                                            "title": "Details"
+                                          }
+                                        },
+                                        "required": [
+                                          "details"
+                                        ]
+                                      }
+                                    ],
+                                    "required": [
+                                      "yesNo"
+                                    ],
+                                    "properties": {
+                                      "yesNo": {
+                                        "baspiRef": "A1.5.2.2",
+                                        "enum": [
+                                          "Yes",
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "transferFees": {
+                                    "baspiRef": "A1.5.3",
+                                    "title": "Are there any transfer fees, deferred charges or similar fees, expressed as a percentage of the Property's value payable on an event such as resale or subletting?",
+                                    "discriminator": {
+                                      "propertyName": "yesNo"
+                                    },
+                                    "oneOf": [
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "No"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "Yes"
+                                            ]
+                                          },
+                                          "details": {
+                                            "baspiRef": "A1.5.3.2",
+                                            "title": "Provide details."
+                                          }
+                                        }
+                                      }
+                                    ],
+                                    "required": [
+                                      "yesNo"
+                                    ],
+                                    "properties": {
+                                      "yesNo": {
+                                        "baspiRef": "A1.5.3.1",
+                                        "enum": [
+                                          "Yes",
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
                               }
                             }
                           }
@@ -870,6 +971,49 @@
                                         "properties": {
                                           "yesNo": {
                                             "baspiRef": "1.5.2.1.1",
+                                            "enum": [
+                                              "Yes",
+                                              "No"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      "transferFees": {
+                                        "baspiRef": "A1.5.3",
+                                        "title": "Are there any transfer fees deferred service charges or similar fees, expressed as a percentage of the Property's value, payable on an event such as resale or subletting?",
+                                        "discriminator": {
+                                          "propertyName": "yesNo"
+                                        },
+                                        "oneOf": [
+                                          {
+                                            "properties": {
+                                              "yesNo": {
+                                                "enum": [
+                                                  "No"
+                                                ]
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "properties": {
+                                              "yesNo": {
+                                                "enum": [
+                                                  "Yes"
+                                                ]
+                                              },
+                                              "details": {
+                                                "baspiRef": "A1.5.3.2",
+                                                "title": "Provide details."
+                                              }
+                                            }
+                                          }
+                                        ],
+                                        "required": [
+                                          "yesNo"
+                                        ],
+                                        "properties": {
+                                          "yesNo": {
+                                            "baspiRef": "A1.5.3.1",
                                             "enum": [
                                               "Yes",
                                               "No"
@@ -1961,7 +2105,7 @@
                 },
                 "changeOfUse": {
                   "baspiRef": "A3.2",
-                  "title": "Has there been any change of use (e.g. from an office to a residence?",
+                  "title": "Has there been any change of use (e.g. from an office to a residence)?",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -2081,7 +2225,8 @@
                               "properties": {
                                 "yesNo": {
                                   "enum": [
-                                    "No"
+                                    "No",
+                                    "Not required"
                                   ]
                                 },
                                 "details": {
@@ -5245,6 +5390,8 @@
                       ]
                     },
                     "centralHeatingDetails": {
+                      "baspiRef": "A7.4.0.0",
+                      "title": "Central Heating Details",
                       "required": [
                         "centralHeatingFuel",
                         "centralHeatingInstalled",
@@ -8172,7 +8319,11 @@
                     "handoverOnCompletion": {
                       "baspiRef": "B7.4.2",
                       "title": "Confirm that you will handover details on day of completion",
-                      "description": "Confirm that you will provide the buyer with the login, password and link to user instructions for the relevant system(s). [NOTE: It is recommended that you reset the password before handing it over to avoid security issues by passing on your own password]"
+                      "description": "Confirm that you will provide the buyer with the login, password and link to user instructions for the relevant system(s). [NOTE: It is recommended that you reset the password before handing it over to avoid security issues by passing on your own password]",
+                      "enum": [
+                        "true",
+                        "false"
+                      ]
                     }
                   },
                   "required": [

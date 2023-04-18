@@ -1236,20 +1236,52 @@
                                 "title": "Service Charge",
                                 "type": "object",
                                 "properties": {
-                                  "serviceChargePayable": {
-                                    "title": "What is the annual Service charge payable by this Property?",
+                                  "annualServiceCharge": {
+                                    "title": "What is the annual Service Charge payable by this Property?",
                                     "description": "This should include any sums payable for the maintenance of the managed area",
+                                    "type": "number"
+                                  },
+                                  "hasFixedRentcharge": {
+                                    "type": "string",
+                                    "title": "If there is also a ‘fixed’ Rentcharge, please confirm the amount and explain why."
+                                  },
+                                  "largeAdditionalExpense": {
+                                    "title": "Does the seller know of any expense (e.g. the cost of redecoration of outside or communal areas not usually incurred annually) likely to be shown in the service charge accounts within the next three years?",
                                     "type": "object",
                                     "properties": {
-                                      "amount": {
-                                        "type": "number",
-                                        "title": "Amount"
-                                      },
-                                      "hasFixedRentcharge": {
+                                      "yesNo": {
                                         "type": "string",
-                                        "title": "If there is also a ‘fixed’ Rentcharge, please confirm the amount and explain why."
+                                        "title": "",
+                                        "enum": [
+                                          "Yes",
+                                          "No"
+                                        ]
                                       }
-                                    }
+                                    },
+                                    "oneOf": [
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "No"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "Yes"
+                                            ]
+                                          },
+                                          "details": {
+                                            "title": "Details",
+                                            "type": "string"
+                                          }
+                                        }
+                                      }
+                                    ]
                                   },
                                   "serviceChargePaidUpToDate": {
                                     "type": "object",
@@ -7267,7 +7299,7 @@
                   ]
                 },
                 "changeOfUse": {
-                  "title": "Has there been any change of use (e.g. from an office to a residence?",
+                  "title": "Has there been any change of use (e.g. from an office to a residence)?",
                   "type": "object",
                   "properties": {
                     "yesNo": {
@@ -7391,7 +7423,8 @@
                               "properties": {
                                 "yesNo": {
                                   "enum": [
-                                    "No"
+                                    "No",
+                                    "Not required"
                                   ]
                                 },
                                 "details": {
@@ -11992,6 +12025,7 @@
                   "type": "object",
                   "properties": {
                     "curtainRailsPolesPelmets": {
+                      "type": "object",
                       "title": "Curtain rails/poles/pelmets",
                       "properties": {
                         "hallStairsLanding": {
@@ -12425,6 +12459,7 @@
                     },
                     "curtainsBlinds": {
                       "title": "Curtains/blinds",
+                      "type": "object",
                       "properties": {
                         "hallStairsLanding": {
                           "title": "Hall, stairs and landing",
@@ -18656,13 +18691,11 @@
                     "handoverOnCompletion": {
                       "title": "Confirm that you will handover details on day of completion",
                       "description": "Confirm that you will provide the buyer with the login, password and link to user instructions for the relevant system(s). [NOTE: It is recommended that you reset the password before handing it over to avoid security issues by passing on your own password]",
-                      "confirmation": {
-                        "type": "string",
-                        "enum": [
-                          "true",
-                          "false"
-                        ]
-                      }
+                      "type": "string",
+                      "enum": [
+                        "true",
+                        "false"
+                      ]
                     }
                   }
                 }
