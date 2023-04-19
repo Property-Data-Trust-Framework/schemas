@@ -345,6 +345,9 @@
                                         }
                                       },
                                       "noticeOfTransferAndCharge": {
+                                        "lpe1Ref": "1.5",
+                                        "title": "Who accepts service of the Notice of Transfer & Charge?",
+                                        "description": "Tick the box beside each party and state the total fee including VAT for notice of transfer and charge. Tick 'Notice via email' column to confirm whether you will accept notice via email.",
                                         "properties": {
                                           "rentchargeOwner": {
                                             "required": [
@@ -436,16 +439,32 @@
                                             ]
                                           },
                                           "otherDetailsRequired": {
-                                            "required": [
-                                              "areOtherDetailsRequired"
-                                            ],
+                                            "lpe1Ref": "1.5.1",
+                                            "title": "Are details other than the incoming owner's name, address and lender name required?",
+                                            "discriminator": {
+                                              "propertyName": "areOtherDetailsRequired"
+                                            },
                                             "oneOf": [
-                                              null,
                                               {
+                                                "properties": {
+                                                  "areOtherDetailsRequired": {
+                                                    "const": "No"
+                                                  }
+                                                }
+                                              },
+                                              {
+                                                "properties": {
+                                                  "areOtherDetailsRequired": {
+                                                    "const": "Yes"
+                                                  }
+                                                },
                                                 "required": [
                                                   "details"
                                                 ]
                                               }
+                                            ],
+                                            "required": [
+                                              "areOtherDetailsRequired"
                                             ]
                                           }
                                         }
