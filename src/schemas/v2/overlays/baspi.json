@@ -56,7 +56,6 @@
             "fixturesAndFittings",
             "waterAndDrainage",
             "connectedUtilities",
-            "greenDealLoan",
             "centralHeating",
             "insurance",
             "boundaries",
@@ -1666,7 +1665,8 @@
               "baspiRef": "A1.8.3",
               "title": "Energy Efficiency",
               "required": [
-                "certificate"
+                "certificate",
+                "greenDealLoan"
               ],
               "properties": {
                 "certificate": {
@@ -1691,6 +1691,70 @@
                         "Survey Instructed",
                         "No Certificate"
                       ]
+                    }
+                  }
+                },
+                "greenDealLoan": {
+                  "baspiRef": "A7.3",
+                  "title": "Green Deal Loan",
+                  "required": [
+                    "hasGreenDealLoan"
+                  ],
+                  "properties": {
+                    "hasGreenDealLoan": {
+                      "baspiRef": "A7.3",
+                      "title": "Is this property subject to a Green Deal loan or other financed home improvement scheme?",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "baspiRef": "A7.3.2",
+                              "title": "Please provide details below including any outstanding payments for the renewable devices and any feed-in tariffs and a copy of your last electricity bill"
+                            },
+                            "attachments": {
+                              "baspiRef": "A7.3.3",
+                              "title": "Attachments",
+                              "enum": [
+                                "Attached",
+                                "To follow"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "details",
+                            "attachments"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "baspiRef": "A7.3.1",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
+                        }
+                      }
                     }
                   }
                 }
@@ -5378,70 +5442,6 @@
                 }
               }
             },
-            "greenDealLoan": {
-              "baspiRef": "A7.3",
-              "title": "Green Deal Loan",
-              "required": [
-                "hasGreenDealLoan"
-              ],
-              "properties": {
-                "hasGreenDealLoan": {
-                  "baspiRef": "A7.3",
-                  "title": "Is this property subject to a Green Deal loan or other financed home improvement scheme?",
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "details": {
-                          "baspiRef": "A7.3.2",
-                          "title": "Please provide details below including any outstanding payments for the renewable devices and any feed-in tariffs and a copy of your last electricity bill"
-                        },
-                        "attachments": {
-                          "baspiRef": "A7.3.3",
-                          "title": "Attachments",
-                          "enum": [
-                            "Attached",
-                            "To follow"
-                          ]
-                        }
-                      },
-                      "required": [
-                        "details",
-                        "attachments"
-                      ]
-                    }
-                  ],
-                  "required": [
-                    "yesNo"
-                  ],
-                  "properties": {
-                    "yesNo": {
-                      "baspiRef": "A7.3.1",
-                      "enum": [
-                        "Yes",
-                        "No"
-                      ]
-                    }
-                  }
-                }
-              }
-            },
             "centralHeating": {
               "baspiRef": "A7.4",
               "title": "Central Heating",
@@ -8931,7 +8931,16 @@
                                   "title": "Have all occupiers aged 17 or over agreed to leave prior to completion?",
                                   "required": [
                                     "yesNo"
-                                  ]
+                                  ],
+                                  "properties": {
+                                    "yesNo": {
+                                      "baspiRef": "B6.3.1.1",
+                                      "enum": [
+                                        "Yes",
+                                        "No"
+                                      ]
+                                    }
+                                  }
                                 },
                                 "aged17OrOverWillSignToConfirmWillVacate": {
                                   "baspiRef": "B6.3.2",
@@ -9039,7 +9048,8 @@
                 "willRemoveAllRubbish",
                 "otherPropertyInChain",
                 "moveRestrictionDates",
-                "digitalPropertyLogbook"
+                "digitalPropertyLogbook",
+                "sufficientToRepayAllMortgages"
               ],
               "properties": {
                 "willRemoveAllRubbish": {
@@ -9154,6 +9164,7 @@
                         },
                         "restrictedDates": {
                           "baspiRef": "B7.3.2",
+                          "minItems": 1,
                           "items": {
                             "baspiRef": "B7.3.2.1"
                           }

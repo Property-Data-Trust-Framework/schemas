@@ -6890,6 +6890,59 @@
                       }
                     }
                   }
+                },
+                "greenDealLoan": {
+                  "title": "Green Deal Loan",
+                  "type": "object",
+                  "properties": {
+                    "hasGreenDealLoan": {
+                      "title": "Is this property subject to a Green Deal loan or other financed home improvement scheme?",
+                      "type": "object",
+                      "properties": {
+                        "yesNo": {
+                          "type": "string",
+                          "title": "",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
+                        }
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "title": "Please provide details below including any outstanding payments for the renewable devices and any feed-in tariffs and a copy of your last electricity bill",
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "attachments": {
+                              "title": "Attachments",
+                              "type": "string",
+                              "enum": [
+                                "Attached",
+                                "To follow"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
                 }
               }
             },
@@ -16066,59 +16119,6 @@
                 }
               }
             },
-            "greenDealLoan": {
-              "title": "Green Deal Loan",
-              "type": "object",
-              "properties": {
-                "hasGreenDealLoan": {
-                  "title": "Is this property subject to a Green Deal loan or other financed home improvement scheme?",
-                  "type": "object",
-                  "properties": {
-                    "yesNo": {
-                      "type": "string",
-                      "title": "",
-                      "enum": [
-                        "Yes",
-                        "No"
-                      ]
-                    }
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "details": {
-                          "title": "Please provide details below including any outstanding payments for the renewable devices and any feed-in tariffs and a copy of your last electricity bill",
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "attachments": {
-                          "title": "Attachments",
-                          "type": "string",
-                          "enum": [
-                            "Attached",
-                            "To follow"
-                          ]
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            },
             "centralHeating": {
               "title": "Central Heating",
               "type": "object",
@@ -19351,7 +19351,8 @@
                           "items": {
                             "type": "string",
                             "format": "date"
-                          }
+                          },
+                          "minItems": 1
                         }
                       }
                     }
@@ -19396,11 +19397,7 @@
                         "willHandoverLogbook": {
                           "title": "Please confirm that on completion you will transfer it to the new owner",
                           "confirmation": {
-                            "type": "string",
-                            "enum": [
-                              "true",
-                              "false"
-                            ]
+                            "type": "boolean"
                           }
                         }
                       }

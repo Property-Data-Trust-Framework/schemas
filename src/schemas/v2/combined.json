@@ -150,7 +150,6 @@
             "fixturesAndFittings",
             "waterAndDrainage",
             "connectedUtilities",
-            "greenDealLoan",
             "centralHeating",
             "insurance",
             "boundaries",
@@ -7457,7 +7456,7 @@
               "rdsRef": "Certificates/{category='energyEfficiency',standard='EPC',gradeLevelRating=?},Certificates/{category='energyEfficiency',standard='EPC',status='exempt'},",
               "title": "Energy Efficiency",
               "type": "object",
-              "baspiRequired": ["certificate"],
+              "baspiRequired": ["certificate", "greenDealLoan"],
               "properties": {
                 "certificate": {
                   "baspiRef": "A1.8.3.1",
@@ -7790,6 +7789,62 @@
                       "improvementIdText": {
                         "type": "string"
                       }
+                    }
+                  }
+                },
+                "greenDealLoan": {
+                  "baspiRef": "A7.3",
+                  "rdsRef": "RightsHolders/Loans,RightsHolders/OtherDocumentation",
+                  "title": "Green Deal Loan",
+                  "type": "object",
+                  "baspiRequired": ["hasGreenDealLoan"],
+                  "properties": {
+                    "hasGreenDealLoan": {
+                      "baspiRef": "A7.3",
+                      "ta6Ref": "7.7",
+                      "title": "Is this property subject to a Green Deal loan or other financed home improvement scheme?",
+                      "type": "object",
+                      "properties": {
+                        "yesNo": {
+                          "baspiRef": "A7.3.1",
+                          "type": "string",
+                          "title": "",
+                          "enum": ["Yes", "No"]
+                        }
+                      },
+                      "baspiRequired": ["yesNo"],
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": ["No"]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": ["Yes"]
+                            },
+                            "details": {
+                              "baspiRef": "A7.3.2",
+                              "title": "Please provide details below including any outstanding payments for the renewable devices and any feed-in tariffs and a copy of your last electricity bill",
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "attachments": {
+                              "baspiRef": "A7.3.3",
+                              "title": "Attachments",
+                              "type": "string",
+                              "enum": ["Attached", "To follow"]
+                            }
+                          },
+                          "baspiRequired": ["details", "attachments"]
+                        }
+                      ]
                     }
                   }
                 }
@@ -17243,62 +17298,6 @@
                 }
               }
             },
-            "greenDealLoan": {
-              "baspiRef": "A7.3",
-              "rdsRef": "RightsHolders/Loans,RightsHolders/OtherDocumentation",
-              "title": "Green Deal Loan",
-              "type": "object",
-              "baspiRequired": ["hasGreenDealLoan"],
-              "properties": {
-                "hasGreenDealLoan": {
-                  "baspiRef": "A7.3",
-                  "ta6Ref": "7.7",
-                  "title": "Is this property subject to a Green Deal loan or other financed home improvement scheme?",
-                  "type": "object",
-                  "properties": {
-                    "yesNo": {
-                      "baspiRef": "A7.3.1",
-                      "type": "string",
-                      "title": "",
-                      "enum": ["Yes", "No"]
-                    }
-                  },
-                  "baspiRequired": ["yesNo"],
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": ["No"]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": ["Yes"]
-                        },
-                        "details": {
-                          "baspiRef": "A7.3.2",
-                          "title": "Please provide details below including any outstanding payments for the renewable devices and any feed-in tariffs and a copy of your last electricity bill",
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "attachments": {
-                          "baspiRef": "A7.3.3",
-                          "title": "Attachments",
-                          "type": "string",
-                          "enum": ["Attached", "To follow"]
-                        }
-                      },
-                      "baspiRequired": ["details", "attachments"]
-                    }
-                  ]
-                }
-              }
-            },
             "centralHeating": {
               "baspiRef": "A7.4",
               "rdsRef": "Buildings|BuildingSections/isUnheated=no|yes|true|false",
@@ -20594,6 +20593,7 @@
                                   "type": "object",
                                   "properties": {
                                     "yesNo": {
+                                      "baspiRef": "B6.3.1.1",
                                       "type": "string",
                                       "title": "",
                                       "enum": ["Yes", "No"]
@@ -20677,7 +20677,8 @@
                 "willRemoveAllRubbish",
                 "otherPropertyInChain",
                 "moveRestrictionDates",
-                "digitalPropertyLogbook"
+                "digitalPropertyLogbook",
+                "sufficientToRepayAllMortgages"
               ],
               "properties": {
                 "willRemoveAllRubbish": {
@@ -20806,7 +20807,8 @@
                             "baspiRef": "B7.3.2.1",
                             "type": "string",
                             "format": "date"
-                          }
+                          },
+                          "minItems": 1
                         }
                       },
                       "baspiRequired": ["restrictedDates"]
@@ -20853,8 +20855,7 @@
                           "baspiRef": "B7.5.2",
                           "title": "Please confirm that on completion you will transfer it to the new owner",
                           "confirmation": {
-                            "type": "string",
-                            "enum": ["true", "false"]
+                            "type": "boolean"
                           }
                         }
                       },
