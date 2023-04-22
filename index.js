@@ -48,15 +48,17 @@ const combinedSchema = require("./src/schemas/v2/combined.json");
 const v2CoreSchema = require("./src/schemas/v2/pdtf-transaction.json");
 
 const baspiOverlay = require("./src/schemas/v2/overlays/baspi.json");
-// const ta6Overlay = require("./src/schemas/v2/overlays/ta6.json");
-// const ta7Overlay = require("./src/schemas/v2/overlays/ta7.json");
-// const lpe1Overlay = require("./src/schemas/v2/overlays/lpe1.json");
-// const fme1Overlay = require("./src/schemas/v2/overlays/fme1.json");
-// const llc1Overlay = require("./src/schemas/v2/overlays/llc1.json");
-// const con29ROverlay = require("./src/schemas/v2/overlays/con29R.json");
-// const con29DWOverlay = require("./src/schemas/v2/overlays/con29DW.json");
-// const rdsOverlay = require("./src/schemas/v2/overlays/rds.json");
-// const oc1Overlay = require("./src/schemas/v2/overlays/oc1.json");
+const ta6Overlay = require("./src/schemas/v2/overlays/ta6.json");
+const ta7Overlay = require("./src/schemas/v2/overlays/ta7.json");
+const ta10Overlay = require("./src/schemas/v2/overlays/ta10.json");
+const lpe1Overlay = require("./src/schemas/v2/overlays/lpe1.json");
+const fme1Overlay = require("./src/schemas/v2/overlays/fme1.json");
+const llc1Overlay = require("./src/schemas/v2/overlays/llc1.json");
+const ntsOverlay = require("./src/schemas/v2/overlays/nts.json");
+const con29ROverlay = require("./src/schemas/v2/overlays/con29R.json");
+const con29DWOverlay = require("./src/schemas/v2/overlays/con29DW.json");
+const rdsOverlay = require("./src/schemas/v2/overlays/rds.json");
+const oc1Overlay = require("./src/schemas/v2/overlays/oc1.json");
 
 const overlays = { baspiV4: baspiOverlay, null: {} };
 
@@ -245,4 +247,16 @@ module.exports = {
   getTitleAtPath,
   verifiedClaimsSchema,
   validateVerifiedClaims,
+  baspiOverlay,
+  ta6Overlay,
+  ta7Overlay,
+  ta10Overlay,
+  lpe1Overlay,
+  fme1Overlay,
+  llc1Overlay,
+  ntsOverlay,
+  con29ROverlay,
+  con29DWOverlay,
+  rdsOverlay,
+  oc1Overlay,
 };
