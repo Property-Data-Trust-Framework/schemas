@@ -140,7 +140,7 @@ test("correctly gets yet, yet another subschema through a dependency", () => {
 
 test("correctly gets yet, yet, yet another subschema through a dependency", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/environmentalIssues/flooding/typeOfFlooding/groundWater/yesNo"
+    "/propertyPack/materialFacts/environmentalIssues/flooding/typeOfFlooding/other/yesNo"
   );
   expect(subschema.type).toBe("string");
   expect(subschema.enum).toStrictEqual(["Yes", "No"]);

@@ -4750,638 +4750,657 @@
               }
             },
             "waterAndDrainage": {
-              "baspiRef": "A7",
+              "baspiRef": "A7.1.0",
               "title": "Water and Drainage",
               "description": "Please describe the water and drainage services that are connected to the property.",
               "required": [
-                "mainsWater",
-                "mainsSurfaceWaterDrainage",
-                "mainsFoulDrainage"
+                "water",
+                "drainage",
+                "maintenanceAgreements"
               ],
               "properties": {
-                "mainsWater": {
+                "water": {
                   "baspiRef": "A7.1.0.10",
-                  "title": "Mains water",
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
+                  "title": "Water",
+                  "required": [
+                    "mainsWater"
+                  ],
+                  "properties": {
+                    "mainsWater": {
+                      "baspiRef": "A7.1.0.10.0",
+                      "title": "Mains water",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "supplier": {
+                              "baspiRef": "A7.1.0.10.2",
+                              "title": "Supplier (if known)"
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "To be connected"
+                              ]
+                            },
+                            "dateToBeConnected": {
+                              "baspiRef": "A7.1.0.10.3",
+                              "title": "Date to be connected"
+                            },
+                            "supplier": {
+                              "baspiRef": "A7.1.0.10.2",
+                              "title": "Supplier (if known)"
+                            }
+                          },
+                          "required": [
+                            "dateToBeConnected"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
                       "properties": {
                         "yesNo": {
+                          "baspiRef": "A7.1.0.10.1",
                           "enum": [
+                            "Yes",
+                            "To be connected",
                             "No"
                           ]
                         }
                       }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "supplier": {
-                          "baspiRef": "A7.1.0.10.2",
-                          "title": "Supplier (if known)"
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "To be connected"
-                          ]
-                        },
-                        "dateToBeConnected": {
-                          "baspiRef": "A7.1.0.10.3",
-                          "title": "Date to be connected"
-                        },
-                        "supplier": {
-                          "baspiRef": "A7.1.0.10.2",
-                          "title": "Supplier (if known)"
-                        }
-                      },
-                      "required": [
-                        "dateToBeConnected"
-                      ]
-                    }
-                  ],
-                  "required": [
-                    "yesNo"
-                  ],
-                  "properties": {
-                    "yesNo": {
-                      "baspiRef": "A7.1.0.10.1",
-                      "enum": [
-                        "Yes",
-                        "To be connected",
-                        "No"
-                      ]
                     }
                   }
                 },
-                "mainsSurfaceWaterDrainage": {
+                "drainage": {
                   "baspiRef": "A7.1.0.12",
-                  "title": "Mains surface water drainage",
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "supplier": {
-                          "baspiRef": "A7.1.0.12.2",
-                          "title": "Supplier (if known)"
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "To be connected"
-                          ]
-                        },
-                        "dateToBeConnected": {
-                          "baspiRef": "A7.1.0.12.3",
-                          "title": "Date to be connected"
-                        },
-                        "supplier": {
-                          "baspiRef": "A7.1.0.12.2",
-                          "title": "Supplier (if known)"
-                        }
-                      },
-                      "required": [
-                        "dateToBeConnected"
-                      ]
-                    }
-                  ],
+                  "title": "Drainage",
                   "required": [
-                    "yesNo"
+                    "mainsSurfaceWaterDrainage",
+                    "mainsFoulDrainage"
                   ],
                   "properties": {
-                    "yesNo": {
-                      "baspiRef": "A7.1.0.12.1",
-                      "enum": [
-                        "Yes",
-                        "To be connected",
-                        "No"
-                      ]
-                    }
-                  }
-                },
-                "mainsFoulDrainage": {
-                  "baspiRef": "A7.1.0.11",
-                  "title": "Mains foul drainage",
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
+                    "mainsSurfaceWaterDrainage": {
+                      "baspiRef": "A7.1.0.12.0",
+                      "title": "Mains surface water drainage",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "supplier": {
+                              "baspiRef": "A7.1.0.12.2",
+                              "title": "Supplier (if known)"
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "To be connected"
+                              ]
+                            },
+                            "dateToBeConnected": {
+                              "baspiRef": "A7.1.0.12.3",
+                              "title": "Date to be connected"
+                            },
+                            "supplier": {
+                              "baspiRef": "A7.1.0.12.2",
+                              "title": "Supplier (if known)"
+                            }
+                          },
+                          "required": [
+                            "dateToBeConnected"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
                       "properties": {
                         "yesNo": {
+                          "baspiRef": "A7.1.0.12.1",
                           "enum": [
-                            "Yes"
+                            "Yes",
+                            "To be connected",
+                            "No"
                           ]
-                        },
-                        "supplier": {
-                          "baspiRef": "A7.1.0.11.3",
-                          "title": "Supplier (if known)"
                         }
                       }
                     },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "To be connected"
-                          ]
-                        },
-                        "dateToBeConnected": {
-                          "baspiRef": "A7.1.0.11.2",
-                          "title": "Date to be connected"
-                        },
-                        "supplier": {
-                          "baspiRef": "A7.1.0.11.2",
-                          "title": "Supplier (if known)"
-                        }
+                    "mainsFoulDrainage": {
+                      "baspiRef": "A7.1.0.11",
+                      "title": "Mains foul drainage",
+                      "discriminator": {
+                        "propertyName": "yesNo"
                       },
-                      "required": [
-                        "dateToBeConnected"
-                      ]
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "No"
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "supplier": {
+                              "baspiRef": "A7.1.0.11.3",
+                              "title": "Supplier (if known)"
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "To be connected"
+                              ]
+                            },
+                            "dateToBeConnected": {
+                              "baspiRef": "A7.1.0.11.2",
+                              "title": "Date to be connected"
+                            },
+                            "supplier": {
+                              "baspiRef": "A7.1.0.11.3",
+                              "title": "Supplier (if known)"
+                            }
+                          },
+                          "required": [
+                            "dateToBeConnected"
                           ]
                         },
-                        "sustainableDrainageSystem": {
-                          "baspiRef": "A7.1.0.13",
-                          "title": "Sustainable Drainage System",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                },
-                                "supplier": {
-                                  "baspiRef": "A7.1.0.13.3",
-                                  "title": "Supplier (if known)"
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "To be connected"
-                                  ]
-                                },
-                                "dateToBeConnected": {
-                                  "baspiRef": "A7.1.0.13.2",
-                                  "title": "Date to be connected"
-                                },
-                                "supplier": {
-                                  "baspiRef": "A7.1.0.13.3",
-                                  "title": "Supplier (if known)"
-                                }
-                              },
-                              "required": [
-                                "dateToBeConnected"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
+                        {
                           "properties": {
                             "yesNo": {
-                              "baspiRef": "A7.1.0.13.1",
                               "enum": [
-                                "Yes",
-                                "To be connected",
                                 "No"
                               ]
-                            }
-                          }
-                        },
-                        "septicTank": {
-                          "baspiRef": "A7.1.0.14",
-                          "title": "Septic tank",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                }
-                              }
                             },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                },
-                                "dateReplaced": {
-                                  "baspiRef": "A7.1.0.14.2",
-                                  "title": "Date replaced or upgraded"
-                                },
-                                "dateLastEmptied": {
-                                  "baspiRef": "A7.1.0.14.3",
-                                  "title": "Date last emptied"
-                                }
+                            "sustainableDrainageSystem": {
+                              "baspiRef": "A7.1.0.13",
+                              "title": "Sustainable Drainage System",
+                              "discriminator": {
+                                "propertyName": "yesNo"
                               },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "supplier": {
+                                      "baspiRef": "A7.1.0.13.3",
+                                      "title": "Supplier (if known)"
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "To be connected"
+                                      ]
+                                    },
+                                    "dateToBeConnected": {
+                                      "baspiRef": "A7.1.0.13.2",
+                                      "title": "Date to be connected"
+                                    },
+                                    "supplier": {
+                                      "baspiRef": "A7.1.0.13.3",
+                                      "title": "Supplier (if known)"
+                                    }
+                                  },
+                                  "required": [
+                                    "dateToBeConnected"
+                                  ]
+                                }
+                              ],
                               "required": [
-                                "dateReplaced",
-                                "dateLastEmptied"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "A7.1.0.14.1",
-                              "enum": [
-                                "Yes",
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        "cesspit": {
-                          "baspiRef": "A7.1.0.15",
-                          "title": "Cesspit",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
+                                "yesNo"
+                              ],
                               "properties": {
                                 "yesNo": {
+                                  "baspiRef": "A7.1.0.13.1",
                                   "enum": [
+                                    "Yes",
+                                    "To be connected",
                                     "No"
                                   ]
                                 }
                               }
                             },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                },
-                                "dateLastEmptied": {
-                                  "baspiRef": "A7.1.0.15.2",
-                                  "title": "Date last emptied"
-                                }
+                            "septicTank": {
+                              "baspiRef": "A7.1.0.14",
+                              "title": "Septic tank",
+                              "discriminator": {
+                                "propertyName": "yesNo"
                               },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "dateReplaced": {
+                                      "baspiRef": "A7.1.0.14.2",
+                                      "title": "Date replaced or upgraded"
+                                    },
+                                    "dateLastEmptied": {
+                                      "baspiRef": "A7.1.0.14.3",
+                                      "title": "Date last emptied"
+                                    }
+                                  },
+                                  "required": [
+                                    "dateReplaced",
+                                    "dateLastEmptied"
+                                  ]
+                                }
+                              ],
                               "required": [
-                                "dateLastEmptied"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "A7.1.0.15.1",
-                              "enum": [
-                                "Yes",
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        "sewerageTreatmentPlant": {
-                          "baspiRef": "A7.1.0.16",
-                          "title": "Sewerage treatment plant",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
+                                "yesNo"
+                              ],
                               "properties": {
                                 "yesNo": {
+                                  "baspiRef": "A7.1.0.14.1",
                                   "enum": [
+                                    "Yes",
                                     "No"
                                   ]
                                 }
                               }
                             },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                },
-                                "dateInstalled": {
-                                  "baspiRef": "A7.1.0.16.2",
-                                  "title": "Date installed"
-                                },
-                                "dateLastServiced": {
-                                  "baspiRef": "A7.1.0.16.3",
-                                  "title": "Date last serviced"
-                                },
-                                "attachments": {
-                                  "baspiRef": "A7.1.0.16.3",
-                                  "title": "If installed after Jan 1991 supply the Building Regulations approval or equivalent",
-                                  "enum": [
-                                    "Attached",
-                                    "To follow",
-                                    "Not applicable"
-                                  ]
-                                }
+                            "cesspit": {
+                              "baspiRef": "A7.1.0.15",
+                              "title": "Cesspit",
+                              "discriminator": {
+                                "propertyName": "yesNo"
                               },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "dateLastEmptied": {
+                                      "baspiRef": "A7.1.0.15.2",
+                                      "title": "Date last emptied"
+                                    }
+                                  },
+                                  "required": [
+                                    "dateLastEmptied"
+                                  ]
+                                }
+                              ],
                               "required": [
-                                "dateInstalled",
-                                "dateLastServiced",
-                                "attachments"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "A7.1.0.16.1",
-                              "enum": [
-                                "Yes",
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        "otherConnectedProperties": {
-                          "baspiRef": "A7.1.1",
-                          "title": "Do other properties connect to the septic tank, cesspit or sewerage treatment plant?",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
+                                "yesNo"
+                              ],
                               "properties": {
                                 "yesNo": {
+                                  "baspiRef": "A7.1.0.15.1",
                                   "enum": [
+                                    "Yes",
                                     "No"
                                   ]
                                 }
                               }
                             },
-                            {
+                            "sewerageTreatmentPlant": {
+                              "baspiRef": "A7.1.0.16",
+                              "title": "Sewerage treatment plant",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "dateInstalled": {
+                                      "baspiRef": "A7.1.0.16.2",
+                                      "title": "Date installed"
+                                    },
+                                    "dateLastServiced": {
+                                      "baspiRef": "A7.1.0.16.3",
+                                      "title": "Date last serviced"
+                                    },
+                                    "attachments": {
+                                      "baspiRef": "A7.1.0.16.3",
+                                      "title": "If installed after Jan 1991 supply the Building Regulations approval or equivalent",
+                                      "enum": [
+                                        "Attached",
+                                        "To follow",
+                                        "Not applicable"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "dateInstalled",
+                                    "dateLastServiced",
+                                    "attachments"
+                                  ]
+                                }
+                              ],
+                              "required": [
+                                "yesNo"
+                              ],
                               "properties": {
                                 "yesNo": {
+                                  "baspiRef": "A7.1.0.16.1",
                                   "enum": [
-                                    "Yes"
+                                    "Yes",
+                                    "No"
                                   ]
+                                }
+                              }
+                            },
+                            "otherConnectedProperties": {
+                              "baspiRef": "A7.1.1",
+                              "title": "Do other properties connect to the septic tank, cesspit or sewerage treatment plant?",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
                                 },
-                                "numberOfPropertiesSharing": {
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "numberOfPropertiesSharing": {
+                                      "baspiRef": "A7.1.1.1",
+                                      "title": "How many other properties?"
+                                    },
+                                    "details": {
+                                      "baspiRef": "A7.1.1.2",
+                                      "title": "Provide details of the properties sharing the system and explain how maintenance of the system is arranged and paid for"
+                                    }
+                                  },
+                                  "required": [
+                                    "details",
+                                    "attachments"
+                                  ]
+                                }
+                              ],
+                              "required": [
+                                "yesNo"
+                              ],
+                              "properties": {
+                                "yesNo": {
                                   "baspiRef": "A7.1.1.1",
-                                  "title": "How many other properties?"
-                                },
-                                "details": {
-                                  "baspiRef": "A7.1.1.2",
-                                  "title": "Provide details of the properties sharing the system and explain how maintenance of the system is arranged and paid for"
-                                }
-                              },
-                              "required": [
-                                "details",
-                                "attachments"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "A7.1.1.1",
-                              "enum": [
-                                "Yes",
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        "plantOnOtherLand": {
-                          "baspiRef": "A7.1.2",
-                          "title": "Is any part of the septic tank, cesspit or sewerage treatment plant located on someone else’s land?",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
                                   "enum": [
+                                    "Yes",
                                     "No"
                                   ]
                                 }
                               }
                             },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
+                            "plantOnOtherLand": {
+                              "baspiRef": "A7.1.2",
+                              "title": "Is any part of the septic tank, cesspit or sewerage treatment plant located on someone else’s land?",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
                                 },
-                                "attachments": {
-                                  "baspiRef": "7.1.2.2",
-                                  "title": "Please supply a plan showing the location of the system and how access is obtained.",
-                                  "enum": [
-                                    "Attached",
-                                    "To follow"
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "attachments": {
+                                      "baspiRef": "7.1.2.2",
+                                      "title": "Please supply a plan showing the location of the system and how access is obtained.",
+                                      "enum": [
+                                        "Attached",
+                                        "To follow"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "attachments"
                                   ]
                                 }
-                              },
+                              ],
                               "required": [
-                                "attachments"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "7.1.2.1",
-                              "enum": [
-                                "Yes",
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        "plantRegistered": {
-                          "baspiRef": "A7.1.3",
-                          "title": "Is the septic tank, cesspit or sewerage treatment plant registered with the Environment Agency or exempted?",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
+                                "yesNo"
+                              ],
                               "properties": {
                                 "yesNo": {
+                                  "baspiRef": "7.1.2.1",
                                   "enum": [
+                                    "Yes",
                                     "No"
                                   ]
                                 }
                               }
                             },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
+                            "plantRegistered": {
+                              "baspiRef": "A7.1.3",
+                              "title": "Is the septic tank, cesspit or sewerage treatment plant registered with the Environment Agency or exempted?",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
                                 },
-                                "attachments": {
-                                  "baspiRef": "A7.1.3.2",
-                                  "title": "Please supply the appropriate permit to discharge or exemption certificate",
-                                  "enum": [
-                                    "Attached",
-                                    "To follow"
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "attachments": {
+                                      "baspiRef": "A7.1.3.2",
+                                      "title": "Please supply the appropriate permit to discharge or exemption certificate",
+                                      "enum": [
+                                        "Attached",
+                                        "To follow"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "attachments"
                                   ]
                                 }
-                              },
+                              ],
                               "required": [
-                                "attachments"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "A7.1.3.1",
-                              "enum": [
-                                "Yes",
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        "plantDrainsIntoWaterway": {
-                          "baspiRef": "A7.1.4",
-                          "title": "Does the septic tank, cesspit or sewerage treatment plant drain into a waterway (lake, river, stream etc)",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
+                                "yesNo"
+                              ],
                               "properties": {
                                 "yesNo": {
+                                  "baspiRef": "A7.1.3.1",
                                   "enum": [
+                                    "Yes",
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            "plantDrainsIntoWaterway": {
+                              "baspiRef": "A7.1.4",
+                              "title": "Does the septic tank, cesspit or sewerage treatment plant drain into a waterway (lake, river, stream etc)",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No, the effluent is discharged through a soakaway system."
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "dischargeCompliesWithGBR": {
+                                      "baspiRef": "A7.1.4.1",
+                                      "title": "Does it comply with the General Binding Rules for discharge into a waterway?",
+                                      "enum": [
+                                        "Yes",
+                                        "No, it does not comply with the rules for discharge into a waterway."
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "dischargeCompliesWithGBR"
+                                  ]
+                                }
+                              ],
+                              "required": [
+                                "yesNo"
+                              ],
+                              "properties": {
+                                "yesNo": {
+                                  "baspiRef": "A7.1.4.1",
+                                  "enum": [
+                                    "Yes",
                                     "No, the effluent is discharged through a soakaway system."
                                   ]
                                 }
                               }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                },
-                                "dischargeCompliesWithGBR": {
-                                  "baspiRef": "A7.1.4.1",
-                                  "title": "Does it comply with the General Binding Rules for discharge into a waterway?",
-                                  "enum": [
-                                    "Yes",
-                                    "No, it does not comply with the rules for discharge into a waterway."
-                                  ]
-                                }
-                              },
-                              "required": [
-                                "dischargeCompliesWithGBR"
-                              ]
                             }
-                          ],
+                          },
                           "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "A7.1.4.1",
-                              "enum": [
-                                "Yes",
-                                "No, the effluent is discharged through a soakaway system."
-                              ]
-                            }
-                          }
+                            "sustainableDrainageSystem",
+                            "septicTank",
+                            "cesspit",
+                            "sewerageTreatmentPlant",
+                            "otherConnectedProperties",
+                            "yearSystemInstalled",
+                            "plantOnOtherLand",
+                            "plantRegistered",
+                            "plantDrainsIntoWaterway"
+                          ]
                         }
-                      },
+                      ],
                       "required": [
-                        "sustainableDrainageSystem",
-                        "septicTank",
-                        "cesspit",
-                        "sewerageTreatmentPlant",
-                        "otherConnectedProperties",
-                        "yearSystemInstalled",
-                        "plantOnOtherLand",
-                        "plantRegistered",
-                        "plantDrainsIntoWaterway"
-                      ]
-                    }
-                  ],
-                  "required": [
-                    "yesNo"
-                  ],
-                  "properties": {
-                    "yesNo": {
-                      "baspiRef": "A7.1.0.11.1",
-                      "enum": [
-                        "Yes",
-                        "To be connected",
-                        "No"
-                      ]
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "baspiRef": "A7.1.0.11.1",
+                          "enum": [
+                            "Yes",
+                            "To be connected",
+                            "No"
+                          ]
+                        }
+                      }
                     }
                   }
                 },
@@ -6524,36 +6543,41 @@
                             "groundWater": {
                               "baspiRef": "A11.1.2.2.1",
                               "title": "Ground water",
-                              "required": [
-                                "yesNo"
+                              "enum": [
+                                "Yes",
+                                "No"
                               ]
                             },
                             "sewer": {
                               "baspiRef": "A11.1.2.2.2",
                               "title": "Sewer",
-                              "required": [
-                                "yesNo"
+                              "enum": [
+                                "Yes",
+                                "No"
                               ]
                             },
                             "surfaceWater": {
                               "baspiRef": "A11.1.2.2.3",
                               "title": "Surface water",
-                              "required": [
-                                "yesNo"
+                              "enum": [
+                                "Yes",
+                                "No"
                               ]
                             },
                             "coastal": {
                               "baspiRef": "A11.1.2.2.4",
                               "title": "Coastal flooding",
-                              "required": [
-                                "yesNo"
+                              "enum": [
+                                "Yes",
+                                "No"
                               ]
                             },
                             "river": {
                               "baspiRef": "A11.1.2.2.5",
                               "title": "River flooding",
-                              "required": [
-                                "yesNo"
+                              "enum": [
+                                "Yes",
+                                "No"
                               ]
                             },
                             "other": {
@@ -6581,7 +6605,7 @@
                                       ]
                                     },
                                     "details": {
-                                      "baspiRef": "A11.1.2.2.6.1",
+                                      "baspiRef": "A11.1.2.2.6.2",
                                       "title": "Please stata"
                                     }
                                   },
@@ -6592,7 +6616,16 @@
                               ],
                               "required": [
                                 "yesNo"
-                              ]
+                              ],
+                              "properties": {
+                                "yesNo": {
+                                  "baspiRef": "A11.1.2.2.6.1",
+                                  "enum": [
+                                    "Yes",
+                                    "No"
+                                  ]
+                                }
+                              }
                             }
                           }
                         }
@@ -8397,11 +8430,7 @@
                     "handoverOnCompletion": {
                       "baspiRef": "B7.4.2",
                       "title": "Confirm that you will handover details on day of completion",
-                      "description": "Confirm that you will provide the buyer with the login, password and link to user instructions for the relevant system(s). [NOTE: It is recommended that you reset the password before handing it over to avoid security issues by passing on your own password]",
-                      "enum": [
-                        "true",
-                        "false"
-                      ]
+                      "description": "Confirm that you will provide the buyer with the login, password and link to user instructions for the relevant system(s). [NOTE: It is recommended that you reset the password before handing it over to avoid security issues by passing on your own password]"
                     }
                   },
                   "required": [
