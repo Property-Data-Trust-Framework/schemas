@@ -43,6 +43,32 @@ const combineMerge = (target, source, options) => {
   return destination;
 };
 
+const flattenSkeleton = (schema) => {
+  if (!schema) return undefined;
+  // console.log(schema.properties);
+  let returnStructure = {};
+  if (schema.properties) {
+    Object.keys(schema.properties).forEach((key) => {
+      returnStructure[key] = flattenSkeleton(schema.properties[key]);
+    });
+  }
+  if (schema.oneOf) {
+    schema.oneOf.forEach((aOneOf) => {
+      // console.log(aOneOf);
+      if (aOneOf.properties) {
+        Object.entries(aOneOf.properties).forEach(([key, value]) => {
+          // console.log(aProperty);
+          returnStructure[key] = flattenSkeleton(value);
+        });
+      }
+    });
+  }
+  if (schema.items) {
+    returnStructure = flattenSkeleton(schema.items);
+  }
+  return returnStructure;
+};
+
 const extractOverlay = (sourceSchema, ref) => {
   const refName = `${ref}Ref`;
   const refRequired = `${ref}Required`;
@@ -116,3 +142,25 @@ fs.writeFileSync(
   JSON.stringify(coreSchema, null, 2)
 );
 console.log("Core schema written to ../schemas/v2/pdtf-transaction.json");
+
+const skeletonSchema = deleteProperties(coreSchema, [
+  "$schema",
+  "$id",
+  "title",
+  "description",
+  "required",
+  "enum",
+  "minItems",
+  "minLength",
+  "format",
+  "minimum",
+  "maximum",
+]);
+
+const skeletonSchemaFlattened = flattenSkeleton(skeletonSchema);
+
+fs.writeFileSync(
+  "../schemas/v2/skeleton.json",
+  JSON.stringify(skeletonSchemaFlattened, null, 2)
+);
+console.log("Flat Skeleton schema written to ../schemas/v2/skeleton.json");
