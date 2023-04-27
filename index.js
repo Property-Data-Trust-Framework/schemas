@@ -60,7 +60,7 @@ const con29DWOverlay = require("./src/schemas/v2/overlays/con29DW.json");
 const rdsOverlay = require("./src/schemas/v2/overlays/rds.json");
 const oc1Overlay = require("./src/schemas/v2/overlays/oc1.json");
 
-const overlays = { baspiV4: baspiOverlay, null: {} };
+const overlaysMap = { baspiV4: baspiOverlay, ta6ed4: ta6Overlay, null: {} };
 
 const transactionSchemas = {
   "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json":
@@ -85,22 +85,25 @@ const combineMerge = (target, source, options) => {
 
 const getTransactionSchema = (
   schemaId = "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json",
-  overlay = "baspiV4"
+  overlays = ["baspiV4"]
 ) => {
   const sourceSchema = transactionSchemas[schemaId];
-  const overlaySchema = overlays[overlay];
-  if (!overlaySchema) return sourceSchema;
-  const mergedSchema = merge(overlaySchema, sourceSchema, {
-    arrayMerge: combineMerge,
+  if (!overlays || overlays.length < 1) return sourceSchema;
+  let mergedSchema = sourceSchema;
+  overlays.forEach((overlay) => {
+    const overlaySchema = overlaysMap[overlay] || {};
+    mergedSchema = merge(overlaySchema, mergedSchema, {
+      arrayMerge: combineMerge,
+    });
   });
   // console.log("mergedSchema", mergedSchema);
   return mergedSchema;
 };
 
-const getValidator = (schemaId, overlay = "baspiV4") => {
+const getValidator = (schemaId, overlays) => {
   let validator = ajv.getSchema(schemaId);
   if (!validator) {
-    const schema = getTransactionSchema(schemaId, overlay);
+    const schema = getTransactionSchema(schemaId, overlays);
     ajv.addSchema(schema, schemaId);
     validator = ajv.getSchema(schemaId);
   }
@@ -108,8 +111,8 @@ const getValidator = (schemaId, overlay = "baspiV4") => {
 };
 
 // common functions for v1 and v2
-const getSubschema = (path, schemaId, overlay) => {
-  const sourceSchema = getTransactionSchema(schemaId, overlay);
+const getSubschema = (path, schemaId, overlays) => {
+  const sourceSchema = getTransactionSchema(schemaId, overlays);
   const pathArray = path.split("/").slice(1);
   if (pathArray.length < 1) return sourceSchema;
   return pathArray.reduce((schema, pathElement) => {
@@ -131,19 +134,21 @@ const getSubschema = (path, schemaId, overlay) => {
   }, sourceSchema);
 };
 
-const isPathValid = (path, schemaId, overlay) => {
-  const schema = getTransactionSchema(schemaId, overlay);
+const isPathValid = (path, schemaId, overlays) => {
+  const schema = getTransactionSchema(schemaId, overlays);
   try {
-    return getSubschema(path, schemaId, overlay) !== undefined;
+    return getSubschema(path, schemaId, overlays) !== undefined;
   } catch (err) {
     return false;
   }
 };
 
-const getSubschemaValidator = (path, schemaId, overlay) => {
-  const subSchema = getSubschema(path, schemaId, overlay);
-  // see if we can retrieve the schema by path, schemaId and overlay
-  const cacheKey = `${path}-${schemaId}-${overlay}`;
+const getSubschemaValidator = (path, schemaId, overlays = ["baspiV4"]) => {
+  const subSchema = getSubschema(path, schemaId, overlays);
+  const overlayKey = (overlays || []).join(".");
+  // see if we can retrieve the schema by path, schemaId and overlays
+  const cacheKey = `${path}-${schemaId}-${overlayKey}`;
+  console.log("cacheKey", cacheKey);
   let validator = ajv.getSchema(cacheKey);
   // retrieve whole schema by $id if available
   if (!validator && subSchema.$id) validator = ajv.getSchema(cacheKey);
@@ -198,7 +203,7 @@ const getTitleAtPath = (schema, path, rootPath = path) => {
   }
 };
 
-const validateVerifiedClaims = (verifiedClaims, schemaId, overlay) => {
+const validateVerifiedClaims = (verifiedClaims, schemaId, overlays) => {
   const validatorVClaims = ajv.compile(verifiedClaimsSchema);
 
   const validationErrorsArr = [];
@@ -217,9 +222,10 @@ const validateVerifiedClaims = (verifiedClaims, schemaId, overlay) => {
   verifiedClaimsArray.forEach((claim) => {
     const paths = Object.keys(claim.claims);
     for (const path of paths) {
-      const validPath = isPathValid(path, schemaId, overlay);
+      const validPath = isPathValid(path, schemaId, overlays);
       if (validPath) {
-        const subValidator = getSubschemaValidator(path, schemaId, overlay);
+        console.log("overlays", path, overlays);
+        const subValidator = getSubschemaValidator(path, schemaId, overlays);
         const isValid = subValidator(claim.claims[path]);
         if (!isValid) {
           validationErrorsArr.push(...subValidator.errors);
