@@ -135,7 +135,6 @@ const getSubschema = (path, schemaId, overlays) => {
 };
 
 const isPathValid = (path, schemaId, overlays) => {
-  const schema = getTransactionSchema(schemaId, overlays);
   try {
     return getSubschema(path, schemaId, overlays) !== undefined;
   } catch (err) {
@@ -148,7 +147,6 @@ const getSubschemaValidator = (path, schemaId, overlays = ["baspiV4"]) => {
   const overlayKey = (overlays || []).join(".");
   // see if we can retrieve the schema by path, schemaId and overlays
   const cacheKey = `${path}-${schemaId}-${overlayKey}`;
-  console.log("cacheKey", cacheKey);
   let validator = ajv.getSchema(cacheKey);
   // retrieve whole schema by $id if available
   if (!validator && subSchema.$id) validator = ajv.getSchema(cacheKey);
@@ -224,7 +222,6 @@ const validateVerifiedClaims = (verifiedClaims, schemaId, overlays) => {
     for (const path of paths) {
       const validPath = isPathValid(path, schemaId, overlays);
       if (validPath) {
-        console.log("overlays", path, overlays);
         const subValidator = getSubschemaValidator(path, schemaId, overlays);
         const isValid = subValidator(claim.claims[path]);
         if (!isValid) {

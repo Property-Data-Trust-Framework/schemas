@@ -111,7 +111,7 @@ test("correctly gets a subschema through a dependency", () => {
     schemaId
   );
   expect(subschema.title).toBe(
-    "Provide details and likely timescale for delay (if known)"
+    "Provide details and likely timescale for delay"
   );
 });
 
@@ -167,6 +167,16 @@ test("correctly gets yes another subschema but through a non-baspi oneOf structu
   expect(subschema).toEqual({ type: "string" });
 });
 
+test("correctly gets a subschema with multiple overlays", () => {
+  const subschema = getSubschema(
+    "/propertyPack/materialFacts/parking/parkingArrangements",
+    schemaId,
+    ["baspiV4", "ta6ed4"]
+  );
+  expect(subschema.baspiRef).toBe("A1.6.0");
+  expect(subschema.ta6Ref).toBe("9.1");
+});
+
 test("correctly gets a subschema validator which is already cached", () => {
   const validator = getSubschemaValidator(
     "/propertyPack/materialFacts/energyEfficiency/certificate"
@@ -176,6 +186,32 @@ test("correctly gets a subschema validator which is already cached", () => {
     "/propertyPack/materialFacts/energyEfficiency/certificate"
   );
   expect(anotherValidator).not.toBeNull();
+});
+
+test("correctly gets a subschema validator for a TA6 overlay", () => {
+  const path = "/propertyPack";
+  const data = jp.get(exampleTransaction, path);
+  const validator = getSubschemaValidator(path, exampleTransaction.$schema, [
+    "ta6ed4",
+  ]);
+  let isValid = validator(data);
+  // console.log(validator.errors);
+  expect(isValid).toBe(true);
+});
+
+test("correctly gets a subschema validator for a TA6 overlay which validates", () => {
+  const path =
+    "/propertyPack/additionalLegalInfo/guaranteesWarrantiesAndIndemnityInsurances/subsidenceWork";
+  const subSchema = getSubschema(path, exampleTransaction.$schema, ["ta6ed4"]);
+  const data = { yesNo: "Yes" };
+  const validator = getSubschemaValidator(path, exampleTransaction.$schema, [
+    "ta6ed4",
+  ]);
+  let isValid = validator(data);
+  expect(isValid).toBe(false);
+  expect(validator.errors[0].message).toBe(
+    "must have required property 'attachments'"
+  );
 });
 
 test("correctly gets a subschema validator which validates", () => {

@@ -71,7 +71,6 @@ const flattenSkeleton = (schema) => {
 
 const extractOverlay = (sourceSchema, ref) => {
   const refName = `${ref}Ref`;
-  const refRequired = `${ref}Required`;
   const returnSchema = {
     $schema: "http://json-schema.org/draft-07/schema#",
     $id: `https://trust.propdata.org.uk/schemas/v2/overlays/${ref}.json`,
@@ -100,6 +99,7 @@ const extractOverlay = (sourceSchema, ref) => {
         });
       }
     }
+    const refRequired = `${ref}Required`;
     if (element[refRequired]) {
       jp.set(returnSchema, `${path}/required`, element[refRequired]);
     }
