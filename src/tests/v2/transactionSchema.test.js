@@ -135,7 +135,7 @@ test("correctly gets yet, yet another subschema through a dependency", () => {
     "/propertyPack/materialFacts/listingAndConservation/isConservationArea/yesNo"
   );
   expect(subschema.type).toBe("string");
-  expect(subschema.enum).toStrictEqual(["Yes", "No"]);
+  expect(subschema.enum).toStrictEqual(["Yes", "No", "Not known"]);
 });
 
 test("correctly gets yet, yet, yet another subschema through a dependency", () => {
@@ -202,7 +202,6 @@ test("correctly gets a subschema validator for a TA6 overlay", () => {
 test("correctly gets a subschema validator for a TA6 overlay which validates", () => {
   const path =
     "/propertyPack/additionalLegalInfo/guaranteesWarrantiesAndIndemnityInsurances/subsidenceWork";
-  const subSchema = getSubschema(path, exampleTransaction.$schema, ["ta6ed4"]);
   const data = { yesNo: "Yes" };
   const validator = getSubschemaValidator(path, exampleTransaction.$schema, [
     "ta6ed4",
@@ -212,6 +211,48 @@ test("correctly gets a subschema validator for a TA6 overlay which validates", (
   expect(validator.errors[0].message).toBe(
     "must have required property 'attachments'"
   );
+});
+
+test("correctly gets a subschema validator for a TA6 overlay which validates with non-TA6 field missing", () => {
+  const path = "/propertyPack";
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
+  );
+  const data = jp.get(exampleTransaction, path);
+  data.materialFacts.uprn = undefined;
+  const validator = getSubschemaValidator(path, exampleTransaction.$schema, [
+    "ta6ed4",
+  ]);
+  let isValid = validator(data);
+  expect(isValid).toBe(true);
+});
+
+test("correctly gets a subschema validator for a TA6 overlay which validates with non-TA6 section missing", () => {
+  const path = "/propertyPack";
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
+  );
+  const data = jp.get(clonedExampleTransaction, path);
+  data.additionalLegalInfo.smartHomeSystems = undefined;
+  const validator = getSubschemaValidator(path, exampleTransaction.$schema, [
+    "ta6ed4",
+  ]);
+  let isValid = validator(data);
+  expect(isValid).toBe(true);
+});
+
+test("correctly gets a subschema validator for a TA6 overlay which fails to validate with BASPI/TA6 section missing", () => {
+  const path = "/propertyPack";
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
+  );
+  const data = jp.get(clonedExampleTransaction, path);
+  data.materialFacts.waterAndDrainage = {};
+  const validator = getSubschemaValidator(path, exampleTransaction.$schema, [
+    "ta6ed4",
+  ]);
+  let isValid = validator(data);
+  expect(isValid).toBe(false);
 });
 
 test("correctly gets a subschema validator which validates", () => {

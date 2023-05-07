@@ -4,9 +4,8 @@
   "type": "object",
   "title": "Property Data Trust Framework Transaction Schema",
   "description": "A schema defining the PDTF transaction data structure, supporting mapping to BASPI, Law Society and RICS Data Schema elements.",
-  "baspiRequired": ["transactionId", "status", "participants", "propertyPack"],
-  "ta6Required": ["transactionId", "status", "participants", "propertyPack"],
-
+  "baspiRequired": ["participants", "propertyPack"],
+  "ta6Required": ["participants", "propertyPack"],
   "properties": {
     "$schema": {
       "type": "string"
@@ -126,9 +125,12 @@
       }
     },
     "propertyPack": {
-      "baspiRef": "-",
+      "baspiRef": "0",
+      "ta6Ref": "0",
       "title": "Property Pack",
       "type": "object",
+      "baspiRequired": ["materialFacts", "additionalLegalInfo"],
+      "ta6Required": ["materialFacts", "additionalLegalInfo"],
       "properties": {
         "materialFacts": {
           "type": "object",
@@ -162,9 +164,7 @@
             "consumerProtectionRegulationsDeclaration"
           ],
           "ta6Required": [
-            "uprn",
             "address",
-            "delayFactors",
             "ownership",
             "parking",
             "listingAndConservation",
@@ -175,13 +175,13 @@
             "alterationsAndChanges",
             "notices",
             "specialistIssues",
-            "fixturesAndFittings",
             "waterAndDrainage",
             "connectedUtilities",
             "centralHeating",
             "insurance",
             "rightsAndInformalArrangements",
-            "environmentalIssues"
+            "environmentalIssues",
+            "additionalInformation"
           ],
           "properties": {
             "address": {
@@ -7304,7 +7304,7 @@
                       "ta6Ref": "4.7a1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "No"]
+                      "enum": ["Yes", "No", "Not known"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -7316,7 +7316,7 @@
                     {
                       "properties": {
                         "yesNo": {
-                          "enum": ["No"]
+                          "enum": ["No", "Not known"]
                         }
                       }
                     },
@@ -7357,7 +7357,7 @@
                       "ta6Ref": "4.7b1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "No"]
+                      "enum": ["Yes", "No", "Not known"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -7368,7 +7368,7 @@
                     {
                       "properties": {
                         "yesNo": {
-                          "enum": ["No"]
+                          "enum": ["No", "Not known"]
                         }
                       }
                     },
@@ -7410,7 +7410,7 @@
                       "ta6Ref": "4.8.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "No"]
+                      "enum": ["Yes", "No", "Not known"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -7422,7 +7422,7 @@
                     {
                       "properties": {
                         "yesNo": {
-                          "enum": ["No"]
+                          "enum": ["No", "Not known"]
                         }
                       }
                     },
@@ -8133,8 +8133,14 @@
               "ta6Ref": "2",
               "title": "Disputes and Complaints",
               "type": "object",
-              "baspiRequired": ["hasDisputesAndComplaints"],
-              "ta6Required": ["hasDisputesAndComplaints"],
+              "baspiRequired": [
+                "hasDisputesAndComplaints",
+                "leadingToDisputesAndComplaints"
+              ],
+              "ta6Required": [
+                "hasDisputesAndComplaints",
+                "leadingToDisputesAndComplaints"
+              ],
               "properties": {
                 "hasDisputesAndComplaints": {
                   "baspiRef": "A2.1.1",
@@ -8291,7 +8297,7 @@
                         },
                         "details": {
                           "baspiRef": "A3.1.2",
-                          "ta6Ref": "4.1a1",
+                          "ta6Ref": "4.1a2",
                           "title": "Please give details including dates of all work undertaken",
                           "type": "string",
                           "minLength": 1
@@ -8324,7 +8330,7 @@
                                 },
                                 "attachments": {
                                   "baspiRef": "A3.5.1.3",
-                                  "ta6Ref": "4.2.2",
+                                  "ta6Ref": "4.2a",
                                   "title": "Please provide a copy of the documents",
                                   "type": "string",
                                   "enum": ["Attached", "To follow"]
@@ -8340,7 +8346,7 @@
                                 },
                                 "details": {
                                   "baspiRef": "A3.5.1.2",
-                                  "ta6Ref": "4.2.3",
+                                  "ta6Ref": "4.2b",
                                   "title": "Please outline the reasons why",
                                   "description": "e.g. the work was exempt from Building Regulations",
                                   "type": "string",
@@ -8379,7 +8385,7 @@
                                 },
                                 "attachments": {
                                   "baspiRef": "A3.5.2.3",
-                                  "ta6Ref": "4.2.2",
+                                  "ta6Ref": "4.2a",
                                   "title": "Please provide a copy of the documents",
                                   "type": "string",
                                   "enum": ["Attached", "To follow"]
@@ -8395,7 +8401,7 @@
                                 },
                                 "details": {
                                   "baspiRef": "A3.5.2.2",
-                                  "ta6Ref": "4.2.3",
+                                  "ta6Ref": "4.2b",
                                   "title": "Please outline the reasons why",
                                   "description": "e.g. permitted development rights applied",
                                   "type": "string",
@@ -8593,7 +8599,7 @@
                                 },
                                 "attachments": {
                                   "baspiRef": "A3.5.1.3",
-                                  "ta6Ref": "4.2.2",
+                                  "ta6Ref": "4.2a",
                                   "title": "Please provide a copy of the documents",
                                   "type": "string",
                                   "enum": ["Attached", "To follow"]
@@ -8609,7 +8615,7 @@
                                 },
                                 "details": {
                                   "baspiRef": "A3.5.1.2",
-                                  "ta6Ref": "4.2.3",
+                                  "ta6Ref": "4.2b",
                                   "title": "Please outline the reasons why",
                                   "description": "e.g. the work was exempt from Building Regulations",
                                   "type": "string",
@@ -8649,7 +8655,7 @@
                                 },
                                 "attachments": {
                                   "baspiRef": "A3.5.1.3",
-                                  "ta6Ref": "4.2.2",
+                                  "ta6Ref": "4.2a",
                                   "title": "Please provide a copy of the documents",
                                   "type": "string",
                                   "enum": ["Attached", "To follow"]
@@ -8665,7 +8671,7 @@
                                 },
                                 "details": {
                                   "baspiRef": "A3.5.2.2",
-                                  "ta6Ref": "4.2.3",
+                                  "ta6Ref": "4.2b",
                                   "title": "Please outline the reasons why",
                                   "description": "e.g. permitted development rights applied",
                                   "type": "string",
@@ -8863,7 +8869,7 @@
                                 },
                                 "attachments": {
                                   "baspiRef": "A3.5.1.3",
-                                  "ta6Ref": "4.2.2",
+                                  "ta6Ref": "4.2a",
                                   "title": "Please provide a copy of the documents",
                                   "type": "string",
                                   "enum": ["Attached", "To follow"]
@@ -8879,7 +8885,7 @@
                                 },
                                 "details": {
                                   "baspiRef": "A3.5.1.2",
-                                  "ta6Ref": "4.2.3",
+                                  "ta6Ref": "4.2b",
                                   "title": "Please outline the reasons why",
                                   "description": "e.g. the work was exempt from Building Regulations",
                                   "type": "string",
@@ -8919,7 +8925,7 @@
                                 },
                                 "attachments": {
                                   "baspiRef": "A3.5.2.3",
-                                  "ta6Ref": "4.2.2",
+                                  "ta6Ref": "4.2a",
                                   "title": "Please provide a copy of the documents",
                                   "type": "string",
                                   "enum": ["Attached", "To follow"]
@@ -8935,7 +8941,7 @@
                                 },
                                 "details": {
                                   "baspiRef": "A3.5.2.2",
-                                  "ta6Ref": "4.2.3",
+                                  "ta6Ref": "4.2b",
                                   "title": "Please outline the reasons why",
                                   "description": "e.g. permitted development rights applied",
                                   "type": "string",
@@ -9133,7 +9139,7 @@
                                 },
                                 "attachments": {
                                   "baspiRef": "A3.5.1.3",
-                                  "ta6Ref": "4.2.2",
+                                  "ta6Ref": "4.2a",
                                   "title": "Please provide a copy of the documents",
                                   "type": "string",
                                   "enum": ["Attached", "To follow"]
@@ -9149,7 +9155,7 @@
                                 },
                                 "details": {
                                   "baspiRef": "A3.5.1.2",
-                                  "ta6Ref": "4.2.3",
+                                  "ta6Ref": "4.2b",
                                   "title": "Please outline the reasons why",
                                   "description": "e.g. the work was exempt from Building Regulations",
                                   "type": "string",
@@ -9189,7 +9195,7 @@
                                 },
                                 "attachments": {
                                   "baspiRef": "A3.5.2.3",
-                                  "ta6Ref": "4.2.2",
+                                  "ta6Ref": "4.2a",
                                   "title": "Please provide a copy of the documents",
                                   "type": "string",
                                   "enum": ["Attached", "To follow"]
@@ -9205,7 +9211,7 @@
                                 },
                                 "details": {
                                   "baspiRef": "A3.5.2.2",
-                                  "ta6Ref": "4.2.3",
+                                  "ta6Ref": "4.2b",
                                   "title": "Please outline the reasons why",
                                   "description": "e.g. permitted development rights applied",
                                   "type": "string",
@@ -9839,6 +9845,7 @@
                         },
                         "attachments": {
                           "baspiRef": "A4.6.3",
+                          "ta6Ref": "1.6.3",
                           "title": "Attachments",
                           "type": "string",
                           "enum": ["Attached", "To follow"]
@@ -19624,7 +19631,6 @@
             "legalBoundaries",
             "servicesCrossing",
             "energyAndMeters",
-            "smartHomeSystems",
             "guaranteesWarrantiesAndIndemnityInsurances",
             "occupiers",
             "completionAndMoving",
@@ -20483,7 +20489,7 @@
                                 },
                                 "attachments": {
                                   "baspiRef": "4.3.3.3",
-                                  "ta6Ref": "4.6c1",
+                                  "ta6Ref": "4.6c2",
                                   "title": "Please supply copies of the relevant documents",
                                   "type": "string",
                                   "enum": ["Attached", "To follow"]
@@ -20875,7 +20881,7 @@
               "properties": {
                 "hasValidGuaranteesOrWarranties": {
                   "baspiRef": "B5.1",
-                  "ta6Ref": "5/1",
+                  "ta6Ref": "5.1",
                   "rdsRef": "Certificates",
                   "title": "Are there any valid guarantees or warranties relating to this property?",
                   "type": "string",
