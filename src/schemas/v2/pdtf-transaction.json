@@ -6345,7 +6345,8 @@
                       "title": "",
                       "enum": [
                         "Yes",
-                        "No"
+                        "No",
+                        "Not known"
                       ]
                     }
                   }
@@ -6705,6 +6706,15 @@
               "title": "Energy Efficiency",
               "type": "object",
               "properties": {
+                "certificateIsSupplied": {
+                  "title": "Please supply a copy of the EPC for the property",
+                  "type": "string",
+                  "enum": [
+                    "Attached",
+                    "To follow",
+                    "Already supplied"
+                  ]
+                },
                 "certificate": {
                   "type": "object",
                   "properties": {
@@ -8815,7 +8825,8 @@
                       "title": "",
                       "enum": [
                         "Yes",
-                        "No"
+                        "No",
+                        "Not known"
                       ]
                     }
                   },
@@ -8824,7 +8835,8 @@
                       "properties": {
                         "yesNo": {
                           "enum": [
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       }
@@ -8836,13 +8848,17 @@
                             "Yes"
                           ]
                         },
-                        "details": {
-                          "title": "Please provide details,state whether there is a management plan in place and attach a copy",
+                        "managementPlanInPlace": {
+                          "title": "Is there a Japanese Knotweed management and treatment plan in place?",
                           "type": "string",
-                          "minLength": 1
+                          "enum": [
+                            "Yes",
+                            "No",
+                            "Not known"
+                          ]
                         },
                         "attachments": {
-                          "title": "Attachments",
+                          "title": "Please supply a copy with any insurance cover linked to the plan",
                           "type": "string",
                           "enum": [
                             "Attached",
@@ -15749,7 +15765,8 @@
                           "enum": [
                             "Yes",
                             "To be connected",
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       },
@@ -15758,7 +15775,8 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
-                                "No"
+                                "No",
+                                "Not known"
                               ]
                             }
                           }
@@ -15806,7 +15824,8 @@
                           "enum": [
                             "Yes",
                             "To be connected",
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       },
@@ -15847,7 +15866,8 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
-                                "No"
+                                "No",
+                                "Not known"
                               ]
                             },
                             "sustainableDrainageSystem": {
@@ -16409,7 +16429,7 @@
                           "enum": [
                             "Attached",
                             "To follow",
-                            "Not applicable"
+                            "Not available"
                           ]
                         },
                         "heatingInGoodWorkingOrder": {
@@ -17057,8 +17077,47 @@
                         }
                       ]
                     },
-                    "rightsOfLightOrSupport": {
-                      "title": "Rights of light or support for other properties",
+                    "rightsOfLight": {
+                      "title": "Rights of light",
+                      "type": "object",
+                      "properties": {
+                        "yesNo": {
+                          "type": "string",
+                          "title": "",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
+                        }
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "title": "Details",
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "rightsOfSupport": {
+                      "title": "Rights of support from ajoining properties",
                       "type": "object",
                       "properties": {
                         "yesNo": {
@@ -17097,7 +17156,46 @@
                       ]
                     },
                     "rightsCreatedThroughCustom": {
-                      "title": "Rights created through custom or use (e.g. rights to graze on other land or forage, rights of the lord of the manor or others to take things from your property etc)",
+                      "title": "Rights created through custom or use (e.g. rights to graze on other land or forage)",
+                      "type": "object",
+                      "properties": {
+                        "yesNo": {
+                          "type": "string",
+                          "title": "",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
+                        }
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "title": "Details",
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "rightsToTakeFromLand": {
+                      "title": "Other people's rights to take things from the land (such as timber, hay or fish)",
                       "type": "object",
                       "properties": {
                         "yesNo": {
@@ -17489,7 +17587,8 @@
                           "title": "",
                           "enum": [
                             "Yes",
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       }
@@ -17514,7 +17613,8 @@
                       "properties": {
                         "yesNo": {
                           "enum": [
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       }
@@ -18268,7 +18368,8 @@
                       "title": "",
                       "enum": [
                         "Yes",
-                        "No"
+                        "No",
+                        "Not known"
                       ]
                     }
                   },
@@ -18277,7 +18378,8 @@
                       "properties": {
                         "yesNo": {
                           "enum": [
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       }
@@ -18315,7 +18417,8 @@
                       "title": "",
                       "enum": [
                         "Yes",
-                        "No"
+                        "No",
+                        "Not known"
                       ]
                     }
                   },
@@ -18324,7 +18427,8 @@
                       "properties": {
                         "yesNo": {
                           "enum": [
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       }
@@ -19706,10 +19810,33 @@
               "title": "Completion and Moving",
               "type": "object",
               "properties": {
-                "willRemoveAllRubbish": {
-                  "title": "Please confirm that on completion you will remove all rubbish and items not included in the sale from the property including its garden, loft and any sheds or outbuildings.",
-                  "description": "When the property is cleared out you will be expected to take reasonable care when clearing the property, leaving it clean and tidy and repairing any damage caused when removing items from the property and making safe any light or electrical fittings which are being removed.\n\nKeys for all door and window locks, along with any alarm codes, should be available for the buyer on the day of completion.  If there is any reason why you cannot do this you should let the estate agent and your property lawyer know. For all internet connected services e.g. doorbells, boiler controls, burglar alarms, CCTV cameras etc) access to them will need to be provided to the buyer on the day of completion so that they can control them or sign up to the service.  If there is any reason why you cannot do this you should let the estate agent and your property lawyer know.",
-                  "type": "boolean"
+                "sellerWillEnsure": {
+                  "title": "Please confirm that on completion you will:",
+                  "type": "object",
+                  "required": [
+                    "removeRubbish",
+                    "replaceLightFittings",
+                    "takeReasonableCare",
+                    "leaveKeys"
+                  ],
+                  "properties": {
+                    "removeRubbish": {
+                      "title": "Remove all rubbish and items not included in the sale from the property (including its garden, loft and any sheds or outbuildings) and leave the property in a clean and tidy condition.",
+                      "type": "boolean"
+                    },
+                    "replaceLightFittings": {
+                      "title": "If light fittings are removed, the fittings will be replaced with ceiling rose, flex, bulb holder and bulb.",
+                      "type": "boolean"
+                    },
+                    "takeReasonableCare": {
+                      "title": "Take reasonable care when removing any other fittings or contents.",
+                      "type": "boolean"
+                    },
+                    "leaveKeys": {
+                      "title": "Leave keys for all door and window locks, along with any alarm codes, for the buyer on the day of completion.",
+                      "type": "boolean"
+                    }
+                  }
                 },
                 "otherPropertyInChain": {
                   "title": "Will you need the purchase, sale or remortgage of another property to co-ordinate with the sale of this property?",
@@ -19873,7 +20000,7 @@
                       "enum": [
                         "Yes",
                         "No",
-                        "Not applicable"
+                        "No mortgage"
                       ]
                     }
                   }

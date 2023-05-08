@@ -7253,7 +7253,7 @@
                       "ta6Ref": "9.2.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "No"]
+                      "enum": ["Yes", "No", "Not known"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -7652,14 +7652,18 @@
               "title": "Energy Efficiency",
               "type": "object",
               "baspiRequired": ["certificate", "greenDealLoan"],
-              "ta6Required": ["certificate", "greenDealLoan"],
+              "ta6Required": ["certificateIsSupplied", "greenDealLoan"],
               "properties": {
+                "certificateIsSupplied": {
+                  "ta6Ref": "7.6.1",
+                  "title": "Please supply a copy of the EPC for the property",
+                  "type": "string",
+                  "enum": ["Attached", "To follow", "Already supplied"]
+                },
                 "certificate": {
                   "baspiRef": "A1.8.3.1",
-                  "ta6Ref": "7.6.1",
                   "type": "object",
                   "baspiRequired": ["currentEnergyRating"],
-                  "ta6Required": ["currentEnergyRating"],
                   "properties": {
                     "certificateNumber": {
                       "type": "string"
@@ -7708,7 +7712,6 @@
                     },
                     "currentEnergyRating": {
                       "baspiRef": "A1.8.3.1.1",
-                      "ta6Ref": "7.6",
                       "title": "Current energy efficiency rating",
                       "description": "What is the energy efficiency rating of the property according to the latest Energy Performance Certificate (EPC)?",
                       "type": "string",
@@ -7993,7 +7996,6 @@
                 "greenDealLoan": {
                   "baspiRef": "A7.3",
                   "ta6Ref": "7.7",
-
                   "rdsRef": "RightsHolders/Loans,RightsHolders/OtherDocumentation",
                   "title": "Green Deal Loan",
                   "type": "object",
@@ -8002,13 +8004,13 @@
                   "properties": {
                     "hasGreenDealLoan": {
                       "baspiRef": "A7.3",
-                      "ta6Ref": "7.7.1",
+                      "ta6Ref": "7.7.0",
                       "title": "Is this property subject to a Green Deal loan or other financed home improvement scheme?",
                       "type": "object",
                       "properties": {
                         "yesNo": {
                           "baspiRef": "A7.3.1",
-                          "ta6Ref": "7.7.1.1",
+                          "ta6Ref": "7.7.1",
                           "type": "string",
                           "title": "",
                           "enum": ["Yes", "No"]
@@ -8034,14 +8036,14 @@
                             },
                             "details": {
                               "baspiRef": "A7.3.2",
-                              "ta6Ref": "7.7.1.2",
+                              "ta6Ref": "7.7.2",
                               "title": "Please provide details below including any outstanding payments for the renewable devices and any feed-in tariffs and a copy of your last electricity bill",
                               "type": "string",
                               "minLength": 1
                             },
                             "attachments": {
                               "baspiRef": "A7.3.3",
-                              "ta6Ref": "7.7.1.3",
+                              "ta6Ref": "7.7.3",
                               "title": "Attachments",
                               "type": "string",
                               "enum": ["Attached", "To follow"]
@@ -10029,7 +10031,7 @@
                       "ta6Ref": "7.8.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "No"]
+                      "enum": ["Yes", "No", "Not known"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -10040,7 +10042,7 @@
                     {
                       "properties": {
                         "yesNo": {
-                          "enum": ["No"]
+                          "enum": ["No", "Not known"]
                         }
                       }
                     },
@@ -10049,23 +10051,23 @@
                         "yesNo": {
                           "enum": ["Yes"]
                         },
-                        "details": {
+                        "managementPlanInPlace": {
                           "baspiRef": "A5.3.2",
                           "ta6Ref": "7.8.2",
-                          "title": "Please provide details,state whether there is a management plan in place and attach a copy",
+                          "title": "Is there a Japanese Knotweed management and treatment plan in place?",
                           "type": "string",
-                          "minLength": 1
+                          "enum": ["Yes", "No", "Not known"]
                         },
                         "attachments": {
                           "baspiRef": "A5.3.3",
                           "ta6Ref": "7.8.3",
-                          "title": "Attachments",
+                          "title": "Please supply a copy with any insurance cover linked to the plan",
                           "type": "string",
                           "enum": ["Attached", "To follow"]
                         }
                       },
-                      "baspiRequired": ["details", "attachments"],
-                      "ta6Required": ["details", "attachments"]
+                      "baspiRequired": ["managementPlanInPlace", "attachments"],
+                      "ta6Required": ["managementPlanInPlace", "attachments"]
                     }
                   ],
                   "ta6Required": ["yesNo"]
@@ -16445,7 +16447,7 @@
                         },
                         "supplier": {
                           "baspiRef": "A7.1.0.1.2",
-                          "ta6Ref": "13.2.1",
+                          "ta6Ref": "13.1.2",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -16510,7 +16512,7 @@
                         },
                         "supplier": {
                           "baspiRef": "A7.1.0.2.2",
-                          "ta6Ref": "13.2.1",
+                          "ta6Ref": "13.2.2",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -16530,6 +16532,7 @@
                         },
                         "supplier": {
                           "baspiRef": "A7.1.0.2.2",
+                          "ta6Ref": "13.2.2",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -16689,7 +16692,7 @@
                         },
                         "supplier": {
                           "baspiRef": "A7.1.0.5.2",
-                          "ta6Ref": "13.2",
+                          "ta6Ref": "13.5.2",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -16709,6 +16712,7 @@
                         },
                         "supplier": {
                           "baspiRef": "A7.1.0.5.2",
+                          "ta6Ref": "13.5.2",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -17075,6 +17079,7 @@
                             },
                             "supplier": {
                               "baspiRef": "A7.1.0.10.2",
+                              "ta6Ref": "13.3.2",
                               "title": "Supplier",
                               "type": "string"
                             }
@@ -17110,7 +17115,7 @@
                           "ta6Ref": "12.4b1",
                           "type": "string",
                           "title": "",
-                          "enum": ["Yes", "To be connected", "No"]
+                          "enum": ["Yes", "To be connected", "No", "Not known"]
                         }
                       },
                       "baspiRequired": ["yesNo"],
@@ -17122,7 +17127,7 @@
                         {
                           "properties": {
                             "yesNo": {
-                              "enum": ["No"]
+                              "enum": ["No", "Not known"]
                             }
                           }
                         },
@@ -17169,9 +17174,10 @@
                       "properties": {
                         "yesNo": {
                           "baspiRef": "A7.1.0.11.1",
+                          "ta6Ref": "12.4a1",
                           "type": "string",
                           "title": "",
-                          "enum": ["Yes", "To be connected", "No"]
+                          "enum": ["Yes", "To be connected", "No", "Not known"]
                         }
                       },
                       "discriminator": {
@@ -17185,6 +17191,7 @@
                             },
                             "supplier": {
                               "baspiRef": "A7.1.0.11.3",
+                              "ta6Ref": "12.4a2",
                               "title": "Supplier",
                               "type": "string",
                               "minLength": 1
@@ -17204,6 +17211,7 @@
                             },
                             "supplier": {
                               "baspiRef": "A7.1.0.11.3",
+                              "ta6Ref": "12.4a2",
                               "title": "Supplier",
                               "type": "string"
                             }
@@ -17213,7 +17221,7 @@
                         {
                           "properties": {
                             "yesNo": {
-                              "enum": ["No"]
+                              "enum": ["No", "Not known"]
                             },
                             "sustainableDrainageSystem": {
                               "baspiRef": "A7.1.0.13",
@@ -17341,6 +17349,7 @@
                               "properties": {
                                 "yesNo": {
                                   "baspiRef": "A7.1.0.15.1",
+                                  "ta6Ref": "12.5c1",
                                   "type": "string",
                                   "title": "",
                                   "enum": ["Yes", "No"]
@@ -17380,13 +17389,13 @@
                             "sewerageTreatmentPlant": {
                               "baspiRef": "A7.1.0.16",
                               "rdsRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
-                              "ta6Ref": "12.8",
+                              "ta6Ref": "12.5b",
                               "title": "Sewerage treatment plant",
                               "type": "object",
                               "properties": {
                                 "yesNo": {
                                   "baspiRef": "A7.1.0.16.1",
-                                  "ta6Ref": "12.8.1",
+                                  "ta6Ref": "12.5b1",
                                   "type": "string",
                                   "title": "",
                                   "enum": ["Yes", "No"]
@@ -17419,7 +17428,7 @@
                                     },
                                     "dateLastServiced": {
                                       "baspiRef": "A7.1.0.16.3",
-                                      "ta6Ref": "12.8.2",
+                                      "ta6Ref": "12.8",
                                       "title": "Date last serviced",
                                       "type": "string",
                                       "format": "date"
@@ -17889,7 +17898,7 @@
                           "ta6Ref": "12.3d2",
                           "title": "Please provide a copy of the service or maintenance works report.",
                           "type": "string",
-                          "enum": ["Attached", "To follow", "Not applicable"]
+                          "enum": ["Attached", "To follow", "Not available"]
                         },
                         "heatingInGoodWorkingOrder": {
                           "baspiRef": "A7.4.3",
@@ -18020,7 +18029,7 @@
                           "properties": {
                             "yesNo": {
                               "baspiRef": "A8.1.2.1.2",
-                              "ta6Ref": "6.4.a1",
+                              "ta6Ref": "6.4a1",
                               "type": "string",
                               "title": "",
                               "enum": ["Yes", "No"]
@@ -18046,7 +18055,7 @@
                                 },
                                 "details": {
                                   "baspiRef": "A8.1.2.1.3",
-                                  "ta6Ref": "6.4.a2",
+                                  "ta6Ref": "6.4.2",
                                   "title": "Provide details",
                                   "type": "string",
                                   "minLength": 1
@@ -18065,7 +18074,7 @@
                           "properties": {
                             "yesNo": {
                               "baspiRef": "A8.1.1.2.1",
-                              "ta6Ref": "6.4.b1",
+                              "ta6Ref": "6.4b1",
                               "type": "string",
                               "title": "",
                               "enum": ["Yes", "No"]
@@ -18091,7 +18100,7 @@
                                 },
                                 "details": {
                                   "baspiRef": "A8.1.2.1.2.2",
-                                  "ta6Ref": "6.4.b2",
+                                  "ta6Ref": "6.4.2",
                                   "title": "Provide details",
                                   "type": "string",
                                   "minLength": 1
@@ -18104,13 +18113,13 @@
                         },
                         "subjectToUnusualConditions": {
                           "baspiRef": "A8.1.2.1.3",
-                          "ta6Ref": "6.4a",
+                          "ta6Ref": "6.4c",
                           "title": "Subject to unusual conditions?",
                           "type": "object",
                           "properties": {
                             "yesNo": {
                               "baspiRef": "A8.1.2.1.3.1",
-                              "ta6Ref": "6.4.a1",
+                              "ta6Ref": "6.4c1",
                               "type": "string",
                               "title": "",
                               "enum": ["Yes", "No"]
@@ -18136,7 +18145,7 @@
                                 },
                                 "details": {
                                   "baspiRef": "A8.1.2.1.3.2",
-                                  "ta6Ref": "6.4.a2",
+                                  "ta6Ref": "6.4.2",
                                   "title": "Provide details",
                                   "type": "string",
                                   "minLength": 1
@@ -18149,13 +18158,13 @@
                         },
                         "refused": {
                           "baspiRef": "A8.1.2.1.4",
-                          "ta6Ref": "6.4a",
+                          "ta6Ref": "6.4d",
                           "title": "Refused?",
                           "type": "object",
                           "properties": {
                             "yesNo": {
                               "baspiRef": "A8.1.2.1.4.1",
-                              "ta6Ref": "6.4.a1",
+                              "ta6Ref": "6.4d1",
                               "type": "string",
                               "title": "",
                               "enum": ["Yes", "No"]
@@ -18181,7 +18190,7 @@
                                 },
                                 "details": {
                                   "baspiRef": "A8.1.2.1.4.2",
-                                  "ta6Ref": "6.4.a2",
+                                  "ta6Ref": "6.4.2",
                                   "title": "Provide details",
                                   "type": "string",
                                   "minLength": 1
@@ -18535,7 +18544,7 @@
                         },
                         "details": {
                           "baspiRef": "A10.2.2",
-                          "ta6Ref": "8.2.1",
+                          "ta6Ref": "8.2.2",
                           "title": "Please give details and provide a plan showing the route of the access, parking etc",
                           "type": "string",
                           "minLength": 1
@@ -18605,18 +18614,22 @@
                   "type": "object",
                   "baspiRequired": [
                     "publicRightOfWay",
-                    "rightsOfLightOrSupport",
+                    "rightsOfLight",
+                    "rightsOfSupport",
                     "rightsCreatedThroughCustom",
                     "minesAndMinerals",
                     "churchChancel",
+                    "rightsToTakeFromLand",
                     "otherRights"
                   ],
                   "ta6Required": [
                     "publicRightOfWay",
-                    "rightsOfLightOrSupport",
+                    "rightsOfLight",
+                    "rightsOfSupport",
                     "rightsCreatedThroughCustom",
                     "minesAndMinerals",
                     "churchChancel",
+                    "rightsToTakeFromLand",
                     "otherRights"
                   ],
                   "properties": {
@@ -18672,15 +18685,15 @@
                         }
                       ]
                     },
-                    "rightsOfLightOrSupport": {
-                      "baspiRef": "A10.4.2",
+                    "rightsOfLight": {
+                      "baspiRef": "A10.4.2a",
                       "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
                       "ta6Ref": "8.4a",
-                      "title": "Rights of light or support for other properties",
+                      "title": "Rights of light",
                       "type": "object",
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A10.4.2.1",
+                          "baspiRef": "A10.4.2a.1",
                           "ta6Ref": "8.4a1",
                           "type": "string",
                           "title": "",
@@ -18706,27 +18719,69 @@
                               "enum": ["Yes"]
                             },
                             "details": {
-                              "baspiRef": "A10.4.2.2",
-                              "ta6Ref": "8.4a2",
+                              "baspiRef": "A10.4.2a.2",
                               "title": "Details",
                               "type": "string",
                               "minLength": 1
                             }
                           },
-                          "baspiRequired": ["details"],
-                          "ta6Required": ["details"]
+                          "baspiRequired": ["details"]
+                        }
+                      ]
+                    },
+                    "rightsOfSupport": {
+                      "baspiRef": "A10.4.2b",
+                      "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                      "ta6Ref": "8.4a",
+                      "title": "Rights of support from ajoining properties",
+                      "type": "object",
+                      "properties": {
+                        "yesNo": {
+                          "baspiRef": "A10.4.2b.1",
+                          "ta6Ref": "8.4b1",
+                          "type": "string",
+                          "title": "",
+                          "enum": ["Yes", "No"]
+                        }
+                      },
+                      "baspiRequired": ["yesNo"],
+                      "ta6Required": ["yesNo"],
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": ["No"]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": ["Yes"]
+                            },
+                            "details": {
+                              "baspiRef": "A10.4.2b.2",
+                              "title": "Details",
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "baspiRequired": ["details"]
                         }
                       ]
                     },
                     "rightsCreatedThroughCustom": {
-                      "baspiRef": "A10.4.3",
+                      "baspiRef": "A10.4.3a",
                       "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
                       "ta6Ref": "8.4c",
-                      "title": "Rights created through custom or use (e.g. rights to graze on other land or forage, rights of the lord of the manor or others to take things from your property etc)",
+                      "title": "Rights created through custom or use (e.g. rights to graze on other land or forage)",
                       "type": "object",
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A10.4.3.1",
+                          "baspiRef": "A10.4.3a1",
                           "ta6Ref": "8.4c1",
                           "type": "string",
                           "title": "",
@@ -18752,8 +18807,52 @@
                               "enum": ["Yes"]
                             },
                             "details": {
-                              "baspiRef": "A10.4.3.2",
-                              "ta6Ref": "8.4c2",
+                              "baspiRef": "A10.4.3a2",
+                              "title": "Details",
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "baspiRequired": ["details"]
+                        }
+                      ]
+                    },
+                    "rightsToTakeFromLand": {
+                      "baspiRef": "A10.4.3b",
+                      "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                      "ta6Ref": "8.5b",
+                      "title": "Other people's rights to take things from the land (such as timber, hay or fish)",
+                      "type": "object",
+                      "properties": {
+                        "yesNo": {
+                          "baspiRef": "A10.4.3b1",
+                          "ta6Ref": "8.5c1",
+                          "type": "string",
+                          "title": "",
+                          "enum": ["Yes", "No"]
+                        }
+                      },
+                      "baspiRequired": ["yesNo"],
+                      "ta6Required": ["yesNo"],
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": ["No"]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": ["Yes"]
+                            },
+                            "details": {
+                              "baspiRef": "A10.4.3b2",
+                              "ta6Ref": "8.5c2",
                               "title": "Details",
                               "type": "string",
                               "minLength": 1
@@ -18799,14 +18898,12 @@
                             },
                             "details": {
                               "baspiRef": "A10.4.4.2",
-                              "ta6Ref": "8.5a2",
                               "title": "Details",
                               "type": "string",
                               "minLength": 1
                             }
                           },
-                          "baspiRequired": ["details"],
-                          "ta6Required": ["details"]
+                          "baspiRequired": ["details"]
                         }
                       ]
                     },
@@ -18845,14 +18942,12 @@
                             },
                             "details": {
                               "baspiRef": "A10.4.5.2",
-                              "ta6Ref": "8.5b2",
                               "title": "Details",
                               "type": "string",
                               "minLength": 1
                             }
                           },
-                          "baspiRequired": ["details"],
-                          "ta6Required": ["details"]
+                          "baspiRequired": ["details"]
                         }
                       ]
                     },
@@ -18908,6 +19003,7 @@
             },
             "environmentalIssues": {
               "baspiRef": "A11.1",
+              "ta6Ref": "7",
               "title": "Environmental Issues Affecting the Property",
               "type": "object",
               "baspiRequired": ["flooding", "radon", "otherEnvironmental"],
@@ -18916,7 +19012,7 @@
                 "flooding": {
                   "baspiRef": "A11.1.1",
                   "rdsRef": "Sustainability/Environmental|Natural|Situational",
-                  "ta6Ref": "7.1",
+                  "ta6Ref": "7.1.0",
                   "title": "Flooding",
                   "type": "object",
                   "baspiRequired": ["floodRiskReport", "hasBeenFlooded"],
@@ -18969,7 +19065,7 @@
                     },
                     "hasBeenFlooded": {
                       "baspiRef": "A11.1.2",
-                      "ta6Ref": "7.2",
+                      "ta6Ref": "7.1",
                       "title": "Has any part of the property (whether buildings or surrounding garden or land) ever been flooded?",
                       "type": "string",
                       "enum": ["Yes", "No"]
@@ -18993,7 +19089,7 @@
                         },
                         "details": {
                           "baspiRef": "A11.1.2.1",
-                          "ta6Ref": "7.1",
+                          "ta6Ref": "7.2",
                           "title": "Please state when the flooding occurred and identify the parts that flooded",
                           "type": "string",
                           "minLength": 1
@@ -19154,14 +19250,14 @@
                             },
                             "details": {
                               "baspiRef": "A11.1.3.2",
-                              "ta6Ref": "7.4a",
+                              "ta6Ref": "7.4b",
                               "title": "Was the test result was below the recommended level?",
                               "type": "string",
                               "enum": ["Yes", "No"]
                             },
                             "attachments": {
                               "baspiRef": "A11.1.3.3",
-                              "ta6Ref": "7.4b",
+                              "ta6Ref": "7.4a",
                               "title": "Please supply a copy of the report",
                               "type": "string",
                               "enum": ["Attached", "To follow"]
@@ -19182,9 +19278,10 @@
                       "properties": {
                         "yesNo": {
                           "baspiRef": "A11.1.3.4.1",
+                          "ta6Ref": "7.5.1",
                           "type": "string",
                           "title": "",
-                          "enum": ["Yes", "No"]
+                          "enum": ["Yes", "No", "Not known"]
                         }
                       },
                       "baspiRequired": ["yesNo"],
@@ -19214,7 +19311,7 @@
                     {
                       "properties": {
                         "yesNo": {
-                          "enum": ["No"]
+                          "enum": ["No", "Not known"]
                         }
                       }
                     },
@@ -19552,7 +19649,7 @@
                   "properties": {
                     "yesNo": {
                       "baspiRef": "A12.3.1",
-                      "ta6Ref": "10.1",
+                      "ta6Ref": "10.1.1",
                       "type": "string",
                       "title": "",
                       "enum": ["Yes", "No"]
@@ -19578,7 +19675,7 @@
                         },
                         "details": {
                           "baspiRef": "A12.3.2",
-                          "ta6Ref": "10.2",
+                          "ta6Ref": "10.1.2",
                           "title": "Please give details",
                           "type": "string",
                           "minLength": 1
@@ -20088,7 +20185,7 @@
                       "ta6Ref": "8.7.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "No"]
+                      "enum": ["Yes", "No", "Not known"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -20100,7 +20197,7 @@
                     {
                       "properties": {
                         "yesNo": {
-                          "enum": ["No"]
+                          "enum": ["No", "Not known"]
                         }
                       }
                     },
@@ -20138,7 +20235,7 @@
                       "ta6Ref": "8.8.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "No"]
+                      "enum": ["Yes", "No", "Not known"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -20150,7 +20247,7 @@
                     {
                       "properties": {
                         "yesNo": {
-                          "enum": ["No"]
+                          "enum": ["No", "Not known"]
                         }
                       }
                     },
@@ -20281,13 +20378,13 @@
                         },
                         "yearTested": {
                           "baspiRef": "B4.1.2",
-                          "ta6Ref": "12.1.1",
+                          "ta6Ref": "12.1.2",
                           "title": "State the year they were last tested",
                           "type": "integer"
                         },
                         "attachments": {
                           "baspiRef": "B4.1.3",
-                          "ta6Ref": "12.1.2",
+                          "ta6Ref": "12.1.3",
                           "title": "Please upload the test certificate.",
                           "type": "string",
                           "enum": ["Attached", "To follow"]
@@ -21738,27 +21835,58 @@
               "title": "Completion and Moving",
               "type": "object",
               "baspiRequired": [
-                "willRemoveAllRubbish",
+                "sellerWillEnsure",
                 "otherPropertyInChain",
                 "moveRestrictionDates",
                 "digitalPropertyLogbook",
                 "sufficientToRepayAllMortgages"
               ],
               "ta6Required": [
-                "willRemoveAllRubbish",
+                "sellerWillEnsure",
                 "otherPropertyInChain",
                 "moveRestrictionDates",
                 "digitalPropertyLogbook",
                 "sufficientToRepayAllMortgages"
               ],
               "properties": {
-                "willRemoveAllRubbish": {
+                "sellerWillEnsure": {
                   "baspiRef": "B7.1",
                   "rdsRef": "RightsHolders/Flags",
                   "ta6Ref": "14.4",
-                  "title": "Please confirm that on completion you will remove all rubbish and items not included in the sale from the property including its garden, loft and any sheds or outbuildings.",
-                  "description": "When the property is cleared out you will be expected to take reasonable care when clearing the property, leaving it clean and tidy and repairing any damage caused when removing items from the property and making safe any light or electrical fittings which are being removed.\n\nKeys for all door and window locks, along with any alarm codes, should be available for the buyer on the day of completion.  If there is any reason why you cannot do this you should let the estate agent and your property lawyer know. For all internet connected services e.g. doorbells, boiler controls, burglar alarms, CCTV cameras etc) access to them will need to be provided to the buyer on the day of completion so that they can control them or sign up to the service.  If there is any reason why you cannot do this you should let the estate agent and your property lawyer know.",
-                  "type": "boolean"
+                  "title": "Please confirm that on completion you will:",
+                  "type": "object",
+                  "required": [
+                    "removeRubbish",
+                    "replaceLightFittings",
+                    "takeReasonableCare",
+                    "leaveKeys"
+                  ],
+                  "properties": {
+                    "removeRubbish": {
+                      "baspiRef": "B7.1.1",
+                      "ta6Ref": "14.4a",
+                      "title": "Remove all rubbish and items not included in the sale from the property (including its garden, loft and any sheds or outbuildings) and leave the property in a clean and tidy condition.",
+                      "type": "boolean"
+                    },
+                    "replaceLightFittings": {
+                      "baspiRef": "B7.1.2",
+                      "ta6Ref": "14.4b",
+                      "title": "If light fittings are removed, the fittings will be replaced with ceiling rose, flex, bulb holder and bulb.",
+                      "type": "boolean"
+                    },
+                    "takeReasonableCare": {
+                      "baspiRef": "B7.1.3",
+                      "ta6Ref": "14.4c",
+                      "title": "Take reasonable care when removing any other fittings or contents.",
+                      "type": "boolean"
+                    },
+                    "leaveKeys": {
+                      "baspiRef": "B7.1.4",
+                      "ta6Ref": "14.4d",
+                      "title": "Leave keys for all door and window locks, along with any alarm codes, for the buyer on the day of completion.",
+                      "type": "boolean"
+                    }
+                  }
                 },
                 "otherPropertyInChain": {
                   "baspiRef": "B7.2",
@@ -21851,6 +21979,7 @@
                   "properties": {
                     "yesNo": {
                       "baspiRef": "B7.3.1",
+                      "ta6Ref": "14.2.1",
                       "type": "string",
                       "title": "",
                       "enum": ["Yes", "No"]
@@ -21876,6 +22005,7 @@
                         },
                         "details": {
                           "baspiRef": "B7.3.2",
+                          "ta6Ref": "14.2.2",
                           "type": "string"
                         }
                       },
@@ -21941,9 +22071,10 @@
                   "properties": {
                     "yesNo": {
                       "baspiRef": "A7.6.1",
+                      "ta6Ref": "14.3.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "No", "Not applicable"]
+                      "enum": ["Yes", "No", "No mortgage"]
                     }
                   },
                   "baspiRequired": ["yesNo"],

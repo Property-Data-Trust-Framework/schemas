@@ -1250,7 +1250,8 @@
                       "baspiRef": "A1.6.2.1",
                       "enum": [
                         "Yes",
-                        "No"
+                        "No",
+                        "Not known"
                       ]
                     }
                   }
@@ -3850,7 +3851,8 @@
                       "properties": {
                         "yesNo": {
                           "enum": [
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       }
@@ -3862,13 +3864,18 @@
                             "Yes"
                           ]
                         },
-                        "details": {
+                        "managementPlanInPlace": {
                           "baspiRef": "A5.3.2",
-                          "title": "Please provide details,state whether there is a management plan in place and attach a copy"
+                          "title": "Is there a Japanese Knotweed management and treatment plan in place?",
+                          "enum": [
+                            "Yes",
+                            "No",
+                            "Not known"
+                          ]
                         },
                         "attachments": {
                           "baspiRef": "A5.3.3",
-                          "title": "Attachments",
+                          "title": "Please supply a copy with any insurance cover linked to the plan",
                           "enum": [
                             "Attached",
                             "To follow"
@@ -3876,7 +3883,7 @@
                         }
                       },
                       "required": [
-                        "details",
+                        "managementPlanInPlace",
                         "attachments"
                       ]
                     }
@@ -3889,7 +3896,8 @@
                       "baspiRef": "A5.3.1",
                       "enum": [
                         "Yes",
-                        "No"
+                        "No",
+                        "Not known"
                       ]
                     }
                   }
@@ -4861,7 +4869,8 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
-                                "No"
+                                "No",
+                                "Not known"
                               ]
                             }
                           }
@@ -4909,7 +4918,8 @@
                           "enum": [
                             "Yes",
                             "To be connected",
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       }
@@ -4958,7 +4968,8 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
-                                "No"
+                                "No",
+                                "Not known"
                               ]
                             },
                             "sustainableDrainageSystem": {
@@ -5406,7 +5417,8 @@
                           "enum": [
                             "Yes",
                             "To be connected",
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       }
@@ -5622,7 +5634,7 @@
                           "enum": [
                             "Attached",
                             "To follow",
-                            "Not applicable"
+                            "Not available"
                           ]
                         },
                         "heatingInGoodWorkingOrder": {
@@ -6364,10 +6376,12 @@
                   "title": "Do you know if any of the following rights or arrangements affect the property?",
                   "required": [
                     "publicRightOfWay",
-                    "rightsOfLightOrSupport",
+                    "rightsOfLight",
+                    "rightsOfSupport",
                     "rightsCreatedThroughCustom",
                     "minesAndMinerals",
                     "churchChancel",
+                    "rightsToTakeFromLand",
                     "otherRights"
                   ],
                   "properties": {
@@ -6426,9 +6440,9 @@
                         }
                       }
                     },
-                    "rightsOfLightOrSupport": {
-                      "baspiRef": "A10.4.2",
-                      "title": "Rights of light or support for other properties",
+                    "rightsOfLight": {
+                      "baspiRef": "A10.4.2a",
+                      "title": "Rights of light",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -6450,7 +6464,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A10.4.2.2",
+                              "baspiRef": "A10.4.2a.2",
                               "title": "Details"
                             }
                           },
@@ -6464,7 +6478,53 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A10.4.2.1",
+                          "baspiRef": "A10.4.2a.1",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    "rightsOfSupport": {
+                      "baspiRef": "A10.4.2b",
+                      "title": "Rights of support from ajoining properties",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "baspiRef": "A10.4.2b.2",
+                              "title": "Details"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "baspiRef": "A10.4.2b.1",
                           "enum": [
                             "Yes",
                             "No"
@@ -6473,8 +6533,8 @@
                       }
                     },
                     "rightsCreatedThroughCustom": {
-                      "baspiRef": "A10.4.3",
-                      "title": "Rights created through custom or use (e.g. rights to graze on other land or forage, rights of the lord of the manor or others to take things from your property etc)",
+                      "baspiRef": "A10.4.3a",
+                      "title": "Rights created through custom or use (e.g. rights to graze on other land or forage)",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -6496,7 +6556,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A10.4.3.2",
+                              "baspiRef": "A10.4.3a2",
                               "title": "Details"
                             }
                           },
@@ -6510,7 +6570,53 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A10.4.3.1",
+                          "baspiRef": "A10.4.3a1",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    "rightsToTakeFromLand": {
+                      "baspiRef": "A10.4.3b",
+                      "title": "Other people's rights to take things from the land (such as timber, hay or fish)",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "baspiRef": "A10.4.3b2",
+                              "title": "Details"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "baspiRef": "A10.4.3b1",
                           "enum": [
                             "Yes",
                             "No"
@@ -6946,7 +7052,8 @@
                           "baspiRef": "A11.1.3.4.1",
                           "enum": [
                             "Yes",
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       }
@@ -6964,7 +7071,8 @@
                       "properties": {
                         "yesNo": {
                           "enum": [
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       }
@@ -7872,7 +7980,8 @@
                       "properties": {
                         "yesNo": {
                           "enum": [
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       }
@@ -7910,7 +8019,8 @@
                       "baspiRef": "B3.1.1",
                       "enum": [
                         "Yes",
-                        "No"
+                        "No",
+                        "Not known"
                       ]
                     }
                   }
@@ -7926,7 +8036,8 @@
                       "properties": {
                         "yesNo": {
                           "enum": [
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       }
@@ -7964,7 +8075,8 @@
                       "baspiRef": "B3.2.1",
                       "enum": [
                         "Yes",
-                        "No"
+                        "No",
+                        "Not known"
                       ]
                     }
                   }
@@ -9554,17 +9666,34 @@
               "baspiRef": "B7",
               "title": "Completion and Moving",
               "required": [
-                "willRemoveAllRubbish",
+                "sellerWillEnsure",
                 "otherPropertyInChain",
                 "moveRestrictionDates",
                 "digitalPropertyLogbook",
                 "sufficientToRepayAllMortgages"
               ],
               "properties": {
-                "willRemoveAllRubbish": {
+                "sellerWillEnsure": {
                   "baspiRef": "B7.1",
-                  "title": "Please confirm that on completion you will remove all rubbish and items not included in the sale from the property including its garden, loft and any sheds or outbuildings.",
-                  "description": "When the property is cleared out you will be expected to take reasonable care when clearing the property, leaving it clean and tidy and repairing any damage caused when removing items from the property and making safe any light or electrical fittings which are being removed.\n\nKeys for all door and window locks, along with any alarm codes, should be available for the buyer on the day of completion.  If there is any reason why you cannot do this you should let the estate agent and your property lawyer know. For all internet connected services e.g. doorbells, boiler controls, burglar alarms, CCTV cameras etc) access to them will need to be provided to the buyer on the day of completion so that they can control them or sign up to the service.  If there is any reason why you cannot do this you should let the estate agent and your property lawyer know."
+                  "title": "Please confirm that on completion you will:",
+                  "properties": {
+                    "removeRubbish": {
+                      "baspiRef": "B7.1.1",
+                      "title": "Remove all rubbish and items not included in the sale from the property (including its garden, loft and any sheds or outbuildings) and leave the property in a clean and tidy condition."
+                    },
+                    "replaceLightFittings": {
+                      "baspiRef": "B7.1.2",
+                      "title": "If light fittings are removed, the fittings will be replaced with ceiling rose, flex, bulb holder and bulb."
+                    },
+                    "takeReasonableCare": {
+                      "baspiRef": "B7.1.3",
+                      "title": "Take reasonable care when removing any other fittings or contents."
+                    },
+                    "leaveKeys": {
+                      "baspiRef": "B7.1.4",
+                      "title": "Leave keys for all door and window locks, along with any alarm codes, for the buyer on the day of completion."
+                    }
+                  }
                 },
                 "otherPropertyInChain": {
                   "baspiRef": "B7.2",
@@ -9757,7 +9886,7 @@
                       "enum": [
                         "Yes",
                         "No",
-                        "Not applicable"
+                        "No mortgage"
                       ]
                     }
                   }
