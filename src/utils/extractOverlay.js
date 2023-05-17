@@ -14,6 +14,7 @@ const extractFields = [
   "ta10",
   "lpe1",
   "fme1",
+  "piq",
   "con29R",
   "con29DW",
   "llc1",
