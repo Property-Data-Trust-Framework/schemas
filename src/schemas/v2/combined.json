@@ -17829,7 +17829,7 @@
                         "centralHeatingInstalled": {
                           "baspiRef": "A7.4.1",
                           "rdsRef": "Objects/Installed",
-                          "ta6Ref": "12.3b",
+                          "ta6Ref": "12.3b1",
                           "title": "When was the heating system installed?",
                           "type": "string",
                           "format": "date"
@@ -17837,13 +17837,13 @@
                         "boilerInstallationCertificate": {
                           "baspiRef": "A7.4.1.1",
                           "rdsRef": "Objects/Installation,Objects/Certificates",
-                          "ta6Ref": "12.3b",
+                          "ta6Ref": "12.3b2",
                           "title": "Was a gas boiler installed after 1st April 2005, or a solid fuel or oil boiler installed after 1st October 2010?",
                           "type": "object",
                           "properties": {
                             "yesNo": {
                               "baspiRef": "A10.1.1",
-                              "ta6Ref": "12.3b1",
+                              "ta6Ref": "12.3b3",
                               "type": "string",
                               "title": "",
                               "enum": ["Yes", "No"]
@@ -17869,7 +17869,7 @@
                                 },
                                 "attachments": {
                                   "baspiRef": "A7.4.1.2",
-                                  "ta6Ref": "12.3b2",
+                                  "ta6Ref": "12.3b4",
                                   "title": "Please supply a copy of the installation completion certificate from a competent person qualified under the relevant self-certification scheme e.g. HETAS etc",
                                   "type": "string",
                                   "enum": ["Attached", "To follow"]
@@ -19002,7 +19002,7 @@
               "title": "Environmental Issues Affecting the Property",
               "type": "object",
               "baspiRequired": ["flooding", "radon", "otherEnvironmental"],
-              "ta6Required": ["flooding", "radon", "otherEnvironmental"],
+              "ta6Required": ["flooding", "radon"],
               "properties": {
                 "flooding": {
                   "baspiRef": "A11.1.1",
@@ -19246,7 +19246,7 @@
                             "details": {
                               "baspiRef": "A11.1.3.2",
                               "ta6Ref": "7.4b",
-                              "title": "Was the test result was below the recommended level?",
+                              "title": "Was the test result was below the recommended action level?",
                               "type": "string",
                               "enum": ["Yes", "No"]
                             },
@@ -20311,6 +20311,7 @@
                         },
                         "attachments": {
                           "baspiRef": "B3.3.3",
+                          "ta6Ref": "8.9.3",
                           "title": "Attachments",
                           "type": "string",
                           "enum": ["Attached", "To follow"]
@@ -20426,7 +20427,7 @@
                         },
                         "yearWorkCarriedOut": {
                           "baspiRef": "B4.2.2",
-                          "title": "State the year the work was carried",
+                          "title": "State the year the work was carried out",
                           "type": "integer"
                         },
                         "details": {
@@ -20435,20 +20436,29 @@
                           "type": "string",
                           "minLength": 1
                         },
-                        "attachments": {
-                          "baspiRef": "B4.2.4",
-                          "ta6Ref": "12.2.2",
-                          "title": "Please supply the signed Electrical Safety Certificate (BS7671) and Building Regulations Compliance Certificate (or equivalent)",
+                        "electricalSafetyCertificate": {
+                          "baspiRef": "B4.2.4.1",
+                          "ta6Ref": "12.2.2a",
+                          "title": "Please provide a signed Electrical Safety Certificate (BS7671)",
+                          "type": "string",
+                          "enum": ["Attached", "To follow"]
+                        },
+                        "buildingRegulationsComplianceCertificate": {
+                          "baspiRef": "B4.2.4.2",
+                          "ta6Ref": "12.2.2b",
+                          "title": "or a Building Regulations Compliance Certificate (or equivalent)",
+                          "type": "string",
+                          "enum": ["Attached", "To follow"]
+                        },
+                        "buildingControlCompletionCertificate": {
+                          "baspiRef": "B4.2.4.3",
+                          "ta6Ref": "12.2.2c",
+                          "title": "or a Building Control Completion Certificate",
                           "type": "string",
                           "enum": ["Attached", "To follow"]
                         }
                       },
-                      "baspiRequired": [
-                        "yearWorkCarriedOut",
-                        "details",
-                        "attachments"
-                      ],
-                      "ta6Required": ["attachments"]
+                      "baspiRequired": ["yearWorkCarriedOut", "details"]
                     }
                   ]
                 },
