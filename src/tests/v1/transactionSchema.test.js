@@ -7,8 +7,16 @@ const {
   isPathValid,
   getSubschemaValidator,
   getTitleAtPath,
-} = require("../../index.js");
-const exampleTransaction = require("../examples/exampleTransaction.json");
+} = require("../../../index.js");
+const exampleTransaction = require("../../examples/v1/exampleTransaction.json");
+
+const getV1Subschema = (path) => {
+  return getSubschema(
+    path,
+    "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json",
+    null
+  );
+};
 
 test("exports a property pack schema", () => {
   expect(transactionSchema).not.toBeNull();
@@ -34,7 +42,7 @@ test("sample with missing dependent required fields is invalid", () => {
     JSON.stringify(exampleTransaction)
   );
   clonedExampleTransaction.propertyPack.materialFacts.ownership.ownershipsToBeTransferred[0].ownershipType =
-    "leashold";
+    "leasehold";
   const isValid = validator(clonedExampleTransaction);
   expect(isValid).toBe(false);
 });
@@ -65,45 +73,45 @@ test("correctly identifies an array invalid path", () => {
 });
 
 test("correctly gets a subschema", () => {
-  const subschema = getSubschema("/propertyPack/materialFacts/notices");
+  const subschema = getV1Subschema("/propertyPack/materialFacts/notices");
   expect(subschema.title).toBe("Notices which Affect the Property");
 });
 
 test("correctly gets a subschema through an arrays element", () => {
-  const subschema = getSubschema(
+  const subschema = getV1Subschema(
     "/propertyPack/titlesToBeSold/0/registerExtract"
   );
   expect(subschema.title).toBe("HMLR Official Copy Register Extract");
 });
 
 test("correctly gets another subschema through an arrays element", () => {
-  const subschema = getSubschema("/participants/0/name/firstName");
+  const subschema = getV1Subschema("/participants/0/name/firstName");
   expect(subschema.title).toBe("First name");
 });
 
 test("correctly gets a subschema through a dependency", () => {
-  const subschema = getSubschema(
+  const subschema = getV1Subschema(
     "/propertyPack/materialFacts/delayFactors/hasDelayFactors/details"
   );
   expect(subschema.title).toBe("Details");
 });
 
 test("correctly gets another subschema through a dependency", () => {
-  const subschema = getSubschema(
+  const subschema = getV1Subschema(
     "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/lengthOfLeaseInYears"
   );
   expect(subschema.title).toBe("Length of lease (years)");
 });
 
 test("correctly gets yet another subschema through a dependency", () => {
-  const subschema = getSubschema(
+  const subschema = getV1Subschema(
     "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/rentIncrease/details"
   );
   expect(subschema.title).toBe("Details");
 });
 
 test("correctly gets yet, yet another subschema through a dependency", () => {
-  const subschema = getSubschema(
+  const subschema = getV1Subschema(
     "/propertyPack/materialFacts/listingAndConservation/isConservationArea/yesNo"
   );
   expect(subschema.type).toBe("string");
@@ -111,7 +119,7 @@ test("correctly gets yet, yet another subschema through a dependency", () => {
 });
 
 test("correctly gets yet, yet, yet another subschema through a dependency", () => {
-  const subschema = getSubschema(
+  const subschema = getV1Subschema(
     "/propertyPack/materialFacts/otherIssues/flooding/typeOfFlooding/groundWater/yesNo"
   );
   expect(subschema.type).toBe("string");
@@ -119,21 +127,21 @@ test("correctly gets yet, yet, yet another subschema through a dependency", () =
 });
 
 test("correctly gets yet, yet, yet another subschema through a second item dependency", () => {
-  const subschema = getSubschema(
+  const subschema = getV1Subschema(
     "/propertyPack/materialFacts/otherIssues/flooding/typeOfFlooding"
   );
   expect(subschema.type).toBe("object");
 });
 
 test("correctly gets yes another subschema but through a non-baspi oneOf structure", () => {
-  const subschema = getSubschema(
+  const subschema = getV1Subschema(
     "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/RestrictionDetails/RestrictionEntry/ChargeRestriction/EntryDetails/EntryText"
   );
   expect(subschema).toEqual({ type: "string" });
 });
 
 test("correctly gets yes another subschema but through a non-baspi oneOf structure with array option", () => {
-  const subschema = getSubschema(
+  const subschema = getV1Subschema(
     "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/RestrictionDetails/RestrictionEntry/0/ChargeRestriction/EntryDetails/EntryText"
   );
   expect(subschema).toEqual({ type: "string" });
@@ -141,11 +149,11 @@ test("correctly gets yes another subschema but through a non-baspi oneOf structu
 
 test("correctly gets a subschema validator which is already cached", () => {
   const validator = getSubschemaValidator(
-    "/propertyPack/energyPerformanceCertificate"
+    "/propertyPack/materialFacts/energyEfficiency/certificate"
   );
   expect(validator).not.toBeNull();
   const anotherValidator = getSubschemaValidator(
-    "/propertyPack/energyPerformanceCertificate"
+    "/propertyPack/materialFacts/energyEfficiency/certificate"
   );
   expect(anotherValidator).not.toBeNull();
 });

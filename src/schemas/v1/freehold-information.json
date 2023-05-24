@@ -1,0 +1,2051 @@
+{
+  "title": "FME1",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v2/freehold-information.json",
+  "type": "object",
+  "description": "Freehold Management Enquiries - Second Edition 2021",
+  "required": [
+    "contactDetails",
+    "transferAndRegistration",
+    "serviceCharge",
+    "insurance",
+    "disputes",
+    "requiredDocuments",
+    "confirmation"
+  ],
+  "properties": {
+    "contactDetails": {
+      "fme1Ref": "1",
+      "title": "Contact Details",
+      "description": "Complete the details for the relevant parties",
+      "type": "object",
+      "required": [
+        "noticeOfTransferAndCharge",
+        "collectsServiceCharges",
+        "dealsWithDayToDayMaintenanceOfManagedArea",
+        "organisesManagedAreaInsurance"
+      ],
+      "properties": {
+        "rentchargeOwner": {
+          "baspiRef": "A1.5.4",
+          "fme1Ref": "1.1",
+          "title": "Rentcharge Owner",
+          "type": "object",
+          "properties": {
+            "contact": {
+              "type": "object",
+              "properties": {
+                "nameOrOrganisation": {
+                  "title": "Name or organisation",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "address": {
+                  "title": "Address",
+                  "type": "object",
+                  "properties": {
+                    "line1": {
+                      "title": "Address line 1",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "line2": {
+                      "title": "Address line 2",
+                      "type": "string"
+                    },
+                    "line3": {
+                      "title": "Address line 3",
+                      "type": "string"
+                    },
+                    "town": {
+                      "title": "Town",
+                      "type": "string"
+                    },
+                    "postcode": {
+                      "title": "Postcode",
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": ["line1", "postcode"]
+                },
+                "telephone": {
+                  "title": "Telephone",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "emailAddress": {
+                  "title": "Email address",
+                  "type": "string",
+                  "format": "email"
+                }
+              },
+              "required": [
+                "nameOrOrganisation",
+                "addressLine1",
+                "postcode",
+                "telephone",
+                "emailAddress"
+              ]
+            },
+            "bankDetails": {
+              "type": "object",
+              "properties": {
+                "accountName": {
+                  "title": "Account name",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sortCode": {
+                  "title": "Sort code",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "accountNumber": {
+                  "title": "Account number",
+                  "type": "integer"
+                },
+                "reference": {
+                  "title": "Reference to quote",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "feeType": {
+                  "title": "Type of fee",
+                  "type": "string",
+                  "enum": [
+                    "Ground rent",
+                    "Service charges",
+                    "Administration fees",
+                    "All"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "managementCompany": {
+          "fme1Ref": "1.2",
+          "title": "Management Company",
+          "type": "object",
+          "properties": {
+            "contact": {
+              "ta7Ref": "4.1b",
+              "type": "object",
+              "properties": {
+                "nameOrOrganisation": {
+                  "title": "Name or organisation",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "address": {
+                  "title": "Address",
+                  "type": "object",
+                  "properties": {
+                    "line1": {
+                      "title": "Address line 1",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "line2": {
+                      "title": "Address line 2",
+                      "type": "string"
+                    },
+                    "line3": {
+                      "title": "Address line 3",
+                      "type": "string"
+                    },
+                    "town": {
+                      "title": "Town",
+                      "type": "string"
+                    },
+                    "postcode": {
+                      "title": "Postcode",
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": ["line1", "postcode"]
+                },
+                "telephone": {
+                  "title": "Telephone",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "emailAddress": {
+                  "title": "Email address",
+                  "type": "string",
+                  "format": "email"
+                }
+              },
+              "required": [
+                "nameOrOrganisation",
+                "addressLine1",
+                "postcode",
+                "telephone",
+                "emailAddress"
+              ]
+            },
+            "bankDetails": {
+              "type": "object",
+              "properties": {
+                "accountName": {
+                  "title": "Account name",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sortCode": {
+                  "title": "Sort code",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "accountNumber": {
+                  "title": "Account number",
+                  "type": "integer"
+                },
+                "reference": {
+                  "title": "Reference to quote",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "feeType": {
+                  "title": "Type of fee",
+                  "type": "string",
+                  "enum": [
+                    "Ground rent",
+                    "Service charges",
+                    "Administration fees",
+                    "All"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "managingAgent": {
+          "baspiRef": "A1.5.5",
+          "fme1Ref": "1.3",
+          "title": "Managing Agent",
+          "type": "object",
+          "properties": {
+            "contact": {
+              "ta7Ref": "4.1c",
+              "type": "object",
+              "properties": {
+                "nameOrOrganisation": {
+                  "title": "Name or organisation",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "address": {
+                  "title": "Address",
+                  "type": "object",
+                  "properties": {
+                    "line1": {
+                      "title": "Address line 1",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "line2": {
+                      "title": "Address line 2",
+                      "type": "string"
+                    },
+                    "line3": {
+                      "title": "Address line 3",
+                      "type": "string"
+                    },
+                    "town": {
+                      "title": "Town",
+                      "type": "string"
+                    },
+                    "postcode": {
+                      "title": "Postcode",
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": ["line1", "postcode"]
+                },
+                "telephone": {
+                  "title": "Telephone",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "emailAddress": {
+                  "title": "Email address",
+                  "type": "string",
+                  "format": "email"
+                }
+              },
+              "required": [
+                "nameOrOrganisation",
+                "addressLine1",
+                "postcode",
+                "telephone",
+                "emailAddress"
+              ]
+            },
+            "appointedBy": {
+              "title": "Appointed by",
+              "type": "string",
+              "enum": ["Management Company", "Landlord", "Other"]
+            },
+            "bankDetails": {
+              "type": "object",
+              "properties": {
+                "accountName": {
+                  "title": "Account name",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sortCode": {
+                  "title": "Sort code",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "accountNumber": {
+                  "title": "Account number",
+                  "type": "integer"
+                },
+                "reference": {
+                  "title": "Reference to quote",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "feeType": {
+                  "title": "Type of fee",
+                  "type": "string",
+                  "enum": [
+                    "Ground rent",
+                    "Service charges",
+                    "Administration fees",
+                    "All"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "legalRepresentative": {
+          "fme1Ref": "1.4",
+          "title": "Legal Representative of one of the above",
+          "type": "object",
+          "properties": {
+            "contact": {
+              "type": "object",
+              "properties": {
+                "nameOrOrganisation": {
+                  "title": "Name or organisation",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "address": {
+                  "title": "Address",
+                  "type": "object",
+                  "properties": {
+                    "line1": {
+                      "title": "Address line 1",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "line2": {
+                      "title": "Address line 2",
+                      "type": "string"
+                    },
+                    "line3": {
+                      "title": "Address line 3",
+                      "type": "string"
+                    },
+                    "town": {
+                      "title": "Town",
+                      "type": "string"
+                    },
+                    "postcode": {
+                      "title": "Postcode",
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": ["line1", "postcode"]
+                },
+                "telephone": {
+                  "title": "Telephone",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "emailAddress": {
+                  "title": "Email address",
+                  "type": "string",
+                  "format": "email"
+                }
+              },
+              "required": [
+                "nameOrOrganisation",
+                "addressLine1",
+                "postcode",
+                "telephone",
+                "emailAddress"
+              ]
+            },
+            "appointedBy": {
+              "title": "Appointed by",
+              "type": "string",
+              "enum": [
+                "Management Company",
+                "Landlord",
+                "Managing Agent",
+                "Residents'/Tenants' Association",
+                "Other"
+              ]
+            }
+          }
+        },
+        "noticeOfTransferAndCharge": {
+          "fme1Ref": "1.5",
+          "title": "Who accepts service of the Notice of Transfer & Charge?",
+          "description": "Tick the box beside each party and state the total fee including VAT for notice of transfer and charge. Tick 'Notice via email' column to confirm whether you will accept notice via email.",
+          "type": "object",
+          "properties": {
+            "rentchargeOwner": {
+              "title": "Rentcharge Owner",
+              "type": "object",
+              "properties": {
+                "isApplicableParty": {
+                  "type": "boolean"
+                }
+              },
+              "required": ["isApplicableParty"],
+              "discriminator": {
+                "propertyName": "isApplicableParty"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "isApplicableParty": {
+                      "const": false
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "isApplicableParty": {
+                      "const": true
+                    },
+                    "fee": {
+                      "title": "Total Fee including VAT",
+                      "type": "number"
+                    },
+                    "noticeViaEmail": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": ["feeIncludingVAT", "noticeViaEmail"]
+                }
+              ]
+            },
+            "managementCompany": {
+              "title": "Management Company",
+              "type": "object",
+              "properties": {
+                "isApplicableParty": {
+                  "type": "boolean"
+                }
+              },
+              "required": ["isApplicableParty"],
+              "discriminator": {
+                "propertyName": "isApplicableParty"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "isApplicableParty": {
+                      "const": false
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "isApplicableParty": {
+                      "const": true
+                    },
+                    "fee": {
+                      "title": "Total Fee including VAT",
+                      "type": "number"
+                    },
+                    "noticeViaEmail": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": ["feeIncludingVAT", "noticeViaEmail"]
+                }
+              ]
+            },
+            "managingAgent": {
+              "title": "Managing Agent",
+              "type": "object",
+              "properties": {
+                "isApplicableParty": {
+                  "type": "boolean"
+                }
+              },
+              "required": ["isApplicableParty"],
+              "discriminator": {
+                "propertyName": "isApplicableParty"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "isApplicableParty": {
+                      "const": false
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "isApplicableParty": {
+                      "const": true
+                    },
+                    "fee": {
+                      "title": "Total Fee including VAT",
+                      "type": "number"
+                    },
+                    "noticeViaEmail": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": ["feeIncludingVAT", "noticeViaEmail"]
+                }
+              ]
+            },
+            "legalRepresentative": {
+              "title": "Legal Representative",
+              "type": "object",
+              "properties": {
+                "isApplicableParty": {
+                  "type": "boolean"
+                }
+              },
+              "required": ["isApplicableParty"],
+              "discriminator": {
+                "propertyName": "isApplicableParty"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "isApplicableParty": {
+                      "const": false
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "isApplicableParty": {
+                      "const": true
+                    },
+                    "fee": {
+                      "title": "Total Fee including VAT",
+                      "type": "number"
+                    },
+                    "noticeViaEmail": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": ["feeIncludingVAT", "noticeViaEmail"]
+                }
+              ]
+            },
+            "other": {
+              "type": "object",
+              "properties": {
+                "isApplicableParty": {
+                  "type": "boolean"
+                }
+              },
+              "required": ["isApplicableParty"],
+              "discriminator": {
+                "propertyName": "isApplicableParty"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "isApplicableParty": {
+                      "const": false
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "isApplicableParty": {
+                      "const": true
+                    },
+                    "fee": {
+                      "title": "Total Fee including VAT",
+                      "type": "number"
+                    },
+                    "noticeViaEmail": {
+                      "type": "boolean"
+                    }
+                  },
+                  "contact": {
+                    "type": "object",
+                    "properties": {
+                      "nameOrOrganisation": {
+                        "title": "Name or organisation",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "address": {
+                        "title": "Address",
+                        "type": "object",
+                        "properties": {
+                          "line1": {
+                            "title": "Address line 1",
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "line2": {
+                            "title": "Address line 2",
+                            "type": "string"
+                          },
+                          "line3": {
+                            "title": "Address line 3",
+                            "type": "string"
+                          },
+                          "town": {
+                            "title": "Town",
+                            "type": "string"
+                          },
+                          "postcode": {
+                            "title": "Postcode",
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": ["line1", "postcode"]
+                      },
+                      "telephone": {
+                        "title": "Telephone",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "emailAddress": {
+                        "title": "Email address",
+                        "type": "string",
+                        "format": "email"
+                      }
+                    },
+                    "required": [
+                      "nameOrOrganisation",
+                      "addressLine1",
+                      "postcode",
+                      "telephone",
+                      "emailAddress"
+                    ]
+                  },
+                  "capacity": {
+                    "title": "Capacity (e.g. Management Company's lawyer)",
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "required": [
+                    "feeIncludingVAT",
+                    "noticeViaEmail",
+                    "contact",
+                    "capacity"
+                  ]
+                }
+              ]
+            },
+            "otherDetailsRequired": {
+              "fme1Ref": "1.5.1",
+              "title": "Are details other than the incoming owner's name, address and lender name required?",
+              "type": "object",
+              "properties": {
+                "isOtherDetailsRequired": {
+                  "title": "",
+                  "type": "string",
+                  "enum": ["Yes", "No"]
+                }
+              },
+              "discriminator": {
+                "propertyName": "isOtherDetailsRequired"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "isOtherDetailsRequired": {
+                      "const": "No"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "isOtherDetailsRequired": {
+                      "const": "Yes"
+                    },
+                    "details": {
+                      "title": "If Yes, please detail required additional information to be included with the notice of disposition",
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": ["details"]
+                }
+              ]
+            }
+          }
+        },
+        "collectsServiceCharges": {
+          "fme1Ref": "1.6",
+          "title": "Who collects, or will collect, the Service charge?",
+          "type": "string",
+          "enum": [
+            "Rentcharge Owner",
+            "Management Company",
+            "Managing Agent",
+            "N/A"
+          ]
+        },
+        "dealsWithDayToDayMaintenanceOfManagedArea": {
+          "fme1Ref": "1.7",
+          "title": "Who deals with, or will deal with, the day to day maintenance of the Managed Area?",
+          "type": "string",
+          "enum": [
+            "Rentcharge Owner",
+            "Management Company",
+            "Managing Agent",
+            "N/A"
+          ]
+        },
+        "organisesManagedAreaInsurance": {
+          "fme1Ref": "1.8",
+          "title": "Who organises and administers the insurance for the Managed Areas?",
+          "type": "string",
+          "enum": [
+            "Rentcharge Owner",
+            "Management Company",
+            "Managing Agent",
+            "N/A"
+          ]
+        }
+      }
+    },
+    "transferAndRegistration": {
+      "fme1Ref": "2",
+      "title": "Transfer and Registration",
+      "type": "object",
+      "required": [
+        "deedOfCovenantRequired",
+        "awareOfConsents",
+        "requirementsToBeMemberOfManagementCompany",
+        "procedureForObtainingCertificate"
+      ],
+      "properties": {
+        "deedOfCovenantRequired": {
+          "fme1Ref": "2.1",
+          "title": "Is a Deed of Covenant Required?",
+          "type": "object",
+          "properties": {
+            "yesNoNotKnown": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No", "Not Known"]
+            }
+          },
+          "required": ["yesNoNotKnown"],
+          "discriminator": {
+            "propertyName": "yesNoNotKnown"
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNoNotKnown": {
+                  "enum": ["No", "Not Known"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNoNotKnown": {
+                  "enum": ["Yes"]
+                },
+                "costsApplicableToTheDeed": {
+                  "fme1Ref": "2.1.1",
+                  "title": "Confirm the costs applicable to the Deed including VAT",
+                  "type": "number"
+                },
+                "personWhoDealsWithTheDeedOfCovenant": {
+                  "fme1Ref": "2.1.2",
+                  "title": "Provide details of the person who deals with the Deed of Covenant",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "costsApplicableToTheDeed",
+                "personWhoDealsWithTheDeedOfCovenant"
+              ]
+            }
+          ]
+        },
+        "awareOfConsents": {
+          "fme1Ref": "2.2",
+          "title": "Are you aware of consent having been given to any alterations or additions to the Property?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": {
+            "propertyName": "yesNo"
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "fme1Ref": "2.2.1",
+                  "title": "Provide details and copies of any consent",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "requirementsToBeMemberOfManagementCompany": {
+          "fme1Ref": "2.3",
+          "title": "Is the incoming Owner required to take a share in, or become a member of, the Management Company?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": {
+            "propertyName": "yesNo"
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "fme1Ref": "2.3.1",
+                  "title": "Provide details of the procedure and fees",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "procedureForObtainingCertificate": {
+          "fme1Ref": "2.4",
+          "title": "What is the procedure and cost for obtaining a certificate in accordance with a restriction in the Proprietorship Register at the Land Registry, if applicable?",
+          "type": "string"
+        }
+      }
+    },
+    "serviceCharge": {
+      "fme1Ref": "3",
+      "title": "Service Charge",
+      "type": "object",
+      "required": [
+        "serviceChargePayable",
+        "serviceChargePaidUpToDate",
+        "lastDemandPeriod",
+        "propertiesContribute",
+        "doAllPropertiesContribute",
+        "excessPaymentAnticipated",
+        "hasInabilityToCollectAffectedMaintenance",
+        "reserveFund",
+        "lastDecoratedPeriod",
+        "worksProposed",
+        "increaseInServiceChargeAnticipated",
+        "outstandingServiceChargeConsultation",
+        "japaneseKnotweedAffectingManagedAreas",
+        "transferFees"
+      ],
+      "properties": {
+        "serviceChargePayable": {
+          "fme1Ref": "3.1",
+          "title": "What is the annual Service charge payable by this Property?",
+          "description": "This should include any sums payable for the maintenance of the managed area",
+          "type": "object",
+          "properties": {
+            "amount": {
+              "type": "number",
+              "title": "Amount"
+            },
+            "hasFixedRentcharge": {
+              "type": "string",
+              "title": "If there is also a ‘fixed’ Rentcharge, please confirm the amount and explain why."
+            }
+          }
+        },
+        "serviceChargePaidUpToDate": {
+          "fme1Ref": "3.2",
+          "type": "object",
+          "title": "Is the Service charge paid up-to-date?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                },
+                "details": {
+                  "fme1Ref": "3.2.1",
+                  "title": "Supply details of the arrears",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "lastDemandPeriod": {
+          "fme1Ref": "3.3",
+          "title": "What period is covered by the last demand?",
+          "type": "object",
+          "properties": {
+            "from": {
+              "title": "From",
+              "type": "string",
+              "format": "date"
+            },
+            "to": {
+              "title": "To",
+              "type": "string",
+              "format": "date"
+            }
+          }
+        },
+        "propertiesContribute": {
+          "fme1Ref": "3.4",
+          "title": "How many properties contribute toward the maintenance of the Managed Area?",
+          "description": "Stipulate the number of each applicable type of property",
+          "type": "object",
+          "properties": {
+            "residentialFreehold": {
+              "title": "",
+              "type": "number"
+            },
+            "residentialLeasehold": {
+              "title": "",
+              "type": "number"
+            },
+            "commercial": {
+              "title": "",
+              "type": "number"
+            }
+          },
+          "required": [
+            "residentialFreehold",
+            "residentialLeasehold",
+            "commercial"
+          ]
+        },
+        "doAllPropertiesContribute": {
+          "fme1Ref": "3.4.1",
+          "title": "Do all properties in the Managed Area contribute to the Service Charge?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                },
+                "details": {
+                  "fme1Ref": "3.4.1.1",
+                  "title": "If No, provide details as to why not",
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        },
+        "excessPaymentAnticipated": {
+          "fme1Ref": "3.5",
+          "type": "object",
+          "title": "Is any excess payment anticipated from the Property at the end of the financial year?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "fme1Ref": "3.5.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "hasInabilityToCollectAffectedMaintenance": {
+          "fme1Ref": "3.6",
+          "type": "object",
+          "title": "In the last 12 months, has any inability to collect payments, from any party, affected (or is it likely to affect), the maintenance of the Managed Area?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "fme1Ref": "3.6.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "reserveFund": {
+          "fme1Ref": "3.7",
+          "type": "object",
+          "title": "Does a Reserve Fund apply to the Managed Area?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "amount": {
+                  "fme1Ref": "3.7.1",
+                  "title": "Confirm the amount collected held in the Reserve Fund",
+                  "type": "object",
+                  "properties": {
+                    "fromTheOwners": {
+                      "fme1Ref": "3.7.1a",
+                      "title": "From the Owners",
+                      "type": "number"
+                    },
+                    "forTheManagedAreas": {
+                      "fme1Ref": "3.7.1b",
+                      "title": "For the entirety of the Managed Areas.",
+                      "type": "number"
+                    }
+                  }
+                },
+                "sufficentToCoverKnownExpenditure": {
+                  "fme1Ref": "3.7.2",
+                  "title": "Is the amount expected to be sufficient to cover the known expenditure?",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "required": ["yesNo"],
+                  "discriminator": { "propertyName": "yesNo" },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["Yes"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["No"]
+                        },
+                        "details": {
+                          "fme1Ref": "3.7.3",
+                          "title": "Supply details",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": ["details"]
+                    }
+                  ]
+                }
+              },
+              "required": ["amount"]
+            }
+          ]
+        },
+        "lastDecoratedPeriod": {
+          "fme1Ref": "3.8",
+          "title": "If parts of the Managed Areas require regular decoration confirm the date when the Managed Areas were last decorated, internally and externally.",
+          "type": "object",
+          "properties": {
+            "internally": {
+              "title": "Internally",
+              "type": "object",
+              "properties": {
+                "from": {
+                  "title": "To",
+                  "type": "string",
+                  "format": "date"
+                },
+                "to": {
+                  "title": "To",
+                  "type": "string",
+                  "format": "date"
+                }
+              }
+            },
+            "externally": {
+              "title": "Externally",
+              "type": "object",
+              "properties": {
+                "from": {
+                  "title": "To",
+                  "type": "string",
+                  "format": "date"
+                },
+                "to": {
+                  "title": "To",
+                  "type": "string",
+                  "format": "date"
+                }
+              }
+            }
+          }
+        },
+        "worksProposed": {
+          "fme1Ref": "3.9",
+          "type": "object",
+          "title": "Within the next 2 years, are any works proposed to the Managed Areas anticipated to require an additional contribution greater than £250 from the Owner?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Completed but unpaid", "Due", "Anticipated", "N/A"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["N/A"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Completed but unpaid", "Due", "Anticipated"]
+                },
+                "details": {
+                  "fme1Ref": "3.9.1",
+                  "title": "If so, provide details of the works and the contribution anticipated from the Owner.",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "increaseInServiceChargeAnticipated": {
+          "fme1Ref": "3.10",
+          "title": "Is any increase in the Service Charge over 10% or £100, whichever is the greater, anticipated in the next 2 years?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "fme1Ref": "3.10.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "outstandingServiceChargeConsultation": {
+          "fme1Ref": "3.11",
+          "title": "Where you operate Service charge consultation, are there any outstanding Service charge consultation procedures?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "fme1Ref": "3.11.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "japaneseKnotweedAffectingManagedAreas": {
+          "fme1Ref": "3.12",
+          "title": "Are the Managed Areas known to be affected by Japanese knotweed or other invasive species?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "fme1Ref": "3.12.1",
+                  "title": "Provide details and a copy of any invasive species management plan in place.",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "transferFees": {
+          "fme1Ref": "3.13",
+          "title": "Are there any transfer fees, deferred charges or similar fees, expressed as a percentage of the Property's value payable on an event such as resale or subletting?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "fme1Ref": "3.13.1",
+                  "title": "Provide details.",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        }
+      }
+    },
+    "insurance": {
+      "fme1Ref": "4",
+      "title": "Insurance",
+      "type": "object",
+      "required": ["managedAreaInsured"],
+      "properties": {
+        "managedAreaInsured": {
+          "fme1Ref": "4.1",
+          "title": "Are the Managed Areas insured?",
+          "type": "object",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": { "propertyName": "yesNo" },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "premiumsPaidUpToDate": {
+                  "fme1Ref": "4.1.1",
+                  "type": "object",
+                  "title": "Are the buildings insurance premium contributions payable by the Owner paid up to date for the Managed Areas?",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "required": ["yesNo"],
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["Yes"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["No"]
+                        },
+                        "details": {
+                          "fme1Ref": "4.1.1.1",
+                          "title": "Provide details of the arrears",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": ["details"]
+                    }
+                  ]
+                },
+                "lastDemandPeriod": {
+                  "fme1Ref": "4.2",
+                  "title": "What period is covered by the last demand?",
+                  "type": "object",
+                  "properties": {
+                    "from": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "to": {
+                      "type": "string",
+                      "format": "date"
+                    }
+                  }
+                },
+                "claimsMade": {
+                  "fme1Ref": "4.3",
+                  "type": "object",
+                  "title": "Have any claims been made against the policy during the last 3 years?",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "required": ["yesNo"],
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["Yes"]
+                        },
+                        "details": {
+                          "fme1Ref": "4.3.1",
+                          "title": "Provide details",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": ["details"]
+                    }
+                  ]
+                },
+                "claimsAnticipated": {
+                  "fme1Ref": "4.4",
+                  "type": "object",
+                  "title": "Are any claims anticipated?",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "required": ["yesNo"],
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["Yes"]
+                        },
+                        "details": {
+                          "fme1Ref": "4.4.1",
+                          "title": "Provide details",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": ["details"]
+                    }
+                  ]
+                },
+                "premiumIncludedInServiceCharge": {
+                  "fme1Ref": "4.5",
+                  "type": "object",
+                  "title": "Is the insurance premium included in the service charge?",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "required": ["yesNo"],
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["Yes"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["No"]
+                        },
+                        "details": {
+                          "fme1Ref": "4.6",
+                          "title": "Confirm the annual amount payable for the Property",
+                          "type": "number"
+                        }
+                      },
+                      "required": ["details"]
+                    }
+                  ]
+                },
+                "standardTermsAvailable": {
+                  "fme1Ref": "4.7",
+                  "type": "object",
+                  "title": "Are you aware of any reason why comprehensive insurance will not be available on standard terms in future?",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "required": ["yesNo"],
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["Yes"]
+                        },
+                        "details": {
+                          "fme1Ref": "4.7.1",
+                          "title": "Provide details",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": ["details"]
+                    }
+                  ]
+                },
+                "nonComplianceWithConditions": {
+                  "fme1Ref": "4.8",
+                  "type": "object",
+                  "title": "Are you aware of any non-compliance with the insurance conditions that would render the policy void?",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "required": ["yesNo"],
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["Yes"]
+                        },
+                        "details": {
+                          "fme1Ref": "4.8.1",
+                          "title": "Provide details",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": ["details"]
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "premiumsPaidUpToDate",
+                "lastDemandPeriod",
+                "insuranceExpiryDate",
+                "claimsMade",
+                "claimsAnticipated",
+                "premiumIncludedInServiceCharge",
+                "standardTermsAvailable",
+                "nonComplianceWithConditions"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "disputes": {
+      "fme1Ref": "5",
+      "title": "Disputes",
+      "type": "object",
+      "required": ["unresolvedDisputes", "breachOfTermsOfTransfer"],
+      "properties": {
+        "unresolvedDisputes": {
+          "fme1Ref": "5.1",
+          "type": "object",
+          "title": "Are there any documented unresolved disputes with the Owners of any of the properties in the Managed Area?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": {
+            "propertyName": "yesNo"
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "fme1Ref": "5.1.1",
+                  "title": "To the extent permitted by the UK General Data Protection Regulations, please supply details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        },
+        "breachOfTermsOfTransfer": {
+          "fme1Ref": "5.2",
+          "type": "object",
+          "title": "Are you aware of any breach of the terms of the Transfer of this Property?",
+          "properties": {
+            "yesNo": {
+              "type": "string",
+              "title": "",
+              "enum": ["Yes", "No"]
+            }
+          },
+          "required": ["yesNo"],
+          "discriminator": {
+            "propertyName": "yesNo"
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["No"]
+                }
+              }
+            },
+            {
+              "properties": {
+                "yesNo": {
+                  "enum": ["Yes"]
+                },
+                "details": {
+                  "fme1Ref": "5.2.1",
+                  "title": "Provide details",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": ["details"]
+            }
+          ]
+        }
+      }
+    },
+    "requiredDocuments": {
+      "fme1Ref": "6",
+      "title": "Required Documents",
+      "description": "Please provide the following applicable documents:",
+      "type": "object",
+      "required": [
+        "serviceChargeAccounts",
+        "managedAreasInsurancePolicy",
+        "serviceChargeEstimatesCurrent",
+        "serviceChargeEstimatesPrevious",
+        "proposedWorksNotices",
+        "additionalRegulationsNotInTransfer",
+        "deedOfCovenant",
+        "certificateOfCompliance",
+        "permissionToAlter",
+        "noticesServedOnOwner",
+        "asbestosSurvey",
+        "managedAreaFireRiskAssessment",
+        "memorandumAndArticles",
+        "managementCompanyAGMMinutes",
+        "feesForAdminServices"
+      ],
+      "properties": {
+        "serviceChargeAccounts": {
+          "fme1Ref": "6.1",
+          "title": "The last 3 years published Service Charge accounts.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "managedAreasInsurancePolicy": {
+          "fme1Ref": "6.2",
+          "title": "Managed Areas insurance policy and schedule.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "serviceChargeEstimatesCurrent": {
+          "fme1Ref": "6.3",
+          "title": "Service charge estimate for the current year and details of the anticipated payments on account for the Property.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "serviceChargeEstimatesPrevious": {
+          "fme1Ref": "6.4",
+          "title": "Service charge estimate for the previous year for which accounts have not yet been prepared for the Property.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "proposedWorksNotices": {
+          "fme1Ref": "6.5",
+          "title": "Copies of any notices served on the Owners in respect of any proposed works or any works which have not yet been paid for.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "additionalRegulationsNotInTransfer": {
+          "fme1Ref": "6.6",
+          "title": "Any additional regulations or rules affecting the Property which are not contained in the transfer.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "deedOfCovenant": {
+          "fme1Ref": "6.7",
+          "title": "Any required Deed of Covenant.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "Buyer's lawyer to draft", "N/A"]
+        },
+        "certificateOfCompliance": {
+          "fme1Ref": "6.8",
+          "title": "Any Certificate of Compliance required by a Restriction on the registered title.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "Buyer's lawyer to draft", "N/A"]
+        },
+        "permissionToAlter": {
+          "fme1Ref": "6.9",
+          "title": "Copy of any permission to alter the Property which has been issued.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "noticesServedOnOwner": {
+          "fme1Ref": "6.10",
+          "title": "Copy of any known notices served on the Owner and documentation arising from them.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "asbestosSurvey": {
+          "fme1Ref": "6.11",
+          "title": "Asbestos Survey for buildings part of the Managed Area built or converted before 2001.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "managedAreaFireRiskAssessment": {
+          "fme1Ref": "6.12",
+          "title": "Fire Risk Assessment for communal areas in buildings forming part of the Managed Area.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "memorandumAndArticles": {
+          "fme1Ref": "6.13",
+          "title": "Memorandum and Articles of Association of the Management Company.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "managementCompanyAGMMinutes": {
+          "fme1Ref": "6.14",
+          "title": "Minutes from the last AGM for the Management Company.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        },
+        "feesForAdminServices": {
+          "fme1Ref": "6.15",
+          "title": "Menu of fees for your administrative services.",
+          "type": "string",
+          "enum": ["Enclosed", "To follow", "N/A"]
+        }
+      }
+    },
+    "confirmation": {
+      "title": "Confirmation",
+      "description": "By checking the box you are .",
+      "type": "object",
+      "required": ["response"],
+      "properties": {
+        "response": {
+          "title": "Declaration",
+          "description": "I/we confirm that I am the person authorised to provide the information which I have completed in it on behalf of those parties which I have selected from the list, and that a buyer may rely on the information which I have supplied without applying to any other party except where I have left a section blank because I do not have the authority to provide the information",
+          "type": "boolean"
+        },
+        "capacity": {
+          "title": "Please tick as applicable below, to confirm the capacity in which the answers are given.",
+          "type": "string",
+          "enum": [
+            "Rentcharge Owner",
+            "Management Company",
+            "Managing Agent",
+            "Residents' Association"
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "address": {
+      "type": "object",
+      "properties": {
+        "line1": {
+          "title": "Address line 1",
+          "type": "string",
+          "minLength": 1
+        },
+        "line2": {
+          "title": "Address line 2",
+          "type": "string"
+        },
+        "line3": {
+          "title": "Address line 3",
+          "type": "string"
+        },
+        "town": {
+          "title": "Town",
+          "type": "string"
+        },
+        "postcode": {
+          "title": "Postcode",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["line1", "postcode"]
+    },
+    "contact": {
+      "type": "object",
+      "properties": {
+        "nameOrOrganisation": {
+          "title": "Name or organisation",
+          "type": "string",
+          "minLength": 1
+        },
+        "address": {
+          "title": "Address",
+          "type": "object",
+          "properties": {
+            "line1": {
+              "title": "Address line 1",
+              "type": "string",
+              "minLength": 1
+            },
+            "line2": {
+              "title": "Address line 2",
+              "type": "string"
+            },
+            "line3": {
+              "title": "Address line 3",
+              "type": "string"
+            },
+            "town": {
+              "title": "Town",
+              "type": "string"
+            },
+            "postcode": {
+              "title": "Postcode",
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": ["line1", "postcode"]
+        },
+        "telephone": {
+          "title": "Telephone",
+          "type": "string",
+          "minLength": 1
+        },
+        "emailAddress": {
+          "title": "Email address",
+          "type": "string",
+          "format": "email"
+        }
+      },
+      "required": [
+        "nameOrOrganisation",
+        "addressLine1",
+        "postcode",
+        "telephone",
+        "emailAddress"
+      ]
+    },
+    "bankDetails": {
+      "type": "object",
+      "properties": {
+        "accountName": {
+          "title": "Account name",
+          "type": "string",
+          "minLength": 1
+        },
+        "sortCode": {
+          "title": "Sort code",
+          "type": "string",
+          "minLength": 1
+        },
+        "accountNumber": {
+          "title": "Account number",
+          "type": "integer"
+        },
+        "reference": {
+          "title": "Reference to quote",
+          "type": "string",
+          "minLength": 1
+        },
+        "feeType": {
+          "title": "Type of fee",
+          "type": "string",
+          "enum": [
+            "Ground rent",
+            "Service charges",
+            "Administration fees",
+            "All"
+          ]
+        }
+      }
+    }
+  }
+}
