@@ -7816,6 +7816,10 @@
                       "type": "string",
                       "format": "date"
                     },
+                    "issuedDate": {
+                      "type" : "string",
+                      "format": "date"
+                    },
                     "lightingCostCurrent": {
                       "type": "integer"
                     },
@@ -7946,6 +7950,10 @@
                     },
                     "unheatedCorridorLength": {
                       "type": "number"
+                    },
+                    "updateDate": {
+                      "type" : "string",
+                      "format": "date"
                     },
                     "uprnSource": {
                       "type": "string"
@@ -8141,6 +8149,15 @@
                 "councilTaxAnnualCharge": {
                   "title": "What is the current annual Council Tax charge? (£)",
                   "type": "number"
+                },
+                "councilTaxMonthlyCharge": {
+                  "title": "What is the current monthly Council Tax charge? (£)",
+                  "type": "number"
+                },
+                "councilTaxUpdatedate": {
+                  "title": "Last Update Date",
+                  "type": "string",
+                  "format": "date"
                 }
               }
             },
@@ -19610,6 +19627,348 @@
                 }
               }
             },
+            "nearbyFacilities": {
+              "title": "Information about nearby facilties like hospital, school etc",
+              "type": "object",
+              "properties" : {
+                "schools": {
+                  "title": "Nearby School",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "title": "Name"
+                      },
+                      "rating": {
+                        "type": "string",
+                        "title": "Rating"
+                      },
+                      "pupils": {
+                        "type": "integer",
+                        "title": "Number of Pupils"
+                      },
+                      "distance": {
+                        "type": "string",
+                        "title": "Distance"
+                      },
+                      "ageRange" : {
+                        "type" : "string",
+                        "title" : "Age",
+                        "pattern" : "^[0-9]+-[0-9]+$"
+                      },
+                      "religiousCharacter": {
+                        "type": "string",
+                        "title": "Religious character of school, if any"
+                      },
+                      "schoolType": {
+                        "type": "object",
+                        "title": "Type of School",
+                        "properties": {
+                          "nursery": {
+                            "title" : "Nursery",
+                            "type": "object",
+                            "yesNoNotKnown": {
+                              "type": "string",
+                              "title": "",
+                              "enum": ["Yes", "No", "Not Known"]
+                            }
+                          },
+                          "primary": {
+                            "title": "Primary",
+                            "type": "object",
+                            "yesNoNotKnown": {
+                              "type": "string",
+                              "title": "",
+                              "enum": ["Yes", "No", "Not Known"]
+                            }
+                          },
+                          "secondary": {
+                            "title": "Secondary",
+                            "type": "object",
+                            "yesNoNotKnown": {
+                              "type": "string",
+                              "title": "",
+                              "enum": ["Yes", "No", "Not Known"]
+                            }
+                          },
+                          "college": {
+                            "title": "College",
+                            "type": "object",
+                            "yesNoNotKnown": {
+                              "type": "string",
+                              "title": "",
+                              "enum": ["Yes", "No", "Not Known"]
+                            }
+                          },
+                          "private": {
+                            "title": "Private",
+                            "type": "object",
+                            "yesNoNotKnown": {
+                              "type": "string",
+                              "title": "",
+                              "enum": ["Yes", "No", "Not Known"]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "transport" :{
+                  "title" : "Transportation facilities in the area",
+                  "type" : "object",
+                  "properties": {
+                    "localConnections" : {
+                      "title" : "Local Connections",
+                      "type" : "array",
+                      "items" : {
+                        "type" : "array",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "latitude": {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          },
+                          "longitude": {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          },
+                          "distance": {
+                            "type": "number"
+                          },
+                          "metres": {
+                            "type": "number"
+                          },
+                          "distanceInMiles": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    },
+                    "nationalRailStations" : {
+                      "title" : "National Rail Stations",
+                      "type" : "array",
+                      "items" : {
+                        "type" : "array",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "latitude": {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          },
+                          "longitude": {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          },
+                          "distance": {
+                            "type": "number"
+                          },
+                          "metres": {
+                            "type": "number"
+                          },
+                          "distanceInMiles": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    },
+                    "ferryTerminals" : {
+                      "title" : "Local Connections",
+                      "type" : "array",
+                      "items" : {
+                        "type" : "array",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "latitude": {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          },
+                          "longitude": {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          },
+                          "distance": {
+                            "type": "number"
+                          },
+                          "metres": {
+                            "type": "number"
+                          },
+                          "distanceInMiles": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    },
+                    "busStopStations" : {
+                      "title" : "Bus Stop Stations",
+                      "type" : "array",
+                      "items" : {
+                        "type" : "array",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "latitude": {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          },
+                          "longitude": {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          },
+                          "distance": {
+                            "type": "number"
+                          },
+                          "metres": {
+                            "type": "number"
+                          },
+                          "distanceInMiles": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    },
+                    "trunkRoadsMotorway" : {
+                      "title" : "Trunk Roads Motorway",
+                      "type" : "array",
+                      "items" : {
+                        "type" : "array",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "latitude": {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          },
+                          "longitude": {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          },
+                          "distance": {
+                            "type": "number"
+                          },
+                          "metres": {
+                            "type": "number"
+                          },
+                          "distanceInMiles": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    },
+                    "airportsHelipads" : {
+                      "title" : "Airports and Helipads",
+                      "type" : "array",
+                      "items" : {
+                        "type" : "array",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "latitude": {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          },
+                          "longitude": {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          },
+                          "distance": {
+                            "type": "number"
+                          },
+                          "metres": {
+                            "type": "number"
+                          },
+                          "distanceInMiles": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "healthCare": {
+                  "title": "Nearby Health Care Services",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "title": "Health Care Service",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "title": "Name"
+                      },
+                      "type": {
+                        "type": "string",
+                        "title": "Type"
+                      },
+                      "address": {
+                        "type": "string",
+                        "title": "Address"
+                      },
+                      "contact": {
+                        "type": "string",
+                        "title": "Contact"
+                      },
+                      "distance": {
+                        "type": "string",
+                        "title": "Approximate Distance"
+                      },
+                      "rating": {
+                        "type": "number",
+                        "title": "Rating"
+                      },
+                      "specialties": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "title": "Specialties"
+                      },
+                      "openingHours": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "day": {
+                              "type": "string"
+                            },
+                            "hours": {
+                              "type": "string"
+                            }
+                          },
+                          "required": ["day", "hours"],
+                          "additionalProperties": false
+                        },
+                        "title": "Opening Hours"
+                      }
+                    },
+                    "required": ["name", "type", "address", "contact"]
+                  }
+                }
+              }
+            },
             "additionalInformation": {
               "baspiRef": "A12",
               "ta6Ref": "10",
@@ -19763,6 +20122,157 @@
                       "ta6Required": ["details"]
                     }
                   ]
+                },
+                "googleStreetViewPOV": {
+                  "title": "Street View to render street nearby property in Google Street View ",
+                  "type": "object",
+                  "properties": {
+                    "heading": {
+                      "title": "Heading",
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 360
+                    },
+                    "pitch": {
+                      "title": "Pitch",
+                      "type": "number"
+                    },
+                    "zoom": {
+                      "title": "Zoom",
+                      "type": "number"
+                    },
+                    "lat": {
+                      "title": "latitude",
+                      "type": "number",
+                      "minimum": -180,
+                      "maximum": 180
+                    },
+                    "lng": {
+                      "title": "longitude",
+                      "type": "number",
+                      "minimum": -180,
+                      "maximum": 180
+                    }
+                  }
+                },
+                "propertyPolygons": {
+                  "title": "Property Polygons",
+                  "type": "object",
+                  "properties": {
+                    "geoJsonpolygon": {
+                      "title": "GeoJSON Polygon",
+                      "type": "object",
+                      "required": ["type", "coordinates"],
+                      "properties": {
+                        "coordinates": {
+                          "type": "array",
+                          "items": {
+                            "type": "array",
+                            "minItems": 4,
+                            "items": {
+                              "type": "array",
+                              "minItems": 2,
+                              "items": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        },
+                        "bbox": {
+                          "type": "array",
+                          "minItems": 4,
+                          "items": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    },
+                    "polygon": {
+                      "title": "Surronding polygon",
+                      "type": "array",
+                      "items": {
+                        "type": "array",
+                        "minItems": 4,
+                        "items": {
+                          "type": "array",
+                          "minItems": 2,
+                          "items": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "britishNationalGridCoardinates": {
+                  "title": "British National Grid Coordinates of the property",
+                  "type": "object",
+                  "required": ["bng_x", "bng_y"],
+                  "properties": {
+                    "bng_x" :{
+                      "title": "British National Grid X Coordinate of the property",
+                      "type": "number"
+                    },
+                    "bng_y" :{
+                      "title": "British National Grid Y Coordinate of the property",
+                      "type": "number"
+                    }                    
+                  }
+                }
+              }
+            },
+            "buildInformation": {
+              "title": "Information related to property build",
+              "type": "object",
+              "properties": {
+                "totalFloorArea": {
+                  "title": "Total Floor Area of the property",
+                  "type" : "object",
+                  "properties": {
+                    "inSquareMeter" : {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "inSquareFeets" : {
+                      "type": "number",
+                      "minimum": 0
+                    }
+                  }
+                },
+                "totaFloorAreaLastModified": {
+                  "title": "Total Floor Area Last Modified",
+                  "type": "string",
+                  "format": "date"
+                },
+                "yearOfBuild": {
+                  "title": "Year the property is built",
+                  "type" : "integer"
+                }
+              }
+            },
+            "residentialPropertyFeatures": {
+              "title": "Residential Property Features",
+              "type": "object",
+              "properties": {
+                "bedrooms": {
+                  "title": "Bedrooms",
+                  "type" : "integer"
+                },
+                "bathrooms": {
+                  "title": "Bathrooms",
+                  "type": "integer"
+                },
+                "receptions": {
+                  "title": "Receptions",
+                  "type": "integer"
+                },
+                "kitchens": {
+                  "title": "Kitchens",
+                  "type": "integer"
+                },
+                "dining": {
+                  "title": "Dining",
+                  "type": "integer"
                 }
               }
             },
