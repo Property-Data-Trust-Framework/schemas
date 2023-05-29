@@ -127,10 +127,12 @@
     "propertyPack": {
       "baspiRef": "0",
       "ta6Ref": "0",
+      "ta7Ref": "0",
       "title": "Property Pack",
       "type": "object",
       "baspiRequired": ["materialFacts", "additionalLegalInfo"],
       "ta6Required": ["materialFacts", "additionalLegalInfo"],
+      "ta7Required": ["materialFacts", "additionalLegalInfo"],
       "properties": {
         "materialFacts": {
           "type": "object",
@@ -183,16 +185,22 @@
             "environmentalIssues",
             "additionalInformation"
           ],
+          "ta7Required": [
+            "address",
+            "ownership"
+          ],
           "properties": {
             "address": {
               "baspiRef": "A1.1",
               "ta6Ref": "0.1",
+              "ta7Ref": "0.1",
               "rdsRef": "Property/Address/xal:AddressDetails",
               "title": "Property Address",
               "type": "object",
               "properties": {
                 "line1": {
                   "ta6Ref": "0.1.1",
+                  "ta7Ref": "0.1.1",
                   "baspiRef": "A1.1.1",
                   "title": "Address line 1",
                   "type": "string",
@@ -200,24 +208,28 @@
                 },
                 "line2": {
                   "ta6Ref": "0.1.2",
+                  "ta7Ref": "0.1.2",
                   "baspiRef": "A1.1.2",
                   "title": "Address line 2",
                   "type": "string"
                 },
                 "line3": {
                   "ta6Ref": "0.1.3",
+                  "ta7Ref": "0.1.3",
                   "baspiRef": "A1.1.3",
                   "title": "Address line 3",
                   "type": "string"
                 },
                 "town": {
                   "ta6Ref": "0.1.4",
+                  "ta7Ref": "0.1.4",
                   "baspiRef": "A1.1.4",
                   "title": "Town",
                   "type": "string"
                 },
                 "postcode": {
                   "ta6Ref": "0.1.5",
+                  "ta7Ref": "0.1.5",
                   "baspiRef": "A1.1.5",
                   "title": "Postcode",
                   "type": "string",
@@ -569,7 +581,6 @@
                       "ownershipType": {
                         "baspiRef": "A1.3.0.2",
                         "rdsRef": "Tenure/Tenure",
-                        "ta7Ref": "1.1",
                         "title": "What type of ownership is the property?",
                         "description": "A Managed Freehold is any freehold where there are shared amenities, the maintenance of which you pay for through an estate rentcharge, service charge, informal or formal contribution. Choose Leasehold if your property is under a Shared Ownership arrangement.",
                         "type": "string",
@@ -5162,8 +5173,37 @@
                                       "dangerousCladdingOrDefects": {
                                         "ta7Ref": "5.8",
                                         "title": "Does the seller know of the existence or suspected existence in the building of dangerous cladding or any other defects that create a building safety risk?",
-                                        "type": "string",
-                                        "enum": ["Yes", "No"]
+                                        "type": "object",
+                                        "properties": {
+                                          "yesNo": {
+                                            "type": "string",
+                                            "title": "",
+                                            "enum": ["Yes", "No"]
+                                          }
+                                        },
+                                        "discriminator": {
+                                          "propertyName": "yesNo"
+                                        },
+                                        "oneOf": [
+                                          {
+                                            "properties": {
+                                              "yesNo": {
+                                                "enum": ["No"]
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "properties": {
+                                              "yesNo": {
+                                                "enum": ["Yes"]
+                                              },
+                                              "details": {
+                                                "title": "Please give details",
+                                                "type": "string"
+                                              }
+                                            }
+                                          }
+                                        ]
                                       },
                                       "difficultyInCollectingServiceCharge": {
                                         "ta7Ref": "5.9",
@@ -5756,14 +5796,17 @@
                                       "deedOfCertificateServed": {
                                         "lpe1Ref": "4.14",
                                         "ta7Ref": "11.3",
+                                        "ta7Title": "Is there a Leaseholder Deed of Certificate for the property?",
                                         "title": "Has a Leaseholder Deed of Certificate been served on the Landlord in relation to the property or remedial works required to the property?",
                                         "type": "object",
                                         "properties": {
                                           "yesNoNotApplicable": {
                                             "type": "string",
                                             "title": "",
+                                            "$comment": "Option No is for TA7 only",
                                             "enum": [
                                               "Yes",
+                                              "No",
                                               "No Certificate Served",
                                               "Not applicable"
                                             ]
@@ -5801,6 +5844,15 @@
                                                 "enum": [
                                                   "Current leaseholder",
                                                   "Previous leaseholder"
+                                                ]
+                                              },
+                                              "attachCopyLeaseholderDeedOfCertificate": {
+                                                "ta7Ref": "11.3b",
+                                                "title": " Please supply a copy of the leaseholder deed of certificate and the accompanying evidence",
+                                                "type": "string",
+                                                "enum": [
+                                                  "Attached",
+                                                  "To follow"
                                                 ]
                                               }
                                             },
@@ -7151,8 +7203,11 @@
                                     "lpe1Ref": "8.20",
                                     "ta7Ref": "11.5",
                                     "title": "Landlord's Certificate.",
+                                    "ta7Title": "Has the seller received a Landlord’s Certificate and the accompanying evidence?",
                                     "type": "string",
                                     "enum": [
+                                      "Yes",
+                                      "No",
                                       "Enclosed",
                                       "To follow",
                                       "Not applicable"
@@ -7603,7 +7658,9 @@
                 },
                 "buildingSafetyRemediation": {
                   "baspiRef": "A1.8.2",
+                  "ta7Ref": "11.1",
                   "title": "Are you aware of any remediation required to the property due to building safety?",
+                  "ta7Title": "Have any remediation works on the building been proposed or carried out?",
                   "description": "This could be due to the property being high risk because of the building height or because of works completed without buildings regulations.",
                   "type": "object",
                   "properties": {
@@ -7633,11 +7690,13 @@
                         },
                         "details": {
                           "baspiRef": "A1.8.2.2",
+                          "ta7Ref": "11.1.0",
                           "title": "Details",
                           "type": "string",
                           "minLength": 1
                         },
                         "attachments": {
+                          "ta7Ref": "11.1.0.1",
                           "baspiRef": "A1.8.2.3",
                           "title": "Attachments",
                           "type": "string",
