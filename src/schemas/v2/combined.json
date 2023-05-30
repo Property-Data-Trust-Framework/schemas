@@ -167,12 +167,9 @@
           ],
           "ta6Required": [
             "address",
-            "ownership",
             "parking",
             "listingAndConservation",
-            "typeOfConstruction",
             "energyEfficiency",
-            "councilTax",
             "disputesAndComplaints",
             "alterationsAndChanges",
             "notices",
@@ -195,6 +192,8 @@
               "ta6Ref": "0.1",
               "ta7Ref": "0.1",
               "rdsRef": "Property/Address/xal:AddressDetails",
+              "piqRef": "A1.1",
+              "rdsRef": "Property/Address/xal:AddressDetails",
               "title": "Property Address",
               "type": "object",
               "properties": {
@@ -202,6 +201,7 @@
                   "ta6Ref": "0.1.1",
                   "ta7Ref": "0.1.1",
                   "baspiRef": "A1.1.1",
+                  "piqRef": "A1.1.1",
                   "title": "Address line 1",
                   "type": "string",
                   "minLength": 1
@@ -210,6 +210,7 @@
                   "ta6Ref": "0.1.2",
                   "ta7Ref": "0.1.2",
                   "baspiRef": "A1.1.2",
+                  "piqRef": "A1.1.2",
                   "title": "Address line 2",
                   "type": "string"
                 },
@@ -224,6 +225,7 @@
                   "ta6Ref": "0.1.4",
                   "ta7Ref": "0.1.4",
                   "baspiRef": "A1.1.4",
+                  "piqRef": "A1.1.3",
                   "title": "Town",
                   "type": "string"
                 },
@@ -231,6 +233,7 @@
                   "ta6Ref": "0.1.5",
                   "ta7Ref": "0.1.5",
                   "baspiRef": "A1.1.5",
+                  "piqRef": "A1.1.5",
                   "title": "Postcode",
                   "type": "string",
                   "minLength": 1
@@ -355,8 +358,7 @@
                     "title": "Caption",
                     "type": "string"
                   }
-                },
-                "ta6Required": ["mediaUrl"]
+                }
               }
             },
             "connectivity": {
@@ -581,6 +583,8 @@
                       "ownershipType": {
                         "baspiRef": "A1.3.0.2",
                         "rdsRef": "Tenure/Tenure",
+                        "ta7Ref": "1.1",
+                        "piqRef": "A1.2",
                         "title": "What type of ownership is the property?",
                         "description": "A Managed Freehold is any freehold where there are shared amenities, the maintenance of which you pay for through an estate rentcharge, service charge, informal or formal contribution. Choose Leasehold if your property is under a Shared Ownership arrangement.",
                         "type": "string",
@@ -909,6 +913,7 @@
                                   "managingAgent": {
                                     "baspiRef": "A1.5.5",
                                     "fme1Ref": "1.3",
+                                    "piqRef": "A1.4.1",
                                     "title": "Managing Agent",
                                     "type": "object",
                                     "fme1Required": ["contact"],
@@ -1628,6 +1633,7 @@
                               "serviceCharge": {
                                 "baspiRef": "A1.5.1",
                                 "fme1Ref": "3",
+                                "piqRef": "A1.4.2",
                                 "title": "Service Charge",
                                 "type": "object",
                                 "fme1Required": [
@@ -2968,6 +2974,7 @@
                                   "lengthOfLeaseInYears": {
                                     "baspiRef": "A1.4.1.2",
                                     "ntsRef": "A1.3",
+                                    "piqRef": "A1.3.1",
                                     "title": "Length of lease (years)",
                                     "type": "integer"
                                   }
@@ -3007,6 +3014,7 @@
                                         "baspiRef": "A1.5.4",
                                         "ta7Ref": "4.1a",
                                         "lpe1Ref": "1.1",
+                                        "piqRef": "A1.4.4",
                                         "title": "Landlord",
                                         "description": "The landlord (or freeholder) may be, for example, a private individual, a housing association, or a management company owned by the residents",
                                         "type": "object",
@@ -4714,6 +4722,7 @@
                                 "baspiRef": "A1.4.2",
                                 "ta7Ref": "1.2",
                                 "lpe1Ref": "3",
+                                "piqRef": "A1.3.3",
                                 "title": "Ground Rent",
                                 "type": "object",
                                 "lpe1Required": ["isGroundRentPayable"],
@@ -4749,6 +4758,7 @@
                                         "ta7Ref": "1.2a",
                                         "ntsRef": "A1.4",
                                         "lpe1Ref": "3.1",
+                                        "piqRef": "A1.3.3",
                                         "rdsRef": "TenureAgreements/RentPayable/Value",
                                         "title": "What is the annual ground rent payable? (£)",
                                         "type": "number"
@@ -4762,11 +4772,13 @@
                                         "baspiRef": "A1.4.2.3",
                                         "ntsRef": "A1.5",
                                         "ta7Ref": "1.2c",
+                                        "piqRef": "A1.3.4",
                                         "type": "object",
                                         "title": "Is the ground rent subject to increase?",
                                         "properties": {
                                           "yesNo": {
                                             "baspiRef": "A1.4.2.3.1",
+                                            "piqRef": "A1.3.4.1",
                                             "type": "string",
                                             "title": "",
                                             "enum": ["Yes", "No"]
@@ -4798,6 +4810,7 @@
                                               },
                                               "rentIncreaseCalculated": {
                                                 "baspiRef": "A1.4.2.3.3",
+                                                "piqRef": "A1.3.4.2",
                                                 "ta7Ref": "1.2e",
                                                 "title": "How is the increase calculated?",
                                                 "description": "e.g. set figure, doubling, in line with Retail Price Index, Consumer Price Index, etc",
@@ -5803,10 +5816,13 @@
                                           "yesNoNotApplicable": {
                                             "type": "string",
                                             "title": "",
-                                            "$comment": "Option No is for TA7 only",
-                                            "enum": [
+                                            "ta7enum": [
                                               "Yes",
                                               "No",
+                                              "Not applicable"
+                                            ],
+                                            "enum": [
+                                              "Yes",
                                               "No Certificate Served",
                                               "Not applicable"
                                             ]
@@ -7205,9 +7221,11 @@
                                     "title": "Landlord's Certificate.",
                                     "ta7Title": "Has the seller received a Landlord’s Certificate and the accompanying evidence?",
                                     "type": "string",
-                                    "enum": [
+                                    "ta7enum": [
                                       "Yes",
-                                      "No",
+                                      "No"
+                                    ],
+                                    "enum": [
                                       "Enclosed",
                                       "To follow",
                                       "Not applicable"
@@ -7294,6 +7312,7 @@
                 "parkingArrangements": {
                   "baspiRef": "A1.6.0",
                   "ta6Ref": "9.1",
+                  "piqRef": "A1.5",
                   "type": "object",
                   "title": "Parking arrangements",
                   "baspiRequired": ["parkingArrangementsType"],
@@ -7408,6 +7427,7 @@
                   "baspiRef": "A1.7.1",
                   "rdsRef": "Protections",
                   "ta6Ref": "4.7a",
+                  "piqRef": "A1.6.1",
                   "title": "Is the property a listed building in England or Wales?",
                   "type": "object",
                   "properties": {
@@ -7461,6 +7481,7 @@
                   "baspiRef": "A1.7.2",
                   "rdsRef": "Protections",
                   "ta6Ref": "4.7b",
+                  "piqRef": "A1.6.2",
                   "title": "Is the property in a designated conservation area?",
                   "type": "object",
                   "properties": {
@@ -7514,12 +7535,14 @@
                   "baspiRef": "A1.7.3",
                   "rdsRef": "Property/Flags",
                   "ta6Ref": "4.8",
+                  "piqRef": "A1.6.3",
                   "title": "To your knowledge, does a tree preservation order apply to any trees within the boundaries of the property?",
                   "type": "object",
                   "properties": {
                     "yesNo": {
                       "baspiRef": "A1.7.3.1",
                       "ta6Ref": "4.8.1",
+                      "piqRef": "A1.6.3.1",
                       "type": "string",
                       "title": "",
                       "enum": ["Yes", "No", "Not known"]
@@ -7547,6 +7570,7 @@
                           "baspiRef": "A1.7.3.2",
                           "rdsRef": "WorksAlterationsChanges",
                           "ta6Ref": "4.8a",
+                          "piqRef": "A1.6.4",
                           "title": "Has work been carried out to any trees which are protected by the order?",
                           "type": "object",
                           "properties": {
@@ -7618,6 +7642,7 @@
                 "isStandardForm": {
                   "baspiRef": "A1.8.1",
                   "rdsRef": "Buildings,BuildingSections/ConstructionType,ConstructionMaterials",
+                  "piqRef": "A5.5",
                   "title": "Is the property built in a standard form of construction? E.g. brick and/or block with timber-supported roof comprising a tile or slate cover?",
                   "type": "object",
                   "properties": {
@@ -8106,6 +8131,7 @@
                 "greenDealLoan": {
                   "baspiRef": "A7.3",
                   "ta6Ref": "7.7",
+                  "piqRef": "A11.4",
                   "rdsRef": "RightsHolders/Loans,RightsHolders/OtherDocumentation",
                   "title": "Green Deal Loan",
                   "type": "object",
@@ -8171,6 +8197,7 @@
             "councilTax": {
               "baspiRef": "A1.9",
               "ntsRef": "A2",
+              "piqRef": "B2",
               "title": "Council Tax",
               "type": "object",
               "baspiRequired": [
@@ -8258,6 +8285,7 @@
                   "baspiRef": "A2.1.1",
                   "rdsRef": "Tenure/DisputesComplaints,Tenure/LegalClaims",
                   "ta6Ref": "2.1",
+                  "piqRef": "A2.1",
                   "title": "Have any disputes or complaints occurred, regarding this property, a property nearby, or their use?",
                   "description": "E.g boundary disagreement, noise, trespass etc",
                   "type": "object",
@@ -8378,6 +8406,7 @@
                   "baspiRef": "A3.1",
                   "rdsRef": "WorksAlterationsChanges",
                   "ta6Ref": "4.1a",
+                  "piqRef": "A3.1",
                   "title": "Have there been any structural alterations, extensions, significant repairs or renewals to the property? (e.g. extensions, loft or garage conversion, removal of internal walls or chimneys)",
                   "type": "object",
                   "properties": {
@@ -8630,11 +8659,7 @@
                         "listedBuildingConsent",
                         "deedRestrictionConsent"
                       ],
-                      "ta6Required": [
-                        "details",
-                        "buildingRegApproval",
-                        "planningPermission"
-                      ]
+                      "ta6Required": ["details"]
                     }
                   ]
                 },
@@ -8900,11 +8925,7 @@
                         "listedBuildingConsent",
                         "deedRestrictionConsent"
                       ],
-                      "ta6Required": [
-                        "yearCompleted",
-                        "buildingRegApproval",
-                        "planningPermission"
-                      ]
+                      "ta6Required": ["yearCompleted"]
                     }
                   ]
                 },
@@ -8912,6 +8933,7 @@
                   "baspiRef": "A3.3",
                   "rdsRef": "WorksAlterationsChanges",
                   "ta6Ref": "4.1c",
+                  "piqRef": "A3.2",
                   "title": "Since 1st April 2002 has replacement of any windows, roof windows, roof lights, glazed doors taken place?",
                   "type": "object",
                   "properties": {
@@ -9170,11 +9192,7 @@
                         "listedBuildingConsent",
                         "deedRestrictionConsent"
                       ],
-                      "ta6Required": [
-                        "yearCompleted",
-                        "buildingRegApproval",
-                        "planningPermission"
-                      ]
+                      "ta6Required": ["yearCompleted"]
                     }
                   ]
                 },
@@ -9182,6 +9200,7 @@
                   "baspiRef": "A3.4",
                   "rdsRef": "WorksAlterationsChanges",
                   "ta6Ref": "4.1d",
+                  "piqRef": "A3.4",
                   "title": "Has a conservatory been added?",
                   "type": "object",
                   "properties": {
@@ -9227,6 +9246,7 @@
                           "baspiRef": "A3.5.1",
                           "rdsRef": "WorksAlterationsChanges/ConsentApproval",
                           "ta6Ref": "4.2",
+                          "piqRef": "A3.5.1",
                           "title": "Was building regulation approval and a completion certificate obtained or an equivalent Competent Person Scheme Certificate?",
                           "type": "object",
                           "properties": {
@@ -9283,6 +9303,7 @@
                           "baspiRef": "A3.5.2",
                           "rdsRef": "WorksAlterationsChanges/ConsentApproval",
                           "ta6Ref": "4.2",
+                          "piqRef": "A3.5.2",
                           "title": "Was planning permission obtained?",
                           "type": "object",
                           "properties": {
@@ -9338,6 +9359,7 @@
                         "listedBuildingConsent": {
                           "baspiRef": "A3.5.3",
                           "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "piqRef": "A3.5.3",
                           "title": "Was listed building consent obtained?",
                           "type": "object",
                           "properties": {
@@ -9386,6 +9408,7 @@
                         "deedRestrictionConsent": {
                           "baspiRef": "A3.5.4",
                           "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "piqRef": "A3.5.4",
                           "title": "Was any consent under a restriction in the deeds obtained? E.g. if your deeds require consent from someone else to alter or extend the property",
                           "type": "object",
                           "properties": {
@@ -9422,6 +9445,7 @@
                                 },
                                 "details": {
                                   "baspiRef": "A3.5.4.2",
+                                  "piqRef": "A3.5.5",
                                   "title": "Please outline the reasons why",
                                   "type": "string",
                                   "minLength": 1
@@ -9440,11 +9464,7 @@
                         "listedBuildingConsent",
                         "deedRestrictionConsent"
                       ],
-                      "ta6Required": [
-                        "yearCompleted",
-                        "buildingRegApproval",
-                        "planningPermission"
-                      ]
+                      "ta6Required": ["yearCompleted"]
                     }
                   ]
                 },
@@ -9452,6 +9472,7 @@
                   "baspiRef": "A3.6",
                   "rdsRef": "WorksAlterationsChanges/isIncomplete",
                   "ta6Ref": "4.3",
+                  "piqRef": "A3.6",
                   "title": "Are any of the works listed above unfinished?",
                   "type": "object",
                   "properties": {
@@ -9504,6 +9525,7 @@
                   "baspiRef": "A3.7",
                   "rdsRef": "Property/Flags",
                   "ta6Ref": "4.4",
+                  "piqRef": "A3.7",
                   "title": "Are you aware of any breaches of planning permission conditions or building regulations consent conditions or work not having the necessary consents?",
                   "type": "object",
                   "properties": {
@@ -9567,6 +9589,7 @@
                 "unresolvedPlanningIssues": {
                   "baspiRef": "A3.8",
                   "ta6Ref": "4.5",
+                  "piqRef": "A3.8",
                   "rdsRef": "Buildings,BuildingsSections/StructureAuthorised,BuildingsSections/StructureUnauthorised",
                   "title": "Are you aware of any unresolved planning or building control issues?",
                   "type": "object",
@@ -9647,10 +9670,6 @@
               ],
               "ta6Required": [
                 "neighbourDevelopment",
-                "planningApplication",
-                "requiredMaintenance",
-                "listedBuildingApplication",
-                "infrastructureProject",
                 "partyWallAct",
                 "otherNotices"
               ],
@@ -9659,6 +9678,7 @@
                   "baspiRef": "A4.1",
                   "ta6Ref": "3.2",
                   "rdsRef": "Property/Flags,Planning",
+                  "piqRef": "A4.1",
                   "title": "The owner of a neighbouring property is proposing to develop property or land nearby, make alterations to nearby buildings or change the use?",
                   "type": "object",
                   "properties": {
@@ -9711,6 +9731,7 @@
                   "baspiRef": "A4.2",
                   "rdsRef": "Property/Flags,Planning",
                   "ta6Ref": "3.1",
+                  "piqRef": "A4.2",
                   "title": "Any planning application that could affect the property, the enjoyment of it or the views from it?",
                   "type": "object",
                   "properties": {
@@ -9763,6 +9784,7 @@
                   "baspiRef": "A4.3",
                   "rdsRef": "Property/Flags,Notifications",
                   "ta6Ref": "3.1",
+                  "piqRef": "A4.3",
                   "title": "Notice informing you that maintenance, repairs or improvements are required to your property?",
                   "type": "object",
                   "properties": {
@@ -9815,6 +9837,7 @@
                   "baspiRef": "A4.4",
                   "rdsRef": "Property/Flags,Protections",
                   "ta6Ref": "3.1",
+                  "piqRef": "A4.4",
                   "title": "Listed building application",
                   "type": "object",
                   "properties": {
@@ -9867,6 +9890,7 @@
                   "baspiRef": "A4.5",
                   "rdsRef": "Property/Flags,Planning",
                   "ta6Ref": "3.1",
+                  "piqRef": "A4.5",
                   "title": "Infrastructure project, proposed or in progress (i.e. wind turbine, railway, fracking, etc)",
                   "type": "object",
                   "properties": {
@@ -9972,6 +9996,7 @@
                   "baspiRef": "A4.7",
                   "rdsRef": "Property/Flags,Notifications",
                   "ta6Ref": "3.1",
+                  "piqRef": "A4.6",
                   "title": "Any other type of notice?",
                   "type": "object",
                   "properties": {
@@ -10038,6 +10063,7 @@
                 "dryRotEtcTreatment": {
                   "baspiRef": "A5.1",
                   "rdsRef": "Property/Flags,BuildingSections/EnvironmentalIssues",
+                  "piqRef": "A5.1",
                   "title": "To your knowledge, has there been any preventative work for, or treatment of dry rot, wet rot or damp carried out at the property?",
                   "type": "object",
                   "properties": {
@@ -10133,6 +10159,7 @@
                   "baspiRef": "A5.3",
                   "rdsRef": "Property/Flags,BuildingSections/EnvironmentalIssues,Use/EnvironmentalIssues",
                   "ta6Ref": "7.8",
+                  "piqRef": "A5.3",
                   "title": "To your knowledge, is the property or neighbouring land, affected by Japanese knotweed or other invasive species?",
                   "type": "object",
                   "properties": {
@@ -10185,6 +10212,7 @@
                 "subsidenceOrStructuralFault": {
                   "baspiRef": "A5.4",
                   "rdsRef": "Property/Flags,BuildingSections/EnvironmentalIssues",
+                  "piqRef": "A5.4",
                   "title": "To your knowledge, has the property ever been subject to subsidence or structural fault?",
                   "type": "object",
                   "properties": {
@@ -10301,6 +10329,7 @@
                 "itemsToRemove": {
                   "baspiRef": "A6.1",
                   "rdsRef": "Objects/{isIncludedInExchange='no',class='fixture|fitting}",
+                  "piqRef": "A6.1",
                   "title": "Are there any items, which would be considered a fixture or fitting, that you intend to take? E.g. Carpets, curtains, light fittings, fitted cupboards, etc",
                   "type": "object",
                   "properties": {
@@ -10342,6 +10371,7 @@
                 "itemsToInclude": {
                   "baspiRef": "A6.2",
                   "rdsRef": "Objects/{isIncludedInExchange='true',class='equipment|furniture}",
+                  "piqRef": "A6.2",
                   "title": "Are there additional furniture items or possessions are you very likely to include in the sale, irrespective of sale price?",
                   "type": "object",
                   "properties": {
@@ -16528,6 +16558,7 @@
                   "baspiRef": "A7.1.0.1",
                   "ta6Ref": "13.1",
                   "rdsRef": "Services/Electricity",
+                  "piqRef": "A7.1.1",
                   "title": "Mains electricity",
                   "type": "object",
                   "properties": {
@@ -16559,6 +16590,7 @@
                         "supplier": {
                           "baspiRef": "A7.1.0.1.2",
                           "ta6Ref": "13.1.2",
+                          "piqRef": "A7.1.2",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -16579,6 +16611,7 @@
                         "supplier": {
                           "baspiRef": "A7.1.0.1.2",
                           "ta6Ref": "13.1.2",
+                          "piqRef": "A7.1.2",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -16592,6 +16625,7 @@
                   "baspiRef": "A7.1.0.2",
                   "ta6Ref": "13.2",
                   "rdsRef": "Services/Gas",
+                  "piqRef": "A7.1.3",
                   "title": "Mains gas",
                   "type": "object",
                   "properties": {
@@ -16624,6 +16658,7 @@
                         "supplier": {
                           "baspiRef": "A7.1.0.2.2",
                           "ta6Ref": "13.2.2",
+                          "piqRef": "A7.1.4",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -16644,6 +16679,7 @@
                         "supplier": {
                           "baspiRef": "A7.1.0.2.2",
                           "ta6Ref": "13.2.2",
+                          "piqRef": "A7.1.4",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -16654,6 +16690,7 @@
                 },
                 "lpg": {
                   "baspiRef": "A7.1.0.3",
+                  "piqRef": "A7.1.5",
                   "rdsRef": "Services/LiquefiedPetroleumGas",
                   "title": "Liquid Petroleum Gas (LPG)",
                   "type": "object",
@@ -16684,6 +16721,7 @@
                         },
                         "supplier": {
                           "baspiRef": "A7.1.0.3.2",
+                          "piqRef": "A7.1.6",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -16702,6 +16740,7 @@
                         },
                         "supplier": {
                           "baspiRef": "A7.1.0.3.2",
+                          "piqRef": "A7.1.6",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -16771,6 +16810,7 @@
                 "telephone": {
                   "baspiRef": "A7.1.0.5",
                   "ta6Ref": "13.5",
+                  "piqRef": "A7.1.11",
                   "rdsRef": "Services/Telephone",
                   "title": "Telephone",
                   "type": "object",
@@ -16804,6 +16844,7 @@
                         "supplier": {
                           "baspiRef": "A7.1.0.5.2",
                           "ta6Ref": "13.5.2",
+                          "piqRef": "A7.1.12",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -16824,6 +16865,7 @@
                         "supplier": {
                           "baspiRef": "A7.1.0.5.2",
                           "ta6Ref": "13.5.2",
+                          "piqRef": "A7.1.12",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -16836,6 +16878,7 @@
                   "baspiRef": "A7.1.0.6",
                   "ta6Ref": "13.6",
                   "rdsRef": "Services/CableSatelliteTV",
+                  "piqRef": "A7.1.13",
                   "title": "Cable TV or satellite",
                   "type": "object",
                   "properties": {
@@ -16868,6 +16911,7 @@
                         "supplier": {
                           "baspiRef": "A7.1.0.6.2",
                           "ta6Ref": "13.6.2",
+                          "piqRef": "A7.1.14",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -16899,6 +16943,7 @@
                   "baspiRef": "A7.1.0.7",
                   "title": "Broadband",
                   "rdsRef": "Services/Internet",
+                  "piqRef": "A7.1.15",
                   "type": "object",
                   "properties": {
                     "yesNo": {
@@ -16927,6 +16972,7 @@
                         },
                         "supplier": {
                           "baspiRef": "A7.1.0.7.2",
+                          "piqRef": "A7.1.16",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -16955,6 +17001,7 @@
                 },
                 "solarPanels": {
                   "baspiRef": "A7.1.0.8",
+                  "piqRef": "A7.1.17",
                   "title": "Solar or photovoltaic panels",
                   "type": "object",
                   "properties": {
@@ -17002,6 +17049,7 @@
                         },
                         "supplier": {
                           "baspiRef": "A7.1.0.8.2",
+                          "piqRef": "A7.1.18",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -17013,6 +17061,7 @@
                 "otherServices": {
                   "baspiRef": "A7.1.0.9",
                   "rdsRef": "Services/Other",
+                  "piqRef": "A7.1.19",
                   "title": "Other",
                   "description": "Other services include renewable technologies, for example ground source heat pumps, if you receive Renewable Heat Incentives please provide details and note that you will need to advise Ofgem when you complete the sale",
                   "type": "object",
@@ -17061,6 +17110,7 @@
                         },
                         "supplier": {
                           "baspiRef": "A7.1.0.9.2",
+                          "piqRef": "A7.1.20",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -17138,6 +17188,7 @@
                     "mainsWater": {
                       "baspiRef": "A7.1.0.10.0",
                       "ta6Ref": "13.3",
+                      "piqRef": "A7.1.7",
                       "rdsRef": "Services/PotableWaterSupply",
                       "title": "Mains water",
                       "type": "object",
@@ -17171,6 +17222,7 @@
                             "supplier": {
                               "baspiRef": "A7.1.0.10.2",
                               "ta6Ref": "13.3.2",
+                              "piqRef": "A7.1.8",
                               "title": "Supplier",
                               "type": "string"
                             }
@@ -17191,6 +17243,7 @@
                             "supplier": {
                               "baspiRef": "A7.1.0.10.2",
                               "ta6Ref": "13.3.2",
+                              "piqRef": "A7.1.8",
                               "title": "Supplier",
                               "type": "string"
                             }
@@ -17395,6 +17448,7 @@
                             "septicTank": {
                               "baspiRef": "A7.1.0.14",
                               "rdsRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
+                              "piqRef": "A7.1.23",
                               "ta6Ref": "12.5a",
                               "title": "Septic tank",
                               "type": "object",
@@ -17435,6 +17489,7 @@
                                     "dateLastEmptied": {
                                       "baspiRef": "A7.1.0.14.3",
                                       "ta6Ref": "12.7",
+                                      "piqRef": "A7.1.24",
                                       "title": "Date last emptied",
                                       "type": "string",
                                       "format": "date"
@@ -17455,6 +17510,7 @@
                               "baspiRef": "A7.1.0.15",
                               "rdsRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
                               "ta6Ref": "12.5b",
+                              "piqRef": "A7.1.25",
                               "title": "Cesspit",
                               "type": "object",
                               "properties": {
@@ -17487,6 +17543,7 @@
                                     "dateLastEmptied": {
                                       "baspiRef": "A7.1.0.15.2",
                                       "ta6Ref": "12.7",
+                                      "piqRef": "A7.1.26",
                                       "title": "Date last emptied",
                                       "type": "string",
                                       "format": "date"
@@ -17501,6 +17558,7 @@
                               "baspiRef": "A7.1.0.16",
                               "rdsRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
                               "ta6Ref": "12.5b",
+                              "piqRef": "A7.1.27",
                               "title": "Sewerage treatment plant",
                               "type": "object",
                               "properties": {
@@ -17571,6 +17629,7 @@
                               "baspiRef": "A7.1.1",
                               "rdsRef": "Services/OtherServices/SharedWith",
                               "ta6Ref": "12.6",
+                              "piqRef": "A7.1.29",
                               "title": "Do other properties connect to the septic tank, cesspit or sewerage treatment plant?",
                               "type": "object",
                               "properties": {
@@ -17625,6 +17684,7 @@
                               "baspiRef": "A7.1.2",
                               "rdsRef": "Services/OtherServices/Located,Services/OtherServices/{access=?}",
                               "ta6Ref": "12.10",
+                              "piqRef": "A7.1.30",
                               "title": "Is any part of the septic tank, cesspit or sewerage treatment plant located on someone else’s land?",
                               "type": "object",
                               "properties": {
@@ -17670,6 +17730,7 @@
                             "plantRegistered": {
                               "baspiRef": "A7.1.3",
                               "rdsRef": "Services/OtherServices/Certificates",
+                              "piqRef": "A7.1.31",
                               "title": "Is the septic tank, cesspit or sewerage treatment plant registered with the Environment Agency or exempted?",
                               "type": "object",
                               "properties": {
@@ -17785,6 +17846,7 @@
                 "maintenanceAgreements": {
                   "baspiRef": "A7.2",
                   "rdsRef": "Services/Certificates,Services/OtherServices/Certificates",
+                  "piqRef": "A7.2",
                   "title": "Do you have any licences, maintenance agreements, contracts or service agreements in relation to these services?",
                   "type": "object",
                   "properties": {
@@ -17840,6 +17902,7 @@
               "baspiRef": "A7.4",
               "ta6Ref": "12.3",
               "rdsRef": "Buildings|BuildingSections/isUnheated=no|yes|true|false",
+              "piqRef": "A7.3",
               "title": "Central Heating",
               "type": "object",
               "baspiRequired": ["hasCentralHeating"],
@@ -17945,7 +18008,8 @@
                         "centralHeatingInstalled": {
                           "baspiRef": "A7.4.1",
                           "rdsRef": "Objects/Installed",
-                          "ta6Ref": "12.3b",
+                          "ta6Ref": "12.3b1",
+                          "piqRef": "A7.4.1",
                           "title": "When was the heating system installed?",
                           "type": "string",
                           "format": "date"
@@ -17953,13 +18017,13 @@
                         "boilerInstallationCertificate": {
                           "baspiRef": "A7.4.1.1",
                           "rdsRef": "Objects/Installation,Objects/Certificates",
-                          "ta6Ref": "12.3b",
+                          "ta6Ref": "12.3b2",
                           "title": "Was a gas boiler installed after 1st April 2005, or a solid fuel or oil boiler installed after 1st October 2010?",
                           "type": "object",
                           "properties": {
                             "yesNo": {
                               "baspiRef": "A10.1.1",
-                              "ta6Ref": "12.3b1",
+                              "ta6Ref": "12.3b3",
                               "type": "string",
                               "title": "",
                               "enum": ["Yes", "No"]
@@ -17985,7 +18049,7 @@
                                 },
                                 "attachments": {
                                   "baspiRef": "A7.4.1.2",
-                                  "ta6Ref": "12.3b2",
+                                  "ta6Ref": "12.3b4",
                                   "title": "Please supply a copy of the installation completion certificate from a competent person qualified under the relevant self-certification scheme e.g. HETAS etc",
                                   "type": "string",
                                   "enum": ["Attached", "To follow"]
@@ -18000,6 +18064,7 @@
                           "baspiRef": "A7.4.2.1",
                           "rdsRef": "Objects/Maintenance",
                           "ta6Ref": "12.3d1",
+                          "piqRef": "A7.5.1",
                           "title": "When was the heating system last serviced or maintained?",
                           "type": "string",
                           "format": "date"
@@ -18015,6 +18080,7 @@
                           "baspiRef": "A7.4.3",
                           "rdsRef": "Objects/Condition=?",
                           "ta6Ref": "12.3c",
+                          "piqRef": "A7.6",
                           "title": "Is the heating system in good working order to your satisfaction?",
                           "type": "object",
                           "properties": {
@@ -18076,6 +18142,7 @@
                   "baspiRef": "A8.1",
                   "rdsRef": "Insurance/isInsured=no|yes|true|false",
                   "ta6Ref": "6.1",
+                  "piqRef": "A8.2",
                   "title": "Do you insure the property?",
                   "type": "string",
                   "enum": ["Yes", "No"]
@@ -18117,6 +18184,7 @@
                       "baspiRef": "A8.1.2.1",
                       "rdsRef": "Insurance/Flags,Insurance/refusalReason=?",
                       "ta6Ref": "6.4",
+                      "piqRef": "A8.1.1",
                       "title": "Have you had any difficulty obtaining competitively priced building insurance due to the structure or location of the property or had insurance refused?",
                       "type": "object",
                       "baspiRequired": [
@@ -18135,6 +18203,7 @@
                         "abnormalRiseInPremiums": {
                           "baspiRef": "A8.1.2.1.1",
                           "ta6Ref": "6.4a",
+                          "piqRef": "A8.1a",
                           "title": "Subject to abnormal rise in premiums?",
                           "type": "object",
                           "properties": {
@@ -18180,6 +18249,7 @@
                         "subjectToHighExcesses": {
                           "baspiRef": "A8.1.1.2",
                           "ta6Ref": "6.4b",
+                          "piqRef": "A8.1b",
                           "title": "Subject to high excesses?",
                           "type": "object",
                           "properties": {
@@ -18225,6 +18295,7 @@
                         "subjectToUnusualConditions": {
                           "baspiRef": "A8.1.2.1.3",
                           "ta6Ref": "6.4c",
+                          "piqRef": "A8.1c",
                           "title": "Subject to unusual conditions?",
                           "type": "object",
                           "properties": {
@@ -18270,6 +18341,7 @@
                         "refused": {
                           "baspiRef": "A8.1.2.1.4",
                           "ta6Ref": "6.4d",
+                          "piqRef": "A8.1d",
                           "title": "Refused?",
                           "type": "object",
                           "properties": {
@@ -18387,6 +18459,7 @@
                 "partOutsideLegalOwnership": {
                   "baspiRef": "A9.1",
                   "rdsRef": "Tenure/Interests",
+                  "piqRef": "A9.1",
                   "title": "Is any part of the property outside the seller’s legal ownership?",
                   "type": "object",
                   "properties": {
@@ -18516,6 +18589,7 @@
                 "boundaryAlterationProposal": {
                   "baspiRef": "A9.4",
                   "rdsRef": "Tenure/Boundaries/proposedAlterations=?",
+                  "piqRef": "A9.2",
                   "title": "Is there a current proposal with anyone to alter the boundaries of your property?",
                   "type": "object",
                   "properties": {
@@ -18578,6 +18652,7 @@
                   "baspiRef": "A10.1",
                   "rdsRef": "Services/SharedCosts",
                   "ta6Ref": "8.1",
+                  "piqRef": "A10.1",
                   "title": "Other than service charges and estate rentcharges, do you have to contribute towards the shared cost of a jointly-used service such as a shared driveway, road, parking area, garden or drain?",
                   "type": "object",
                   "properties": {
@@ -18624,6 +18699,7 @@
                   "baspiRef": "A10.2",
                   "rdsRef": "Tenure/Rights,Tenure *with different property entity and references etc*",
                   "ta6Ref": "8.2",
+                  "piqRef": "A10.2",
                   "title": "Do any rights and arrangements exist over neighbouring land from which the property benefits?  (e.g. taking wheelie bins along an accessway through a neighbour’s back garden, parking, access to maintain the boundaries from the neighbour’s side etc)",
                   "type": "object",
                   "properties": {
@@ -18676,6 +18752,7 @@
                   "baspiRef": "A10.3",
                   "rdsRef": "Tenure/Restrictions",
                   "ta6Ref": "8.3",
+                  "piqRef": "A10.3",
                   "title": "Has anyone tried to stop you using an access way to the property or asked you to pay to use the access?",
                   "type": "object",
                   "properties": {
@@ -18734,7 +18811,6 @@
                     "otherRights"
                   ],
                   "ta6Required": [
-                    "publicRightOfWay",
                     "rightsOfLight",
                     "rightsOfSupport",
                     "rightsCreatedThroughCustom",
@@ -18748,6 +18824,7 @@
                       "baspiRef": "A10.4.1",
                       "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities,Tenure/CadastralMapOfParcels",
                       "ta6Ref": "8.6",
+                      "piqRef": "A10.4",
                       "title": "A public right of way through and/or across your property, buildings or land",
                       "type": "object",
                       "properties": {
@@ -18800,6 +18877,7 @@
                       "baspiRef": "A10.4.2a",
                       "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
                       "ta6Ref": "8.4a",
+                      "piqRef": "A10.5a",
                       "title": "Rights of light",
                       "type": "object",
                       "properties": {
@@ -18844,6 +18922,7 @@
                       "baspiRef": "A10.4.2b",
                       "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
                       "ta6Ref": "8.4a",
+                      "piqRef": "A10.5b",
                       "title": "Rights of support from ajoining properties",
                       "type": "object",
                       "properties": {
@@ -18888,6 +18967,7 @@
                       "baspiRef": "A10.4.3a",
                       "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
                       "ta6Ref": "8.4c",
+                      "piqRef": "A10.5c",
                       "title": "Rights created through custom or use (e.g. rights to graze on other land or forage)",
                       "type": "object",
                       "properties": {
@@ -18932,6 +19012,7 @@
                       "baspiRef": "A10.4.3b",
                       "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
                       "ta6Ref": "8.5b",
+                      "piqRef": "A10.5f",
                       "title": "Other people's rights to take things from the land (such as timber, hay or fish)",
                       "type": "object",
                       "properties": {
@@ -18984,6 +19065,7 @@
                         "yesNo": {
                           "baspiRef": "A10.4.4.1",
                           "ta6Ref": "8.5a1",
+                          "piqRef": "A10.5d",
                           "type": "string",
                           "title": "",
                           "enum": ["Yes", "No"]
@@ -19022,6 +19104,7 @@
                       "baspiRef": "A10.4.5",
                       "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
                       "ta6Ref": "8.5b",
+                      "piqRef": "A10.5e",
                       "title": "Liability to contribute to the maintenance of a church chancel?",
                       "type": "object",
                       "properties": {
@@ -19072,6 +19155,7 @@
                         "yesNo": {
                           "baspiRef": "A10.4.6.1",
                           "ta6Ref": "8.6.1",
+                          "piqRef": "A10.5g",
                           "type": "string",
                           "title": "",
                           "enum": ["Yes", "No"]
@@ -19115,10 +19199,11 @@
             "environmentalIssues": {
               "baspiRef": "A11.1",
               "ta6Ref": "7",
+              "piqRef": "A11.1",
               "title": "Environmental Issues Affecting the Property",
               "type": "object",
               "baspiRequired": ["flooding", "radon", "otherEnvironmental"],
-              "ta6Required": ["flooding", "radon", "otherEnvironmental"],
+              "ta6Required": ["flooding", "radon"],
               "properties": {
                 "flooding": {
                   "baspiRef": "A11.1.1",
@@ -19176,7 +19261,7 @@
                     },
                     "hasBeenFlooded": {
                       "baspiRef": "A11.1.2",
-                      "ta6Ref": "7.1",
+                      "ta6Ref": "7.1.1",
                       "title": "Has any part of the property (whether buildings or surrounding garden or land) ever been flooded?",
                       "type": "string",
                       "enum": ["Yes", "No"]
@@ -19200,7 +19285,7 @@
                         },
                         "details": {
                           "baspiRef": "A11.1.2.1",
-                          "ta6Ref": "7.2",
+                          "ta6Ref": "7.1.2",
                           "title": "Please state when the flooding occurred and identify the parts that flooded",
                           "type": "string",
                           "minLength": 1
@@ -19281,7 +19366,7 @@
                                     },
                                     "details": {
                                       "baspiRef": "A11.1.2.2.6.2",
-                                      "ta6Ref": "7.2f1",
+                                      "ta6Ref": "7.2f2",
                                       "title": "Please stata",
                                       "type": "string",
                                       "minLength": 1
@@ -19362,7 +19447,7 @@
                             "details": {
                               "baspiRef": "A11.1.3.2",
                               "ta6Ref": "7.4b",
-                              "title": "Was the test result was below the recommended level?",
+                              "title": "Was the test result was below the recommended action level?",
                               "type": "string",
                               "enum": ["Yes", "No"]
                             },
@@ -19458,6 +19543,7 @@
                 "excessiveNoise": {
                   "baspiRef": "A11.2",
                   "rdsRef": "Tenure/OtherMaterialIssues",
+                  "piqRef": "A11.2",
                   "title": "To your knowledge, has anyone occupying the property been disturbed by excessive noise which is likely to reoccur at the property?",
                   "type": "object",
                   "properties": {
@@ -19505,6 +19591,7 @@
                 "crime": {
                   "baspiRef": "A11.3",
                   "rdsRef": "Tenure/OtherMaterialIssues",
+                  "piqRef": "A11.3",
                   "title": "To your knowledge, has the property been subject to any crime, burglary or violent death?",
                   "type": "object",
                   "properties": {
@@ -19599,6 +19686,7 @@
                 "failedTransactionsInLast12Months": {
                   "baspiRef": "A11.5",
                   "rdsRef": "Tenure/OtherMaterialIssues",
+                  "piqRef": "A11.6",
                   "title": "Have there been any failed purchase transactions on the property within the last 12 months?",
                   "type": "object",
                   "properties": {
@@ -19660,6 +19748,7 @@
                 "restrictionsOnUseNotCompliedWith": {
                   "baspiRef": "A12.1",
                   "rdsRef": "Use/NonCompliance",
+                  "piqRef": "A12.1",
                   "title": "Are you aware of any restrictions on the use or alteration of the property which have not been complied with?",
                   "type": "object",
                   "properties": {
@@ -19707,6 +19796,7 @@
                 "otherMaterialIssue": {
                   "baspiRef": "A12.2",
                   "rdsRef": "Tenure/OtherMaterialIssues",
+                  "piqRef": "A12.2",
                   "title": "Are you aware of any other material issue or information which relates to the property or has anything occurred which may affect the average person’s decision to proceed?",
                   "description": "This disclosure is required under the Consumer Protection from Unfair Trading Regulations 2008",
                   "type": "object",
@@ -19854,6 +19944,7 @@
                 "namesOfLegalOwners": {
                   "baspiRef": "B1.1",
                   "rdsRef": "RightsHolders",
+                  "piqRef": "B1.1",
                   "title": "Names of all legal owners",
                   "type": "array",
                   "minItems": 1,
@@ -19921,6 +20012,7 @@
             "sellersCapacity": {
               "baspiRef": "B1.3",
               "rdsRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
+              "piqRef": "B1.3.1",
               "title": "Capacity in which the Seller sells",
               "type": "object",
               "baspiRequired": ["capacity"],
@@ -19991,6 +20083,7 @@
             "legalBoundaries": {
               "baspiRef": "B2.1",
               "ta6Ref": "1",
+              "piqRef": "B3.1",
               "title": "Legal Boundaries",
               "description": "",
               "type": "object",
@@ -20042,6 +20135,7 @@
                               "baspiRef": "B2.1.1",
                               "rdsRef": "Tenure/Boundaries",
                               "ta6Ref": "1.1a",
+                              "piqRef": "B3.1.1",
                               "title": "On the left",
                               "type": "string",
                               "enum": [
@@ -20068,6 +20162,7 @@
                               "baspiRef": "B2.1.3",
                               "rdsRef": "Tenure/Boundaries",
                               "ta6Ref": "1.1c",
+                              "piqRef": "B3.1.3",
                               "title": "At the rear",
                               "type": "string",
                               "enum": [
@@ -20081,6 +20176,7 @@
                               "baspiRef": "B2.1.4",
                               "rdsRef": "Tenure/Boundaries",
                               "ta6Ref": "1.1d",
+                              "piqRef": "B3.1.4",
                               "title": "At the front",
                               "type": "string",
                               "enum": [
@@ -20132,6 +20228,7 @@
                   "baspiRef": "B2.2",
                   "rdsRef": "Tenure/Boundaries",
                   "ta6Ref": "1.3",
+                  "piqRef": "B3.3",
                   "title": "Has any boundary features been moved during your ownership or in the last 10 years, to your knowledge?",
                   "type": "object",
                   "properties": {
@@ -20184,6 +20281,7 @@
                     "yesNo": {
                       "baspiRef": "B2.3.1",
                       "ta6Ref": "1.4.1",
+                      "piqRef": "B3.4",
                       "type": "string",
                       "title": "",
                       "enum": ["Yes", "No", "Not applicable"]
@@ -20289,6 +20387,7 @@
                   "baspiRef": "B3.1",
                   "rdsRef": "Services/.../Located",
                   "ta6Ref": "8.7",
+                  "piqRef": "B4.1",
                   "title": "Are you aware of any pipes, wires, cables or drains bringing services to the property which cross any neighbouring land or property?",
                   "type": "object",
                   "properties": {
@@ -20339,6 +20438,7 @@
                   "baspiRef": "B3.2",
                   "rdsRef": "Services/.../Located *with Property entities and references for the related properties etc",
                   "ta6Ref": "8.8",
+                  "piqRef": "B4.2",
                   "title": "Are you aware of any pipes, wires, cables or drains taking services to neighbouring property cross this property?",
                   "type": "object",
                   "properties": {
@@ -20389,6 +20489,7 @@
                   "baspiRef": "B3.3",
                   "rdsRef": "Services/.../Consent",
                   "ta6Ref": "8.9",
+                  "piqRef": "B4.3",
                   "title": "Are you aware of any formal or informal agreements or arrangements for pipes, wires cables or drains to cross either your property or neighbouring property?",
                   "type": "object",
                   "properties": {
@@ -20427,6 +20528,7 @@
                         },
                         "attachments": {
                           "baspiRef": "B3.3.3",
+                          "ta6Ref": "8.9.3",
                           "title": "Attachments",
                           "type": "string",
                           "enum": ["Attached", "To follow"]
@@ -20459,6 +20561,7 @@
                   "baspiRef": "B4.1",
                   "rdsRef": "Objects/Servicing",
                   "ta6Ref": "12.1",
+                  "piqRef": "B7.1",
                   "title": "Have the electrics at the property been tested by a qualified electrician?",
                   "type": "object",
                   "properties": {
@@ -20491,6 +20594,7 @@
                         "yearTested": {
                           "baspiRef": "B4.1.2",
                           "ta6Ref": "12.1.2",
+                          "piqRef": "B7.1.1",
                           "title": "State the year they were last tested",
                           "type": "integer"
                         },
@@ -20511,6 +20615,7 @@
                   "baspiRef": "B4.2",
                   "rdsRef": "WorksAlterationsChanges/Consent,WorksAlterationsChanges/Consent/Certificates",
                   "ta6Ref": "12.2",
+                  "piqRef": "B7.2",
                   "title": "Since 1st January 2005, has any electrical work been carried out to the property?",
                   "type": "object",
                   "properties": {
@@ -20542,7 +20647,8 @@
                         },
                         "yearWorkCarriedOut": {
                           "baspiRef": "B4.2.2",
-                          "title": "State the year the work was carried",
+                          "piqRef": "B7.2.1",
+                          "title": "State the year the work was carried out",
                           "type": "integer"
                         },
                         "details": {
@@ -20551,20 +20657,29 @@
                           "type": "string",
                           "minLength": 1
                         },
-                        "attachments": {
-                          "baspiRef": "B4.2.4",
-                          "ta6Ref": "12.2.2",
-                          "title": "Please supply the signed Electrical Safety Certificate (BS7671) and Building Regulations Compliance Certificate (or equivalent)",
+                        "electricalSafetyCertificate": {
+                          "baspiRef": "B4.2.4.1",
+                          "ta6Ref": "12.2.2a",
+                          "title": "Please provide a signed Electrical Safety Certificate (BS7671)",
+                          "type": "string",
+                          "enum": ["Attached", "To follow"]
+                        },
+                        "buildingRegulationsComplianceCertificate": {
+                          "baspiRef": "B4.2.4.2",
+                          "ta6Ref": "12.2.2b",
+                          "title": "or a Building Regulations Compliance Certificate (or equivalent)",
+                          "type": "string",
+                          "enum": ["Attached", "To follow"]
+                        },
+                        "buildingControlCompletionCertificate": {
+                          "baspiRef": "B4.2.4.3",
+                          "ta6Ref": "12.2.2c",
+                          "title": "or a Building Control Completion Certificate",
                           "type": "string",
                           "enum": ["Attached", "To follow"]
                         }
                       },
-                      "baspiRequired": [
-                        "yearWorkCarriedOut",
-                        "details",
-                        "attachments"
-                      ],
-                      "ta6Required": ["attachments"]
+                      "baspiRequired": ["yearWorkCarriedOut", "details"]
                     }
                   ]
                 },
@@ -20577,6 +20692,7 @@
                       "baspiRef": "B4.3.0",
                       "ta6Ref": "4.6",
                       "rdsRef": "Property/Flags",
+                      "piqRef": "B4.4.1",
                       "title": "Are there solar or photovoltaic panels installed at the property?",
                       "type": "string",
                       "enum": ["Yes", "No"]
@@ -20604,6 +20720,7 @@
                           "baspiRef": "B4.3.1",
                           "ta6Ref": "4.6a",
                           "rdsRef": "Objects/Installation",
+                          "piqRef": "B4.4.2",
                           "title": "What year were they installed?",
                           "type": "integer"
                         },
@@ -20611,6 +20728,7 @@
                           "baspiRef": "B4.3.2",
                           "ta6Ref": "4.6b",
                           "rdsRef": "Objects/Ownership",
+                          "piqRef": "B4.4.3",
                           "title": "Do you own the panels, and all equipment related to them, outright?",
                           "type": "object",
                           "properties": {
@@ -20661,6 +20779,7 @@
                           "baspiRef": "B4.3.3",
                           "ta6Ref": "4.6c",
                           "rdsRef": "Objects/Ownership",
+                          "piqRef": "B4.4.4",
                           "title": "Is there an existing long lease of the roof/air space granted to a panel provider?",
                           "type": "object",
                           "properties": {
@@ -20699,6 +20818,7 @@
                                 "attachments": {
                                   "baspiRef": "4.3.3.3",
                                   "ta6Ref": "4.6c2",
+                                  "piqRef": "B4.4.5",
                                   "title": "Please supply copies of the relevant documents",
                                   "type": "string",
                                   "enum": ["Attached", "To follow"]
@@ -21092,6 +21212,7 @@
                   "baspiRef": "B5.1",
                   "ta6Ref": "5.1",
                   "rdsRef": "Certificates",
+                  "piqRef": "B5.1",
                   "title": "Are there any valid guarantees or warranties relating to this property?",
                   "type": "string",
                   "enum": ["Yes", "No"]
@@ -21117,6 +21238,7 @@
                       "baspiRef": "B5.1.1",
                       "rdsRef": "Certificates",
                       "ta6Ref": "5.1a",
+                      "piqRef": "B5.1.1",
                       "title": "New Home Warranty (NHBC or similar)",
                       "type": "object",
                       "properties": {
@@ -21176,6 +21298,7 @@
                         "yesNo": {
                           "baspiRef": "B5.1.2.1",
                           "ta6Ref": "5.1f1",
+                          "piqRef": "B5.1.2",
                           "type": "string",
                           "title": "",
                           "enum": ["Yes", "No"]
@@ -21216,6 +21339,7 @@
                       "baspiRef": "B5.1.3",
                       "rdsRef": "Certificates",
                       "ta6Ref": "5.1b",
+                      "piqRef": "B5.1.3",
                       "title": "Damp proofing treatment",
                       "type": "object",
                       "properties": {
@@ -21262,6 +21386,7 @@
                       "baspiRef": "B5.1.4",
                       "rdsRef": "Certificates",
                       "ta6Ref": "5.1c",
+                      "piqRef": "B5.1.4",
                       "title": "Timber rot or infestation treatment",
                       "type": "object",
                       "properties": {
@@ -21308,6 +21433,7 @@
                       "baspiRef": "B5.1.5",
                       "rdsRef": "Certificates",
                       "ta6Ref": "5.1g",
+                      "piqRef": "B5.1.5",
                       "title": "Central heating and/or plumbing",
                       "type": "object",
                       "properties": {
@@ -21354,6 +21480,7 @@
                       "baspiRef": "B5.1.6",
                       "rdsRef": "Certificates",
                       "ta6Ref": "5.1d",
+                      "piqRef": "B5.1.6",
                       "title": "Double glazing (windows, doors, roof lights, conservatory etc)",
                       "type": "object",
                       "properties": {
@@ -21400,6 +21527,7 @@
                       "baspiRef": "B5.1.7",
                       "rdsRef": "Certificates",
                       "ta6Ref": "5.1e",
+                      "piqRef": "B5.1.7",
                       "title": "Electrical repair or installation",
                       "type": "object",
                       "properties": {
@@ -21446,6 +21574,7 @@
                       "baspiRef": "B5.1.8",
                       "rdsRef": "Certificates",
                       "ta6Ref": "5.1h",
+                      "piqRef": "B5.1.8",
                       "title": "Underpinning or other preventative work and/or remedial action relating to subsidence",
                       "type": "object",
                       "properties": {
@@ -21491,6 +21620,7 @@
                     "solarPanels": {
                       "baspiRef": "B5.1.9",
                       "rdsRef": "Certificates",
+                      "piqRef": "B5.1.9",
                       "title": "Solar panels",
                       "type": "object",
                       "properties": {
@@ -21533,6 +21663,7 @@
                       "baspiRef": "B5.1.10",
                       "rdsRef": "Certificates",
                       "ta6Ref": "5.1i",
+                      "piqRef": "B5.1.10",
                       "title": "Other Guarantees or warranties",
                       "type": "object",
                       "properties": {
@@ -21585,6 +21716,7 @@
                       "baspiRef": "B5.2",
                       "rdsRef": "Certificates",
                       "ta6Ref": "5.2",
+                      "piqRef": "B5.2",
                       "title": "Are there any outstanding claims or current applications relating to any of the above?",
                       "type": "object",
                       "properties": {
@@ -21748,6 +21880,7 @@
                       "baspiRef": "B6.2.1",
                       "rdsRef": "Participants",
                       "ta6Ref": "11.2.1",
+                      "piqRef": "B8.1",
                       "title": "Other than the sellers, does anyone else aged 17 or over, live at the property?",
                       "type": "string",
                       "enum": ["Yes", "No"]
@@ -21860,6 +21993,7 @@
                                   "baspiRef": "B6.3.2",
                                   "rdsRef": "RightsHolders,TenureAgreements,Notifications",
                                   "ta6Ref": "11.5b",
+                                  "piqRef": "B8.2",
                                   "title": "Have all occupiers aged 17 or over, agreed to sign the sale contract to confirm that they will vacate the property prior to completion of the sale?",
                                   "type": "object",
                                   "properties": {
@@ -21957,7 +22091,6 @@
                 "sellerWillEnsure",
                 "otherPropertyInChain",
                 "moveRestrictionDates",
-                "digitalPropertyLogbook",
                 "sufficientToRepayAllMortgages"
               ],
               "properties": {
@@ -21977,24 +22110,28 @@
                     "removeRubbish": {
                       "baspiRef": "B7.1.1",
                       "ta6Ref": "14.4a",
+                      "piqRef": "B9.3",
                       "title": "Remove all rubbish and items not included in the sale from the property (including its garden, loft and any sheds or outbuildings) and leave the property in a clean and tidy condition.",
                       "type": "boolean"
                     },
                     "replaceLightFittings": {
                       "baspiRef": "B7.1.2",
                       "ta6Ref": "14.4b",
+                      "piqRef": "B9.4",
                       "title": "If light fittings are removed, the fittings will be replaced with ceiling rose, flex, bulb holder and bulb.",
                       "type": "boolean"
                     },
                     "takeReasonableCare": {
                       "baspiRef": "B7.1.3",
                       "ta6Ref": "14.4c",
+                      "piqRef": "B9.6",
                       "title": "Take reasonable care when removing any other fittings or contents.",
                       "type": "boolean"
                     },
                     "leaveKeys": {
                       "baspiRef": "B7.1.4",
                       "ta6Ref": "14.4d",
+                      "piqRef": "B9.5",
                       "title": "Leave keys for all door and window locks, along with any alarm codes, for the buyer on the day of completion.",
                       "type": "boolean"
                     }
@@ -22004,6 +22141,7 @@
                   "baspiRef": "B7.2",
                   "rdsRef": "RightsHolders/Flags",
                   "ta6Ref": "14.1",
+                  "piqRef": "B9.1",
                   "title": "Will you need the purchase, sale or remortgage of another property to co-ordinate with the sale of this property?",
                   "type": "object",
                   "properties": {
@@ -22085,6 +22223,7 @@
                   "baspiRef": "B7.3",
                   "rdsRef": "RightsHolders/Text",
                   "ta6Ref": "14.2",
+                  "piqRef": "B9.2",
                   "title": "Are there any dates on which you cannot move?",
                   "description": "Note that: the moving date will not be fixed until contracts are exchanged i.e. have become binding, until then you should only make provisional removal arrangements; you do not need to be physically present on the day of completion so long as the property is cleared; timescales to completion vary depending on the complexity of the transaction, length of the chain and requirements of the people involved.",
                   "type": "object",
