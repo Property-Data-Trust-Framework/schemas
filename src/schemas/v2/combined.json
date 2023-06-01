@@ -261,6 +261,53 @@
                   "type": "number",
                   "minimum": -180,
                   "maximum": 180
+                },
+                "britishNationalGridCoardinates": {
+                  "title": "British National Grid Coordinates of the property",
+                  "type": "object",
+                  "required": ["bng_x", "bng_y"],
+                  "properties": {
+                    "bng_x" :{
+                      "title": "British National Grid X Coordinate of the property",
+                      "type": "number"
+                    },
+                    "bng_y" :{
+                      "title": "British National Grid Y Coordinate of the property",
+                      "type": "number"
+                    }                    
+                  }
+                },
+                "googleStreetViewPOV": {
+                  "title": "Street View to render street nearby property in Google Street View ",
+                  "type": "object",
+                  "properties": {
+                    "heading": {
+                      "title": "The heading for the google streetview camera",
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 360
+                    },
+                    "pitch": {
+                      "title": "The pitch for the google streetview camera",
+                      "type": "number"
+                    },
+                    "zoom": {
+                      "title": "The zoom level for the google streetview camera",
+                      "type": "number"
+                    },
+                    "lat": {
+                      "title": "The latitude for the google streetview camera",
+                      "type": "number",
+                      "minimum": -180,
+                      "maximum": 180
+                    },
+                    "lng": {
+                      "title": "The longitude for the google streetview camera",
+                      "type": "number",
+                      "minimum": -180,
+                      "maximum": 180
+                    }
+                  }
                 }
               }
             },
@@ -268,6 +315,55 @@
               "title": "Local authority",
               "type": "object",
               "properties": {
+                "contactDetails": {
+                  "title": "Local Authoritiy Contact Details",
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "title": "Address",
+                      "type": "object",
+                      "properties": {
+                        "line1": {
+                          "title": "Address line 1",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "line2": {
+                          "title": "Address line 2",
+                          "type": "string"
+                        },
+                        "line3": {
+                          "title": "Address line 3",
+                          "type": "string"
+                        },
+                        "town": {
+                          "title": "Town",
+                          "type": "string"
+                        },
+                        "postcode": {
+                          "title": "Postcode",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    },
+                    "telephone": {
+                      "title": "Telephone",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "emailAddress": {
+                      "title": "Email address",
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "website": {
+                      "title": "Local Authority website",
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  }
+                },
                 "localAuthorityName": {
                   "title": "Local authority name",
                   "type": "string"
@@ -309,6 +405,21 @@
                     "Offers in region of",
                     "Sale by tender"
                   ]
+                },
+                "landRegistryPriceEvaluation": {
+                  "title": "Property Land Registry Information",
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "title": "Property Land Registry value",
+                      "type": "number"
+                    },
+                    "lastUpdateDate": {
+                      "title": "Property Land Registry Last Update Date",
+                      "type": "string",
+                      "format": "date"
+                    }
+                  }
                 }
               }
             },
@@ -7814,10 +7925,6 @@
                     },
                     "inspectionDate": {
                       "type": "string",
-                      "format": "date"
-                    },
-                    "issuedDate": {
-                      "type" : "string",
                       "format": "date"
                     },
                     "lightingCostCurrent": {
@@ -19641,9 +19748,38 @@
                         "type": "string",
                         "title": "Name"
                       },
-                      "rating": {
+                      "address": {
+                        "title": "Address",
+                        "type": "object",
+                        "properties": {
+                          "line1": {
+                            "title": "Address line 1",
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "line2": {
+                            "title": "Address line 2",
+                            "type": "string"
+                          },
+                          "line3": {
+                            "title": "Address line 3",
+                            "type": "string"
+                          },
+                          "town": {
+                            "title": "Town",
+                            "type": "string"
+                          },
+                          "postcode": {
+                            "title": "Postcode",
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }, 
+                      "ofstedRating": {
                         "type": "string",
-                        "title": "Rating"
+                        "title": "OfSted Rating for the school", 
+                        "enum" : ["Outstanding", "Good", "Requires Improvement", "Inadequate"]
                       },
                       "pupils": {
                         "type": "integer",
@@ -19651,12 +19787,11 @@
                       },
                       "distance": {
                         "type": "string",
-                        "title": "Distance"
+                        "title": "Distance In Miles"
                       },
                       "ageRange" : {
                         "type" : "string",
-                        "title" : "Age",
-                        "pattern" : "^[0-9]+-[0-9]+$"
+                        "title" : "Age Range of student in format minimumAge-maximimAge"
                       },
                       "religiousCharacter": {
                         "type": "string",
@@ -19727,25 +19862,23 @@
                         "type" : "array",
                         "properties": {
                           "name": {
+                            "title": "Name",
                             "type": "string"
                           },
                           "latitude": {
+                            "title": "Latitude",
                             "type": "number",
                             "minimum": -90,
                             "maximum": 90
                           },
                           "longitude": {
+                            "title": "Longitude",
                             "type": "number",
                             "minimum": -90,
                             "maximum": 90
                           },
-                          "distance": {
-                            "type": "number"
-                          },
-                          "metres": {
-                            "type": "number"
-                          },
                           "distanceInMiles": {
+                            "title": "Distance In Miles",
                             "type": "number"
                           }
                         }
@@ -19758,25 +19891,23 @@
                         "type" : "array",
                         "properties": {
                           "name": {
+                            "title": "Name",
                             "type": "string"
                           },
                           "latitude": {
+                            "title": "Latitude",
                             "type": "number",
                             "minimum": -90,
                             "maximum": 90
                           },
                           "longitude": {
+                            "title": "Longitude",
                             "type": "number",
                             "minimum": -90,
                             "maximum": 90
                           },
-                          "distance": {
-                            "type": "number"
-                          },
-                          "metres": {
-                            "type": "number"
-                          },
                           "distanceInMiles": {
+                            "title": "Distance In Miles",
                             "type": "number"
                           }
                         }
@@ -19789,25 +19920,23 @@
                         "type" : "array",
                         "properties": {
                           "name": {
+                            "title": "Name",
                             "type": "string"
                           },
                           "latitude": {
+                            "title": "Latitude",
                             "type": "number",
                             "minimum": -90,
                             "maximum": 90
                           },
                           "longitude": {
+                            "title": "Longitude",
                             "type": "number",
                             "minimum": -90,
                             "maximum": 90
                           },
-                          "distance": {
-                            "type": "number"
-                          },
-                          "metres": {
-                            "type": "number"
-                          },
                           "distanceInMiles": {
+                            "title": "Distance In Miles",
                             "type": "number"
                           }
                         }
@@ -19820,25 +19949,23 @@
                         "type" : "array",
                         "properties": {
                           "name": {
+                            "title": "Name",
                             "type": "string"
                           },
                           "latitude": {
+                            "title": "Latitude",
                             "type": "number",
                             "minimum": -90,
                             "maximum": 90
                           },
                           "longitude": {
+                            "title": "Longitude",
                             "type": "number",
                             "minimum": -90,
                             "maximum": 90
                           },
-                          "distance": {
-                            "type": "number"
-                          },
-                          "metres": {
-                            "type": "number"
-                          },
                           "distanceInMiles": {
+                            "title": "Distance In Miles",
                             "type": "number"
                           }
                         }
@@ -19848,28 +19975,25 @@
                       "title" : "Trunk Roads Motorway",
                       "type" : "array",
                       "items" : {
-                        "type" : "array",
                         "properties": {
                           "name": {
+                            "title": "Name",
                             "type": "string"
                           },
                           "latitude": {
+                            "title": "Latitude",
                             "type": "number",
                             "minimum": -90,
                             "maximum": 90
                           },
                           "longitude": {
+                            "title": "Longitude",
                             "type": "number",
                             "minimum": -90,
                             "maximum": 90
                           },
-                          "distance": {
-                            "type": "number"
-                          },
-                          "metres": {
-                            "type": "number"
-                          },
                           "distanceInMiles": {
+                            "title": "Distance In Miles",
                             "type": "number"
                           }
                         }
@@ -19882,25 +20006,23 @@
                         "type" : "array",
                         "properties": {
                           "name": {
+                            "title": "Name",
                             "type": "string"
                           },
                           "latitude": {
+                            "title": "Latitude",
                             "type": "number",
                             "minimum": -90,
                             "maximum": 90
                           },
                           "longitude": {
+                            "title": "Longitude",
                             "type": "number",
                             "minimum": -90,
                             "maximum": 90
                           },
-                          "distance": {
-                            "type": "number"
-                          },
-                          "metres": {
-                            "type": "number"
-                          },
                           "distanceInMiles": {
+                            "title": "Distance In Miles",
                             "type": "number"
                           }
                         }
@@ -19937,7 +20059,7 @@
                       },
                       "rating": {
                         "type": "number",
-                        "title": "Rating"
+                        "title": "Ratings"
                       },
                       "specialties": {
                         "type": "array",
@@ -20122,102 +20244,6 @@
                       "ta6Required": ["details"]
                     }
                   ]
-                },
-                "googleStreetViewPOV": {
-                  "title": "Street View to render street nearby property in Google Street View ",
-                  "type": "object",
-                  "properties": {
-                    "heading": {
-                      "title": "Heading",
-                      "type": "number",
-                      "minimum": 0,
-                      "maximum": 360
-                    },
-                    "pitch": {
-                      "title": "Pitch",
-                      "type": "number"
-                    },
-                    "zoom": {
-                      "title": "Zoom",
-                      "type": "number"
-                    },
-                    "lat": {
-                      "title": "latitude",
-                      "type": "number",
-                      "minimum": -180,
-                      "maximum": 180
-                    },
-                    "lng": {
-                      "title": "longitude",
-                      "type": "number",
-                      "minimum": -180,
-                      "maximum": 180
-                    }
-                  }
-                },
-                "propertyPolygons": {
-                  "title": "Property Polygons",
-                  "type": "object",
-                  "properties": {
-                    "geoJsonpolygon": {
-                      "title": "GeoJSON Polygon",
-                      "type": "object",
-                      "required": ["type", "coordinates"],
-                      "properties": {
-                        "coordinates": {
-                          "type": "array",
-                          "items": {
-                            "type": "array",
-                            "minItems": 4,
-                            "items": {
-                              "type": "array",
-                              "minItems": 2,
-                              "items": {
-                                "type": "number"
-                              }
-                            }
-                          }
-                        },
-                        "bbox": {
-                          "type": "array",
-                          "minItems": 4,
-                          "items": {
-                            "type": "number"
-                          }
-                        }
-                      }
-                    },
-                    "polygon": {
-                      "title": "Surronding polygon",
-                      "type": "array",
-                      "items": {
-                        "type": "array",
-                        "minItems": 4,
-                        "items": {
-                          "type": "array",
-                          "minItems": 2,
-                          "items": {
-                            "type": "number"
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "britishNationalGridCoardinates": {
-                  "title": "British National Grid Coordinates of the property",
-                  "type": "object",
-                  "required": ["bng_x", "bng_y"],
-                  "properties": {
-                    "bng_x" :{
-                      "title": "British National Grid X Coordinate of the property",
-                      "type": "number"
-                    },
-                    "bng_y" :{
-                      "title": "British National Grid Y Coordinate of the property",
-                      "type": "number"
-                    }                    
-                  }
                 }
               }
             },
@@ -20255,24 +20281,31 @@
               "type": "object",
               "properties": {
                 "bedrooms": {
-                  "title": "Bedrooms",
+                  "title": "Number of Bedrooms",
                   "type" : "integer"
                 },
                 "bathrooms": {
-                  "title": "Bathrooms",
+                  "title": "Number of Bathrooms",
                   "type": "integer"
                 },
                 "receptions": {
-                  "title": "Receptions",
+                  "title": "Number of Receptions",
                   "type": "integer"
                 },
                 "kitchens": {
-                  "title": "Kitchens",
+                  "title": "Number of Kitchens",
                   "type": "integer"
                 },
                 "dining": {
-                  "title": "Dining",
+                  "title": "Number of Dining",
                   "type": "integer"
+                },
+                "outsideAreas":{
+                  "title": "List all the outside areas of the property",
+                  "type":"array",
+                  "items": {
+                    "type": "string"
+                  }
                 }
               }
             },
