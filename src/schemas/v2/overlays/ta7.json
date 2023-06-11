@@ -6,6 +6,32 @@
       "properties": {
         "materialFacts": {
           "properties": {
+            "address": {
+              "ta7Ref": "0.1",
+              "title": "Property Address",
+              "properties": {
+                "line1": {
+                  "ta7Ref": "0.1.1",
+                  "title": "Address line 1"
+                },
+                "line2": {
+                  "ta7Ref": "0.1.2",
+                  "title": "Address line 2"
+                },
+                "line3": {
+                  "ta7Ref": "0.1.3",
+                  "title": "Address line 3"
+                },
+                "town": {
+                  "ta7Ref": "0.1.4",
+                  "title": "Town"
+                },
+                "postcode": {
+                  "ta7Ref": "0.1.5",
+                  "title": "Postcode"
+                }
+              }
+            },
             "ownership": {
               "ta7Ref": "1",
               "title": "Ownership",
@@ -862,7 +888,7 @@
                                       },
                                       "deedOfCertificateServed": {
                                         "ta7Ref": "11.3",
-                                        "title": "Has a Leaseholder Deed of Certificate been served on the Landlord in relation to the property or remedial works required to the property?",
+                                        "title": "Is there a Leaseholder Deed of Certificate for the property?",
                                         "discriminator": {
                                           "propertyName": "yesNoNotApplicable"
                                         },
@@ -1263,7 +1289,7 @@
                                   },
                                   "deedOfCertificate": {
                                     "ta7Ref": "11.3b",
-                                    "title": "Leaseholder Deed of Certificate.",
+                                    "title": "Please supply a copy of the leaseholder deed of certificate and the accompanying evidence",
                                     "enum": [
                                       "Enclosed",
                                       "To follow",
@@ -1272,11 +1298,11 @@
                                   },
                                   "landlordsCertificate": {
                                     "ta7Ref": "11.5",
-                                    "title": "Landlord's Certificate.",
+                                    "title": "Has the seller received a Landlord’s Certificate and the accompanying evidence?",
                                     "enum": [
                                       "Enclosed",
                                       "To follow",
-                                      "Not applicable"
+                                      "No"
                                     ]
                                   }
                                 }
@@ -1286,6 +1312,61 @@
                         }
                       }
                     ]
+                  }
+                }
+              }
+            },
+            "typeOfConstruction": {
+              "properties": {
+                "buildingSafetyRemediation": {
+                  "ta7Ref": "11.1",
+                  "title": "Have any remediation works on the building been proposed or carried out?",
+                  "description": "This could be due to the property being high risk because of the building height or because of works completed without buildings regulations.",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not applicable"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta7Ref": "11.1.2",
+                          "title": "Please provide details of the remediation works proposed and evidence of any carried out."
+                        },
+                        "attachments": {
+                          "ta7Ref": "11.1.3",
+                          "title": "Attachments",
+                          "enum": [
+                            "Attached",
+                            "To follow"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta7Ref": "11.1.1",
+                      "enum": [
+                        "Yes",
+                        "No",
+                        "Not applicable"
+                      ]
+                    }
                   }
                 }
               }
