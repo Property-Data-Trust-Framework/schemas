@@ -86,23 +86,56 @@ const extractOverlay = (sourceSchema, ref) => {
           jp.set(returnSchema, `${path}/${property}`, element[property]);
         }
       });
-      const { discriminator } = element;
 
+      const { discriminator } = element;
       if (discriminator) {
         const { propertyName } = discriminator;
         element.oneOf.forEach((item, index) => {
           const discriminatorProperty = item.properties[propertyName];
-          jp.set(
-            returnSchema,
-            `${path}/oneOf/${index}/properties/${propertyName}`,
-            discriminatorProperty
-          );
+          // copy const discriminator as-is
+          if (discriminatorProperty.const) {
+            jp.set(
+              returnSchema,
+              `${path}/oneOf/${index}/properties/${propertyName}/const`,
+              discriminatorProperty.const
+            );
+          } else {
+            // must be an enum
+            const discriminatorEnumPath = `${path}/oneOf/${index}/properties/${propertyName}/enum`;
+            // if a refEnum use that
+            const refEnum = `${ref}Enum`;
+            if (discriminatorProperty[refEnum]) {
+              jp.set(
+                returnSchema,
+                discriminatorEnumPath,
+                discriminatorProperty[refEnum]
+              );
+            } else {
+              // use the base enum
+              jp.set(
+                returnSchema,
+                discriminatorEnumPath,
+                discriminatorProperty.enum
+              );
+            }
+          }
         });
       }
     }
+
     const refRequired = `${ref}Required`;
     if (element[refRequired]) {
       jp.set(returnSchema, `${path}/required`, element[refRequired]);
+    }
+
+    const refTitle = `${ref}Title`;
+    if (element[refTitle]) {
+      jp.set(returnSchema, `${path}/title`, element[refTitle]);
+    }
+
+    const refEnum = `${ref}Enum`;
+    if (element[refEnum]) {
+      jp.set(returnSchema, `${path}/enum`, element[refEnum]);
     }
   });
   return returnSchema;
@@ -136,6 +169,8 @@ const coreSchema = deleteProperties(combinedSchema, [
   "discriminator",
   ...extractFields.map((item) => `${item}Ref`),
   ...extractFields.map((item) => `${item}Required`),
+  ...extractFields.map((item) => `${item}Title`),
+  ...extractFields.map((item) => `${item}Enum`),
 ]);
 
 fs.writeFileSync(
