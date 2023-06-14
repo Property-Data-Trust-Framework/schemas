@@ -193,6 +193,56 @@
                   "type": "number",
                   "minimum": -180,
                   "maximum": 180
+                },
+                "bng": {
+                  "title": "British National Grid coordinates",
+                  "type": "object",
+                  "required": [
+                    "easting",
+                    "northing"
+                  ],
+                  "properties": {
+                    "easting": {
+                      "title": "BNG easting",
+                      "type": "number"
+                    },
+                    "northing": {
+                      "title": "BNG northing",
+                      "type": "number"
+                    }
+                  }
+                },
+                "googleStreetViewPOV": {
+                  "title": "Street View to render street nearby property in Google Street View ",
+                  "type": "object",
+                  "properties": {
+                    "heading": {
+                      "title": "The heading for the google streetview camera",
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 360
+                    },
+                    "pitch": {
+                      "title": "The pitch for the google streetview camera",
+                      "type": "number"
+                    },
+                    "zoom": {
+                      "title": "The zoom level for the google streetview camera",
+                      "type": "number"
+                    },
+                    "lat": {
+                      "title": "The latitude for the google streetview camera",
+                      "type": "number",
+                      "minimum": -90,
+                      "maximum": 90
+                    },
+                    "lng": {
+                      "title": "The longitude for the google streetview camera",
+                      "type": "number",
+                      "minimum": -180,
+                      "maximum": 180
+                    }
+                  }
                 }
               }
             },
@@ -272,6 +322,391 @@
                   "caption": {
                     "title": "Caption",
                     "type": "string"
+                  }
+                }
+              }
+            },
+            "buildInformation": {
+              "title": "Information related to property build",
+              "type": "object",
+              "properties": {
+                "internalArea": {
+                  "title": "Total internal floor area",
+                  "type": "object",
+                  "properties": {
+                    "area": {
+                      "title": "Internal area value",
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "units": {
+                      "title": "Internal area units",
+                      "type": "string",
+                      "enum": [
+                        "square metres",
+                        "square feet"
+                      ]
+                    }
+                  }
+                },
+                "yearOfBuild": {
+                  "title": "Year the property was built",
+                  "type": "integer"
+                }
+              }
+            },
+            "residentialPropertyFeatures": {
+              "title": "Residential property features",
+              "type": "object",
+              "properties": {
+                "bedrooms": {
+                  "title": "Number of bedrooms",
+                  "type": "integer"
+                },
+                "bathrooms": {
+                  "title": "Number of bathrooms",
+                  "type": "integer"
+                },
+                "receptions": {
+                  "title": "Number of reception rooms",
+                  "type": "integer"
+                },
+                "kitchens": {
+                  "title": "Number of kitchens",
+                  "type": "integer"
+                },
+                "diningAreas": {
+                  "title": "Number of dining areas",
+                  "type": "integer"
+                },
+                "outsideAreas": {
+                  "title": "Outside areas of the property",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "nearbyFacilities": {
+              "title": "Information about nearby facilties like hospital, school etc",
+              "type": "object",
+              "properties": {
+                "schools": {
+                  "title": "Schools",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "title": "Name"
+                      },
+                      "contact": {
+                        "type": "object",
+                        "title": "Contact Details",
+                        "properties": {
+                          "address": {
+                            "title": "Address",
+                            "type": "object",
+                            "properties": {
+                              "line1": {
+                                "title": "Address line 1",
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "line2": {
+                                "title": "Address line 2",
+                                "type": "string"
+                              },
+                              "line3": {
+                                "title": "Address line 3",
+                                "type": "string"
+                              },
+                              "town": {
+                                "title": "Town",
+                                "type": "string"
+                              },
+                              "postcode": {
+                                "title": "Postcode",
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            }
+                          },
+                          "telephone": {
+                            "title": "Telephone",
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "emailAddress": {
+                            "title": "Email address",
+                            "type": "string",
+                            "format": "email"
+                          },
+                          "website": {
+                            "title": "School website",
+                            "type": "string",
+                            "format": "uri"
+                          }
+                        }
+                      },
+                      "ofstedRating": {
+                        "type": "string",
+                        "title": "Ofsted Rating",
+                        "enum": [
+                          "Outstanding",
+                          "Good",
+                          "Requires Improvement",
+                          "Inadequate"
+                        ]
+                      },
+                      "pupils": {
+                        "type": "integer",
+                        "title": "Number of Pupils"
+                      },
+                      "distanceInMiles": {
+                        "type": "number",
+                        "title": "Distance in miles"
+                      },
+                      "ageRange": {
+                        "type": "string",
+                        "title": "Age Range of student in format minimumAge-maximimAge"
+                      },
+                      "religiousCharacter": {
+                        "type": "string",
+                        "title": "Religious character of school, if any"
+                      },
+                      "schoolType": {
+                        "type": "object",
+                        "title": "Type of School",
+                        "properties": {
+                          "nursery": {
+                            "title": "Nursery",
+                            "type": "object",
+                            "yesNoNotKnown": {
+                              "type": "string",
+                              "title": "",
+                              "enum": [
+                                "Yes",
+                                "No",
+                                "Not Known"
+                              ]
+                            }
+                          },
+                          "primary": {
+                            "title": "Primary",
+                            "type": "object",
+                            "yesNoNotKnown": {
+                              "type": "string",
+                              "title": "",
+                              "enum": [
+                                "Yes",
+                                "No",
+                                "Not Known"
+                              ]
+                            }
+                          },
+                          "secondary": {
+                            "title": "Secondary",
+                            "type": "object",
+                            "yesNoNotKnown": {
+                              "type": "string",
+                              "title": "",
+                              "enum": [
+                                "Yes",
+                                "No",
+                                "Not Known"
+                              ]
+                            }
+                          },
+                          "college": {
+                            "title": "College",
+                            "type": "object",
+                            "yesNoNotKnown": {
+                              "type": "string",
+                              "title": "",
+                              "enum": [
+                                "Yes",
+                                "No",
+                                "Not Known"
+                              ]
+                            }
+                          },
+                          "private": {
+                            "title": "Private",
+                            "type": "object",
+                            "yesNoNotKnown": {
+                              "type": "string",
+                              "title": "",
+                              "enum": [
+                                "Yes",
+                                "No",
+                                "Not Known"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "transport": {
+                  "title": "Transportation facilities",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "title": "Name",
+                        "type": "string"
+                      },
+                      "transportType": {
+                        "title": "Type of transport service",
+                        "type": "string",
+                        "enum": [
+                          "Local connection",
+                          "Ferry terminal",
+                          "Bus stop/station",
+                          "National rail station",
+                          "Trunk road/motorway",
+                          "Airport",
+                          "Helipad",
+                          "Other"
+                        ]
+                      },
+                      "latitude": {
+                        "title": "Latitude",
+                        "type": "number",
+                        "minimum": -90,
+                        "maximum": 90
+                      },
+                      "longitude": {
+                        "title": "Longitude",
+                        "type": "number",
+                        "minimum": -180,
+                        "maximum": 180
+                      },
+                      "distanceInMiles": {
+                        "title": "Distance in miles",
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "healthCare": {
+                  "title": "Nearby healthcare services",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "title": "Healthcare service",
+                    "properties": {
+                      "name": {
+                        "title": "Name",
+                        "type": "string"
+                      },
+                      "typeOfHealthCare": {
+                        "type": "string",
+                        "title": "Type of healthcare facility: hospital, dental surgery etc"
+                      },
+                      "contact": {
+                        "type": "object",
+                        "title": "Contact details",
+                        "properties": {
+                          "address": {
+                            "title": "Address",
+                            "type": "object",
+                            "properties": {
+                              "line1": {
+                                "title": "Address line 1",
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "line2": {
+                                "title": "Address line 2",
+                                "type": "string"
+                              },
+                              "line3": {
+                                "title": "Address line 3",
+                                "type": "string"
+                              },
+                              "town": {
+                                "title": "Town",
+                                "type": "string"
+                              },
+                              "postcode": {
+                                "title": "Postcode",
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            }
+                          },
+                          "telephone": {
+                            "title": "Telephone",
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "emailAddress": {
+                            "title": "Email address",
+                            "type": "string",
+                            "format": "email"
+                          },
+                          "website": {
+                            "title": "Website Url",
+                            "type": "string",
+                            "format": "uri"
+                          }
+                        }
+                      },
+                      "containsAccidentAndEmergencyFacility": {
+                        "type": "string",
+                        "title": "",
+                        "enum": [
+                          "Yes",
+                          "No",
+                          "Not Known"
+                        ]
+                      },
+                      "distanceInMiles": {
+                        "title": "Approximate Distance in miles",
+                        "type": "number"
+                      },
+                      "specialties": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "title": "Specialties"
+                      },
+                      "openingHours": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "day": {
+                              "type": "string",
+                              "enum": [
+                                "Sun",
+                                "Mon",
+                                "Tue",
+                                "Wed",
+                                "Thu",
+                                "Fri",
+                                "Sat"
+                              ]
+                            },
+                            "hours": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "day",
+                            "hours"
+                          ]
+                        },
+                        "title": "Opening hours"
+                      }
+                    }
                   }
                 }
               }
