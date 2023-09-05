@@ -28251,31 +28251,9 @@
                       "type": "string",
                       "enum": [
                         "Local Land Charges",
-                        "Required Local Searches",
-                        "Optional Local Searches Optional",
-                        "Drainage and Water Searches",
-                        "Flood",
-                        "Contaminated Land",
-                        "Coal",
-                        "Bath Stone",
-                        "Metalliferous (Tin)",
-                        "Kaolin & Ball Clay",
-                        "Limestone",
-                        "Brine",
-                        "HS2",
-                        "Crossrail",
-                        "Energy Exploration",
-                        "Wind Farms",
-                        "Planning",
-                        "Utilities",
-                        "Renewable Power Plants",
-                        "Solar Farms",
-                        "London Underground",
-                        "Ground Stability",
-                        "Non Coal Mining",
-                        "Ground Movement",
-                        "Mineral",
-                        "Radon"
+                        "Local Authority Search",
+                        "Drainage and Water Search",
+                        "Environmental Risks"
                       ]
                     }
                   }
@@ -28328,31 +28306,9 @@
                           "type": "string",
                           "enum": [
                             "Local Land Charges",
-                            "Required Local Searches",
-                            "Optional Local Searches Optional",
-                            "Drainage and Water Searches",
-                            "Flood",
-                            "Contaminated Land",
-                            "Coal",
-                            "Bath Stone",
-                            "Metalliferous (Tin)",
-                            "Kaolin & Ball Clay",
-                            "Limestone",
-                            "Brine",
-                            "HS2",
-                            "Crossrail",
-                            "Energy Exploration",
-                            "Wind Farms",
-                            "Planning",
-                            "Utilities",
-                            "Renewable Power Plants",
-                            "Solar Farms",
-                            "London Underground",
-                            "Ground Stability",
-                            "Non Coal Mining",
-                            "Ground Movement",
-                            "Mineral",
-                            "Radon"
+                            "Local Authority Search",
+                            "Drainage and Water Search",
+                            "Environmental Risks"
                           ]
                         }
                       },
@@ -28429,7 +28385,7 @@
                           "properties": {
                             "contentType": {
                               "enum": [
-                                "Required Local Searches"
+                                "Local Authority Search"
                               ]
                             },
                             "requiredLocalSearches": {
@@ -32545,7 +32501,7 @@
                           "properties": {
                             "contentType": {
                               "enum": [
-                                "Drainage and Water Searches"
+                                "Drainage and Water Search"
                               ]
                             },
                             "drainageAndWater": {
@@ -33182,62 +33138,114 @@
                           "properties": {
                             "contentType": {
                               "enum": [
-                                "Flood",
-                                "Contaminated Land",
-                                "Coal",
-                                "Bath Stone",
-                                "Metalliferous (Tin)",
-                                "Kaolin & Ball Clay",
-                                "Limestone",
-                                "Brine",
-                                "HS2",
-                                "Crossrail",
-                                "Energy Exploration",
-                                "Wind Farms",
-                                "Renewable Power Plants",
-                                "Solar Farms",
-                                "London Underground",
-                                "Ground Stability",
-                                "Non Coal Mining",
-                                "Ground Movement",
-                                "Mineral",
-                                "Radon",
-                                "Other"
+                                "Environmental Risks"
                               ]
                             },
-                            "recommendedActionIndicator": {
-                              "title": "Recommended action indicator",
-                              "type": "string",
-                              "enum": [
-                                "Yes",
-                                "No"
-                              ]
-                            },
-                            "actionAlertRating": {
-                              "title": "Action alert rating (1 is Green, 5 is Red)",
-                              "type": "string",
-                              "enum": [
-                                "1",
-                                "2",
-                                "3",
-                                "4",
-                                "5"
-                              ]
-                            },
-                            "summary": {
-                              "title": "Summary of report",
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "recommendations": {
-                              "title": "Report recommendations",
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "complianceStatement": {
-                              "title": "Statement of methodology and compliance with reporting standards",
-                              "type": "string",
-                              "minLength": 1
+                            "riskResults": {
+                              "type": "array",
+                              "items": {
+                                "riskResult": {
+                                  "type": "object",
+                                  "properties": {
+                                    "riskCategory": {
+                                      "type": "string",
+                                      "title": "Risk category",
+                                      "enum": [
+                                        "Flood Risk",
+                                        "Contaminated Land",
+                                        "Ground Stability",
+                                        "Radon",
+                                        "Energy",
+                                        "Transportation",
+                                        "Planning",
+                                        "Climate",
+                                        "Mining"
+                                      ]
+                                    },
+                                    "recommendedActionIndicator": {
+                                      "type": "string",
+                                      "title": "Recommended action indicator",
+                                      "enum": [
+                                        "Yes",
+                                        "No"
+                                      ]
+                                    },
+                                    "actionAlertRating": {
+                                      "type": "string",
+                                      "title": "Action alert rating (1 is Green, 5 is Red)",
+                                      "enum": [
+                                        "1",
+                                        "2",
+                                        "3",
+                                        "4",
+                                        "5"
+                                      ]
+                                    },
+                                    "summary": {
+                                      "type": "string",
+                                      "title": "Summary of risk",
+                                      "minLength": 1
+                                    },
+                                    "recommendations": {
+                                      "type": "string",
+                                      "title": "Recommendations",
+                                      "minLength": 1
+                                    },
+                                    "datasetAttribution": {
+                                      "type": "string",
+                                      "title": "Licensing, distribution and copyright information",
+                                      "minLength": 1
+                                    },
+                                    "riskSubcategories": {
+                                      "type": "array",
+                                      "title": "Risk sub-categories",
+                                      "items": {
+                                        "type": "object",
+                                        "properties": {
+                                          "subCategory": {
+                                            "type": "string",
+                                            "title": "Risk sub-category name"
+                                          },
+                                          "recommendedActionIndicator": {
+                                            "type": "string",
+                                            "title": "Is action recommended?",
+                                            "enum": [
+                                              "Yes",
+                                              "No"
+                                            ]
+                                          },
+                                          "actionAlertRating": {
+                                            "type": "string",
+                                            "title": "Action alert rating (1 is Green, 5 is Red)",
+                                            "enum": [
+                                              "1",
+                                              "2",
+                                              "3",
+                                              "4",
+                                              "5"
+                                            ]
+                                          },
+                                          "summary": {
+                                            "type": "string",
+                                            "title": "Summary of risk",
+                                            "minLength": 1
+                                          },
+                                          "recommendations": {
+                                            "type": "string",
+                                            "title": "Recommendations",
+                                            "minLength": 1
+                                          },
+                                          "datasetAttribution": {
+                                            "type": "string",
+                                            "title": "Licensing, distribution and copyright information",
+                                            "minLength": 1
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
                             }
                           }
                         }
