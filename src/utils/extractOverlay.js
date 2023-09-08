@@ -64,6 +64,15 @@ const flattenSkeleton = (schema) => {
       }
     });
   }
+  if (schema.anyOf) {
+    schema.anyOf.forEach((aAnyOf) => {
+      if (aAnyOf.properties) {
+        Object.entries(aAnyOf.properties).forEach(([key, value]) => {
+          returnStructure[key] = flattenSkeleton(value);
+        });
+      }
+    });
+  }
   if (schema.items) {
     returnStructure = flattenSkeleton(schema.items);
   }
