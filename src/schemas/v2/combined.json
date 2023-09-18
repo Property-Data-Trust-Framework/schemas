@@ -36814,177 +36814,229 @@
               }
             }
           }
-        },
-        "valuationComparisonData": {
-          "type": "array",
-          "title": "Valuation Comparison Data",
-          "description": "A collection of data used to compare the valuations (market values) of properties in the real estate or property market. It typically includes various types of information about properties, such as recently sold properties, properties currently on sale, property pricing estimates, property characteristics, and more.",
-          "items": {
+        }
+      }
+    },
+    "valuationComparisonData": {
+      "type": "array",
+      "title": "Valuation Comparison Data",
+      "description": "A collection of data used to compare the valuations (market values) of properties in the real estate or property market.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "listingType": {
+            "title": "Listing Type",
+            "description": "It represents the general category or type of property listing",
+            "type": "string",
+            "enum": ["Recently Sold", "Currently On Sale"]
+          },
+          "propertyFullDescription": {
+            "title": "Property description",
+            "type": "string"
+          },
+          "uprn": {
+            "title": "UPRN",
+            "type": "string"
+          },
+          "propertyType": {
+            "title": "Type of property",
+            "type": "string"
+          },
+          "marketingTenure": {
+            "title": "Type of tenure being marketed",
+            "type": "string",
+            "enum": [
+              "Commonhold",
+              "Freehold",
+              "Leasehold",
+              "Share of Freehold",
+              "Shared Ownership"
+            ]
+          },
+          "basicDetails": {
+            "title": "Basic Property Details",
             "type": "object",
             "properties": {
-              "listingType": {
-                "title": "Listing Type",
-                "type": "string",
-                "enum": ["RecentlySold", "CurrentlyOnSale"]
+              "bedrooms": {
+                "title": "Number of bedrooms",
+                "type": "integer"
               },
-              "listingStatus": {
-                "title": "Listing Status ",
+              "bathrooms": {
+                "title": "Number of bathrooms",
+                "type": "integer"
+              },
+              "buildInformation": {
+                "title": "Information related to property build",
                 "type": "object",
                 "properties": {
-                  "type": {
-                    "type": "string",
-                    "enum": [
-                      "Sale",
-                      "Sold"
-                    ]
-                  },
-                  "date": {
-                    "title": "Date",
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  "price": {
-                    "title": "Price",
+                  "internalArea": {
+                    "title": "Total internal floor area",
                     "type": "object",
                     "properties": {
-                      "amount": {
-                        "title": "Price",
-                        "type": "number"
+                      "area": {
+                        "title": "Internal area value",
+                        "type": "number",
+                        "minimum": 0
                       },
-                      "currency": {
-                        "title": "Currency",
+                      "units": {
+                        "title": "Internal area units",
                         "type": "string",
-                        "enum": [
-                          "USD",
-                          "EUR",
-                          "GBP",
-                          "JPY",
-                          "CAD",
-                          "AUD",
-                          "Other"
-                        ]
+                        "enum": ["square metres", "square feet"]
                       }
                     }
+                  },
+                  "yearOfBuild": {
+                    "title": "Year the property was built",
+                    "type": "integer"
                   }
                 }
-              },
-              "propertyFullDescription": {
-                "title": "Property description",
-                "type": "string"
-              },
-              "uprn": {
-                "title": "Uprn",
-                "type": "string"
-              },
-              "propertyType": {
-                "title": "Property Type",
-                "type": "string",
-                "enum": [
-                  "Apartment",
-                  "Flat",
-                  "Property",
-                  "Detached House",
-                  "Maisonette",
-                  "Semi-detached House",
-                  "Terraced House",
-                  "Others"
-                ]
-              },
-              "tenure": {
-                "title": "Ownership Type",
-                "description": "What type of ownership is the property?",
-                "type": "string",
-                "enum": [
-                  "Freehold",
-                  "Managed Freehold",
-                  "Commonhold",
-                  "Leasehold",
-                  "Other"
-                ]
-              },
-              "BasicDetails": {
-                "title": "Basic Property Details",
-                "type": "object",
-                "properties": {
-                  "bedrooms": {
-                    "title": "Number of bedrooms",
-                    "type": "integer"
-                  },
-                  "bathrooms": {
-                    "title": "Number of bathrooms",
-                    "type": "integer"
-                  },
-                  "yearBuilt": {
-                    "title": "Built Year",
-                    "type": "string",
-                    "format": "date"
-                  },
-                  "floorArea": {
-                    "title": "Floor area",
-                    "type": "object",
-                    "properties": {
-                      "inSquareMeter": {
-                        "type": "object",
-                        "properties": {
-                          "area": {
-                            "title": "Area in sqaure meters",
-                            "type": "number"
-                          },
-                          "pricePerSquareMeter": {
-                            "title": "Price per square meter",
-                            "type": "number"
-                          }
-                        }
-                      },
-                      "inSquareFoot": {
-                        "type": "object",
-                        "properties": {
-                          "area": {
-                            "title": "Area in sqaure foot",
-                            "type": "number"
-                          },
-                          "pricePerSquareFoot": {
-                            "title": "Price per square foot",
-                            "type": "number"
-                          }
-                        }
-                      }
-                    }
-                  }
+              }
+            }
+          },
+          "media": {
+            "title": "Media",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "mediaType": {
+                  "title": "Type of media",
+                  "type": "string",
+                  "enum": [
+                    "Image",
+                    "Floorplan",
+                    "Brochure",
+                    "Virtual tour",
+                    "Audio tour",
+                    "EPC",
+                    "EPC graph",
+                    "Other"
+                  ]
+                },
+                "mediaUrl": {
+                  "title": "Media URL",
+                  "type": "string",
+                  "format": "uri"
+                },
+                "caption": {
+                  "title": "Caption",
+                  "type": "string"
                 }
+              }
+            }
+          },
+          "propertyPricing": {
+            "title": "Property Pricing Estimates",
+            "description": "Approximate or calculated values assigned to a property to estimate its financial worth.",
+            "type": "object",
+            "properties": {
+              "rentalEstimate": {
+                "title": "Rental Estimate",
+                "type": "number"
               },
-              "sourceUrls": {
-                "title": "Urls that point to property images, maps, etc.",
-                "type": "array",
-                "items": {
+              "estimatedPrice": {
+                "title": "Estimated Price",
+                "description": "Approximation of the property's current market value",
+                "type": "number"
+              },
+              "yield": {
+                "title": "Yield",
+                "description": "Return on investment (ROI) generated by an income-producing asset",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "if": {
+          "properties": {
+            "listingType": {
+              "const": "Recently Sold"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "listingStatus": {
+              "title": "Listing Status ",
+              "description": "It provides specific information about the status of a property listing",
+              "type": "object",
+              "properties": {
+                "dateSold": {
+                  "title": "Sold Date",
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "priceSold": {
+                  "title": "Sold Price",
                   "type": "object",
                   "properties": {
-                    "url": {
-                      "title": "URL",
-                      "type": "string",
-                      "format": "uri"
+                    "amount": {
+                      "title": "Price",
+                      "type": "number"
+                    },
+                    "currency": {
+                      "title": "Currency",
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": ["USD", "EUR", "GBP", "JPY", "CAD", "AUD", "Other"]
+                        },
+                        "otherCurrencyType": {
+                          "type": "string"
+                        }
+                      },
+                      "if": {
+                        "properties": { "type": { "const": "Other" } }
+                      },
+                      "then": {
+                        "required": ["otherCurrencyType"]
+                      }
                     }
                   }
                 }
-              },
-              "propertyPricing": {
-                "title": "Property Pricing Estimates",
-                "description": "Approximate or calculated values assigned to a property to estimate its financial worth.",
-                "type": "object",
-                "properties": {
-                  "rentalEstimate": {
-                    "title": "Rental Estimate",
-                    "type": "number"
-                  },
-                  "estimatedPrice": {
-                    "title": "Estimated Price",
-                    "description": "Approximation of the property's current market value",
-                    "type": "number"
-                  },
-                  "yield": {
-                    "title": "Yield",
-                    "description": "Return on investment (ROI) generated by an income-producing asset",
-                    "type": "number"
+              }
+            }
+          }
+        },
+        "else": {
+          "properties": {
+            "listingStatus": {
+              "title": "Listing Status ",
+              "type": "object",
+              "properties": {
+                "dateListed": {
+                  "title": "Listed or Display Date",
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "priceListed": {
+                  "title": "List Price",
+                  "type": "object",
+                  "properties": {
+                    "amount": {
+                      "title": "Price",
+                      "type": "number"
+                    },
+                    "currency": {
+                      "title": "Currency",
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": ["USD", "EUR", "GBP", "JPY", "CAD", "AUD", "Other"]
+                        },
+                        "otherCurrencyType": {
+                          "type": "string"
+                        }
+                      },
+                      "if": {
+                        "properties": { "type": { "const": "Other" } }
+                      },
+                      "then": {
+                        "required": ["otherCurrencyType"]
+                      }
+                    }
                   }
                 }
               }
