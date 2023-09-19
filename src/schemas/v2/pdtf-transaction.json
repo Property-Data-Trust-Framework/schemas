@@ -33349,29 +33349,82 @@
       "items": {
         "type": "object",
         "properties": {
-          "listingType": {
-            "title": "Listing Type",
-            "description": "It represents the general category or type of property listing",
-            "type": "string",
-            "enum": [
-              "Recently Sold",
-              "Currently On Sale"
+          "propertyListingInfo": {
+            "title": "Property Listing Information",
+            "description": "Information related to the pricing and status of a property listing.",
+            "type": "object",
+            "properties": {
+              "listingType": {
+                "title": "Listing Type",
+                "type": "string",
+                "enum": [
+                  "Recently Sold",
+                  "Currently On Sale"
+                ],
+                "description": "Type of property listing, indicating whether it was recently sold or is currently on sale."
+              }
+            },
+            "oneOf": [
+              {
+                "title": "Recently Sold Property",
+                "description": "Specific information about a property that was recently sold.",
+                "properties": {
+                  "listingType": {
+                    "const": "Recently Sold"
+                  },
+                  "soldDate": {
+                    "title": "Sold Date",
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The date when the property was sold."
+                  },
+                  "soldPrice": {
+                    "title": "Sold Price",
+                    "type": "number",
+                    "description": "The amount for which the property was sold."
+                  }
+                }
+              },
+              {
+                "title": "Property Currently On Sale",
+                "description": "Specific information about a property that is currently listed for sale.",
+                "properties": {
+                  "listingType": {
+                    "const": "Currently On Sale"
+                  },
+                  "listedDate": {
+                    "title": "Listed Date",
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The date when the property was listed for sale."
+                  },
+                  "listPrice": {
+                    "title": "List Price",
+                    "type": "number",
+                    "description": "The asking price for the property currently on sale."
+                  }
+                }
+              }
             ]
           },
           "propertyFullDescription": {
-            "title": "Property description",
+            "title": "Property Description",
+            "description": "A detailed description of the property.",
             "type": "string"
           },
           "uprn": {
-            "title": "UPRN",
+            "title": "Unique Property Reference Number (UPRN)",
+            "description": "A unique identifier for the property.",
             "type": "string"
           },
           "propertyType": {
-            "title": "Type of property",
+            "title": "Type of Property",
+            "description": "The type or category of the property.",
             "type": "string"
           },
           "marketingTenure": {
-            "title": "Type of tenure being marketed",
+            "title": "Marketing Tenure",
+            "description": "The type of tenure being marketed for the property.",
             "type": "string",
             "enum": [
               "Commonhold",
@@ -33383,31 +33436,38 @@
           },
           "basicDetails": {
             "title": "Basic Property Details",
+            "description": "Basic information about the property.",
             "type": "object",
             "properties": {
               "bedrooms": {
-                "title": "Number of bedrooms",
+                "title": "Number of Bedrooms",
+                "description": "The total number of bedrooms in the property.",
                 "type": "integer"
               },
               "bathrooms": {
-                "title": "Number of bathrooms",
+                "title": "Number of Bathrooms",
+                "description": "The total number of bathrooms in the property.",
                 "type": "integer"
               },
               "buildInformation": {
                 "title": "Information related to property build",
+                "description": "Details related to the construction of the property.",
                 "type": "object",
                 "properties": {
                   "internalArea": {
                     "title": "Total internal floor area",
+                    "description": "The total internal floor area of the property.",
                     "type": "object",
                     "properties": {
                       "area": {
                         "title": "Internal area value",
+                        "description": "The numerical value of the internal floor area.",
                         "type": "number",
                         "minimum": 0
                       },
                       "units": {
                         "title": "Internal area units",
+                        "description": "The units of measurement for the internal floor area.",
                         "type": "string",
                         "enum": [
                           "square metres",
@@ -33418,6 +33478,7 @@
                   },
                   "yearOfBuild": {
                     "title": "Year the property was built",
+                    "description": "The year when the property was constructed.",
                     "type": "integer"
                   }
                 }
@@ -33426,12 +33487,14 @@
           },
           "media": {
             "title": "Media",
+            "description": "Media content related to the property listing.",
             "type": "array",
             "items": {
               "type": "object",
               "properties": {
                 "mediaType": {
                   "title": "Type of media",
+                  "description": "The type of media content (e.g., images, floorplans, brochures) related to the property.",
                   "type": "string",
                   "enum": [
                     "Image",
@@ -33446,11 +33509,13 @@
                 },
                 "mediaUrl": {
                   "title": "Media URL",
+                  "description": "The URL or link to access the media content.",
                   "type": "string",
                   "format": "uri"
                 },
                 "caption": {
                   "title": "Caption",
+                  "description": "A descriptive caption or label for the media content.",
                   "type": "string"
                 }
               }
@@ -33458,17 +33523,22 @@
           },
           "propertyPricing": {
             "title": "Property Pricing Estimates",
-            "description": "Approximate or calculated values assigned to a property to estimate its financial worth.",
+            "description": "Detailed property pricing estimates, including rental estimates, market value, and yield calculations.",
             "type": "object",
             "properties": {
               "rentalEstimate": {
+                "title": "Rental Estimate",
+                "description": "Estimated rental income for the property.",
                 "type": "object",
                 "properties": {
                   "estimatedAmount": {
                     "title": "Rental Estimate Amount",
+                    "description": "The estimated rental amount for the property.",
                     "type": "number"
                   },
                   "paymentFrequency": {
+                    "title": "Payment Frequency",
+                    "description": "The frequency at which the rental amount is calculated.",
                     "type": "string",
                     "enum": [
                       "Per Week",
@@ -33488,141 +33558,24 @@
                 "description": "Return on investment (ROI) generated by an income-producing asset",
                 "type": "number"
               },
-              "credibilityAndDataSources": {
-                "type": "array",
-                "title": "Credibility and Data Sources",
-                "description": "The sources of data used for property pricing estimates",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "propertyPricingEstimationMethodology": {
-                "title": "Property Pricing Estimation Methodology",
-                "type": "string",
-                "description": "Description of the methodology used to estimate property pricing.",
-                "default": "This estimate is based on a combination of market research, historical sales data, and current market trends. It may not represent the exact market value."
-              }
-            }
-          }
-        },
-        "if": {
-          "properties": {
-            "listingType": {
-              "const": "Recently Sold"
-            }
-          }
-        },
-        "then": {
-          "properties": {
-            "listingStatus": {
-              "title": "Listing Status ",
-              "description": "It provides specific information about the status of a property listing",
-              "type": "object",
-              "properties": {
-                "dateSold": {
-                  "title": "Sold Date",
-                  "type": "string",
-                  "format": "date-time"
-                },
-                "priceSold": {
-                  "title": "Sold Price",
-                  "type": "object",
-                  "properties": {
-                    "amount": {
-                      "title": "Price",
-                      "type": "number"
-                    },
-                    "currency": {
-                      "title": "Currency",
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "USD",
-                            "EUR",
-                            "GBP",
-                            "JPY",
-                            "CAD",
-                            "AUD",
-                            "Other"
-                          ]
-                        },
-                        "otherCurrencyType": {
-                          "type": "string"
-                        }
-                      },
-                      "if": {
-                        "properties": {
-                          "type": {
-                            "const": "Other"
-                          }
-                        }
-                      },
-                      "then": {
-                        "required": [
-                          "otherCurrencyType"
-                        ]
-                      }
+              "priceEstimationDetails": {
+                "type": "object",
+                "title": "Credibility and Pricing Methodology",
+                "description": "Information about the credibility of property pricing estimates and the methodology used in their calculation.",
+                "properties": {
+                  "credibilitySources": {
+                    "type": "array",
+                    "title": "Data Sources",
+                    "description": "The sources of data used for property pricing estimates.",
+                    "items": {
+                      "type": "string"
                     }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "else": {
-          "properties": {
-            "listingStatus": {
-              "title": "Listing Status ",
-              "type": "object",
-              "properties": {
-                "dateListed": {
-                  "title": "Listed or Display Date",
-                  "type": "string",
-                  "format": "date-time"
-                },
-                "priceListed": {
-                  "title": "List Price",
-                  "type": "object",
-                  "properties": {
-                    "amount": {
-                      "title": "Price",
-                      "type": "number"
-                    },
-                    "currency": {
-                      "title": "Currency",
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "USD",
-                            "EUR",
-                            "GBP",
-                            "JPY",
-                            "CAD",
-                            "AUD",
-                            "Other"
-                          ]
-                        },
-                        "otherCurrencyType": {
-                          "type": "string"
-                        }
-                      },
-                      "if": {
-                        "properties": {
-                          "type": {
-                            "const": "Other"
-                          }
-                        }
-                      },
-                      "then": {
-                        "required": [
-                          "otherCurrencyType"
-                        ]
-                      }
-                    }
+                  },
+                  "pricingMethodology": {
+                    "title": "Pricing Methodology",
+                    "description": "Description of the methodology used to estimate property pricing.",
+                    "type": "string",
+                    "default": "This estimate is based on a combination of market research, historical sales data, and current market trends. It may not represent the exact market value."
                   }
                 }
               }
