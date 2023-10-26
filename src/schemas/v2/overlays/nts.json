@@ -1,14 +1,29 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://trust.propdata.org.uk/schemas/v2/overlays/nts.json",
+  "required": [
+    "propertyPack"
+  ],
   "properties": {
     "propertyPack": {
+      "required": [
+        "materialFacts"
+      ],
       "properties": {
         "materialFacts": {
+          "required": [
+            "ownership",
+            "councilTax",
+            "energyEfficiency"
+          ],
           "properties": {
             "priceInformation": {
               "ntsRef": "A3",
               "title": "Price information",
+              "required": [
+                "price",
+                "priceQualifier"
+              ],
               "properties": {
                 "price": {
                   "ntsRef": "A3.1",
@@ -31,9 +46,15 @@
             "ownership": {
               "ntsRef": "A1.1",
               "title": "Ownership",
+              "required": [
+                "ownershipsToBeTransferred"
+              ],
               "properties": {
                 "ownershipsToBeTransferred": {
                   "items": {
+                    "required": [
+                      "ownershipType"
+                    ],
                     "oneOf": [
                       null,
                       null,
@@ -45,6 +66,11 @@
                                 "oneOf": [
                                   null,
                                   {
+                                    "required": [
+                                      "sharedOwnershipPercentage",
+                                      "sharedOwnershipRent",
+                                      "sharedOwnershipRentFrequency"
+                                    ],
                                     "properties": {
                                       "sharedOwnershipPercentage": {
                                         "ntsRef": "A1.7.1",
@@ -68,6 +94,10 @@
                                 ]
                               },
                               "leaseTerm": {
+                                "required": [
+                                  "startYearOfLease",
+                                  "lengthOfLeaseInYears"
+                                ],
                                 "properties": {
                                   "startYearOfLease": {
                                     "ntsRef": "A1.2",
@@ -80,16 +110,34 @@
                                 }
                               },
                               "groundRent": {
+                                "ntsRef": "A1.4",
+                                "title": "Ground Rent",
+                                "discriminator": {
+                                  "propertyName": "isGroundRentPayable"
+                                },
                                 "oneOf": [
-                                  null,
                                   {
                                     "properties": {
+                                      "isGroundRentPayable": {
+                                        "enum": [
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "isGroundRentPayable": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
                                       "annualGroundRent": {
-                                        "ntsRef": "A1.4",
+                                        "ntsRef": "A1.4.2",
                                         "title": "What is the annual ground rent payable? (£)"
                                       },
                                       "rentSubjectToIncrease": {
-                                        "ntsRef": "A1.5",
+                                        "ntsRef": "A1.4.3",
                                         "title": "Is the ground rent subject to increase?",
                                         "discriminator": {
                                           "propertyName": "yesNo"
@@ -110,14 +158,52 @@
                                                 "enum": [
                                                   "Yes"
                                                 ]
+                                              },
+                                              "rentReviewFrequency": {
+                                                "ntsRef": "1.4.3.2",
+                                                "title": "How often is the rent reviewed?"
+                                              },
+                                              "rentIncreaseCalculated": {
+                                                "ntsRef": "1.4.3.3",
+                                                "title": "How is the increase calculated?",
+                                                "description": "e.g. set figure, doubling, in line with Retail Price Index, Consumer Price Index, etc"
                                               }
-                                            }
+                                            },
+                                            "required": [
+                                              "rentReviewFrequency",
+                                              "rentIncreaseCalculated"
+                                            ]
                                           }
-                                        ]
+                                        ],
+                                        "required": [
+                                          "yesNo"
+                                        ],
+                                        "properties": {
+                                          "yesNo": {
+                                            "ntsRef": "1.4.3.1",
+                                            "enum": [
+                                              "Yes",
+                                              "No"
+                                            ]
+                                          }
+                                        }
                                       }
                                     }
                                   }
-                                ]
+                                ],
+                                "required": [
+                                  "isGroundRentPayable"
+                                ],
+                                "properties": {
+                                  "isGroundRentPayable": {
+                                    "ntsRef": "A1.4.1",
+                                    "title": "Does the seller pay ground rent for the property?",
+                                    "enum": [
+                                      "Yes",
+                                      "No"
+                                    ]
+                                  }
+                                }
                               }
                             }
                           }
@@ -128,9 +214,24 @@
                 }
               }
             },
+            "energyEfficiency": {
+              "required": [
+                "certificate"
+              ],
+              "properties": {
+                "certificate": {
+                  "required": [
+                    "currentEnergyRating"
+                  ]
+                }
+              }
+            },
             "councilTax": {
               "ntsRef": "A2",
               "title": "Council Tax",
+              "required": [
+                "councilTaxBand"
+              ],
               "properties": {
                 "councilTaxBand": {
                   "ntsRef": "A2.1",
