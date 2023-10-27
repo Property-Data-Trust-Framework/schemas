@@ -44,34 +44,82 @@
               }
             },
             "ownership": {
-              "ntsRef": "A1.1",
+              "ntsRef": "A1",
               "title": "Ownership",
               "required": [
                 "ownershipsToBeTransferred"
               ],
               "properties": {
                 "ownershipsToBeTransferred": {
+                  "ntsRef": "A1",
+                  "title": "Ownerships to be transferred on sale",
+                  "minItems": 1,
                   "items": {
-                    "required": [
-                      "ownershipType"
-                    ],
+                    "ntsRef": "A1.1",
+                    "title": "Ownership to be transferred",
+                    "discriminator": {
+                      "propertyName": "ownershipType"
+                    },
                     "oneOf": [
-                      null,
-                      null,
                       {
                         "properties": {
+                          "ownershipType": {
+                            "enum": [
+                              "Freehold"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "ownershipType": {
+                            "enum": [
+                              "Managed Freehold",
+                              "Commonhold"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "ownershipType": {
+                            "enum": [
+                              "Leasehold"
+                            ]
+                          },
                           "leaseholdInformation": {
+                            "ntsRef": "A1.2",
+                            "title": "Leasehold information",
+                            "required": [
+                              "typeOfLeasehold",
+                              "leaseTerm",
+                              "groundRent",
+                              "serviceCharge"
+                            ],
                             "properties": {
                               "typeOfLeasehold": {
+                                "ntsRef": "A1.2",
+                                "discriminator": {
+                                  "propertyName": "leaseholdType"
+                                },
                                 "oneOf": [
-                                  null,
                                   {
-                                    "required": [
-                                      "sharedOwnershipPercentage",
-                                      "sharedOwnershipRent",
-                                      "sharedOwnershipRentFrequency"
-                                    ],
                                     "properties": {
+                                      "leaseholdType": {
+                                        "enum": [
+                                          "Flat",
+                                          "Long leasehold house"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "leaseholdType": {
+                                        "enum": [
+                                          "Shared ownership"
+                                        ]
+                                      },
                                       "sharedOwnershipPercentage": {
                                         "ntsRef": "A1.7.1",
                                         "title": "Shared ownership percentage"
@@ -89,22 +137,31 @@
                                           "Weekly"
                                         ]
                                       }
-                                    }
+                                    },
+                                    "required": [
+                                      "sharedOwnershipPercentage",
+                                      "sharedOwnershipRent",
+                                      "sharedOwnershipRentFrequency"
+                                    ]
                                   }
+                                ],
+                                "required": [
+                                  "leaseholdType"
                                 ]
                               },
                               "leaseTerm": {
+                                "ntsRef": "A1.2.1",
                                 "required": [
                                   "startYearOfLease",
                                   "lengthOfLeaseInYears"
                                 ],
                                 "properties": {
                                   "startYearOfLease": {
-                                    "ntsRef": "A1.2",
+                                    "ntsRef": "A1.2.1.1",
                                     "title": "Year that the lease commenced"
                                   },
                                   "lengthOfLeaseInYears": {
-                                    "ntsRef": "A1.3",
+                                    "ntsRef": "A1.2.1.2",
                                     "title": "Length of lease (years)"
                                   }
                                 }
@@ -188,7 +245,11 @@
                                           }
                                         }
                                       }
-                                    }
+                                    },
+                                    "required": [
+                                      "annualGroundRent",
+                                      "rentSubjectToIncrease"
+                                    ]
                                   }
                                 ],
                                 "required": [
@@ -204,25 +265,117 @@
                                     ]
                                   }
                                 }
+                              },
+                              "serviceCharge": {
+                                "ntsRef": "A1.5",
+                                "title": "Service Charge",
+                                "discriminator": {
+                                  "propertyName": "sellerContributesToServiceCharge"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "sellerContributesToServiceCharge": {
+                                        "enum": [
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "sellerContributesToServiceCharge": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "annualServiceCharge": {
+                                        "ntsRef": "A1.5.1.1",
+                                        "title": "Amount of current annual service charge (£)"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "required": [
+                                  "sellerContributesToServiceCharge"
+                                ],
+                                "properties": {
+                                  "sellerContributesToServiceCharge": {
+                                    "ntsRef": "A1.5.1",
+                                    "title": "Does the seller contribute to the cost of maintaining the building (a service charge)?",
+                                    "enum": [
+                                      "Yes",
+                                      "No"
+                                    ]
+                                  }
+                                }
                               }
                             }
                           }
                         }
+                      },
+                      {
+                        "properties": {
+                          "ownershipType": {
+                            "enum": [
+                              "Other"
+                            ]
+                          }
+                        }
                       }
-                    ]
+                    ],
+                    "required": [
+                      "ownershipType"
+                    ],
+                    "properties": {
+                      "ownershipType": {
+                        "ntsRef": "A1.1.1",
+                        "title": "What type of ownership is the property?",
+                        "description": "A Managed Freehold is any freehold where there are shared amenities, the maintenance of which you pay for through an estate rentcharge, service charge, informal or formal contribution. Choose Leasehold if your property is under a Shared Ownership arrangement.",
+                        "enum": [
+                          "Freehold",
+                          "Managed Freehold",
+                          "Commonhold",
+                          "Leasehold",
+                          "Other"
+                        ]
+                      }
+                    }
                   }
                 }
               }
             },
             "energyEfficiency": {
+              "ntsRef": "A4",
+              "title": "Energy Efficiency",
               "required": [
                 "certificate"
               ],
               "properties": {
                 "certificate": {
+                  "ntsRef": "A4.1",
                   "required": [
                     "currentEnergyRating"
-                  ]
+                  ],
+                  "properties": {
+                    "currentEnergyRating": {
+                      "ntsRef": "A4.1.1",
+                      "title": "Current energy efficiency rating",
+                      "description": "What is the energy efficiency rating of the property according to the latest Energy Performance Certificate (EPC)?",
+                      "enum": [
+                        "A",
+                        "B",
+                        "C",
+                        "D",
+                        "E",
+                        "F",
+                        "G",
+                        "Exempt Property",
+                        "Survey Instructed",
+                        "No Certificate"
+                      ]
+                    }
+                  }
                 }
               }
             },

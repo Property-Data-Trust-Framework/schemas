@@ -1013,7 +1013,7 @@
             "ownership": {
               "baspiRef": "A1.3",
               "ta7Ref": "1",
-              "ntsRef": "A1.1",
+              "ntsRef": "A1",
               "title": "Ownership",
               "type": "object",
               "baspiRequired": ["ownershipsToBeTransferred"],
@@ -1022,11 +1022,13 @@
                 "ownershipsToBeTransferred": {
                   "baspiRef": "A1.3",
                   "ta7Ref": "1",
+                  "ntsRef": "A1",
                   "title": "Ownerships to be transferred on sale",
                   "type": "array",
                   "minItems": 1,
                   "items": {
                     "baspiRef": "A1.3.0",
+                    "ntsRef": "A1.1",
                     "title": "Ownership to be transferred",
                     "type": "object",
                     "baspiRequired": ["ownershipType"],
@@ -1043,6 +1045,7 @@
                         "rdsRef": "Tenure/Tenure",
                         "ta7Ref": "1.1",
                         "piqRef": "A1.2",
+                        "ntsRef": "A1.1.1",
                         "title": "What type of ownership is the property?",
                         "description": "A Managed Freehold is any freehold where there are shared amenities, the maintenance of which you pay for through an estate rentcharge, service charge, informal or formal contribution. Choose Leasehold if your property is under a Shared Ownership arrangement.",
                         "type": "string",
@@ -3327,6 +3330,7 @@
                           },
                           "leaseholdInformation": {
                             "baspiRef": "A1.5",
+                            "ntsRef": "A1.2",
                             "title": "Leasehold information",
                             "type": "object",
                             "lpe1Required": [
@@ -3349,6 +3353,12 @@
                               "transferAndRegistration",
                               "serviceCharge"
                             ],
+                            "ntsRequired": [
+                              "typeOfLeasehold",
+                              "leaseTerm",
+                              "groundRent",
+                              "serviceCharge"
+                            ],
                             "ta7Required": [
                               "typeOfLeasehold",
                               "leaseTerm",
@@ -3363,9 +3373,11 @@
                             "properties": {
                               "typeOfLeasehold": {
                                 "baspiRef": "A1.3.1",
+                                "ntsRef": "A1.2",
                                 "type": "object",
                                 "lpe1Required": ["leaseholdType"],
                                 "baspiRequired": ["leaseholdType"],
+                                "ntsRequired": ["leaseholdType"],
                                 "properties": {
                                   "leaseholdType": {
                                     "baspiRef": "A1.3.1",
@@ -3439,6 +3451,7 @@
                               },
                               "leaseTerm": {
                                 "baspiRef": "A1.4.1",
+                                "ntsRef": "A1.2.1",
                                 "type": "object",
                                 "baspiRequired": [
                                   "startYearOfLease",
@@ -3451,13 +3464,13 @@
                                 "properties": {
                                   "startYearOfLease": {
                                     "baspiRef": "A1.4.1.1",
-                                    "ntsRef": "A1.2",
+                                    "ntsRef": "A1.2.1.1",
                                     "title": "Year that the lease commenced",
                                     "type": "integer"
                                   },
                                   "lengthOfLeaseInYears": {
                                     "baspiRef": "A1.4.1.2",
-                                    "ntsRef": "A1.3",
+                                    "ntsRef": "A1.2.1.2",
                                     "piqRef": "A1.3.1",
                                     "title": "Length of lease (years)",
                                     "type": "integer"
@@ -5365,6 +5378,10 @@
                                     "baspiRequired": [
                                       "annualGroundRent",
                                       "rentSubjectToIncrease"
+                                    ],
+                                    "ntsRequired": [
+                                      "annualGroundRent",
+                                      "rentSubjectToIncrease"
                                     ]
                                   }
                                 ]
@@ -5495,6 +5512,7 @@
                               "serviceCharge": {
                                 "baspiRef": "A1.5.1",
                                 "lpe1Ref": "4",
+                                "ntsRef": "A1.5",
                                 "title": "Service Charge",
                                 "type": "object",
                                 "lpe1Required": [
@@ -5503,10 +5521,14 @@
                                 "baspiRequired": [
                                   "sellerContributesToServiceCharge"
                                 ],
+                                "ntsRequired": [
+                                  "sellerContributesToServiceCharge"
+                                ],
                                 "properties": {
                                   "sellerContributesToServiceCharge": {
                                     "baspiRef": "A1.5.1.1",
                                     "ta7Ref": "5.4",
+                                    "ntsRef": "A1.5.1",
                                     "title": "Does the seller contribute to the cost of maintaining the building (a service charge)?",
                                     "type": "string",
                                     "enum": ["Yes", "No"]
@@ -5531,6 +5553,7 @@
                                       "annualServiceCharge": {
                                         "baspiRef": "A1.5.1.1.2",
                                         "lpe1Ref": "4.1.1",
+                                        "ntsRef": "A1.5.1.1",
                                         "title": "Amount of current annual service charge (£)",
                                         "type": "number"
                                       },
@@ -8234,6 +8257,7 @@
             "energyEfficiency": {
               "baspiRef": "A1.8.3",
               "ta6Ref": "7.6",
+              "ntsRef": "A4",
               "rdsRef": "Certificates/{category='energyEfficiency',standard='EPC',gradeLevelRating=?},Certificates/{category='energyEfficiency',standard='EPC',status='exempt'},",
               "title": "Energy Efficiency",
               "type": "object",
@@ -8249,6 +8273,7 @@
                 },
                 "certificate": {
                   "baspiRef": "A1.8.3.1",
+                  "ntsRef": "A4.1",
                   "type": "object",
                   "baspiRequired": ["currentEnergyRating"],
                   "ntsRequired": ["currentEnergyRating"],
@@ -8300,6 +8325,7 @@
                     },
                     "currentEnergyRating": {
                       "baspiRef": "A1.8.3.1.1",
+                      "ntsRef": "A4.1.1",
                       "title": "Current energy efficiency rating",
                       "description": "What is the energy efficiency rating of the property according to the latest Energy Performance Certificate (EPC)?",
                       "type": "string",
