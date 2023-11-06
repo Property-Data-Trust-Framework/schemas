@@ -588,7 +588,7 @@
                       {
                         "properties": {
                           "ofstedRating": {
-                            "enum": [
+                            " ": [
                               "Other"
                             ]
                           },
@@ -17845,6 +17845,74 @@
                   "title": "Flooding",
                   "type": "object",
                   "properties": {
+                    "floodRisk": {
+                      "type": "object",
+                      "title": "Flood Risk Information",
+                      "description": "Information about the level of flood risk",
+                      "properties": {
+                        "risk": {
+                          "type": "string",
+                          "title": "Risk Level",
+                          "description": "The level of flood risk.",
+                          "enum": [
+                            "Very Low",
+                            "Low",
+                            "Moderate",
+                            "High",
+                            "Very High"
+                          ]
+                        },
+                        "riskInterpretation": {
+                          "type": "string",
+                          "title": "Risk Interpretation",
+                          "description": "A description of the flood risk, e.g., 'Each year, there is a chance of flooding of less than 1 in 1000 (0.1%)'. This field can be empty."
+                        },
+                        "source": {
+                          "type": "string",
+                          "title": "Source",
+                          "description": "The source of the flood risk information, e.g., 'Environment Agency'."
+                        },
+                        "floodSourceType": {
+                          "type": "string",
+                          "title": "Flood Source Type",
+                          "description": "The type of flood risk source.",
+                          "enum": [
+                            "Surface Water",
+                            "Rivers And Sea",
+                            "Groundwater",
+                            "Reservoirs",
+                            "other"
+                          ]
+                        }
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "floodSourceType": {
+                              "type": "string",
+                              "enum": [
+                                "Surface Water",
+                                "Rivers And Sea",
+                                "Groundwater",
+                                "Reservoirs"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "floodSourceType": {
+                              "enum": [
+                                "Other"
+                              ]
+                            },
+                            "otherSourceDescription": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      ]
+                    },
                     "floodRiskReport": {
                       "title": "Has a Flood Risk Report been prepared?",
                       "type": "object",
@@ -17894,31 +17962,6 @@
                         "Yes",
                         "No"
                       ]
-                    },
-                    "detailedFloodRiskInfo": {
-                      "title": "Detailed Flood Risk Information",
-                      "type": "object",
-                      "properties": {
-                        "risk": {
-                          "title": "Flood Risk Level",
-                          "type": "string",
-                          "enum": [
-                            "Very Low",
-                            "Low",
-                            "Moderate",
-                            "High",
-                            "Very High"
-                          ]
-                        },
-                        "riskInterpretation": {
-                          "title": "Risk Interpretation",
-                          "type": "string"
-                        },
-                        "riskSuitability": {
-                          "title": "Risk Suitability",
-                          "type": "string"
-                        }
-                      }
                     }
                   },
                   "oneOf": [
