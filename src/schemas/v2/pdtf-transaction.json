@@ -17848,12 +17848,83 @@
                     "floodRisk": {
                       "type": "object",
                       "title": "Flood Risk Information",
-                      "description": "Information about the level of flood risk",
+                      "description": "Information about flood risk sources and overall assessment",
                       "properties": {
-                        "risk": {
+                        "floodRiskSources": {
+                          "type": "array",
+                          "title": "Flood Risk Sources",
+                          "description": "Information about different flood risk sources",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "sourceType": {
+                                "type": "string",
+                                "title": "Source Type",
+                                "enum": [
+                                  "Surface Water",
+                                  "Rivers and Sea",
+                                  "Groundwater",
+                                  "Reservoirs",
+                                  "Coastal",
+                                  "River",
+                                  "Other"
+                                ]
+                              },
+                              "riskLevel": {
+                                "type": "string",
+                                "title": "Risk Level",
+                                "enum": [
+                                  "Very Low",
+                                  "Low",
+                                  "Moderate",
+                                  "High",
+                                  "Very High"
+                                ]
+                              },
+                              "riskInterpretation": {
+                                "type": "string",
+                                "title": "Risk Interpretation",
+                                "description": "A description of the flood risk source"
+                              }
+                            },
+                            "oneOf": [
+                              {
+                                "properties": {
+                                  "sourceType": {
+                                    "type": "string",
+                                    "enum": [
+                                      "Surface Water",
+                                      "Rivers and Sea",
+                                      "Groundwater",
+                                      "Reservoirs",
+                                      "Coastal",
+                                      "River"
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "properties": {
+                                  "sourceType": {
+                                    "type": "string",
+                                    "enum": [
+                                      "Other"
+                                    ]
+                                  },
+                                  "OtherSourceTypeDescription": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "OtherSourceTypeDescription"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "floodRiskOverallAssessment": {
                           "type": "string",
-                          "title": "Risk Level",
-                          "description": "The level of flood risk.",
+                          "title": "Overall Flood Risk Assessment",
                           "enum": [
                             "Very Low",
                             "Low",
@@ -17861,57 +17932,8 @@
                             "High",
                             "Very High"
                           ]
-                        },
-                        "riskInterpretation": {
-                          "type": "string",
-                          "title": "Risk Interpretation",
-                          "description": "A description of the flood risk, e.g., 'Each year, there is a chance of flooding of less than 1 in 1000 (0.1%)'. This field can be empty."
-                        },
-                        "source": {
-                          "type": "string",
-                          "title": "Source",
-                          "description": "The source of the flood risk information, e.g., 'Environment Agency'."
-                        },
-                        "floodSourceType": {
-                          "type": "string",
-                          "title": "Flood Source Type",
-                          "description": "The type of flood risk source.",
-                          "enum": [
-                            "Surface Water",
-                            "Rivers And Sea",
-                            "Groundwater",
-                            "Reservoirs",
-                            "Other"
-                          ]
                         }
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "floodSourceType": {
-                              "type": "string",
-                              "enum": [
-                                "Surface Water",
-                                "Rivers And Sea",
-                                "Groundwater",
-                                "Reservoirs"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "floodSourceType": {
-                              "enum": [
-                                "Other"
-                              ]
-                            },
-                            "otherSourceDescription": {
-                              "type": "string"
-                            }
-                          }
-                        }
-                      ]
+                      }
                     },
                     "floodRiskReport": {
                       "title": "Has a Flood Risk Report been prepared?",
