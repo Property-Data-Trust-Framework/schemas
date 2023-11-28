@@ -4,19 +4,40 @@
   "properties": {
     "propertyPack": {
       "properties": {
-        "localSearches": {
-          "properties": {
-            "localLandCharges": {
-              "items": {
-                "required": [
-                  "HMLRReference",
-                  "RegistrationDate",
-                  "Category",
-                  "Location",
-                  "LocationDominantBuilding"
-                ]
+        "searches": {
+          "items": {
+            "oneOf": [
+              null,
+              {
+                "properties": {
+                  "results": {
+                    "items": {
+                      "oneOf": [
+                        {
+                          "required": [
+                            "localLandCharges"
+                          ],
+                          "properties": {
+                            "localLandCharges": {
+                              "items": {
+                                "required": [
+                                  "part",
+                                  "partTitle",
+                                  "chargeDescription",
+                                  "originatingAuthority",
+                                  "inspectionAddress",
+                                  "registrationDate"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
               }
-            }
+            ]
           }
         }
       }

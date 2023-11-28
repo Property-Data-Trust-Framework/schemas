@@ -59,8 +59,25 @@ const con29ROverlay = require("./src/schemas/v2/overlays/con29R.json");
 const con29DWOverlay = require("./src/schemas/v2/overlays/con29DW.json");
 const rdsOverlay = require("./src/schemas/v2/overlays/rds.json");
 const oc1Overlay = require("./src/schemas/v2/overlays/oc1.json");
+const piqOverlay = require("./src/schemas/v2/overlays/piq.json");
 
-const overlaysMap = { baspiV4: baspiOverlay, ta6ed4: ta6Overlay, null: {} };
+const overlaysMap = {
+  // either the version or the edition is added to the key for future proofing
+  baspiV4: baspiOverlay,
+  ta6ed4: ta6Overlay,
+  ta7ed3: ta7Overlay,
+  ta10ed3: ta10Overlay,
+  lpe1ed4: lpe1Overlay,
+  fme1ed2: fme1Overlay,
+  llc1v2: llc1Overlay,
+  nts2023: ntsOverlay,
+  con29R2019: con29ROverlay,
+  con29DW: con29DWOverlay,
+  rdsV333: rdsOverlay,
+  oc1v21: oc1Overlay,
+  piqV3: piqOverlay,
+  null: {},
+};
 
 const transactionSchemas = {
   "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json":
