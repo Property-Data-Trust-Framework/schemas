@@ -26,7 +26,7 @@ test("exports a property pack schema, v2 with baspi overlay by default", () => {
   ).toEqual("A");
 });
 
-test("sample is valid", () => {
+test("sample is valid BASPI", () => {
   const testSchema = getTransactionSchema();
   expect(
     testSchema.properties.propertyPack.properties.materialFacts.baspiRef
@@ -251,6 +251,32 @@ test("correctly gets a subschema validator for a TA6 overlay which fails to vali
   data.materialFacts.waterAndDrainage = {};
   const validator = getSubschemaValidator(path, exampleTransaction.$schema, [
     "ta6ed4",
+  ]);
+  let isValid = validator(data);
+  expect(isValid).toBe(false);
+});
+
+test("correctly gets a subschema validator for an NTS overlay", () => {
+  const path = "/propertyPack";
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
+  );
+  const data = jp.get(clonedExampleTransaction, path);
+  const validator = getSubschemaValidator(path, exampleTransaction.$schema, [
+    "nts2023",
+  ]);
+  let isValid = validator(data);
+  expect(isValid).toBe(true);
+});
+
+test("correctly gets a subschema validator for an LPE1 overlay", () => {
+  const path = "/propertyPack";
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
+  );
+  const data = jp.get(clonedExampleTransaction, path);
+  const validator = getSubschemaValidator(path, exampleTransaction.$schema, [
+    "lpe1ed4",
   ]);
   let isValid = validator(data);
   expect(isValid).toBe(false);
