@@ -238,6 +238,7 @@ test("correctly gets a subschema validator for a TA6 overlay which validates wit
     "ta6ed4",
   ]);
   let isValid = validator(data);
+  console.log(validator.errors);
   expect(isValid).toBe(true);
 });
 
