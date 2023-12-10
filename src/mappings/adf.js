@@ -78,7 +78,7 @@ const PROPERTY_TYPES = {
   187: "Retail Property (High Street)",
   190: "Retail Property (Out of Town)",
   193: "Convenience Store",
-  196: "Garages",
+  // 196: "Garages", duplicated with 51
   199: "Hairdresser/Barber Shop",
   202: "Hotel",
   205: "Petrol Station",
