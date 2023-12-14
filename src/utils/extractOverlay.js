@@ -4,7 +4,7 @@ const jp = require("jsonpointer");
 const fs = require("fs");
 const merge = require("deepmerge");
 
-const combinedSchema = require("../schemas/v2/combined.json");
+const combinedSchema = require("../schemas/v3/combined.json");
 
 const extractFields = [
   "baspi",
@@ -74,7 +74,7 @@ const extractOverlay = (sourceSchema, ref) => {
   const refName = `${ref}Ref`;
   const returnSchema = {
     $schema: "http://json-schema.org/draft-07/schema#",
-    $id: `https://trust.propdata.org.uk/schemas/v2/overlays/${ref}.json`,
+    $id: `https://trust.propdata.org.uk/schemas/v3/overlays/${ref}.json`,
   };
   traverse(sourceSchema).forEach(function (element) {
     let path = "/" + this.path.join("/");
@@ -160,7 +160,7 @@ extractFields.forEach((key) => {
     "discriminator",
   ]);
   overlays[key] = overlay;
-  const fileName = `../schemas/v2/overlays/${key}.json`;
+  const fileName = `../schemas/v3/overlays/${key}.json`;
   fs.writeFileSync(fileName, JSON.stringify(overlay, null, 2));
   console.log(`Overlay ${key} written to ${fileName}`);
 });
@@ -174,10 +174,10 @@ const coreSchema = deleteProperties(combinedSchema, [
 ]);
 
 fs.writeFileSync(
-  "../schemas/v2/pdtf-transaction.json",
+  "../schemas/v3/pdtf-transaction.json",
   JSON.stringify(coreSchema, null, 2)
 );
-console.log("Core schema written to ../schemas/v2/pdtf-transaction.json");
+console.log("Core schema written to ../schemas/v3/pdtf-transaction.json");
 
 const skeletonSchema = deleteProperties(coreSchema, [
   "$schema",
@@ -196,7 +196,7 @@ const skeletonSchema = deleteProperties(coreSchema, [
 const skeletonSchemaFlattened = flattenSkeleton(skeletonSchema);
 
 fs.writeFileSync(
-  "../schemas/v2/skeleton.json",
+  "../schemas/v3/skeleton.json",
   JSON.stringify(skeletonSchemaFlattened, null, 2)
 );
-console.log("Flat Skeleton schema written to ../schemas/v2/skeleton.json");
+console.log("Flat Skeleton schema written to ../schemas/v3/skeleton.json");

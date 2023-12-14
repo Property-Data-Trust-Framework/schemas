@@ -10,16 +10,16 @@ const {
   getTitleAtPath,
 } = require("../../../index.js");
 
-const exampleTransaction = require("../../examples/v2/exampleTransaction.json");
+const exampleTransaction = require("../../examples/v3/exampleTransaction.json");
 const schemaId =
-  "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json";
+  "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json";
 // const validator = getValidator(schemaId);
-const v2TransactionSchema = getTransactionSchema(schemaId);
+const v3TransactionSchema = getTransactionSchema(schemaId);
 
-test("exports a property pack schema, v2 with baspi overlay by default", () => {
-  const testSchema = getTransactionSchema(schemaId);
+test("exports a property pack schema, v3 with baspi overlay by default", () => {
+  const testSchema = getTransactionSchema();
   expect(testSchema.$id).toEqual(
-    "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json"
+    "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json"
   );
   expect(
     testSchema.properties.propertyPack.properties.materialFacts.baspiRef
@@ -27,12 +27,18 @@ test("exports a property pack schema, v2 with baspi overlay by default", () => {
 });
 
 test("sample is valid BASPI", () => {
-  const testSchema = getTransactionSchema(schemaId);
+  const testSchema = getTransactionSchema();
   expect(
-    testSchema.properties.propertyPack.properties.materialFacts.properties
-      .centralHeating.title
-  ).toEqual("Central Heating");
+    testSchema.properties.propertyPack.properties.materialFacts.baspiRef
+  ).toEqual("A");
   const validator = getValidator(schemaId);
+  const isValid = validator(exampleTransaction);
+  if (!isValid) console.log(validator.errors);
+  expect(isValid).toBe(true);
+});
+
+test("sample is valid NTS", () => {
+  const validator = getValidator(schemaId, ["nts2023"]);
   const isValid = validator(exampleTransaction);
   if (!isValid) console.log(validator.errors);
   expect(isValid).toBe(true);
@@ -60,17 +66,17 @@ test("sample with missing dependent required fields is invalid", () => {
 });
 
 test("correctly gets a top level subschema", () => {
-  const subschema = getSubschema("/propertyPack", schemaId);
+  const subschema = getSubschema("/propertyPack");
   expect(subschema.title).toBe("Property Pack");
 });
 
 test("correctly identifies a valid path", () => {
-  const isValid = isPathValid("/propertyPack/materialFacts", schemaId);
+  const isValid = isPathValid("/propertyPack/materialFacts");
   expect(isValid).toBe(true);
 });
 
 test("correctly identifies an undefined invalid path", () => {
-  const isValid = isPathValid("/propertyPack/materialItems", schemaId);
+  const isValid = isPathValid("/propertyPack/materialItems");
   expect(isValid).toBe(false);
 });
 
@@ -83,7 +89,7 @@ test("correctly identifies an error generating invalid path", () => {
 });
 
 test("correctly identifies an array invalid path", () => {
-  const isValid = isPathValid("/propertyPack/materialFacts/1/item", schemaId);
+  const isValid = isPathValid("/propertyPack/materialFacts/1/item");
   expect(isValid).toBe(false);
 });
 
@@ -126,50 +132,36 @@ test("correctly gets another subschema through a dependency", () => {
 
 test("correctly gets yet another subschema through a dependency", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/leaseholdInformation/groundRent/rentSubjectToIncrease/rentIncreaseCalculated",
-    schemaId
+    "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/leaseholdInformation/groundRent/rentSubjectToIncrease/rentIncreaseCalculated"
   );
   expect(subschema.title).toBe("How is the increase calculated?");
 });
 
 test("correctly gets yet, yet another subschema through a dependency", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/listingAndConservation/isConservationArea/yesNo",
-    schemaId
+    "/propertyPack/materialFacts/listingAndConservation/isConservationArea/yesNo"
   );
   expect(subschema.type).toBe("string");
   expect(subschema.enum).toStrictEqual(["Yes", "No", "Not known"]);
 });
 
-test("correctly gets yet, yet, yet another subschema through a dependency", () => {
-  const subschema = getSubschema(
-    "/propertyPack/materialFacts/environmentalIssues/flooding/typeOfFlooding/other/yesNo",
-    schemaId
-  );
-  expect(subschema.type).toBe("string");
-  expect(subschema.enum).toStrictEqual(["Yes", "No"]);
-});
-
 test("correctly gets yet, yet, yet another subschema through a second item dependency", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/environmentalIssues/flooding/typeOfFlooding",
-    schemaId
+    "/propertyPack/materialFacts/environmentalIssues/flooding/typeOfFlooding"
   );
-  expect(subschema.type).toBe("object");
+  expect(subschema.type).toBe("array");
 });
 
 test("correctly gets yes another subschema but through a non-baspi oneOf structure", () => {
   const subschema = getSubschema(
-    "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/RestrictionDetails/RestrictionEntry/ChargeRestriction/EntryDetails/EntryText",
-    schemaId
+    "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/RestrictionDetails/RestrictionEntry/ChargeRestriction/EntryDetails/EntryText"
   );
   expect(subschema).toEqual({ type: "string" });
 });
 
 test("correctly gets yes another subschema but through a non-baspi oneOf structure with array option", () => {
   const subschema = getSubschema(
-    "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/RestrictionDetails/RestrictionEntry/0/ChargeRestriction/EntryDetails/EntryText",
-    schemaId
+    "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/RestrictionDetails/RestrictionEntry/0/ChargeRestriction/EntryDetails/EntryText"
   );
   expect(subschema).toEqual({ type: "string" });
 });
@@ -186,13 +178,11 @@ test("correctly gets a subschema with multiple overlays", () => {
 
 test("correctly gets a subschema validator which is already cached", () => {
   const validator = getSubschemaValidator(
-    "/propertyPack/materialFacts/energyEfficiency/certificate",
-    schemaId
+    "/propertyPack/materialFacts/energyEfficiency/certificate"
   );
   expect(validator).not.toBeNull();
   const anotherValidator = getSubschemaValidator(
-    "/propertyPack/materialFacts/energyEfficiency/certificate",
-    schemaId
+    "/propertyPack/materialFacts/energyEfficiency/certificate"
   );
   expect(anotherValidator).not.toBeNull();
 });
@@ -247,7 +237,6 @@ test("correctly gets a subschema validator for a TA6 overlay which validates wit
     "ta6ed4",
   ]);
   let isValid = validator(data);
-  // console.log(validator.errors);
   expect(isValid).toBe(true);
 });
 
@@ -306,55 +295,55 @@ test("correctly gets a subschema validator which validates", () => {
 test("correctly gets titles across schemas, arrays and non-existient title properties", () => {
   expect(
     getTitleAtPath(
-      v2TransactionSchema,
+      v3TransactionSchema,
       "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/ownershipType"
     )
   ).toBe("What type of ownership is the property?");
   expect(
     getTitleAtPath(
-      v2TransactionSchema,
+      v3TransactionSchema,
       "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/leaseholdInformation/leaseTerm/lengthOfLeaseInYears"
     )
   ).toBe("Length of lease (years)");
   expect(
     getTitleAtPath(
-      v2TransactionSchema,
+      v3TransactionSchema,
       "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/leaseholdInformation/serviceCharge/annualServiceCharge"
     )
   ).toBe("Amount of current annual service charge (£)");
   expect(
     getTitleAtPath(
-      v2TransactionSchema,
+      v3TransactionSchema,
       "/propertyPack/materialFacts/invalidPath"
     )
   ).toBe(undefined);
   expect(
     getTitleAtPath(
-      v2TransactionSchema,
+      v3TransactionSchema,
       "/propertyPack/titlesToBeSold/0/registerExtract"
     )
   ).toBe("HMLR Official Copy Register Extract");
   expect(
     getTitleAtPath(
-      v2TransactionSchema,
+      v3TransactionSchema,
       "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/PropertyAddress"
     )
   ).toBe("Property address");
   expect(
     getTitleAtPath(
-      v2TransactionSchema,
+      v3TransactionSchema,
       "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/InvalidProp"
     )
   ).toBe(undefined);
   expect(
     getTitleAtPath(
-      v2TransactionSchema,
+      v3TransactionSchema,
       "/propertyPack/materialFacts/energyEfficiency/certificate/currentEnergyRating"
     )
   ).toBe("Current energy efficiency rating");
   expect(
     getTitleAtPath(
-      v2TransactionSchema,
+      v3TransactionSchema,
       "/propertyPack/additionalLegalInfo/occupiers/othersAged17OrOver/aged17OrOverNames"
     )
   ).toBe("Please provide their full names and ages.");

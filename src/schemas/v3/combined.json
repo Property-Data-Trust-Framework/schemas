@@ -1,9 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json",
   "type": "object",
   "title": "Property Data Trust Framework Transaction Schema",
-  "description": "A schema defining the PDTF transaction data structure, supporting mapping to BASPI, Law Society and RICS Data Schema elements.",
+  "description": "A schema defining the PDTF transaction data structure, supporting mapping to BASPI, Law Society and RICS Data Schema elements. The schema currently supports transactions conducted in England and Wales only.",
   "baspiRequired": ["participants", "propertyPack"],
   "ta6Required": ["participants", "propertyPack"],
   "ntsRequired": ["propertyPack"],
@@ -128,6 +128,7 @@
     "propertyPack": {
       "baspiRef": "0",
       "ta6Ref": "0",
+      "ntsRef": "0",
       "title": "Property Pack",
       "type": "object",
       "baspiRequired": ["materialFacts", "additionalLegalInfo"],
@@ -156,7 +157,7 @@
             "fixturesAndFittings",
             "waterAndDrainage",
             "connectedUtilities",
-            "centralHeating",
+            "heating",
             "insurance",
             "boundaries",
             "rightsAndInformalArrangements",
@@ -176,7 +177,7 @@
             "specialistIssues",
             "waterAndDrainage",
             "connectedUtilities",
-            "centralHeating",
+            "heating",
             "insurance",
             "rightsAndInformalArrangements",
             "environmentalIssues",
@@ -251,8 +252,128 @@
               "type": "integer"
             },
             "propertyType": {
-              "title": "Type of property",
-              "type": "string"
+              "title": "Type of Property",
+              "description": "The type or category of the property.",
+              "type": "string",
+              "enum": [
+                "Not Specified",
+                "Terraced House",
+                "End of terrace house",
+                "Semi-detached house",
+                "Detached house",
+                "Mews house",
+                "Cluster house",
+                "Ground floor flat",
+                "Flat",
+                "Studio flat",
+                "Ground floor maisonette",
+                "Maisonette",
+                "Bungalow",
+                "Terraced bungalow",
+                "Semi-detached bungalow",
+                "Detached bungalow",
+                "Mobile home",
+                "Land (Residential)",
+                "Link detached house",
+                "Town house",
+                "Cottage",
+                "Chalet",
+                "Character Property",
+                "House (unspecified)",
+                "Villa",
+                "Apartment",
+                "Penthouse",
+                "Finca",
+                "Barn Conversion",
+                "Serviced apartment",
+                "Parking",
+                "Sheltered Housing",
+                "Reteirment property",
+                "House share",
+                "Flat share",
+                "Park home",
+                "Garages",
+                "Farm House",
+                "Equestrian facility",
+                "Duplex",
+                "Triplex",
+                "Longere",
+                "Gite",
+                "Barn",
+                "Trulli",
+                "Mill",
+                "Ruins",
+                "Restaurant",
+                "Cafe",
+                "Castle",
+                "Village House",
+                "Cave House",
+                "Cortijo",
+                "Farm Land",
+                "Plot",
+                "Country House",
+                "Stone House",
+                "Caravan",
+                "Lodge",
+                "Log Cabin",
+                "Manor House",
+                "Stately Home",
+                "Off-Plan",
+                "Semi-detached Villa",
+                "Detached Villa",
+                "Bar/Nightclub",
+                "Shop",
+                "Riad",
+                "House Boat",
+                "Hotel Room",
+                "Block of Apartments",
+                "Private Halls",
+                "Office",
+                "Business Park",
+                "Serviced Office",
+                "Retail Property (High Street)",
+                "Retail Property (Out of Town)",
+                "Convenience Store",
+                "Hairdresser/Barber Shop",
+                "Hotel",
+                "Petrol Station",
+                "Post Office",
+                "Pub",
+                "Workshop & Retail Space",
+                "Distribution Warehouse",
+                "Factory",
+                "Heavy Industrial",
+                "Industrial Park",
+                "Light Industrial",
+                "Storage",
+                "Showroom",
+                "Warehouse",
+                "Land (Commercial)",
+                "Commercial Development",
+                "Industrial Development",
+                "Residential Development",
+                "Commercial Property",
+                "Data Centre",
+                "Farm",
+                "Healthcare Facility",
+                "Marine Property",
+                "Mixed Use",
+                "Research & Development Facility",
+                "Science Park",
+                "Guest House",
+                "Hospitality",
+                "Leisure Facility",
+                "Takeaway",
+                "Childcare Facility",
+                "Smallholding",
+                "Place of Worship",
+                "Trade Counter",
+                "Coach House",
+                "House of Multiple Occupation",
+                "Sports facilities",
+                "Spa",
+                "Campsite & Holiday Village"
+              ]
             },
             "isNewBuild": {
               "title": "Is the property a New Build?",
@@ -352,19 +473,19 @@
               }
             },
             "priceInformation": {
-              "ntsRef": "A3",
+              "ntsRef": "A2",
               "title": "Price information",
               "type": "object",
               "ntsRequired": ["price", "priceQualifier"],
               "properties": {
                 "price": {
-                  "ntsRef": "A3.1",
+                  "ntsRef": "A2.1",
                   "title": "Price",
                   "type": "number",
                   "minimum": 1
                 },
                 "priceQualifier": {
-                  "ntsRef": "A3.2",
+                  "ntsRef": "A2.2",
                   "title": "Price type",
                   "type": "string",
                   "enum": [
@@ -394,6 +515,7 @@
               "type": "string"
             },
             "marketingTenure": {
+              "ntsRef": "A3",
               "title": "Type of tenure being marketed",
               "type": "string",
               "enum": [
@@ -459,6 +581,68 @@
                 "yearOfBuild": {
                   "title": "Year the property was built",
                   "type": "integer"
+                },
+                "rooms": {
+                  "ntsRef": "B2",
+                  "title": "Rooms",
+                  "description": "Information about the property's rooms",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "roomName": {
+                        "ntsRef": "B2.1",
+                        "type": "string",
+                        "title": "The name of the room",
+                        "minLength": 1
+                      },
+                      "description": {
+                        "ntsRef": "B2.2",
+                        "type": "string",
+                        "minLength": 1,
+                        "title": "The specific description of the room"
+                      },
+                      "length": {
+                        "ntsRef": "B2.3",
+                        "type": "number",
+                        "minimum": 0,
+                        "title": "The length of the room"
+                      },
+                      "width": {
+                        "ntsRef": "B2.4",
+                        "type": "number",
+                        "minimum": 0,
+                        "title": "The width of the room"
+                      },
+                      "units": {
+                        "ntsRef": "B2.5",
+                        "title": "The units which the length and width of the room have been provided in",
+                        "type": "string",
+                        "enum": [
+                          "meters",
+                          "centimetres",
+                          "millimetres",
+                          "feet",
+                          "inches"
+                        ]
+                      },
+                      "dimensionDetails": {
+                        "ntsRef": "B2.6",
+                        "title": "Any additional description or clarification of the room dimensions",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "photoUrls": {
+                        "ntsRef": "B2.7",
+                        "title": "The URLs of images which should be associated with this room",
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             },
@@ -1016,7 +1200,7 @@
             "ownership": {
               "baspiRef": "A1.3",
               "ta7Ref": "1",
-              "ntsRef": "A1",
+              "ntsRef": "A3",
               "title": "Ownership",
               "type": "object",
               "baspiRequired": ["ownershipsToBeTransferred"],
@@ -1025,13 +1209,13 @@
                 "ownershipsToBeTransferred": {
                   "baspiRef": "A1.3",
                   "ta7Ref": "1",
-                  "ntsRef": "A1",
+                  "ntsRef": "A3",
                   "title": "Ownerships to be transferred on sale",
                   "type": "array",
                   "minItems": 1,
                   "items": {
                     "baspiRef": "A1.3.0",
-                    "ntsRef": "A1.1",
+                    "ntsRef": "A3.1",
                     "title": "Ownership to be transferred",
                     "type": "object",
                     "baspiRequired": ["ownershipType"],
@@ -1048,7 +1232,6 @@
                         "rdsRef": "Tenure/Tenure",
                         "ta7Ref": "1.1",
                         "piqRef": "A1.2",
-                        "ntsRef": "A1.1.1",
                         "title": "What type of ownership is the property?",
                         "description": "A Managed Freehold is any freehold where there are shared amenities, the maintenance of which you pay for through an estate rentcharge, service charge, informal or formal contribution. Choose Leasehold if your property is under a Shared Ownership arrangement.",
                         "type": "string",
@@ -3333,7 +3516,7 @@
                           },
                           "leaseholdInformation": {
                             "baspiRef": "A1.5",
-                            "ntsRef": "A1.2",
+                            "ntsRef": "A3.2",
                             "title": "Leasehold information",
                             "type": "object",
                             "lpe1Required": [
@@ -3376,7 +3559,7 @@
                             "properties": {
                               "typeOfLeasehold": {
                                 "baspiRef": "A1.3.1",
-                                "ntsRef": "A1.2",
+                                "ntsRef": "A3.2",
                                 "type": "object",
                                 "lpe1Required": ["leaseholdType"],
                                 "baspiRequired": ["leaseholdType"],
@@ -3413,7 +3596,7 @@
                                       },
                                       "sharedOwnershipPercentage": {
                                         "baspiRef": "A1.3.1.1",
-                                        "ntsRef": "A1.7.1",
+                                        "ntsRef": "A3.7.1",
                                         "title": "Shared ownership percentage",
                                         "type": "integer",
                                         "minimum": 5,
@@ -3421,14 +3604,14 @@
                                       },
                                       "sharedOwnershipRent": {
                                         "baspiRef": "A1.3.1.2",
-                                        "ntsRef": "A1.7.2",
+                                        "ntsRef": "A3.7.2",
                                         "title": "Shared ownership rent (£)",
                                         "type": "number",
                                         "minimum": 0
                                       },
                                       "sharedOwnershipRentFrequency": {
                                         "baspiRef": "A1.3.1.3",
-                                        "ntsRef": "A1.7.3",
+                                        "ntsRef": "A3.7.3",
                                         "title": "Shared ownership rent frequency",
                                         "type": "string",
                                         "enum": ["Yearly", "Monthly", "Weekly"]
@@ -3454,7 +3637,7 @@
                               },
                               "leaseTerm": {
                                 "baspiRef": "A1.4.1",
-                                "ntsRef": "A1.2.1",
+                                "ntsRef": "A3.2.1",
                                 "type": "object",
                                 "baspiRequired": [
                                   "startYearOfLease",
@@ -3467,13 +3650,13 @@
                                 "properties": {
                                   "startYearOfLease": {
                                     "baspiRef": "A1.4.1.1",
-                                    "ntsRef": "A1.2.1.1",
+                                    "ntsRef": "A3.2.1.1",
                                     "title": "Year that the lease commenced",
                                     "type": "integer"
                                   },
                                   "lengthOfLeaseInYears": {
                                     "baspiRef": "A1.4.1.2",
-                                    "ntsRef": "A1.2.1.2",
+                                    "ntsRef": "A3.2.1.2",
                                     "piqRef": "A1.3.1",
                                     "title": "Length of lease (years)",
                                     "type": "integer"
@@ -5192,7 +5375,7 @@
                                 "ta7Ref": "1.2",
                                 "lpe1Ref": "3",
                                 "piqRef": "A1.3.3",
-                                "ntsRef": "A1.4",
+                                "ntsRef": "A3.4",
                                 "title": "Ground Rent",
                                 "type": "object",
                                 "lpe1Required": ["isGroundRentPayable"],
@@ -5203,7 +5386,7 @@
                                   "isGroundRentPayable": {
                                     "baspiRef": "A1.4.2.1",
                                     "ta7Ref": "1.2.1",
-                                    "ntsRef": "A1.4.1",
+                                    "ntsRef": "A3.4.1",
                                     "title": "Does the seller pay ground rent for the property?",
                                     "type": "string",
                                     "enum": ["Yes", "No"]
@@ -5228,7 +5411,7 @@
                                       "annualGroundRent": {
                                         "baspiRef": "A1.4.2.2",
                                         "ta7Ref": "1.2a",
-                                        "ntsRef": "A1.4.2",
+                                        "ntsRef": "A3.4.2",
                                         "lpe1Ref": "3.1",
                                         "piqRef": "A1.3.3",
                                         "rdsRef": "TenureAgreements/RentPayable/Value",
@@ -5242,7 +5425,7 @@
                                       },
                                       "rentSubjectToIncrease": {
                                         "baspiRef": "A1.4.2.3",
-                                        "ntsRef": "A1.4.3",
+                                        "ntsRef": "A3.4.3",
                                         "ta7Ref": "1.2c",
                                         "piqRef": "A1.3.4",
                                         "type": "object",
@@ -5515,7 +5698,7 @@
                               "serviceCharge": {
                                 "baspiRef": "A1.5.1",
                                 "lpe1Ref": "4",
-                                "ntsRef": "A1.5",
+                                "ntsRef": "A3.5",
                                 "title": "Service Charge",
                                 "type": "object",
                                 "lpe1Required": [
@@ -5531,7 +5714,7 @@
                                   "sellerContributesToServiceCharge": {
                                     "baspiRef": "A1.5.1.1",
                                     "ta7Ref": "5.4",
-                                    "ntsRef": "A1.5.1",
+                                    "ntsRef": "A3.5.1",
                                     "title": "Does the seller contribute to the cost of maintaining the building (a service charge)?",
                                     "type": "string",
                                     "enum": ["Yes", "No"]
@@ -5556,7 +5739,7 @@
                                       "annualServiceCharge": {
                                         "baspiRef": "A1.5.1.1.2",
                                         "lpe1Ref": "4.1.1",
-                                        "ntsRef": "A1.5.1.1",
+                                        "ntsRef": "A3.5.1.1",
                                         "title": "Amount of current annual service charge (£)",
                                         "type": "number"
                                       },
@@ -7764,6 +7947,7 @@
               }
             },
             "parking": {
+              "ntsRef": "B4",
               "baspiRef": "A1.6",
               "rdsRef": "Services/Parking",
               "ta6Ref": "9",
@@ -7774,74 +7958,41 @@
                 "controlledParking",
                 "electricVehicleChargingPoint"
               ],
+              "ntsRequired": [
+                "parkingArrangements",
+                "controlledParking",
+                "electricVehicleChargingPoint"
+              ],
               "ta6Required": ["parkingArrangements", "controlledParking"],
               "properties": {
                 "parkingArrangements": {
+                  "ntsRef": "B4.1",
                   "baspiRef": "A1.6.0",
                   "ta6Ref": "9.1",
                   "piqRef": "A1.5",
-                  "type": "object",
+                  "type": "array",
                   "title": "Parking arrangements",
-                  "baspiRequired": ["parkingArrangementsType"],
-                  "ta6Required": ["parkingArrangementsType"],
-                  "properties": {
-                    "parkingArrangementsType": {
-                      "baspiRef": "A1.6.0.1",
-                      "ta6Ref": "9.1.1",
-                      "piqRef": "A1.5.1",
-                      "title": "What type of parking arrangements are there?",
-                      "type": "string",
-                      "enum": [
-                        "Garage",
-                        "Allocated parking space",
-                        "Driveway",
-                        "On street",
-                        "Resident permit",
-                        "Metered parking",
-                        "Communal parking",
-                        "None",
-                        "Other"
-                      ]
-                    }
-                  },
-                  "discriminator": {
-                    "propertyName": "parkingArrangementsType"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "parkingArrangementsType": {
-                          "enum": [
-                            "Garage",
-                            "Allocated parking space",
-                            "Driveway",
-                            "On street",
-                            "Resident permit",
-                            "Metered parking",
-                            "Communal parking",
-                            "None"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "parkingArrangementsType": {
-                          "enum": ["Other"]
-                        },
-                        "otherParkingType": {
-                          "baspiRef": "A1.6.0.2",
-                          "ta6Ref": "9.1.2",
-                          "title": "Please describe the other parking arrangements",
-                          "type": "string"
-                        }
-                      },
-                      "baspiRequired": ["otherParkingType"],
-                      "ta6Required": ["otherParkingType"]
-                    }
-                  ]
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "Allocated",
+                      "Communal",
+                      "Covered",
+                      "Garage",
+                      "Driveway",
+                      "Gated",
+                      "Off Street",
+                      "On Street",
+                      "Rear",
+                      "Private",
+                      "Disabled Parking Available",
+                      "No Disabled Parking Available",
+                      "Garage En Bloc"
+                    ]
+                  }
                 },
                 "controlledParking": {
+                  "ntsRef": "B4.2",
                   "baspiRef": "A1.6.2",
                   "ta6Ref": "9.2",
                   "title": "Is the property in a controlled parking zone or within a local authority parking scheme?",
@@ -7856,9 +8007,11 @@
                     }
                   },
                   "baspiRequired": ["yesNo"],
+                  "ntsRequired": ["yesNo"],
                   "ta6Required": ["yesNo"]
                 },
                 "electricVehicleChargingPoint": {
+                  "ntsRef": "B4.3",
                   "baspiRef": "A1.6.1",
                   "title": "Is there an electric vehicle charging point belonging to the property?",
                   "type": "object",
@@ -7871,15 +8024,22 @@
                     }
                   },
                   "baspiRequired": ["yesNo"],
+                  "ntsRequired": ["yesNo"],
                   "ta6Required": ["yesNo"]
                 }
               }
             },
             "listingAndConservation": {
+              "ntsRef": "C2.1",
               "baspiRef": "A1.7",
               "ta6Ref": "4.7",
               "title": "Listing and Conservation",
               "type": "object",
+              "ntsRequired": [
+                "isListed",
+                "isConservationArea",
+                "hasTreePreservationOrder"
+              ],
               "baspiRequired": [
                 "isListed",
                 "isConservationArea",
@@ -7892,6 +8052,7 @@
               ],
               "properties": {
                 "isListed": {
+                  "ntsRef": "C2.1.1",
                   "baspiRef": "A1.7.1",
                   "rdsRef": "Protections",
                   "ta6Ref": "4.7a",
@@ -7900,6 +8061,7 @@
                   "type": "object",
                   "properties": {
                     "yesNo": {
+                      "ntsRef": "C2.1.1.1",
                       "baspiRef": "A1.7.1.1",
                       "ta6Ref": "4.7a1",
                       "piqRef": "A1.6.1.1",
@@ -7909,6 +8071,7 @@
                     }
                   },
                   "baspiRequired": ["yesNo"],
+                  "ntsRequired": ["yesNo"],
                   "ta6Required": ["yesNo"],
                   "discriminator": {
                     "propertyName": "yesNo"
@@ -7947,6 +8110,7 @@
                   ]
                 },
                 "isConservationArea": {
+                  "ntsRef": "C2.1.2",
                   "baspiRef": "A1.7.2",
                   "rdsRef": "Protections",
                   "ta6Ref": "4.7b",
@@ -7955,6 +8119,7 @@
                   "type": "object",
                   "properties": {
                     "yesNo": {
+                      "ntsRef": "C2.1.2.1",
                       "baspiRef": "A1.7.2.1",
                       "piqRef": "A1.6.2.1",
                       "ta6Ref": "4.7b1",
@@ -7964,6 +8129,8 @@
                     }
                   },
                   "baspiRequired": ["yesNo"],
+                  "ntsRequired": ["yesNo"],
+                  "ta6Required": ["yesNo"],
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -7998,10 +8165,10 @@
                       "baspiRequired": ["details", "attachments"],
                       "ta6Required": ["details", "attachments"]
                     }
-                  ],
-                  "ta6Required": ["yesNo"]
+                  ]
                 },
                 "hasTreePreservationOrder": {
+                  "ntsRef": "C2.1.3",
                   "baspiRef": "A1.7.3",
                   "rdsRef": "Property/Flags",
                   "ta6Ref": "4.8",
@@ -8010,6 +8177,7 @@
                   "type": "object",
                   "properties": {
                     "yesNo": {
+                      "ntsRef": "C2.1.3.1",
                       "baspiRef": "A1.7.3.1",
                       "ta6Ref": "4.8.1",
                       "piqRef": "A1.6.3.1",
@@ -8019,6 +8187,7 @@
                     }
                   },
                   "baspiRequired": ["yesNo"],
+                  "ntsRequired": ["yesNo"],
                   "ta6Required": ["yesNo"],
                   "discriminator": {
                     "propertyName": "yesNo"
@@ -8102,23 +8271,32 @@
             },
             "typeOfConstruction": {
               "baspiRef": "A1.8",
+              "ntsRef": "A1.2",
               "title": "Type of Construction",
               "type": "object",
               "baspiRequired": [
                 "isStandardForm",
-                "buildingSafetyRemediation",
+                "buildingSafety",
                 "sprayFoamInsulation"
+              ],
+              "ntsRequired": [
+                "isStandardForm",
+                "buildingSafety",
+                "accessibilityAndAdaptations"
               ],
               "properties": {
                 "isStandardForm": {
                   "baspiRef": "A1.8.1",
+                  "ntsRef": "A1.2.1",
                   "rdsRef": "Buildings,BuildingSections/ConstructionType,ConstructionMaterials",
                   "piqRef": "A5.5",
                   "title": "Is the property built in a standard form of construction? E.g. brick and/or block with timber-supported roof comprising a tile or slate cover?",
+                  "description": "Examples of non-standard features which might affect a buyer are are thatched roofs, prefabricated buildings or timber-framed windows",
                   "type": "object",
                   "properties": {
                     "yesNo": {
                       "baspiRef": "A1.8.1.1",
+                      "ntsRef": "A1.2.1.1",
                       "piqRef": "A5.5.1",
                       "type": "string",
                       "title": "",
@@ -8126,6 +8304,7 @@
                     }
                   },
                   "baspiRequired": ["yesNo"],
+                  "ntsRequired": ["yesNo"],
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -8144,34 +8323,42 @@
                         },
                         "details": {
                           "baspiRef": "A1.8.1.2",
+                          "ntsRef": "A1.2.1.2",
                           "title": "Details",
                           "type": "string",
                           "minLength": 1
                         }
                       },
-                      "baspiRequired": ["details"]
+                      "baspiRequired": ["details"],
+                      "ntsRequired": ["details"]
                     }
                   ]
                 },
-                "buildingSafetyRemediation": {
+                "buildingSafety": {
+                  "ntsRef": "C1",
                   "baspiRef": "A1.8.2",
                   "ta7Ref": "11.1",
-                  "title": "Are you aware of any remediation required to the property due to building safety?",
+                  "title": "Are you aware of any building safety issues?",
+                  "baspiTitle": "Are you aware of any remediation required to the property due to building safety?",
                   "ta7Title": "Have any remediation works on the building been proposed or carried out?",
-                  "description": "This could be due to the property being high risk because of the building height or because of works completed without buildings regulations.",
+                  "description": "For example issues related to unsafe cladding, integrity of building materials used in construction (e.g. asbestos), risk of collapse (e.g. damaged roofs or strucutural failures), at-risk wooden decking for external structures (including balconies), lack of emergency lighting where required or insufficient fire/smoke alarm systems",
                   "type": "object",
                   "properties": {
                     "yesNo": {
+                      "ntsRef": "C1.1",
                       "baspiRef": "A1.8.2.1",
                       "ta7Ref": "11.1.1",
                       "type": "string",
                       "title": "",
                       "enum": ["Yes", "No", "Not applicable"],
                       "ta7Enum": ["Yes", "No", "Not applicable"],
-                      "baspiEnum": ["Yes", "No"]
+                      "baspiEnum": ["Yes", "No"],
+                      "ntsEnum": ["Yes", "No"]
                     }
                   },
+                  "ntsRequired": ["yesNo"],
                   "baspiRequired": ["yesNo"],
+                  "ta7Required": ["yesNo"],
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -8190,10 +8377,43 @@
                           "enum": ["Yes"]
                         },
                         "details": {
+                          "ntsRef": "C1.2",
                           "baspiRef": "A1.8.2.2",
                           "ta7Ref": "11.1.2",
-                          "title": "Details",
+                          "title": "What are are the defects or hazards?",
                           "ta7Title": "Please provide details of the remediation works proposed and evidence of any carried out.",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "workAlreadyDone": {
+                          "ntsRef": "C1.3",
+                          "baspiRef": "A1.8.2.2",
+                          "ta7Ref": "11.1.2",
+                          "title": "What work has already been done?",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "workToBeDone": {
+                          "ntsRef": "C1.4",
+                          "baspiRef": "A1.8.2.2",
+                          "ta7Ref": "11.1.2",
+                          "title": "What work is required to be done?",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "potentialCost": {
+                          "ntsRef": "C1.5",
+                          "baspiRef": "A1.8.2.2",
+                          "ta7Ref": "11.1.2",
+                          "title": "What will the potential cost be?",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "abilityToResideAtProperty": {
+                          "ntsRef": "C1.6",
+                          "baspiRef": "A1.8.2.2",
+                          "ta7Ref": "11.1.2",
+                          "title": "Will the work impact the ability to reside at the property?",
                           "type": "string",
                           "minLength": 1
                         },
@@ -8201,11 +8421,19 @@
                           "baspiRef": "A1.8.2.3",
                           "ta7Ref": "11.1.3",
                           "title": "Attachments",
+                          "description": "Please attach evidence in support of the above",
                           "type": "string",
                           "enum": ["Attached", "To follow"]
                         }
                       },
-                      "baspiRequired": ["details", "attachments"]
+                      "baspiRequired": ["details", "attachments"],
+                      "ntsRequired": [
+                        "details",
+                        "workAlreadyDone",
+                        "workToBeDone",
+                        "potentialCost",
+                        "abilityToResideAtProperty"
+                      ]
                     }
                   ]
                 },
@@ -8254,6 +8482,26 @@
                       "baspiRequired": ["details", "attachments"]
                     }
                   ]
+                },
+                "accessibilityAndAdaptations": {
+                  "ntsRef": "C5",
+                  "title": "Are there any adaptations or features that provide easier access to, and within, the property?",
+                  "description": "Lateral living is a term used to describe a property that has essential facilites on the entrance level",
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "None",
+                      "Level access",
+                      "Ramped access",
+                      "Lift access",
+                      "Wide doorways",
+                      "Stairlift",
+                      "Level access shower",
+                      "Specialist bath",
+                      "Lateral living"
+                    ]
+                  }
                 }
               }
             },
@@ -8679,7 +8927,7 @@
             },
             "councilTax": {
               "baspiRef": "A1.9",
-              "ntsRef": "A2",
+              "ntsRef": "A1",
               "piqRef": "B2",
               "title": "Council Tax",
               "type": "object",
@@ -8687,11 +8935,14 @@
                 "councilTaxBand",
                 "councilTaxAffectingAlterations"
               ],
-              "ntsRequired": ["councilTaxBand"],
+              "ntsRequired": [
+                "councilTaxBand",
+                "councilTaxAffectingAlterations"
+              ],
               "properties": {
                 "councilTaxBand": {
                   "baspiRef": "A1.9.1",
-                  "ntsRef": "A2.1",
+                  "ntsRef": "A1.1",
                   "rdsRef": "TenureAgreements/Taxes/{banding=?}",
                   "piqRef": "B2.1",
                   "title": "Which Council Tax band does this property fall within?",
@@ -8701,18 +8952,21 @@
                 },
                 "councilTaxAffectingAlterations": {
                   "baspiRef": "A1.9.2",
+                  "ntsRef": "A1.2",
                   "rdsRef": "TenureAgreements/Taxes/WorksAlterationsChanges",
                   "title": "Have you altered the property in any way to the extent that it might change the Council Tax band e.g. added a bedroom or substantially extended the property?",
                   "type": "object",
                   "properties": {
                     "yesNo": {
                       "baspiRef": "A1.9.2.1",
+                      "ntsRef": "A1.2.1",
                       "type": "string",
                       "title": "",
                       "enum": ["Yes", "No"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
+                  "ntsRequired": ["yesNo"],
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -8731,18 +8985,21 @@
                         },
                         "details": {
                           "baspiRef": "A1.9.2.2",
+                          "ntsRef": "A1.2.2",
                           "title": "Please give details",
                           "type": "string",
                           "minLength": 1
                         },
                         "attachments": {
                           "baspiRef": "A1.9.2.3",
+                          "ntsRef": "A1.2.3",
                           "title": "Attachments",
                           "type": "string",
                           "enum": ["Attached", "To follow"]
                         }
                       },
-                      "baspiRequired": ["details"]
+                      "baspiRequired": ["details"],
+                      "ntsRequired": ["details"]
                     }
                   ]
                 },
@@ -17674,6 +17931,7 @@
             },
             "connectedUtilities": {
               "baspiRef": "A7",
+              "ntsRef": "B3",
               "ta6Ref": "13",
               "title": "Connected utilities",
               "description": "Please indicate which utilities are are connected to the property.",
@@ -17690,6 +17948,14 @@
                 "otherServices",
                 "maintenanceAgreements"
               ],
+              "ntsRequired": [
+                "mainsElectricity",
+                "telephone",
+                "cableSatelliteTV",
+                "broadband",
+                "solarPanels",
+                "otherServices"
+              ],
               "ta6Required": [
                 "mainsElectricity",
                 "mainsGas",
@@ -17699,6 +17965,7 @@
               "properties": {
                 "mainsElectricity": {
                   "baspiRef": "A7.1.0.1",
+                  "ntsRef": "B3.1",
                   "ta6Ref": "13.1",
                   "rdsRef": "Services/Electricity",
                   "piqRef": "A7.1.1",
@@ -17706,14 +17973,18 @@
                   "type": "object",
                   "properties": {
                     "yesNo": {
+                      "ntsRef": "B3.1.1",
                       "baspiRef": "A7.1.0.1.1",
                       "ta6Ref": "13.1.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "To be connected", "No"]
+                      "enum": ["Yes", "To be connected", "No"],
+                      "ntsEnum": ["Yes", "No"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
+                  "ntsRequired": ["yesNo"],
+                  "ta6Required": ["yesNo"],
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -17766,8 +18037,7 @@
                       },
                       "baspiRequired": ["dateToBeConnected"]
                     }
-                  ],
-                  "ta6Required": ["yesNo"]
+                  ]
                 },
                 "mainsGas": {
                   "baspiRef": "A7.1.0.2",
@@ -17782,7 +18052,8 @@
                       "ta6Ref": "13.2.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "To be connected", "No"]
+                      "enum": ["Yes", "To be connected", "No"],
+                      "ntsEnum": ["Yes", "No"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -17852,7 +18123,8 @@
                       "baspiRef": "A7.1.0.3.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "To be connected", "No"]
+                      "enum": ["Yes", "To be connected", "No"],
+                      "ntsEnum": ["Yes", "No"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -17912,7 +18184,8 @@
                       "baspiRef": "A7.1.0.4.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "To be connected", "No"]
+                      "enum": ["Yes", "To be connected", "No"],
+                      "ntsEnum": ["Yes", "No"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -17973,7 +18246,8 @@
                       "ta6Ref": "13.5.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "To be connected", "No"]
+                      "enum": ["Yes", "To be connected", "No"],
+                      "ntsEnum": ["Yes", "No"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -18040,7 +18314,8 @@
                       "ta6Ref": "13.6.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "To be connected", "No"]
+                      "enum": ["Yes", "To be connected", "No"],
+                      "ntsEnum": ["Yes", "No"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -18093,6 +18368,7 @@
                   ]
                 },
                 "broadband": {
+                  "ntsRef": "B3.5",
                   "baspiRef": "A7.1.0.7",
                   "title": "Broadband",
                   "rdsRef": "Services/Internet",
@@ -18100,13 +18376,16 @@
                   "type": "object",
                   "properties": {
                     "yesNo": {
+                      "ntsRef": "B3.5.1",
                       "baspiRef": "A7.1.0.7.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "To be connected", "No"]
+                      "enum": ["Yes", "To be connected", "No"],
+                      "ntsEnum": ["Yes", "No"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
+                  "ntsRequired": ["yesNo"],
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -18128,8 +18407,22 @@
                           "piqRef": "A7.1.16",
                           "title": "Supplier",
                           "type": "string"
+                        },
+                        "typeOfConnection": {
+                          "ntsRef": "B3.5.2",
+                          "baspiRef": "A7.1.0.7.2",
+                          "piqRef": "A7.1.16",
+                          "title": "Type of connection",
+                          "type": "string",
+                          "enum": [
+                            "ADSL copper wire",
+                            "Cable",
+                            "FTTC (Fibre to the Cabinet)",
+                            "FTTP (Fibre to the Premises)"
+                          ]
                         }
-                      }
+                      },
+                      "ntsRequired": ["typeOfConnection"]
                     },
                     {
                       "properties": {
@@ -18153,19 +18446,23 @@
                   ]
                 },
                 "solarPanels": {
+                  "ntsRef": "B3.7",
                   "baspiRef": "A7.1.0.8",
                   "piqRef": "A7.1.17",
                   "title": "Solar or photovoltaic panels",
                   "type": "object",
                   "properties": {
                     "yesNo": {
+                      "ntsRef": "B3.7.1",
                       "baspiRef": "A7.1.0.8.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "To be connected", "No"]
+                      "enum": ["Yes", "To be connected", "No"],
+                      "ntsEnum": ["Yes", "No"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
+                  "ntsRequired": ["yesNo"],
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -18212,21 +18509,25 @@
                   ]
                 },
                 "otherServices": {
+                  "ntsRef": "B3.8",
                   "baspiRef": "A7.1.0.9",
                   "rdsRef": "Services/Other",
                   "piqRef": "A7.1.19",
-                  "title": "Other",
-                  "description": "Other services include renewable technologies, for example ground source heat pumps, if you receive Renewable Heat Incentives please provide details and note that you will need to advise Ofgem when you complete the sale",
+                  "title": "Other services",
+                  "description": "Other services include wind turbines, generators and other renewable technologies, for example ground source heat pumps. If you receive Renewable Heat Incentives please provide details and note that you will need to advise Ofgem when you complete the sale",
                   "type": "object",
                   "properties": {
                     "yesNo": {
+                      "ntsRef": "B3.8.1",
                       "baspiRef": "A7.1.0.9.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "To be connected", "No"]
+                      "enum": ["Yes", "To be connected", "No"],
+                      "ntsEnum": ["Yes", "No"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
+                  "ntsRequired": ["yesNo"],
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -18243,12 +18544,18 @@
                         "yesNo": {
                           "enum": ["Yes"]
                         },
+                        "details": {
+                          "ntsRef": "3.8.2",
+                          "title": "Supplier",
+                          "type": "string"
+                        },
                         "supplier": {
                           "baspiRef": "A7.1.0.9.2",
                           "title": "Supplier",
                           "type": "string"
                         }
-                      }
+                      },
+                      "ntsRequired": ["details"]
                     },
                     {
                       "properties": {
@@ -18322,6 +18629,7 @@
               }
             },
             "waterAndDrainage": {
+              "ntsRef": "A3.2",
               "baspiRef": "A7.1.0",
               "ta6Ref": "13",
               "con29DWRef": "0",
@@ -18356,6 +18664,7 @@
                   ]
                 },
                 "water": {
+                  "ntsRef": "A3.2",
                   "baspiRef": "A7.1.0.10",
                   "ta6Ref": "13",
                   "con29DWRef": "3",
@@ -18373,6 +18682,7 @@
                   ],
                   "properties": {
                     "mainsWater": {
+                      "ntsRef": "A3.2",
                       "baspiRef": "A7.1.0.10.0",
                       "ta6Ref": "13.3",
                       "piqRef": "A7.1.7",
@@ -18382,6 +18692,7 @@
                       "type": "object",
                       "properties": {
                         "yesNo": {
+                          "ntsRef": "A3.2.1",
                           "baspiRef": "A7.1.0.10.1",
                           "ta6Ref": "13.3.1",
                           "con29DWRef": "3.1.1",
@@ -18392,6 +18703,7 @@
                         }
                       },
                       "baspiRequired": ["yesNo"],
+                      "ntsRequired": ["yesNo"],
                       "ta6Required": ["yesNo"],
                       "con29DWRequired": ["yesNo"],
                       "discriminator": {
@@ -18402,8 +18714,16 @@
                           "properties": {
                             "yesNo": {
                               "enum": ["No"]
+                            },
+                            "details": {
+                              "ntsRef": "3.2.2",
+                              "title": "How is water supplied?",
+                              "description": "e.g. Private well, borehole, springs etc.",
+                              "type": "string",
+                              "minLength": 1
                             }
-                          }
+                          },
+                          "ntsRequired": ["details"]
                         },
                         {
                           "properties": {
@@ -18422,10 +18742,17 @@
                               "title": "Details",
                               "type": "string",
                               "minLength": 1
+                            },
+                            "isSupplyMetered": {
+                              "ntsRef": "3.2.3",
+                              "title": "Details",
+                              "type": "string",
+                              "minLength": 1
                             }
                           },
                           "ta6Required": ["supplier"],
-                          "con29DWRequired": ["details"]
+                          "con29DWRequired": ["details"],
+                          "ntsRequired": ["isSupplyMetered"]
                         },
                         {
                           "properties": {
@@ -18585,11 +18912,16 @@
                   }
                 },
                 "drainage": {
+                  "ntsRef": "A3.3",
                   "baspiRef": "A7.1.0.12",
                   "con29DWRef": "2",
                   "title": "Drainage",
                   "type": "object",
                   "baspiRequired": [
+                    "mainsSurfaceWaterDrainage",
+                    "mainsFoulDrainage"
+                  ],
+                  "ntsRequired": [
                     "mainsSurfaceWaterDrainage",
                     "mainsFoulDrainage"
                   ],
@@ -18612,6 +18944,7 @@
                   ],
                   "properties": {
                     "mainsSurfaceWaterDrainage": {
+                      "ntsRef": "A3.3.1",
                       "baspiRef": "A7.1.0.12.0",
                       "rdsRef": "Services/StormWaterDrainage",
                       "ta6Ref": "12.4b",
@@ -18621,6 +18954,7 @@
                       "properties": {
                         "yesNo": {
                           "baspiRef": "A7.1.0.12.1",
+                          "ntsRef": "A3.3.1.1",
                           "ta6Ref": "12.4b1",
                           "con29DWRef": "2.2.1",
                           "type": "string",
@@ -18630,6 +18964,7 @@
                         }
                       },
                       "baspiRequired": ["yesNo"],
+                      "ntsRequired": ["yesNo"],
                       "ta6Required": ["yesNo"],
                       "discriminator": {
                         "propertyName": "yesNo"
@@ -18683,13 +19018,16 @@
                       ]
                     },
                     "mainsFoulDrainage": {
+                      "ntsRef": "A3.3.2",
                       "baspiRef": "A7.1.0.11",
                       "rdsRef": "Services/WasteWaterSewarageDisposal",
                       "ta6Ref": "12.4a",
                       "con29DWRef": "2.1",
-                      "title": "Mains foul drainage",
+                      "title": "Mains foul drainage / sweerage",
                       "type": "object",
                       "baspiRequired": ["yesNo"],
+                      "ta6Required": ["yesNo"],
+                      "ntsRequired": ["yesNo"],
                       "properties": {
                         "yesNo": {
                           "baspiRef": "A7.1.0.11.1",
@@ -18697,7 +19035,8 @@
                           "type": "string",
                           "title": "",
                           "enum": ["Yes", "To be connected", "No", "Not known"],
-                          "con29DWEnum": ["Yes", "No"]
+                          "con29DWEnum": ["Yes", "No"],
+                          "ntsEnum": ["Yes", "No"]
                         }
                       },
                       "discriminator": {
@@ -18751,19 +19090,23 @@
                               "enum": ["No", "Not known"]
                             },
                             "sustainableDrainageSystem": {
+                              "ntsRef": "A3.3.3",
                               "baspiRef": "A7.1.0.13",
                               "rdsRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
                               "title": "Sustainable Drainage System",
                               "type": "object",
                               "properties": {
                                 "yesNo": {
+                                  "ntsRef": "A3.3.3.1",
                                   "baspiRef": "A7.1.0.13.1",
                                   "type": "string",
                                   "title": "",
-                                  "enum": ["Yes", "To be connected", "No"]
+                                  "enum": ["Yes", "To be connected", "No"],
+                                  "ntsEnum": ["Yes", "No"]
                                 }
                               },
                               "baspiRequired": ["yesNo"],
+                              "ntsRequired": ["yesNo"],
                               "discriminator": {
                                 "propertyName": "yesNo"
                               },
@@ -18809,14 +19152,19 @@
                               ]
                             },
                             "septicTank": {
+                              "ntsRef": "A3.3.4",
                               "baspiRef": "A7.1.0.14",
                               "rdsRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
                               "piqRef": "A7.1.23",
                               "ta6Ref": "12.5a",
                               "title": "Septic tank",
                               "type": "object",
+                              "baspiRequired": ["yesNo"],
+                              "ntsRequired": ["yesNo"],
+                              "ta6Required": ["yesNo"],
                               "properties": {
                                 "yesNo": {
+                                  "ntsRef": "A3.3.4.1",
                                   "baspiRef": "A7.1.0.14.1",
                                   "ta6Ref": "12.5a1",
                                   "type": "string",
@@ -18824,8 +19172,7 @@
                                   "enum": ["Yes", "No"]
                                 }
                               },
-                              "baspiRequired": ["yesNo"],
-                              "ta6Required": ["yesNo"],
+
                               "discriminator": {
                                 "propertyName": "yesNo"
                               },
@@ -18870,14 +19217,19 @@
                               ]
                             },
                             "cesspit": {
+                              "ntsRef": "A3.3.5",
                               "baspiRef": "A7.1.0.15",
                               "rdsRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
                               "ta6Ref": "12.5b",
                               "piqRef": "A7.1.25",
                               "title": "Cesspit",
                               "type": "object",
+                              "baspiRequired": ["yesNo"],
+                              "ntsRequired": ["yesNo"],
+                              "ta6Required": ["yesNo"],
                               "properties": {
                                 "yesNo": {
+                                  "ntsRef": "A3.3.5.1",
                                   "baspiRef": "A7.1.0.15.1",
                                   "ta6Ref": "12.5c1",
                                   "type": "string",
@@ -18885,8 +19237,7 @@
                                   "enum": ["Yes", "No"]
                                 }
                               },
-                              "baspiRequired": ["yesNo"],
-                              "ta6Required": ["yesNo"],
+
                               "discriminator": {
                                 "propertyName": "yesNo"
                               },
@@ -18918,14 +19269,19 @@
                               ]
                             },
                             "sewerageTreatmentPlant": {
+                              "ntsRef": "A3.3.6",
                               "baspiRef": "A7.1.0.16",
                               "rdsRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
                               "ta6Ref": "12.5b",
                               "piqRef": "A7.1.27",
                               "title": "Sewerage treatment plant",
                               "type": "object",
+                              "baspiRequired": ["yesNo"],
+                              "ntsRequired": ["yesNo"],
+                              "ta6Required": ["yesNo"],
                               "properties": {
                                 "yesNo": {
+                                  "ntsRef": "A3.3.6.1",
                                   "baspiRef": "A7.1.0.16.1",
                                   "ta6Ref": "12.5b1",
                                   "type": "string",
@@ -18933,8 +19289,7 @@
                                   "enum": ["Yes", "No"]
                                 }
                               },
-                              "baspiRequired": ["yesNo"],
-                              "ta6Required": ["yesNo"],
+
                               "discriminator": {
                                 "propertyName": "yesNo"
                               },
@@ -19193,6 +19548,12 @@
                             "plantRegistered",
                             "plantDrainsIntoWaterway"
                           ],
+                          "ntsRequired": [
+                            "sustainableDrainageSystem",
+                            "septicTank",
+                            "cesspit",
+                            "sewerageTreatmentPlant"
+                          ],
                           "ta6Required": [
                             "septicTank",
                             "cesspit",
@@ -19201,8 +19562,7 @@
                             "plantOnOtherLand"
                           ]
                         }
-                      ],
-                      "ta6Required": ["yesNo"]
+                      ]
                     },
                     "surfaceDrainageCharge": {
                       "con29DWRef": "2.3",
@@ -19633,41 +19993,67 @@
                 }
               }
             },
-            "centralHeating": {
+            "heating": {
+              "ntsRef": "B3.4",
               "baspiRef": "A7.4",
               "ta6Ref": "12.3",
               "rdsRef": "Buildings|BuildingSections/isUnheated=no|yes|true|false",
               "piqRef": "A7.3",
-              "title": "Central Heating",
+              "title": "Heating",
               "type": "object",
-              "baspiRequired": ["hasCentralHeating"],
+              "baspiRequired": ["heatingType"],
+              "ta6Required": ["heatingType"],
+              "ntsRequired": ["heatingType"],
               "properties": {
-                "hasCentralHeating": {
+                "heatingType": {
+                  "ntsRef": "B3.4.1",
                   "baspiRef": "A7.4.0",
                   "ta6Ref": "12.3.1",
                   "piqRef": "A7.3.1",
-                  "title": "Is there full/partial central heating in your property?",
+                  "title": "What type of heating system does the property have?",
                   "type": "string",
-                  "enum": ["Yes", "No"]
+                  "enum": ["Central heating", "Communal heating system", "None"]
+                },
+                "otherHeatingFeatures": {
+                  "ntsRef": "B3.4.2",
+                  "title": "What other heating features does the property have?",
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "Air Conditioning",
+                      "Double Glazing",
+                      "Eco-Friendly",
+                      "Night Storage",
+                      "Solar Water",
+                      "Underfloor Heating",
+                      "Wood Burner",
+                      "Open Fire",
+                      "Ground Source Heat Pump",
+                      "Air Source Heat Pump",
+                      "Solar Thermal"
+                    ]
+                  }
                 }
               },
               "discriminator": {
-                "propertyName": "hasCentralHeating"
+                "propertyName": "heatingType"
               },
               "oneOf": [
                 {
                   "properties": {
-                    "hasCentralHeating": {
-                      "enum": ["No"]
+                    "heatingType": {
+                      "enum": ["None"]
                     }
                   }
                 },
                 {
                   "properties": {
-                    "hasCentralHeating": {
-                      "enum": ["Yes"]
+                    "heatingType": {
+                      "enum": ["Central heating"]
                     },
                     "centralHeatingDetails": {
+                      "ntsRef": "B3.4.3",
                       "baspiRef": "A7.4.0.0",
                       "ta6Ref": "12.3.2",
                       "piqRef": "A7.3.1.1",
@@ -19681,6 +20067,7 @@
                         "heatingLastServicedReport",
                         "heatingInGoodWorkingOrder"
                       ],
+                      "ntsRequired": ["centralHeatingFuel"],
                       "ta6Required": [
                         "centralHeatingFuel",
                         "centralHeatingInstalled",
@@ -19691,21 +20078,24 @@
                       ],
                       "properties": {
                         "centralHeatingFuel": {
+                          "ntsRef": "B3.4.3.1",
                           "baspiRef": "A7.4.0.1",
                           "ta6Ref": "12.3.3",
                           "rdsRef": "Buildings|BuildingSections/Heating/isGas=no|yes|true|false",
                           "type": "object",
                           "title": "Central Heating Fuel",
+                          "ntsRequired": ["centralHeatingFuelType"],
                           "baspiRequired": ["centralHeatingFuelType"],
                           "ta6Required": ["centralHeatingFuelType"],
                           "properties": {
                             "centralHeatingFuelType": {
+                              "ntsRef": "B3.4.3.1.1",
                               "baspiRef": "A7.4.0.2",
                               "ta6Ref": "12.3a1",
                               "title": "What type of fuel does the system run on?",
                               "type": "string",
                               "enum": [
-                                "Gas",
+                                "Mains gas",
                                 "Electricity",
                                 "Oil",
                                 "LPG",
@@ -19720,7 +20110,13 @@
                             {
                               "properties": {
                                 "centralHeatingFuelType": {
-                                  "enum": ["Gas", "Electricity", "Oil", "LPG"]
+                                  "enum": [
+                                    "Mains gas",
+                                    "Electricity",
+                                    "Oil",
+                                    "LPG",
+                                    "Biomass boiler"
+                                  ]
                                 }
                               }
                             },
@@ -19862,10 +20258,25 @@
                     }
                   },
                   "baspiRequired": ["centralHeatingDetails"],
+                  "ntsRequired": ["centralHeatingDetails"],
                   "ta6Required": ["centralHeatingDetails"]
+                },
+                {
+                  "properties": {
+                    "heatingType": {
+                      "enum": ["Community heating system"]
+                    },
+                    "details": {
+                      "ntsRef": "B3.4.4",
+                      "title": "Community heating system details",
+                      "description": "Please descripbe how the cost of heating supply is charged, whether you have control over the energy supplier and whether you have any control over the heating",
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "ntsRequired": ["details"]
                 }
-              ],
-              "ta6Required": ["hasCentralHeating"]
+              ]
             },
             "insurance": {
               "baspiRef": "A8",
@@ -20380,6 +20791,7 @@
               }
             },
             "rightsAndInformalArrangements": {
+              "ntsRef": "C2.2",
               "baspiRef": "A10",
               "ta6Ref": "8",
               "title": "Rights and Informal Arrangements",
@@ -20551,10 +20963,12 @@
                   ]
                 },
                 "rightsOrArrangements": {
+                  "ntsRef": "C2.2.1",
                   "baspiRef": "A10.4",
                   "ta6Ref": "8.4",
                   "title": "Do you know if any of the following rights or arrangements affect the property?",
                   "type": "object",
+                  "ntsRequired": ["publicRightOfWay"],
                   "baspiRequired": [
                     "publicRightOfWay",
                     "rightsOfLight",
@@ -20576,6 +20990,7 @@
                   ],
                   "properties": {
                     "publicRightOfWay": {
+                      "ntsRef": "C2.2.1",
                       "baspiRef": "A10.4.1",
                       "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities,Tenure/CadastralMapOfParcels",
                       "ta6Ref": "8.6",
@@ -20584,6 +20999,7 @@
                       "type": "object",
                       "properties": {
                         "yesNo": {
+                          "ntsRef": "C2.2.1.1",
                           "baspiRef": "A10.4.1.1",
                           "ta6Ref": "8.6.1",
                           "piqRef": "A10.4.1",
@@ -20593,6 +21009,7 @@
                         }
                       },
                       "baspiRequired": ["yesNo"],
+                      "ntsRequired": ["yesNo"],
                       "ta6Required": ["yesNo"],
                       "discriminator": {
                         "propertyName": "yesNo"
@@ -20611,6 +21028,7 @@
                               "enum": ["Yes"]
                             },
                             "details": {
+                              "ntsRef": "C2.2.1.2",
                               "baspiRef": "A10.4.1.2",
                               "ta6Ref": "8.6.2",
                               "piqRef": "A10.4.2",
@@ -20626,7 +21044,8 @@
                             }
                           },
                           "baspiRequired": ["details", "attachments"],
-                          "ta6Required": ["details"]
+                          "ta6Required": ["details"],
+                          "ntsRequired": ["details"]
                         }
                       ]
                     },
@@ -20961,134 +21380,134 @@
               }
             },
             "environmentalIssues": {
+              "ntsRef": "C3.1",
               "baspiRef": "A11.1",
               "ta6Ref": "7",
               "piqRef": "A11.1",
               "title": "Environmental Issues Affecting the Property",
               "type": "object",
               "baspiRequired": ["flooding", "radon", "otherEnvironmental"],
+              "ntsRequired": [
+                "flooding",
+                "coalMining",
+                "nonCoalMining",
+                "coastalErosion"
+              ],
               "ta6Required": ["flooding", "radon"],
               "properties": {
                 "flooding": {
+                  "ntsRef": "C3.1.1",
                   "baspiRef": "A11.1.1",
                   "rdsRef": "Sustainability/Environmental|Natural|Situational",
                   "ta6Ref": "7.1.0",
                   "title": "Flooding",
                   "type": "object",
-                  "baspiRequired": ["floodRiskReport", "hasBeenFlooded"],
+                  "baspiRequired": ["floodRisk", "hasBeenFlooded"],
+                  "ntsRequired": ["floodRisk", "hasBeenFlooded"],
+                  "ta6Required": ["hasBeenFlooded"],
                   "properties": {
-                    "floodRiskReport": {
+                    "floodRisk": {
+                      "ntsRef": "C3.1.1.1",
                       "baspiRef": "A11.1.1",
                       "rdsRef": "Sustainability/Environmental|Natural|Situational",
-                      "ta6Ref": "7.3",
                       "piqRef": "A11.1.1",
-                      "title": "Has a Flood Risk Report been prepared?",
+                      "title": "Flood Risk",
                       "type": "object",
+                      "ntsRequired": ["impactIndicator"],
+                      "baspiRequired": ["impactIndicator"],
                       "properties": {
-                        "yesNo": {
-                          "baspiRef": "A11.1.1.1",
-                          "piqRef": "A11.1.1.1",
-                          "ta6Ref": "7.3.1",
+                        "impactIndicator": {
+                          "ntsRef": "C3.1.1.1",
                           "type": "string",
-                          "title": "",
+                          "title": "Is the property impacted?",
+                          "ntsTitle": "To your knowledge, is the property at risk of flooding of any type?",
+                          "baspiTitle": "To your knowledge, is the property at risk of flooding of any type?",
                           "enum": ["Yes", "No"]
-                        },
-                        "recommendedActionIndicator": {
-                          "type": "string",
-                          "title": "Recommended action indicator",
-                          "enum": ["Yes", "No"]
-                        },
-                        "actionAlertRating": {
-                          "type": "string",
-                          "title": "Action alert rating (1 is Green, 5 is Red)",
-                          "enum": ["1", "2", "3", "4", "5"]
-                        },
-                        "summary": {
-                          "type": "string",
-                          "title": "Summary of risk",
-                          "minLength": 1
-                        },
-                        "recommendations": {
-                          "type": "string",
-                          "title": "Recommendations",
-                          "minLength": 1
-                        },
-                        "datasetAttribution": {
-                          "type": "string",
-                          "title": "Licensing, distribution and copyright information",
-                          "minLength": 1
-                        },
-                        "riskSubcategories": {
-                          "type": "array",
-                          "title": "Risk sub-categories",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "subCategory": {
-                                "type": "string",
-                                "title": "Risk sub-category name"
-                              },
-                              "recommendedActionIndicator": {
-                                "type": "string",
-                                "title": "Is action recommended?",
-                                "enum": ["Yes", "No"]
-                              },
-                              "actionAlertRating": {
-                                "type": "string",
-                                "title": "Action alert rating (1 is Green, 5 is Red)",
-                                "enum": ["1", "2", "3", "4", "5"]
-                              },
-                              "summary": {
-                                "type": "string",
-                                "title": "Summary of risk",
-                                "minLength": 1
-                              },
-                              "recommendations": {
-                                "type": "string",
-                                "title": "Recommendations",
-                                "minLength": 1
-                              },
-                              "datasetAttribution": {
-                                "type": "string",
-                                "title": "Licensing, distribution and copyright information",
-                                "minLength": 1
-                              }
-                            }
-                          }
                         }
                       },
-                      "baspiRequired": ["yesNo"],
-                      "ta6Required": ["yesNo"],
                       "discriminator": {
-                        "propertyName": "yesNo"
+                        "propertyName": "impactIndicator"
                       },
                       "oneOf": [
                         {
                           "properties": {
-                            "yesNo": {
+                            "impactIndicator": {
                               "enum": ["No"]
                             }
                           }
                         },
                         {
                           "properties": {
-                            "yesNo": {
+                            "impactIndicator": {
                               "enum": ["Yes"]
                             },
-                            "attachments": {
-                              "baspiRef": "A11.1.1.3",
-                              "ta6Ref": "7.3.2",
-                              "title": "Please supply a copy",
+                            "actionAlertRating": {
                               "type": "string",
-                              "enum": ["Attached", "To follow"]
+                              "title": "Action alert rating (1 is Green, 5 is Red)",
+                              "enum": ["1", "2", "3", "4", "5"]
+                            },
+                            "summary": {
+                              "ntsRef": "C3.1.1.2",
+                              "type": "string",
+                              "title": "Summary of risk",
+                              "ntsTitle:": "Please provide details",
+                              "minLength": 1
+                            },
+                            "recommendations": {
+                              "type": "string",
+                              "title": "Recommendations",
+                              "minLength": 1
+                            },
+                            "datasetAttribution": {
+                              "type": "string",
+                              "title": "Licensing, distribution and copyright information",
+                              "minLength": 1
+                            },
+                            "riskSubcategories": {
+                              "type": "array",
+                              "title": "Risk sub-categories",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "subCategory": {
+                                    "type": "string",
+                                    "title": "Risk sub-category name"
+                                  },
+                                  "impactIndicator": {
+                                    "type": "string",
+                                    "title": "Is action recommended?",
+                                    "enum": ["Yes", "No"]
+                                  },
+                                  "actionAlertRating": {
+                                    "type": "string",
+                                    "title": "Action alert rating (1 is Green, 5 is Red)",
+                                    "enum": ["1", "2", "3", "4", "5"]
+                                  },
+                                  "summary": {
+                                    "type": "string",
+                                    "title": "Summary of risk",
+                                    "minLength": 1
+                                  },
+                                  "recommendations": {
+                                    "type": "string",
+                                    "title": "Recommendations",
+                                    "minLength": 1
+                                  },
+                                  "datasetAttribution": {
+                                    "type": "string",
+                                    "title": "Licensing, distribution and copyright information",
+                                    "minLength": 1
+                                  }
+                                }
+                              }
                             }
                           },
-                          "baspiRequired": ["attachments"],
-                          "ta6Required": ["attachments"]
+                          "ntsRequired": ["summary"]
                         }
                       ]
                     },
                     "hasBeenFlooded": {
+                      "ntsRef": "C3.1.1.2",
                       "baspiRef": "A11.1.2",
                       "ta6Ref": "7.1.1",
                       "title": "Has any part of the property (whether buildings or surrounding garden or land) ever been flooded?",
@@ -21112,124 +21531,39 @@
                         "hasBeenFlooded": {
                           "enum": ["Yes"]
                         },
+                        "typeOfFlooding": {
+                          "ntsRef": "C3.1.1.3",
+                          "baspiRef": "A11.1.2.2",
+                          "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                          "ta6Ref": "7.2",
+                          "title": "What type of flooding occurred?",
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "Ground water",
+                              "Sewer",
+                              "Surface water",
+                              "Coastal flooding",
+                              "River flooding",
+                              "Other"
+                            ]
+                          }
+                        },
                         "details": {
+                          "ntsRef": "C3.1.1.3",
                           "baspiRef": "A11.1.2.1",
                           "ta6Ref": "7.1.2",
                           "title": "Please state when the flooding occurred and identify the parts that flooded",
                           "type": "string",
                           "minLength": 1
-                        },
-                        "typeOfFlooding": {
-                          "baspiRef": "A11.1.2.2",
-                          "rdsRef": "Sustainability/Environmental|Natural|Situational",
-                          "ta6Ref": "7.2",
-                          "title": "What type of flooding occurred?",
-                          "type": "object",
-                          "properties": {
-                            "groundWater": {
-                              "baspiRef": "A11.1.2.2.1",
-                              "ta6Ref": "7.2a",
-                              "title": "Ground water",
-                              "type": "string",
-                              "enum": ["Yes", "No"]
-                            },
-                            "sewer": {
-                              "baspiRef": "A11.1.2.2.2",
-                              "ta6Ref": "7.2b",
-                              "title": "Sewer",
-                              "type": "string",
-                              "enum": ["Yes", "No"]
-                            },
-                            "surfaceWater": {
-                              "baspiRef": "A11.1.2.2.3",
-                              "ta6Ref": "7.2c",
-                              "title": "Surface water",
-                              "type": "string",
-                              "enum": ["Yes", "No"]
-                            },
-                            "coastal": {
-                              "baspiRef": "A11.1.2.2.4",
-                              "ta6Ref": "7.2d",
-                              "title": "Coastal flooding",
-                              "type": "string",
-                              "enum": ["Yes", "No"]
-                            },
-                            "river": {
-                              "baspiRef": "A11.1.2.2.5",
-                              "ta6Ref": "7.2e",
-                              "title": "River flooding",
-                              "type": "string",
-                              "enum": ["Yes", "No"]
-                            },
-                            "other": {
-                              "baspiRef": "A11.1.2.2.6",
-                              "ta6Ref": "7.2f",
-                              "title": "Other",
-                              "type": "object",
-                              "properties": {
-                                "yesNo": {
-                                  "baspiRef": "A11.1.2.2.6.1",
-                                  "ta6Ref": "7.2f1",
-                                  "type": "string",
-                                  "title": "",
-                                  "enum": ["Yes", "No"]
-                                }
-                              },
-                              "baspiRequired": ["yesNo"],
-                              "ta6Required": ["yesNo"],
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": ["No"]
-                                    }
-                                  }
-                                },
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": ["Yes"]
-                                    },
-                                    "details": {
-                                      "baspiRef": "A11.1.2.2.6.2",
-                                      "ta6Ref": "7.2f2",
-                                      "title": "Please state",
-                                      "type": "string",
-                                      "minLength": 1
-                                    }
-                                  },
-                                  "baspiRequired": ["details"],
-                                  "ta6Required": ["details"]
-                                }
-                              ]
-                            }
-                          },
-                          "baspiRequired": [
-                            "groundWater",
-                            "sewer",
-                            "surfaceWater",
-                            "coastal",
-                            "river",
-                            "other"
-                          ],
-                          "ta6Required": [
-                            "groundWater",
-                            "sewer",
-                            "surfaceWater",
-                            "coastal",
-                            "river",
-                            "other"
-                          ]
                         }
                       },
                       "baspiRequired": ["typeOfFlooding", "details"],
+                      "ntsRequired": ["typeOfFlooding", "details"],
                       "ta6Required": ["typeOfFlooding", "details"]
                     }
-                  ],
-                  "ta6Required": ["floodRiskReport", "hasBeenFlooded"]
+                  ]
                 },
                 "radon": {
                   "baspiRef": "A11.1.3",
@@ -21242,13 +21576,13 @@
                     "radonTest"
                   ],
                   "properties": {
-                    "radonRiskReport": {
+                    "radonRisk": {
                       "type": "object",
-                      "title": "Radon risk report",
+                      "title": "Radon risk",
                       "properties": {
-                        "recommendedActionIndicator": {
+                        "impactIndicator": {
                           "type": "string",
-                          "title": "Recommended action indicator",
+                          "title": "Is the property impacted?",
                           "enum": ["Yes", "No"]
                         },
                         "actionAlertRating": {
@@ -21281,7 +21615,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "recommendedActionIndicator": {
+                              "impactIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": ["Yes", "No"]
@@ -21389,13 +21723,13 @@
                   "title": "Contaminated land",
                   "type": "object",
                   "properties": {
-                    "contaminatedLandRiskReport": {
+                    "contaminatedLandRisk": {
                       "type": "object",
-                      "title": "Contaminated land risk report",
+                      "title": "Contaminated land risk",
                       "properties": {
-                        "recommendedActionIndicator": {
+                        "impactIndicator": {
                           "type": "string",
-                          "title": "Recommended action indicator",
+                          "title": "Is the property impacted?",
                           "enum": ["Yes", "No"]
                         },
                         "actionAlertRating": {
@@ -21428,7 +21762,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "recommendedActionIndicator": {
+                              "impactIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": ["Yes", "No"]
@@ -21465,13 +21799,13 @@
                   "title": "Ground stability",
                   "type": "object",
                   "properties": {
-                    "groundStabilityRiskReport": {
+                    "groundStabilityRisk": {
                       "type": "object",
-                      "title": "Ground stability risk report",
+                      "title": "Ground stability risk",
                       "properties": {
-                        "recommendedActionIndicator": {
+                        "impactIndicator": {
                           "type": "string",
-                          "title": "Recommended action indicator",
+                          "title": "Is the property impacted?",
                           "enum": ["Yes", "No"]
                         },
                         "actionAlertRating": {
@@ -21504,7 +21838,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "recommendedActionIndicator": {
+                              "impactIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": ["Yes", "No"]
@@ -21541,13 +21875,13 @@
                   "title": "Energy",
                   "type": "object",
                   "properties": {
-                    "energyRiskReport": {
+                    "energyRisk": {
                       "type": "object",
-                      "title": "Energy risk report",
+                      "title": "Energy risk",
                       "properties": {
-                        "recommendedActionIndicator": {
+                        "impactIndicator": {
                           "type": "string",
-                          "title": "Recommended action indicator",
+                          "title": "Is the property impacted?",
                           "enum": ["Yes", "No"]
                         },
                         "actionAlertRating": {
@@ -21580,7 +21914,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "recommendedActionIndicator": {
+                              "impactIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": ["Yes", "No"]
@@ -21617,13 +21951,13 @@
                   "title": "Transportation",
                   "type": "object",
                   "properties": {
-                    "transportationRiskReport": {
+                    "transportationRisk": {
                       "type": "object",
-                      "title": "Transportation risk report",
+                      "title": "Transportation risk",
                       "properties": {
-                        "recommendedActionIndicator": {
+                        "impactIndicator": {
                           "type": "string",
-                          "title": "Recommended action indicator",
+                          "title": "Is the property impacted?",
                           "enum": ["Yes", "No"]
                         },
                         "actionAlertRating": {
@@ -21656,7 +21990,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "recommendedActionIndicator": {
+                              "impactIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": ["Yes", "No"]
@@ -21693,13 +22027,13 @@
                   "title": "Planning",
                   "type": "object",
                   "properties": {
-                    "planningRiskReport": {
+                    "planningRisk": {
                       "type": "object",
-                      "title": "Planning risk report",
+                      "title": "Planning risk",
                       "properties": {
-                        "recommendedActionIndicator": {
+                        "impactIndicator": {
                           "type": "string",
-                          "title": "Recommended action indicator",
+                          "title": "Is the property impacted?",
                           "enum": ["Yes", "No"]
                         },
                         "actionAlertRating": {
@@ -21732,7 +22066,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "recommendedActionIndicator": {
+                              "impactIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": ["Yes", "No"]
@@ -21769,13 +22103,13 @@
                   "title": "Climate risk",
                   "type": "object",
                   "properties": {
-                    "climateRiskReport": {
+                    "climateRisk": {
                       "type": "object",
-                      "title": "Climate risk report",
+                      "title": "Climate risk",
                       "properties": {
-                        "recommendedActionIndicator": {
+                        "impactIndicator": {
                           "type": "string",
-                          "title": "Recommended action indicator",
+                          "title": "Is the property impacted?",
                           "enum": ["Yes", "No"]
                         },
                         "actionAlertRating": {
@@ -21808,7 +22142,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "recommendedActionIndicator": {
+                              "impactIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": ["Yes", "No"]
@@ -21842,17 +22176,34 @@
                 },
                 "coalMining": {
                   "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "ntsRef": "C6.1",
                   "title": "Coal mining",
                   "type": "object",
+                  "ntsRequired": ["impactIndicator"],
                   "properties": {
-                    "coalMiningRiskReport": {
-                      "type": "object",
-                      "title": "Coal mining risk report",
+                    "impactIndicator": {
+                      "ntsRef": "C6.1.1",
+                      "type": "string",
+                      "title": "Is the property impacted?",
+                      "ntsTitle": "To your knowledge, is the property impacted by coal mining?",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "discriminator": {
+                    "propertyName": "impactIndicator"
+                  },
+                  "oneOf": [
+                    {
                       "properties": {
-                        "recommendedActionIndicator": {
-                          "type": "string",
-                          "title": "Recommended action indicator",
-                          "enum": ["Yes", "No"]
+                        "impactIndicator": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "impactIndicator": {
+                          "enum": ["Yes"]
                         },
                         "actionAlertRating": {
                           "type": "string",
@@ -21860,8 +22211,10 @@
                           "enum": ["1", "2", "3", "4", "5"]
                         },
                         "summary": {
+                          "ntsRef": "C6.1.1",
                           "type": "string",
                           "title": "Summary of risk",
+                          "ntsTitle": "Please provide details",
                           "minLength": 1
                         },
                         "recommendations": {
@@ -21884,7 +22237,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "recommendedActionIndicator": {
+                              "impactIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": ["Yes", "No"]
@@ -21914,21 +22267,38 @@
                         }
                       }
                     }
-                  }
+                  ]
                 },
                 "nonCoalMining": {
                   "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "ntsRef": "C6.2",
                   "title": "Non-coal mining",
                   "type": "object",
+                  "ntsRequired": ["impactIndicator"],
                   "properties": {
-                    "nonCoalMiningRiskReport": {
-                      "type": "object",
-                      "title": "Non-coal mining risk report",
+                    "impactIndicator": {
+                      "ntsRef": "C6.2.1",
+                      "type": "string",
+                      "title": "Is the property impacted?",
+                      "ntsTitle": "To your knowledge, is the property impacted by types of mining other than coal?",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "discriminator": {
+                    "propertyName": "impactIndicator"
+                  },
+                  "oneOf": [
+                    {
                       "properties": {
-                        "recommendedActionIndicator": {
-                          "type": "string",
-                          "title": "Recommended action indicator",
-                          "enum": ["Yes", "No"]
+                        "impactIndicator": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "impactIndicator": {
+                          "enum": ["Yes"]
                         },
                         "actionAlertRating": {
                           "type": "string",
@@ -21936,8 +22306,10 @@
                           "enum": ["1", "2", "3", "4", "5"]
                         },
                         "summary": {
+                          "ntsRef": "C6.2.2",
                           "type": "string",
                           "title": "Summary of risk",
+                          "ntsTitle:": "Please provide details",
                           "minLength": 1
                         },
                         "recommendations": {
@@ -21960,7 +22332,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "recommendedActionIndicator": {
+                              "impactIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": ["Yes", "No"]
@@ -21988,9 +22360,106 @@
                             }
                           }
                         }
-                      }
+                      },
+                      "ntsRequired": ["summary"]
                     }
-                  }
+                  ]
+                },
+                "coastalErosion": {
+                  "ntsRef": "C3.2",
+                  "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "title": "Coastal erosion",
+                  "type": "object",
+                  "ntsRequired": ["impactIndicator"],
+                  "properties": {
+                    "impactIndicator": {
+                      "ntsRef": "C3.2.1",
+                      "type": "string",
+                      "title": "Is the property impacted?",
+                      "ntsTitle": "To your knowledge, is the property impacted by coastal erosion?",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "discriminator": {
+                    "propertyName": "impactIndicator"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "impactIndicator": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "impactIndicator": {
+                          "enum": ["Yes"]
+                        },
+                        "actionAlertRating": {
+                          "type": "string",
+                          "title": "Action alert rating (1 is Green, 5 is Red)",
+                          "enum": ["1", "2", "3", "4", "5"]
+                        },
+                        "summary": {
+                          "ntsRef": "C3.2.2",
+                          "type": "string",
+                          "title": "Summary of risk",
+                          "ntsTitle:": "Please provide details",
+                          "minLength": 1
+                        },
+                        "recommendations": {
+                          "type": "string",
+                          "title": "Recommendations",
+                          "minLength": 1
+                        },
+                        "datasetAttribution": {
+                          "type": "string",
+                          "title": "Licensing, distribution and copyright information",
+                          "minLength": 1
+                        },
+                        "riskSubcategories": {
+                          "type": "array",
+                          "title": "Risk sub-categories",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "subCategory": {
+                                "type": "string",
+                                "title": "Risk sub-category name"
+                              },
+                              "impactIndicator": {
+                                "type": "string",
+                                "title": "Is action recommended?",
+                                "enum": ["Yes", "No"]
+                              },
+                              "actionAlertRating": {
+                                "type": "string",
+                                "title": "Action alert rating (1 is Green, 5 is Red)",
+                                "enum": ["1", "2", "3", "4", "5"]
+                              },
+                              "summary": {
+                                "type": "string",
+                                "title": "Summary of risk",
+                                "minLength": 1
+                              },
+                              "recommendations": {
+                                "type": "string",
+                                "title": "Recommendations",
+                                "minLength": 1
+                              },
+                              "datasetAttribution": {
+                                "type": "string",
+                                "title": "Licensing, distribution and copyright information",
+                                "minLength": 1
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "ntsRequired": ["summary"]
+                    }
+                  ]
                 },
                 "otherEnvironmental": {
                   "baspiRef": "A11.1.4",
@@ -22841,7 +23310,7 @@
                   "rdsRef": "Tenure/tenure=?",
                   "ta6Ref": "1.5",
                   "title": "Is there a flying freehold?",
-                  "description": "NOTE: a flying freehold is when part of the property overhangs a neighbour’s property or an accessway - e.g. a terrace house where part of the upstairs is over an accessway which belongs to someone else.",
+                  "description": "NOTE: a flying freehold is when part of the property overhangs a neighbour's property or an accessway - e.g. a terrace house where part of the upstairs is over an accessway which belongs to someone else.",
                   "type": "object",
                   "properties": {
                     "yesNo": {
@@ -37560,7 +38029,126 @@
               "propertyType": {
                 "title": "Type of Property",
                 "description": "The type or category of the property.",
-                "type": "string"
+                "type": "string",
+                "enum": [
+                  "Not Specified",
+                  "Terraced House",
+                  "End of terrace house",
+                  "Semi-detached house",
+                  "Detached house",
+                  "Mews house",
+                  "Cluster house",
+                  "Ground floor flat",
+                  "Flat",
+                  "Studio flat",
+                  "Ground floor maisonette",
+                  "Maisonette",
+                  "Bungalow",
+                  "Terraced bungalow",
+                  "Semi-detached bungalow",
+                  "Detached bungalow",
+                  "Mobile home",
+                  "Land (Residential)",
+                  "Link detached house",
+                  "Town house",
+                  "Cottage",
+                  "Chalet",
+                  "Character Property",
+                  "House (unspecified)",
+                  "Villa",
+                  "Apartment",
+                  "Penthouse",
+                  "Finca",
+                  "Barn Conversion",
+                  "Serviced apartment",
+                  "Parking",
+                  "Sheltered Housing",
+                  "Reteirment property",
+                  "House share",
+                  "Flat share",
+                  "Park home",
+                  "Garages",
+                  "Farm House",
+                  "Equestrian facility",
+                  "Duplex",
+                  "Triplex",
+                  "Longere",
+                  "Gite",
+                  "Barn",
+                  "Trulli",
+                  "Mill",
+                  "Ruins",
+                  "Restaurant",
+                  "Cafe",
+                  "Castle",
+                  "Village House",
+                  "Cave House",
+                  "Cortijo",
+                  "Farm Land",
+                  "Plot",
+                  "Country House",
+                  "Stone House",
+                  "Caravan",
+                  "Lodge",
+                  "Log Cabin",
+                  "Manor House",
+                  "Stately Home",
+                  "Off-Plan",
+                  "Semi-detached Villa",
+                  "Detached Villa",
+                  "Bar/Nightclub",
+                  "Shop",
+                  "Riad",
+                  "House Boat",
+                  "Hotel Room",
+                  "Block of Apartments",
+                  "Private Halls",
+                  "Office",
+                  "Business Park",
+                  "Serviced Office",
+                  "Retail Property (High Street)",
+                  "Retail Property (Out of Town)",
+                  "Convenience Store",
+                  "Hairdresser/Barber Shop",
+                  "Hotel",
+                  "Petrol Station",
+                  "Post Office",
+                  "Pub",
+                  "Workshop & Retail Space",
+                  "Distribution Warehouse",
+                  "Factory",
+                  "Heavy Industrial",
+                  "Industrial Park",
+                  "Light Industrial",
+                  "Storage",
+                  "Showroom",
+                  "Warehouse",
+                  "Land (Commercial)",
+                  "Commercial Development",
+                  "Industrial Development",
+                  "Residential Development",
+                  "Commercial Property",
+                  "Data Centre",
+                  "Farm",
+                  "Healthcare Facility",
+                  "Marine Property",
+                  "Mixed Use",
+                  "Research & Development Facility",
+                  "Science Park",
+                  "Guest House",
+                  "Hospitality",
+                  "Leisure Facility",
+                  "Takeaway",
+                  "Childcare Facility",
+                  "Smallholding",
+                  "Place of Worship",
+                  "Trade Counter",
+                  "Coach House",
+                  "House of Multiple Occupation",
+                  "Sports facilities",
+                  "Spa",
+                  "Campsite & Holiday Village"
+                ]
               },
               "marketingTenure": {
                 "title": "Marketing Tenure",

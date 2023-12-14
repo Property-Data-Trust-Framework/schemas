@@ -1,0 +1,4086 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/rds.json",
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "materialFacts": {
+          "properties": {
+            "address": {
+              "rdsRef": "Property/Address/xal:AddressDetails",
+              "title": "Property Address"
+            },
+            "uprn": {
+              "rdsRef": "Property/GUID/{name='UPRN',id=?}",
+              "title": "Unique Property Reference Number "
+            },
+            "ownership": {
+              "properties": {
+                "ownershipsToBeTransferred": {
+                  "items": {
+                    "properties": {
+                      "ownershipType": {
+                        "rdsRef": "Tenure/Tenure",
+                        "title": "What type of ownership is the property?",
+                        "description": "A Managed Freehold is any freehold where there are shared amenities, the maintenance of which you pay for through an estate rentcharge, service charge, informal or formal contribution. Choose Leasehold if your property is under a Shared Ownership arrangement.",
+                        "enum": [
+                          "Freehold",
+                          "Managed Freehold",
+                          "Commonhold",
+                          "Leasehold",
+                          "Other"
+                        ]
+                      }
+                    },
+                    "oneOf": [
+                      null,
+                      null,
+                      {
+                        "properties": {
+                          "leaseholdInformation": {
+                            "properties": {
+                              "groundRent": {
+                                "oneOf": [
+                                  null,
+                                  {
+                                    "properties": {
+                                      "annualGroundRent": {
+                                        "rdsRef": "TenureAgreements/RentPayable/Value",
+                                        "title": "What is the annual ground rent payable? (£)"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "parking": {
+              "rdsRef": "Services/Parking",
+              "title": "Parking"
+            },
+            "listingAndConservation": {
+              "properties": {
+                "isListed": {
+                  "rdsRef": "Protections",
+                  "title": "Is the property a listed building in England or Wales?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "isConservationArea": {
+                  "rdsRef": "Protections",
+                  "title": "Is the property in a designated conservation area?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "hasTreePreservationOrder": {
+                  "rdsRef": "Property/Flags",
+                  "title": "To your knowledge, does a tree preservation order apply to any trees within the boundaries of the property?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "workCarriedOut": {
+                          "rdsRef": "WorksAlterationsChanges",
+                          "title": "Has work been carried out to any trees which are protected by the order?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "consentsObtained": {
+                                  "rdsRef": "Protections",
+                                  "title": "Were the relevant consents obtained?",
+                                  "enum": [
+                                    "Yes",
+                                    "No",
+                                    "Not known"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "typeOfConstruction": {
+              "properties": {
+                "isStandardForm": {
+                  "rdsRef": "Buildings,BuildingSections/ConstructionType,ConstructionMaterials",
+                  "title": "Is the property built in a standard form of construction? E.g. brick and/or block with timber-supported roof comprising a tile or slate cover?",
+                  "description": "Examples of non-standard features which might affect a buyer are are thatched roofs, prefabricated buildings or timber-framed windows",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "energyEfficiency": {
+              "rdsRef": "Certificates/{category='energyEfficiency',standard='EPC',gradeLevelRating=?},Certificates/{category='energyEfficiency',standard='EPC',status='exempt'},",
+              "title": "Energy Efficiency",
+              "properties": {
+                "greenDealLoan": {
+                  "rdsRef": "RightsHolders/Loans,RightsHolders/OtherDocumentation",
+                  "title": "Green Deal Loan"
+                }
+              }
+            },
+            "councilTax": {
+              "properties": {
+                "councilTaxBand": {
+                  "rdsRef": "TenureAgreements/Taxes/{banding=?}",
+                  "title": "Which Council Tax band does this property fall within?",
+                  "description": "Band I relates to Wales only",
+                  "enum": [
+                    "A",
+                    "B",
+                    "C",
+                    "D",
+                    "E",
+                    "F",
+                    "G",
+                    "H",
+                    "I"
+                  ]
+                },
+                "councilTaxAffectingAlterations": {
+                  "rdsRef": "TenureAgreements/Taxes/WorksAlterationsChanges",
+                  "title": "Have you altered the property in any way to the extent that it might change the Council Tax band e.g. added a bedroom or substantially extended the property?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "disputesAndComplaints": {
+              "properties": {
+                "hasDisputesAndComplaints": {
+                  "rdsRef": "Tenure/DisputesComplaints,Tenure/LegalClaims",
+                  "title": "Have any disputes or complaints occurred, regarding this property, a property nearby, or their use?",
+                  "description": "E.g boundary disagreement, noise, trespass etc",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "leadingToDisputesAndComplaints": {
+                  "rdsRef": "Tenure/DisputesComplaints,Tenure/LegalClaims",
+                  "title": "Is the seller aware of anything which might lead to a dispute about the property or a property nearby?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "alterationsAndChanges": {
+              "properties": {
+                "hasStructuralAlterations": {
+                  "rdsRef": "WorksAlterationsChanges",
+                  "title": "Have there been any structural alterations, extensions, significant repairs or renewals to the property? (e.g. extensions, loft or garage conversion, removal of internal walls or chimneys)",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "buildingRegApproval": {
+                          "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "title": "Was Building Regulation approval and a completion certificate obtained or an equivalent Competent Person Scheme Certificate?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "planningPermission": {
+                          "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "title": "Was planning permission obtained?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "listedBuildingConsent": {
+                          "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "title": "Was listed building consent obtained?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "deedRestrictionConsent": {
+                          "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "title": "Was any consent under a restriction in the deeds obtained? E.g. if your deeds require consent from someone else to alter or extend the property",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "changeOfUse": {
+                  "rdsRef": "WorksAlterationsChanges",
+                  "title": "Has there been any change of use (e.g. from an office to a residence)?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "buildingRegApproval": {
+                          "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "title": "Was building regulation approval and a completion certificate obtained or an equivalent Competent Person Scheme Certificate?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "planningPermission": {
+                          "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "title": "Was planning permission obtained?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "listedBuildingConsent": {
+                          "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "title": "Was listed building consent obtained?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "deedRestrictionConsent": {
+                          "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "title": "Was any consent under a restriction in the deeds obtained? E.g. if your deeds require consent from someone else to alter or extend the property",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "windowReplacementsSince2002": {
+                  "rdsRef": "WorksAlterationsChanges",
+                  "title": "Since 1st April 2002 has replacement of any windows, roof windows, roof lights, glazed doors taken place?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "buildingRegApproval": {
+                          "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "title": "Was building regulation approval and a completion certificate obtained or an equivalent Competent Person Scheme Certificate?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "planningPermission": {
+                          "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "title": "Was planning permission obtained?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "listedBuildingConsent": {
+                          "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "title": "Was listed building consent obtained?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "deedRestrictionConsent": {
+                          "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "title": "Was any consent under a restriction in the deeds obtained? E.g. if your deeds require consent from someone else to alter or extend the property",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "hasAddedConservatory": {
+                  "rdsRef": "WorksAlterationsChanges",
+                  "title": "Has a conservatory been added?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "buildingRegApproval": {
+                          "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "title": "Was building regulation approval and a completion certificate obtained or an equivalent Competent Person Scheme Certificate?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "planningPermission": {
+                          "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "title": "Was planning permission obtained?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "listedBuildingConsent": {
+                          "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "title": "Was listed building consent obtained?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "deedRestrictionConsent": {
+                          "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                          "title": "Was any consent under a restriction in the deeds obtained? E.g. if your deeds require consent from someone else to alter or extend the property",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No",
+                                    "Not required"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "worksUnfinished": {
+                  "rdsRef": "WorksAlterationsChanges/isIncomplete",
+                  "title": "Are any of the works listed above unfinished?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "planningPermissionBreaches": {
+                  "rdsRef": "Property/Flags",
+                  "title": "Are you aware of any breaches of planning permission conditions or building regulations consent conditions or work not having the necessary consents?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "rdsRef": "Buildings,BuildingsSections/StructureAuthorised,BuildingsSections/StructureUnauthorised",
+                          "title": "Please give details"
+                        },
+                        "willingToInsure": {
+                          "rdsRef": "Insurance/isWillingToProvide",
+                          "title": "Confirm whether you will pay for an insurance policy if the Local Authority still have power to enforce the breach. Your property lawyer can obtain a quote for you. (If you already have a policy please give it to your property lawyer and include details in Question 6 of Section B) [*Note: It will be a term of the insurance policy that the Local Authority is not contacted so if you have contacted the Local Authority the option of indemnity insurance will not be available.]",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "unresolvedPlanningIssues": {
+                  "rdsRef": "Buildings,BuildingsSections/StructureAuthorised,BuildingsSections/StructureUnauthorised",
+                  "title": "Are you aware of any unresolved planning or building control issues?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "rdsRef": "Buildings,BuildingsSections/StructureAuthorised,BuildingsSections/StructureUnauthorised",
+                          "title": "Please give details"
+                        },
+                        "willingToInsure": {
+                          "rdsRef": "Insurance/isWillingToProvide",
+                          "title": "Confirm whether you will pay for an insurance policy if the Local Authority still have power to enforce the breach. Your property lawyer can obtain a quote for you. (If you already have a policy please give it to your property lawyer and include details in Question 6 of Section B) [*Note: It will be a term of the insurance policy that the Local Authority is not contacted so if you have contacted the Local Authority the option of indemnity insurance will not be available.]",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "notices": {
+              "properties": {
+                "neighbourDevelopment": {
+                  "rdsRef": "Property/Flags,Planning",
+                  "title": "The owner of a neighbouring property is proposing to develop property or land nearby, make alterations to nearby buildings or change the use?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "planningApplication": {
+                  "rdsRef": "Property/Flags,Planning",
+                  "title": "Any planning application that could affect the property, the enjoyment of it or the views from it?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "requiredMaintenance": {
+                  "rdsRef": "Property/Flags,Notifications",
+                  "title": "Notice informing you that maintenance, repairs or improvements are required to your property?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "listedBuildingApplication": {
+                  "rdsRef": "Property/Flags,Protections",
+                  "title": "Listed building application",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "infrastructureProject": {
+                  "rdsRef": "Property/Flags,Planning",
+                  "title": "Infrastructure project, proposed or in progress (i.e. wind turbine, railway, fracking, etc)",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "partyWallAct": {
+                  "rdsRef": "Property/Flags,Notifications",
+                  "title": "Notice under the Party Wall Act 1996 in respect of any shared or party boundaries?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "otherNotices": {
+                  "rdsRef": "Property/Flags,Notifications",
+                  "title": "Any other type of notice?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "specialistIssues": {
+              "properties": {
+                "dryRotEtcTreatment": {
+                  "rdsRef": "Property/Flags,BuildingSections/EnvironmentalIssues",
+                  "title": "To your knowledge, has there been any preventative work for, or treatment of dry rot, wet rot or damp carried out at the property?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "containsAsbestos": {
+                  "rdsRef": "Property/Flags,BuildingSections/EnvironmentalIssues",
+                  "title": "To your knowledge, does any part of your property contain asbestos?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "japaneseKnotweed": {
+                  "rdsRef": "Property/Flags,BuildingSections/EnvironmentalIssues,Use/EnvironmentalIssues",
+                  "title": "To your knowledge, is the property or neighbouring land, affected by Japanese knotweed or other invasive species?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "subsidenceOrStructuralFault": {
+                  "rdsRef": "Property/Flags,BuildingSections/EnvironmentalIssues",
+                  "title": "To your knowledge, has the property ever been subject to subsidence or structural fault?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "ongoingHealthOrSafetyIssue": {
+                  "rdsRef": "Property/Flags,BuildingSections/EnvironmentalIssues",
+                  "title": "Have you been notified by a relevant authority or qualified expert of an on-going health or safety issue with the property?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "fixturesAndFittings": {
+              "properties": {
+                "itemsToRemove": {
+                  "rdsRef": "Objects/{isIncludedInExchange='no',class='fixture|fitting}",
+                  "title": "Are there any items, which would be considered a fixture or fitting, that you intend to take? E.g. Carpets, curtains, light fittings, fitted cupboards, etc",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "itemsToInclude": {
+                  "rdsRef": "Objects/{isIncludedInExchange='true',class='equipment|furniture}",
+                  "title": "Are there additional furniture items or possessions are you very likely to include in the sale, irrespective of sale price?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "connectedUtilities": {
+              "properties": {
+                "mainsElectricity": {
+                  "rdsRef": "Services/Electricity",
+                  "title": "Mains electricity",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "mainsGas": {
+                  "rdsRef": "Services/Gas",
+                  "title": "Mains gas",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "lpg": {
+                  "rdsRef": "Services/LiquefiedPetroleumGas",
+                  "title": "Liquid Petroleum Gas (LPG)",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "oil": {
+                  "rdsRef": "Services/Oil",
+                  "title": "Oil",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "telephone": {
+                  "rdsRef": "Services/Telephone",
+                  "title": "Telephone",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "cableSatelliteTV": {
+                  "rdsRef": "Services/CableSatelliteTV",
+                  "title": "Cable TV or satellite",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "broadband": {
+                  "rdsRef": "Services/Internet",
+                  "title": "Broadband",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "otherServices": {
+                  "rdsRef": "Services/Other",
+                  "title": "Other services",
+                  "description": "Other services include wind turbines, generators and other renewable technologies, for example ground source heat pumps. If you receive Renewable Heat Incentives please provide details and note that you will need to advise Ofgem when you complete the sale",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "maintenanceAgreements": {
+                  "rdsRef": "Services/Certificates,Services/OtherServices/Certificates",
+                  "title": "Do you have any licences, maintenance agreements, contracts or service agreements in relation to connected services?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "waterAndDrainage": {
+              "properties": {
+                "water": {
+                  "properties": {
+                    "mainsWater": {
+                      "rdsRef": "Services/PotableWaterSupply",
+                      "title": "Mains water",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "To be connected"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                "drainage": {
+                  "properties": {
+                    "mainsSurfaceWaterDrainage": {
+                      "rdsRef": "Services/StormWaterDrainage",
+                      "title": "Mains surface water drainage",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not known"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "To be connected"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "mainsFoulDrainage": {
+                      "rdsRef": "Services/WasteWaterSewarageDisposal",
+                      "title": "Mains foul drainage / sweerage",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "To be connected"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not known"
+                              ]
+                            },
+                            "sustainableDrainageSystem": {
+                              "rdsRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
+                              "title": "Sustainable Drainage System",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "To be connected"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            "septicTank": {
+                              "rdsRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
+                              "title": "Septic tank",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            "cesspit": {
+                              "rdsRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
+                              "title": "Cesspit",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            "sewerageTreatmentPlant": {
+                              "rdsRef": "Services/OtherServices/{description=?,type=?},Services/OtherServices/Installed|Upgraded|Replaced|Serviced|Certificates",
+                              "title": "Sewerage treatment plant",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            "otherConnectedProperties": {
+                              "rdsRef": "Services/OtherServices/SharedWith",
+                              "title": "Do other properties connect to the septic tank, cesspit or sewerage treatment plant?",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            "plantOnOtherLand": {
+                              "rdsRef": "Services/OtherServices/Located,Services/OtherServices/{access=?}",
+                              "title": "Is any part of the septic tank, cesspit or sewerage treatment plant located on someone else’s land?",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            "plantRegistered": {
+                              "rdsRef": "Services/OtherServices/Certificates",
+                              "title": "Is the septic tank, cesspit or sewerage treatment plant registered with the Environment Agency or exempted?",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            "plantDrainsIntoWaterway": {
+                              "rdsRef": "Services/OtherServices/{isExternallyConnected='yes?true'}",
+                              "title": "Does the septic tank, cesspit or sewerage treatment plant drain into a waterway (lake, river, stream etc)",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No, the effluent is discharged through a soakaway system."
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "dischargeCompliesWithGBR": {
+                                      "rdsRef": "Services/OtherServices/ExternalConnections/Flags",
+                                      "title": "Does it comply with the General Binding Rules for discharge into a waterway?",
+                                      "enum": [
+                                        "Yes",
+                                        "No, it does not comply with the rules for discharge into a waterway."
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                "maintenanceAgreements": {
+                  "rdsRef": "Services/Certificates,Services/OtherServices/Certificates",
+                  "title": "Do you have any licences, maintenance agreements, contracts or service agreements in relation to these services?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "heating": {
+              "rdsRef": "Buildings|BuildingSections/isUnheated=no|yes|true|false",
+              "title": "Heating",
+              "discriminator": {
+                "propertyName": "heatingType"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "heatingType": {
+                      "enum": [
+                        "None"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "heatingType": {
+                      "enum": [
+                        "Central heating"
+                      ]
+                    },
+                    "centralHeatingDetails": {
+                      "properties": {
+                        "centralHeatingFuel": {
+                          "rdsRef": "Buildings|BuildingSections/Heating/isGas=no|yes|true|false",
+                          "title": "Central Heating Fuel",
+                          "discriminator": {
+                            "propertyName": "centralHeatingFuelType"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "centralHeatingFuelType": {
+                                  "enum": [
+                                    "Mains gas",
+                                    "Electricity",
+                                    "Oil",
+                                    "LPG",
+                                    "Biomass boiler"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "centralHeatingFuelType": {
+                                  "enum": [
+                                    "Other"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "centralHeatingInstalled": {
+                          "rdsRef": "Objects/Installed",
+                          "title": "When was the heating system installed?"
+                        },
+                        "boilerInstallationCertificate": {
+                          "rdsRef": "Objects/Installation,Objects/Certificates",
+                          "title": "Was a gas boiler installed after 1st April 2005, or a solid fuel or oil boiler installed after 1st October 2010?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "heatingLastServicedDate": {
+                          "rdsRef": "Objects/Maintenance",
+                          "title": "When was the heating system last serviced or maintained?"
+                        },
+                        "heatingInGoodWorkingOrder": {
+                          "rdsRef": "Objects/Condition=?",
+                          "title": "Is the heating system in good working order to your satisfaction?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "heatingType": {
+                      "enum": [
+                        "Community heating system"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "insurance": {
+              "properties": {
+                "isInsured": {
+                  "rdsRef": "Insurance/isInsured=no|yes|true|false",
+                  "title": "Do you insure the property?",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              },
+              "oneOf": [
+                null,
+                {
+                  "properties": {
+                    "difficultiesObtainingInsurance": {
+                      "rdsRef": "Insurance/Flags,Insurance/refusalReason=?",
+                      "title": "Have you had any difficulty obtaining competitively priced building insurance due to the structure or location of the property or had insurance refused?"
+                    },
+                    "insuranceClaims": {
+                      "rdsRef": "Insurance/Claims",
+                      "title": "Have you ever made a claim against your building insurance in relation to the property?",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "boundaries": {
+              "properties": {
+                "partOutsideLegalOwnership": {
+                  "rdsRef": "Tenure/Interests",
+                  "title": "Is any part of the property outside the seller’s legal ownership?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "partOnSeparateSiteOrDeed": {
+                  "rdsRef": "Tenure *with different property entity and references etc*",
+                  "title": "Is any part of the property on a separate site or separate title number e.g. garden, outbuilding, parking, garage?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "boundariesDifferFromTitlePlan": {
+                  "rdsRef": "Tenure/Boundaries,Tenure/BoundaryDifferences,Tenure/CadastralMapOfParcels",
+                  "title": "Do the boundaries differ from those shown on the title plan?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "boundaryAlterationProposal": {
+                  "rdsRef": "Tenure/Boundaries/proposedAlterations=?",
+                  "title": "Is there a current proposal with anyone to alter the boundaries of your property?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "rightsAndInformalArrangements": {
+              "properties": {
+                "sharedContributions": {
+                  "rdsRef": "Services/SharedCosts",
+                  "title": "Other than service charges and estate rentcharges, do you have to contribute towards the shared cost of a jointly-used service such as a shared driveway, road, parking area, garden or drain?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "neighbouringLandRights": {
+                  "rdsRef": "Tenure/Rights,Tenure *with different property entity and references etc*",
+                  "title": "Do any rights and arrangements exist over neighbouring land from which the property benefits?  (e.g. taking wheelie bins along an accessway through a neighbour’s back garden, parking, access to maintain the boundaries from the neighbour’s side etc)",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "accessRestrictionAttempts": {
+                  "rdsRef": "Tenure/Restrictions",
+                  "title": "Has anyone tried to stop you using an access way to the property or asked you to pay to use the access?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "rightsOrArrangements": {
+                  "properties": {
+                    "publicRightOfWay": {
+                      "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities,Tenure/CadastralMapOfParcels",
+                      "title": "A public right of way through and/or across your property, buildings or land",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "rightsOfLight": {
+                      "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                      "title": "Rights of light",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "rightsOfSupport": {
+                      "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                      "title": "Rights of support from ajoining properties",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "rightsCreatedThroughCustom": {
+                      "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                      "title": "Rights created through custom or use (e.g. rights to graze on other land or forage)",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "rightsToTakeFromLand": {
+                      "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                      "title": "Other people's rights to take things from the land (such as timber, hay or fish)",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "minesAndMinerals": {
+                      "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                      "title": "Mines and minerals under the property",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "churchChancel": {
+                      "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                      "title": "Liability to contribute to the maintenance of a church chancel?",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "otherRights": {
+                      "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                      "title": "Any other rights or arrangements affecting the property?",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "environmentalIssues": {
+              "properties": {
+                "flooding": {
+                  "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "title": "Flooding",
+                  "discriminator": {
+                    "propertyName": "hasBeenFlooded"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "hasBeenFlooded": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "hasBeenFlooded": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "typeOfFlooding": {
+                          "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                          "title": "What type of flooding occurred?"
+                        }
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "floodRisk": {
+                      "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                      "title": "Flood Risk",
+                      "discriminator": {
+                        "propertyName": "impactIndicator"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "impactIndicator": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "impactIndicator": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                "radon": {
+                  "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "title": "Radon",
+                  "properties": {
+                    "remedialMeasuresOnConstruction": {
+                      "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                      "title": "Were any remedial measures undertaken on construction to reduce Radon gas levels on the property?"
+                    }
+                  }
+                },
+                "contaminatedLand": {
+                  "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "title": "Contaminated land"
+                },
+                "groundStability": {
+                  "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "title": "Ground stability"
+                },
+                "energy": {
+                  "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "title": "Energy"
+                },
+                "transportation": {
+                  "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "title": "Transportation"
+                },
+                "planning": {
+                  "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "title": "Planning"
+                },
+                "climate": {
+                  "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "title": "Climate risk"
+                },
+                "coalMining": {
+                  "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "title": "Coal mining",
+                  "discriminator": {
+                    "propertyName": "impactIndicator"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "impactIndicator": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "impactIndicator": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "nonCoalMining": {
+                  "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "title": "Non-coal mining",
+                  "discriminator": {
+                    "propertyName": "impactIndicator"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "impactIndicator": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "impactIndicator": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "coastalErosion": {
+                  "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "title": "Coastal erosion",
+                  "discriminator": {
+                    "propertyName": "impactIndicator"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "impactIndicator": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "impactIndicator": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "otherEnvironmental": {
+                  "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "title": "To your knowledge, have there been any other environmental issues that affect the property or garden (for example, these could include air pollution, mining, sink holes, quarrying or fracking etc)?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "otherIssues": {
+              "properties": {
+                "excessiveNoise": {
+                  "rdsRef": "Tenure/OtherMaterialIssues",
+                  "title": "To your knowledge, has anyone occupying the property been disturbed by excessive noise which is likely to reoccur at the property?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "crime": {
+                  "rdsRef": "Tenure/OtherMaterialIssues",
+                  "title": "To your knowledge, has the property been subject to any crime, burglary or violent death?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "cautionOrConviction": {
+                  "rdsRef": "Tenure/OtherMaterialIssues",
+                  "title": "To your knowledge, has the property been occupied by someone who has been cautioned or convicted of a serious crime?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "failedTransactionsInLast12Months": {
+                  "rdsRef": "Tenure/OtherMaterialIssues",
+                  "title": "Have there been any failed purchase transactions on the property within the last 12 months?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "additionalInformation": {
+              "properties": {
+                "restrictionsOnUseNotCompliedWith": {
+                  "rdsRef": "Use/NonCompliance",
+                  "title": "Are you aware of any restrictions on the use or alteration of the property which have not been complied with?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "otherMaterialIssue": {
+                  "rdsRef": "Tenure/OtherMaterialIssues",
+                  "title": "Are you aware of any other material issue or information which relates to the property or has anything occurred which may affect the average person’s decision to proceed?",
+                  "description": "This disclosure is required under the Consumer Protection from Unfair Trading Regulations 2008",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "additionalLegalInfo": {
+          "properties": {
+            "legalOwners": {
+              "properties": {
+                "namesOfLegalOwners": {
+                  "rdsRef": "RightsHolders",
+                  "title": "Names of all legal owners",
+                  "minItems": 1
+                }
+              }
+            },
+            "sellersCapacity": {
+              "rdsRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
+              "title": "Capacity in which the Seller sells",
+              "discriminator": {
+                "propertyName": "capacity"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "capacity": {
+                      "enum": [
+                        "Legal Owner",
+                        "Mortgagee in Possession"
+                      ]
+                    },
+                    "sellersCapacityDetails": {
+                      "rdsRef": "Participants/OtherDocumentation",
+                      "title": "Please provide details if applicable",
+                      "description": "(for example if the sellers names do not match the legal owners on the title deed due to change of name on marriage)"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "capacity": {
+                      "enum": [
+                        "Personal Representative for a Deceased Owner",
+                        "Under Power of Attorney",
+                        "Other"
+                      ]
+                    },
+                    "sellersCapacityDetails": {
+                      "rdsRef": "Participants/OtherDocumentation",
+                      "title": "Please provide details and provide any probate, grant of representation or power of attorney "
+                    }
+                  }
+                }
+              ]
+            },
+            "legalBoundaries": {
+              "properties": {
+                "ownership": {
+                  "rdsRef": "Tenure/Boundaries",
+                  "title": "Boundary ownership",
+                  "description": "If the property is leasehold this section, or parts of it, may not apply.",
+                  "discriminator": {
+                    "propertyName": "areBoundariesUniform"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "areBoundariesUniform": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "uniformBoundaries": {
+                          "properties": {
+                            "left": {
+                              "rdsRef": "Tenure/Boundaries",
+                              "title": "On the left",
+                              "enum": [
+                                "Seller",
+                                "Shared",
+                                "Neighbour",
+                                "Not known"
+                              ]
+                            },
+                            "right": {
+                              "rdsRef": "Tenure/Boundaries",
+                              "title": "On the right",
+                              "enum": [
+                                "Seller",
+                                "Shared",
+                                "Neighbour",
+                                "Not known"
+                              ]
+                            },
+                            "rear": {
+                              "rdsRef": "Tenure/Boundaries",
+                              "title": "At the rear",
+                              "enum": [
+                                "Seller",
+                                "Shared",
+                                "Neighbour",
+                                "Not known"
+                              ]
+                            },
+                            "front": {
+                              "rdsRef": "Tenure/Boundaries",
+                              "title": "At the front",
+                              "enum": [
+                                "Seller",
+                                "Shared",
+                                "Neighbour",
+                                "Not known"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "areBoundariesUniform": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "areBoundariesUniform": {
+                          "enum": [
+                            "Not applicable"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "haveBoundaryFeaturesMoved": {
+                  "rdsRef": "Tenure/Boundaries",
+                  "title": "Has any boundary features been moved during your ownership or in the last 10 years, to your knowledge?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not applicable"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "adjacentLandIncluded": {
+                  "rdsRef": "Property/Flags,Property/GUID/name='UPRN'&id=?",
+                  "title": "Has any adjacent land or property been purchased by you that will be included in the sale?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not applicable"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "flyingFreehold": {
+                  "rdsRef": "Tenure/tenure=?",
+                  "title": "Is there a flying freehold?",
+                  "description": "NOTE: a flying freehold is when part of the property overhangs a neighbour's property or an accessway - e.g. a terrace house where part of the upstairs is over an accessway which belongs to someone else.",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not applicable"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "servicesCrossing": {
+              "properties": {
+                "pipesWiresCablesDrainsToProperty": {
+                  "rdsRef": "Services/.../Located",
+                  "title": "Are you aware of any pipes, wires, cables or drains bringing services to the property which cross any neighbouring land or property?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "pipesWiresCablesDrainsFromProperty": {
+                  "rdsRef": "Services/.../Located *with Property entities and references for the related properties etc",
+                  "title": "Are you aware of any pipes, wires, cables or drains taking services to neighbouring property cross this property?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "formalOrInformalAgreements": {
+                  "rdsRef": "Services/.../Consent",
+                  "title": "Are you aware of any formal or informal agreements or arrangements for pipes, wires cables or drains to cross either your property or neighbouring property?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "energyAndMeters": {
+              "properties": {
+                "testedByQualifiedElectrician": {
+                  "rdsRef": "Objects/Servicing",
+                  "title": "Have the electrics at the property been tested by a qualified electrician?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "electricalWorkSince2005": {
+                  "rdsRef": "WorksAlterationsChanges/Consent,WorksAlterationsChanges/Consent/Certificates",
+                  "title": "Since 1st January 2005, has any electrical work been carried out to the property?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "solarPanels": {
+                  "properties": {
+                    "hasSolarPanels": {
+                      "rdsRef": "Property/Flags",
+                      "title": "Are there solar or photovoltaic panels installed at the property?",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  },
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "yearInstalled": {
+                          "rdsRef": "Objects/Installation",
+                          "title": "What year were they installed?"
+                        },
+                        "panelsOwnedOutright": {
+                          "rdsRef": "Objects/Ownership",
+                          "title": "Do you own the panels, and all equipment related to them, outright?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "panelProviderLease": {
+                          "rdsRef": "Objects/Ownership",
+                          "title": "Is there an existing long lease of the roof/air space granted to a panel provider?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "lastMaintained": {
+                          "rdsRef": "Objects/Servicing",
+                          "title": "When was the system last maintained or serviced?"
+                        },
+                        "inGoodWorkingOrder": {
+                          "rdsRef": "Objects/isNotWorking=yes|no|true|false",
+                          "title": "Is the system in good working order to your satisfaction?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "isConnectedToNationalGrid": {
+                          "rdsRef": "Objects/isExternallyConnected=yes|no|true|false,Connection,Objects/ExternalConnection",
+                          "title": "Is the system connected to the National Grid e.g. for feed-in tariffs (FiT) or Smart Export Guarantee (SEG)",
+                          "enum": [
+                            "Yes (FiT)",
+                            "Yes (SEG)",
+                            "No"
+                          ]
+                        },
+                        "photovoltaicMeterPanelLocation": {
+                          "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
+                          "title": "Location of photovoltaic panel meter (if any)"
+                        },
+                        "photovoltaicBatteriesLocation": {
+                          "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
+                          "title": "Location of photovoltaic batteries (if any)"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "electricityMeterLocation": {
+                  "rdsRef": "Objects/class='meters|'&access=?&accessLocation=?",
+                  "title": "Location of electricity meter (if any)"
+                },
+                "gasMeterLocation": {
+                  "rdsRef": "Objects/class='meters'&access=?&accessLocation=?",
+                  "title": "Location of gas meter (if any)"
+                },
+                "stopcockLocation": {
+                  "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
+                  "title": "Location of stopcock (if any)"
+                },
+                "waterMeterLocation": {
+                  "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
+                  "title": "Location of water meter (if any)"
+                }
+              }
+            },
+            "guaranteesWarrantiesAndIndemnityInsurances": {
+              "properties": {
+                "hasValidGuaranteesOrWarranties": {
+                  "rdsRef": "Certificates",
+                  "title": "Are there any valid guarantees, warranties or indemnity insurances relating to this property?",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              },
+              "oneOf": [
+                null,
+                {
+                  "properties": {
+                    "newHomeWarranty": {
+                      "rdsRef": "Certificates",
+                      "title": "New Home Warranty (NHBC or similar)",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "roofingWork": {
+                      "rdsRef": "Certificates",
+                      "title": "Roofing work",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "dampProofingTreatment": {
+                      "rdsRef": "Certificates",
+                      "title": "Damp proofing treatment",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "timberRotOrInfestationTreatment": {
+                      "rdsRef": "Certificates",
+                      "title": "Timber rot or infestation treatment",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "centralHeatingAndorPlumbing": {
+                      "rdsRef": "Certificates",
+                      "title": "Central heating and/or plumbing",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "doubleGlazing": {
+                      "rdsRef": "Certificates",
+                      "title": "Double glazing (windows, doors, roof lights, conservatory etc)",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "electricalRepairOrInstallation": {
+                      "rdsRef": "Certificates",
+                      "title": "Electrical repair or installation",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "subsidenceWork": {
+                      "rdsRef": "Certificates",
+                      "title": "Underpinning or other preventative work and/or remedial action relating to subsidence",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "solarPanels": {
+                      "rdsRef": "Certificates",
+                      "title": "Solar panels",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "otherGuarantees": {
+                      "rdsRef": "Certificates",
+                      "title": "Other Guarantees or warranties",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "outstandingClaimsOrApplications": {
+                      "rdsRef": "Certificates",
+                      "title": "Are there any outstanding claims or current applications relating to any of the above?",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "titleDefectInsurance": {
+                      "rdsRef": "Certificates",
+                      "title": "Do you have any title defect insurance policies?",
+                      "description": "e.g. for breach of planning permission, buildings regulations, restrictions, chancel repair etc",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "occupiers": {
+              "properties": {
+                "sellerLivesAtProperty": {
+                  "rdsRef": "Property/Flags",
+                  "title": "Does the seller live at the property?"
+                },
+                "othersAged17OrOver": {
+                  "rdsRef": "Participants",
+                  "discriminator": {
+                    "propertyName": "hasOthersAged17OrOver"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "hasOthersAged17OrOver": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "hasOthersAged17OrOver": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "aged17OrOverTenantsOrLodgers": {
+                          "rdsRef": "Property/Flags",
+                          "title": "Are any of them tenants or lodgers?"
+                        },
+                        "vacantPossession": {
+                          "oneOf": [
+                            null,
+                            {
+                              "properties": {
+                                "aged17OrOverAgreedToLeave": {
+                                  "rdsRef": "RightsHolders,TenureAgreements,Notifications",
+                                  "title": "Have all occupiers aged 17 or over agreed to leave prior to completion?"
+                                },
+                                "aged17OrOverWillSignToConfirmWillVacate": {
+                                  "rdsRef": "RightsHolders,TenureAgreements,Notifications",
+                                  "title": "Have all occupiers aged 17 or over, agreed to sign the sale contract to confirm that they will vacate the property prior to completion of the sale?",
+                                  "discriminator": {
+                                    "propertyName": "yesNo"
+                                  },
+                                  "oneOf": [
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "Yes"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "No"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "hasOthersAged17OrOver": {
+                      "rdsRef": "Participants",
+                      "title": "Other than the sellers, does anyone else aged 17 or over, live at the property?",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "completionAndMoving": {
+              "properties": {
+                "sellerWillEnsure": {
+                  "rdsRef": "RightsHolders/Flags",
+                  "title": "Please confirm that on completion you will:"
+                },
+                "otherPropertyInChain": {
+                  "rdsRef": "RightsHolders/Flags",
+                  "title": "Will you need the purchase, sale or remortgage of another property to co-ordinate with the sale of this property?",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "moveRestrictionDates": {
+                  "rdsRef": "RightsHolders/Text",
+                  "title": "Are there any dates on which you cannot move?",
+                  "description": "Note that: the moving date will not be fixed until contracts are exchanged i.e. have become binding, until then you should only make provisional removal arrangements; you do not need to be physically present on the day of completion so long as the property is cleared; timescales to completion vary depending on the complexity of the transaction, length of the chain and requirements of the people involved.",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
