@@ -23,30 +23,15 @@ const extractFields = [
 ];
 
 const overlayIncludeProperties = [
-  "title",
-  "description",
-  "enum",
+  // "title",
+  // "description",
+  // "enum",
   "discriminator",
-  "minItems",
+  // "minItems",
 ];
-
-const combineMerge = (target, source, options) => {
-  const destination = target.slice();
-  source.forEach((item, index) => {
-    if (typeof destination[index] === "undefined") {
-      destination[index] = options.cloneUnlessOtherwiseSpecified(item, options);
-    } else if (options.isMergeableObject(item)) {
-      destination[index] = merge(target[index], item, options);
-    } else if (target.indexOf(item) === -1) {
-      destination.push(item);
-    }
-  });
-  return destination;
-};
 
 const flattenSkeleton = (schema) => {
   if (!schema) return undefined;
-  // console.log(schema.properties);
   let returnStructure = {};
   if (schema.properties) {
     Object.keys(schema.properties).forEach((key) => {
@@ -55,10 +40,8 @@ const flattenSkeleton = (schema) => {
   }
   if (schema.oneOf) {
     schema.oneOf.forEach((aOneOf) => {
-      // console.log(aOneOf);
       if (aOneOf.properties) {
         Object.entries(aOneOf.properties).forEach(([key, value]) => {
-          // console.log(aProperty);
           returnStructure[key] = flattenSkeleton(value);
         });
       }
@@ -105,6 +88,11 @@ const extractOverlay = (sourceSchema, ref) => {
             // if a refEnum use that
             const refEnum = `${ref}Enum`;
             if (discriminatorProperty[refEnum]) {
+              // console.log(
+              //   "Found refEnum",
+              //   discriminatorProperty[refEnum],
+              //   path
+              // );
               jp.set(
                 returnSchema,
                 discriminatorEnumPath,
@@ -112,6 +100,7 @@ const extractOverlay = (sourceSchema, ref) => {
               );
             } else {
               // use the base enum
+              // console.log("Found base enum", discriminatorProperty.enum, path);
               jp.set(
                 returnSchema,
                 discriminatorEnumPath,
@@ -153,12 +142,7 @@ const deleteProperties = (sourceSchema, propertyNames) => {
 const overlays = {};
 
 extractFields.forEach((key) => {
-  let overlay = extractOverlay(combinedSchema, key, [
-    "title",
-    "description",
-    "enum",
-    "discriminator",
-  ]);
+  let overlay = extractOverlay(combinedSchema, key);
   overlays[key] = overlay;
   const fileName = `../schemas/v3/overlays/${key}.json`;
   fs.writeFileSync(fileName, JSON.stringify(overlay, null, 2));

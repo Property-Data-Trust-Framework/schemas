@@ -71,16 +71,23 @@ const combineMerge = (target, source, options) => {
   return destination;
 };
 
+const mergeEnums = (target, source) => source;
+
 const getTransactionSchema = (
   schemaId = "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json",
-  overlays = ["baspiV4"]
+  overlays // = ["baspiV4"]
 ) => {
   const sourceSchema = transactionSchemas[schemaId];
   if (!overlays || overlays.length < 1) return sourceSchema;
   let mergedSchema = sourceSchema;
   overlays.forEach((overlay) => {
     const overlaySchema = overlaysMap[schemaId][overlay] || {};
-    mergedSchema = merge(overlaySchema, mergedSchema, {
+    mergedSchema = merge(mergedSchema, overlaySchema, {
+      customMerge: (key) => {
+        if (key === "enum") {
+          return mergeEnums;
+        }
+      },
       arrayMerge: combineMerge,
     });
   });
@@ -88,13 +95,7 @@ const getTransactionSchema = (
 };
 
 const getValidator = (schemaId, overlays) => {
-  let validator = ajv.getSchema(schemaId);
-  if (!validator) {
-    const schema = getTransactionSchema(schemaId, overlays);
-    ajv.addSchema(schema, schemaId);
-    validator = ajv.getSchema(schemaId);
-  }
-  return validator;
+  return getSubschemaValidator("", schemaId, overlays);
 };
 
 // common functions for v1 and v2
@@ -129,7 +130,7 @@ const isPathValid = (path, schemaId, overlays) => {
   }
 };
 
-const getSubschemaValidator = (path, schemaId, overlays = ["baspiV4"]) => {
+const getSubschemaValidator = (path, schemaId, overlays) => {
   const subSchema = getSubschema(path, schemaId, overlays);
   const overlayKey = (overlays || []).join(".");
   // see if we can retrieve the schema by path, schemaId and overlays
@@ -162,6 +163,7 @@ const getTitleAtPath = (schema, path, rootPath = path) => {
   }
   const propertyName = pathArray.shift();
   const subPath = "/" + pathArray.join("/");
+
   let subSchema = schema.properties
     ? schema.properties[propertyName]
     : undefined;
@@ -172,10 +174,9 @@ const getTitleAtPath = (schema, path, rootPath = path) => {
     subSchema = schema.items;
     return getTitleAtPath(subSchema, subPath, rootPath);
   }
-  const discriminator = schema.discriminator?.propertyName;
-  if (discriminator) {
+  const oneOfs = schema.oneOf;
+  if (oneOfs) {
     // only single dependency discriminator, oneOf keyword is supported
-    const oneOfs = schema.oneOf;
     const matchingOneOf = oneOfs.find(
       (oneOf) => oneOf["properties"][propertyName]
     );

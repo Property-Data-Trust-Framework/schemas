@@ -27,14 +27,14 @@ test("returns an array with an error stating if path is incorrect", () => {
   ]);
 });
 
-test("returns errors if BASPI requirements are not met and BASPI overlay is specified (default)", () => {
+test("returns errors if BASPI requirements are not met and BASPI overlay is specified", () => {
   const clonedVouch = JSON.parse(JSON.stringify(exampleVouch));
   clonedVouch.claims = {
     "/propertyPack/materialFacts/delayFactors": {
       hasDelayFactors: { yesNo: "Yes" },
     },
   };
-  const errors = validateVerifiedClaims([clonedVouch], v3SchemaId);
+  const errors = validateVerifiedClaims([clonedVouch], v3SchemaId, ["baspiV4"]);
   expect(errors).toEqual([
     {
       instancePath: "/hasDelayFactors",
