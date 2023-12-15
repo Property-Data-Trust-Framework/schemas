@@ -164,130 +164,6 @@
               "title": "Unique Property Reference Number ",
               "type": "integer"
             },
-            "propertyType": {
-              "title": "Type of Property",
-              "description": "The type or category of the property.",
-              "type": "string",
-              "enum": [
-                "Not Specified",
-                "Terraced House",
-                "End of terrace house",
-                "Semi-detached house",
-                "Detached house",
-                "Mews house",
-                "Cluster house",
-                "Ground floor flat",
-                "Flat",
-                "Studio flat",
-                "Ground floor maisonette",
-                "Maisonette",
-                "Bungalow",
-                "Terraced bungalow",
-                "Semi-detached bungalow",
-                "Detached bungalow",
-                "Mobile home",
-                "Land (Residential)",
-                "Link detached house",
-                "Town house",
-                "Cottage",
-                "Chalet",
-                "Character Property",
-                "House (unspecified)",
-                "Villa",
-                "Apartment",
-                "Penthouse",
-                "Finca",
-                "Barn Conversion",
-                "Serviced apartment",
-                "Parking",
-                "Sheltered Housing",
-                "Reteirment property",
-                "House share",
-                "Flat share",
-                "Park home",
-                "Garages",
-                "Farm House",
-                "Equestrian facility",
-                "Duplex",
-                "Triplex",
-                "Longere",
-                "Gite",
-                "Barn",
-                "Trulli",
-                "Mill",
-                "Ruins",
-                "Restaurant",
-                "Cafe",
-                "Castle",
-                "Village House",
-                "Cave House",
-                "Cortijo",
-                "Farm Land",
-                "Plot",
-                "Country House",
-                "Stone House",
-                "Caravan",
-                "Lodge",
-                "Log Cabin",
-                "Manor House",
-                "Stately Home",
-                "Off-Plan",
-                "Semi-detached Villa",
-                "Detached Villa",
-                "Bar/Nightclub",
-                "Shop",
-                "Riad",
-                "House Boat",
-                "Hotel Room",
-                "Block of Apartments",
-                "Private Halls",
-                "Office",
-                "Business Park",
-                "Serviced Office",
-                "Retail Property (High Street)",
-                "Retail Property (Out of Town)",
-                "Convenience Store",
-                "Hairdresser/Barber Shop",
-                "Hotel",
-                "Petrol Station",
-                "Post Office",
-                "Pub",
-                "Workshop & Retail Space",
-                "Distribution Warehouse",
-                "Factory",
-                "Heavy Industrial",
-                "Industrial Park",
-                "Light Industrial",
-                "Storage",
-                "Showroom",
-                "Warehouse",
-                "Land (Commercial)",
-                "Commercial Development",
-                "Industrial Development",
-                "Residential Development",
-                "Commercial Property",
-                "Data Centre",
-                "Farm",
-                "Healthcare Facility",
-                "Marine Property",
-                "Mixed Use",
-                "Research & Development Facility",
-                "Science Park",
-                "Guest House",
-                "Hospitality",
-                "Leisure Facility",
-                "Takeaway",
-                "Childcare Facility",
-                "Smallholding",
-                "Place of Worship",
-                "Trade Counter",
-                "Coach House",
-                "House of Multiple Occupation",
-                "Sports facilities",
-                "Spa",
-                "Campsite & Holiday Village"
-              ]
-            },
             "isNewBuild": {
               "title": "Is the property a New Build?",
               "type": "object",
@@ -472,9 +348,93 @@
               }
             },
             "buildInformation": {
-              "title": "Information related to property build",
+              "title": "About the property building",
               "type": "object",
               "properties": {
+                "building": {
+                  "title": "Building informatiom",
+                  "type": "object",
+                  "properties": {
+                    "propertyType": {
+                      "type": "string",
+                      "enum": [
+                        "House",
+                        "Bungalow",
+                        "Maisonette",
+                        "Flat",
+                        "Park home",
+                        "Other"
+                      ]
+                    }
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "propertyType": {
+                          "enum": [
+                            "Other"
+                          ]
+                        },
+                        "otherType": {
+                          "title": "Please describe the other type of property build",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "propertyType": {
+                          "enum": [
+                            "House",
+                            "Bungalow"
+                          ]
+                        },
+                        "builtForm": {
+                          "title": "Built form",
+                          "type": "string",
+                          "enum": [
+                            "Detached",
+                            "Semi-detached",
+                            "Terraced",
+                            "End of terrace",
+                            "Other"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "propertyType": {
+                          "enum": [
+                            "Maisonette",
+                            "Flat"
+                          ]
+                        },
+                        "builtForm": {
+                          "title": "Built form",
+                          "type": "string",
+                          "enum": [
+                            "Detached",
+                            "Semi-detached",
+                            "Terraced",
+                            "End of terrace",
+                            "Other"
+                          ]
+                        },
+                        "numberOfFloors": {
+                          "title": "Number of floors in the building",
+                          "type": "integer"
+                        },
+                        "entranceFloor": {
+                          "title": "Entrance floor",
+                          "description": "The floor on which the main entrance to the property is located, starting with 1 for the ground floor (0 for a basement)",
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  ]
+                },
                 "internalArea": {
                   "title": "Total internal floor area",
                   "type": "object",
