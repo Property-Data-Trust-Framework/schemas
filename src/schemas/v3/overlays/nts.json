@@ -183,6 +183,25 @@
                               "Managed Freehold",
                               "Commonhold"
                             ]
+                          },
+                          "managedFreeholdOrCommonholdInformation": {
+                            "ntsRef": "A3.2",
+                            "required": [
+                              "serviceCharge"
+                            ],
+                            "properties": {
+                              "serviceCharge": {
+                                "ntsRef": "A3.1.1",
+                                "required": [
+                                  "annualServiceCharge"
+                                ],
+                                "properties": {
+                                  "annualServiceCharge": {
+                                    "ntsRef": "A3.1.2"
+                                  }
+                                }
+                              }
+                            }
                           }
                         }
                       },
@@ -399,7 +418,12 @@
                     ],
                     "required": [
                       "ownershipType"
-                    ]
+                    ],
+                    "properties": {
+                      "ownershipType": {
+                        "ntsRef": "A3.1"
+                      }
+                    }
                   }
                 }
               }
@@ -413,19 +437,32 @@
               ],
               "properties": {
                 "parkingArrangements": {
-                  "ntsRef": "B4.1"
+                  "ntsRef": "B4.1",
+                  "items": {
+                    "ntsRef": "B4.1.1"
+                  }
                 },
                 "controlledParking": {
                   "ntsRef": "B4.2",
                   "required": [
                     "yesNo"
-                  ]
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "B4.2.1"
+                    }
+                  }
                 },
                 "electricVehicleChargingPoint": {
                   "ntsRef": "B4.3",
                   "required": [
                     "yesNo"
-                  ]
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "B4.2.1"
+                    }
+                  }
                 }
               }
             },
@@ -463,7 +500,10 @@
                         "details": {
                           "ntsRef": "C2.1.1.2"
                         }
-                      }
+                      },
+                      "required": [
+                        "details"
+                      ]
                     }
                   ],
                   "required": [
@@ -501,7 +541,10 @@
                         "details": {
                           "ntsRef": "C2.1.2.2"
                         }
-                      }
+                      },
+                      "required": [
+                        "details"
+                      ]
                     }
                   ],
                   "required": [
@@ -560,9 +603,6 @@
                                 },
                                 "consentsObtained": {
                                   "ntsRef": "C2.1.3.3"
-                                },
-                                "attachments": {
-                                  "ntsRef": "C2.1.3.4"
                                 }
                               },
                               "required": [
@@ -697,7 +737,10 @@
                   }
                 },
                 "accessibilityAndAdaptations": {
-                  "ntsRef": "C5"
+                  "ntsRef": "C5",
+                  "items": {
+                    "ntsRef": "C5.1"
+                  }
                 }
               }
             },
@@ -1102,7 +1145,11 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "ntsRef": "A3.2.1"
+                          "ntsRef": "A3.2.1",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
                         }
                       }
                     }
@@ -1412,7 +1459,7 @@
                                     "Electricity",
                                     "Oil",
                                     "LPG",
-                                    "Biomass boiler"
+                                    "Biomass"
                                   ]
                                 }
                               }
@@ -1562,10 +1609,13 @@
                           ]
                         },
                         "typeOfFlooding": {
-                          "ntsRef": "C3.1.1.3"
+                          "ntsRef": "C3.1.1.3",
+                          "items": {
+                            "ntsRef": "C3.1.1.3.1"
+                          }
                         },
                         "details": {
-                          "ntsRef": "C3.1.1.3"
+                          "ntsRef": "C3.1.1.4"
                         }
                       },
                       "required": [
