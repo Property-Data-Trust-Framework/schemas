@@ -105,12 +105,54 @@
                         },
                         "entranceFloor": {
                           "ntsRef": "B1.1.4"
+                        },
+                        "hasLift": {
+                          "ntsRef": "B1.1.5"
+                        },
+                        "overCommercialPremises": {
+                          "ntsRef": "B1.1.6",
+                          "discriminator": {
+                            "propertyName": "isLocatedOverCommercialPremises"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "isLocatedOverCommercialPremises": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "isLocatedOverCommercialPremises": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "details": {
+                                  "ntsRef": "B1.1.6.2"
+                                }
+                              },
+                              "required": [
+                                "details"
+                              ]
+                            }
+                          ],
+                          "properties": {
+                            "isLocatedOverCommercialPremises": {
+                              "ntsRef": "B1.1.6.1"
+                            }
+                          }
                         }
                       },
                       "required": [
                         "builtForm",
                         "numberOfFloors",
-                        "entranceFloor"
+                        "entranceFloor",
+                        "hasLift",
+                        "overCommercialPremises"
                       ]
                     }
                   ],
@@ -390,7 +432,10 @@
                                       "annualServiceCharge": {
                                         "ntsRef": "A3.5.1.1"
                                       }
-                                    }
+                                    },
+                                    "required": [
+                                      "annualServiceCharge"
+                                    ]
                                   }
                                 ],
                                 "required": [
@@ -412,8 +457,14 @@
                             "enum": [
                               "Other"
                             ]
+                          },
+                          "otherOwnershipDetails": {
+                            "ntsRef": "A3.5"
                           }
-                        }
+                        },
+                        "required": [
+                          "otherOwnershipDetails"
+                        ]
                       }
                     ],
                     "required": [
@@ -737,10 +788,7 @@
                   }
                 },
                 "accessibilityAndAdaptations": {
-                  "ntsRef": "C5",
-                  "items": {
-                    "ntsRef": "C5.1"
-                  }
+                  "ntsRef": "C5"
                 }
               }
             },
@@ -818,12 +866,99 @@
                 }
               }
             },
+            "notices": {
+              "ntsRef": "C4",
+              "required": [
+                "neighbourDevelopment",
+                "planningApplication"
+              ],
+              "properties": {
+                "neighbourDevelopment": {
+                  "ntsRef": "C4.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ntsRef": "C4.1.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "C4.1.1"
+                    }
+                  }
+                },
+                "planningApplication": {
+                  "ntsRef": "C4.2",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ntsRef": "C4.2.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "C4.2.1"
+                    }
+                  }
+                }
+              }
+            },
             "connectedUtilities": {
               "ntsRef": "B3",
               "required": [
                 "mainsElectricity",
-                "telephone",
-                "cableSatelliteTV",
                 "broadband",
                 "solarPanels",
                 "otherServices"
@@ -1205,7 +1340,8 @@
                           "ntsRef": "A3.3.1.1",
                           "enum": [
                             "Yes",
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       }
@@ -1408,7 +1544,8 @@
                           "ntsRef": "A3.3.2.1",
                           "enum": [
                             "Yes",
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       }
@@ -1514,10 +1651,7 @@
                   "ntsRef": "B3.4.1"
                 },
                 "otherHeatingFeatures": {
-                  "ntsRef": "B3.4.2",
-                  "items": {
-                    "ntsRef": "B3.4.2.1"
-                  }
+                  "ntsRef": "B3.4.2"
                 }
               }
             },
@@ -1609,10 +1743,7 @@
                           ]
                         },
                         "typeOfFlooding": {
-                          "ntsRef": "C3.1.1.3",
-                          "items": {
-                            "ntsRef": "C3.1.1.3.1"
-                          }
+                          "ntsRef": "C3.1.1.3"
                         },
                         "details": {
                           "ntsRef": "C3.1.1.4"
@@ -1632,12 +1763,12 @@
                     "floodRisk": {
                       "ntsRef": "C3.1.1.1",
                       "discriminator": {
-                        "propertyName": "impactIndicator"
+                        "propertyName": "riskIndicator"
                       },
                       "oneOf": [
                         {
                           "properties": {
-                            "impactIndicator": {
+                            "riskIndicator": {
                               "enum": [
                                 "No"
                               ]
@@ -1646,7 +1777,7 @@
                         },
                         {
                           "properties": {
-                            "impactIndicator": {
+                            "riskIndicator": {
                               "enum": [
                                 "Yes"
                               ]
@@ -1661,10 +1792,10 @@
                         }
                       ],
                       "required": [
-                        "impactIndicator"
+                        "riskIndicator"
                       ],
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "ntsRef": "C3.1.1.1",
                           "title": "To your knowledge, is the property at risk of flooding of any type?"
                         }
@@ -1678,12 +1809,12 @@
                 "coalMining": {
                   "ntsRef": "C6.1",
                   "discriminator": {
-                    "propertyName": "impactIndicator"
+                    "propertyName": "riskIndicator"
                   },
                   "oneOf": [
                     {
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "enum": [
                             "No"
                           ]
@@ -1692,7 +1823,7 @@
                     },
                     {
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "enum": [
                             "Yes"
                           ]
@@ -1705,10 +1836,10 @@
                     }
                   ],
                   "required": [
-                    "impactIndicator"
+                    "riskIndicator"
                   ],
                   "properties": {
-                    "impactIndicator": {
+                    "riskIndicator": {
                       "ntsRef": "C6.1.1",
                       "title": "To your knowledge, is the property impacted by coal mining?"
                     }
@@ -1717,12 +1848,12 @@
                 "nonCoalMining": {
                   "ntsRef": "C6.2",
                   "discriminator": {
-                    "propertyName": "impactIndicator"
+                    "propertyName": "riskIndicator"
                   },
                   "oneOf": [
                     {
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "enum": [
                             "No"
                           ]
@@ -1731,7 +1862,7 @@
                     },
                     {
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "enum": [
                             "Yes"
                           ]
@@ -1746,10 +1877,10 @@
                     }
                   ],
                   "required": [
-                    "impactIndicator"
+                    "riskIndicator"
                   ],
                   "properties": {
-                    "impactIndicator": {
+                    "riskIndicator": {
                       "ntsRef": "C6.2.1",
                       "title": "To your knowledge, is the property impacted by types of mining other than coal?"
                     }
@@ -1758,12 +1889,12 @@
                 "coastalErosion": {
                   "ntsRef": "C3.2",
                   "discriminator": {
-                    "propertyName": "impactIndicator"
+                    "propertyName": "riskIndicator"
                   },
                   "oneOf": [
                     {
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "enum": [
                             "No"
                           ]
@@ -1772,7 +1903,7 @@
                     },
                     {
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "enum": [
                             "Yes"
                           ]
@@ -1787,10 +1918,10 @@
                     }
                   ],
                   "required": [
-                    "impactIndicator"
+                    "riskIndicator"
                   ],
                   "properties": {
-                    "impactIndicator": {
+                    "riskIndicator": {
                       "ntsRef": "C3.2.1",
                       "title": "To your knowledge, is the property impacted by coastal erosion?"
                     }

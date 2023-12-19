@@ -88,11 +88,6 @@ const extractOverlay = (sourceSchema, ref) => {
             // if a refEnum use that
             const refEnum = `${ref}Enum`;
             if (discriminatorProperty[refEnum]) {
-              // console.log(
-              //   "Found refEnum",
-              //   discriminatorProperty[refEnum],
-              //   path
-              // );
               jp.set(
                 returnSchema,
                 discriminatorEnumPath,
@@ -100,7 +95,6 @@ const extractOverlay = (sourceSchema, ref) => {
               );
             } else {
               // use the base enum
-              // console.log("Found base enum", discriminatorProperty.enum, path);
               jp.set(
                 returnSchema,
                 discriminatorEnumPath,

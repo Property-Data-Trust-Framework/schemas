@@ -236,4 +236,5 @@ module.exports = {
   getTitleAtPath,
   verifiedClaimsSchema,
   validateVerifiedClaims,
+  overlaysMap,
 };

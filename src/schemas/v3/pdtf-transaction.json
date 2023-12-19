@@ -431,6 +431,57 @@
                           "title": "Entrance floor",
                           "description": "The floor on which the main entrance to the property is located, starting with 1 for the ground floor (0 for a basement)",
                           "type": "integer"
+                        },
+                        "hasLift": {
+                          "title": "Entrance floor",
+                          "description": "Is the property served by a lift?",
+                          "type": "string",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
+                        },
+                        "overCommercialPremises": {
+                          "title": "Is the property located over commercial premises?",
+                          "type": "object",
+                          "properties": {
+                            "isLocatedOverCommercialPremises": {
+                              "type": "string",
+                              "title": "Is the property located over commercial premises?",
+                              "enum": [
+                                "Yes",
+                                "No"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "isLocatedOverCommercialPremises"
+                          ],
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "isLocatedOverCommercialPremises": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "isLocatedOverCommercialPremises": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "details": {
+                                  "title": "Please provide details",
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              }
+                            }
+                          ]
                         }
                       }
                     }
@@ -16385,9 +16436,12 @@
                               "minLength": 1
                             },
                             "isSupplyMetered": {
-                              "title": "Details",
+                              "title": "Is the supply metered?",
                               "type": "string",
-                              "minLength": 1
+                              "enum": [
+                                "Yes",
+                                "No"
+                              ]
                             }
                           }
                         },
@@ -16577,10 +16631,6 @@
                                 "Yes"
                               ]
                             },
-                            "supplier": {
-                              "title": "Supplier",
-                              "type": "string"
-                            },
                             "details": {
                               "title": "Details",
                               "type": "string",
@@ -16599,10 +16649,6 @@
                               "title": "Date to be connected",
                               "type": "string",
                               "format": "date"
-                            },
-                            "supplier": {
-                              "title": "Supplier",
-                              "type": "string"
                             }
                           }
                         }
@@ -16630,11 +16676,6 @@
                               "enum": [
                                 "Yes"
                               ]
-                            },
-                            "supplier": {
-                              "title": "Supplier",
-                              "type": "string",
-                              "minLength": 1
                             },
                             "details": {
                               "title": "Details",
@@ -18549,7 +18590,7 @@
                       "title": "Flood Risk",
                       "type": "object",
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "type": "string",
                           "title": "Is the property impacted?",
                           "enum": [
@@ -18561,7 +18602,7 @@
                       "oneOf": [
                         {
                           "properties": {
-                            "impactIndicator": {
+                            "riskIndicator": {
                               "enum": [
                                 "No"
                               ]
@@ -18570,7 +18611,7 @@
                         },
                         {
                           "properties": {
-                            "impactIndicator": {
+                            "riskIndicator": {
                               "enum": [
                                 "Yes"
                               ]
@@ -18585,6 +18626,11 @@
                                 "4",
                                 "5"
                               ]
+                            },
+                            "result": {
+                              "title": "Result",
+                              "type": "string",
+                              "minLength": 1
                             },
                             "summary": {
                               "type": "string",
@@ -18612,7 +18658,7 @@
                                     "type": "string",
                                     "title": "Risk sub-category name"
                                   },
-                                  "impactIndicator": {
+                                  "riskIndicator": {
                                     "type": "string",
                                     "title": "Is action recommended?",
                                     "enum": [
@@ -18630,6 +18676,11 @@
                                       "4",
                                       "5"
                                     ]
+                                  },
+                                  "result": {
+                                    "title": "Result",
+                                    "type": "string",
+                                    "minLength": 1
                                   },
                                   "summary": {
                                     "type": "string",
@@ -18711,7 +18762,7 @@
                       "type": "object",
                       "title": "Radon risk",
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "type": "string",
                           "title": "Is the property impacted?",
                           "enum": [
@@ -18729,6 +18780,11 @@
                             "4",
                             "5"
                           ]
+                        },
+                        "result": {
+                          "title": "Result",
+                          "type": "string",
+                          "minLength": 1
                         },
                         "summary": {
                           "type": "string",
@@ -18755,7 +18811,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "impactIndicator": {
+                              "riskIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": [
@@ -18773,6 +18829,11 @@
                                   "4",
                                   "5"
                                 ]
+                              },
+                              "result": {
+                                "title": "Result",
+                                "type": "string",
+                                "minLength": 1
                               },
                               "summary": {
                                 "type": "string",
@@ -18869,7 +18930,7 @@
                       "type": "object",
                       "title": "Contaminated land risk",
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "type": "string",
                           "title": "Is the property impacted?",
                           "enum": [
@@ -18887,6 +18948,11 @@
                             "4",
                             "5"
                           ]
+                        },
+                        "result": {
+                          "title": "Result",
+                          "type": "string",
+                          "minLength": 1
                         },
                         "summary": {
                           "type": "string",
@@ -18913,7 +18979,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "impactIndicator": {
+                              "riskIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": [
@@ -18931,6 +18997,11 @@
                                   "4",
                                   "5"
                                 ]
+                              },
+                              "result": {
+                                "title": "Result",
+                                "type": "string",
+                                "minLength": 1
                               },
                               "summary": {
                                 "type": "string",
@@ -18962,7 +19033,7 @@
                       "type": "object",
                       "title": "Ground stability risk",
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "type": "string",
                           "title": "Is the property impacted?",
                           "enum": [
@@ -18980,6 +19051,11 @@
                             "4",
                             "5"
                           ]
+                        },
+                        "result": {
+                          "title": "Result",
+                          "type": "string",
+                          "minLength": 1
                         },
                         "summary": {
                           "type": "string",
@@ -19006,7 +19082,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "impactIndicator": {
+                              "riskIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": [
@@ -19024,6 +19100,11 @@
                                   "4",
                                   "5"
                                 ]
+                              },
+                              "result": {
+                                "title": "Result",
+                                "type": "string",
+                                "minLength": 1
                               },
                               "summary": {
                                 "type": "string",
@@ -19055,7 +19136,7 @@
                       "type": "object",
                       "title": "Energy risk",
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "type": "string",
                           "title": "Is the property impacted?",
                           "enum": [
@@ -19073,6 +19154,11 @@
                             "4",
                             "5"
                           ]
+                        },
+                        "result": {
+                          "title": "Result",
+                          "type": "string",
+                          "minLength": 1
                         },
                         "summary": {
                           "type": "string",
@@ -19099,7 +19185,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "impactIndicator": {
+                              "riskIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": [
@@ -19117,6 +19203,11 @@
                                   "4",
                                   "5"
                                 ]
+                              },
+                              "result": {
+                                "title": "Result",
+                                "type": "string",
+                                "minLength": 1
                               },
                               "summary": {
                                 "type": "string",
@@ -19148,7 +19239,7 @@
                       "type": "object",
                       "title": "Transportation risk",
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "type": "string",
                           "title": "Is the property impacted?",
                           "enum": [
@@ -19166,6 +19257,11 @@
                             "4",
                             "5"
                           ]
+                        },
+                        "result": {
+                          "title": "Result",
+                          "type": "string",
+                          "minLength": 1
                         },
                         "summary": {
                           "type": "string",
@@ -19192,7 +19288,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "impactIndicator": {
+                              "riskIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": [
@@ -19210,6 +19306,11 @@
                                   "4",
                                   "5"
                                 ]
+                              },
+                              "result": {
+                                "title": "Result",
+                                "type": "string",
+                                "minLength": 1
                               },
                               "summary": {
                                 "type": "string",
@@ -19241,7 +19342,7 @@
                       "type": "object",
                       "title": "Planning risk",
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "type": "string",
                           "title": "Is the property impacted?",
                           "enum": [
@@ -19259,6 +19360,11 @@
                             "4",
                             "5"
                           ]
+                        },
+                        "result": {
+                          "title": "Result",
+                          "type": "string",
+                          "minLength": 1
                         },
                         "summary": {
                           "type": "string",
@@ -19285,7 +19391,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "impactIndicator": {
+                              "riskIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": [
@@ -19303,6 +19409,11 @@
                                   "4",
                                   "5"
                                 ]
+                              },
+                              "result": {
+                                "title": "Result",
+                                "type": "string",
+                                "minLength": 1
                               },
                               "summary": {
                                 "type": "string",
@@ -19334,7 +19445,7 @@
                       "type": "object",
                       "title": "Climate risk",
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "type": "string",
                           "title": "Is the property impacted?",
                           "enum": [
@@ -19352,6 +19463,11 @@
                             "4",
                             "5"
                           ]
+                        },
+                        "result": {
+                          "title": "Result",
+                          "type": "string",
+                          "minLength": 1
                         },
                         "summary": {
                           "type": "string",
@@ -19378,7 +19494,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "impactIndicator": {
+                              "riskIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": [
@@ -19396,6 +19512,11 @@
                                   "4",
                                   "5"
                                 ]
+                              },
+                              "result": {
+                                "title": "Result",
+                                "type": "string",
+                                "minLength": 1
                               },
                               "summary": {
                                 "type": "string",
@@ -19423,7 +19544,7 @@
                   "title": "Coal mining",
                   "type": "object",
                   "properties": {
-                    "impactIndicator": {
+                    "riskIndicator": {
                       "type": "string",
                       "title": "Is the property impacted?",
                       "enum": [
@@ -19435,7 +19556,7 @@
                   "oneOf": [
                     {
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "enum": [
                             "No"
                           ]
@@ -19444,7 +19565,7 @@
                     },
                     {
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "enum": [
                             "Yes"
                           ]
@@ -19459,6 +19580,11 @@
                             "4",
                             "5"
                           ]
+                        },
+                        "result": {
+                          "title": "Result",
+                          "type": "string",
+                          "minLength": 1
                         },
                         "summary": {
                           "type": "string",
@@ -19485,7 +19611,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "impactIndicator": {
+                              "riskIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": [
@@ -19503,6 +19629,11 @@
                                   "4",
                                   "5"
                                 ]
+                              },
+                              "result": {
+                                "title": "Result",
+                                "type": "string",
+                                "minLength": 1
                               },
                               "summary": {
                                 "type": "string",
@@ -19530,7 +19661,7 @@
                   "title": "Non-coal mining",
                   "type": "object",
                   "properties": {
-                    "impactIndicator": {
+                    "riskIndicator": {
                       "type": "string",
                       "title": "Is the property impacted?",
                       "enum": [
@@ -19542,7 +19673,7 @@
                   "oneOf": [
                     {
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "enum": [
                             "No"
                           ]
@@ -19551,7 +19682,7 @@
                     },
                     {
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "enum": [
                             "Yes"
                           ]
@@ -19566,6 +19697,11 @@
                             "4",
                             "5"
                           ]
+                        },
+                        "result": {
+                          "title": "Result",
+                          "type": "string",
+                          "minLength": 1
                         },
                         "summary": {
                           "type": "string",
@@ -19593,7 +19729,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "impactIndicator": {
+                              "riskIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": [
@@ -19611,6 +19747,11 @@
                                   "4",
                                   "5"
                                 ]
+                              },
+                              "result": {
+                                "title": "Result",
+                                "type": "string",
+                                "minLength": 1
                               },
                               "summary": {
                                 "type": "string",
@@ -19638,7 +19779,7 @@
                   "title": "Coastal erosion",
                   "type": "object",
                   "properties": {
-                    "impactIndicator": {
+                    "riskIndicator": {
                       "type": "string",
                       "title": "Is the property impacted?",
                       "enum": [
@@ -19650,7 +19791,7 @@
                   "oneOf": [
                     {
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "enum": [
                             "No"
                           ]
@@ -19659,7 +19800,7 @@
                     },
                     {
                       "properties": {
-                        "impactIndicator": {
+                        "riskIndicator": {
                           "enum": [
                             "Yes"
                           ]
@@ -19674,6 +19815,11 @@
                             "4",
                             "5"
                           ]
+                        },
+                        "result": {
+                          "title": "Result",
+                          "type": "string",
+                          "minLength": 1
                         },
                         "summary": {
                           "type": "string",
@@ -19701,7 +19847,7 @@
                                 "type": "string",
                                 "title": "Risk sub-category name"
                               },
-                              "impactIndicator": {
+                              "riskIndicator": {
                                 "type": "string",
                                 "title": "Is action recommended?",
                                 "enum": [
@@ -19719,6 +19865,11 @@
                                   "4",
                                   "5"
                                 ]
+                              },
+                              "result": {
+                                "title": "Result",
+                                "type": "string",
+                                "minLength": 1
                               },
                               "summary": {
                                 "type": "string",

@@ -547,11 +547,45 @@
                           "type": "string",
                           "enum": ["Yes", "No"]
                         },
-                        "locatedOverCommercialPremises": {
+                        "overCommercialPremises": {
                           "ntsRef": "B1.1.6",
-                          "type": "string",
                           "title": "Is the property located over commercial premises?",
-                          "enum": ["Yes", "No"]
+                          "type": "object",
+                          "properties": {
+                            "isLocatedOverCommercialPremises": {
+                              "ntsRef": "B1.1.6.1",
+                              "type": "string",
+                              "title": "Is the property located over commercial premises?",
+                              "enum": ["Yes", "No"]
+                            }
+                          },
+                          "required": ["isLocatedOverCommercialPremises"],
+                          "discriminator": {
+                            "propertyName": "isLocatedOverCommercialPremises"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "isLocatedOverCommercialPremises": {
+                                  "enum": ["No"]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "isLocatedOverCommercialPremises": {
+                                  "enum": ["Yes"]
+                                },
+                                "details": {
+                                  "ntsRef": "B1.1.6.2",
+                                  "title": "Please provide details",
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "ntsRequired": ["details"]
+                            }
+                          ]
                         }
                       },
                       "ntsRequired": [
@@ -559,33 +593,7 @@
                         "numberOfFloors",
                         "entranceFloor",
                         "hasLift",
-                        "locatedOverCommercialPremises"
-                      ],
-                      "discriminator": {
-                        "propertyName": "locatedOverCommercialPremises"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "locatedOverCommercialPremises": {
-                              "enum": ["No"]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "locatedOverCommercialPremises": {
-                              "enum": ["Yes"]
-                            },
-                            "details": {
-                              "ntsRef": "B1.1.7",
-                              "title": "Please provide details",
-                              "type": "string",
-                              "minLength": 1
-                            }
-                          },
-                          "ntsRequired": ["details"]
-                        }
+                        "overCommercialPremises"
                       ]
                     }
                   ]
