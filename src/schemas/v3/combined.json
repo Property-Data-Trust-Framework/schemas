@@ -448,8 +448,20 @@
                   "ntsRef": "B1.1.1",
                   "title": "Building informatiom",
                   "type": "object",
-                  "ntsRequired": ["propertyType"],
+                  "ntsRequired": ["builtForm", "propertyType"],
                   "properties": {
+                    "builtForm": {
+                      "ntsRef": "B1.1.2",
+                      "title": "Built form",
+                      "type": "string",
+                      "enum": [
+                        "Detached",
+                        "Semi-detached",
+                        "Terraced",
+                        "End of terrace",
+                        "Other"
+                      ]
+                    },
                     "propertyType": {
                       "ntsRef": "B1.1.1.1",
                       "title": "Property type",
@@ -486,38 +498,13 @@
                       "properties": {
                         "propertyType": {
                           "enum": ["House", "Bungalow"]
-                        },
-                        "builtForm": {
-                          "ntsRef": "B1.1.2",
-                          "title": "Built form",
-                          "type": "string",
-                          "enum": [
-                            "Detached",
-                            "Semi-detached",
-                            "Terraced",
-                            "End of terrace",
-                            "Other"
-                          ]
                         }
-                      },
-                      "ntsRequired": ["builtForm"]
+                      }
                     },
                     {
                       "properties": {
                         "propertyType": {
                           "enum": ["Maisonette", "Flat"]
-                        },
-                        "builtForm": {
-                          "ntsRef": "B1.1.2",
-                          "title": "Built form",
-                          "type": "string",
-                          "enum": [
-                            "Detached",
-                            "Semi-detached",
-                            "Terraced",
-                            "End of terrace",
-                            "Other"
-                          ]
                         },
                         "numberOfFloors": {
                           "ntsRef": "B1.1.3",
@@ -579,7 +566,6 @@
                         }
                       },
                       "ntsRequired": [
-                        "builtForm",
                         "numberOfFloors",
                         "entranceFloor",
                         "hasLift",
@@ -622,111 +608,103 @@
                   "ntsRef": "B2",
                   "title": "Room dimensions",
                   "type": "object",
-                  "baspiRequired": ["hasFloorplan"],
+                  "ntsRequired": ["hasFloorplan"],
                   "properties": {
                     "hasFloorplan": {
                       "ntsRef": "B2.1",
                       "title": "Is a floorplan available which includes the dimensions of all the rooms?",
-                      "type": "object",
-                      "properties": {
-                        "yesNo": {
-                          "ntsRef": "B2.1.1",
-                          "type": "string",
-                          "title": "",
-                          "enum": ["Yes", "No"]
-                        }
-                      },
-                      "ntsRequired": ["yesNo"],
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": ["Yes"]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": ["No"]
-                            },
-                            "rooms": {
-                              "ntsRef": "B2",
-                              "title": "Rooms",
-                              "description": "Please supply dimensions for each of the rooms.",
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "roomName": {
-                                    "ntsRef": "B2.1.1",
-                                    "type": "string",
-                                    "title": "The name of the room",
-                                    "minLength": 1
-                                  },
-                                  "description": {
-                                    "ntsRef": "B2.1.2",
-                                    "type": "string",
-                                    "minLength": 1,
-                                    "title": "Description of the room"
-                                  },
-                                  "length": {
-                                    "ntsRef": "B2.1.3",
-                                    "type": "number",
-                                    "minimum": 0,
-                                    "title": "The length of the room"
-                                  },
-                                  "width": {
-                                    "ntsRef": "B2.1.4",
-                                    "type": "number",
-                                    "minimum": 0,
-                                    "title": "The width of the room"
-                                  },
-                                  "units": {
-                                    "ntsRef": "B2.1.5",
-                                    "title": "The units which the length and width of the room have been provided in",
-                                    "type": "string",
-                                    "enum": [
-                                      "meters",
-                                      "centimetres",
-                                      "millimetres",
-                                      "feet",
-                                      "inches"
-                                    ]
-                                  },
-                                  "dimensionDetails": {
-                                    "ntsRef": "B2.6",
-                                    "title": "Any additional description or clarification of the room dimensions",
-                                    "type": "string",
-                                    "minLength": 1
-                                  },
-                                  "photoUrls": {
-                                    "ntsRef": "B2.7",
-                                    "title": "The URLs of images which should be associated with this room",
-                                    "type": "array",
-                                    "items": {
-                                      "type": "string",
-                                      "format": "uri"
-                                    }
-                                  }
-                                },
-                                "ntsRequired": [
-                                  "roomName",
-                                  "length",
-                                  "width",
-                                  "units"
-                                ]
-                              }
-                            }
-                          },
-                          "ntsRequired": ["rooms"]
-                        }
-                      ]
+                      "type": "string",
+                      "enum": ["Yes", "No"]
                     }
-                  }
+                  },
+                  "discriminator": {
+                    "propertyName": "hasFloorplan"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "hasFloorplan": {
+                          "enum": ["Yes"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "hasFloorplan": {
+                          "enum": ["No"]
+                        },
+                        "rooms": {
+                          "ntsRef": "B2.2",
+                          "title": "Rooms",
+                          "description": "Please supply dimensions for each of the rooms.",
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "roomName": {
+                                "ntsRef": "B2.2.1",
+                                "type": "string",
+                                "title": "The name of the room",
+                                "minLength": 1
+                              },
+                              "description": {
+                                "ntsRef": "B2.2.2",
+                                "type": "string",
+                                "minLength": 1,
+                                "title": "Description of the room"
+                              },
+                              "length": {
+                                "ntsRef": "B2.2.3",
+                                "type": "number",
+                                "minimum": 0,
+                                "title": "The length of the room"
+                              },
+                              "width": {
+                                "ntsRef": "B2.2.4",
+                                "type": "number",
+                                "minimum": 0,
+                                "title": "The width of the room"
+                              },
+                              "units": {
+                                "ntsRef": "B2.2.5",
+                                "title": "The units which the length and width of the room have been provided in",
+                                "type": "string",
+                                "enum": [
+                                  "meters",
+                                  "centimetres",
+                                  "millimetres",
+                                  "feet",
+                                  "inches"
+                                ]
+                              },
+                              "dimensionDetails": {
+                                "ntsRef": "B2.6",
+                                "title": "Any additional description or clarification of the room dimensions",
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "photoUrls": {
+                                "ntsRef": "B2.7",
+                                "title": "The URLs of images which should be associated with this room",
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "format": "uri"
+                                }
+                              }
+                            },
+                            "ntsRequired": [
+                              "roomName",
+                              "length",
+                              "width",
+                              "units"
+                            ]
+                          }
+                        }
+                      },
+                      "ntsRequired": ["rooms"]
+                    }
+                  ]
                 }
               }
             },

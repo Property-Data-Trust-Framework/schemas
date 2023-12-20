@@ -81,14 +81,8 @@
                             "House",
                             "Bungalow"
                           ]
-                        },
-                        "builtForm": {
-                          "ntsRef": "B1.1.2"
                         }
-                      },
-                      "required": [
-                        "builtForm"
-                      ]
+                      }
                     },
                     {
                       "properties": {
@@ -97,9 +91,6 @@
                             "Maisonette",
                             "Flat"
                           ]
-                        },
-                        "builtForm": {
-                          "ntsRef": "B1.1.2"
                         },
                         "numberOfFloors": {
                           "ntsRef": "B1.1.3"
@@ -149,7 +140,6 @@
                         }
                       },
                       "required": [
-                        "builtForm",
                         "numberOfFloors",
                         "entranceFloor",
                         "hasLift",
@@ -158,9 +148,13 @@
                     }
                   ],
                   "required": [
+                    "builtForm",
                     "propertyType"
                   ],
                   "properties": {
+                    "builtForm": {
+                      "ntsRef": "B1.1.2"
+                    },
                     "propertyType": {
                       "ntsRef": "B1.1.1.1"
                     }
@@ -168,77 +162,72 @@
                 },
                 "roomDimensions": {
                   "ntsRef": "B2",
-                  "properties": {
-                    "hasFloorplan": {
-                      "ntsRef": "B2.1",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            },
-                            "rooms": {
-                              "ntsRef": "B2",
-                              "items": {
-                                "required": [
-                                  "roomName",
-                                  "length",
-                                  "width",
-                                  "units"
-                                ],
-                                "properties": {
-                                  "roomName": {
-                                    "ntsRef": "B2.1.1"
-                                  },
-                                  "description": {
-                                    "ntsRef": "B2.1.2"
-                                  },
-                                  "length": {
-                                    "ntsRef": "B2.1.3"
-                                  },
-                                  "width": {
-                                    "ntsRef": "B2.1.4"
-                                  },
-                                  "units": {
-                                    "ntsRef": "B2.1.5"
-                                  },
-                                  "dimensionDetails": {
-                                    "ntsRef": "B2.6"
-                                  },
-                                  "photoUrls": {
-                                    "ntsRef": "B2.7"
-                                  }
-                                }
-                              }
-                            }
-                          },
-                          "required": [
-                            "rooms"
+                  "discriminator": {
+                    "propertyName": "hasFloorplan"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "hasFloorplan": {
+                          "enum": [
+                            "Yes"
                           ]
                         }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "ntsRef": "B2.1.1"
-                        }
                       }
+                    },
+                    {
+                      "properties": {
+                        "hasFloorplan": {
+                          "enum": [
+                            "No"
+                          ]
+                        },
+                        "rooms": {
+                          "ntsRef": "B2.2",
+                          "items": {
+                            "required": [
+                              "roomName",
+                              "length",
+                              "width",
+                              "units"
+                            ],
+                            "properties": {
+                              "roomName": {
+                                "ntsRef": "B2.2.1"
+                              },
+                              "description": {
+                                "ntsRef": "B2.2.2"
+                              },
+                              "length": {
+                                "ntsRef": "B2.2.3"
+                              },
+                              "width": {
+                                "ntsRef": "B2.2.4"
+                              },
+                              "units": {
+                                "ntsRef": "B2.2.5"
+                              },
+                              "dimensionDetails": {
+                                "ntsRef": "B2.6"
+                              },
+                              "photoUrls": {
+                                "ntsRef": "B2.7"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "rooms"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "hasFloorplan"
+                  ],
+                  "properties": {
+                    "hasFloorplan": {
+                      "ntsRef": "B2.1"
                     }
                   }
                 }
