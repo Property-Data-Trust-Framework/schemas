@@ -1793,6 +1793,15 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
+                                "Not known"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
                                 "To be connected"
                               ]
                             },
@@ -1805,30 +1814,29 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
-                                "No",
-                                "Not known"
+                                "No"
                               ]
                             },
-                            "septicTank": {
-                              "ta6Ref": "12.5a",
+                            "offMainsDrainageSystem": {
+                              "ta6Ref": "12.4a",
                               "discriminator": {
-                                "propertyName": "yesNo"
+                                "propertyName": "offMainsDrainageSystemType"
                               },
                               "oneOf": [
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "No"
+                                        "Sustainable Drainage System"
                                       ]
                                     }
                                   }
                                 },
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "Yes"
+                                        "Septic tank"
                                       ]
                                     },
                                     "dateReplaced": {
@@ -1842,37 +1850,12 @@
                                     "dateReplaced",
                                     "dateLastEmptied"
                                   ]
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "ta6Ref": "12.5a1"
-                                }
-                              }
-                            },
-                            "cesspit": {
-                              "ta6Ref": "12.5b",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
                                 },
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "Yes"
+                                        "Cesspit"
                                       ]
                                     },
                                     "dateLastEmptied": {
@@ -1882,37 +1865,12 @@
                                   "required": [
                                     "dateLastEmptied"
                                   ]
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "ta6Ref": "12.5c1"
-                                }
-                              }
-                            },
-                            "sewerageTreatmentPlant": {
-                              "ta6Ref": "12.5b",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
                                 },
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "Yes"
+                                        "Sewerage treatment plant"
                                       ]
                                     },
                                     "dateInstalled": {
@@ -1929,102 +1887,94 @@
                                 }
                               ],
                               "required": [
-                                "yesNo"
+                                "offMainsDrainageSystemType",
+                                "otherConnectedProperties",
+                                "plantOnOtherLand"
                               ],
                               "properties": {
-                                "yesNo": {
-                                  "ta6Ref": "12.5b1"
-                                }
-                              }
-                            },
-                            "otherConnectedProperties": {
-                              "ta6Ref": "12.6",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
+                                "otherConnectedProperties": {
+                                  "ta6Ref": "12.6",
+                                  "discriminator": {
+                                    "propertyName": "yesNo"
+                                  },
+                                  "oneOf": [
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "No"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "Yes"
+                                          ]
+                                        },
+                                        "numberOfPropertiesSharing": {
+                                          "ta6Ref": "12.6.2"
+                                        }
+                                      },
+                                      "required": [
+                                        "numberOfPropertiesSharing"
+                                      ]
+                                    }
+                                  ],
+                                  "required": [
+                                    "yesNo"
+                                  ],
                                   "properties": {
                                     "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
+                                      "ta6Ref": "12.6.1"
                                     }
                                   }
                                 },
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "Yes"
-                                      ]
-                                    },
-                                    "numberOfPropertiesSharing": {
-                                      "ta6Ref": "12.6.2"
-                                    }
+                                "plantOnOtherLand": {
+                                  "ta6Ref": "12.10",
+                                  "discriminator": {
+                                    "propertyName": "yesNo"
                                   },
+                                  "oneOf": [
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "No"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "Yes"
+                                          ]
+                                        },
+                                        "attachments": {
+                                          "ta6Ref": "12.10.2"
+                                        }
+                                      },
+                                      "required": [
+                                        "attachments"
+                                      ]
+                                    }
+                                  ],
                                   "required": [
-                                    "numberOfPropertiesSharing"
-                                  ]
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "ta6Ref": "12.6.1"
-                                }
-                              }
-                            },
-                            "plantOnOtherLand": {
-                              "ta6Ref": "12.10",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
+                                    "yesNo"
+                                  ],
                                   "properties": {
                                     "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
+                                      "ta6Ref": "12.10.1"
                                     }
                                   }
-                                },
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "Yes"
-                                      ]
-                                    },
-                                    "attachments": {
-                                      "ta6Ref": "12.10.2"
-                                    }
-                                  },
-                                  "required": [
-                                    "attachments"
-                                  ]
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "ta6Ref": "12.10.1"
                                 }
                               }
                             }
-                          },
-                          "required": [
-                            "septicTank",
-                            "cesspit",
-                            "sewerageTreatmentPlant",
-                            "otherConnectedProperties",
-                            "plantOnOtherLand"
-                          ]
+                          }
                         }
                       ],
                       "required": [

@@ -99,6 +99,15 @@
                 ]
               }
             },
+            "buildInformation": {
+              "properties": {
+                "roomDimensions": {
+                  "required": [
+                    "hasFloorplan"
+                  ]
+                }
+              }
+            },
             "delayFactors": {
               "baspiRef": "A1.2",
               "required": [
@@ -4027,6 +4036,15 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
+                                "Not known"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
                                 "To be connected"
                               ]
                             },
@@ -4045,85 +4063,29 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
-                                "No",
-                                "Not known"
+                                "No"
                               ]
                             },
-                            "sustainableDrainageSystem": {
-                              "baspiRef": "A7.1.0.13",
+                            "offMainsDrainageSystem": {
+                              "baspiRef": "A7.1.10.13",
                               "discriminator": {
-                                "propertyName": "yesNo"
+                                "propertyName": "offMainsDrainageSystemType"
                               },
                               "oneOf": [
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "No"
+                                        "Sustainable Drainage System"
                                       ]
                                     }
                                   }
                                 },
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "Yes"
-                                      ]
-                                    },
-                                    "supplier": {
-                                      "baspiRef": "A7.1.0.13.3"
-                                    }
-                                  }
-                                },
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "To be connected"
-                                      ]
-                                    },
-                                    "dateToBeConnected": {
-                                      "baspiRef": "A7.1.0.13.2"
-                                    },
-                                    "supplier": {
-                                      "baspiRef": "A7.1.0.13.3"
-                                    }
-                                  },
-                                  "required": [
-                                    "dateToBeConnected"
-                                  ]
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "baspiRef": "A7.1.0.13.1"
-                                }
-                              }
-                            },
-                            "septicTank": {
-                              "baspiRef": "A7.1.0.14",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
-                                },
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "Yes"
+                                        "Septic tank"
                                       ]
                                     },
                                     "dateReplaced": {
@@ -4137,37 +4099,12 @@
                                     "dateReplaced",
                                     "dateLastEmptied"
                                   ]
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "baspiRef": "A7.1.0.14.1"
-                                }
-                              }
-                            },
-                            "cesspit": {
-                              "baspiRef": "A7.1.0.15",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
                                 },
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "Yes"
+                                        "Cesspit"
                                       ]
                                     },
                                     "dateLastEmptied": {
@@ -4177,37 +4114,12 @@
                                   "required": [
                                     "dateLastEmptied"
                                   ]
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "baspiRef": "A7.1.0.15.1"
-                                }
-                              }
-                            },
-                            "sewerageTreatmentPlant": {
-                              "baspiRef": "A7.1.0.16",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
                                 },
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "Yes"
+                                        "Sewerage treatment plant"
                                       ]
                                     },
                                     "dateInstalled": {
@@ -4228,189 +4140,183 @@
                                 }
                               ],
                               "required": [
-                                "yesNo"
+                                "offMainsDrainageSystemType",
+                                "otherConnectedProperties",
+                                "plantOnOtherLand",
+                                "plantRegistered",
+                                "plantDrainsIntoWaterway"
                               ],
                               "properties": {
-                                "yesNo": {
-                                  "baspiRef": "A7.1.0.16.1"
-                                }
-                              }
-                            },
-                            "otherConnectedProperties": {
-                              "baspiRef": "A7.1.1",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
+                                "offMainsDrainageSystemType": {
+                                  "baspiRef": "A7."
+                                },
+                                "otherConnectedProperties": {
+                                  "baspiRef": "A7.1.1",
+                                  "discriminator": {
+                                    "propertyName": "yesNo"
+                                  },
+                                  "oneOf": [
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "No"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "Yes"
+                                          ]
+                                        },
+                                        "numberOfPropertiesSharing": {
+                                          "baspiRef": "A7.1.1.1"
+                                        },
+                                        "details": {
+                                          "baspiRef": "A7.1.1.2"
+                                        }
+                                      },
+                                      "required": [
+                                        "numberOfPropertiesSharing",
+                                        "details"
                                       ]
                                     }
-                                  }
-                                },
-                                {
+                                  ],
+                                  "required": [
+                                    "yesNo"
+                                  ],
                                   "properties": {
                                     "yesNo": {
-                                      "enum": [
-                                        "Yes"
-                                      ]
-                                    },
-                                    "numberOfPropertiesSharing": {
                                       "baspiRef": "A7.1.1.1"
-                                    },
-                                    "details": {
-                                      "baspiRef": "A7.1.1.2"
-                                    }
-                                  },
-                                  "required": [
-                                    "numberOfPropertiesSharing",
-                                    "details"
-                                  ]
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "baspiRef": "A7.1.1.1"
-                                }
-                              }
-                            },
-                            "plantOnOtherLand": {
-                              "baspiRef": "A7.1.2",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
                                     }
                                   }
                                 },
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "Yes"
-                                      ]
-                                    },
-                                    "attachments": {
-                                      "baspiRef": "7.1.2.2"
-                                    }
+                                "plantOnOtherLand": {
+                                  "baspiRef": "A7.1.2",
+                                  "discriminator": {
+                                    "propertyName": "yesNo"
                                   },
+                                  "oneOf": [
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "No"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "Yes"
+                                          ]
+                                        },
+                                        "attachments": {
+                                          "baspiRef": "7.1.2.2"
+                                        }
+                                      },
+                                      "required": [
+                                        "attachments"
+                                      ]
+                                    }
+                                  ],
                                   "required": [
-                                    "attachments"
-                                  ]
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "baspiRef": "7.1.2.1"
-                                }
-                              }
-                            },
-                            "plantRegistered": {
-                              "baspiRef": "A7.1.3",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
+                                    "yesNo"
+                                  ],
                                   "properties": {
                                     "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
+                                      "baspiRef": "7.1.2.1"
                                     }
                                   }
                                 },
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "Yes"
-                                      ]
-                                    },
-                                    "attachments": {
-                                      "baspiRef": "A7.1.3.2"
-                                    }
+                                "plantRegistered": {
+                                  "baspiRef": "A7.1.3",
+                                  "discriminator": {
+                                    "propertyName": "yesNo"
                                   },
+                                  "oneOf": [
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "No"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "Yes"
+                                          ]
+                                        },
+                                        "attachments": {
+                                          "baspiRef": "A7.1.3.2"
+                                        }
+                                      },
+                                      "required": [
+                                        "attachments"
+                                      ]
+                                    }
+                                  ],
                                   "required": [
-                                    "attachments"
-                                  ]
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "baspiRef": "A7.1.3.1"
-                                }
-                              }
-                            },
-                            "plantDrainsIntoWaterway": {
-                              "baspiRef": "A7.1.4",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
+                                    "yesNo"
+                                  ],
                                   "properties": {
                                     "yesNo": {
-                                      "enum": [
-                                        "No, the effluent is discharged through a soakaway system."
-                                      ]
+                                      "baspiRef": "A7.1.3.1"
                                     }
                                   }
                                 },
-                                {
+                                "plantDrainsIntoWaterway": {
+                                  "baspiRef": "A7.1.4",
+                                  "discriminator": {
+                                    "propertyName": "yesNo"
+                                  },
+                                  "oneOf": [
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "No, the effluent is discharged through a soakaway system."
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "Yes"
+                                          ]
+                                        },
+                                        "dischargeCompliesWithGBR": {
+                                          "baspiRef": "A7.1.4.1"
+                                        }
+                                      },
+                                      "required": [
+                                        "dischargeCompliesWithGBR"
+                                      ]
+                                    }
+                                  ],
+                                  "required": [
+                                    "yesNo"
+                                  ],
                                   "properties": {
                                     "yesNo": {
-                                      "enum": [
-                                        "Yes"
-                                      ]
-                                    },
-                                    "dischargeCompliesWithGBR": {
                                       "baspiRef": "A7.1.4.1"
                                     }
-                                  },
-                                  "required": [
-                                    "dischargeCompliesWithGBR"
-                                  ]
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "baspiRef": "A7.1.4.1"
+                                  }
                                 }
                               }
                             }
-                          },
-                          "required": [
-                            "sustainableDrainageSystem",
-                            "septicTank",
-                            "cesspit",
-                            "sewerageTreatmentPlant",
-                            "otherConnectedProperties",
-                            "plantOnOtherLand",
-                            "plantRegistered",
-                            "plantDrainsIntoWaterway"
-                          ]
+                          }
                         }
                       ],
                       "required": [
@@ -5614,35 +5520,10 @@
                     }
                   ],
                   "required": [
-                    "floodRisk",
                     "hasBeenFlooded"
                   ],
                   "properties": {
                     "floodRisk": {
-                      "baspiRef": "A11.1.1",
-                      "discriminator": {
-                        "propertyName": "riskIndicator"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "riskIndicator": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "riskIndicator": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            }
-                          }
-                        }
-                      ],
                       "required": [
                         "riskIndicator"
                       ],

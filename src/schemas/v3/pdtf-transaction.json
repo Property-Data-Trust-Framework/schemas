@@ -164,19 +164,6 @@
               "title": "Unique Property Reference Number ",
               "type": "integer"
             },
-            "isNewBuild": {
-              "title": "Is the property a New Build?",
-              "type": "object",
-              "properties": {
-                "yesNo": {
-                  "type": "string",
-                  "enum": [
-                    "Yes",
-                    "No"
-                  ]
-                }
-              }
-            },
             "location": {
               "title": "Geographical location",
               "type": "object",
@@ -510,57 +497,110 @@
                   "title": "Year the property was built",
                   "type": "integer"
                 },
-                "rooms": {
-                  "title": "Rooms",
-                  "description": "Information about the property's rooms",
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "roomName": {
-                        "type": "string",
-                        "title": "The name of the room",
-                        "minLength": 1
-                      },
-                      "description": {
-                        "type": "string",
-                        "minLength": 1,
-                        "title": "The specific description of the room"
-                      },
-                      "length": {
-                        "type": "number",
-                        "minimum": 0,
-                        "title": "The length of the room"
-                      },
-                      "width": {
-                        "type": "number",
-                        "minimum": 0,
-                        "title": "The width of the room"
-                      },
-                      "units": {
-                        "title": "The units which the length and width of the room have been provided in",
-                        "type": "string",
-                        "enum": [
-                          "meters",
-                          "centimetres",
-                          "millimetres",
-                          "feet",
-                          "inches"
-                        ]
-                      },
-                      "dimensionDetails": {
-                        "title": "Any additional description or clarification of the room dimensions",
-                        "type": "string",
-                        "minLength": 1
-                      },
-                      "photoUrls": {
-                        "title": "The URLs of images which should be associated with this room",
-                        "type": "array",
-                        "items": {
+                "isNewBuild": {
+                  "title": "Is the property a New Build?",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                "roomDimensions": {
+                  "title": "Room dimensions",
+                  "type": "object",
+                  "properties": {
+                    "hasFloorplan": {
+                      "title": "Is a floorplan available which includes the dimensions of all the rooms?",
+                      "type": "object",
+                      "properties": {
+                        "yesNo": {
                           "type": "string",
-                          "format": "uri"
+                          "title": "",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
                         }
-                      }
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            },
+                            "rooms": {
+                              "title": "Rooms",
+                              "description": "Please supply dimensions for each of the rooms.",
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "roomName": {
+                                    "type": "string",
+                                    "title": "The name of the room",
+                                    "minLength": 1
+                                  },
+                                  "description": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "title": "Description of the room"
+                                  },
+                                  "length": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "title": "The length of the room"
+                                  },
+                                  "width": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "title": "The width of the room"
+                                  },
+                                  "units": {
+                                    "title": "The units which the length and width of the room have been provided in",
+                                    "type": "string",
+                                    "enum": [
+                                      "meters",
+                                      "centimetres",
+                                      "millimetres",
+                                      "feet",
+                                      "inches"
+                                    ]
+                                  },
+                                  "dimensionDetails": {
+                                    "title": "Any additional description or clarification of the room dimensions",
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "photoUrls": {
+                                    "title": "The URLs of images which should be associated with this room",
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string",
+                                      "format": "uri"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
                     }
                   }
                 }
@@ -16688,6 +16728,15 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
+                                "Not known"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
                                 "To be connected"
                               ]
                             },
@@ -16706,95 +16755,206 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
-                                "No",
-                                "Not known"
+                                "No"
                               ]
                             },
-                            "sustainableDrainageSystem": {
-                              "title": "Sustainable Drainage System",
+                            "offMainsDrainageSystem": {
                               "type": "object",
                               "properties": {
-                                "yesNo": {
+                                "offMainsDrainageSystemType": {
                                   "type": "string",
-                                  "title": "",
                                   "enum": [
-                                    "Yes",
-                                    "To be connected",
-                                    "No"
+                                    "Sustainable Drainage System",
+                                    "Septic tank",
+                                    "Cesspit",
+                                    "Sewerage treatment plant"
                                   ]
-                                }
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
                                 },
-                                {
+                                "otherConnectedProperties": {
+                                  "title": "Do other properties connect to the septic tank, cesspit or sewerage treatment plant?",
+                                  "type": "object",
                                   "properties": {
                                     "yesNo": {
-                                      "enum": [
-                                        "Yes"
-                                      ]
-                                    },
-                                    "supplier": {
-                                      "title": "Supplier",
-                                      "type": "string"
-                                    }
-                                  }
-                                },
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "To be connected"
-                                      ]
-                                    },
-                                    "dateToBeConnected": {
-                                      "title": "Date to be connected",
                                       "type": "string",
-                                      "format": "date"
-                                    },
-                                    "supplier": {
-                                      "title": "Supplier",
-                                      "type": "string"
+                                      "title": "",
+                                      "enum": [
+                                        "Yes",
+                                        "No"
+                                      ]
                                     }
-                                  }
-                                }
-                              ]
-                            },
-                            "septicTank": {
-                              "title": "Septic tank",
-                              "type": "object",
-                              "properties": {
-                                "yesNo": {
-                                  "type": "string",
-                                  "title": "",
-                                  "enum": [
-                                    "Yes",
-                                    "No"
+                                  },
+                                  "oneOf": [
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "No"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "Yes"
+                                          ]
+                                        },
+                                        "numberOfPropertiesSharing": {
+                                          "title": "How many other properties?",
+                                          "type": "integer"
+                                        },
+                                        "details": {
+                                          "title": "Provide details of the properties sharing the system and explain how maintenance of the system is arranged and paid for",
+                                          "type": "string",
+                                          "minLength": 1
+                                        }
+                                      }
+                                    }
+                                  ]
+                                },
+                                "plantOnOtherLand": {
+                                  "title": "Is any part of the septic tank, cesspit or sewerage treatment plant located on someone else’s land?",
+                                  "type": "object",
+                                  "properties": {
+                                    "yesNo": {
+                                      "type": "string",
+                                      "title": "",
+                                      "enum": [
+                                        "Yes",
+                                        "No"
+                                      ]
+                                    }
+                                  },
+                                  "oneOf": [
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "No"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "Yes"
+                                          ]
+                                        },
+                                        "attachments": {
+                                          "title": "Please supply a plan showing the location of the system and how access is obtained.",
+                                          "type": "string",
+                                          "enum": [
+                                            "Attached",
+                                            "To follow"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  ]
+                                },
+                                "plantRegistered": {
+                                  "title": "Is the septic tank, cesspit or sewerage treatment plant registered with the Environment Agency or exempted?",
+                                  "type": "object",
+                                  "properties": {
+                                    "yesNo": {
+                                      "type": "string",
+                                      "title": "",
+                                      "enum": [
+                                        "Yes",
+                                        "No"
+                                      ]
+                                    }
+                                  },
+                                  "oneOf": [
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "No"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "Yes"
+                                          ]
+                                        },
+                                        "attachments": {
+                                          "title": "Please supply the appropriate permit to discharge or exemption certificate",
+                                          "type": "string",
+                                          "enum": [
+                                            "Attached",
+                                            "To follow"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  ]
+                                },
+                                "plantDrainsIntoWaterway": {
+                                  "title": "Does the septic tank, cesspit or sewerage treatment plant drain into a waterway (lake, river, stream etc)",
+                                  "type": "object",
+                                  "properties": {
+                                    "yesNo": {
+                                      "type": "string",
+                                      "title": "",
+                                      "enum": [
+                                        "Yes",
+                                        "No, the effluent is discharged through a soakaway system."
+                                      ]
+                                    }
+                                  },
+                                  "oneOf": [
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "No, the effluent is discharged through a soakaway system."
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "Yes"
+                                          ]
+                                        },
+                                        "dischargeCompliesWithGBR": {
+                                          "title": "Does it comply with the General Binding Rules for discharge into a waterway?",
+                                          "type": "string",
+                                          "enum": [
+                                            "Yes",
+                                            "No, it does not comply with the rules for discharge into a waterway."
+                                          ]
+                                        }
+                                      }
+                                    }
                                   ]
                                 }
                               },
                               "oneOf": [
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "No"
+                                        "Sustainable Drainage System"
                                       ]
                                     }
                                   }
                                 },
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "Yes"
+                                        "Septic tank"
                                       ]
                                     },
                                     "dateReplaced": {
@@ -16808,37 +16968,12 @@
                                       "format": "date"
                                     }
                                   }
-                                }
-                              ]
-                            },
-                            "cesspit": {
-                              "title": "Cesspit",
-                              "type": "object",
-                              "properties": {
-                                "yesNo": {
-                                  "type": "string",
-                                  "title": "",
-                                  "enum": [
-                                    "Yes",
-                                    "No"
-                                  ]
-                                }
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
                                 },
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "Yes"
+                                        "Cesspit"
                                       ]
                                     },
                                     "dateLastEmptied": {
@@ -16847,37 +16982,12 @@
                                       "format": "date"
                                     }
                                   }
-                                }
-                              ]
-                            },
-                            "sewerageTreatmentPlant": {
-                              "title": "Sewerage treatment plant",
-                              "type": "object",
-                              "properties": {
-                                "yesNo": {
-                                  "type": "string",
-                                  "title": "",
-                                  "enum": [
-                                    "Yes",
-                                    "No"
-                                  ]
-                                }
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
                                 },
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "Yes"
+                                        "Sewerage treatment plant"
                                       ]
                                     },
                                     "dateInstalled": {
@@ -16897,175 +17007,6 @@
                                         "Attached",
                                         "To follow",
                                         "Not applicable"
-                                      ]
-                                    }
-                                  }
-                                }
-                              ]
-                            },
-                            "otherConnectedProperties": {
-                              "title": "Do other properties connect to the septic tank, cesspit or sewerage treatment plant?",
-                              "type": "object",
-                              "properties": {
-                                "yesNo": {
-                                  "type": "string",
-                                  "title": "",
-                                  "enum": [
-                                    "Yes",
-                                    "No"
-                                  ]
-                                }
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
-                                },
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "Yes"
-                                      ]
-                                    },
-                                    "numberOfPropertiesSharing": {
-                                      "title": "How many other properties?",
-                                      "type": "integer"
-                                    },
-                                    "details": {
-                                      "title": "Provide details of the properties sharing the system and explain how maintenance of the system is arranged and paid for",
-                                      "type": "string",
-                                      "minLength": 1
-                                    }
-                                  }
-                                }
-                              ]
-                            },
-                            "plantOnOtherLand": {
-                              "title": "Is any part of the septic tank, cesspit or sewerage treatment plant located on someone else’s land?",
-                              "type": "object",
-                              "properties": {
-                                "yesNo": {
-                                  "type": "string",
-                                  "title": "",
-                                  "enum": [
-                                    "Yes",
-                                    "No"
-                                  ]
-                                }
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
-                                },
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "Yes"
-                                      ]
-                                    },
-                                    "attachments": {
-                                      "title": "Please supply a plan showing the location of the system and how access is obtained.",
-                                      "type": "string",
-                                      "enum": [
-                                        "Attached",
-                                        "To follow"
-                                      ]
-                                    }
-                                  }
-                                }
-                              ]
-                            },
-                            "plantRegistered": {
-                              "title": "Is the septic tank, cesspit or sewerage treatment plant registered with the Environment Agency or exempted?",
-                              "type": "object",
-                              "properties": {
-                                "yesNo": {
-                                  "type": "string",
-                                  "title": "",
-                                  "enum": [
-                                    "Yes",
-                                    "No"
-                                  ]
-                                }
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
-                                },
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "Yes"
-                                      ]
-                                    },
-                                    "attachments": {
-                                      "title": "Please supply the appropriate permit to discharge or exemption certificate",
-                                      "type": "string",
-                                      "enum": [
-                                        "Attached",
-                                        "To follow"
-                                      ]
-                                    }
-                                  }
-                                }
-                              ]
-                            },
-                            "plantDrainsIntoWaterway": {
-                              "title": "Does the septic tank, cesspit or sewerage treatment plant drain into a waterway (lake, river, stream etc)",
-                              "type": "object",
-                              "properties": {
-                                "yesNo": {
-                                  "type": "string",
-                                  "title": "",
-                                  "enum": [
-                                    "Yes",
-                                    "No, the effluent is discharged through a soakaway system."
-                                  ]
-                                }
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No, the effluent is discharged through a soakaway system."
-                                      ]
-                                    }
-                                  }
-                                },
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "Yes"
-                                      ]
-                                    },
-                                    "dischargeCompliesWithGBR": {
-                                      "title": "Does it comply with the General Binding Rules for discharge into a waterway?",
-                                      "type": "string",
-                                      "enum": [
-                                        "Yes",
-                                        "No, it does not comply with the rules for discharge into a waterway."
                                       ]
                                     }
                                   }

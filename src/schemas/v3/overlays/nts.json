@@ -49,7 +49,8 @@
             "buildInformation": {
               "ntsRef": "B1.1",
               "required": [
-                "building"
+                "building",
+                "roomDimensions"
               ],
               "properties": {
                 "building": {
@@ -165,30 +166,78 @@
                     }
                   }
                 },
-                "rooms": {
+                "roomDimensions": {
                   "ntsRef": "B2",
-                  "items": {
-                    "properties": {
-                      "roomName": {
-                        "ntsRef": "B2.1"
+                  "properties": {
+                    "hasFloorplan": {
+                      "ntsRef": "B2.1",
+                      "discriminator": {
+                        "propertyName": "yesNo"
                       },
-                      "description": {
-                        "ntsRef": "B2.2"
-                      },
-                      "length": {
-                        "ntsRef": "B2.3"
-                      },
-                      "width": {
-                        "ntsRef": "B2.4"
-                      },
-                      "units": {
-                        "ntsRef": "B2.5"
-                      },
-                      "dimensionDetails": {
-                        "ntsRef": "B2.6"
-                      },
-                      "photoUrls": {
-                        "ntsRef": "B2.7"
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            },
+                            "rooms": {
+                              "ntsRef": "B2",
+                              "items": {
+                                "required": [
+                                  "roomName",
+                                  "length",
+                                  "width",
+                                  "units"
+                                ],
+                                "properties": {
+                                  "roomName": {
+                                    "ntsRef": "B2.1.1"
+                                  },
+                                  "description": {
+                                    "ntsRef": "B2.1.2"
+                                  },
+                                  "length": {
+                                    "ntsRef": "B2.1.3"
+                                  },
+                                  "width": {
+                                    "ntsRef": "B2.1.4"
+                                  },
+                                  "units": {
+                                    "ntsRef": "B2.1.5"
+                                  },
+                                  "dimensionDetails": {
+                                    "ntsRef": "B2.6"
+                                  },
+                                  "photoUrls": {
+                                    "ntsRef": "B2.7"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "required": [
+                            "rooms"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ntsRef": "B2.1.1"
+                        }
                       }
                     }
                   }
@@ -1365,6 +1414,15 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
+                                "Not known"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
                                 "To be connected"
                               ]
                             }
@@ -1374,166 +1432,62 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
-                                "No",
-                                "Not known"
+                                "No"
                               ]
                             },
-                            "sustainableDrainageSystem": {
+                            "offMainsDrainageSystem": {
                               "ntsRef": "A3.3.3",
                               "discriminator": {
-                                "propertyName": "yesNo"
+                                "propertyName": "offMainsDrainageSystemType"
                               },
                               "oneOf": [
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "No"
+                                        "Sustainable Drainage System"
                                       ]
                                     }
                                   }
                                 },
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "Yes"
+                                        "Septic tank"
                                       ]
                                     }
                                   }
                                 },
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "To be connected"
+                                        "Cesspit"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "offMainsDrainageSystemType": {
+                                      "enum": [
+                                        "Sewerage treatment plant"
                                       ]
                                     }
                                   }
                                 }
                               ],
                               "required": [
-                                "yesNo"
+                                "offMainsDrainageSystemType"
                               ],
                               "properties": {
-                                "yesNo": {
-                                  "ntsRef": "A3.3.3.1",
-                                  "enum": [
-                                    "Yes",
-                                    "No"
-                                  ]
-                                }
-                              }
-                            },
-                            "septicTank": {
-                              "ntsRef": "A3.3.4",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
-                                },
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "Yes"
-                                      ]
-                                    }
-                                  }
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "ntsRef": "A3.3.4.1"
-                                }
-                              }
-                            },
-                            "cesspit": {
-                              "ntsRef": "A3.3.5",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
-                                },
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "Yes"
-                                      ]
-                                    }
-                                  }
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "ntsRef": "A3.3.5.1"
-                                }
-                              }
-                            },
-                            "sewerageTreatmentPlant": {
-                              "ntsRef": "A3.3.6",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
-                                },
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "Yes"
-                                      ]
-                                    }
-                                  }
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "ntsRef": "A3.3.6.1"
+                                "offMainsDrainageSystemType": {
+                                  "ntsRef": "A3.3.3.1"
                                 }
                               }
                             }
-                          },
-                          "required": [
-                            "sustainableDrainageSystem",
-                            "septicTank",
-                            "cesspit",
-                            "sewerageTreatmentPlant"
-                          ]
+                          }
                         }
                       ],
                       "required": [
@@ -1701,6 +1655,7 @@
                       "required": [
                         "yesNo"
                       ],
+                      "title": "Is there a public right of way through and/or across your house, buildings or land?",
                       "properties": {
                         "yesNo": {
                           "ntsRef": "C2.2.1.1"
