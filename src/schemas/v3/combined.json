@@ -446,7 +446,7 @@
               "properties": {
                 "building": {
                   "ntsRef": "B1.1.1",
-                  "title": "Building informatiom",
+                  "title": "Building information",
                   "type": "object",
                   "ntsRequired": ["builtForm", "propertyType"],
                   "properties": {
@@ -8018,6 +8018,7 @@
               ],
               "ntsRequired": [
                 "parkingArrangements",
+                "disabledParking",
                 "controlledParking",
                 "electricVehicleChargingPoint"
               ],
@@ -8044,21 +8045,33 @@
                       "On Street",
                       "Rear",
                       "Private",
-                      "Disabled Parking Available",
-                      "No Disabled Parking Available",
                       "Garage En Bloc"
                     ]
                   }
                 },
-                "controlledParking": {
+                "disabledParking": {
                   "ntsRef": "B4.2",
+                  "title": "Is disabled parking available?",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "B4.2.1",
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "No", "Not known"]
+                    }
+                  },
+                  "ntsRequired": ["yesNo"]
+                },
+                "controlledParking": {
+                  "ntsRef": "B4.3",
                   "baspiRef": "A1.6.2",
                   "ta6Ref": "9.2",
                   "title": "Is the property in a controlled parking zone or within a local authority parking scheme?",
                   "type": "object",
                   "properties": {
                     "yesNo": {
-                      "ntsRef": "B4.2.1",
+                      "ntsRef": "B4.3.1",
                       "baspiRef": "A1.6.2.1",
                       "ta6Ref": "9.2.1",
                       "type": "string",
@@ -8071,13 +8084,13 @@
                   "ta6Required": ["yesNo"]
                 },
                 "electricVehicleChargingPoint": {
-                  "ntsRef": "B4.3",
+                  "ntsRef": "B4.4",
                   "baspiRef": "A1.6.1",
                   "title": "Is there an electric vehicle charging point belonging to the property?",
                   "type": "object",
                   "properties": {
                     "yesNo": {
-                      "ntsRef": "B4.2.1",
+                      "ntsRef": "B4.4.1",
                       "baspiRef": "A1.6.1.1",
                       "type": "string",
                       "title": "",
@@ -8085,8 +8098,7 @@
                     }
                   },
                   "baspiRequired": ["yesNo"],
-                  "ntsRequired": ["yesNo"],
-                  "ta6Required": ["yesNo"]
+                  "ntsRequired": ["yesNo"]
                 }
               }
             },
@@ -8359,8 +8371,8 @@
                   "ntsRef": "A1.2.1",
                   "rdsRef": "Buildings,BuildingSections/ConstructionType,ConstructionMaterials",
                   "piqRef": "A5.5",
-                  "title": "Is the property built in a standard form of construction? E.g. brick and/or block with timber-supported roof comprising a tile or slate cover?",
-                  "description": "Examples of non-standard features which might affect a buyer are are thatched roofs, prefabricated buildings or timber-framed windows",
+                  "title": "Is the property built in a standard form of construction?",
+                  "description": "Standard construction is brick and/or block with timber-supported roof comprising a tile or slate cover. Examples of non-standard features which might affect a buyer are are thatched roofs, prefabricated buildings or timber-framed windows.",
                   "type": "object",
                   "properties": {
                     "yesNo": {
@@ -8555,7 +8567,7 @@
                 "accessibilityAndAdaptations": {
                   "ntsRef": "C5",
                   "title": "Are there any adaptations or features that provide easier access to, and within, the property?",
-                  "description": "Lateral living is a term used to describe a property that has essential facilites on the entrance level",
+                  "description": "Lateral living is where a property has all essential facilities e.g. kitchen, bathroom and bedroom on the entrance level.",
                   "type": "array",
                   "items": {
                     "type": "string",
@@ -20204,7 +20216,7 @@
                     "details": {
                       "ntsRef": "B3.4.4",
                       "title": "Community heating system details",
-                      "description": "Please descripbe how the cost of heating supply is charged, whether you have control over the energy supplier and whether you have any control over the heating",
+                      "description": "Please describe how the cost of heating supply is charged, whether you have control over the energy supplier and whether you have any control over the heating.",
                       "type": "string",
                       "minLength": 1
                     }
@@ -38088,126 +38100,7 @@
               "propertyType": {
                 "title": "Type of Property",
                 "description": "The type or category of the property.",
-                "type": "string",
-                "enum": [
-                  "Not Specified",
-                  "Terraced House",
-                  "End of terrace house",
-                  "Semi-detached house",
-                  "Detached house",
-                  "Mews house",
-                  "Cluster house",
-                  "Ground floor flat",
-                  "Flat",
-                  "Studio flat",
-                  "Ground floor maisonette",
-                  "Maisonette",
-                  "Bungalow",
-                  "Terraced bungalow",
-                  "Semi-detached bungalow",
-                  "Detached bungalow",
-                  "Mobile home",
-                  "Land (Residential)",
-                  "Link detached house",
-                  "Town house",
-                  "Cottage",
-                  "Chalet",
-                  "Character Property",
-                  "House (unspecified)",
-                  "Villa",
-                  "Apartment",
-                  "Penthouse",
-                  "Finca",
-                  "Barn Conversion",
-                  "Serviced apartment",
-                  "Parking",
-                  "Sheltered Housing",
-                  "Reteirment property",
-                  "House share",
-                  "Flat share",
-                  "Park home",
-                  "Garages",
-                  "Farm House",
-                  "Equestrian facility",
-                  "Duplex",
-                  "Triplex",
-                  "Longere",
-                  "Gite",
-                  "Barn",
-                  "Trulli",
-                  "Mill",
-                  "Ruins",
-                  "Restaurant",
-                  "Cafe",
-                  "Castle",
-                  "Village House",
-                  "Cave House",
-                  "Cortijo",
-                  "Farm Land",
-                  "Plot",
-                  "Country House",
-                  "Stone House",
-                  "Caravan",
-                  "Lodge",
-                  "Log Cabin",
-                  "Manor House",
-                  "Stately Home",
-                  "Off-Plan",
-                  "Semi-detached Villa",
-                  "Detached Villa",
-                  "Bar/Nightclub",
-                  "Shop",
-                  "Riad",
-                  "House Boat",
-                  "Hotel Room",
-                  "Block of Apartments",
-                  "Private Halls",
-                  "Office",
-                  "Business Park",
-                  "Serviced Office",
-                  "Retail Property (High Street)",
-                  "Retail Property (Out of Town)",
-                  "Convenience Store",
-                  "Hairdresser/Barber Shop",
-                  "Hotel",
-                  "Petrol Station",
-                  "Post Office",
-                  "Pub",
-                  "Workshop & Retail Space",
-                  "Distribution Warehouse",
-                  "Factory",
-                  "Heavy Industrial",
-                  "Industrial Park",
-                  "Light Industrial",
-                  "Storage",
-                  "Showroom",
-                  "Warehouse",
-                  "Land (Commercial)",
-                  "Commercial Development",
-                  "Industrial Development",
-                  "Residential Development",
-                  "Commercial Property",
-                  "Data Centre",
-                  "Farm",
-                  "Healthcare Facility",
-                  "Marine Property",
-                  "Mixed Use",
-                  "Research & Development Facility",
-                  "Science Park",
-                  "Guest House",
-                  "Hospitality",
-                  "Leisure Facility",
-                  "Takeaway",
-                  "Childcare Facility",
-                  "Smallholding",
-                  "Place of Worship",
-                  "Trade Counter",
-                  "Coach House",
-                  "House of Multiple Occupation",
-                  "Sports facilities",
-                  "Spa",
-                  "Campsite & Holiday Village"
-                ]
+                "type": "string"
               },
               "marketingTenure": {
                 "title": "Marketing Tenure",
