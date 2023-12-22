@@ -148,7 +148,7 @@ test("correctly gets yet, yet another subschema through a dependency", () => {
 
 test("correctly gets yet, yet, yet another subschema through a second item dependency", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/environmentalIssues/flooding/typeOfFlooding"
+    "/propertyPack/materialFacts/environmentalIssues/flooding/historicalFlooding/typeOfFlooding"
   );
   expect(subschema.type).toBe("array");
 });

@@ -2450,32 +2450,6 @@
               "properties": {
                 "flooding": {
                   "rdsRef": "Sustainability/Environmental|Natural|Situational",
-                  "discriminator": {
-                    "propertyName": "hasBeenFlooded"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "hasBeenFlooded": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "hasBeenFlooded": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "typeOfFlooding": {
-                          "rdsRef": "Sustainability/Environmental|Natural|Situational"
-                        }
-                      }
-                    }
-                  ],
                   "properties": {
                     "floodRisk": {
                       "rdsRef": "Sustainability/Environmental|Natural|Situational",
@@ -2498,6 +2472,18 @@
                               "enum": [
                                 "Yes"
                               ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "historicalFlooding": {
+                      "oneOf": [
+                        null,
+                        {
+                          "properties": {
+                            "typeOfFlooding": {
+                              "rdsRef": "Sustainability/Environmental|Natural|Situational"
                             }
                           }
                         }
@@ -2612,12 +2598,12 @@
                 "otherEnvironmental": {
                   "rdsRef": "Sustainability/Environmental|Natural|Situational",
                   "discriminator": {
-                    "propertyName": "yesNo"
+                    "propertyName": "riskIndicator"
                   },
                   "oneOf": [
                     {
                       "properties": {
-                        "yesNo": {
+                        "riskIndicator": {
                           "enum": [
                             "No",
                             "Not known"
@@ -2627,7 +2613,7 @@
                     },
                     {
                       "properties": {
-                        "yesNo": {
+                        "riskIndicator": {
                           "enum": [
                             "Yes"
                           ]

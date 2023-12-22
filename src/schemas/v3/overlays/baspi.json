@@ -5477,41 +5477,8 @@
               "properties": {
                 "flooding": {
                   "baspiRef": "A11.1.1",
-                  "discriminator": {
-                    "propertyName": "hasBeenFlooded"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "hasBeenFlooded": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "hasBeenFlooded": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "typeOfFlooding": {
-                          "baspiRef": "A11.1.2.2"
-                        },
-                        "details": {
-                          "baspiRef": "A11.1.2.1"
-                        }
-                      },
-                      "required": [
-                        "typeOfFlooding",
-                        "details"
-                      ]
-                    }
-                  ],
                   "required": [
-                    "hasBeenFlooded"
+                    "historicalFlooding"
                   ],
                   "properties": {
                     "floodRisk": {
@@ -5524,8 +5491,49 @@
                         }
                       }
                     },
-                    "hasBeenFlooded": {
-                      "baspiRef": "A11.1.2"
+                    "historicalFlooding": {
+                      "baspiRef": "A11.1.2",
+                      "discriminator": {
+                        "propertyName": "hasBeenFlooded"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "hasBeenFlooded": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "hasBeenFlooded": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "typeOfFlooding": {
+                              "baspiRef": "A11.1.2.2"
+                            },
+                            "details": {
+                              "baspiRef": "A11.1.2.1"
+                            }
+                          },
+                          "required": [
+                            "typeOfFlooding",
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "hasBeenFlooded"
+                      ],
+                      "properties": {
+                        "hasBeenFlooded": {
+                          "baspiRef": "A11.1.2.1"
+                        }
+                      }
                     }
                   }
                 },
@@ -5596,12 +5604,12 @@
                 "otherEnvironmental": {
                   "baspiRef": "A11.1.4",
                   "discriminator": {
-                    "propertyName": "yesNo"
+                    "propertyName": "riskIndicator"
                   },
                   "oneOf": [
                     {
                       "properties": {
-                        "yesNo": {
+                        "riskIndicator": {
                           "enum": [
                             "No",
                             "Not known"
@@ -5611,25 +5619,25 @@
                     },
                     {
                       "properties": {
-                        "yesNo": {
+                        "riskIndicator": {
                           "enum": [
                             "Yes"
                           ]
                         },
-                        "details": {
+                        "summary": {
                           "baspiRef": "A11.1.4.2"
                         }
                       },
                       "required": [
-                        "details"
+                        "summary"
                       ]
                     }
                   ],
                   "required": [
-                    "yesNo"
+                    "riskIndicator"
                   ],
                   "properties": {
-                    "yesNo": {
+                    "riskIndicator": {
                       "baspiRef": "A11.1.4.1"
                     }
                   }

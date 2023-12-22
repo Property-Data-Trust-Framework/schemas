@@ -409,8 +409,7 @@
                           "type": "integer"
                         },
                         "hasLift": {
-                          "title": "Entrance floor",
-                          "description": "Is the property served by a lift?",
+                          "title": "Is the property served by a lift?",
                           "type": "string",
                           "enum": [
                             "Yes",
@@ -418,7 +417,7 @@
                           ]
                         },
                         "overCommercialPremises": {
-                          "title": "Is the property located over commercial premises?",
+                          "title": "Located over commercial premises?",
                           "type": "object",
                           "properties": {
                             "isLocatedOverCommercialPremises": {
@@ -571,14 +570,6 @@
                                 "title": "Any additional description or clarification of the room dimensions",
                                 "type": "string",
                                 "minLength": 1
-                              },
-                              "photoUrls": {
-                                "title": "The URLs of images which should be associated with this room",
-                                "type": "array",
-                                "items": {
-                                  "type": "string",
-                                  "format": "uri"
-                                }
                               }
                             }
                           }
@@ -18628,55 +18619,61 @@
                         }
                       ]
                     },
-                    "hasBeenFlooded": {
-                      "title": "Has any part of the property (whether buildings or surrounding garden or land) ever been flooded?",
-                      "type": "string",
-                      "enum": [
-                        "Yes",
-                        "No"
-                      ]
-                    }
-                  },
-                  "oneOf": [
-                    {
+                    "historicalFlooding": {
+                      "title": "Historical flooding",
+                      "type": "object",
                       "properties": {
                         "hasBeenFlooded": {
+                          "title": "Has any part of the property (whether buildings or surrounding garden or land) ever been flooded?",
+                          "type": "string",
                           "enum": [
+                            "Yes",
                             "No"
                           ]
                         }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "hasBeenFlooded": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "typeOfFlooding": {
-                          "title": "What type of flooding occurred?",
-                          "type": "array",
-                          "items": {
-                            "type": "string",
-                            "enum": [
-                              "Ground water",
-                              "Sewer",
-                              "Surface water",
-                              "Coastal flooding",
-                              "River flooding",
-                              "Other"
-                            ]
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "hasBeenFlooded": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
                           }
                         },
-                        "details": {
-                          "title": "Please state when the flooding occurred and identify the parts that flooded",
-                          "type": "string",
-                          "minLength": 1
+                        {
+                          "properties": {
+                            "hasBeenFlooded": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "typeOfFlooding": {
+                              "title": "What type of flooding occurred?",
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "Ground water",
+                                  "Sewer",
+                                  "Surface water",
+                                  "Coastal flooding",
+                                  "River flooding",
+                                  "Other"
+                                ]
+                              }
+                            },
+                            "details": {
+                              "title": "Please state when the flooding occurred and identify the parts that flooded",
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
                         }
-                      }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "radon": {
                   "title": "Radon",
@@ -19821,7 +19818,7 @@
                   "title": "To your knowledge, have there been any other environmental issues that affect the property or garden (for example, these could include air pollution, mining, sink holes, quarrying or fracking etc)?",
                   "type": "object",
                   "properties": {
-                    "yesNo": {
+                    "riskIndicator": {
                       "type": "string",
                       "title": "",
                       "enum": [
@@ -19833,7 +19830,7 @@
                   "oneOf": [
                     {
                       "properties": {
-                        "yesNo": {
+                        "riskIndicator": {
                           "enum": [
                             "No",
                             "Not known"
@@ -19843,12 +19840,12 @@
                     },
                     {
                       "properties": {
-                        "yesNo": {
+                        "riskIndicator": {
                           "enum": [
                             "Yes"
                           ]
                         },
-                        "details": {
+                        "summary": {
                           "title": "Please provide details. For example the level of air pollution, location of fracking etc, and whether any action has been taken to prevent harm.",
                           "type": "string",
                           "minLength": 1

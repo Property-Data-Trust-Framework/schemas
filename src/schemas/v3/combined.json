@@ -519,14 +519,13 @@
                         },
                         "hasLift": {
                           "ntsRef": "B1.1.5",
-                          "title": "Entrance floor",
-                          "description": "Is the property served by a lift?",
+                          "title": "Is the property served by a lift?",
                           "type": "string",
                           "enum": ["Yes", "No"]
                         },
                         "overCommercialPremises": {
                           "ntsRef": "B1.1.6",
-                          "title": "Is the property located over commercial premises?",
+                          "title": "Located over commercial premises?",
                           "type": "object",
                           "properties": {
                             "isLocatedOverCommercialPremises": {
@@ -682,15 +681,6 @@
                                 "title": "Any additional description or clarification of the room dimensions",
                                 "type": "string",
                                 "minLength": 1
-                              },
-                              "photoUrls": {
-                                "ntsRef": "B2.7",
-                                "title": "The URLs of images which should be associated with this room",
-                                "type": "array",
-                                "items": {
-                                  "type": "string",
-                                  "format": "uri"
-                                }
                               }
                             },
                             "ntsRequired": [
@@ -21349,9 +21339,9 @@
                   "ta6Ref": "7.1.0",
                   "title": "Flooding",
                   "type": "object",
-                  "baspiRequired": ["hasBeenFlooded"],
-                  "ntsRequired": ["floodRisk", "hasBeenFlooded"],
-                  "ta6Required": ["hasBeenFlooded"],
+                  "baspiRequired": ["historicalFlooding"],
+                  "ntsRequired": ["floodRisk", "historicalFlooding"],
+                  "ta6Required": ["historicalFlooding"],
                   "properties": {
                     "floodRisk": {
                       "ntsRef": "C3.1.1.1",
@@ -21462,64 +21452,76 @@
                         }
                       ]
                     },
-                    "hasBeenFlooded": {
+                    "historicalFlooding": {
                       "ntsRef": "C3.1.1.2",
                       "baspiRef": "A11.1.2",
                       "ta6Ref": "7.1.1",
-                      "title": "Has any part of the property (whether buildings or surrounding garden or land) ever been flooded?",
-                      "type": "string",
-                      "enum": ["Yes", "No"]
-                    }
-                  },
-                  "discriminator": {
-                    "propertyName": "hasBeenFlooded"
-                  },
-                  "oneOf": [
-                    {
+                      "title": "Historical flooding",
+                      "type": "object",
+                      "baspiRequired": ["hasBeenFlooded"],
+                      "ntsRequired": ["hasBeenFlooded"],
+                      "ta6Required": ["hasBeenFlooded"],
                       "properties": {
                         "hasBeenFlooded": {
-                          "enum": ["No"]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "hasBeenFlooded": {
-                          "enum": ["Yes"]
-                        },
-                        "typeOfFlooding": {
-                          "ntsRef": "C3.1.1.3",
-                          "baspiRef": "A11.1.2.2",
-                          "rdsRef": "Sustainability/Environmental|Natural|Situational",
-                          "ta6Ref": "7.2",
-                          "title": "What type of flooding occurred?",
-                          "type": "array",
-                          "items": {
-                            "type": "string",
-                            "enum": [
-                              "Ground water",
-                              "Sewer",
-                              "Surface water",
-                              "Coastal flooding",
-                              "River flooding",
-                              "Other"
-                            ]
-                          }
-                        },
-                        "details": {
-                          "ntsRef": "C3.1.1.4",
+                          "ntsRef": "C3.1.1.2.1",
                           "baspiRef": "A11.1.2.1",
-                          "ta6Ref": "7.1.2",
-                          "title": "Please state when the flooding occurred and identify the parts that flooded",
+                          "ta6Ref": "7.1.1.1",
+                          "title": "Has any part of the property (whether buildings or surrounding garden or land) ever been flooded?",
                           "type": "string",
-                          "minLength": 1
+                          "enum": ["Yes", "No"]
                         }
                       },
-                      "baspiRequired": ["typeOfFlooding", "details"],
-                      "ntsRequired": ["typeOfFlooding", "details"],
-                      "ta6Required": ["typeOfFlooding", "details"]
+                      "discriminator": {
+                        "propertyName": "hasBeenFlooded"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "hasBeenFlooded": {
+                              "enum": ["No"]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "hasBeenFlooded": {
+                              "enum": ["Yes"]
+                            },
+                            "typeOfFlooding": {
+                              "ntsRef": "C3.1.1.3",
+                              "baspiRef": "A11.1.2.2",
+                              "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                              "ta6Ref": "7.2",
+                              "title": "What type of flooding occurred?",
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "Ground water",
+                                  "Sewer",
+                                  "Surface water",
+                                  "Coastal flooding",
+                                  "River flooding",
+                                  "Other"
+                                ]
+                              }
+                            },
+                            "details": {
+                              "ntsRef": "C3.1.1.4",
+                              "baspiRef": "A11.1.2.1",
+                              "ta6Ref": "7.1.2",
+                              "title": "Please state when the flooding occurred and identify the parts that flooded",
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "baspiRequired": ["typeOfFlooding", "details"],
+                          "ntsRequired": ["typeOfFlooding", "details"],
+                          "ta6Required": ["typeOfFlooding", "details"]
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "radon": {
                   "baspiRef": "A11.1.3",
@@ -22524,7 +22526,7 @@
                   "title": "To your knowledge, have there been any other environmental issues that affect the property or garden (for example, these could include air pollution, mining, sink holes, quarrying or fracking etc)?",
                   "type": "object",
                   "properties": {
-                    "yesNo": {
+                    "riskIndicator": {
                       "piqRef": "A11.5.1",
                       "baspiRef": "A11.1.4.1",
                       "type": "string",
@@ -22532,31 +22534,31 @@
                       "enum": ["Yes", "No"]
                     }
                   },
-                  "baspiRequired": ["yesNo"],
+                  "baspiRequired": ["riskIndicator"],
                   "discriminator": {
-                    "propertyName": "yesNo"
+                    "propertyName": "riskIndicator"
                   },
                   "oneOf": [
                     {
                       "properties": {
-                        "yesNo": {
+                        "riskIndicator": {
                           "enum": ["No", "Not known"]
                         }
                       }
                     },
                     {
                       "properties": {
-                        "yesNo": {
+                        "riskIndicator": {
                           "enum": ["Yes"]
                         },
-                        "details": {
+                        "summary": {
                           "baspiRef": "A11.1.4.2",
                           "title": "Please provide details. For example the level of air pollution, location of fracking etc, and whether any action has been taken to prevent harm.",
                           "type": "string",
                           "minLength": 1
                         }
                       },
-                      "baspiRequired": ["details"]
+                      "baspiRequired": ["summary"]
                     }
                   ]
                 }

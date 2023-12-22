@@ -209,9 +209,6 @@
                               },
                               "dimensionDetails": {
                                 "ntsRef": "B2.6"
-                              },
-                              "photoUrls": {
-                                "ntsRef": "B2.7"
                               }
                             }
                           }
@@ -1666,42 +1663,9 @@
               "properties": {
                 "flooding": {
                   "ntsRef": "C3.1.1",
-                  "discriminator": {
-                    "propertyName": "hasBeenFlooded"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "hasBeenFlooded": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "hasBeenFlooded": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "typeOfFlooding": {
-                          "ntsRef": "C3.1.1.3"
-                        },
-                        "details": {
-                          "ntsRef": "C3.1.1.4"
-                        }
-                      },
-                      "required": [
-                        "typeOfFlooding",
-                        "details"
-                      ]
-                    }
-                  ],
                   "required": [
                     "floodRisk",
-                    "hasBeenFlooded"
+                    "historicalFlooding"
                   ],
                   "properties": {
                     "floodRisk": {
@@ -1745,8 +1709,49 @@
                         }
                       }
                     },
-                    "hasBeenFlooded": {
-                      "ntsRef": "C3.1.1.2"
+                    "historicalFlooding": {
+                      "ntsRef": "C3.1.1.2",
+                      "discriminator": {
+                        "propertyName": "hasBeenFlooded"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "hasBeenFlooded": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "hasBeenFlooded": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "typeOfFlooding": {
+                              "ntsRef": "C3.1.1.3"
+                            },
+                            "details": {
+                              "ntsRef": "C3.1.1.4"
+                            }
+                          },
+                          "required": [
+                            "typeOfFlooding",
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "hasBeenFlooded"
+                      ],
+                      "properties": {
+                        "hasBeenFlooded": {
+                          "ntsRef": "C3.1.1.2.1"
+                        }
+                      }
                     }
                   }
                 },
