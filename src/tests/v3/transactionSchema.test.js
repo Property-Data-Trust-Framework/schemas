@@ -108,8 +108,8 @@ test("correctly gets a subschema through an arrays element", () => {
     schemaId
   );
   expect(Object.keys(subschema.properties)).toEqual([
-    "OCSummaryData",
-    "OCRegisterData",
+    "ocSummaryData",
+    "ocRegisterData",
   ]);
 });
 
@@ -155,14 +155,14 @@ test("correctly gets yet, yet, yet another subschema through a second item depen
 
 test("correctly gets yes another subschema but through a non-baspi oneOf structure", () => {
   const subschema = getSubschema(
-    "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/RestrictionDetails/RestrictionEntry/ChargeRestriction/EntryDetails/EntryText"
+    "/propertyPack/titlesToBeSold/0/registerExtract/ocSummaryData/restrictionDetails/restrictionEntry/chargeRestriction/entryDetails/entryText"
   );
   expect(subschema).toEqual({ type: "string" });
 });
 
 test("correctly gets yes another subschema but through a non-baspi oneOf structure with array option", () => {
   const subschema = getSubschema(
-    "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/RestrictionDetails/RestrictionEntry/0/ChargeRestriction/EntryDetails/EntryText"
+    "/propertyPack/titlesToBeSold/0/registerExtract/ocSummaryData/restrictionDetails/restrictionEntry/0/chargeRestriction/entryDetails/entryText"
   );
   expect(subschema).toEqual({ type: "string" });
 });
@@ -333,14 +333,14 @@ test("correctly gets titles across schemas, arrays and non-existient title prope
   expect(
     getTitleAtPath(
       v3TransactionSchema,
-      "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/PropertyAddress"
+      "/propertyPack/titlesToBeSold/0/registerExtract/ocSummaryData/propertyAddress"
     )
   ).toBe("Property address");
 
   expect(
     getTitleAtPath(
       v3TransactionSchema,
-      "/propertyPack/titlesToBeSold/0/registerExtract/OCSummaryData/InvalidProp"
+      "/propertyPack/titlesToBeSold/0/registerExtract/ocSummaryData/InvalidProp"
     )
   ).toBe(undefined);
 
