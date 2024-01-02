@@ -369,7 +369,6 @@
                   "title": "Price type",
                   "type": "string",
                   "enum": [
-                    "POA",
                     "Guide price",
                     "Fixed price",
                     "Offers in excess of",
@@ -457,8 +456,8 @@
                       "enum": [
                         "Detached",
                         "Semi-detached",
-                        "Terraced",
-                        "End of terrace",
+                        "Mid-terrace",
+                        "End-terrace",
                         "Other"
                       ]
                     },
@@ -514,7 +513,7 @@
                         "entranceFloor": {
                           "ntsRef": "B1.1.4",
                           "title": "Entrance floor",
-                          "description": "The floor on which the main entrance to the property is located, starting with 1 for the ground floor (0 for a basement)",
+                          "description": "Floor level of the entrance floor relative to the lowest level of the property (0 for ground floor). If there is a basement, the basement is level 0 and the other floors are from 1 upwards",
                           "type": "integer"
                         },
                         "hasLift": {
@@ -3619,6 +3618,7 @@
                                   "leaseholdType": {
                                     "baspiRef": "A1.3.1",
                                     "ta7Ref": "1.1",
+                                    "ntsRef": "A3.2.1",
                                     "title": "What type of leasehold property does the seller own?",
                                     "description": "‘Flat’ includes maisonette and apartment.",
                                     "type": "string",
@@ -3688,7 +3688,7 @@
                               },
                               "leaseTerm": {
                                 "baspiRef": "A1.4.1",
-                                "ntsRef": "A3.2.1",
+                                "ntsRef": "A3.2.2",
                                 "type": "object",
                                 "baspiRequired": [
                                   "startYearOfLease",
@@ -3701,13 +3701,13 @@
                                 "properties": {
                                   "startYearOfLease": {
                                     "baspiRef": "A1.4.1.1",
-                                    "ntsRef": "A3.2.1.1",
+                                    "ntsRef": "A3.2.2.1",
                                     "title": "Year that the lease commenced",
                                     "type": "integer"
                                   },
                                   "lengthOfLeaseInYears": {
                                     "baspiRef": "A1.4.1.2",
-                                    "ntsRef": "A3.2.1.2",
+                                    "ntsRef": "A3.2.2.2",
                                     "piqRef": "A1.3.1",
                                     "title": "Length of lease (years)",
                                     "type": "integer"
@@ -18720,7 +18720,7 @@
               }
             },
             "waterAndDrainage": {
-              "ntsRef": "A3.2",
+              "ntsRef": "B3.2",
               "baspiRef": "A7.1.0",
               "ta6Ref": "13",
               "con29DWRef": "0",
@@ -18756,7 +18756,7 @@
                   ]
                 },
                 "water": {
-                  "ntsRef": "A3.2",
+                  "ntsRef": "B3.2",
                   "baspiRef": "A7.1.0.10",
                   "ta6Ref": "13",
                   "con29DWRef": "3",
@@ -18775,7 +18775,7 @@
                   ],
                   "properties": {
                     "mainsWater": {
-                      "ntsRef": "A3.2",
+                      "ntsRef": "B3.2",
                       "baspiRef": "A7.1.0.10.0",
                       "ta6Ref": "13.3",
                       "piqRef": "A7.1.7",
@@ -18785,7 +18785,7 @@
                       "type": "object",
                       "properties": {
                         "yesNo": {
-                          "ntsRef": "A3.2.1",
+                          "ntsRef": "B3.2.1",
                           "baspiRef": "A7.1.0.10.1",
                           "ta6Ref": "13.3.1",
                           "con29DWRef": "3.1.1",
@@ -19006,7 +19006,7 @@
                   }
                 },
                 "drainage": {
-                  "ntsRef": "A3.3",
+                  "ntsRef": "B3.3",
                   "baspiRef": "A7.1.0.12",
                   "con29DWRef": "2",
                   "title": "Drainage",
@@ -19038,7 +19038,7 @@
                   ],
                   "properties": {
                     "mainsSurfaceWaterDrainage": {
-                      "ntsRef": "A3.3.1",
+                      "ntsRef": "B3.3.1",
                       "baspiRef": "A7.1.0.12.0",
                       "rdsRef": "Services/StormWaterDrainage",
                       "ta6Ref": "12.4b",
@@ -19048,7 +19048,7 @@
                       "properties": {
                         "yesNo": {
                           "baspiRef": "A7.1.0.12.1",
-                          "ntsRef": "A3.3.1.1",
+                          "ntsRef": "B3.3.1.1",
                           "ta6Ref": "12.4b1",
                           "con29DWRef": "2.2.1",
                           "type": "string",
@@ -19104,7 +19104,7 @@
                       ]
                     },
                     "mainsFoulDrainage": {
-                      "ntsRef": "A3.3.2",
+                      "ntsRef": "B3.3.2",
                       "baspiRef": "A7.1.0.11",
                       "rdsRef": "Services/WasteWaterSewerageDisposal",
                       "ta6Ref": "12.4a",
@@ -19116,7 +19116,7 @@
                       "ntsRequired": ["yesNo"],
                       "properties": {
                         "yesNo": {
-                          "ntsRef": "A3.3.2.1",
+                          "ntsRef": "B3.3.2.1",
                           "baspiRef": "A7.1.0.11.1",
                           "ta6Ref": "12.4a1",
                           "type": "string",
@@ -19178,7 +19178,7 @@
                               "enum": ["No"]
                             },
                             "offMainsDrainageSystem": {
-                              "ntsRef": "A3.3.3",
+                              "ntsRef": "B3.3.3",
                               "baspiRef": "A7.1.10.13",
                               "ta6Ref": "12.4a",
                               "type": "object",
@@ -19197,7 +19197,7 @@
                               ],
                               "properties": {
                                 "offMainsDrainageSystemType": {
-                                  "ntsRef": "A3.3.3.1",
+                                  "ntsRef": "B3.3.3.1",
                                   "baspiRef": "A7.",
                                   "type": "string",
                                   "enum": [
@@ -21390,9 +21390,10 @@
                               "enum": ["Yes"]
                             },
                             "actionAlertRating": {
-                              "type": "string",
+                              "type": "integer",
                               "title": "Action alert rating (1 is Green, 5 is Red)",
-                              "enum": ["1", "2", "3", "4", "5"]
+                              "minimum": 1,
+                              "maximum": 5
                             },
                             "result": {
                               "title": "Result",
@@ -21432,9 +21433,10 @@
                                     "enum": ["Yes", "No"]
                                   },
                                   "actionAlertRating": {
-                                    "type": "string",
+                                    "type": "integer",
                                     "title": "Action alert rating (1 is Green, 5 is Red)",
-                                    "enum": ["1", "2", "3", "4", "5"]
+                                    "minimum": 1,
+                                    "maximum": 5
                                   },
                                   "result": {
                                     "title": "Result",
@@ -21556,9 +21558,10 @@
                           "enum": ["Yes", "No"]
                         },
                         "actionAlertRating": {
-                          "type": "string",
+                          "type": "integer",
                           "title": "Action alert rating (1 is Green, 5 is Red)",
-                          "enum": ["1", "2", "3", "4", "5"]
+                          "minimum": 1,
+                          "maximum": 5
                         },
                         "result": {
                           "title": "Result",
@@ -21596,9 +21599,10 @@
                                 "enum": ["Yes", "No"]
                               },
                               "actionAlertRating": {
-                                "type": "string",
+                                "type": "integer",
                                 "title": "Action alert rating (1 is Green, 5 is Red)",
-                                "enum": ["1", "2", "3", "4", "5"]
+                                "minimum": 1,
+                                "maximum": 5
                               },
                               "result": {
                                 "title": "Result",
@@ -21713,9 +21717,10 @@
                           "enum": ["Yes", "No"]
                         },
                         "actionAlertRating": {
-                          "type": "string",
+                          "type": "integer",
                           "title": "Action alert rating (1 is Green, 5 is Red)",
-                          "enum": ["1", "2", "3", "4", "5"]
+                          "minimum": 1,
+                          "maximum": 5
                         },
                         "result": {
                           "title": "Result",
@@ -21753,9 +21758,10 @@
                                 "enum": ["Yes", "No"]
                               },
                               "actionAlertRating": {
-                                "type": "string",
+                                "type": "integer",
                                 "title": "Action alert rating (1 is Green, 5 is Red)",
-                                "enum": ["1", "2", "3", "4", "5"]
+                                "minimum": 1,
+                                "maximum": 5
                               },
                               "result": {
                                 "title": "Result",
@@ -21799,9 +21805,10 @@
                           "enum": ["Yes", "No"]
                         },
                         "actionAlertRating": {
-                          "type": "string",
+                          "type": "integer",
                           "title": "Action alert rating (1 is Green, 5 is Red)",
-                          "enum": ["1", "2", "3", "4", "5"]
+                          "minimum": 1,
+                          "maximum": 5
                         },
                         "result": {
                           "title": "Result",
@@ -21839,9 +21846,10 @@
                                 "enum": ["Yes", "No"]
                               },
                               "actionAlertRating": {
-                                "type": "string",
+                                "type": "integer",
                                 "title": "Action alert rating (1 is Green, 5 is Red)",
-                                "enum": ["1", "2", "3", "4", "5"]
+                                "minimum": 1,
+                                "maximum": 5
                               },
                               "result": {
                                 "title": "Result",
@@ -21885,9 +21893,10 @@
                           "enum": ["Yes", "No"]
                         },
                         "actionAlertRating": {
-                          "type": "string",
+                          "type": "integer",
                           "title": "Action alert rating (1 is Green, 5 is Red)",
-                          "enum": ["1", "2", "3", "4", "5"]
+                          "minimum": 1,
+                          "maximum": 5
                         },
                         "result": {
                           "title": "Result",
@@ -21925,9 +21934,10 @@
                                 "enum": ["Yes", "No"]
                               },
                               "actionAlertRating": {
-                                "type": "string",
+                                "type": "integer",
                                 "title": "Action alert rating (1 is Green, 5 is Red)",
-                                "enum": ["1", "2", "3", "4", "5"]
+                                "minimum": 1,
+                                "maximum": 5
                               },
                               "result": {
                                 "title": "Result",
@@ -21971,9 +21981,10 @@
                           "enum": ["Yes", "No"]
                         },
                         "actionAlertRating": {
-                          "type": "string",
+                          "type": "integer",
                           "title": "Action alert rating (1 is Green, 5 is Red)",
-                          "enum": ["1", "2", "3", "4", "5"]
+                          "minimum": 1,
+                          "maximum": 5
                         },
                         "result": {
                           "title": "Result",
@@ -22011,9 +22022,10 @@
                                 "enum": ["Yes", "No"]
                               },
                               "actionAlertRating": {
-                                "type": "string",
+                                "type": "integer",
                                 "title": "Action alert rating (1 is Green, 5 is Red)",
-                                "enum": ["1", "2", "3", "4", "5"]
+                                "minimum": 1,
+                                "maximum": 5
                               },
                               "result": {
                                 "title": "Result",
@@ -22057,9 +22069,10 @@
                           "enum": ["Yes", "No"]
                         },
                         "actionAlertRating": {
-                          "type": "string",
+                          "type": "integer",
                           "title": "Action alert rating (1 is Green, 5 is Red)",
-                          "enum": ["1", "2", "3", "4", "5"]
+                          "minimum": 1,
+                          "maximum": 5
                         },
                         "result": {
                           "title": "Result",
@@ -22097,9 +22110,10 @@
                                 "enum": ["Yes", "No"]
                               },
                               "actionAlertRating": {
-                                "type": "string",
+                                "type": "integer",
                                 "title": "Action alert rating (1 is Green, 5 is Red)",
-                                "enum": ["1", "2", "3", "4", "5"]
+                                "minimum": 1,
+                                "maximum": 5
                               },
                               "result": {
                                 "title": "Result",
@@ -22143,9 +22157,10 @@
                           "enum": ["Yes", "No"]
                         },
                         "actionAlertRating": {
-                          "type": "string",
+                          "type": "integer",
                           "title": "Action alert rating (1 is Green, 5 is Red)",
-                          "enum": ["1", "2", "3", "4", "5"]
+                          "minimum": 1,
+                          "maximum": 5
                         },
                         "result": {
                           "title": "Result",
@@ -22183,9 +22198,10 @@
                                 "enum": ["Yes", "No"]
                               },
                               "actionAlertRating": {
-                                "type": "string",
+                                "type": "integer",
                                 "title": "Action alert rating (1 is Green, 5 is Red)",
-                                "enum": ["1", "2", "3", "4", "5"]
+                                "minimum": 1,
+                                "maximum": 5
                               },
                               "result": {
                                 "title": "Result",
@@ -22246,9 +22262,10 @@
                           "enum": ["Yes"]
                         },
                         "actionAlertRating": {
-                          "type": "string",
+                          "type": "integer",
                           "title": "Action alert rating (1 is Green, 5 is Red)",
-                          "enum": ["1", "2", "3", "4", "5"]
+                          "minimum": 1,
+                          "maximum": 5
                         },
                         "result": {
                           "title": "Result",
@@ -22288,9 +22305,10 @@
                                 "enum": ["Yes", "No"]
                               },
                               "actionAlertRating": {
-                                "type": "string",
+                                "type": "integer",
                                 "title": "Action alert rating (1 is Green, 5 is Red)",
-                                "enum": ["1", "2", "3", "4", "5"]
+                                "minimum": 1,
+                                "maximum": 5
                               },
                               "result": {
                                 "title": "Result",
@@ -22351,9 +22369,10 @@
                           "enum": ["Yes"]
                         },
                         "actionAlertRating": {
-                          "type": "string",
+                          "type": "integer",
                           "title": "Action alert rating (1 is Green, 5 is Red)",
-                          "enum": ["1", "2", "3", "4", "5"]
+                          "minimum": 1,
+                          "maximum": 5
                         },
                         "result": {
                           "title": "Result",
@@ -22393,9 +22412,10 @@
                                 "enum": ["Yes", "No"]
                               },
                               "actionAlertRating": {
-                                "type": "string",
+                                "type": "integer",
                                 "title": "Action alert rating (1 is Green, 5 is Red)",
-                                "enum": ["1", "2", "3", "4", "5"]
+                                "minimum": 1,
+                                "maximum": 5
                               },
                               "result": {
                                 "title": "Result",
@@ -22457,9 +22477,10 @@
                           "enum": ["Yes"]
                         },
                         "actionAlertRating": {
-                          "type": "string",
+                          "type": "integer",
                           "title": "Action alert rating (1 is Green, 5 is Red)",
-                          "enum": ["1", "2", "3", "4", "5"]
+                          "minimum": 1,
+                          "maximum": 5
                         },
                         "result": {
                           "title": "Result",
@@ -22499,9 +22520,10 @@
                                 "enum": ["Yes", "No"]
                               },
                               "actionAlertRating": {
-                                "type": "string",
+                                "type": "integer",
                                 "title": "Action alert rating (1 is Green, 5 is Red)",
-                                "enum": ["1", "2", "3", "4", "5"]
+                                "minimum": 1,
+                                "maximum": 5
                               },
                               "result": {
                                 "title": "Result",
