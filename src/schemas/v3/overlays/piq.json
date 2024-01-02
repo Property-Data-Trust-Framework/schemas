@@ -1611,78 +1611,83 @@
             },
             "heating": {
               "piqRef": "A7.3",
-              "discriminator": {
-                "propertyName": "heatingType"
-              },
-              "oneOf": [
-                {
-                  "properties": {
-                    "heatingType": {
-                      "enum": [
-                        "None"
-                      ]
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "heatingType": {
-                      "enum": [
-                        "Central heating"
-                      ]
-                    },
-                    "centralHeatingDetails": {
-                      "piqRef": "A7.3.1.1",
+              "properties": {
+                "heatingSystem": {
+                  "piqRef": "A7.3.1",
+                  "discriminator": {
+                    "propertyName": "heatingType"
+                  },
+                  "oneOf": [
+                    {
                       "properties": {
-                        "centralHeatingInstalled": {
-                          "piqRef": "A7.4.1"
+                        "heatingType": {
+                          "enum": [
+                            "None"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": [
+                            "Central heating"
+                          ]
                         },
-                        "heatingLastServicedDate": {
-                          "piqRef": "A7.5.1"
-                        },
-                        "heatingInGoodWorkingOrder": {
-                          "piqRef": "A7.6",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                }
-                              }
+                        "centralHeatingDetails": {
+                          "piqRef": "A7.3.1.1",
+                          "properties": {
+                            "centralHeatingInstalled": {
+                              "piqRef": "A7.4.1"
                             },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
+                            "heatingLastServicedDate": {
+                              "piqRef": "A7.5.1"
+                            },
+                            "heatingInGoodWorkingOrder": {
+                              "piqRef": "A7.6",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
                                 }
-                              }
+                              ]
                             }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": [
+                            "Community heating system"
                           ]
                         }
                       }
                     }
-                  }
-                },
-                {
+                  ],
                   "properties": {
                     "heatingType": {
-                      "enum": [
-                        "Community heating system"
-                      ]
+                      "piqRef": "A7.3.1"
                     }
                   }
-                }
-              ],
-              "properties": {
-                "heatingType": {
-                  "piqRef": "A7.3.1"
                 }
               }
             },

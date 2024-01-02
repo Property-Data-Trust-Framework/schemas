@@ -395,7 +395,7 @@
             },
             "marketingTenure": {
               "ntsRef": "A3",
-              "title": "Type of tenure being marketed",
+              "title": "What tenure is the property being marketed as?",
               "type": "string",
               "enum": [
                 "Commonhold",
@@ -19947,19 +19947,281 @@
               "piqRef": "A7.3",
               "title": "Heating",
               "type": "object",
-              "baspiRequired": ["heatingType"],
-              "ta6Required": ["heatingType"],
-              "ntsRequired": ["heatingType"],
+              "baspiRequired": ["heatingSystem"],
+              "ta6Required": ["heatingSystem"],
+              "ntsRequired": ["heatingSystem"],
               "properties": {
-                "heatingType": {
+                "heatingSystem": {
                   "ntsRef": "B3.4.1",
                   "baspiRef": "A7.4.0",
                   "ta6Ref": "12.3.1",
                   "piqRef": "A7.3.1",
-                  "title": "What type of heating system does the property have?",
-                  "type": "string",
-                  "enum": ["Central heating", "Communal heating system", "None"]
+                  "type": "object",
+                  "title": "Heating system",
+                  "baspiRequired": ["heatingType"],
+                  "ta6Required": ["heatingType"],
+                  "ntsRequired": ["heatingType"],
+                  "properties": {
+                    "heatingType": {
+                      "ntsRef": "B3.4.1",
+                      "baspiRef": "A7.4.0",
+                      "ta6Ref": "12.3.1",
+                      "piqRef": "A7.3.1",
+                      "title": "What type of heating system does the property have?",
+                      "type": "string",
+                      "enum": [
+                        "Central heating",
+                        "Communal heating system",
+                        "None"
+                      ]
+                    }
+                  },
+                  "discriminator": {
+                    "propertyName": "heatingType"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": ["None"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": ["Central heating"]
+                        },
+                        "centralHeatingDetails": {
+                          "ntsRef": "B3.4.3",
+                          "baspiRef": "A7.4.0.0",
+                          "ta6Ref": "12.3.2",
+                          "piqRef": "A7.3.1.1",
+                          "type": "object",
+                          "title": "Central Heating Details",
+                          "baspiRequired": [
+                            "centralHeatingFuel",
+                            "centralHeatingInstalled",
+                            "boilerInstallationCertificate",
+                            "heatingLastServicedDate",
+                            "heatingLastServicedReport",
+                            "heatingInGoodWorkingOrder"
+                          ],
+                          "ntsRequired": ["centralHeatingFuel"],
+                          "ta6Required": [
+                            "centralHeatingFuel",
+                            "centralHeatingInstalled",
+                            "boilerInstallationCertificate",
+                            "heatingLastServicedDate",
+                            "heatingLastServicedReport",
+                            "heatingInGoodWorkingOrder"
+                          ],
+                          "properties": {
+                            "centralHeatingFuel": {
+                              "ntsRef": "B3.4.3.1",
+                              "baspiRef": "A7.4.0.1",
+                              "ta6Ref": "12.3.3",
+                              "rdsRef": "Buildings|BuildingSections/Heating/isGas=no|yes|true|false",
+                              "type": "object",
+                              "title": "Central Heating Fuel",
+                              "ntsRequired": ["centralHeatingFuelType"],
+                              "baspiRequired": ["centralHeatingFuelType"],
+                              "ta6Required": ["centralHeatingFuelType"],
+                              "properties": {
+                                "centralHeatingFuelType": {
+                                  "ntsRef": "B3.4.3.1.1",
+                                  "baspiRef": "A7.4.0.2",
+                                  "ta6Ref": "12.3a1",
+                                  "title": "What type of fuel does the system run on?",
+                                  "type": "string",
+                                  "enum": [
+                                    "Mains gas",
+                                    "Electricity",
+                                    "Oil",
+                                    "LPG",
+                                    "Biomass",
+                                    "Other"
+                                  ]
+                                }
+                              },
+                              "discriminator": {
+                                "propertyName": "centralHeatingFuelType"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
+                                        "Mains gas",
+                                        "Electricity",
+                                        "Oil",
+                                        "LPG",
+                                        "Biomass"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": ["Other"]
+                                    },
+                                    "otherCentralHeatingFuelType": {
+                                      "baspiRef": "A7.4.0.3",
+                                      "ta6Ref": "12.3a2",
+                                      "title": "Please describe the other fuel type",
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "baspiRequired": [
+                                    "otherCentralHeatingFuelType"
+                                  ],
+                                  "ta6Required": ["otherCentralHeatingFuelType"]
+                                }
+                              ]
+                            },
+                            "centralHeatingInstalled": {
+                              "baspiRef": "A7.4.1",
+                              "rdsRef": "Objects/Installed",
+                              "ta6Ref": "12.3b1",
+                              "piqRef": "A7.4.1",
+                              "title": "When was the heating system installed?",
+                              "type": "string",
+                              "format": "date"
+                            },
+                            "boilerInstallationCertificate": {
+                              "baspiRef": "A7.4.1.1",
+                              "rdsRef": "Objects/Installation,Objects/Certificates",
+                              "ta6Ref": "12.3b2",
+                              "title": "Was a gas boiler installed after 1st April 2005, or a solid fuel or oil boiler installed after 1st October 2010?",
+                              "type": "object",
+                              "properties": {
+                                "yesNo": {
+                                  "baspiRef": "A10.1.1",
+                                  "ta6Ref": "12.3b3",
+                                  "type": "string",
+                                  "title": "",
+                                  "enum": ["Yes", "No"]
+                                }
+                              },
+                              "baspiRequired": ["yesNo"],
+                              "ta6Required": ["yesNo"],
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": ["No"]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": ["Yes"]
+                                    },
+                                    "attachments": {
+                                      "baspiRef": "A7.4.1.2",
+                                      "ta6Ref": "12.3b4",
+                                      "title": "Please supply a copy of the installation completion certificate from a competent person qualified under the relevant self-certification scheme e.g. HETAS etc",
+                                      "type": "string",
+                                      "enum": ["Attached", "To follow"]
+                                    }
+                                  },
+                                  "baspiRequired": ["attachments"],
+                                  "ta6Required": ["attachments"]
+                                }
+                              ]
+                            },
+                            "heatingLastServicedDate": {
+                              "baspiRef": "A7.4.2.1",
+                              "rdsRef": "Objects/Maintenance",
+                              "ta6Ref": "12.3d1",
+                              "piqRef": "A7.5.1",
+                              "title": "When was the heating system last serviced or maintained?",
+                              "type": "string",
+                              "format": "date"
+                            },
+                            "heatingLastServicedReport": {
+                              "baspiRef": "A7.4.2.2",
+                              "ta6Ref": "12.3d2",
+                              "title": "Please provide a copy of the service or maintenance works report.",
+                              "type": "string",
+                              "enum": ["Attached", "To follow", "Not available"]
+                            },
+                            "heatingInGoodWorkingOrder": {
+                              "baspiRef": "A7.4.3",
+                              "rdsRef": "Objects/Condition=?",
+                              "ta6Ref": "12.3c",
+                              "piqRef": "A7.6",
+                              "title": "Is the heating system in good working order to your satisfaction?",
+                              "type": "object",
+                              "properties": {
+                                "yesNo": {
+                                  "baspiRef": "A7.4.3.1",
+                                  "ta6Ref": "12.3c1",
+                                  "type": "string",
+                                  "title": "",
+                                  "enum": ["Yes", "No"]
+                                }
+                              },
+                              "baspiRequired": ["yesNo"],
+                              "ta6Required": ["yesNo"],
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": ["Yes"]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": ["No"]
+                                    },
+                                    "details": {
+                                      "baspiRef": "A7.4.3.2",
+                                      "title": "Please provide details",
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "baspiRequired": ["details"]
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      },
+                      "baspiRequired": ["centralHeatingDetails"],
+                      "ntsRequired": ["centralHeatingDetails"],
+                      "ta6Required": ["centralHeatingDetails"]
+                    },
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": ["Community heating system"]
+                        },
+                        "details": {
+                          "ntsRef": "B3.4.4",
+                          "title": "Community heating system details",
+                          "description": "Please describe how the cost of heating supply is charged, whether you have control over the energy supplier and whether you have any control over the heating.",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "ntsRequired": ["details"]
+                    }
+                  ]
                 },
+
                 "otherHeatingFeatures": {
                   "ntsRef": "B3.4.2",
                   "title": "What other heating features does the property have?",
@@ -19981,249 +20243,7 @@
                     ]
                   }
                 }
-              },
-              "discriminator": {
-                "propertyName": "heatingType"
-              },
-              "oneOf": [
-                {
-                  "properties": {
-                    "heatingType": {
-                      "enum": ["None"]
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "heatingType": {
-                      "enum": ["Central heating"]
-                    },
-                    "centralHeatingDetails": {
-                      "ntsRef": "B3.4.3",
-                      "baspiRef": "A7.4.0.0",
-                      "ta6Ref": "12.3.2",
-                      "piqRef": "A7.3.1.1",
-                      "type": "object",
-                      "title": "Central Heating Details",
-                      "baspiRequired": [
-                        "centralHeatingFuel",
-                        "centralHeatingInstalled",
-                        "boilerInstallationCertificate",
-                        "heatingLastServicedDate",
-                        "heatingLastServicedReport",
-                        "heatingInGoodWorkingOrder"
-                      ],
-                      "ntsRequired": ["centralHeatingFuel"],
-                      "ta6Required": [
-                        "centralHeatingFuel",
-                        "centralHeatingInstalled",
-                        "boilerInstallationCertificate",
-                        "heatingLastServicedDate",
-                        "heatingLastServicedReport",
-                        "heatingInGoodWorkingOrder"
-                      ],
-                      "properties": {
-                        "centralHeatingFuel": {
-                          "ntsRef": "B3.4.3.1",
-                          "baspiRef": "A7.4.0.1",
-                          "ta6Ref": "12.3.3",
-                          "rdsRef": "Buildings|BuildingSections/Heating/isGas=no|yes|true|false",
-                          "type": "object",
-                          "title": "Central Heating Fuel",
-                          "ntsRequired": ["centralHeatingFuelType"],
-                          "baspiRequired": ["centralHeatingFuelType"],
-                          "ta6Required": ["centralHeatingFuelType"],
-                          "properties": {
-                            "centralHeatingFuelType": {
-                              "ntsRef": "B3.4.3.1.1",
-                              "baspiRef": "A7.4.0.2",
-                              "ta6Ref": "12.3a1",
-                              "title": "What type of fuel does the system run on?",
-                              "type": "string",
-                              "enum": [
-                                "Mains gas",
-                                "Electricity",
-                                "Oil",
-                                "LPG",
-                                "Biomass",
-                                "Other"
-                              ]
-                            }
-                          },
-                          "discriminator": {
-                            "propertyName": "centralHeatingFuelType"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "centralHeatingFuelType": {
-                                  "enum": [
-                                    "Mains gas",
-                                    "Electricity",
-                                    "Oil",
-                                    "LPG",
-                                    "Biomass"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "centralHeatingFuelType": {
-                                  "enum": ["Other"]
-                                },
-                                "otherCentralHeatingFuelType": {
-                                  "baspiRef": "A7.4.0.3",
-                                  "ta6Ref": "12.3a2",
-                                  "title": "Please describe the other fuel type",
-                                  "type": "string",
-                                  "minLength": 1
-                                }
-                              },
-                              "baspiRequired": ["otherCentralHeatingFuelType"],
-                              "ta6Required": ["otherCentralHeatingFuelType"]
-                            }
-                          ]
-                        },
-                        "centralHeatingInstalled": {
-                          "baspiRef": "A7.4.1",
-                          "rdsRef": "Objects/Installed",
-                          "ta6Ref": "12.3b1",
-                          "piqRef": "A7.4.1",
-                          "title": "When was the heating system installed?",
-                          "type": "string",
-                          "format": "date"
-                        },
-                        "boilerInstallationCertificate": {
-                          "baspiRef": "A7.4.1.1",
-                          "rdsRef": "Objects/Installation,Objects/Certificates",
-                          "ta6Ref": "12.3b2",
-                          "title": "Was a gas boiler installed after 1st April 2005, or a solid fuel or oil boiler installed after 1st October 2010?",
-                          "type": "object",
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "A10.1.1",
-                              "ta6Ref": "12.3b3",
-                              "type": "string",
-                              "title": "",
-                              "enum": ["Yes", "No"]
-                            }
-                          },
-                          "baspiRequired": ["yesNo"],
-                          "ta6Required": ["yesNo"],
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": ["No"]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": ["Yes"]
-                                },
-                                "attachments": {
-                                  "baspiRef": "A7.4.1.2",
-                                  "ta6Ref": "12.3b4",
-                                  "title": "Please supply a copy of the installation completion certificate from a competent person qualified under the relevant self-certification scheme e.g. HETAS etc",
-                                  "type": "string",
-                                  "enum": ["Attached", "To follow"]
-                                }
-                              },
-                              "baspiRequired": ["attachments"],
-                              "ta6Required": ["attachments"]
-                            }
-                          ]
-                        },
-                        "heatingLastServicedDate": {
-                          "baspiRef": "A7.4.2.1",
-                          "rdsRef": "Objects/Maintenance",
-                          "ta6Ref": "12.3d1",
-                          "piqRef": "A7.5.1",
-                          "title": "When was the heating system last serviced or maintained?",
-                          "type": "string",
-                          "format": "date"
-                        },
-                        "heatingLastServicedReport": {
-                          "baspiRef": "A7.4.2.2",
-                          "ta6Ref": "12.3d2",
-                          "title": "Please provide a copy of the service or maintenance works report.",
-                          "type": "string",
-                          "enum": ["Attached", "To follow", "Not available"]
-                        },
-                        "heatingInGoodWorkingOrder": {
-                          "baspiRef": "A7.4.3",
-                          "rdsRef": "Objects/Condition=?",
-                          "ta6Ref": "12.3c",
-                          "piqRef": "A7.6",
-                          "title": "Is the heating system in good working order to your satisfaction?",
-                          "type": "object",
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "A7.4.3.1",
-                              "ta6Ref": "12.3c1",
-                              "type": "string",
-                              "title": "",
-                              "enum": ["Yes", "No"]
-                            }
-                          },
-                          "baspiRequired": ["yesNo"],
-                          "ta6Required": ["yesNo"],
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": ["Yes"]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": ["No"]
-                                },
-                                "details": {
-                                  "baspiRef": "A7.4.3.2",
-                                  "title": "Please provide details",
-                                  "type": "string",
-                                  "minLength": 1
-                                }
-                              },
-                              "baspiRequired": ["details"]
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  },
-                  "baspiRequired": ["centralHeatingDetails"],
-                  "ntsRequired": ["centralHeatingDetails"],
-                  "ta6Required": ["centralHeatingDetails"]
-                },
-                {
-                  "properties": {
-                    "heatingType": {
-                      "enum": ["Community heating system"]
-                    },
-                    "details": {
-                      "ntsRef": "B3.4.4",
-                      "title": "Community heating system details",
-                      "description": "Please describe how the cost of heating supply is charged, whether you have control over the energy supplier and whether you have any control over the heating.",
-                      "type": "string",
-                      "minLength": 1
-                    }
-                  },
-                  "ntsRequired": ["details"]
-                }
-              ]
+              }
             },
             "insurance": {
               "baspiRef": "A8",

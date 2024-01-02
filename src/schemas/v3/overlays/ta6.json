@@ -1992,187 +1992,195 @@
             },
             "heating": {
               "ta6Ref": "12.3",
-              "discriminator": {
-                "propertyName": "heatingType"
-              },
-              "oneOf": [
-                {
-                  "properties": {
-                    "heatingType": {
-                      "enum": [
-                        "None"
-                      ]
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "heatingType": {
-                      "enum": [
-                        "Central heating"
-                      ]
-                    },
-                    "centralHeatingDetails": {
-                      "ta6Ref": "12.3.2",
-                      "required": [
-                        "centralHeatingFuel",
-                        "centralHeatingInstalled",
-                        "boilerInstallationCertificate",
-                        "heatingLastServicedDate",
-                        "heatingLastServicedReport",
-                        "heatingInGoodWorkingOrder"
-                      ],
+              "required": [
+                "heatingSystem"
+              ],
+              "properties": {
+                "heatingSystem": {
+                  "ta6Ref": "12.3.1",
+                  "discriminator": {
+                    "propertyName": "heatingType"
+                  },
+                  "oneOf": [
+                    {
                       "properties": {
-                        "centralHeatingFuel": {
-                          "ta6Ref": "12.3.3",
-                          "discriminator": {
-                            "propertyName": "centralHeatingFuelType"
-                          },
-                          "oneOf": [
-                            {
+                        "heatingType": {
+                          "enum": [
+                            "None"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": [
+                            "Central heating"
+                          ]
+                        },
+                        "centralHeatingDetails": {
+                          "ta6Ref": "12.3.2",
+                          "required": [
+                            "centralHeatingFuel",
+                            "centralHeatingInstalled",
+                            "boilerInstallationCertificate",
+                            "heatingLastServicedDate",
+                            "heatingLastServicedReport",
+                            "heatingInGoodWorkingOrder"
+                          ],
+                          "properties": {
+                            "centralHeatingFuel": {
+                              "ta6Ref": "12.3.3",
+                              "discriminator": {
+                                "propertyName": "centralHeatingFuelType"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
+                                        "Mains gas",
+                                        "Electricity",
+                                        "Oil",
+                                        "LPG",
+                                        "Biomass"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
+                                        "Other"
+                                      ]
+                                    },
+                                    "otherCentralHeatingFuelType": {
+                                      "ta6Ref": "12.3a2"
+                                    }
+                                  },
+                                  "required": [
+                                    "otherCentralHeatingFuelType"
+                                  ]
+                                }
+                              ],
+                              "required": [
+                                "centralHeatingFuelType"
+                              ],
                               "properties": {
                                 "centralHeatingFuelType": {
-                                  "enum": [
-                                    "Mains gas",
-                                    "Electricity",
-                                    "Oil",
-                                    "LPG",
-                                    "Biomass"
-                                  ]
+                                  "ta6Ref": "12.3a1"
                                 }
                               }
                             },
-                            {
-                              "properties": {
-                                "centralHeatingFuelType": {
-                                  "enum": [
-                                    "Other"
-                                  ]
-                                },
-                                "otherCentralHeatingFuelType": {
-                                  "ta6Ref": "12.3a2"
-                                }
+                            "centralHeatingInstalled": {
+                              "ta6Ref": "12.3b1"
+                            },
+                            "boilerInstallationCertificate": {
+                              "ta6Ref": "12.3b2",
+                              "discriminator": {
+                                "propertyName": "yesNo"
                               },
-                              "required": [
-                                "otherCentralHeatingFuelType"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "centralHeatingFuelType"
-                          ],
-                          "properties": {
-                            "centralHeatingFuelType": {
-                              "ta6Ref": "12.3a1"
-                            }
-                          }
-                        },
-                        "centralHeatingInstalled": {
-                          "ta6Ref": "12.3b1"
-                        },
-                        "boilerInstallationCertificate": {
-                          "ta6Ref": "12.3b2",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
                                 },
-                                "attachments": {
-                                  "ta6Ref": "12.3b4"
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "attachments": {
+                                      "ta6Ref": "12.3b4"
+                                    }
+                                  },
+                                  "required": [
+                                    "attachments"
+                                  ]
                                 }
-                              },
+                              ],
                               "required": [
-                                "attachments"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "ta6Ref": "12.3b3"
-                            }
-                          }
-                        },
-                        "heatingLastServicedDate": {
-                          "ta6Ref": "12.3d1"
-                        },
-                        "heatingLastServicedReport": {
-                          "ta6Ref": "12.3d2"
-                        },
-                        "heatingInGoodWorkingOrder": {
-                          "ta6Ref": "12.3c",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
+                                "yesNo"
+                              ],
                               "properties": {
                                 "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
+                                  "ta6Ref": "12.3b3"
                                 }
                               }
                             },
-                            {
+                            "heatingLastServicedDate": {
+                              "ta6Ref": "12.3d1"
+                            },
+                            "heatingLastServicedReport": {
+                              "ta6Ref": "12.3d2"
+                            },
+                            "heatingInGoodWorkingOrder": {
+                              "ta6Ref": "12.3c",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ],
+                              "required": [
+                                "yesNo"
+                              ],
                               "properties": {
                                 "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
+                                  "ta6Ref": "12.3c1"
                                 }
                               }
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "ta6Ref": "12.3c1"
                             }
                           }
                         }
+                      },
+                      "required": [
+                        "centralHeatingDetails"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": [
+                            "Community heating system"
+                          ]
+                        }
                       }
                     }
-                  },
+                  ],
                   "required": [
-                    "centralHeatingDetails"
-                  ]
-                },
-                {
+                    "heatingType"
+                  ],
                   "properties": {
                     "heatingType": {
-                      "enum": [
-                        "Community heating system"
-                      ]
+                      "ta6Ref": "12.3.1"
                     }
                   }
-                }
-              ],
-              "required": [
-                "heatingType"
-              ],
-              "properties": {
-                "heatingType": {
-                  "ta6Ref": "12.3.1"
                 }
               }
             },

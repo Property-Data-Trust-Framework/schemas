@@ -1876,130 +1876,109 @@
             },
             "heating": {
               "rdsRef": "Buildings|BuildingSections/isUnheated=no|yes|true|false",
-              "discriminator": {
-                "propertyName": "heatingType"
-              },
-              "oneOf": [
-                {
-                  "properties": {
-                    "heatingType": {
-                      "enum": [
-                        "None"
-                      ]
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "heatingType": {
-                      "enum": [
-                        "Central heating"
-                      ]
-                    },
-                    "centralHeatingDetails": {
+              "properties": {
+                "heatingSystem": {
+                  "oneOf": [
+                    null,
+                    {
                       "properties": {
-                        "centralHeatingFuel": {
-                          "rdsRef": "Buildings|BuildingSections/Heating/isGas=no|yes|true|false",
-                          "discriminator": {
-                            "propertyName": "centralHeatingFuelType"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "centralHeatingFuelType": {
-                                  "enum": [
-                                    "Mains gas",
-                                    "Electricity",
-                                    "Oil",
-                                    "LPG",
-                                    "Biomass"
-                                  ]
+                        "centralHeatingDetails": {
+                          "properties": {
+                            "centralHeatingFuel": {
+                              "rdsRef": "Buildings|BuildingSections/Heating/isGas=no|yes|true|false",
+                              "discriminator": {
+                                "propertyName": "centralHeatingFuelType"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
+                                        "Mains gas",
+                                        "Electricity",
+                                        "Oil",
+                                        "LPG",
+                                        "Biomass"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
+                                        "Other"
+                                      ]
+                                    }
+                                  }
                                 }
-                              }
+                              ]
                             },
-                            {
-                              "properties": {
-                                "centralHeatingFuelType": {
-                                  "enum": [
-                                    "Other"
-                                  ]
-                                }
-                              }
-                            }
-                          ]
-                        },
-                        "centralHeatingInstalled": {
-                          "rdsRef": "Objects/Installed"
-                        },
-                        "boilerInstallationCertificate": {
-                          "rdsRef": "Objects/Installation,Objects/Certificates",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                }
-                              }
+                            "centralHeatingInstalled": {
+                              "rdsRef": "Objects/Installed"
                             },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
+                            "boilerInstallationCertificate": {
+                              "rdsRef": "Objects/Installation,Objects/Certificates",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
                                 }
-                              }
-                            }
-                          ]
-                        },
-                        "heatingLastServicedDate": {
-                          "rdsRef": "Objects/Maintenance"
-                        },
-                        "heatingInGoodWorkingOrder": {
-                          "rdsRef": "Objects/Condition=?",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                }
-                              }
+                              ]
                             },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
+                            "heatingLastServicedDate": {
+                              "rdsRef": "Objects/Maintenance"
+                            },
+                            "heatingInGoodWorkingOrder": {
+                              "rdsRef": "Objects/Condition=?",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
                                 }
-                              }
+                              ]
                             }
-                          ]
+                          }
                         }
                       }
                     }
-                  }
-                },
-                {
-                  "properties": {
-                    "heatingType": {
-                      "enum": [
-                        "Community heating system"
-                      ]
-                    }
-                  }
+                  ]
                 }
-              ]
+              }
             },
             "insurance": {
               "properties": {

@@ -1513,99 +1513,107 @@
             },
             "heating": {
               "ntsRef": "B3.4",
-              "discriminator": {
-                "propertyName": "heatingType"
-              },
-              "oneOf": [
-                {
-                  "properties": {
-                    "heatingType": {
-                      "enum": [
-                        "None"
-                      ]
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "heatingType": {
-                      "enum": [
-                        "Central heating"
-                      ]
-                    },
-                    "centralHeatingDetails": {
-                      "ntsRef": "B3.4.3",
-                      "required": [
-                        "centralHeatingFuel"
-                      ],
+              "required": [
+                "heatingSystem"
+              ],
+              "properties": {
+                "heatingSystem": {
+                  "ntsRef": "B3.4.1",
+                  "discriminator": {
+                    "propertyName": "heatingType"
+                  },
+                  "oneOf": [
+                    {
                       "properties": {
-                        "centralHeatingFuel": {
-                          "ntsRef": "B3.4.3.1",
-                          "discriminator": {
-                            "propertyName": "centralHeatingFuelType"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "centralHeatingFuelType": {
-                                  "enum": [
-                                    "Mains gas",
-                                    "Electricity",
-                                    "Oil",
-                                    "LPG",
-                                    "Biomass"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "centralHeatingFuelType": {
-                                  "enum": [
-                                    "Other"
-                                  ]
-                                }
-                              }
-                            }
-                          ],
+                        "heatingType": {
+                          "enum": [
+                            "None"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": [
+                            "Central heating"
+                          ]
+                        },
+                        "centralHeatingDetails": {
+                          "ntsRef": "B3.4.3",
                           "required": [
-                            "centralHeatingFuelType"
+                            "centralHeatingFuel"
                           ],
                           "properties": {
-                            "centralHeatingFuelType": {
-                              "ntsRef": "B3.4.3.1.1"
+                            "centralHeatingFuel": {
+                              "ntsRef": "B3.4.3.1",
+                              "discriminator": {
+                                "propertyName": "centralHeatingFuelType"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
+                                        "Mains gas",
+                                        "Electricity",
+                                        "Oil",
+                                        "LPG",
+                                        "Biomass"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
+                                        "Other"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ],
+                              "required": [
+                                "centralHeatingFuelType"
+                              ],
+                              "properties": {
+                                "centralHeatingFuelType": {
+                                  "ntsRef": "B3.4.3.1.1"
+                                }
+                              }
                             }
                           }
                         }
-                      }
-                    }
-                  },
-                  "required": [
-                    "centralHeatingDetails"
-                  ]
-                },
-                {
-                  "properties": {
-                    "heatingType": {
-                      "enum": [
-                        "Community heating system"
+                      },
+                      "required": [
+                        "centralHeatingDetails"
                       ]
                     },
-                    "details": {
-                      "ntsRef": "B3.4.4"
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": [
+                            "Community heating system"
+                          ]
+                        },
+                        "details": {
+                          "ntsRef": "B3.4.4"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
                     }
-                  },
+                  ],
                   "required": [
-                    "details"
-                  ]
-                }
-              ],
-              "required": [
-                "heatingType"
-              ],
-              "properties": {
-                "heatingType": {
-                  "ntsRef": "B3.4.1"
+                    "heatingType"
+                  ],
+                  "properties": {
+                    "heatingType": {
+                      "ntsRef": "B3.4.1"
+                    }
+                  }
                 },
                 "otherHeatingFeatures": {
                   "ntsRef": "B3.4.2"

@@ -4369,193 +4369,201 @@
             },
             "heating": {
               "baspiRef": "A7.4",
-              "discriminator": {
-                "propertyName": "heatingType"
-              },
-              "oneOf": [
-                {
-                  "properties": {
-                    "heatingType": {
-                      "enum": [
-                        "None"
-                      ]
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "heatingType": {
-                      "enum": [
-                        "Central heating"
-                      ]
-                    },
-                    "centralHeatingDetails": {
-                      "baspiRef": "A7.4.0.0",
-                      "required": [
-                        "centralHeatingFuel",
-                        "centralHeatingInstalled",
-                        "boilerInstallationCertificate",
-                        "heatingLastServicedDate",
-                        "heatingLastServicedReport",
-                        "heatingInGoodWorkingOrder"
-                      ],
+              "required": [
+                "heatingSystem"
+              ],
+              "properties": {
+                "heatingSystem": {
+                  "baspiRef": "A7.4.0",
+                  "discriminator": {
+                    "propertyName": "heatingType"
+                  },
+                  "oneOf": [
+                    {
                       "properties": {
-                        "centralHeatingFuel": {
-                          "baspiRef": "A7.4.0.1",
-                          "discriminator": {
-                            "propertyName": "centralHeatingFuelType"
-                          },
-                          "oneOf": [
-                            {
+                        "heatingType": {
+                          "enum": [
+                            "None"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": [
+                            "Central heating"
+                          ]
+                        },
+                        "centralHeatingDetails": {
+                          "baspiRef": "A7.4.0.0",
+                          "required": [
+                            "centralHeatingFuel",
+                            "centralHeatingInstalled",
+                            "boilerInstallationCertificate",
+                            "heatingLastServicedDate",
+                            "heatingLastServicedReport",
+                            "heatingInGoodWorkingOrder"
+                          ],
+                          "properties": {
+                            "centralHeatingFuel": {
+                              "baspiRef": "A7.4.0.1",
+                              "discriminator": {
+                                "propertyName": "centralHeatingFuelType"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
+                                        "Mains gas",
+                                        "Electricity",
+                                        "Oil",
+                                        "LPG",
+                                        "Biomass"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
+                                        "Other"
+                                      ]
+                                    },
+                                    "otherCentralHeatingFuelType": {
+                                      "baspiRef": "A7.4.0.3"
+                                    }
+                                  },
+                                  "required": [
+                                    "otherCentralHeatingFuelType"
+                                  ]
+                                }
+                              ],
+                              "required": [
+                                "centralHeatingFuelType"
+                              ],
                               "properties": {
                                 "centralHeatingFuelType": {
-                                  "enum": [
-                                    "Mains gas",
-                                    "Electricity",
-                                    "Oil",
-                                    "LPG",
-                                    "Biomass"
-                                  ]
+                                  "baspiRef": "A7.4.0.2"
                                 }
                               }
                             },
-                            {
-                              "properties": {
-                                "centralHeatingFuelType": {
-                                  "enum": [
-                                    "Other"
-                                  ]
-                                },
-                                "otherCentralHeatingFuelType": {
-                                  "baspiRef": "A7.4.0.3"
-                                }
+                            "centralHeatingInstalled": {
+                              "baspiRef": "A7.4.1"
+                            },
+                            "boilerInstallationCertificate": {
+                              "baspiRef": "A7.4.1.1",
+                              "discriminator": {
+                                "propertyName": "yesNo"
                               },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "attachments": {
+                                      "baspiRef": "A7.4.1.2"
+                                    }
+                                  },
+                                  "required": [
+                                    "attachments"
+                                  ]
+                                }
+                              ],
                               "required": [
-                                "otherCentralHeatingFuelType"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "centralHeatingFuelType"
-                          ],
-                          "properties": {
-                            "centralHeatingFuelType": {
-                              "baspiRef": "A7.4.0.2"
-                            }
-                          }
-                        },
-                        "centralHeatingInstalled": {
-                          "baspiRef": "A7.4.1"
-                        },
-                        "boilerInstallationCertificate": {
-                          "baspiRef": "A7.4.1.1",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
+                                "yesNo"
+                              ],
                               "properties": {
                                 "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
+                                  "baspiRef": "A10.1.1"
                                 }
                               }
                             },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                },
-                                "attachments": {
-                                  "baspiRef": "A7.4.1.2"
-                                }
+                            "heatingLastServicedDate": {
+                              "baspiRef": "A7.4.2.1"
+                            },
+                            "heatingLastServicedReport": {
+                              "baspiRef": "A7.4.2.2"
+                            },
+                            "heatingInGoodWorkingOrder": {
+                              "baspiRef": "A7.4.3",
+                              "discriminator": {
+                                "propertyName": "yesNo"
                               },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    },
+                                    "details": {
+                                      "baspiRef": "A7.4.3.2"
+                                    }
+                                  },
+                                  "required": [
+                                    "details"
+                                  ]
+                                }
+                              ],
                               "required": [
-                                "attachments"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "A10.1.1"
-                            }
-                          }
-                        },
-                        "heatingLastServicedDate": {
-                          "baspiRef": "A7.4.2.1"
-                        },
-                        "heatingLastServicedReport": {
-                          "baspiRef": "A7.4.2.2"
-                        },
-                        "heatingInGoodWorkingOrder": {
-                          "baspiRef": "A7.4.3",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
+                                "yesNo"
+                              ],
                               "properties": {
                                 "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
+                                  "baspiRef": "A7.4.3.1"
                                 }
                               }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                },
-                                "details": {
-                                  "baspiRef": "A7.4.3.2"
-                                }
-                              },
-                              "required": [
-                                "details"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "A7.4.3.1"
                             }
                           }
                         }
+                      },
+                      "required": [
+                        "centralHeatingDetails"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": [
+                            "Community heating system"
+                          ]
+                        }
                       }
                     }
-                  },
+                  ],
                   "required": [
-                    "centralHeatingDetails"
-                  ]
-                },
-                {
+                    "heatingType"
+                  ],
                   "properties": {
                     "heatingType": {
-                      "enum": [
-                        "Community heating system"
-                      ]
+                      "baspiRef": "A7.4.0"
                     }
                   }
-                }
-              ],
-              "required": [
-                "heatingType"
-              ],
-              "properties": {
-                "heatingType": {
-                  "baspiRef": "A7.4.0"
                 }
               }
             },
