@@ -1010,56 +1010,164 @@
             "connectedUtilities": {
               "ntsRef": "B3",
               "required": [
-                "mainsElectricity",
-                "broadband",
-                "solarPanels",
-                "otherServices"
+                "electricity",
+                "broadband"
               ],
               "properties": {
-                "mainsElectricity": {
+                "electricity": {
                   "ntsRef": "B3.1",
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
+                  "required": [
+                    "mainsElectricity",
+                    "solarPanels",
+                    "otherSources"
+                  ],
+                  "properties": {
+                    "mainsElectricity": {
+                      "ntsRef": "B3.1",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "To be connected"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
                       "properties": {
                         "yesNo": {
+                          "ntsRef": "B3.1.1",
                           "enum": [
+                            "Yes",
                             "No"
                           ]
                         }
                       }
                     },
-                    {
+                    "solarPanels": {
+                      "ntsRef": "B3.7",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "To be connected"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
                       "properties": {
                         "yesNo": {
+                          "ntsRef": "B3.7.1",
                           "enum": [
-                            "Yes"
+                            "Yes",
+                            "No"
                           ]
                         }
                       }
                     },
-                    {
+                    "otherSources": {
+                      "ntsRef": "B3.8",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "ntsRef": "3.8.2"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "To be connected"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
                       "properties": {
                         "yesNo": {
+                          "ntsRef": "B3.8.1",
                           "enum": [
-                            "To be connected"
+                            "Yes",
+                            "No"
                           ]
                         }
                       }
-                    }
-                  ],
-                  "required": [
-                    "yesNo"
-                  ],
-                  "properties": {
-                    "yesNo": {
-                      "ntsRef": "B3.1.1",
-                      "enum": [
-                        "Yes",
-                        "No"
-                      ]
                     }
                   }
                 },
@@ -1159,106 +1267,6 @@
                   "properties": {
                     "yesNo": {
                       "ntsRef": "B3.5.1",
-                      "enum": [
-                        "Yes",
-                        "No"
-                      ]
-                    }
-                  }
-                },
-                "solarPanels": {
-                  "ntsRef": "B3.7",
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "To be connected"
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "required": [
-                    "yesNo"
-                  ],
-                  "properties": {
-                    "yesNo": {
-                      "ntsRef": "B3.7.1",
-                      "enum": [
-                        "Yes",
-                        "No"
-                      ]
-                    }
-                  }
-                },
-                "otherServices": {
-                  "ntsRef": "B3.8",
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "details": {
-                          "ntsRef": "3.8.2"
-                        }
-                      },
-                      "required": [
-                        "details"
-                      ]
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "To be connected"
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "required": [
-                    "yesNo"
-                  ],
-                  "properties": {
-                    "yesNo": {
-                      "ntsRef": "B3.8.1",
                       "enum": [
                         "Yes",
                         "No"

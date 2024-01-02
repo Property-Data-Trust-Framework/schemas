@@ -15803,67 +15803,192 @@
               "description": "Please indicate which utilities are are connected to the property.",
               "type": "object",
               "properties": {
-                "mainsElectricity": {
-                  "title": "Mains electricity",
+                "electricity": {
+                  "title": "Electricity supply",
                   "type": "object",
                   "properties": {
-                    "yesNo": {
-                      "type": "string",
-                      "title": "",
-                      "enum": [
-                        "Yes",
-                        "To be connected",
-                        "No"
-                      ]
-                    }
-                  },
-                  "oneOf": [
-                    {
+                    "mainsElectricity": {
+                      "title": "Mains electricity",
+                      "type": "object",
                       "properties": {
                         "yesNo": {
+                          "type": "string",
+                          "title": "",
                           "enum": [
+                            "Yes",
+                            "To be connected",
                             "No"
                           ]
                         }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "Yes"
-                          ]
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
                         },
-                        "supplier": {
-                          "title": "Supplier",
-                          "type": "string"
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "supplier": {
+                              "title": "Supplier",
+                              "type": "string"
+                            },
+                            "mpan": {
+                              "title": "Meter Point Administration Number (MPAN)",
+                              "description": "Your MPAN is on your electricity or dual fuel bill, usually in a box marked ‘Supply Number’. It’s 21 digits long and begins with ‘S’. You’ll only need the last 12 or 13 digits.",
+                              "type": "integer"
+                            }
+                          }
                         },
-                        "mpan": {
-                          "title": "Meter Point Administration Number (MPAN)",
-                          "description": "Your MPAN is on your electricity or dual fuel bill, usually in a box marked ‘Supply Number’. It’s 21 digits long and begins with ‘S’. You’ll only need the last 12 or 13 digits.",
-                          "type": "integer"
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "To be connected"
+                              ]
+                            },
+                            "dateToBeConnected": {
+                              "title": "Date to be connected",
+                              "type": "string",
+                              "format": "date"
+                            },
+                            "supplier": {
+                              "title": "Supplier",
+                              "type": "string"
+                            }
+                          }
                         }
-                      }
+                      ]
                     },
-                    {
+                    "solarPanels": {
+                      "title": "Solar or photovoltaic panels",
+                      "type": "object",
                       "properties": {
                         "yesNo": {
-                          "enum": [
-                            "To be connected"
-                          ]
-                        },
-                        "dateToBeConnected": {
-                          "title": "Date to be connected",
                           "type": "string",
-                          "format": "date"
-                        },
-                        "supplier": {
-                          "title": "Supplier",
-                          "type": "string"
+                          "title": "",
+                          "enum": [
+                            "Yes",
+                            "To be connected",
+                            "No"
+                          ]
                         }
-                      }
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "supplier": {
+                              "title": "Supplier",
+                              "type": "string"
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "To be connected"
+                              ]
+                            },
+                            "dateToBeConnected": {
+                              "title": "Date to be connected",
+                              "type": "string",
+                              "format": "date"
+                            },
+                            "supplier": {
+                              "title": "Supplier",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "otherSources": {
+                      "title": "Other sources",
+                      "description": "Other sources include wind turbines, generators and other renewable technologies, for example ground source heat pumps. If you receive Renewable Heat Incentives please provide details and note that you will need to advise Ofgem when you complete the sale",
+                      "type": "object",
+                      "properties": {
+                        "yesNo": {
+                          "type": "string",
+                          "title": "",
+                          "enum": [
+                            "Yes",
+                            "To be connected",
+                            "No"
+                          ]
+                        }
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "title": "Details",
+                              "type": "string"
+                            },
+                            "supplier": {
+                              "title": "Supplier",
+                              "type": "string"
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "To be connected"
+                              ]
+                            },
+                            "dateToBeConnected": {
+                              "title": "Date to be connected",
+                              "type": "string",
+                              "format": "date"
+                            },
+                            "supplier": {
+                              "title": "Supplier",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "mainsGas": {
                   "title": "Mains gas",
@@ -16199,125 +16324,6 @@
                             "FTTC (Fibre to the Cabinet)",
                             "FTTP (Fibre to the Premises)"
                           ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "To be connected"
-                          ]
-                        },
-                        "dateToBeConnected": {
-                          "title": "Date to be connected",
-                          "type": "string",
-                          "format": "date"
-                        },
-                        "supplier": {
-                          "title": "Supplier",
-                          "type": "string"
-                        }
-                      }
-                    }
-                  ]
-                },
-                "solarPanels": {
-                  "title": "Solar or photovoltaic panels",
-                  "type": "object",
-                  "properties": {
-                    "yesNo": {
-                      "type": "string",
-                      "title": "",
-                      "enum": [
-                        "Yes",
-                        "To be connected",
-                        "No"
-                      ]
-                    }
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "supplier": {
-                          "title": "Supplier",
-                          "type": "string"
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "To be connected"
-                          ]
-                        },
-                        "dateToBeConnected": {
-                          "title": "Date to be connected",
-                          "type": "string",
-                          "format": "date"
-                        },
-                        "supplier": {
-                          "title": "Supplier",
-                          "type": "string"
-                        }
-                      }
-                    }
-                  ]
-                },
-                "otherServices": {
-                  "title": "Other services",
-                  "description": "Other services include wind turbines, generators and other renewable technologies, for example ground source heat pumps. If you receive Renewable Heat Incentives please provide details and note that you will need to advise Ofgem when you complete the sale",
-                  "type": "object",
-                  "properties": {
-                    "yesNo": {
-                      "type": "string",
-                      "title": "",
-                      "enum": [
-                        "Yes",
-                        "To be connected",
-                        "No"
-                      ]
-                    }
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "details": {
-                          "title": "Details",
-                          "type": "string"
-                        },
-                        "supplier": {
-                          "title": "Supplier",
-                          "type": "string"
                         }
                       }
                     },

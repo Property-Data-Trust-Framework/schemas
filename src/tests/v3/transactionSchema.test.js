@@ -169,7 +169,7 @@ test("correctly gets yes another subschema but through a non-baspi oneOf structu
 
 test("correctly gets an overlaid enum in a subschema", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/connectedUtilities/mainsElectricity/yesNo",
+    "/propertyPack/materialFacts/connectedUtilities/electricity/mainsElectricity/yesNo",
     schemaId,
     ["nts2023"]
   );
