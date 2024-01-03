@@ -1011,7 +1011,8 @@
               "ntsRef": "B3",
               "required": [
                 "electricity",
-                "broadband"
+                "broadband",
+                "mobilePhone"
               ],
               "properties": {
                 "electricity": {
@@ -1271,6 +1272,48 @@
                         "Yes",
                         "No"
                       ]
+                    }
+                  }
+                },
+                "mobilePhone": {
+                  "ntsRef": "B3.6",
+                  "properties": {
+                    "knownSignalIssues": {
+                      "ntsRef": "B3.6.1",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "ntsRef": "B3.6.1.2"
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ntsRef": "B3.6.1.1"
+                        }
+                      }
                     }
                   }
                 }
