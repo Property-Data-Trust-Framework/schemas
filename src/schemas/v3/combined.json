@@ -156,7 +156,8 @@
             "specialistIssues",
             "fixturesAndFittings",
             "waterAndDrainage",
-            "connectedUtilities",
+            "electricity",
+            "connectivity",
             "heating",
             "insurance",
             "boundaries",
@@ -176,7 +177,7 @@
             "notices",
             "specialistIssues",
             "waterAndDrainage",
-            "connectedUtilities",
+            "electricity",
             "heating",
             "insurance",
             "rightsAndInformalArrangements",
@@ -189,7 +190,8 @@
             "energyEfficiency",
             "buildInformation",
             "typeOfConstruction",
-            "connectedUtilities",
+            "electricity",
+            "connectivity",
             "waterAndDrainage",
             "heating",
             "parking",
@@ -8002,7 +8004,8 @@
                       "piqRef": "A1.6.1.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "No", "Not known"]
+                      "enum": ["Yes", "No", "Not known"],
+                      "ntsEnum": ["Yes", "No"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -8062,7 +8065,8 @@
                       "ta6Ref": "4.7b1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "No", "Not known"]
+                      "enum": ["Yes", "No", "Not known"],
+                      "ntsEnum": ["Yes", "No"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -8122,7 +8126,8 @@
                       "piqRef": "A1.6.3.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "No", "Not known"]
+                      "enum": ["Yes", "No", "Not known"],
+                      "ntsEnum": ["Yes", "No"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
@@ -17884,274 +17889,39 @@
                 }
               }
             },
-            "connectedUtilities": {
-              "baspiRef": "A7",
-              "ntsRef": "B3",
-              "ta6Ref": "13",
-              "title": "Connected utilities",
-              "description": "Please indicate which utilities are are connected to the property.",
+            "electricity": {
+              "baspiRef": "A7.1.0.1",
+              "ntsRef": "B3.1",
+              "ta6Ref": "13.1",
+              "rdsRef": "Services/Electricity",
+              "piqRef": "A7.1.1",
+              "title": "Electricity supply",
               "type": "object",
+              "ntsRequired": [
+                "mainsElectricity",
+                "solarPanels",
+                "otherSources"
+              ],
               "baspiRequired": [
-                "electricity",
-                "mainsGas",
-                "lpg",
-                "oil",
-                "telephone",
-                "cableSatelliteTV",
-                "broadband",
-                "maintenanceAgreements"
+                "mainsElectricity",
+                "solarPanels",
+                "otherSources"
               ],
-              "ntsRequired": ["electricity", "broadband", "mobilePhone"],
-              "ta6Required": [
-                "electricity",
-                "mainsGas",
-                "telephone",
-                "cableSatelliteTV"
-              ],
+              "ta6Required": ["mainsElectricity"],
               "properties": {
-                "electricity": {
+                "mainsElectricity": {
                   "baspiRef": "A7.1.0.1",
                   "ntsRef": "B3.1",
                   "ta6Ref": "13.1",
                   "rdsRef": "Services/Electricity",
                   "piqRef": "A7.1.1",
-                  "title": "Electricity supply",
-                  "type": "object",
-                  "ntsRequired": [
-                    "mainsElectricity",
-                    "solarPanels",
-                    "otherSources"
-                  ],
-                  "baspiRequired": [
-                    "mainsElectricity",
-                    "solarPanels",
-                    "otherSources"
-                  ],
-                  "ta6Required": ["mainsElectricity"],
-                  "properties": {
-                    "mainsElectricity": {
-                      "baspiRef": "A7.1.0.1",
-                      "ntsRef": "B3.1",
-                      "ta6Ref": "13.1",
-                      "rdsRef": "Services/Electricity",
-                      "piqRef": "A7.1.1",
-                      "title": "Mains electricity",
-                      "type": "object",
-                      "properties": {
-                        "yesNo": {
-                          "ntsRef": "B3.1.1",
-                          "baspiRef": "A7.1.0.1.1",
-                          "ta6Ref": "13.1.1",
-                          "type": "string",
-                          "title": "",
-                          "enum": ["Yes", "To be connected", "No"],
-                          "ntsEnum": ["Yes", "No"]
-                        }
-                      },
-                      "baspiRequired": ["yesNo"],
-                      "ntsRequired": ["yesNo"],
-                      "ta6Required": ["yesNo"],
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": ["No"]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": ["Yes"]
-                            },
-                            "supplier": {
-                              "baspiRef": "A7.1.0.1.2",
-                              "ta6Ref": "13.1.2",
-                              "piqRef": "A7.1.2",
-                              "title": "Supplier",
-                              "type": "string"
-                            },
-                            "mpan": {
-                              "title": "Meter Point Administration Number (MPAN)",
-                              "description": "Your MPAN is on your electricity or dual fuel bill, usually in a box marked ‘Supply Number’. It’s 21 digits long and begins with ‘S’. You’ll only need the last 12 or 13 digits.",
-                              "type": "integer"
-                            }
-                          },
-                          "ta6Required": ["supplier"]
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": ["To be connected"]
-                            },
-                            "dateToBeConnected": {
-                              "baspiRef": "A7.1.0.1.3",
-                              "title": "Date to be connected",
-                              "type": "string",
-                              "format": "date"
-                            },
-                            "supplier": {
-                              "baspiRef": "A7.1.0.1.2",
-                              "ta6Ref": "13.1.2",
-                              "piqRef": "A7.1.2",
-                              "title": "Supplier",
-                              "type": "string"
-                            }
-                          },
-                          "baspiRequired": ["dateToBeConnected"]
-                        }
-                      ]
-                    },
-                    "solarPanels": {
-                      "ntsRef": "B3.7",
-                      "baspiRef": "A7.1.0.8",
-                      "piqRef": "A7.1.17",
-                      "title": "Solar or photovoltaic panels",
-                      "type": "object",
-                      "properties": {
-                        "yesNo": {
-                          "ntsRef": "B3.7.1",
-                          "baspiRef": "A7.1.0.8.1",
-                          "type": "string",
-                          "title": "",
-                          "enum": ["Yes", "To be connected", "No"],
-                          "ntsEnum": ["Yes", "No"]
-                        }
-                      },
-                      "baspiRequired": ["yesNo"],
-                      "ntsRequired": ["yesNo"],
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": ["No"]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": ["Yes"]
-                            },
-                            "supplier": {
-                              "baspiRef": "A7.1.0.8.2",
-                              "title": "Supplier",
-                              "type": "string"
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": ["To be connected"]
-                            },
-                            "dateToBeConnected": {
-                              "baspiRef": "A7.1.0.8.3",
-                              "title": "Date to be connected",
-                              "type": "string",
-                              "format": "date"
-                            },
-                            "supplier": {
-                              "baspiRef": "A7.1.0.8.2",
-                              "piqRef": "A7.1.18",
-                              "title": "Supplier",
-                              "type": "string"
-                            }
-                          },
-                          "baspiRequired": ["dateToBeConnected"]
-                        }
-                      ]
-                    },
-                    "otherSources": {
-                      "ntsRef": "B3.8",
-                      "baspiRef": "A7.1.0.9",
-                      "rdsRef": "Services/Other",
-                      "piqRef": "A7.1.19",
-                      "title": "Other sources",
-                      "description": "Other sources include wind turbines, generators and other renewable technologies, for example ground source heat pumps. If you receive Renewable Heat Incentives please provide details and note that you will need to advise Ofgem when you complete the sale",
-                      "type": "object",
-                      "properties": {
-                        "yesNo": {
-                          "ntsRef": "B3.8.1",
-                          "baspiRef": "A7.1.0.9.1",
-                          "type": "string",
-                          "title": "",
-                          "enum": ["Yes", "To be connected", "No"],
-                          "ntsEnum": ["Yes", "No"]
-                        }
-                      },
-                      "baspiRequired": ["yesNo"],
-                      "ntsRequired": ["yesNo"],
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": ["No"]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": ["Yes"]
-                            },
-                            "details": {
-                              "ntsRef": "3.8.2",
-                              "title": "Details",
-                              "type": "string"
-                            },
-                            "supplier": {
-                              "baspiRef": "A7.1.0.9.2",
-                              "title": "Supplier",
-                              "type": "string"
-                            }
-                          },
-                          "ntsRequired": ["details"]
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": ["To be connected"]
-                            },
-                            "dateToBeConnected": {
-                              "baspiRef": "A7.1.0.9.3",
-                              "title": "Date to be connected",
-                              "type": "string",
-                              "format": "date"
-                            },
-                            "supplier": {
-                              "baspiRef": "A7.1.0.9.2",
-                              "piqRef": "A7.1.20",
-                              "title": "Supplier",
-                              "type": "string"
-                            }
-                          },
-                          "baspiRequired": ["dateToBeConnected"]
-                        }
-                      ]
-                    }
-                  }
-                },
-                "mainsGas": {
-                  "baspiRef": "A7.1.0.2",
-                  "ta6Ref": "13.2",
-                  "rdsRef": "Services/Gas",
-                  "piqRef": "A7.1.3",
-                  "title": "Mains gas",
+                  "title": "Mains electricity",
                   "type": "object",
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A7.1.0.2.1",
-                      "ta6Ref": "13.2.1",
+                      "ntsRef": "B3.1.1",
+                      "baspiRef": "A7.1.0.1.1",
+                      "ta6Ref": "13.1.1",
                       "type": "string",
                       "title": "",
                       "enum": ["Yes", "To be connected", "No"],
@@ -18159,6 +17929,7 @@
                     }
                   },
                   "baspiRequired": ["yesNo"],
+                  "ntsRequired": ["yesNo"],
                   "ta6Required": ["yesNo"],
                   "discriminator": {
                     "propertyName": "yesNo"
@@ -18177,203 +17948,9 @@
                           "enum": ["Yes"]
                         },
                         "supplier": {
-                          "baspiRef": "A7.1.0.2.2",
-                          "ta6Ref": "13.2.2",
-                          "piqRef": "A7.1.4",
-                          "title": "Supplier",
-                          "type": "string"
-                        },
-                        "mprn": {
-                          "title": "Meter Point Reference Number (MPRN)",
-                          "description": "You can find your property’s MPRN on your gas or dual fuel bill. It’s usually marked ‘Meter Point Reference Number’ and is between six and 10 digits long.",
-                          "type": "integer"
-                        }
-                      },
-                      "ta6Required": ["supplier"]
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": ["To be connected"]
-                        },
-                        "dateToBeConnected": {
-                          "baspiRef": "A7.1.0.2.3",
-                          "title": "Date to be connected",
-                          "type": "string",
-                          "format": "date"
-                        },
-                        "supplier": {
-                          "baspiRef": "A7.1.0.2.2",
-                          "ta6Ref": "13.2.2",
-                          "piqRef": "A7.1.4",
-                          "title": "Supplier",
-                          "type": "string"
-                        }
-                      },
-                      "baspiRequired": ["dateToBeConnected"]
-                    }
-                  ]
-                },
-                "lpg": {
-                  "baspiRef": "A7.1.0.3",
-                  "piqRef": "A7.1.5",
-                  "rdsRef": "Services/LiquefiedPetroleumGas",
-                  "title": "Liquid Petroleum Gas (LPG)",
-                  "type": "object",
-                  "properties": {
-                    "yesNo": {
-                      "baspiRef": "A7.1.0.3.1",
-                      "type": "string",
-                      "title": "",
-                      "enum": ["Yes", "To be connected", "No"],
-                      "ntsEnum": ["Yes", "No"]
-                    }
-                  },
-                  "baspiRequired": ["yesNo"],
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": ["No"]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": ["Yes"]
-                        },
-                        "supplier": {
-                          "baspiRef": "A7.1.0.3.2",
-                          "piqRef": "A7.1.6",
-                          "title": "Supplier",
-                          "type": "string"
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": ["To be connected"]
-                        },
-                        "dateToBeConnected": {
-                          "baspiRef": "A7.1.0.3.3",
-                          "title": "Date to be connected",
-                          "type": "string",
-                          "format": "date"
-                        },
-                        "supplier": {
-                          "baspiRef": "A7.1.0.3.2",
-                          "piqRef": "A7.1.6",
-                          "title": "Supplier",
-                          "type": "string"
-                        }
-                      },
-                      "baspiRequired": ["dateToBeConnected"]
-                    }
-                  ]
-                },
-                "oil": {
-                  "baspiRef": "A7.1.0.4",
-                  "rdsRef": "Services/Oil",
-                  "title": "Oil",
-                  "type": "object",
-                  "properties": {
-                    "yesNo": {
-                      "baspiRef": "A7.1.0.4.1",
-                      "type": "string",
-                      "title": "",
-                      "enum": ["Yes", "To be connected", "No"],
-                      "ntsEnum": ["Yes", "No"]
-                    }
-                  },
-                  "baspiRequired": ["yesNo"],
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": ["No"]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": ["Yes"]
-                        },
-                        "supplier": {
-                          "baspiRef": "A7.1.0.4.2",
-                          "title": "Supplier",
-                          "type": "string"
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": ["To be connected"]
-                        },
-                        "dateToBeConnected": {
-                          "baspiRef": "A7.1.0.4.3",
-                          "title": "Date to be connected",
-                          "type": "string",
-                          "format": "date"
-                        },
-                        "supplier": {
-                          "baspiRef": "A7.1.0.4.2",
-                          "title": "Supplier",
-                          "type": "string"
-                        }
-                      },
-                      "baspiRequired": ["dateToBeConnected"]
-                    }
-                  ]
-                },
-                "telephone": {
-                  "baspiRef": "A7.1.0.5",
-                  "ta6Ref": "13.5",
-                  "piqRef": "A7.1.11",
-                  "rdsRef": "Services/Telephone",
-                  "title": "Telephone",
-                  "type": "object",
-                  "properties": {
-                    "yesNo": {
-                      "baspiRef": "A7.1.0.5.1",
-                      "ta6Ref": "13.5.1",
-                      "type": "string",
-                      "title": "",
-                      "enum": ["Yes", "To be connected", "No"],
-                      "ntsEnum": ["Yes", "No"]
-                    }
-                  },
-                  "baspiRequired": ["yesNo"],
-                  "ta6Required": ["yesNo"],
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": ["No"]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": ["Yes"]
-                        },
-                        "supplier": {
-                          "baspiRef": "A7.1.0.5.2",
-                          "ta6Ref": "13.5.2",
-                          "piqRef": "A7.1.12",
+                          "baspiRef": "A7.1.0.1.2",
+                          "ta6Ref": "13.1.2",
+                          "piqRef": "A7.1.2",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -18386,15 +17963,15 @@
                           "enum": ["To be connected"]
                         },
                         "dateToBeConnected": {
-                          "baspiRef": "A7.1.0.5.3",
+                          "baspiRef": "A7.1.0.1.3",
                           "title": "Date to be connected",
                           "type": "string",
                           "format": "date"
                         },
                         "supplier": {
-                          "baspiRef": "A7.1.0.5.2",
-                          "ta6Ref": "13.5.2",
-                          "piqRef": "A7.1.12",
+                          "baspiRef": "A7.1.0.1.2",
+                          "ta6Ref": "13.1.2",
+                          "piqRef": "A7.1.2",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -18403,83 +17980,16 @@
                     }
                   ]
                 },
-                "cableSatelliteTV": {
-                  "baspiRef": "A7.1.0.6",
-                  "ta6Ref": "13.6",
-                  "rdsRef": "Services/CableSatelliteTV",
-                  "piqRef": "A7.1.13",
-                  "title": "Cable TV or satellite",
+                "solarPanels": {
+                  "ntsRef": "B3.7",
+                  "baspiRef": "A7.1.0.8",
+                  "piqRef": "A7.1.17",
+                  "title": "Solar or photovoltaic panels",
                   "type": "object",
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A7.1.0.6.1",
-                      "ta6Ref": "13.6.1",
-                      "type": "string",
-                      "title": "",
-                      "enum": ["Yes", "To be connected", "No"],
-                      "ntsEnum": ["Yes", "No"]
-                    }
-                  },
-                  "baspiRequired": ["yesNo"],
-                  "ta6Required": ["yesNo"],
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": ["No"]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": ["Yes"]
-                        },
-                        "supplier": {
-                          "baspiRef": "A7.1.0.6.2",
-                          "ta6Ref": "13.6.2",
-                          "piqRef": "A7.1.14",
-                          "title": "Supplier",
-                          "type": "string"
-                        }
-                      },
-                      "ta6Required": ["supplier"]
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": ["To be connected"]
-                        },
-                        "dateToBeConnected": {
-                          "baspiRef": "A7.1.0.6.3",
-                          "title": "Date to be connected",
-                          "type": "string",
-                          "format": "date"
-                        },
-                        "supplier": {
-                          "baspiRef": "A7.1.0.6.2",
-                          "title": "Supplier",
-                          "type": "string"
-                        }
-                      },
-                      "baspiRequired": ["dateToBeConnected"]
-                    }
-                  ]
-                },
-                "broadband": {
-                  "ntsRef": "B3.5",
-                  "baspiRef": "A7.1.0.7",
-                  "title": "Broadband",
-                  "rdsRef": "Services/Internet",
-                  "piqRef": "A7.1.15",
-                  "type": "object",
-                  "properties": {
-                    "yesNo": {
-                      "ntsRef": "B3.5.1",
-                      "baspiRef": "A7.1.0.7.1",
+                      "ntsRef": "B3.7.1",
+                      "baspiRef": "A7.1.0.8.1",
                       "type": "string",
                       "title": "",
                       "enum": ["Yes", "To be connected", "No"],
@@ -18505,56 +18015,11 @@
                           "enum": ["Yes"]
                         },
                         "supplier": {
-                          "baspiRef": "A7.1.0.7.2",
-                          "piqRef": "A7.1.16",
+                          "baspiRef": "A7.1.0.8.2",
                           "title": "Supplier",
                           "type": "string"
-                        },
-                        "typeOfConnection": {
-                          "ntsRef": "B3.5.2",
-                          "baspiRef": "A7.1.0.7.2",
-                          "piqRef": "A7.1.16",
-                          "title": "Type of connection",
-                          "type": "string",
-                          "enum": [
-                            "ADSL copper wire",
-                            "Cable",
-                            "FTTC (Fibre to the Cabinet)",
-                            "FTTP (Fibre to the Premises)"
-                          ]
-                        },
-                        "predictedSpeed": {
-                          "title": "Broadband predicted speed per Ofcom Connected Nations",
-                          "type": "object",
-                          "properties": {
-                            "MaxBbPredictedDown": {
-                              "type": "number"
-                            },
-                            "MaxBbPredictedUp": {
-                              "type": "number"
-                            },
-                            "MaxSfbbPredictedDown": {
-                              "type": "number"
-                            },
-                            "MaxSfbbPredictedUp": {
-                              "type": "number"
-                            },
-                            "MaxUfbbPredictedDown": {
-                              "type": "number"
-                            },
-                            "MaxUfbbPredictedUp": {
-                              "type": "number"
-                            },
-                            "MaxPredictedDown": {
-                              "type": "number"
-                            },
-                            "MaxPredictedUp": {
-                              "type": "number"
-                            }
-                          }
                         }
-                      },
-                      "ntsRequired": ["typeOfConnection"]
+                      }
                     },
                     {
                       "properties": {
@@ -18562,13 +18027,14 @@
                           "enum": ["To be connected"]
                         },
                         "dateToBeConnected": {
-                          "baspiRef": "A7.1.0.7.3",
+                          "baspiRef": "A7.1.0.8.3",
                           "title": "Date to be connected",
                           "type": "string",
                           "format": "date"
                         },
                         "supplier": {
-                          "baspiRef": "A7.1.0.7.2",
+                          "baspiRef": "A7.1.0.8.2",
+                          "piqRef": "A7.1.18",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -18577,168 +18043,26 @@
                     }
                   ]
                 },
-                "mobilePhone": {
-                  "ntsRef": "B3.6",
-                  "title": "Mobile phone coverage",
-                  "type": "object",
-                  "properties": {
-                    "knownSignalIssues": {
-                      "ntsRef": "B3.6.1",
-                      "title": "Are there any issues with mobile phone signal or coverage at the property.",
-                      "description": "You should disclose any known issues with signal strength or dropped calls specific to the property.",
-                      "type": "object",
-                      "ntsRequired": ["yesNo"],
-                      "properties": {
-                        "yesNo": {
-                          "ntsRef": "B3.6.1.1",
-                          "title": "",
-                          "type": "string",
-                          "enum": ["Yes", "No"]
-                        }
-                      },
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": ["No"]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": ["Yes"]
-                            },
-                            "details": {
-                              "ntsRef": "B3.6.1.2",
-                              "title": "Details",
-                              "type": "string"
-                            }
-                          }
-                        }
-                      ]
-                    },
-                    "predictedCoverage": {
-                      "title": "Mobile predicted coverage per Ofcom Connected Nations",
-                      "type": "object",
-                      "properties": {
-                        "EEVoiceOutdoor": {
-                          "type": "integer"
-                        },
-                        "EEVoiceOutdoorNo4g": {
-                          "type": "integer"
-                        },
-                        "EEVoiceIndoor": {
-                          "type": "integer"
-                        },
-                        "EEVoiceIndoorNo4g": {
-                          "type": "integer"
-                        },
-                        "EEDataOutdoor": {
-                          "type": "integer"
-                        },
-                        "EEDataOutdoorNo4g": {
-                          "type": "integer"
-                        },
-                        "EEDataIndoor": {
-                          "type": "integer"
-                        },
-                        "EEDataIndoorNo4g": {
-                          "type": "integer"
-                        },
-                        "H3VoiceOutdoor": {
-                          "type": "integer"
-                        },
-                        "H3VoiceOutdoorNo4g": {
-                          "type": "integer"
-                        },
-                        "H3VoiceIndoor": {
-                          "type": "integer"
-                        },
-                        "H3VoiceIndoorNo4g": {
-                          "type": "integer"
-                        },
-                        "H3DataOutdoor": {
-                          "type": "integer"
-                        },
-                        "H3DataOutdoorNo4g": {
-                          "type": "integer"
-                        },
-                        "H3DataIndoor": {
-                          "type": "integer"
-                        },
-                        "H3DataIndoorNo4g": {
-                          "type": "integer"
-                        },
-                        "TFVoiceOutdoor": {
-                          "type": "integer"
-                        },
-                        "TFVoiceOutdoorNo4g": {
-                          "type": "integer"
-                        },
-                        "TFVoiceIndoor": {
-                          "type": "integer"
-                        },
-                        "TFVoiceIndoorNo4g": {
-                          "type": "integer"
-                        },
-                        "TFDataOutdoor": {
-                          "type": "integer"
-                        },
-                        "TFDataOutdoorNo4g": {
-                          "type": "integer"
-                        },
-                        "TFDataIndoor": {
-                          "type": "integer"
-                        },
-                        "TFDataIndoorNo4g": {
-                          "type": "integer"
-                        },
-                        "VOVoiceOutdoor": {
-                          "type": "integer"
-                        },
-                        "VOVoiceOutdoorNo4g": {
-                          "type": "integer"
-                        },
-                        "VOVoiceIndoor": {
-                          "type": "integer"
-                        },
-                        "VOVoiceIndoorNo4g": {
-                          "type": "integer"
-                        },
-                        "VODataOutdoor": {
-                          "type": "integer"
-                        },
-                        "VODataOutdoorNo4g": {
-                          "type": "integer"
-                        },
-                        "VODataIndoor": {
-                          "type": "integer"
-                        },
-                        "VODataIndoorNo4g": {
-                          "type": "integer"
-                        }
-                      }
-                    }
-                  }
-                },
-                "maintenanceAgreements": {
-                  "baspiRef": "A7.2",
-                  "rdsRef": "Services/Certificates,Services/OtherServices/Certificates",
-                  "title": "Do you have any licences, maintenance agreements, contracts or service agreements in relation to connected services?",
+                "otherSources": {
+                  "ntsRef": "B3.8",
+                  "baspiRef": "A7.1.0.9",
+                  "rdsRef": "Services/Other",
+                  "piqRef": "A7.1.19",
+                  "title": "Other sources",
+                  "description": "Other sources include wind turbines, generators and other renewable technologies, for example ground source heat pumps. If you receive Renewable Heat Incentives please provide details and note that you will need to advise Ofgem when you complete the sale",
                   "type": "object",
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A7.2.1",
+                      "ntsRef": "B3.8.1",
+                      "baspiRef": "A7.1.0.9.1",
                       "type": "string",
                       "title": "",
-                      "enum": ["Yes", "No"]
+                      "enum": ["Yes", "To be connected", "No"],
+                      "ntsEnum": ["Yes", "No"]
                     }
                   },
                   "baspiRequired": ["yesNo"],
+                  "ntsRequired": ["yesNo"],
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -18756,24 +18080,49 @@
                           "enum": ["Yes"]
                         },
                         "details": {
-                          "baspiRef": "A7.2.2",
+                          "ntsRef": "3.8.2",
                           "title": "Details",
-                          "type": "string",
-                          "minLength": 1
+                          "type": "string"
                         },
-                        "attachments": {
-                          "baspiRef": "A7.2.3",
-                          "title": "Attachments",
-                          "type": "string",
-                          "enum": ["Attached", "To follow"]
+                        "supplier": {
+                          "baspiRef": "A7.1.0.9.2",
+                          "title": "Supplier",
+                          "type": "string"
                         }
                       },
-                      "baspiRequired": ["details", "attachments"]
+                      "ntsRequired": ["details"]
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["To be connected"]
+                        },
+                        "details": {
+                          "baspiRef": "A7.1.0.9.2",
+                          "ntsRef": "3.8.2",
+                          "title": "Details",
+                          "type": "string"
+                        },
+                        "dateToBeConnected": {
+                          "baspiRef": "A7.1.0.9.3",
+                          "title": "Date to be connected",
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "supplier": {
+                          "baspiRef": "A7.1.0.9.4",
+                          "piqRef": "A7.1.20",
+                          "title": "Supplier",
+                          "type": "string"
+                        }
+                      },
+                      "baspiRequired": ["dateToBeConnected"]
                     }
                   ]
                 }
               }
             },
+
             "waterAndDrainage": {
               "ntsRef": "B3.2",
               "baspiRef": "A7.1.0",
@@ -19203,13 +18552,6 @@
                         {
                           "properties": {
                             "yesNo": {
-                              "enum": ["Not known"]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
                               "enum": ["To be connected"]
                             },
                             "dateToBeConnected": {
@@ -19230,7 +18572,7 @@
                         {
                           "properties": {
                             "yesNo": {
-                              "enum": ["No"]
+                              "enum": ["No", "Not known"]
                             },
                             "offMainsDrainageSystem": {
                               "ntsRef": "B3.3.3",
@@ -19259,7 +18601,9 @@
                                     "Sustainable Drainage System",
                                     "Septic tank",
                                     "Cesspit",
-                                    "Sewerage treatment plant"
+                                    "Sewerage treatment plant",
+                                    "Other",
+                                    "Not known"
                                   ]
                                 },
                                 "otherConnectedProperties": {
@@ -19448,10 +18792,7 @@
                                           "rdsRef": "Services/OtherServices/ExternalConnections/Flags",
                                           "title": "Does it comply with the General Binding Rules for discharge into a waterway?",
                                           "type": "string",
-                                          "enum": [
-                                            "Yes",
-                                            "No, it does not comply with the rules for discharge into a waterway."
-                                          ]
+                                          "enum": ["Yes", "No"]
                                         }
                                       },
                                       "baspiRequired": [
@@ -19558,6 +18899,19 @@
                                     "dateInstalled",
                                     "dateLastServiced"
                                   ]
+                                },
+                                {
+                                  "properties": {
+                                    "offMainsDrainageSystemType": {
+                                      "enum": ["Other", "Not known"]
+                                    },
+                                    "details": {
+                                      "ntsRef": "B3.3.3.2",
+                                      "title": "Details",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "ntsRequired": ["details"]
                                 }
                               ]
                             }
@@ -20039,7 +19393,7 @@
                     {
                       "properties": {
                         "heatingType": {
-                          "enum": ["None"]
+                          "enum": ["None", "Room heaters only"]
                         }
                       }
                     },
@@ -20277,7 +19631,6 @@
                     }
                   ]
                 },
-
                 "otherHeatingFeatures": {
                   "ntsRef": "B3.4.2",
                   "title": "What other heating features does the property have?",
@@ -20298,6 +19651,361 @@
                       "Solar thermal",
                       "Passive House design"
                     ]
+                  }
+                }
+              }
+            },
+            "connectivity": {
+              "baspiRef": "A7",
+              "ntsRef": "B3",
+              "ta6Ref": "13",
+              "title": "Connectivity",
+              "type": "object",
+              "baspiRequired": [
+                "telephone",
+                "cableSatelliteTV",
+                "broadband",
+                "maintenanceAgreements"
+              ],
+              "ntsRequired": ["broadband"],
+              "ta6Required": ["telephone", "cableSatelliteTV"],
+              "properties": {
+                "telephone": {
+                  "baspiRef": "A7.1.0.5",
+                  "ta6Ref": "13.5",
+                  "piqRef": "A7.1.11",
+                  "rdsRef": "Services/Telephone",
+                  "title": "Telephone",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "baspiRef": "A7.1.0.5.1",
+                      "ta6Ref": "13.5.1",
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "To be connected", "No"],
+                      "ntsEnum": ["Yes", "No"]
+                    }
+                  },
+                  "baspiRequired": ["yesNo"],
+                  "ta6Required": ["yesNo"],
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["Yes"]
+                        },
+                        "supplier": {
+                          "baspiRef": "A7.1.0.5.2",
+                          "ta6Ref": "13.5.2",
+                          "piqRef": "A7.1.12",
+                          "title": "Supplier",
+                          "type": "string"
+                        }
+                      },
+                      "ta6Required": ["supplier"]
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["To be connected"]
+                        },
+                        "dateToBeConnected": {
+                          "baspiRef": "A7.1.0.5.3",
+                          "title": "Date to be connected",
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "supplier": {
+                          "baspiRef": "A7.1.0.5.2",
+                          "ta6Ref": "13.5.2",
+                          "piqRef": "A7.1.12",
+                          "title": "Supplier",
+                          "type": "string"
+                        }
+                      },
+                      "baspiRequired": ["dateToBeConnected"]
+                    }
+                  ]
+                },
+                "cableSatelliteTV": {
+                  "baspiRef": "A7.1.0.6",
+                  "ta6Ref": "13.6",
+                  "rdsRef": "Services/CableSatelliteTV",
+                  "piqRef": "A7.1.13",
+                  "title": "Cable TV or satellite",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "baspiRef": "A7.1.0.6.1",
+                      "ta6Ref": "13.6.1",
+                      "type": "string",
+                      "title": "",
+                      "enum": ["Yes", "To be connected", "No"],
+                      "ntsEnum": ["Yes", "No"]
+                    }
+                  },
+                  "baspiRequired": ["yesNo"],
+                  "ta6Required": ["yesNo"],
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["Yes"]
+                        },
+                        "supplier": {
+                          "baspiRef": "A7.1.0.6.2",
+                          "ta6Ref": "13.6.2",
+                          "piqRef": "A7.1.14",
+                          "title": "Supplier",
+                          "type": "string"
+                        }
+                      },
+                      "ta6Required": ["supplier"]
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": ["To be connected"]
+                        },
+                        "dateToBeConnected": {
+                          "baspiRef": "A7.1.0.6.3",
+                          "title": "Date to be connected",
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "supplier": {
+                          "baspiRef": "A7.1.0.6.2",
+                          "title": "Supplier",
+                          "type": "string"
+                        }
+                      },
+                      "baspiRequired": ["dateToBeConnected"]
+                    }
+                  ]
+                },
+                "broadband": {
+                  "ntsRef": "B3.5",
+                  "baspiRef": "A7.1.0.7",
+                  "title": "Broadband",
+                  "rdsRef": "Services/Internet",
+                  "piqRef": "A7.1.15",
+                  "type": "object",
+                  "properties": {
+                    "typeOfConnection": {
+                      "ntsRef": "B3.5.2",
+                      "baspiRef": "A7.1.0.7.2",
+                      "piqRef": "A7.1.16",
+                      "title": "Type of connection",
+                      "type": "string",
+                      "enum": [
+                        "None",
+                        "ADSL copper wire",
+                        "Cable",
+                        "FTTC (Fibre to the Cabinet)",
+                        "FTTP (Fibre to the Premises)"
+                      ]
+                    },
+                    "predictedSpeed": {
+                      "title": "Broadband predicted speed per Ofcom Connected Nations",
+                      "type": "object",
+                      "properties": {
+                        "MaxBbPredictedDown": {
+                          "type": "number"
+                        },
+                        "MaxBbPredictedUp": {
+                          "type": "number"
+                        },
+                        "MaxSfbbPredictedDown": {
+                          "type": "number"
+                        },
+                        "MaxSfbbPredictedUp": {
+                          "type": "number"
+                        },
+                        "MaxUfbbPredictedDown": {
+                          "type": "number"
+                        },
+                        "MaxUfbbPredictedUp": {
+                          "type": "number"
+                        },
+                        "MaxPredictedDown": {
+                          "type": "number"
+                        },
+                        "MaxPredictedUp": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  },
+                  "ntsRequired": ["typeOfConnection"]
+                },
+                "mobilePhone": {
+                  "ntsRef": "B3.6",
+                  "title": "Mobile phone coverage",
+                  "type": "object",
+                  "properties": {
+                    "knownSignalIssues": {
+                      "ntsRef": "B3.6.1",
+                      "title": "Are there any issues with mobile phone signal or coverage at the property?",
+                      "description": "You should disclose any known issues with signal strength or dropped calls specific to the property.",
+                      "type": "object",
+                      "ntsRequired": ["yesNo"],
+                      "properties": {
+                        "yesNo": {
+                          "ntsRef": "B3.6.1.1",
+                          "title": "",
+                          "type": "string",
+                          "enum": ["Yes", "No"]
+                        }
+                      },
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": ["No"]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": ["Yes"]
+                            },
+                            "details": {
+                              "ntsRef": "B3.6.1.2",
+                              "title": "Details",
+                              "type": "string"
+                            }
+                          },
+                          "ntsRequired": ["details"]
+                        }
+                      ]
+                    },
+                    "predictedCoverage": {
+                      "title": "Mobile predicted coverage per Ofcom Connected Nations",
+                      "type": "object",
+                      "properties": {
+                        "EEVoiceOutdoor": {
+                          "type": "integer"
+                        },
+                        "EEVoiceOutdoorNo4g": {
+                          "type": "integer"
+                        },
+                        "EEVoiceIndoor": {
+                          "type": "integer"
+                        },
+                        "EEVoiceIndoorNo4g": {
+                          "type": "integer"
+                        },
+                        "EEDataOutdoor": {
+                          "type": "integer"
+                        },
+                        "EEDataOutdoorNo4g": {
+                          "type": "integer"
+                        },
+                        "EEDataIndoor": {
+                          "type": "integer"
+                        },
+                        "EEDataIndoorNo4g": {
+                          "type": "integer"
+                        },
+                        "H3VoiceOutdoor": {
+                          "type": "integer"
+                        },
+                        "H3VoiceOutdoorNo4g": {
+                          "type": "integer"
+                        },
+                        "H3VoiceIndoor": {
+                          "type": "integer"
+                        },
+                        "H3VoiceIndoorNo4g": {
+                          "type": "integer"
+                        },
+                        "H3DataOutdoor": {
+                          "type": "integer"
+                        },
+                        "H3DataOutdoorNo4g": {
+                          "type": "integer"
+                        },
+                        "H3DataIndoor": {
+                          "type": "integer"
+                        },
+                        "H3DataIndoorNo4g": {
+                          "type": "integer"
+                        },
+                        "TFVoiceOutdoor": {
+                          "type": "integer"
+                        },
+                        "TFVoiceOutdoorNo4g": {
+                          "type": "integer"
+                        },
+                        "TFVoiceIndoor": {
+                          "type": "integer"
+                        },
+                        "TFVoiceIndoorNo4g": {
+                          "type": "integer"
+                        },
+                        "TFDataOutdoor": {
+                          "type": "integer"
+                        },
+                        "TFDataOutdoorNo4g": {
+                          "type": "integer"
+                        },
+                        "TFDataIndoor": {
+                          "type": "integer"
+                        },
+                        "TFDataIndoorNo4g": {
+                          "type": "integer"
+                        },
+                        "VOVoiceOutdoor": {
+                          "type": "integer"
+                        },
+                        "VOVoiceOutdoorNo4g": {
+                          "type": "integer"
+                        },
+                        "VOVoiceIndoor": {
+                          "type": "integer"
+                        },
+                        "VOVoiceIndoorNo4g": {
+                          "type": "integer"
+                        },
+                        "VODataOutdoor": {
+                          "type": "integer"
+                        },
+                        "VODataOutdoorNo4g": {
+                          "type": "integer"
+                        },
+                        "VODataIndoor": {
+                          "type": "integer"
+                        },
+                        "VODataIndoorNo4g": {
+                          "type": "integer"
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -21875,6 +21583,95 @@
                     "groundStabilityRisk": {
                       "type": "object",
                       "title": "Ground stability risk",
+                      "properties": {
+                        "riskIndicator": {
+                          "type": "string",
+                          "title": "Is the property impacted?",
+                          "enum": ["Yes", "No"]
+                        },
+                        "actionAlertRating": {
+                          "type": "integer",
+                          "title": "Action alert rating (1 is Green, 5 is Red)",
+                          "minimum": 1,
+                          "maximum": 5
+                        },
+                        "result": {
+                          "title": "Result",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "summary": {
+                          "type": "string",
+                          "title": "Summary of risk",
+                          "minLength": 1
+                        },
+                        "recommendations": {
+                          "type": "string",
+                          "title": "Recommendations",
+                          "minLength": 1
+                        },
+                        "datasetAttribution": {
+                          "type": "string",
+                          "title": "Licensing, distribution and copyright information",
+                          "minLength": 1
+                        },
+                        "riskSubcategories": {
+                          "type": "array",
+                          "title": "Risk sub-categories",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "subCategory": {
+                                "type": "string",
+                                "title": "Risk sub-category name"
+                              },
+                              "riskIndicator": {
+                                "type": "string",
+
+                                "title": "Is action recommended?",
+                                "enum": ["Yes", "No"]
+                              },
+                              "actionAlertRating": {
+                                "type": "integer",
+                                "title": "Action alert rating (1 is Green, 5 is Red)",
+                                "minimum": 1,
+                                "maximum": 5
+                              },
+                              "result": {
+                                "title": "Result",
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "summary": {
+                                "type": "string",
+                                "title": "Summary of risk",
+                                "minLength": 1
+                              },
+                              "recommendations": {
+                                "type": "string",
+                                "title": "Recommendations",
+                                "minLength": 1
+                              },
+                              "datasetAttribution": {
+                                "type": "string",
+                                "title": "Licensing, distribution and copyright information",
+                                "minLength": 1
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "infrastructure": {
+                  "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "title": "Infrastructure risk",
+                  "type": "object",
+                  "properties": {
+                    "infrastructureRisk": {
+                      "type": "object",
+                      "title": "Infrastructure risk",
                       "properties": {
                         "riskIndicator": {
                           "type": "string",
@@ -24107,14 +23904,14 @@
                     }
                   ]
                 },
-                "electricityMeterLocation": {
+                "electricityMeter": {
                   "baspiRef": "B4.4",
                   "ta6Ref": "13.1b",
                   "rdsRef": "Objects/class='meters|'&access=?&accessLocation=?",
                   "title": "Location of electricity meter (if any)",
                   "type": "object",
                   "properties": {
-                    "description": {
+                    "location": {
                       "baspiRef": "4.4.1",
                       "ta6Ref": "13.1b1",
                       "title": "Describe the location of the meter",
@@ -24126,17 +23923,22 @@
                       "title": "Photograph of meter location",
                       "type": "string",
                       "enum": ["Attached", "To follow"]
+                    },
+                    "mpan": {
+                      "title": "Meter Point Administration Number (MPAN)",
+                      "description": "Your MPAN is on your electricity or dual fuel bill, usually in a box marked ‘Supply Number’. It’s 21 digits long and begins with ‘S’. You’ll only need the last 12 or 13 digits.",
+                      "type": "integer"
                     }
                   }
                 },
-                "gasMeterLocation": {
+                "gasMeter": {
                   "baspiRef": "B4.5",
                   "ta6Ref": "13.2b",
                   "rdsRef": "Objects/class='meters'&access=?&accessLocation=?",
                   "title": "Location of gas meter (if any)",
                   "type": "object",
                   "properties": {
-                    "description": {
+                    "location": {
                       "baspiRef": "4.5.1",
                       "ta6Ref": "13.2b1",
                       "title": "Describe the location of the meter",
@@ -24148,17 +23950,22 @@
                       "title": "Photograph of meter location",
                       "type": "string",
                       "enum": ["Attached", "To follow"]
+                    },
+                    "mprn": {
+                      "title": "Meter Point Reference Number (MPRN)",
+                      "description": "You can find your property’s MPRN on your gas or dual fuel bill. It’s usually marked ‘Meter Point Reference Number’ and is between six and 10 digits long.",
+                      "type": "integer"
                     }
                   }
                 },
-                "stopcockLocation": {
+                "stopcock": {
                   "baspiRef": "B4.6.1",
                   "ta6Ref": "13.3b",
                   "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
                   "title": "Location of stopcock (if any)",
                   "type": "object",
                   "properties": {
-                    "description": {
+                    "location": {
                       "baspiRef": "4.6.1.1",
                       "ta6Ref": "13.3b1",
                       "title": "Describe the location of the stopcock",
@@ -24173,14 +23980,14 @@
                     }
                   }
                 },
-                "waterMeterLocation": {
+                "waterMeter": {
                   "baspiRef": "B4.6.2",
                   "ta6Ref": "13.3b",
                   "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
                   "title": "Location of water meter (if any)",
                   "type": "object",
                   "properties": {
-                    "description": {
+                    "location": {
                       "baspiRef": "4.6.2.1",
                       "ta6Ref": "13.3b2",
                       "title": "Describe the location of the meter",

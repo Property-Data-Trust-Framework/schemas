@@ -24,7 +24,7 @@
             "notices",
             "specialistIssues",
             "waterAndDrainage",
-            "connectedUtilities",
+            "electricity",
             "heating",
             "insurance",
             "rightsAndInformalArrangements",
@@ -1431,77 +1431,14 @@
                 }
               }
             },
-            "connectedUtilities": {
-              "ta6Ref": "13",
+            "electricity": {
+              "ta6Ref": "13.1",
               "required": [
-                "electricity",
-                "mainsGas",
-                "telephone",
-                "cableSatelliteTV"
+                "mainsElectricity"
               ],
               "properties": {
-                "electricity": {
+                "mainsElectricity": {
                   "ta6Ref": "13.1",
-                  "required": [
-                    "mainsElectricity"
-                  ],
-                  "properties": {
-                    "mainsElectricity": {
-                      "ta6Ref": "13.1",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "supplier": {
-                              "ta6Ref": "13.1.2"
-                            }
-                          },
-                          "required": [
-                            "supplier"
-                          ]
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "To be connected"
-                              ]
-                            },
-                            "supplier": {
-                              "ta6Ref": "13.1.2"
-                            }
-                          }
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "ta6Ref": "13.1.1"
-                        }
-                      }
-                    }
-                  }
-                },
-                "mainsGas": {
-                  "ta6Ref": "13.2",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -1523,7 +1460,7 @@
                           ]
                         },
                         "supplier": {
-                          "ta6Ref": "13.2.2"
+                          "ta6Ref": "13.1.2"
                         }
                       },
                       "required": [
@@ -1538,7 +1475,7 @@
                           ]
                         },
                         "supplier": {
-                          "ta6Ref": "13.2.2"
+                          "ta6Ref": "13.1.2"
                         }
                       }
                     }
@@ -1548,108 +1485,7 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "ta6Ref": "13.2.1"
-                    }
-                  }
-                },
-                "telephone": {
-                  "ta6Ref": "13.5",
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "supplier": {
-                          "ta6Ref": "13.5.2"
-                        }
-                      },
-                      "required": [
-                        "supplier"
-                      ]
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "To be connected"
-                          ]
-                        },
-                        "supplier": {
-                          "ta6Ref": "13.5.2"
-                        }
-                      }
-                    }
-                  ],
-                  "required": [
-                    "yesNo"
-                  ],
-                  "properties": {
-                    "yesNo": {
-                      "ta6Ref": "13.5.1"
-                    }
-                  }
-                },
-                "cableSatelliteTV": {
-                  "ta6Ref": "13.6",
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "supplier": {
-                          "ta6Ref": "13.6.2"
-                        }
-                      },
-                      "required": [
-                        "supplier"
-                      ]
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "To be connected"
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "required": [
-                    "yesNo"
-                  ],
-                  "properties": {
-                    "yesNo": {
-                      "ta6Ref": "13.6.1"
+                      "ta6Ref": "13.1.1"
                     }
                   }
                 }
@@ -1796,15 +1632,6 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
-                                "Not known"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
                                 "To be connected"
                               ]
                             },
@@ -1817,7 +1644,8 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
-                                "No"
+                                "No",
+                                "Not known"
                               ]
                             },
                             "offMainsDrainageSystem": {
@@ -1887,6 +1715,16 @@
                                     "dateInstalled",
                                     "dateLastServiced"
                                   ]
+                                },
+                                {
+                                  "properties": {
+                                    "offMainsDrainageSystemType": {
+                                      "enum": [
+                                        "Other",
+                                        "Not known"
+                                      ]
+                                    }
+                                  }
                                 }
                               ],
                               "required": [
@@ -2014,7 +1852,8 @@
                       "properties": {
                         "heatingType": {
                           "enum": [
-                            "None"
+                            "None",
+                            "Room heaters only"
                           ]
                         }
                       }
@@ -2187,6 +2026,116 @@
                   "properties": {
                     "heatingType": {
                       "ta6Ref": "12.3.1"
+                    }
+                  }
+                }
+              }
+            },
+            "connectivity": {
+              "ta6Ref": "13",
+              "required": [
+                "telephone",
+                "cableSatelliteTV"
+              ],
+              "properties": {
+                "telephone": {
+                  "ta6Ref": "13.5",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "supplier": {
+                          "ta6Ref": "13.5.2"
+                        }
+                      },
+                      "required": [
+                        "supplier"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        },
+                        "supplier": {
+                          "ta6Ref": "13.5.2"
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "13.5.1"
+                    }
+                  }
+                },
+                "cableSatelliteTV": {
+                  "ta6Ref": "13.6",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "supplier": {
+                          "ta6Ref": "13.6.2"
+                        }
+                      },
+                      "required": [
+                        "supplier"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "13.6.1"
                     }
                   }
                 }
@@ -3595,34 +3544,34 @@
                     }
                   }
                 },
-                "electricityMeterLocation": {
+                "electricityMeter": {
                   "ta6Ref": "13.1b",
                   "properties": {
-                    "description": {
+                    "location": {
                       "ta6Ref": "13.1b1"
                     }
                   }
                 },
-                "gasMeterLocation": {
+                "gasMeter": {
                   "ta6Ref": "13.2b",
                   "properties": {
-                    "description": {
+                    "location": {
                       "ta6Ref": "13.2b1"
                     }
                   }
                 },
-                "stopcockLocation": {
+                "stopcock": {
                   "ta6Ref": "13.3b",
                   "properties": {
-                    "description": {
+                    "location": {
                       "ta6Ref": "13.3b1"
                     }
                   }
                 },
-                "waterMeterLocation": {
+                "waterMeter": {
                   "ta6Ref": "13.3b",
                   "properties": {
-                    "description": {
+                    "location": {
                       "ta6Ref": "13.3b2"
                     }
                   }

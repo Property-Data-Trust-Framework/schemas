@@ -18,7 +18,8 @@
             "energyEfficiency",
             "buildInformation",
             "typeOfConstruction",
-            "connectedUtilities",
+            "electricity",
+            "connectivity",
             "waterAndDrainage",
             "heating",
             "parking",
@@ -614,7 +615,11 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "ntsRef": "C2.1.1.1"
+                      "ntsRef": "C2.1.1.1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
                     }
                   }
                 },
@@ -655,7 +660,11 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "ntsRef": "C2.1.2.1"
+                      "ntsRef": "C2.1.2.1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
                     }
                   }
                 },
@@ -725,7 +734,11 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "ntsRef": "C2.1.3.1"
+                      "ntsRef": "C2.1.3.1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
                     }
                   }
                 }
@@ -1007,174 +1020,101 @@
                 }
               }
             },
-            "connectedUtilities": {
-              "ntsRef": "B3",
+            "electricity": {
+              "ntsRef": "B3.1",
               "required": [
-                "electricity",
-                "broadband",
-                "mobilePhone"
+                "mainsElectricity",
+                "solarPanels",
+                "otherSources"
               ],
               "properties": {
-                "electricity": {
+                "mainsElectricity": {
                   "ntsRef": "B3.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ],
                   "required": [
-                    "mainsElectricity",
-                    "solarPanels",
-                    "otherSources"
+                    "yesNo"
                   ],
                   "properties": {
-                    "mainsElectricity": {
-                      "ntsRef": "B3.1",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "To be connected"
-                              ]
-                            }
-                          }
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
+                    "yesNo": {
+                      "ntsRef": "B3.1.1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                "solarPanels": {
+                  "ntsRef": "B3.7",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
                       "properties": {
                         "yesNo": {
-                          "ntsRef": "B3.1.1",
                           "enum": [
-                            "Yes",
                             "No"
                           ]
                         }
                       }
                     },
-                    "solarPanels": {
-                      "ntsRef": "B3.7",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "To be connected"
-                              ]
-                            }
-                          }
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
+                    {
                       "properties": {
                         "yesNo": {
-                          "ntsRef": "B3.7.1",
                           "enum": [
-                            "Yes",
-                            "No"
+                            "Yes"
                           ]
                         }
                       }
                     },
-                    "otherSources": {
-                      "ntsRef": "B3.8",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "ntsRef": "3.8.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "To be connected"
-                              ]
-                            }
-                          }
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
+                    {
                       "properties": {
                         "yesNo": {
-                          "ntsRef": "B3.8.1",
                           "enum": [
-                            "Yes",
-                            "No"
+                            "To be connected"
                           ]
                         }
                       }
                     }
-                  }
-                },
-                "mainsGas": {
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
                   "properties": {
                     "yesNo": {
+                      "ntsRef": "B3.7.1",
                       "enum": [
                         "Yes",
                         "No"
@@ -1182,48 +1122,8 @@
                     }
                   }
                 },
-                "lpg": {
-                  "properties": {
-                    "yesNo": {
-                      "enum": [
-                        "Yes",
-                        "No"
-                      ]
-                    }
-                  }
-                },
-                "oil": {
-                  "properties": {
-                    "yesNo": {
-                      "enum": [
-                        "Yes",
-                        "No"
-                      ]
-                    }
-                  }
-                },
-                "telephone": {
-                  "properties": {
-                    "yesNo": {
-                      "enum": [
-                        "Yes",
-                        "No"
-                      ]
-                    }
-                  }
-                },
-                "cableSatelliteTV": {
-                  "properties": {
-                    "yesNo": {
-                      "enum": [
-                        "Yes",
-                        "No"
-                      ]
-                    }
-                  }
-                },
-                "broadband": {
-                  "ntsRef": "B3.5",
+                "otherSources": {
+                  "ntsRef": "B3.8",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -1244,12 +1144,12 @@
                             "Yes"
                           ]
                         },
-                        "typeOfConnection": {
-                          "ntsRef": "B3.5.2"
+                        "details": {
+                          "ntsRef": "3.8.2"
                         }
                       },
                       "required": [
-                        "typeOfConnection"
+                        "details"
                       ]
                     },
                     {
@@ -1258,6 +1158,9 @@
                           "enum": [
                             "To be connected"
                           ]
+                        },
+                        "details": {
+                          "ntsRef": "3.8.2"
                         }
                       }
                     }
@@ -1267,53 +1170,11 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "ntsRef": "B3.5.1",
+                      "ntsRef": "B3.8.1",
                       "enum": [
                         "Yes",
                         "No"
                       ]
-                    }
-                  }
-                },
-                "mobilePhone": {
-                  "ntsRef": "B3.6",
-                  "properties": {
-                    "knownSignalIssues": {
-                      "ntsRef": "B3.6.1",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "ntsRef": "B3.6.1.2"
-                            }
-                          }
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "ntsRef": "B3.6.1.1"
-                        }
-                      }
                     }
                   }
                 }
@@ -1467,15 +1328,6 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
-                                "Not known"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
                                 "To be connected"
                               ]
                             }
@@ -1485,7 +1337,8 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
-                                "No"
+                                "No",
+                                "Not known"
                               ]
                             },
                             "offMainsDrainageSystem": {
@@ -1529,6 +1382,22 @@
                                       ]
                                     }
                                   }
+                                },
+                                {
+                                  "properties": {
+                                    "offMainsDrainageSystemType": {
+                                      "enum": [
+                                        "Other",
+                                        "Not known"
+                                      ]
+                                    },
+                                    "details": {
+                                      "ntsRef": "B3.3.3.2"
+                                    }
+                                  },
+                                  "required": [
+                                    "details"
+                                  ]
                                 }
                               ],
                               "required": [
@@ -1576,7 +1445,8 @@
                       "properties": {
                         "heatingType": {
                           "enum": [
-                            "None"
+                            "None",
+                            "Room heaters only"
                           ]
                         }
                       }
@@ -1666,6 +1536,90 @@
                 },
                 "otherHeatingFeatures": {
                   "ntsRef": "B3.4.2"
+                }
+              }
+            },
+            "connectivity": {
+              "ntsRef": "B3",
+              "required": [
+                "broadband"
+              ],
+              "properties": {
+                "telephone": {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                "cableSatelliteTV": {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                "broadband": {
+                  "ntsRef": "B3.5",
+                  "required": [
+                    "typeOfConnection"
+                  ],
+                  "properties": {
+                    "typeOfConnection": {
+                      "ntsRef": "B3.5.2"
+                    }
+                  }
+                },
+                "mobilePhone": {
+                  "ntsRef": "B3.6",
+                  "properties": {
+                    "knownSignalIssues": {
+                      "ntsRef": "B3.6.1",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "ntsRef": "B3.6.1.2"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ntsRef": "B3.6.1.1"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             },
