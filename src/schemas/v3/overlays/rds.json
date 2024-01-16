@@ -1324,6 +1324,9 @@
                           "enum": [
                             "Yes"
                           ]
+                        },
+                        "electricityMeter": {
+                          "rdsRef": "Objects/class='meters|'&access=?&accessLocation=?"
                         }
                       }
                     },
@@ -1333,6 +1336,108 @@
                           "enum": [
                             "To be connected"
                           ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "solarPanels": {
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "yearInstalled": {
+                          "rdsRef": "Objects/Installation"
+                        },
+                        "panelsOwnedOutright": {
+                          "rdsRef": "Objects/Ownership",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "panelProviderLease": {
+                          "rdsRef": "Objects/Ownership",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "lastMaintained": {
+                          "rdsRef": "Objects/Servicing"
+                        },
+                        "inGoodWorkingOrder": {
+                          "rdsRef": "Objects/isNotWorking=yes|no|true|false",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "isConnectedToNationalGrid": {
+                          "rdsRef": "Objects/isExternallyConnected=yes|no|true|false,Connection,Objects/ExternalConnection"
+                        },
+                        "photovoltaicMeterPanelLocation": {
+                          "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?"
+                        },
+                        "photovoltaicBatteriesLocation": {
+                          "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?"
                         }
                       }
                     }
@@ -1400,6 +1505,9 @@
                               "enum": [
                                 "Yes"
                               ]
+                            },
+                            "stopcock": {
+                              "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?"
                             }
                           }
                         },
@@ -1651,8 +1759,27 @@
                                   "properties": {
                                     "centralHeatingFuelType": {
                                       "enum": [
-                                        "Mains gas",
-                                        "Electricity",
+                                        "Mains gas"
+                                      ]
+                                    },
+                                    "gasMeter": {
+                                      "rdsRef": "Objects/class='meters'&access=?&accessLocation=?"
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
+                                        "Electricity"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
                                         "Oil",
                                         "LPG",
                                         "Biomass"
@@ -2871,7 +2998,7 @@
                 }
               }
             },
-            "energyAndMeters": {
+            "electricalWorks": {
               "properties": {
                 "testedByQualifiedElectrician": {
                   "rdsRef": "Objects/Servicing",
@@ -2925,125 +3052,6 @@
                       }
                     }
                   ]
-                },
-                "solarPanels": {
-                  "properties": {
-                    "hasSolarPanels": {
-                      "rdsRef": "Property/Flags"
-                    }
-                  },
-                  "oneOf": [
-                    null,
-                    {
-                      "properties": {
-                        "yearInstalled": {
-                          "rdsRef": "Objects/Installation"
-                        },
-                        "panelsOwnedOutright": {
-                          "rdsRef": "Objects/Ownership",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                }
-                              }
-                            }
-                          ]
-                        },
-                        "panelProviderLease": {
-                          "rdsRef": "Objects/Ownership",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                }
-                              }
-                            }
-                          ]
-                        },
-                        "lastMaintained": {
-                          "rdsRef": "Objects/Servicing"
-                        },
-                        "inGoodWorkingOrder": {
-                          "rdsRef": "Objects/isNotWorking=yes|no|true|false",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                }
-                              }
-                            }
-                          ]
-                        },
-                        "isConnectedToNationalGrid": {
-                          "rdsRef": "Objects/isExternallyConnected=yes|no|true|false,Connection,Objects/ExternalConnection"
-                        },
-                        "photovoltaicMeterPanelLocation": {
-                          "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?"
-                        },
-                        "photovoltaicBatteriesLocation": {
-                          "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?"
-                        }
-                      }
-                    }
-                  ]
-                },
-                "electricityMeter": {
-                  "rdsRef": "Objects/class='meters|'&access=?&accessLocation=?"
-                },
-                "gasMeter": {
-                  "rdsRef": "Objects/class='meters'&access=?&accessLocation=?"
-                },
-                "stopcock": {
-                  "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?"
-                },
-                "waterMeter": {
-                  "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?"
                 }
               }
             },

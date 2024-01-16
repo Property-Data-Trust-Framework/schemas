@@ -1434,7 +1434,8 @@
             "electricity": {
               "ta6Ref": "13.1",
               "required": [
-                "mainsElectricity"
+                "mainsElectricity",
+                "solarPanels"
               ],
               "properties": {
                 "mainsElectricity": {
@@ -1461,10 +1462,22 @@
                         },
                         "supplier": {
                           "ta6Ref": "13.1.2"
+                        },
+                        "electricityMeter": {
+                          "ta6Ref": "13.1b",
+                          "required": [
+                            "location"
+                          ],
+                          "properties": {
+                            "location": {
+                              "ta6Ref": "13.1b1"
+                            }
+                          }
                         }
                       },
                       "required": [
-                        "supplier"
+                        "supplier",
+                        "electricityMeter"
                       ]
                     },
                     {
@@ -1488,6 +1501,126 @@
                       "ta6Ref": "13.1.1"
                     }
                   }
+                },
+                "solarPanels": {
+                  "ta6Ref": "4.6",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "yearInstalled": {
+                          "ta6Ref": "4.6a"
+                        },
+                        "panelsOwnedOutright": {
+                          "ta6Ref": "4.6b",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            }
+                          ],
+                          "required": [
+                            "yesNo"
+                          ],
+                          "properties": {
+                            "yesNo": {
+                              "ta6Ref": "4.6b1"
+                            }
+                          }
+                        },
+                        "panelProviderLease": {
+                          "ta6Ref": "4.6c",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "attachments": {
+                                  "ta6Ref": "4.6c2"
+                                }
+                              },
+                              "required": [
+                                "attachments"
+                              ]
+                            }
+                          ],
+                          "required": [
+                            "yesNo"
+                          ],
+                          "properties": {
+                            "yesNo": {
+                              "ta6Ref": "4.6c1"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "yearInstalled",
+                        "panelsOwnedOutright",
+                        "panelProviderLease"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ]
                 }
               }
             },
@@ -1528,10 +1661,60 @@
                             },
                             "supplier": {
                               "ta6Ref": "13.3.2"
+                            },
+                            "stopcock": {
+                              "ta6Ref": "13.3b",
+                              "properties": {
+                                "location": {
+                                  "ta6Ref": "13.3b1"
+                                }
+                              }
+                            },
+                            "waterMeter": {
+                              "ta6Ref": "13.3b2",
+                              "discriminator": {
+                                "propertyName": "isSupplyMetered"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "isSupplyMetered": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "isSupplyMetered": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "location": {
+                                      "ta6Ref": "13.3b2.1"
+                                    }
+                                  },
+                                  "required": [
+                                    "location"
+                                  ]
+                                }
+                              ],
+                              "required": [
+                                "isSupplyMetered"
+                              ],
+                              "properties": {
+                                "isSupplyMetered": {
+                                  "ta6Ref": "13.3b2"
+                                }
+                              }
                             }
                           },
                           "required": [
-                            "supplier"
+                            "supplier",
+                            "stopcock",
+                            "waterMeter"
                           ]
                         },
                         {
@@ -1552,7 +1735,11 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "ta6Ref": "13.3.1"
+                          "ta6Ref": "13.3.1",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
                         }
                       }
                     }
@@ -1886,8 +2073,36 @@
                                   "properties": {
                                     "centralHeatingFuelType": {
                                       "enum": [
-                                        "Mains gas",
-                                        "Electricity",
+                                        "Mains gas"
+                                      ]
+                                    },
+                                    "gasMeter": {
+                                      "ta6Ref": "13.2b",
+                                      "properties": {
+                                        "location": {
+                                          "ta6Ref": "13.2b1"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "required": [
+                                    "supplier",
+                                    "gasMeter"
+                                  ]
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
+                                        "Electricity"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
                                         "Oil",
                                         "LPG",
                                         "Biomass"
@@ -3015,7 +3230,7 @@
           "required": [
             "legalBoundaries",
             "servicesCrossing",
-            "energyAndMeters",
+            "electricalWorks",
             "guaranteesWarrantiesAndIndemnityInsurances",
             "occupiers",
             "completionAndMoving",
@@ -3332,12 +3547,11 @@
                 }
               }
             },
-            "energyAndMeters": {
+            "electricalWorks": {
               "ta6Ref": "12",
               "required": [
                 "testedByQualifiedElectrician",
-                "electricalWorkSince2005",
-                "solarPanels"
+                "electricalWorkSince2005"
               ],
               "properties": {
                 "testedByQualifiedElectrician": {
@@ -3425,154 +3639,6 @@
                   "properties": {
                     "yesNo": {
                       "ta6Ref": "12.2.1"
-                    }
-                  }
-                },
-                "solarPanels": {
-                  "ta6Ref": "4.6",
-                  "discriminator": {
-                    "propertyName": "hasSolarPanels"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "hasSolarPanels": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "hasSolarPanels": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "yearInstalled": {
-                          "ta6Ref": "4.6a"
-                        },
-                        "panelsOwnedOutright": {
-                          "ta6Ref": "4.6b",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                }
-                              }
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "ta6Ref": "4.6b1"
-                            }
-                          }
-                        },
-                        "panelProviderLease": {
-                          "ta6Ref": "4.6c",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                },
-                                "attachments": {
-                                  "ta6Ref": "4.6c2"
-                                }
-                              },
-                              "required": [
-                                "attachments"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "ta6Ref": "4.6c1"
-                            }
-                          }
-                        }
-                      },
-                      "required": [
-                        "yearInstalled",
-                        "panelsOwnedOutright",
-                        "panelProviderLease"
-                      ]
-                    }
-                  ],
-                  "required": [
-                    "hasSolarPanels"
-                  ],
-                  "properties": {
-                    "hasSolarPanels": {
-                      "ta6Ref": "4.6"
-                    }
-                  }
-                },
-                "electricityMeter": {
-                  "ta6Ref": "13.1b",
-                  "properties": {
-                    "location": {
-                      "ta6Ref": "13.1b1"
-                    }
-                  }
-                },
-                "gasMeter": {
-                  "ta6Ref": "13.2b",
-                  "properties": {
-                    "location": {
-                      "ta6Ref": "13.2b1"
-                    }
-                  }
-                },
-                "stopcock": {
-                  "ta6Ref": "13.3b",
-                  "properties": {
-                    "location": {
-                      "ta6Ref": "13.3b1"
-                    }
-                  }
-                },
-                "waterMeter": {
-                  "ta6Ref": "13.3b",
-                  "properties": {
-                    "location": {
-                      "ta6Ref": "13.3b2"
                     }
                   }
                 }

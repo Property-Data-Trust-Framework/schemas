@@ -15698,6 +15698,30 @@
                         "supplier": {
                           "title": "Supplier",
                           "type": "string"
+                        },
+                        "electricityMeter": {
+                          "title": "Location of electricity meter",
+                          "type": "object",
+                          "properties": {
+                            "location": {
+                              "title": "Describe the location of the meter",
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "attachments": {
+                              "title": "Photograph of meter location",
+                              "type": "string",
+                              "enum": [
+                                "Attached",
+                                "To follow"
+                              ]
+                            },
+                            "mpan": {
+                              "title": "Meter Point Administration Number (MPAN)",
+                              "description": "Your MPAN is on your electricity or dual fuel bill, usually in a box marked ‘Supply Number’. It’s 21 digits long and begins with ‘S’. You’ll only need the last 12 or 13 digits.",
+                              "type": "integer"
+                            }
+                          }
                         }
                       }
                     },
@@ -15755,6 +15779,195 @@
                         "supplier": {
                           "title": "Supplier",
                           "type": "string"
+                        },
+                        "yearInstalled": {
+                          "title": "What year were they installed?",
+                          "type": "integer"
+                        },
+                        "panelsOwnedOutright": {
+                          "title": "Do you own the panels, and all equipment related to them, outright?",
+                          "type": "object",
+                          "properties": {
+                            "yesNo": {
+                              "type": "string",
+                              "title": "",
+                              "enum": [
+                                "Yes",
+                                "No"
+                              ]
+                            }
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                },
+                                "details": {
+                                  "title": "Provide details of who owns them and the relevant documentation",
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "attachments": {
+                                  "title": "Attachments",
+                                  "type": "string",
+                                  "enum": [
+                                    "Attached",
+                                    "To follow"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "panelProviderLease": {
+                          "title": "Is there an existing long lease of the roof/air space granted to a panel provider?",
+                          "type": "object",
+                          "properties": {
+                            "yesNo": {
+                              "type": "string",
+                              "title": "",
+                              "enum": [
+                                "Yes",
+                                "No"
+                              ]
+                            }
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "details": {
+                                  "title": "Name of the provider",
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "attachments": {
+                                  "title": "Please supply copies of the relevant documents",
+                                  "type": "string",
+                                  "enum": [
+                                    "Attached",
+                                    "To follow"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "lastMaintained": {
+                          "title": "When was the system last maintained or serviced?",
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "inGoodWorkingOrder": {
+                          "title": "Is the system in good working order to your satisfaction?",
+                          "type": "object",
+                          "properties": {
+                            "yesNo": {
+                              "type": "string",
+                              "title": "",
+                              "enum": [
+                                "Yes",
+                                "No"
+                              ]
+                            }
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                },
+                                "details": {
+                                  "title": "Details",
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "isConnectedToNationalGrid": {
+                          "title": "Is the system connected to the National Grid e.g. for feed-in tariffs (FiT) or Smart Export Guarantee (SEG)",
+                          "type": "string",
+                          "enum": [
+                            "Yes (FiT)",
+                            "Yes (SEG)",
+                            "No"
+                          ]
+                        },
+                        "photovoltaicMeterPanelLocation": {
+                          "title": "Location of photovoltaic panel meter (if any)",
+                          "type": "object",
+                          "properties": {
+                            "description": {
+                              "title": "Describe the location of the meter",
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "attachments": {
+                              "title": "Photograph of meter location",
+                              "type": "string",
+                              "enum": [
+                                "Attached",
+                                "To follow"
+                              ]
+                            }
+                          }
+                        },
+                        "photovoltaicBatteriesLocation": {
+                          "title": "Location of photovoltaic batteries (if any)",
+                          "type": "object",
+                          "properties": {
+                            "description": {
+                              "title": "Describe the location of the batteries",
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "attachments": {
+                              "title": "Photograph of batteries location",
+                              "type": "string",
+                              "enum": [
+                                "Attached",
+                                "To follow"
+                              ]
+                            }
+                          }
                         }
                       }
                     },
@@ -15917,12 +16130,69 @@
                               "type": "string",
                               "minLength": 1
                             },
-                            "isSupplyMetered": {
-                              "title": "Is the supply metered?",
-                              "type": "string",
-                              "enum": [
-                                "Yes",
-                                "No"
+                            "stopcock": {
+                              "title": "Location of stopcock",
+                              "type": "object",
+                              "properties": {
+                                "location": {
+                                  "title": "Describe the location of the stopcock",
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "attachments": {
+                                  "title": "Photograph of stopcock location",
+                                  "type": "string",
+                                  "enum": [
+                                    "Attached",
+                                    "To follow"
+                                  ]
+                                }
+                              }
+                            },
+                            "waterMeter": {
+                              "type": "object",
+                              "properties": {
+                                "isSupplyMetered": {
+                                  "title": "Is the supply metered?",
+                                  "type": "string",
+                                  "enum": [
+                                    "Yes",
+                                    "No"
+                                  ]
+                                }
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "isSupplyMetered": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "isSupplyMetered": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "location": {
+                                      "title": "Describe the location of the meter",
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "attachments": {
+                                      "title": "Photograph of meter location",
+                                      "type": "string",
+                                      "enum": [
+                                        "Attached",
+                                        "To follow"
+                                      ]
+                                    }
+                                  }
+                                }
                               ]
                             }
                           }
@@ -16932,12 +17202,60 @@
                                   "properties": {
                                     "centralHeatingFuelType": {
                                       "enum": [
-                                        "Mains gas",
-                                        "Electricity",
+                                        "Mains gas"
+                                      ]
+                                    },
+                                    "supplier": {
+                                      "title": "Supplier (if known)",
+                                      "type": "string"
+                                    },
+                                    "gasMeter": {
+                                      "title": "Location of gas meter (if any)",
+                                      "type": "object",
+                                      "properties": {
+                                        "location": {
+                                          "title": "Describe the location of the meter",
+                                          "type": "string",
+                                          "minLength": 1
+                                        },
+                                        "attachments": {
+                                          "title": "Photograph of meter location",
+                                          "type": "string",
+                                          "enum": [
+                                            "Attached",
+                                            "To follow"
+                                          ]
+                                        },
+                                        "mprn": {
+                                          "title": "Meter Point Reference Number (MPRN)",
+                                          "description": "You can find your property’s MPRN on your gas or dual fuel bill. It’s usually marked ‘Meter Point Reference Number’ and is between six and 10 digits long.",
+                                          "type": "integer"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
+                                        "Electricity"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
                                         "Oil",
                                         "LPG",
                                         "Biomass"
                                       ]
+                                    },
+                                    "supplier": {
+                                      "title": "Supplier (if known)",
+                                      "type": "string"
                                     }
                                   }
                                 },
@@ -20509,8 +20827,8 @@
                 }
               }
             },
-            "energyAndMeters": {
-              "title": "Energy and Meters",
+            "electricalWorks": {
+              "title": "Electrical Works",
               "type": "object",
               "properties": {
                 "testedByQualifiedElectrician": {
@@ -20627,315 +20945,6 @@
                       }
                     }
                   ]
-                },
-                "solarPanels": {
-                  "title": "Solar or photovoltaic panels",
-                  "type": "object",
-                  "properties": {
-                    "hasSolarPanels": {
-                      "title": "Are there solar or photovoltaic panels installed at the property?",
-                      "type": "string",
-                      "enum": [
-                        "Yes",
-                        "No"
-                      ]
-                    }
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "hasSolarPanels": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "hasSolarPanels": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "yearInstalled": {
-                          "title": "What year were they installed?",
-                          "type": "integer"
-                        },
-                        "panelsOwnedOutright": {
-                          "title": "Do you own the panels, and all equipment related to them, outright?",
-                          "type": "object",
-                          "properties": {
-                            "yesNo": {
-                              "type": "string",
-                              "title": "",
-                              "enum": [
-                                "Yes",
-                                "No"
-                              ]
-                            }
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                },
-                                "details": {
-                                  "title": "Provide details of who owns them and the relevant documentation",
-                                  "type": "string",
-                                  "minLength": 1
-                                },
-                                "attachments": {
-                                  "title": "Attachments",
-                                  "type": "string",
-                                  "enum": [
-                                    "Attached",
-                                    "To follow"
-                                  ]
-                                }
-                              }
-                            }
-                          ]
-                        },
-                        "panelProviderLease": {
-                          "title": "Is there an existing long lease of the roof/air space granted to a panel provider?",
-                          "type": "object",
-                          "properties": {
-                            "yesNo": {
-                              "type": "string",
-                              "title": "",
-                              "enum": [
-                                "Yes",
-                                "No"
-                              ]
-                            }
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                },
-                                "details": {
-                                  "title": "Name of the provider",
-                                  "type": "string",
-                                  "minLength": 1
-                                },
-                                "attachments": {
-                                  "title": "Please supply copies of the relevant documents",
-                                  "type": "string",
-                                  "enum": [
-                                    "Attached",
-                                    "To follow"
-                                  ]
-                                }
-                              }
-                            }
-                          ]
-                        },
-                        "lastMaintained": {
-                          "title": "When was the system last maintained or serviced?",
-                          "type": "string",
-                          "format": "date"
-                        },
-                        "inGoodWorkingOrder": {
-                          "title": "Is the system in good working order to your satisfaction?",
-                          "type": "object",
-                          "properties": {
-                            "yesNo": {
-                              "type": "string",
-                              "title": "",
-                              "enum": [
-                                "Yes",
-                                "No"
-                              ]
-                            }
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                },
-                                "details": {
-                                  "title": "Details",
-                                  "type": "string",
-                                  "minLength": 1
-                                }
-                              }
-                            }
-                          ]
-                        },
-                        "isConnectedToNationalGrid": {
-                          "title": "Is the system connected to the National Grid e.g. for feed-in tariffs (FiT) or Smart Export Guarantee (SEG)",
-                          "type": "string",
-                          "enum": [
-                            "Yes (FiT)",
-                            "Yes (SEG)",
-                            "No"
-                          ]
-                        },
-                        "photovoltaicMeterPanelLocation": {
-                          "title": "Location of photovoltaic panel meter (if any)",
-                          "type": "object",
-                          "properties": {
-                            "description": {
-                              "title": "Describe the location of the meter",
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "attachments": {
-                              "title": "Photograph of meter location",
-                              "type": "string",
-                              "enum": [
-                                "Attached",
-                                "To follow"
-                              ]
-                            }
-                          }
-                        },
-                        "photovoltaicBatteriesLocation": {
-                          "title": "Location of photovoltaic batteries (if any)",
-                          "type": "object",
-                          "properties": {
-                            "description": {
-                              "title": "Describe the location of the batteries",
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "attachments": {
-                              "title": "Photograph of batteries location",
-                              "type": "string",
-                              "enum": [
-                                "Attached",
-                                "To follow"
-                              ]
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                },
-                "electricityMeter": {
-                  "title": "Location of electricity meter (if any)",
-                  "type": "object",
-                  "properties": {
-                    "location": {
-                      "title": "Describe the location of the meter",
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "attachments": {
-                      "title": "Photograph of meter location",
-                      "type": "string",
-                      "enum": [
-                        "Attached",
-                        "To follow"
-                      ]
-                    },
-                    "mpan": {
-                      "title": "Meter Point Administration Number (MPAN)",
-                      "description": "Your MPAN is on your electricity or dual fuel bill, usually in a box marked ‘Supply Number’. It’s 21 digits long and begins with ‘S’. You’ll only need the last 12 or 13 digits.",
-                      "type": "integer"
-                    }
-                  }
-                },
-                "gasMeter": {
-                  "title": "Location of gas meter (if any)",
-                  "type": "object",
-                  "properties": {
-                    "location": {
-                      "title": "Describe the location of the meter",
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "attachments": {
-                      "title": "Photograph of meter location",
-                      "type": "string",
-                      "enum": [
-                        "Attached",
-                        "To follow"
-                      ]
-                    },
-                    "mprn": {
-                      "title": "Meter Point Reference Number (MPRN)",
-                      "description": "You can find your property’s MPRN on your gas or dual fuel bill. It’s usually marked ‘Meter Point Reference Number’ and is between six and 10 digits long.",
-                      "type": "integer"
-                    }
-                  }
-                },
-                "stopcock": {
-                  "title": "Location of stopcock (if any)",
-                  "type": "object",
-                  "properties": {
-                    "location": {
-                      "title": "Describe the location of the stopcock",
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "attachments": {
-                      "title": "Photograph of stopcock location",
-                      "type": "string",
-                      "enum": [
-                        "Attached",
-                        "To follow"
-                      ]
-                    }
-                  }
-                },
-                "waterMeter": {
-                  "title": "Location of water meter (if any)",
-                  "type": "object",
-                  "properties": {
-                    "location": {
-                      "title": "Describe the location of the meter",
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "attachments": {
-                      "title": "Photograph of meter location",
-                      "type": "string",
-                      "enum": [
-                        "Attached",
-                        "To follow"
-                      ]
-                    }
-                  }
                 }
               }
             },
@@ -21680,7 +21689,7 @@
                   "type": "object",
                   "properties": {
                     "hasOthersAged17OrOver": {
-                      "title": "Other than the sellers, does anyone else aged 17 or over, live at the property?",
+                      "title": "Other than the sellers, does anyone else aged 17 or over live at the property?",
                       "type": "string",
                       "enum": [
                         "Yes",
