@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://trust.propdata.org.uk/schemas/v2/overlays/ta6.json",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/ta6.json",
   "required": [
     "participants",
     "propertyPack"
@@ -24,8 +24,8 @@
             "notices",
             "specialistIssues",
             "waterAndDrainage",
-            "connectedUtilities",
-            "centralHeating",
+            "electricity",
+            "heating",
             "insurance",
             "rightsAndInformalArrangements",
             "environmentalIssues",
@@ -64,51 +64,7 @@
               ],
               "properties": {
                 "parkingArrangements": {
-                  "ta6Ref": "9.1",
-                  "discriminator": {
-                    "propertyName": "parkingArrangementsType"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "parkingArrangementsType": {
-                          "enum": [
-                            "Garage",
-                            "Allocated parking space",
-                            "Driveway",
-                            "On street",
-                            "Resident permit",
-                            "Metered parking",
-                            "Communal parking",
-                            "None"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "parkingArrangementsType": {
-                          "enum": [
-                            "Other"
-                          ]
-                        },
-                        "otherParkingType": {
-                          "ta6Ref": "9.1.2"
-                        }
-                      },
-                      "required": [
-                        "otherParkingType"
-                      ]
-                    }
-                  ],
-                  "required": [
-                    "parkingArrangementsType"
-                  ],
-                  "properties": {
-                    "parkingArrangementsType": {
-                      "ta6Ref": "9.1.1"
-                    }
-                  }
+                  "ta6Ref": "9.1"
                 },
                 "controlledParking": {
                   "ta6Ref": "9.2",
@@ -120,11 +76,6 @@
                       "ta6Ref": "9.2.1"
                     }
                   }
-                },
-                "electricVehicleChargingPoint": {
-                  "required": [
-                    "yesNo"
-                  ]
                 }
               }
             },
@@ -1480,13 +1431,10 @@
                 }
               }
             },
-            "connectedUtilities": {
-              "ta6Ref": "13",
+            "electricity": {
+              "ta6Ref": "13.1",
               "required": [
-                "mainsElectricity",
-                "mainsGas",
-                "telephone",
-                "cableSatelliteTV"
+                "mainsElectricity"
               ],
               "properties": {
                 "mainsElectricity": {
@@ -1538,159 +1486,6 @@
                   "properties": {
                     "yesNo": {
                       "ta6Ref": "13.1.1"
-                    }
-                  }
-                },
-                "mainsGas": {
-                  "ta6Ref": "13.2",
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "supplier": {
-                          "ta6Ref": "13.2.2"
-                        }
-                      },
-                      "required": [
-                        "supplier"
-                      ]
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "To be connected"
-                          ]
-                        },
-                        "supplier": {
-                          "ta6Ref": "13.2.2"
-                        }
-                      }
-                    }
-                  ],
-                  "required": [
-                    "yesNo"
-                  ],
-                  "properties": {
-                    "yesNo": {
-                      "ta6Ref": "13.2.1"
-                    }
-                  }
-                },
-                "telephone": {
-                  "ta6Ref": "13.5",
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "supplier": {
-                          "ta6Ref": "13.5.2"
-                        }
-                      },
-                      "required": [
-                        "supplier"
-                      ]
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "To be connected"
-                          ]
-                        },
-                        "supplier": {
-                          "ta6Ref": "13.5.2"
-                        }
-                      }
-                    }
-                  ],
-                  "required": [
-                    "yesNo"
-                  ],
-                  "properties": {
-                    "yesNo": {
-                      "ta6Ref": "13.5.1"
-                    }
-                  }
-                },
-                "cableSatelliteTV": {
-                  "ta6Ref": "13.6",
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "supplier": {
-                          "ta6Ref": "13.6.2"
-                        }
-                      },
-                      "required": [
-                        "supplier"
-                      ]
-                    },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "To be connected"
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "required": [
-                    "yesNo"
-                  ],
-                  "properties": {
-                    "yesNo": {
-                      "ta6Ref": "13.6.1"
                     }
                   }
                 }
@@ -1809,7 +1604,12 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "ta6Ref": "12.4b1"
+                          "ta6Ref": "12.4b1",
+                          "enum": [
+                            "Yes",
+                            "No",
+                            "Not known"
+                          ]
                         }
                       }
                     },
@@ -1825,9 +1625,6 @@
                               "enum": [
                                 "Yes"
                               ]
-                            },
-                            "supplier": {
-                              "ta6Ref": "12.4a2"
                             }
                           }
                         },
@@ -1851,26 +1648,26 @@
                                 "Not known"
                               ]
                             },
-                            "septicTank": {
-                              "ta6Ref": "12.5a",
+                            "offMainsDrainageSystem": {
+                              "ta6Ref": "12.4a",
                               "discriminator": {
-                                "propertyName": "yesNo"
+                                "propertyName": "offMainsDrainageSystemType"
                               },
                               "oneOf": [
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "No"
+                                        "Sustainable Drainage System"
                                       ]
                                     }
                                   }
                                 },
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "Yes"
+                                        "Septic tank"
                                       ]
                                     },
                                     "dateReplaced": {
@@ -1884,37 +1681,12 @@
                                     "dateReplaced",
                                     "dateLastEmptied"
                                   ]
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "ta6Ref": "12.5a1"
-                                }
-                              }
-                            },
-                            "cesspit": {
-                              "ta6Ref": "12.5b",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
                                 },
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "Yes"
+                                        "Cesspit"
                                       ]
                                     },
                                     "dateLastEmptied": {
@@ -1924,37 +1696,12 @@
                                   "required": [
                                     "dateLastEmptied"
                                   ]
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "ta6Ref": "12.5c1"
-                                }
-                              }
-                            },
-                            "sewerageTreatmentPlant": {
-                              "ta6Ref": "12.5b",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
                                 },
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "offMainsDrainageSystemType": {
                                       "enum": [
-                                        "Yes"
+                                        "Sewerage treatment plant"
                                       ]
                                     },
                                     "dateInstalled": {
@@ -1968,59 +1715,216 @@
                                     "dateInstalled",
                                     "dateLastServiced"
                                   ]
+                                },
+                                {
+                                  "properties": {
+                                    "offMainsDrainageSystemType": {
+                                      "enum": [
+                                        "Other",
+                                        "Not known"
+                                      ]
+                                    }
+                                  }
                                 }
                               ],
                               "required": [
-                                "yesNo"
+                                "offMainsDrainageSystemType",
+                                "otherConnectedProperties",
+                                "plantOnOtherLand"
                               ],
                               "properties": {
-                                "yesNo": {
-                                  "ta6Ref": "12.5b1"
+                                "otherConnectedProperties": {
+                                  "ta6Ref": "12.6",
+                                  "discriminator": {
+                                    "propertyName": "yesNo"
+                                  },
+                                  "oneOf": [
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "No"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "Yes"
+                                          ]
+                                        },
+                                        "numberOfPropertiesSharing": {
+                                          "ta6Ref": "12.6.2"
+                                        }
+                                      },
+                                      "required": [
+                                        "numberOfPropertiesSharing"
+                                      ]
+                                    }
+                                  ],
+                                  "required": [
+                                    "yesNo"
+                                  ],
+                                  "properties": {
+                                    "yesNo": {
+                                      "ta6Ref": "12.6.1"
+                                    }
+                                  }
+                                },
+                                "plantOnOtherLand": {
+                                  "ta6Ref": "12.10",
+                                  "discriminator": {
+                                    "propertyName": "yesNo"
+                                  },
+                                  "oneOf": [
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "No"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "properties": {
+                                        "yesNo": {
+                                          "enum": [
+                                            "Yes"
+                                          ]
+                                        },
+                                        "attachments": {
+                                          "ta6Ref": "12.10.2"
+                                        }
+                                      },
+                                      "required": [
+                                        "attachments"
+                                      ]
+                                    }
+                                  ],
+                                  "required": [
+                                    "yesNo"
+                                  ],
+                                  "properties": {
+                                    "yesNo": {
+                                      "ta6Ref": "12.10.1"
+                                    }
+                                  }
                                 }
                               }
-                            },
-                            "otherConnectedProperties": {
-                              "ta6Ref": "12.6",
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "12.4a1",
+                          "enum": [
+                            "Yes",
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "heating": {
+              "ta6Ref": "12.3",
+              "required": [
+                "heatingSystem"
+              ],
+              "properties": {
+                "heatingSystem": {
+                  "ta6Ref": "12.3.1",
+                  "discriminator": {
+                    "propertyName": "heatingType"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": [
+                            "None",
+                            "Room heaters only"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": [
+                            "Central heating"
+                          ]
+                        },
+                        "centralHeatingDetails": {
+                          "ta6Ref": "12.3.2",
+                          "required": [
+                            "centralHeatingFuel",
+                            "centralHeatingInstalled",
+                            "boilerInstallationCertificate",
+                            "heatingLastServicedDate",
+                            "heatingLastServicedReport",
+                            "heatingInGoodWorkingOrder"
+                          ],
+                          "properties": {
+                            "centralHeatingFuel": {
+                              "ta6Ref": "12.3.3",
                               "discriminator": {
-                                "propertyName": "yesNo"
+                                "propertyName": "centralHeatingFuelType"
                               },
                               "oneOf": [
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "centralHeatingFuelType": {
                                       "enum": [
-                                        "No"
+                                        "Mains gas",
+                                        "Electricity",
+                                        "Oil",
+                                        "LPG",
+                                        "Biomass"
                                       ]
                                     }
                                   }
                                 },
                                 {
                                   "properties": {
-                                    "yesNo": {
+                                    "centralHeatingFuelType": {
                                       "enum": [
-                                        "Yes"
+                                        "Other"
                                       ]
                                     },
-                                    "numberOfPropertiesSharing": {
-                                      "ta6Ref": "12.6.2"
+                                    "otherCentralHeatingFuelType": {
+                                      "ta6Ref": "12.3a2"
                                     }
                                   },
                                   "required": [
-                                    "numberOfPropertiesSharing"
+                                    "otherCentralHeatingFuelType"
                                   ]
                                 }
                               ],
                               "required": [
-                                "yesNo"
+                                "centralHeatingFuelType"
                               ],
                               "properties": {
-                                "yesNo": {
-                                  "ta6Ref": "12.6.1"
+                                "centralHeatingFuelType": {
+                                  "ta6Ref": "12.3a1"
                                 }
                               }
                             },
-                            "plantOnOtherLand": {
-                              "ta6Ref": "12.10",
+                            "centralHeatingInstalled": {
+                              "ta6Ref": "12.3b1"
+                            },
+                            "boilerInstallationCertificate": {
+                              "ta6Ref": "12.3b2",
                               "discriminator": {
                                 "propertyName": "yesNo"
                               },
@@ -2042,7 +1946,7 @@
                                       ]
                                     },
                                     "attachments": {
-                                      "ta6Ref": "12.10.2"
+                                      "ta6Ref": "12.3b4"
                                     }
                                   },
                                   "required": [
@@ -2055,206 +1959,185 @@
                               ],
                               "properties": {
                                 "yesNo": {
-                                  "ta6Ref": "12.10.1"
+                                  "ta6Ref": "12.3b3"
+                                }
+                              }
+                            },
+                            "heatingLastServicedDate": {
+                              "ta6Ref": "12.3d1"
+                            },
+                            "heatingLastServicedReport": {
+                              "ta6Ref": "12.3d2"
+                            },
+                            "heatingInGoodWorkingOrder": {
+                              "ta6Ref": "12.3c",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ],
+                              "required": [
+                                "yesNo"
+                              ],
+                              "properties": {
+                                "yesNo": {
+                                  "ta6Ref": "12.3c1"
                                 }
                               }
                             }
-                          },
-                          "required": [
-                            "septicTank",
-                            "cesspit",
-                            "sewerageTreatmentPlant",
-                            "otherConnectedProperties",
-                            "plantOnOtherLand"
+                          }
+                        }
+                      },
+                      "required": [
+                        "centralHeatingDetails"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": [
+                            "Community heating system"
                           ]
                         }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "ta6Ref": "12.4a1"
-                        }
                       }
+                    }
+                  ],
+                  "required": [
+                    "heatingType"
+                  ],
+                  "properties": {
+                    "heatingType": {
+                      "ta6Ref": "12.3.1"
                     }
                   }
                 }
               }
             },
-            "centralHeating": {
-              "ta6Ref": "12.3",
-              "discriminator": {
-                "propertyName": "hasCentralHeating"
-              },
-              "oneOf": [
-                {
-                  "properties": {
-                    "hasCentralHeating": {
-                      "enum": [
-                        "No"
-                      ]
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "hasCentralHeating": {
-                      "enum": [
-                        "Yes"
+            "connectivity": {
+              "ta6Ref": "13",
+              "required": [
+                "telephone",
+                "cableSatelliteTV"
+              ],
+              "properties": {
+                "telephone": {
+                  "ta6Ref": "13.5",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "supplier": {
+                          "ta6Ref": "13.5.2"
+                        }
+                      },
+                      "required": [
+                        "supplier"
                       ]
                     },
-                    "centralHeatingDetails": {
-                      "ta6Ref": "12.3.2",
-                      "required": [
-                        "centralHeatingFuel",
-                        "centralHeatingInstalled",
-                        "boilerInstallationCertificate",
-                        "heatingLastServicedDate",
-                        "heatingLastServicedReport",
-                        "heatingInGoodWorkingOrder"
-                      ],
+                    {
                       "properties": {
-                        "centralHeatingFuel": {
-                          "ta6Ref": "12.3.3",
-                          "discriminator": {
-                            "propertyName": "centralHeatingFuelType"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "centralHeatingFuelType": {
-                                  "enum": [
-                                    "Gas",
-                                    "Electricity",
-                                    "Oil",
-                                    "LPG"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "centralHeatingFuelType": {
-                                  "enum": [
-                                    "Other"
-                                  ]
-                                },
-                                "otherCentralHeatingFuelType": {
-                                  "ta6Ref": "12.3a2"
-                                }
-                              },
-                              "required": [
-                                "otherCentralHeatingFuelType"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "centralHeatingFuelType"
-                          ],
-                          "properties": {
-                            "centralHeatingFuelType": {
-                              "ta6Ref": "12.3a1"
-                            }
-                          }
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
                         },
-                        "centralHeatingInstalled": {
-                          "ta6Ref": "12.3b1"
-                        },
-                        "boilerInstallationCertificate": {
-                          "ta6Ref": "12.3b2",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                },
-                                "attachments": {
-                                  "ta6Ref": "12.3b4"
-                                }
-                              },
-                              "required": [
-                                "attachments"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "ta6Ref": "12.3b3"
-                            }
-                          }
-                        },
-                        "heatingLastServicedDate": {
-                          "ta6Ref": "12.3d1"
-                        },
-                        "heatingLastServicedReport": {
-                          "ta6Ref": "12.3d2"
-                        },
-                        "heatingInGoodWorkingOrder": {
-                          "ta6Ref": "12.3c",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                }
-                              }
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "ta6Ref": "12.3c1"
-                            }
-                          }
+                        "supplier": {
+                          "ta6Ref": "13.5.2"
                         }
                       }
                     }
-                  },
+                  ],
                   "required": [
-                    "centralHeatingDetails"
-                  ]
-                }
-              ],
-              "required": [
-                "hasCentralHeating"
-              ],
-              "properties": {
-                "hasCentralHeating": {
-                  "ta6Ref": "12.3.1"
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "13.5.1"
+                    }
+                  }
+                },
+                "cableSatelliteTV": {
+                  "ta6Ref": "13.6",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "supplier": {
+                          "ta6Ref": "13.6.2"
+                        }
+                      },
+                      "required": [
+                        "supplier"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "13.6.1"
+                    }
+                  }
                 }
               }
             },
@@ -2961,118 +2844,19 @@
               "properties": {
                 "flooding": {
                   "ta6Ref": "7.1.0",
-                  "discriminator": {
-                    "propertyName": "hasBeenFlooded"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "hasBeenFlooded": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "hasBeenFlooded": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "details": {
-                          "ta6Ref": "7.1.2"
-                        },
-                        "typeOfFlooding": {
-                          "ta6Ref": "7.2",
-                          "required": [
-                            "groundWater",
-                            "sewer",
-                            "surfaceWater",
-                            "coastal",
-                            "river",
-                            "other"
-                          ],
-                          "properties": {
-                            "groundWater": {
-                              "ta6Ref": "7.2a"
-                            },
-                            "sewer": {
-                              "ta6Ref": "7.2b"
-                            },
-                            "surfaceWater": {
-                              "ta6Ref": "7.2c"
-                            },
-                            "coastal": {
-                              "ta6Ref": "7.2d"
-                            },
-                            "river": {
-                              "ta6Ref": "7.2e"
-                            },
-                            "other": {
-                              "ta6Ref": "7.2f",
-                              "discriminator": {
-                                "propertyName": "yesNo"
-                              },
-                              "oneOf": [
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "No"
-                                      ]
-                                    }
-                                  }
-                                },
-                                {
-                                  "properties": {
-                                    "yesNo": {
-                                      "enum": [
-                                        "Yes"
-                                      ]
-                                    },
-                                    "details": {
-                                      "ta6Ref": "7.2f2"
-                                    }
-                                  },
-                                  "required": [
-                                    "details"
-                                  ]
-                                }
-                              ],
-                              "required": [
-                                "yesNo"
-                              ],
-                              "properties": {
-                                "yesNo": {
-                                  "ta6Ref": "7.2f1"
-                                }
-                              }
-                            }
-                          }
-                        }
-                      },
-                      "required": [
-                        "typeOfFlooding",
-                        "details"
-                      ]
-                    }
-                  ],
                   "required": [
-                    "floodRiskReport",
-                    "hasBeenFlooded"
+                    "historicalFlooding"
                   ],
                   "properties": {
-                    "floodRiskReport": {
-                      "ta6Ref": "7.3",
+                    "historicalFlooding": {
+                      "ta6Ref": "7.1.1",
                       "discriminator": {
-                        "propertyName": "yesNo"
+                        "propertyName": "hasBeenFlooded"
                       },
                       "oneOf": [
                         {
                           "properties": {
-                            "yesNo": {
+                            "hasBeenFlooded": {
                               "enum": [
                                 "No"
                               ]
@@ -3081,31 +2865,32 @@
                         },
                         {
                           "properties": {
-                            "yesNo": {
+                            "hasBeenFlooded": {
                               "enum": [
                                 "Yes"
                               ]
                             },
-                            "attachments": {
-                              "ta6Ref": "7.3.2"
+                            "typeOfFlooding": {
+                              "ta6Ref": "7.2"
+                            },
+                            "details": {
+                              "ta6Ref": "7.1.2"
                             }
                           },
                           "required": [
-                            "attachments"
+                            "typeOfFlooding",
+                            "details"
                           ]
                         }
                       ],
                       "required": [
-                        "yesNo"
+                        "hasBeenFlooded"
                       ],
                       "properties": {
-                        "yesNo": {
-                          "ta6Ref": "7.3.1"
+                        "hasBeenFlooded": {
+                          "ta6Ref": "7.1.1.1"
                         }
                       }
-                    },
-                    "hasBeenFlooded": {
-                      "ta6Ref": "7.1.1"
                     }
                   }
                 },
@@ -3644,23 +3429,27 @@
                   }
                 },
                 "solarPanels": {
-                  "required": [
-                    "hasSolarPanels"
-                  ],
-                  "properties": {
-                    "hasSolarPanels": {
-                      "ta6Ref": "4.6"
-                    }
+                  "ta6Ref": "4.6",
+                  "discriminator": {
+                    "propertyName": "hasSolarPanels"
                   },
                   "oneOf": [
-                    null,
                     {
-                      "required": [
-                        "yearInstalled",
-                        "panelsOwnedOutright",
-                        "panelProviderLease"
-                      ],
                       "properties": {
+                        "hasSolarPanels": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "hasSolarPanels": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
                         "yearInstalled": {
                           "ta6Ref": "4.6a"
                         },
@@ -3738,38 +3527,51 @@
                             }
                           }
                         }
-                      }
+                      },
+                      "required": [
+                        "yearInstalled",
+                        "panelsOwnedOutright",
+                        "panelProviderLease"
+                      ]
                     }
-                  ]
+                  ],
+                  "required": [
+                    "hasSolarPanels"
+                  ],
+                  "properties": {
+                    "hasSolarPanels": {
+                      "ta6Ref": "4.6"
+                    }
+                  }
                 },
-                "electricityMeterLocation": {
+                "electricityMeter": {
                   "ta6Ref": "13.1b",
                   "properties": {
-                    "description": {
+                    "location": {
                       "ta6Ref": "13.1b1"
                     }
                   }
                 },
-                "gasMeterLocation": {
+                "gasMeter": {
                   "ta6Ref": "13.2b",
                   "properties": {
-                    "description": {
+                    "location": {
                       "ta6Ref": "13.2b1"
                     }
                   }
                 },
-                "stopcockLocation": {
+                "stopcock": {
                   "ta6Ref": "13.3b",
                   "properties": {
-                    "description": {
+                    "location": {
                       "ta6Ref": "13.3b1"
                     }
                   }
                 },
-                "waterMeterLocation": {
+                "waterMeter": {
                   "ta6Ref": "13.3b",
                   "properties": {
-                    "description": {
+                    "location": {
                       "ta6Ref": "13.3b2"
                     }
                   }

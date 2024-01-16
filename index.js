@@ -11,79 +11,50 @@ const ajv = new Ajv({
 // Adds date formats among other types to the validator.
 addFormats(ajv);
 
-// v1, deprecated direct access
-const pdtfTransaction = require("./src/schemas/v1/pdtf-transaction.json");
-const materialFacts = require("./src/schemas/v1/material-facts.json");
-const legalInformation = require("./src/schemas/v1/legal-information.json");
-const energyPerformanceCertificate = require("./src/schemas/v1/energy-performance-certificate.json");
-const titleDeed = require("./src/schemas/v1/title-deed.json");
-const searches = require("./src/schemas/v1/searches.json");
-const localLandCharges = require("./src/schemas/v1/searches/local-land-charges.json");
-const localSearchesRequired = require("./src/schemas/v1/searches/local-searches-required.json");
-const drainageAndWater = require("./src/schemas/v1/searches/drainage-and-water.json");
-const geoJson = require("./src/schemas/v1/GeoJSON.json");
 const verifiedClaimsSchema = require("./src/schemas/v1/pdtf-verified-claims.json");
-
-const subSchemas = {
-  "https://trust.propdata.org.uk/schemas/v1/material-facts.json": materialFacts,
-  "https://trust.propdata.org.uk/schemas/v1/legal-information.json":
-    legalInformation,
-  "https://trust.propdata.org.uk/schemas/v1/energy-performance-certificate.json":
-    energyPerformanceCertificate,
-  "https://geojson.org/schema/GeoJSON.json": geoJson,
-  "https://trust.propdata.org.uk/schemas/v1/title-deed.json": titleDeed,
-  "https://trust.propdata.org.uk/schemas/v1/searches.json": searches,
-  "https://trust.propdata.org.uk/schemas/v1/searches/local-land-charges.json":
-    localLandCharges,
-  "https://trust.propdata.org.uk/schemas/v1/searches/local-searches-required.json":
-    localSearchesRequired,
-  "https://trust.propdata.org.uk/schemas/v1/searches/drainage-and-water.json":
-    drainageAndWater,
-};
-const transactionSchema = dereference(pdtfTransaction, (id) => subSchemas[id]);
-const validator = ajv.compile(transactionSchema);
-
-// v2, via accessor functions and overlays
-const combinedSchema = require("./src/schemas/v2/combined.json");
 const v2CoreSchema = require("./src/schemas/v2/pdtf-transaction.json");
-
-const baspiOverlay = require("./src/schemas/v2/overlays/baspi.json");
-const ta6Overlay = require("./src/schemas/v2/overlays/ta6.json");
-const ta7Overlay = require("./src/schemas/v2/overlays/ta7.json");
-const ta10Overlay = require("./src/schemas/v2/overlays/ta10.json");
-const lpe1Overlay = require("./src/schemas/v2/overlays/lpe1.json");
-const fme1Overlay = require("./src/schemas/v2/overlays/fme1.json");
-const llc1Overlay = require("./src/schemas/v2/overlays/llc1.json");
-const ntsOverlay = require("./src/schemas/v2/overlays/nts.json");
-const con29ROverlay = require("./src/schemas/v2/overlays/con29R.json");
-const con29DWOverlay = require("./src/schemas/v2/overlays/con29DW.json");
-const rdsOverlay = require("./src/schemas/v2/overlays/rds.json");
-const oc1Overlay = require("./src/schemas/v2/overlays/oc1.json");
-const piqOverlay = require("./src/schemas/v2/overlays/piq.json");
+const v3CoreSchema = require("./src/schemas/v3/pdtf-transaction.json");
 
 const overlaysMap = {
-  // either the version or the edition is added to the key for future proofing
-  baspiV4: baspiOverlay,
-  ta6ed4: ta6Overlay,
-  ta7ed3: ta7Overlay,
-  ta10ed3: ta10Overlay,
-  lpe1ed4: lpe1Overlay,
-  fme1ed2: fme1Overlay,
-  llc1v2: llc1Overlay,
-  nts2023: ntsOverlay,
-  con29R2019: con29ROverlay,
-  con29DW: con29DWOverlay,
-  rdsV333: rdsOverlay,
-  oc1v21: oc1Overlay,
-  piqV3: piqOverlay,
-  null: {},
+  "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json": {
+    baspiV4: require("./src/schemas/v2/overlays/baspi.json"),
+    ta6ed4: require("./src/schemas/v2/overlays/ta6.json"),
+    ta7ed3: require("./src/schemas/v2/overlays/ta7.json"),
+    ta10ed3: require("./src/schemas/v2/overlays/ta10.json"),
+    lpe1ed4: require("./src/schemas/v2/overlays/lpe1.json"),
+    fme1ed2: require("./src/schemas/v2/overlays/fme1.json"),
+    llc1v2: require("./src/schemas/v2/overlays/llc1.json"),
+    nts2023: require("./src/schemas/v2/overlays/nts.json"),
+    con29R2019: require("./src/schemas/v2/overlays/con29R.json"),
+    con29DW: require("./src/schemas/v2/overlays/con29DW.json"),
+    rdsV333: require("./src/schemas/v2/overlays/rds.json"),
+    oc1v21: require("./src/schemas/v2/overlays/oc1.json"),
+    piqV3: require("./src/schemas/v2/overlays/piq.json"),
+    null: {},
+  },
+  "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json": {
+    baspiV4: require("./src/schemas/v3/overlays/baspi.json"),
+    ta6ed4: require("./src/schemas/v3/overlays/ta6.json"),
+    ta7ed3: require("./src/schemas/v3/overlays/ta7.json"),
+    ta10ed3: require("./src/schemas/v3/overlays/ta10.json"),
+    lpe1ed4: require("./src/schemas/v3/overlays/lpe1.json"),
+    fme1ed2: require("./src/schemas/v3/overlays/fme1.json"),
+    llc1v2: require("./src/schemas/v3/overlays/llc1.json"),
+    nts2023: require("./src/schemas/v3/overlays/nts.json"),
+    con29R2019: require("./src/schemas/v3/overlays/con29R.json"),
+    con29DW: require("./src/schemas/v3/overlays/con29DW.json"),
+    rdsV333: require("./src/schemas/v3/overlays/rds.json"),
+    oc1v21: require("./src/schemas/v3/overlays/oc1.json"),
+    piqV3: require("./src/schemas/v3/overlays/piq.json"),
+    null: {},
+  },
 };
 
 const transactionSchemas = {
-  "https://trust.propdata.org.uk/schemas/v1/pdtf-transaction.json":
-    transactionSchema,
   "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json":
     v2CoreSchema,
+  "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json":
+    v3CoreSchema,
 };
 
 const combineMerge = (target, source, options) => {
@@ -100,31 +71,31 @@ const combineMerge = (target, source, options) => {
   return destination;
 };
 
+const mergeEnums = (target, source) => source;
+
 const getTransactionSchema = (
-  schemaId = "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json",
-  overlays = ["baspiV4"]
+  schemaId = "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json",
+  overlays // = ["baspiV4"]
 ) => {
   const sourceSchema = transactionSchemas[schemaId];
   if (!overlays || overlays.length < 1) return sourceSchema;
   let mergedSchema = sourceSchema;
   overlays.forEach((overlay) => {
-    const overlaySchema = overlaysMap[overlay] || {};
-    mergedSchema = merge(overlaySchema, mergedSchema, {
+    const overlaySchema = overlaysMap[schemaId][overlay] || {};
+    mergedSchema = merge(mergedSchema, overlaySchema, {
+      customMerge: (key) => {
+        if (key === "enum") {
+          return mergeEnums;
+        }
+      },
       arrayMerge: combineMerge,
     });
   });
-  // console.log("mergedSchema", mergedSchema);
   return mergedSchema;
 };
 
 const getValidator = (schemaId, overlays) => {
-  let validator = ajv.getSchema(schemaId);
-  if (!validator) {
-    const schema = getTransactionSchema(schemaId, overlays);
-    ajv.addSchema(schema, schemaId);
-    validator = ajv.getSchema(schemaId);
-  }
-  return validator;
+  return getSubschemaValidator("", schemaId, overlays);
 };
 
 // common functions for v1 and v2
@@ -159,7 +130,7 @@ const isPathValid = (path, schemaId, overlays) => {
   }
 };
 
-const getSubschemaValidator = (path, schemaId, overlays = ["baspiV4"]) => {
+const getSubschemaValidator = (path, schemaId, overlays) => {
   const subSchema = getSubschema(path, schemaId, overlays);
   const overlayKey = (overlays || []).join(".");
   // see if we can retrieve the schema by path, schemaId and overlays
@@ -192,6 +163,7 @@ const getTitleAtPath = (schema, path, rootPath = path) => {
   }
   const propertyName = pathArray.shift();
   const subPath = "/" + pathArray.join("/");
+
   let subSchema = schema.properties
     ? schema.properties[propertyName]
     : undefined;
@@ -202,10 +174,9 @@ const getTitleAtPath = (schema, path, rootPath = path) => {
     subSchema = schema.items;
     return getTitleAtPath(subSchema, subPath, rootPath);
   }
-  const discriminator = schema.discriminator?.propertyName;
-  if (discriminator) {
+  const oneOfs = schema.oneOf;
+  if (oneOfs) {
     // only single dependency discriminator, oneOf keyword is supported
-    const oneOfs = schema.oneOf;
     const matchingOneOf = oneOfs.find(
       (oneOf) => oneOf["properties"][propertyName]
     );
@@ -257,8 +228,6 @@ const validateVerifiedClaims = (verifiedClaims, schemaId, overlays) => {
 
 module.exports = {
   ajv,
-  transactionSchema, // v1 deprecated
-  validator, // v1 deprecated
   getTransactionSchema,
   getValidator,
   getSubschema,
@@ -267,16 +236,5 @@ module.exports = {
   getTitleAtPath,
   verifiedClaimsSchema,
   validateVerifiedClaims,
-  baspiOverlay,
-  ta6Overlay,
-  ta7Overlay,
-  ta10Overlay,
-  lpe1Overlay,
-  fme1Overlay,
-  llc1Overlay,
-  ntsOverlay,
-  con29ROverlay,
-  con29DWOverlay,
-  rdsOverlay,
-  oc1Overlay,
+  overlaysMap,
 };

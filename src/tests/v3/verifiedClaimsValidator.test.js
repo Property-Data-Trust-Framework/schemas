@@ -2,8 +2,8 @@ const { validateVerifiedClaims } = require("../../../index.js");
 
 const exampleVouch = require("../../examples/v1/exampleVouch.json");
 const exampleDocumentedVouch = require("../../examples/v1/exampleDocumentedVouch.json");
-const v2SchemaId =
-  "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json";
+const v3SchemaId =
+  "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json";
 
 test("returns an empty array for a valid claim", () => {
   expect(validateVerifiedClaims([exampleVouch])).toEqual([]);
@@ -21,20 +21,20 @@ test("returns an array with an error stating if path is incorrect", () => {
   clonedVouch.claims = {
     "/propertyPack/INVALID/materialFacts/councilTax": data,
   };
-  // v2 schema, no overlay
-  expect(validateVerifiedClaims([clonedVouch], v2SchemaId, null)).toEqual([
+  // v3 schema, no overlay
+  expect(validateVerifiedClaims([clonedVouch], v3SchemaId, null)).toEqual([
     "Path /propertyPack/INVALID/materialFacts/councilTax is not a valid PDTF schema path",
   ]);
 });
 
-test("returns errors if BASPI requirements are not met and BASPI overlay is specified (default)", () => {
+test("returns errors if BASPI requirements are not met and BASPI overlay is specified", () => {
   const clonedVouch = JSON.parse(JSON.stringify(exampleVouch));
   clonedVouch.claims = {
     "/propertyPack/materialFacts/delayFactors": {
       hasDelayFactors: { yesNo: "Yes" },
     },
   };
-  const errors = validateVerifiedClaims([clonedVouch], v2SchemaId);
+  const errors = validateVerifiedClaims([clonedVouch], v3SchemaId, ["baspiV4"]);
   expect(errors).toEqual([
     {
       instancePath: "/hasDelayFactors",
@@ -60,7 +60,7 @@ test("returns no errors if BASPI requirements are not met and null overlay is sp
       hasDelayFactors: { yesNo: "Yes" },
     },
   };
-  const errors = validateVerifiedClaims([clonedVouch], v2SchemaId, null);
+  const errors = validateVerifiedClaims([clonedVouch], v3SchemaId, null);
   expect(errors).toEqual([]);
 });
 
@@ -71,7 +71,7 @@ test("returns errors for invalid fields even if null overlay is specified", () =
       hasDelayFactors: { yesNo: "Maybe" },
     },
   };
-  const errors = validateVerifiedClaims([clonedVouch], v2SchemaId, null);
+  const errors = validateVerifiedClaims([clonedVouch], v3SchemaId, null);
   expect(errors).toHaveLength(4);
 });
 
@@ -95,7 +95,7 @@ test("returns an array of errors for verified claim with multiple paths", () => 
       },
     },
   };
-  expect(validateVerifiedClaims([clonedVouch], v2SchemaId, null)).toEqual([
+  expect(validateVerifiedClaims([clonedVouch], v3SchemaId, null)).toEqual([
     "Path /propertyPack/materialFacts/cousncilTaxBad is not a valid PDTF schema path",
     "Path /propertyPack/materialFacts/councilTaxBadTwo is not a valid PDTF schema path",
   ]);
@@ -104,7 +104,7 @@ test("returns an array of errors for verified claim with multiple paths", () => 
 test("returns an empty array of errors for verified claim with multiple valid paths", () => {
   const clonedVouch = JSON.parse(
     JSON.stringify(exampleVouch),
-    v2SchemaId,
+    v3SchemaId,
     null
   );
   clonedVouch.claims = {
@@ -124,5 +124,5 @@ test("returns an empty array of errors for verified claim with multiple valid pa
       postcode: "property.postcode",
     },
   };
-  expect(validateVerifiedClaims([clonedVouch], v2SchemaId, null)).toEqual([]);
+  expect(validateVerifiedClaims([clonedVouch], v3SchemaId, null)).toEqual([]);
 });

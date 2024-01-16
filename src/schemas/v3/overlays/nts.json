@@ -1,0 +1,1914 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/nts.json",
+  "required": [
+    "propertyPack"
+  ],
+  "properties": {
+    "propertyPack": {
+      "ntsRef": "0",
+      "required": [
+        "materialFacts"
+      ],
+      "properties": {
+        "materialFacts": {
+          "required": [
+            "ownership",
+            "councilTax",
+            "energyEfficiency",
+            "buildInformation",
+            "typeOfConstruction",
+            "electricity",
+            "connectivity",
+            "waterAndDrainage",
+            "heating",
+            "parking",
+            "listingAndConservation",
+            "rightsAndInformalArrangements",
+            "environmentalIssues",
+            "notices"
+          ],
+          "properties": {
+            "priceInformation": {
+              "ntsRef": "A2",
+              "required": [
+                "price",
+                "priceQualifier"
+              ],
+              "properties": {
+                "price": {
+                  "ntsRef": "A2.1"
+                },
+                "priceQualifier": {
+                  "ntsRef": "A2.2"
+                }
+              }
+            },
+            "marketingTenure": {
+              "ntsRef": "A3"
+            },
+            "buildInformation": {
+              "ntsRef": "B1.1",
+              "required": [
+                "building",
+                "roomDimensions"
+              ],
+              "properties": {
+                "building": {
+                  "ntsRef": "B1.1.1",
+                  "discriminator": {
+                    "propertyName": "propertyType"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "propertyType": {
+                          "enum": [
+                            "Other"
+                          ]
+                        },
+                        "otherType": {
+                          "ntsRef": "B1.1.1.1"
+                        }
+                      },
+                      "required": [
+                        "otherType"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "propertyType": {
+                          "enum": [
+                            "House",
+                            "Bungalow"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "propertyType": {
+                          "enum": [
+                            "Maisonette",
+                            "Flat"
+                          ]
+                        },
+                        "numberOfFloors": {
+                          "ntsRef": "B1.1.3"
+                        },
+                        "entranceFloor": {
+                          "ntsRef": "B1.1.4"
+                        },
+                        "hasLift": {
+                          "ntsRef": "B1.1.5"
+                        },
+                        "overCommercialPremises": {
+                          "ntsRef": "B1.1.6",
+                          "discriminator": {
+                            "propertyName": "isLocatedOverCommercialPremises"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "isLocatedOverCommercialPremises": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "isLocatedOverCommercialPremises": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "details": {
+                                  "ntsRef": "B1.1.6.2"
+                                }
+                              },
+                              "required": [
+                                "details"
+                              ]
+                            }
+                          ],
+                          "properties": {
+                            "isLocatedOverCommercialPremises": {
+                              "ntsRef": "B1.1.6.1"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "numberOfFloors",
+                        "entranceFloor",
+                        "hasLift",
+                        "overCommercialPremises"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "builtForm",
+                    "propertyType"
+                  ],
+                  "properties": {
+                    "builtForm": {
+                      "ntsRef": "B1.1.2"
+                    },
+                    "propertyType": {
+                      "ntsRef": "B1.1.1.1"
+                    }
+                  }
+                },
+                "roomDimensions": {
+                  "ntsRef": "B2",
+                  "discriminator": {
+                    "propertyName": "hasFloorplan"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "hasFloorplan": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "hasFloorplan": {
+                          "enum": [
+                            "No"
+                          ]
+                        },
+                        "rooms": {
+                          "ntsRef": "B2.2",
+                          "items": {
+                            "required": [
+                              "roomName",
+                              "length",
+                              "width",
+                              "units"
+                            ],
+                            "properties": {
+                              "roomName": {
+                                "ntsRef": "B2.2.1"
+                              },
+                              "description": {
+                                "ntsRef": "B2.2.2"
+                              },
+                              "length": {
+                                "ntsRef": "B2.2.3"
+                              },
+                              "width": {
+                                "ntsRef": "B2.2.4"
+                              },
+                              "units": {
+                                "ntsRef": "B2.2.5"
+                              },
+                              "dimensionDetails": {
+                                "ntsRef": "B2.6"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "rooms"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "hasFloorplan"
+                  ],
+                  "properties": {
+                    "hasFloorplan": {
+                      "ntsRef": "B2.1"
+                    }
+                  }
+                }
+              }
+            },
+            "ownership": {
+              "ntsRef": "A3",
+              "required": [
+                "ownershipsToBeTransferred"
+              ],
+              "properties": {
+                "ownershipsToBeTransferred": {
+                  "ntsRef": "A3",
+                  "items": {
+                    "ntsRef": "A3.1",
+                    "discriminator": {
+                      "propertyName": "ownershipType"
+                    },
+                    "oneOf": [
+                      {
+                        "properties": {
+                          "ownershipType": {
+                            "enum": [
+                              "Freehold"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "ownershipType": {
+                            "enum": [
+                              "Managed Freehold",
+                              "Commonhold"
+                            ]
+                          },
+                          "managedFreeholdOrCommonholdInformation": {
+                            "ntsRef": "A3.2",
+                            "required": [
+                              "serviceCharge"
+                            ],
+                            "properties": {
+                              "serviceCharge": {
+                                "ntsRef": "A3.1.1",
+                                "required": [
+                                  "annualServiceCharge"
+                                ],
+                                "properties": {
+                                  "annualServiceCharge": {
+                                    "ntsRef": "A3.1.2"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "ownershipType": {
+                            "enum": [
+                              "Leasehold"
+                            ]
+                          },
+                          "leaseholdInformation": {
+                            "ntsRef": "A3.2",
+                            "required": [
+                              "typeOfLeasehold",
+                              "leaseTerm",
+                              "groundRent",
+                              "serviceCharge"
+                            ],
+                            "properties": {
+                              "typeOfLeasehold": {
+                                "ntsRef": "A3.2",
+                                "discriminator": {
+                                  "propertyName": "leaseholdType"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "leaseholdType": {
+                                        "enum": [
+                                          "Flat",
+                                          "Long leasehold house"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "leaseholdType": {
+                                        "enum": [
+                                          "Shared ownership"
+                                        ]
+                                      },
+                                      "sharedOwnershipPercentage": {
+                                        "ntsRef": "A3.7.1"
+                                      },
+                                      "sharedOwnershipRent": {
+                                        "ntsRef": "A3.7.2"
+                                      },
+                                      "sharedOwnershipRentFrequency": {
+                                        "ntsRef": "A3.7.3"
+                                      }
+                                    },
+                                    "required": [
+                                      "sharedOwnershipPercentage",
+                                      "sharedOwnershipRent",
+                                      "sharedOwnershipRentFrequency"
+                                    ]
+                                  }
+                                ],
+                                "required": [
+                                  "leaseholdType"
+                                ],
+                                "properties": {
+                                  "leaseholdType": {
+                                    "ntsRef": "A3.2.1"
+                                  }
+                                }
+                              },
+                              "leaseTerm": {
+                                "ntsRef": "A3.2.2",
+                                "required": [
+                                  "startYearOfLease",
+                                  "lengthOfLeaseInYears"
+                                ],
+                                "properties": {
+                                  "startYearOfLease": {
+                                    "ntsRef": "A3.2.2.1"
+                                  },
+                                  "lengthOfLeaseInYears": {
+                                    "ntsRef": "A3.2.2.2"
+                                  }
+                                }
+                              },
+                              "groundRent": {
+                                "ntsRef": "A3.4",
+                                "discriminator": {
+                                  "propertyName": "isGroundRentPayable"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "isGroundRentPayable": {
+                                        "enum": [
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "isGroundRentPayable": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "annualGroundRent": {
+                                        "ntsRef": "A3.4.2"
+                                      },
+                                      "rentSubjectToIncrease": {
+                                        "ntsRef": "A3.4.3",
+                                        "discriminator": {
+                                          "propertyName": "yesNo"
+                                        },
+                                        "oneOf": [
+                                          {
+                                            "properties": {
+                                              "yesNo": {
+                                                "enum": [
+                                                  "No"
+                                                ]
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "properties": {
+                                              "yesNo": {
+                                                "enum": [
+                                                  "Yes"
+                                                ]
+                                              },
+                                              "rentReviewFrequency": {
+                                                "ntsRef": "1.4.3.2"
+                                              },
+                                              "rentIncreaseCalculated": {
+                                                "ntsRef": "1.4.3.3"
+                                              }
+                                            },
+                                            "required": [
+                                              "rentReviewFrequency",
+                                              "rentIncreaseCalculated"
+                                            ]
+                                          }
+                                        ],
+                                        "required": [
+                                          "yesNo"
+                                        ],
+                                        "properties": {
+                                          "yesNo": {
+                                            "ntsRef": "1.4.3.1"
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "required": [
+                                      "annualGroundRent",
+                                      "rentSubjectToIncrease"
+                                    ]
+                                  }
+                                ],
+                                "required": [
+                                  "isGroundRentPayable"
+                                ],
+                                "properties": {
+                                  "isGroundRentPayable": {
+                                    "ntsRef": "A3.4.1"
+                                  }
+                                }
+                              },
+                              "serviceCharge": {
+                                "ntsRef": "A3.5",
+                                "discriminator": {
+                                  "propertyName": "sellerContributesToServiceCharge"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "sellerContributesToServiceCharge": {
+                                        "enum": [
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "sellerContributesToServiceCharge": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "annualServiceCharge": {
+                                        "ntsRef": "A3.5.1.1"
+                                      }
+                                    },
+                                    "required": [
+                                      "annualServiceCharge"
+                                    ]
+                                  }
+                                ],
+                                "required": [
+                                  "sellerContributesToServiceCharge"
+                                ],
+                                "properties": {
+                                  "sellerContributesToServiceCharge": {
+                                    "ntsRef": "A3.5.1"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "ownershipType": {
+                            "enum": [
+                              "Other"
+                            ]
+                          },
+                          "otherOwnershipDetails": {
+                            "ntsRef": "A3.5"
+                          }
+                        },
+                        "required": [
+                          "otherOwnershipDetails"
+                        ]
+                      }
+                    ],
+                    "required": [
+                      "ownershipType"
+                    ],
+                    "properties": {
+                      "ownershipType": {
+                        "ntsRef": "A3.1"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "parking": {
+              "ntsRef": "B4",
+              "required": [
+                "parkingArrangements",
+                "disabledParking",
+                "controlledParking",
+                "electricVehicleChargingPoint"
+              ],
+              "properties": {
+                "parkingArrangements": {
+                  "ntsRef": "B4.1",
+                  "items": {
+                    "ntsRef": "B4.1.1"
+                  }
+                },
+                "disabledParking": {
+                  "ntsRef": "B4.2",
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "B4.2.1"
+                    }
+                  }
+                },
+                "controlledParking": {
+                  "ntsRef": "B4.3",
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "B4.3.1"
+                    }
+                  }
+                },
+                "electricVehicleChargingPoint": {
+                  "ntsRef": "B4.4",
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "B4.4.1"
+                    }
+                  }
+                }
+              }
+            },
+            "listingAndConservation": {
+              "ntsRef": "C2.1",
+              "required": [
+                "isListed",
+                "isConservationArea",
+                "hasTreePreservationOrder"
+              ],
+              "properties": {
+                "isListed": {
+                  "ntsRef": "C2.1.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ntsRef": "C2.1.1.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "C2.1.1.1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                "isConservationArea": {
+                  "ntsRef": "C2.1.2",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ntsRef": "C2.1.2.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "C2.1.2.1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                "hasTreePreservationOrder": {
+                  "ntsRef": "C2.1.3",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "workCarriedOut": {
+                          "ntsRef": "C2.1.3.2",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "consentsObtained": {
+                                  "ntsRef": "C2.1.3.3"
+                                }
+                              },
+                              "required": [
+                                "consentsObtained"
+                              ]
+                            }
+                          ],
+                          "required": [
+                            "yesNo"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "C2.1.3.1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "typeOfConstruction": {
+              "ntsRef": "A1.2",
+              "required": [
+                "isStandardForm",
+                "buildingSafety",
+                "accessibilityAndAdaptations"
+              ],
+              "properties": {
+                "isStandardForm": {
+                  "ntsRef": "A1.2.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        },
+                        "details": {
+                          "ntsRef": "A1.2.1.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "A1.2.1.1"
+                    }
+                  }
+                },
+                "buildingSafety": {
+                  "ntsRef": "C1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ntsRef": "C1.2"
+                        },
+                        "workAlreadyDone": {
+                          "ntsRef": "C1.3"
+                        },
+                        "workToBeDone": {
+                          "ntsRef": "C1.4"
+                        },
+                        "potentialCost": {
+                          "ntsRef": "C1.5"
+                        },
+                        "abilityToResideAtProperty": {
+                          "ntsRef": "C1.6"
+                        }
+                      },
+                      "required": [
+                        "details",
+                        "workAlreadyDone",
+                        "workToBeDone",
+                        "potentialCost",
+                        "abilityToResideAtProperty"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "C1.1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                "accessibilityAndAdaptations": {
+                  "ntsRef": "C5"
+                }
+              }
+            },
+            "energyEfficiency": {
+              "ntsRef": "A4",
+              "required": [
+                "certificate"
+              ],
+              "properties": {
+                "certificate": {
+                  "ntsRef": "A4.1",
+                  "required": [
+                    "currentEnergyRating"
+                  ],
+                  "properties": {
+                    "currentEnergyRating": {
+                      "ntsRef": "A4.1.1"
+                    }
+                  }
+                }
+              }
+            },
+            "councilTax": {
+              "ntsRef": "A1",
+              "required": [
+                "councilTaxBand",
+                "councilTaxAffectingAlterations"
+              ],
+              "properties": {
+                "councilTaxBand": {
+                  "ntsRef": "A1.1"
+                },
+                "councilTaxAffectingAlterations": {
+                  "ntsRef": "A1.2",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ntsRef": "A1.2.2"
+                        },
+                        "attachments": {
+                          "ntsRef": "A1.2.3"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "A1.2.1"
+                    }
+                  }
+                }
+              }
+            },
+            "notices": {
+              "ntsRef": "C4",
+              "required": [
+                "neighbourDevelopment",
+                "planningApplication"
+              ],
+              "properties": {
+                "neighbourDevelopment": {
+                  "ntsRef": "C4.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ntsRef": "C4.1.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "C4.1.1"
+                    }
+                  }
+                },
+                "planningApplication": {
+                  "ntsRef": "C4.2",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ntsRef": "C4.2.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "C4.2.1"
+                    }
+                  }
+                }
+              }
+            },
+            "electricity": {
+              "ntsRef": "B3.1",
+              "required": [
+                "mainsElectricity",
+                "solarPanels",
+                "otherSources"
+              ],
+              "properties": {
+                "mainsElectricity": {
+                  "ntsRef": "B3.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "B3.1.1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                "solarPanels": {
+                  "ntsRef": "B3.7",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "B3.7.1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                "otherSources": {
+                  "ntsRef": "B3.8",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ntsRef": "3.8.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        },
+                        "details": {
+                          "ntsRef": "3.8.2"
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "B3.8.1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "waterAndDrainage": {
+              "ntsRef": "B3.2",
+              "required": [
+                "water",
+                "drainage"
+              ],
+              "properties": {
+                "water": {
+                  "ntsRef": "B3.2",
+                  "required": [
+                    "mainsWater"
+                  ],
+                  "properties": {
+                    "mainsWater": {
+                      "ntsRef": "B3.2",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            },
+                            "details": {
+                              "ntsRef": "3.2.2"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "isSupplyMetered": {
+                              "ntsRef": "3.2.3"
+                            }
+                          },
+                          "required": [
+                            "isSupplyMetered"
+                          ]
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "To be connected"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ntsRef": "B3.2.1",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "drainage": {
+                  "ntsRef": "B3.3",
+                  "required": [
+                    "mainsSurfaceWaterDrainage",
+                    "mainsFoulDrainage"
+                  ],
+                  "properties": {
+                    "mainsSurfaceWaterDrainage": {
+                      "ntsRef": "B3.3.1",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not known"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "To be connected"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ntsRef": "B3.3.1.1",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    "mainsFoulDrainage": {
+                      "ntsRef": "B3.3.2",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "To be connected"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not known"
+                              ]
+                            },
+                            "offMainsDrainageSystem": {
+                              "ntsRef": "B3.3.3",
+                              "discriminator": {
+                                "propertyName": "offMainsDrainageSystemType"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "offMainsDrainageSystemType": {
+                                      "enum": [
+                                        "Sustainable Drainage System"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "offMainsDrainageSystemType": {
+                                      "enum": [
+                                        "Septic tank"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "offMainsDrainageSystemType": {
+                                      "enum": [
+                                        "Cesspit"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "offMainsDrainageSystemType": {
+                                      "enum": [
+                                        "Sewerage treatment plant"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "offMainsDrainageSystemType": {
+                                      "enum": [
+                                        "Other",
+                                        "Not known"
+                                      ]
+                                    },
+                                    "details": {
+                                      "ntsRef": "B3.3.3.2"
+                                    }
+                                  },
+                                  "required": [
+                                    "details"
+                                  ]
+                                }
+                              ],
+                              "required": [
+                                "offMainsDrainageSystemType"
+                              ],
+                              "properties": {
+                                "offMainsDrainageSystemType": {
+                                  "ntsRef": "B3.3.3.1"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ntsRef": "B3.3.2.1",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "heating": {
+              "ntsRef": "B3.4",
+              "required": [
+                "heatingSystem"
+              ],
+              "properties": {
+                "heatingSystem": {
+                  "ntsRef": "B3.4.1",
+                  "discriminator": {
+                    "propertyName": "heatingType"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": [
+                            "None",
+                            "Room heaters only"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": [
+                            "Central heating"
+                          ]
+                        },
+                        "centralHeatingDetails": {
+                          "ntsRef": "B3.4.3",
+                          "required": [
+                            "centralHeatingFuel"
+                          ],
+                          "properties": {
+                            "centralHeatingFuel": {
+                              "ntsRef": "B3.4.3.1",
+                              "discriminator": {
+                                "propertyName": "centralHeatingFuelType"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
+                                        "Mains gas",
+                                        "Electricity",
+                                        "Oil",
+                                        "LPG",
+                                        "Biomass"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
+                                        "Other"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ],
+                              "required": [
+                                "centralHeatingFuelType"
+                              ],
+                              "properties": {
+                                "centralHeatingFuelType": {
+                                  "ntsRef": "B3.4.3.1.1"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "centralHeatingDetails"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "heatingType": {
+                          "enum": [
+                            "Community heating system"
+                          ]
+                        },
+                        "details": {
+                          "ntsRef": "B3.4.4"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "heatingType"
+                  ],
+                  "properties": {
+                    "heatingType": {
+                      "ntsRef": "B3.4.1"
+                    }
+                  }
+                },
+                "otherHeatingFeatures": {
+                  "ntsRef": "B3.4.2"
+                }
+              }
+            },
+            "connectivity": {
+              "ntsRef": "B3",
+              "required": [
+                "broadband"
+              ],
+              "properties": {
+                "telephone": {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                "cableSatelliteTV": {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                "broadband": {
+                  "ntsRef": "B3.5",
+                  "required": [
+                    "typeOfConnection"
+                  ],
+                  "properties": {
+                    "typeOfConnection": {
+                      "ntsRef": "B3.5.2"
+                    }
+                  }
+                },
+                "mobilePhone": {
+                  "ntsRef": "B3.6",
+                  "properties": {
+                    "knownSignalIssues": {
+                      "ntsRef": "B3.6.1",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "ntsRef": "B3.6.1.2"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ntsRef": "B3.6.1.1"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "rightsAndInformalArrangements": {
+              "ntsRef": "C2.2",
+              "required": [
+                "rightsOrArrangements"
+              ],
+              "properties": {
+                "rightsOrArrangements": {
+                  "ntsRef": "C2.2.1",
+                  "required": [
+                    "publicRightOfWay"
+                  ],
+                  "properties": {
+                    "publicRightOfWay": {
+                      "ntsRef": "C2.2.1",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "ntsRef": "C2.2.1.2"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "title": "Is there a public right of way through and/or across your house, buildings or land?",
+                      "properties": {
+                        "yesNo": {
+                          "ntsRef": "C2.2.1.1"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "environmentalIssues": {
+              "ntsRef": "C3.1",
+              "required": [
+                "flooding",
+                "coalMining",
+                "nonCoalMining",
+                "coastalErosion"
+              ],
+              "properties": {
+                "flooding": {
+                  "ntsRef": "C3.1.1",
+                  "required": [
+                    "floodRisk",
+                    "historicalFlooding"
+                  ],
+                  "properties": {
+                    "floodRisk": {
+                      "ntsRef": "C3.1.1.1",
+                      "discriminator": {
+                        "propertyName": "riskIndicator"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "riskIndicator": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "riskIndicator": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "summary": {
+                              "ntsRef": "C3.1.1.2"
+                            }
+                          },
+                          "required": [
+                            "summary"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "riskIndicator"
+                      ],
+                      "properties": {
+                        "riskIndicator": {
+                          "ntsRef": "C3.1.1.1",
+                          "title": "To your knowledge, is the property at risk of flooding of any type?"
+                        }
+                      }
+                    },
+                    "historicalFlooding": {
+                      "ntsRef": "C3.1.1.2",
+                      "discriminator": {
+                        "propertyName": "hasBeenFlooded"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "hasBeenFlooded": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "hasBeenFlooded": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "typeOfFlooding": {
+                              "ntsRef": "C3.1.1.3"
+                            },
+                            "details": {
+                              "ntsRef": "C3.1.1.4"
+                            }
+                          },
+                          "required": [
+                            "typeOfFlooding",
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "hasBeenFlooded"
+                      ],
+                      "properties": {
+                        "hasBeenFlooded": {
+                          "ntsRef": "C3.1.1.2.1"
+                        }
+                      }
+                    }
+                  }
+                },
+                "coalMining": {
+                  "ntsRef": "C6.1",
+                  "discriminator": {
+                    "propertyName": "riskIndicator"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "riskIndicator": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "riskIndicator": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "summary": {
+                          "ntsRef": "C6.1.1",
+                          "title": "Please provide details"
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "riskIndicator"
+                  ],
+                  "properties": {
+                    "riskIndicator": {
+                      "ntsRef": "C6.1.1",
+                      "title": "To your knowledge, is the property impacted by coal mining?"
+                    }
+                  }
+                },
+                "nonCoalMining": {
+                  "ntsRef": "C6.2",
+                  "discriminator": {
+                    "propertyName": "riskIndicator"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "riskIndicator": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "riskIndicator": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "summary": {
+                          "ntsRef": "C6.2.2"
+                        }
+                      },
+                      "required": [
+                        "summary"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "riskIndicator"
+                  ],
+                  "properties": {
+                    "riskIndicator": {
+                      "ntsRef": "C6.2.1",
+                      "title": "To your knowledge, is the property impacted by types of mining other than coal?"
+                    }
+                  }
+                },
+                "coastalErosion": {
+                  "ntsRef": "C3.2",
+                  "discriminator": {
+                    "propertyName": "riskIndicator"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "riskIndicator": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "riskIndicator": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "summary": {
+                          "ntsRef": "C3.2.2"
+                        }
+                      },
+                      "required": [
+                        "summary"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "riskIndicator"
+                  ],
+                  "properties": {
+                    "riskIndicator": {
+                      "ntsRef": "C3.2.1",
+                      "title": "To your knowledge, is the property impacted by coastal erosion?"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
