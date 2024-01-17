@@ -200,6 +200,7 @@
             "environmentalIssues",
             "notices"
           ],
+          "ta7Required": ["ownership"],
           "properties": {
             "address": {
               "baspiRef": "A1.1",
@@ -1120,6 +1121,7 @@
               "type": "object",
               "baspiRequired": ["ownershipsToBeTransferred"],
               "ntsRequired": ["ownershipsToBeTransferred"],
+              "ta7Required": ["ownershipsToBeTransferred"],
               "properties": {
                 "ownershipsToBeTransferred": {
                   "baspiRef": "A1.3",
@@ -1382,11 +1384,9 @@
                                     "type": "object",
                                     "properties": {
                                       "contact": {
-                                        "ta7Ref": "4.1b",
                                         "type": "object",
                                         "properties": {
                                           "nameOrOrganisation": {
-                                            "ta7Ref": "4.1b.1",
                                             "title": "Name or organisation",
                                             "type": "string",
                                             "minLength": 1
@@ -1396,28 +1396,23 @@
                                             "type": "object",
                                             "properties": {
                                               "line1": {
-                                                "ta7Ref": "4.1b.2",
                                                 "title": "Address line 1",
                                                 "type": "string",
                                                 "minLength": 1
                                               },
                                               "line2": {
-                                                "ta7Ref": "4.1b.3",
                                                 "title": "Address line 2",
                                                 "type": "string"
                                               },
                                               "line3": {
-                                                "ta7Ref": "4.1b.4",
                                                 "title": "Address line 3",
                                                 "type": "string"
                                               },
                                               "town": {
-                                                "ta7Ref": "4.1b.5",
                                                 "title": "Town",
                                                 "type": "string"
                                               },
                                               "postcode": {
-                                                "ta7Ref": "4.1b.6",
                                                 "title": "Postcode",
                                                 "type": "string",
                                                 "minLength": 1
@@ -1429,13 +1424,11 @@
                                             ]
                                           },
                                           "telephone": {
-                                            "ta7Ref": "4.1b.7",
                                             "title": "Telephone",
                                             "type": "string",
                                             "minLength": 1
                                           },
                                           "emailAddress": {
-                                            "ta7Ref": "4.1b.8",
                                             "title": "Email address",
                                             "type": "string",
                                             "format": "email"
@@ -1496,7 +1489,6 @@
                                     "properties": {
                                       "contact": {
                                         "baspiRef": "A1.5.5.1",
-                                        "ta7Ref": "4.1c",
                                         "type": "object",
                                         "fme1Required": [
                                           "nameOrOrganisation",
@@ -1511,7 +1503,6 @@
                                         "properties": {
                                           "nameOrOrganisation": {
                                             "baspiRef": "A1.5.5.1.1",
-                                            "ta7Ref": "4.1c.1",
                                             "title": "Name or organisation",
                                             "type": "string",
                                             "minLength": 1
@@ -1523,32 +1514,27 @@
                                             "properties": {
                                               "line1": {
                                                 "baspiRef": "A1.5.5.1.2.1",
-                                                "ta7Ref": "4.1c.2",
                                                 "title": "Address line 1",
                                                 "type": "string",
                                                 "minLength": 1
                                               },
                                               "line2": {
                                                 "baspiRef": "A1.5.5.1.2.2",
-                                                "ta7Ref": "4.1c.3",
                                                 "title": "Address line 2",
                                                 "type": "string"
                                               },
                                               "line3": {
                                                 "baspiRef": "A1.5.5.1.2.3",
-                                                "ta7Ref": "4.1c.4",
                                                 "title": "Address line 3",
                                                 "type": "string"
                                               },
                                               "town": {
                                                 "baspiRef": "A1.5.5.1.2.4",
-                                                "ta7Ref": "4.1c.5",
                                                 "title": "Town",
                                                 "type": "string"
                                               },
                                               "postcode": {
                                                 "baspiRef": "A1.5.5.1.2.5",
-                                                "ta7Ref": "4.1c.6",
                                                 "title": "Postcode",
                                                 "type": "string",
                                                 "minLength": 1
@@ -1564,14 +1550,12 @@
                                             ]
                                           },
                                           "telephone": {
-                                            "ta7Ref": "4.1c.7",
                                             "title": "Telephone",
                                             "type": "string",
                                             "minLength": 1
                                           },
                                           "emailAddress": {
                                             "baspiRef": "A1.5.5.1.3",
-                                            "ta7Ref": "4.1c.8",
                                             "title": "Email address",
                                             "type": "string",
                                             "format": "email"
@@ -3446,7 +3430,7 @@
                               "confirmation"
                             ],
                             "baspiRequired": [
-                              "typeOfLeasehold",
+                              "sharedOwnership",
                               "leaseTerm",
                               "contactDetails",
                               "groundRent",
@@ -3454,13 +3438,13 @@
                               "serviceCharge"
                             ],
                             "ntsRequired": [
-                              "typeOfLeasehold",
+                              "sharedOwnership",
                               "leaseTerm",
                               "groundRent",
                               "serviceCharge"
                             ],
                             "ta7Required": [
-                              "typeOfLeasehold",
+                              "sharedOwnership",
                               "leaseTerm",
                               "contactDetails",
                               "transferAndRegistration",
@@ -3471,43 +3455,39 @@
                               "requiredDocuments"
                             ],
                             "properties": {
-                              "typeOfLeasehold": {
+                              "sharedOwnership": {
                                 "baspiRef": "A1.3.1",
                                 "ntsRef": "A3.2",
                                 "type": "object",
-                                "lpe1Required": ["leaseholdType"],
-                                "baspiRequired": ["leaseholdType"],
-                                "ntsRequired": ["leaseholdType"],
+                                "lpe1Required": ["isSharedOwnership"],
+                                "baspiRequired": ["isSharedOwnership"],
+                                "ntsRequired": ["isSharedOwnership"],
+                                "ta7Required": ["isSharedOwnership"],
                                 "properties": {
-                                  "leaseholdType": {
+                                  "isSharedOwnership": {
                                     "baspiRef": "A1.3.1",
                                     "ta7Ref": "1.1",
                                     "ntsRef": "A3.2.1",
-                                    "title": "What type of leasehold property does the seller own?",
-                                    "description": "‘Flat’ includes maisonette and apartment.",
+                                    "title": "Is the lease on a Shared Ownership basis?",
                                     "type": "string",
-                                    "enum": [
-                                      "Flat",
-                                      "Shared ownership",
-                                      "Long leasehold house"
-                                    ]
+                                    "enum": ["Yes", "No"]
                                   }
                                 },
                                 "discriminator": {
-                                  "propertyName": "leaseholdType"
+                                  "propertyName": "isSharedOwnership"
                                 },
                                 "oneOf": [
                                   {
                                     "properties": {
-                                      "leaseholdType": {
-                                        "enum": ["Flat", "Long leasehold house"]
+                                      "isSharedOwnership": {
+                                        "enum": ["No"]
                                       }
                                     }
                                   },
                                   {
                                     "properties": {
-                                      "leaseholdType": {
-                                        "enum": ["Shared ownership"]
+                                      "isSharedOwnership": {
+                                        "enum": ["Yes"]
                                       },
                                       "sharedOwnershipPercentage": {
                                         "baspiRef": "A1.3.1.1",
@@ -3589,7 +3569,10 @@
                                   "serviceContactAssignments"
                                 ],
                                 "baspiRequired": ["contacts"],
-                                "ta7Required": ["contacts"],
+                                "ta7Required": [
+                                  "contacts",
+                                  "serviceContactAssignments"
+                                ],
                                 "properties": {
                                   "contacts": {
                                     "baspiRef": "A1.5.4.",
@@ -4280,7 +4263,11 @@
                                       "collectsServiceCharges",
                                       "collectsbuildingInsurancePremiums",
                                       "dealsWithDayToDayMaintenanceOfManagedArea",
+                                      "organisesBuildingInsurance",
                                       "dealsWithDayToDayMaintenanceOfBuilding"
+                                    ],
+                                    "ta7Required": [
+                                      "organisesBuildingInsurance"
                                     ],
                                     "properties": {
                                       "noticeOfAssignmentAndCharge": {
@@ -4918,6 +4905,7 @@
                                         "lpe1Ref": "1.12",
                                         "ta7Ref": "5.1",
                                         "title": "Who organises and administers the buildings insurance?",
+                                        "ta7Title": "Who is responsible for arranging the buildings insurance on the property?",
                                         "type": "string",
                                         "enum": [
                                           "Rentcharge Owner",
@@ -4926,6 +4914,11 @@
                                           "Managing Agent",
                                           "the Lessees",
                                           "Not applicable"
+                                        ],
+                                        "ta7enum": [
+                                          "the Lessees",
+                                          "Management Company",
+                                          "Landlord"
                                         ]
                                       },
                                       "dealsWithDayToDayMaintenanceOfBuilding": {
@@ -5135,7 +5128,6 @@
                                   },
                                   "awareOfConsents": {
                                     "lpe1Ref": "2.4",
-                                    "ta7Ref": "9.3",
                                     "title": "Are you aware of consent having been given to any alterations or additions to the Property?",
                                     "type": "object",
                                     "properties": {
@@ -6090,6 +6082,7 @@
                                       },
                                       "lastDecoratedPeriod": {
                                         "lpe1Ref": "4.7",
+                                        "ta7Ref": "5",
                                         "title": "Confirm the date when the Managed Areas were last decorated, internally and externally.",
                                         "type": "object",
                                         "properties": {
@@ -6478,6 +6471,17 @@
                                       "allPropertiesContribute",
                                       "deedOfCertificateServed",
                                       "landlordsCertificateServed"
+                                    ],
+                                    "ta7Required": [
+                                      "annualServiceCharge",
+                                      "largeAdditionalExpense",
+                                      "problemInServiceChargeLevel",
+                                      "serviceChargeChallenged",
+                                      "dangerousCladdingOrDefects",
+                                      "difficultyInCollectingServiceCharge",
+                                      "serviceChargeOwed",
+                                      "lastDecoratedPeriod",
+                                      "deedOfCertificateServed"
                                     ],
                                     "baspiRequired": [
                                       "annualServiceCharge",
@@ -7238,9 +7242,25 @@
                                             "title": "Please give details of these alterations",
                                             "type": "string",
                                             "minLength": 1
+                                          },
+                                          "landlordConsentObtained": {
+                                            "ta7Ref": "9.3",
+                                            "title": "Was the landlord’s consent for the alterations obtained? If Yes, please supply a copy.",
+                                            "type": "string",
+                                            "enum": [
+                                              "No",
+                                              "Not known",
+                                              "Not required",
+                                              "Attached",
+                                              "To follow"
+                                            ]
                                           }
                                         },
-                                        "lpe1Required": ["details"]
+                                        "lpe1Required": ["details"],
+                                        "ta71Required": [
+                                          "details",
+                                          "landlordConsentObtained"
+                                        ]
                                       }
                                     ]
                                   },
@@ -18426,8 +18446,7 @@
                     "waterMainsWithinBoundaries",
                     "waterMainsSubjectOfAdoptionAgreement",
                     "lowWaterPressureRisk",
-                    "waterQualityAnalysis",
-                    "waterMeterLocation"
+                    "waterQualityAnalysis"
                   ],
                   "properties": {
                     "mainsWater": {
@@ -18524,6 +18543,7 @@
                               "ntsRequired": ["isSupplyMetered"],
                               "baspiRequired": ["isSupplyMetered"],
                               "ta6Required": ["isSupplyMetered"],
+                              "con29DWRequired": ["isSupplyMetered"],
                               "properties": {
                                 "isSupplyMetered": {
                                   "ntsRef": "3.2.3",
@@ -18553,6 +18573,7 @@
                                     "location": {
                                       "baspiRef": "4.6.2.1",
                                       "ta6Ref": "13.3b2.1",
+                                      "con29DWRef": "3.6",
                                       "title": "Describe the location of the meter",
                                       "type": "string",
                                       "minLength": 1
@@ -18564,13 +18585,15 @@
                                       "enum": ["Attached", "To follow"]
                                     }
                                   },
-                                  "ta6Required": ["location"]
+                                  "baspiRequired": ["location"],
+                                  "ta6Required": ["location"],
+                                  "con29DWRequired": ["location"]
                                 }
                               ]
                             }
                           },
                           "ta6Required": ["supplier", "stopcock", "waterMeter"],
-                          "con29DWRequired": ["details"],
+                          "con29DWRequired": ["details", "waterMeter"],
                           "baspiRequired": ["stopcock", "waterMeter"],
                           "ntsRequired": ["waterMeter"]
                         },
@@ -18720,12 +18743,6 @@
                     "supplyClassification": {
                       "con29DWRef": "3.5",
                       "title": "What is the classification of the water supply for the property?",
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "waterMeterLocation": {
-                      "con29DWRef": "3.6",
-                      "title": "Please include details of the location of any water meter serving the property.",
                       "type": "string",
                       "minLength": 1
                     }
@@ -19815,7 +19832,9 @@
                                           "description": "You can find your property’s MPRN on your gas or dual fuel bill. It’s usually marked ‘Meter Point Reference Number’ and is between six and 10 digits long.",
                                           "type": "integer"
                                         }
-                                      }
+                                      },
+                                      "baspiRequired": ["location"],
+                                      "ta6Required": ["location"]
                                     }
                                   },
                                   "baspiRequired": ["supplier", "gasMeter"],

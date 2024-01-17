@@ -3034,36 +3034,33 @@
                             "title": "Leasehold information",
                             "type": "object",
                             "properties": {
-                              "typeOfLeasehold": {
+                              "sharedOwnership": {
                                 "type": "object",
                                 "properties": {
-                                  "leaseholdType": {
-                                    "title": "What type of leasehold property does the seller own?",
-                                    "description": "‘Flat’ includes maisonette and apartment.",
+                                  "isSharedOwnership": {
+                                    "title": "Is the lease on a Shared Ownership basis?",
                                     "type": "string",
                                     "enum": [
-                                      "Flat",
-                                      "Shared ownership",
-                                      "Long leasehold house"
+                                      "Yes",
+                                      "No"
                                     ]
                                   }
                                 },
                                 "oneOf": [
                                   {
                                     "properties": {
-                                      "leaseholdType": {
+                                      "isSharedOwnership": {
                                         "enum": [
-                                          "Flat",
-                                          "Long leasehold house"
+                                          "No"
                                         ]
                                       }
                                     }
                                   },
                                   {
                                     "properties": {
-                                      "leaseholdType": {
+                                      "isSharedOwnership": {
                                         "enum": [
-                                          "Shared ownership"
+                                          "Yes"
                                         ]
                                       },
                                       "sharedOwnershipPercentage": {
@@ -4199,6 +4196,11 @@
                                           "Managing Agent",
                                           "the Lessees",
                                           "Not applicable"
+                                        ],
+                                        "ta7enum": [
+                                          "the Lessees",
+                                          "Management Company",
+                                          "Landlord"
                                         ]
                                       },
                                       "dealsWithDayToDayMaintenanceOfBuilding": {
@@ -6249,8 +6251,23 @@
                                             "title": "Please give details of these alterations",
                                             "type": "string",
                                             "minLength": 1
+                                          },
+                                          "landlordConsentObtained": {
+                                            "title": "Was the landlord’s consent for the alterations obtained? If Yes, please supply a copy.",
+                                            "type": "string",
+                                            "enum": [
+                                              "No",
+                                              "Not known",
+                                              "Not required",
+                                              "Attached",
+                                              "To follow"
+                                            ]
                                           }
-                                        }
+                                        },
+                                        "ta71Required": [
+                                          "details",
+                                          "landlordConsentObtained"
+                                        ]
                                       }
                                     ]
                                   },
@@ -16336,11 +16353,6 @@
                     },
                     "supplyClassification": {
                       "title": "What is the classification of the water supply for the property?",
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "waterMeterLocation": {
-                      "title": "Please include details of the location of any water meter serving the property.",
                       "type": "string",
                       "minLength": 1
                     }

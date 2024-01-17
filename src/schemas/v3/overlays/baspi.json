@@ -483,7 +483,7 @@
                           "leaseholdInformation": {
                             "baspiRef": "A1.5",
                             "required": [
-                              "typeOfLeasehold",
+                              "sharedOwnership",
                               "leaseTerm",
                               "contactDetails",
                               "groundRent",
@@ -491,27 +491,26 @@
                               "serviceCharge"
                             ],
                             "properties": {
-                              "typeOfLeasehold": {
+                              "sharedOwnership": {
                                 "baspiRef": "A1.3.1",
                                 "discriminator": {
-                                  "propertyName": "leaseholdType"
+                                  "propertyName": "isSharedOwnership"
                                 },
                                 "oneOf": [
                                   {
                                     "properties": {
-                                      "leaseholdType": {
+                                      "isSharedOwnership": {
                                         "enum": [
-                                          "Flat",
-                                          "Long leasehold house"
+                                          "No"
                                         ]
                                       }
                                     }
                                   },
                                   {
                                     "properties": {
-                                      "leaseholdType": {
+                                      "isSharedOwnership": {
                                         "enum": [
-                                          "Shared ownership"
+                                          "Yes"
                                         ]
                                       },
                                       "sharedOwnershipPercentage": {
@@ -532,10 +531,10 @@
                                   }
                                 ],
                                 "required": [
-                                  "leaseholdType"
+                                  "isSharedOwnership"
                                 ],
                                 "properties": {
-                                  "leaseholdType": {
+                                  "isSharedOwnership": {
                                     "baspiRef": "A1.3.1"
                                   }
                                 }
@@ -3762,7 +3761,10 @@
                                     "attachments": {
                                       "baspiRef": "4.6.2.2"
                                     }
-                                  }
+                                  },
+                                  "required": [
+                                    "location"
+                                  ]
                                 }
                               ],
                               "required": [
@@ -4286,6 +4288,9 @@
                                     },
                                     "gasMeter": {
                                       "baspiRef": "B4.5",
+                                      "required": [
+                                        "location"
+                                      ],
                                       "properties": {
                                         "location": {
                                           "baspiRef": "4.5.1"
