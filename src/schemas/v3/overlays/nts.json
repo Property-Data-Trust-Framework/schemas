@@ -1221,12 +1221,43 @@
                                 "Yes"
                               ]
                             },
-                            "isSupplyMetered": {
-                              "ntsRef": "3.2.3"
+                            "waterMeter": {
+                              "ntsRef": "B3.2.1.1",
+                              "discriminator": {
+                                "propertyName": "isSupplyMetered"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "isSupplyMetered": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "isSupplyMetered": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ],
+                              "required": [
+                                "isSupplyMetered"
+                              ],
+                              "properties": {
+                                "isSupplyMetered": {
+                                  "ntsRef": "3.2.3"
+                                }
+                              }
                             }
                           },
                           "required": [
-                            "isSupplyMetered"
+                            "waterMeter"
                           ]
                         },
                         {
@@ -1474,8 +1505,24 @@
                                   "properties": {
                                     "centralHeatingFuelType": {
                                       "enum": [
-                                        "Mains gas",
-                                        "Electricity",
+                                        "Mains gas"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
+                                        "Electricity"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
                                         "Oil",
                                         "LPG",
                                         "Biomass"

@@ -17907,7 +17907,7 @@
                 "solarPanels",
                 "otherSources"
               ],
-              "ta6Required": ["mainsElectricity"],
+              "ta6Required": ["mainsElectricity", "solarPanels"],
               "properties": {
                 "mainsElectricity": {
                   "baspiRef": "A7.1.0.1",
@@ -17953,9 +17953,39 @@
                           "piqRef": "A7.1.2",
                           "title": "Supplier",
                           "type": "string"
+                        },
+                        "electricityMeter": {
+                          "baspiRef": "B4.4",
+                          "ta6Ref": "13.1b",
+                          "rdsRef": "Objects/class='meters|'&access=?&accessLocation=?",
+                          "title": "Location of electricity meter",
+                          "type": "object",
+                          "ta6Required": ["location"],
+                          "baspiRequired": ["location"],
+                          "properties": {
+                            "location": {
+                              "baspiRef": "4.4.1",
+                              "ta6Ref": "13.1b1",
+                              "title": "Describe the location of the meter",
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "attachments": {
+                              "baspiRef": "4.4.2",
+                              "title": "Photograph of meter location",
+                              "type": "string",
+                              "enum": ["Attached", "To follow"]
+                            },
+                            "mpan": {
+                              "title": "Meter Point Administration Number (MPAN)",
+                              "description": "Your MPAN is on your electricity or dual fuel bill, usually in a box marked ‘Supply Number’. It’s 21 digits long and begins with ‘S’. You’ll only need the last 12 or 13 digits.",
+                              "type": "integer"
+                            }
+                          }
                         }
                       },
-                      "ta6Required": ["supplier"]
+                      "ta6Required": ["supplier", "electricityMeter"],
+                      "baspiRequired": ["electricityMeter"]
                     },
                     {
                       "properties": {
@@ -17984,6 +18014,7 @@
                   "ntsRef": "B3.7",
                   "baspiRef": "A7.1.0.8",
                   "piqRef": "A7.1.17",
+                  "ta6Ref": "4.6",
                   "title": "Solar or photovoltaic panels",
                   "type": "object",
                   "properties": {
@@ -17997,6 +18028,7 @@
                     }
                   },
                   "baspiRequired": ["yesNo"],
+                  "ta6Required": ["yesNo"],
                   "ntsRequired": ["yesNo"],
                   "discriminator": {
                     "propertyName": "yesNo"
@@ -18018,8 +18050,229 @@
                           "baspiRef": "A7.1.0.8.2",
                           "title": "Supplier",
                           "type": "string"
+                        },
+                        "yearInstalled": {
+                          "baspiRef": "B4.3.1",
+                          "ta6Ref": "4.6a",
+                          "rdsRef": "Objects/Installation",
+                          "piqRef": "B4.4.2",
+                          "title": "What year were they installed?",
+                          "type": "integer"
+                        },
+                        "panelsOwnedOutright": {
+                          "baspiRef": "B4.3.2",
+                          "ta6Ref": "4.6b",
+                          "rdsRef": "Objects/Ownership",
+                          "piqRef": "B4.4.3",
+                          "title": "Do you own the panels, and all equipment related to them, outright?",
+                          "type": "object",
+                          "properties": {
+                            "yesNo": {
+                              "baspiRef": "B4.3.2.1",
+                              "ta6Ref": "4.6b1",
+                              "type": "string",
+                              "title": "",
+                              "enum": ["Yes", "No"]
+                            }
+                          },
+                          "baspiRequired": ["yesNo"],
+                          "ta6Required": ["yesNo"],
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": ["Yes"]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": ["No"]
+                                },
+                                "details": {
+                                  "baspiRef": "B4.3.2.2",
+                                  "title": "Provide details of who owns them and the relevant documentation",
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "attachments": {
+                                  "baspiRef": "B4.3.2.3",
+                                  "title": "Attachments",
+                                  "type": "string",
+                                  "enum": ["Attached", "To follow"]
+                                }
+                              },
+                              "baspiRequired": ["details", "attachments"]
+                            }
+                          ]
+                        },
+                        "panelProviderLease": {
+                          "baspiRef": "B4.3.3",
+                          "ta6Ref": "4.6c",
+                          "rdsRef": "Objects/Ownership",
+                          "piqRef": "B4.4.4",
+                          "title": "Is there an existing long lease of the roof/air space granted to a panel provider?",
+                          "type": "object",
+                          "properties": {
+                            "yesNo": {
+                              "baspiRef": "4.3.3.1",
+                              "ta6Ref": "4.6c1",
+                              "type": "string",
+                              "title": "",
+                              "enum": ["Yes", "No"]
+                            }
+                          },
+                          "baspiRequired": ["yesNo"],
+                          "ta6Required": ["yesNo"],
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": ["No"]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": ["Yes"]
+                                },
+                                "details": {
+                                  "baspiRef": "4.3.3.2",
+                                  "title": "Name of the provider",
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "attachments": {
+                                  "baspiRef": "4.3.3.3",
+                                  "ta6Ref": "4.6c2",
+                                  "piqRef": "B4.4.5",
+                                  "title": "Please supply copies of the relevant documents",
+                                  "type": "string",
+                                  "enum": ["Attached", "To follow"]
+                                }
+                              },
+                              "baspiRequired": ["details", "attachments"],
+                              "ta6Required": ["attachments"]
+                            }
+                          ]
+                        },
+                        "lastMaintained": {
+                          "baspiRef": "B4.3.4",
+                          "rdsRef": "Objects/Servicing",
+                          "title": "When was the system last maintained or serviced?",
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "inGoodWorkingOrder": {
+                          "baspiRef": "B4.3.5",
+                          "rdsRef": "Objects/isNotWorking=yes|no|true|false",
+                          "title": "Is the system in good working order to your satisfaction?",
+                          "type": "object",
+                          "properties": {
+                            "yesNo": {
+                              "baspiRef": "B4.3.5.1",
+                              "type": "string",
+                              "title": "",
+                              "enum": ["Yes", "No"]
+                            }
+                          },
+                          "baspiRequired": ["yesNo"],
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": ["Yes"]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": ["No"]
+                                },
+                                "details": {
+                                  "baspiRef": "B4.3.5.2",
+                                  "title": "Details",
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "baspiRequired": ["details"]
+                            }
+                          ]
+                        },
+                        "isConnectedToNationalGrid": {
+                          "baspiRef": "B4.3.6",
+                          "rdsRef": "Objects/isExternallyConnected=yes|no|true|false,Connection,Objects/ExternalConnection",
+                          "title": "Is the system connected to the National Grid e.g. for feed-in tariffs (FiT) or Smart Export Guarantee (SEG)",
+                          "type": "string",
+                          "enum": ["Yes (FiT)", "Yes (SEG)", "No"]
+                        },
+                        "photovoltaicMeterPanelLocation": {
+                          "baspiRef": "B4.7",
+                          "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
+                          "title": "Location of photovoltaic panel meter (if any)",
+                          "type": "object",
+                          "properties": {
+                            "description": {
+                              "baspiRef": "4.7.1",
+                              "title": "Describe the location of the meter",
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "attachments": {
+                              "baspiRef": "4.7.2",
+                              "title": "Photograph of meter location",
+                              "type": "string",
+                              "enum": ["Attached", "To follow"]
+                            }
+                          }
+                        },
+                        "photovoltaicBatteriesLocation": {
+                          "baspiRef": "B4.8",
+                          "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
+                          "title": "Location of photovoltaic batteries (if any)",
+                          "type": "object",
+                          "properties": {
+                            "description": {
+                              "baspiRef": "4.8.1",
+                              "title": "Describe the location of the batteries",
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "attachments": {
+                              "baspiRef": "4.8.2",
+                              "title": "Photograph of batteries location",
+                              "type": "string",
+                              "enum": ["Attached", "To follow"]
+                            }
+                          }
                         }
-                      }
+                      },
+                      "baspiRequired": [
+                        "yearInstalled",
+                        "panelsOwnedOutright",
+                        "panelProviderLease",
+                        "lastMaintained",
+                        "inGoodWorkingOrder",
+                        "isConnectedToNationalGrid"
+                      ],
+                      "ta6Required": [
+                        "yearInstalled",
+                        "panelsOwnedOutright",
+                        "panelProviderLease"
+                      ]
                     },
                     {
                       "properties": {
@@ -18122,7 +18375,6 @@
                 }
               }
             },
-
             "waterAndDrainage": {
               "ntsRef": "B3.2",
               "baspiRef": "A7.1.0",
@@ -18196,6 +18448,7 @@
                           "type": "string",
                           "title": "",
                           "enum": ["Yes", "To be connected", "No"],
+                          "ta6Enum": ["Yes", "No"],
                           "ntsEnum": ["Yes", "No"],
                           "con29DWEnum": ["Yes", "No"]
                         }
@@ -18241,16 +18494,85 @@
                               "type": "string",
                               "minLength": 1
                             },
-                            "isSupplyMetered": {
-                              "ntsRef": "3.2.3",
-                              "title": "Is the supply metered?",
-                              "type": "string",
-                              "enum": ["Yes", "No"]
+                            "stopcock": {
+                              "baspiRef": "B4.6.1",
+                              "ta6Ref": "13.3b",
+                              "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
+                              "title": "Location of stopcock",
+                              "type": "object",
+                              "properties": {
+                                "location": {
+                                  "baspiRef": "4.6.1.1",
+                                  "ta6Ref": "13.3b1",
+                                  "title": "Describe the location of the stopcock",
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "attachments": {
+                                  "baspiRef": "4.6.1.2",
+                                  "title": "Photograph of stopcock location",
+                                  "type": "string",
+                                  "enum": ["Attached", "To follow"]
+                                }
+                              }
+                            },
+                            "waterMeter": {
+                              "type": "object",
+                              "ntsRef": "B3.2.1.1",
+                              "baspiRef": "A7.",
+                              "ta6Ref": "13.3b2",
+                              "ntsRequired": ["isSupplyMetered"],
+                              "baspiRequired": ["isSupplyMetered"],
+                              "ta6Required": ["isSupplyMetered"],
+                              "properties": {
+                                "isSupplyMetered": {
+                                  "ntsRef": "3.2.3",
+                                  "ta6Ref": "13.3b2",
+                                  "baspiRef": "B4.6.2",
+                                  "title": "Is the supply metered?",
+                                  "type": "string",
+                                  "enum": ["Yes", "No"]
+                                }
+                              },
+                              "discriminator": {
+                                "propertyName": "isSupplyMetered"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "isSupplyMetered": {
+                                      "enum": ["No"]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "isSupplyMetered": {
+                                      "enum": ["Yes"]
+                                    },
+                                    "location": {
+                                      "baspiRef": "4.6.2.1",
+                                      "ta6Ref": "13.3b2.1",
+                                      "title": "Describe the location of the meter",
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "attachments": {
+                                      "baspiRef": "4.6.2.2",
+                                      "title": "Photograph of meter location",
+                                      "type": "string",
+                                      "enum": ["Attached", "To follow"]
+                                    }
+                                  },
+                                  "ta6Required": ["location"]
+                                }
+                              ]
                             }
                           },
-                          "ta6Required": ["supplier"],
+                          "ta6Required": ["supplier", "stopcock", "waterMeter"],
                           "con29DWRequired": ["details"],
-                          "ntsRequired": ["isSupplyMetered"]
+                          "baspiRequired": ["stopcock", "waterMeter"],
+                          "ntsRequired": ["waterMeter"]
                         },
                         {
                           "properties": {
@@ -19461,13 +19783,60 @@
                                 {
                                   "properties": {
                                     "centralHeatingFuelType": {
-                                      "enum": [
-                                        "Mains gas",
-                                        "Electricity",
-                                        "Oil",
-                                        "LPG",
-                                        "Biomass"
-                                      ]
+                                      "enum": ["Mains gas"]
+                                    },
+                                    "supplier": {
+                                      "baspiRef": "A7.1.0",
+                                      "title": "Supplier (if known)",
+                                      "type": "string"
+                                    },
+                                    "gasMeter": {
+                                      "baspiRef": "B4.5",
+                                      "ta6Ref": "13.2b",
+                                      "rdsRef": "Objects/class='meters'&access=?&accessLocation=?",
+                                      "title": "Location of gas meter (if any)",
+                                      "type": "object",
+                                      "properties": {
+                                        "location": {
+                                          "baspiRef": "4.5.1",
+                                          "ta6Ref": "13.2b1",
+                                          "title": "Describe the location of the meter",
+                                          "type": "string",
+                                          "minLength": 1
+                                        },
+                                        "attachments": {
+                                          "baspiRef": "4.5.2",
+                                          "title": "Photograph of meter location",
+                                          "type": "string",
+                                          "enum": ["Attached", "To follow"]
+                                        },
+                                        "mprn": {
+                                          "title": "Meter Point Reference Number (MPRN)",
+                                          "description": "You can find your property’s MPRN on your gas or dual fuel bill. It’s usually marked ‘Meter Point Reference Number’ and is between six and 10 digits long.",
+                                          "type": "integer"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "baspiRequired": ["supplier", "gasMeter"],
+                                  "ta6Required": ["supplier", "gasMeter"]
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": ["Electricity"]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": ["Oil", "LPG", "Biomass"]
+                                    },
+                                    "supplier": {
+                                      "baspiRef": "A7.1.0",
+                                      "title": "Supplier (if known)",
+                                      "type": "string"
                                     }
                                   }
                                 },
@@ -22868,7 +23237,7 @@
             "sellersCapacity",
             "legalBoundaries",
             "servicesCrossing",
-            "energyAndMeters",
+            "electricalWorks",
             "smartHomeSystems",
             "guaranteesWarrantiesAndIndemnityInsurances",
             "occupiers",
@@ -22878,7 +23247,7 @@
           "ta6Required": [
             "legalBoundaries",
             "servicesCrossing",
-            "energyAndMeters",
+            "electricalWorks",
             "guaranteesWarrantiesAndIndemnityInsurances",
             "occupiers",
             "completionAndMoving",
@@ -23500,20 +23869,18 @@
                 }
               }
             },
-            "energyAndMeters": {
+            "electricalWorks": {
               "baspiRef": "B4",
               "ta6Ref": "12",
-              "title": "Energy and Meters",
+              "title": "Electrical Works",
               "type": "object",
               "baspiRequired": [
                 "testedByQualifiedElectrician",
-                "electricalWorkSince2005",
-                "solarPanels"
+                "electricalWorkSince2005"
               ],
               "ta6Required": [
                 "testedByQualifiedElectrician",
-                "electricalWorkSince2005",
-                "solarPanels"
+                "electricalWorkSince2005"
               ],
               "properties": {
                 "testedByQualifiedElectrician": {
@@ -23643,364 +24010,6 @@
                       "baspiRequired": ["yearWorkCarriedOut", "details"]
                     }
                   ]
-                },
-                "solarPanels": {
-                  "baspiRef": "B4.3",
-                  "piqRef": "B4.4",
-                  "ta6Ref": "4.6",
-                  "title": "Solar or photovoltaic panels",
-                  "type": "object",
-                  "baspiRequired": ["hasSolarPanels"],
-                  "ta6Required": ["hasSolarPanels"],
-                  "properties": {
-                    "hasSolarPanels": {
-                      "baspiRef": "B4.3.0",
-                      "ta6Ref": "4.6",
-                      "rdsRef": "Property/Flags",
-                      "piqRef": "B4.4.1",
-                      "title": "Are there solar or photovoltaic panels installed at the property?",
-                      "type": "string",
-                      "enum": ["Yes", "No"]
-                    }
-                  },
-                  "discriminator": {
-                    "propertyName": "hasSolarPanels"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "hasSolarPanels": {
-                          "enum": ["No"]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "hasSolarPanels": {
-                          "enum": ["Yes"]
-                        },
-                        "yearInstalled": {
-                          "baspiRef": "B4.3.1",
-                          "ta6Ref": "4.6a",
-                          "rdsRef": "Objects/Installation",
-                          "piqRef": "B4.4.2",
-                          "title": "What year were they installed?",
-                          "type": "integer"
-                        },
-                        "panelsOwnedOutright": {
-                          "baspiRef": "B4.3.2",
-                          "ta6Ref": "4.6b",
-                          "rdsRef": "Objects/Ownership",
-                          "piqRef": "B4.4.3",
-                          "title": "Do you own the panels, and all equipment related to them, outright?",
-                          "type": "object",
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "B4.3.2.1",
-                              "ta6Ref": "4.6b1",
-                              "type": "string",
-                              "title": "",
-                              "enum": ["Yes", "No"]
-                            }
-                          },
-                          "baspiRequired": ["yesNo"],
-                          "ta6Required": ["yesNo"],
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": ["Yes"]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": ["No"]
-                                },
-                                "details": {
-                                  "baspiRef": "B4.3.2.2",
-                                  "title": "Provide details of who owns them and the relevant documentation",
-                                  "type": "string",
-                                  "minLength": 1
-                                },
-                                "attachments": {
-                                  "baspiRef": "B4.3.2.3",
-                                  "title": "Attachments",
-                                  "type": "string",
-                                  "enum": ["Attached", "To follow"]
-                                }
-                              },
-                              "baspiRequired": ["details", "attachments"]
-                            }
-                          ]
-                        },
-                        "panelProviderLease": {
-                          "baspiRef": "B4.3.3",
-                          "ta6Ref": "4.6c",
-                          "rdsRef": "Objects/Ownership",
-                          "piqRef": "B4.4.4",
-                          "title": "Is there an existing long lease of the roof/air space granted to a panel provider?",
-                          "type": "object",
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "4.3.3.1",
-                              "ta6Ref": "4.6c1",
-                              "type": "string",
-                              "title": "",
-                              "enum": ["Yes", "No"]
-                            }
-                          },
-                          "baspiRequired": ["yesNo"],
-                          "ta6Required": ["yesNo"],
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": ["No"]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": ["Yes"]
-                                },
-                                "details": {
-                                  "baspiRef": "4.3.3.2",
-                                  "title": "Name of the provider",
-                                  "type": "string",
-                                  "minLength": 1
-                                },
-                                "attachments": {
-                                  "baspiRef": "4.3.3.3",
-                                  "ta6Ref": "4.6c2",
-                                  "piqRef": "B4.4.5",
-                                  "title": "Please supply copies of the relevant documents",
-                                  "type": "string",
-                                  "enum": ["Attached", "To follow"]
-                                }
-                              },
-                              "baspiRequired": ["details", "attachments"],
-                              "ta6Required": ["attachments"]
-                            }
-                          ]
-                        },
-                        "lastMaintained": {
-                          "baspiRef": "B4.3.4",
-                          "rdsRef": "Objects/Servicing",
-                          "title": "When was the system last maintained or serviced?",
-                          "type": "string",
-                          "format": "date"
-                        },
-                        "inGoodWorkingOrder": {
-                          "baspiRef": "B4.3.5",
-                          "rdsRef": "Objects/isNotWorking=yes|no|true|false",
-                          "title": "Is the system in good working order to your satisfaction?",
-                          "type": "object",
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "B4.3.5.1",
-                              "type": "string",
-                              "title": "",
-                              "enum": ["Yes", "No"]
-                            }
-                          },
-                          "baspiRequired": ["yesNo"],
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": ["Yes"]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": ["No"]
-                                },
-                                "details": {
-                                  "baspiRef": "B4.3.5.2",
-                                  "title": "Details",
-                                  "type": "string",
-                                  "minLength": 1
-                                }
-                              },
-                              "baspiRequired": ["details"]
-                            }
-                          ]
-                        },
-                        "isConnectedToNationalGrid": {
-                          "baspiRef": "B4.3.6",
-                          "rdsRef": "Objects/isExternallyConnected=yes|no|true|false,Connection,Objects/ExternalConnection",
-                          "title": "Is the system connected to the National Grid e.g. for feed-in tariffs (FiT) or Smart Export Guarantee (SEG)",
-                          "type": "string",
-                          "enum": ["Yes (FiT)", "Yes (SEG)", "No"]
-                        },
-                        "photovoltaicMeterPanelLocation": {
-                          "baspiRef": "B4.7",
-                          "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
-                          "title": "Location of photovoltaic panel meter (if any)",
-                          "type": "object",
-                          "properties": {
-                            "description": {
-                              "baspiRef": "4.7.1",
-                              "title": "Describe the location of the meter",
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "attachments": {
-                              "baspiRef": "4.7.2",
-                              "title": "Photograph of meter location",
-                              "type": "string",
-                              "enum": ["Attached", "To follow"]
-                            }
-                          }
-                        },
-                        "photovoltaicBatteriesLocation": {
-                          "baspiRef": "B4.8",
-                          "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
-                          "title": "Location of photovoltaic batteries (if any)",
-                          "type": "object",
-                          "properties": {
-                            "description": {
-                              "baspiRef": "4.8.1",
-                              "title": "Describe the location of the batteries",
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "attachments": {
-                              "baspiRef": "4.8.2",
-                              "title": "Photograph of batteries location",
-                              "type": "string",
-                              "enum": ["Attached", "To follow"]
-                            }
-                          }
-                        }
-                      },
-                      "baspiRequired": [
-                        "yearInstalled",
-                        "panelsOwnedOutright",
-                        "panelProviderLease",
-                        "lastMaintained",
-                        "inGoodWorkingOrder",
-                        "isConnectedToNationalGrid"
-                      ],
-                      "ta6Required": [
-                        "yearInstalled",
-                        "panelsOwnedOutright",
-                        "panelProviderLease"
-                      ]
-                    }
-                  ]
-                },
-                "electricityMeter": {
-                  "baspiRef": "B4.4",
-                  "ta6Ref": "13.1b",
-                  "rdsRef": "Objects/class='meters|'&access=?&accessLocation=?",
-                  "title": "Location of electricity meter (if any)",
-                  "type": "object",
-                  "properties": {
-                    "location": {
-                      "baspiRef": "4.4.1",
-                      "ta6Ref": "13.1b1",
-                      "title": "Describe the location of the meter",
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "attachments": {
-                      "baspiRef": "4.4.2",
-                      "title": "Photograph of meter location",
-                      "type": "string",
-                      "enum": ["Attached", "To follow"]
-                    },
-                    "mpan": {
-                      "title": "Meter Point Administration Number (MPAN)",
-                      "description": "Your MPAN is on your electricity or dual fuel bill, usually in a box marked ‘Supply Number’. It’s 21 digits long and begins with ‘S’. You’ll only need the last 12 or 13 digits.",
-                      "type": "integer"
-                    }
-                  }
-                },
-                "gasMeter": {
-                  "baspiRef": "B4.5",
-                  "ta6Ref": "13.2b",
-                  "rdsRef": "Objects/class='meters'&access=?&accessLocation=?",
-                  "title": "Location of gas meter (if any)",
-                  "type": "object",
-                  "properties": {
-                    "location": {
-                      "baspiRef": "4.5.1",
-                      "ta6Ref": "13.2b1",
-                      "title": "Describe the location of the meter",
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "attachments": {
-                      "baspiRef": "4.5.2",
-                      "title": "Photograph of meter location",
-                      "type": "string",
-                      "enum": ["Attached", "To follow"]
-                    },
-                    "mprn": {
-                      "title": "Meter Point Reference Number (MPRN)",
-                      "description": "You can find your property’s MPRN on your gas or dual fuel bill. It’s usually marked ‘Meter Point Reference Number’ and is between six and 10 digits long.",
-                      "type": "integer"
-                    }
-                  }
-                },
-                "stopcock": {
-                  "baspiRef": "B4.6.1",
-                  "ta6Ref": "13.3b",
-                  "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
-                  "title": "Location of stopcock (if any)",
-                  "type": "object",
-                  "properties": {
-                    "location": {
-                      "baspiRef": "4.6.1.1",
-                      "ta6Ref": "13.3b1",
-                      "title": "Describe the location of the stopcock",
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "attachments": {
-                      "baspiRef": "4.6.1.2",
-                      "title": "Photograph of stopcock location",
-                      "type": "string",
-                      "enum": ["Attached", "To follow"]
-                    }
-                  }
-                },
-                "waterMeter": {
-                  "baspiRef": "B4.6.2",
-                  "ta6Ref": "13.3b",
-                  "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
-                  "title": "Location of water meter (if any)",
-                  "type": "object",
-                  "properties": {
-                    "location": {
-                      "baspiRef": "4.6.2.1",
-                      "ta6Ref": "13.3b2",
-                      "title": "Describe the location of the meter",
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "attachments": {
-                      "baspiRef": "4.6.2.2",
-                      "title": "Photograph of meter location",
-                      "type": "string",
-                      "enum": ["Attached", "To follow"]
-                    }
-                  }
                 }
               }
             },
@@ -24855,7 +24864,7 @@
                       "rdsRef": "Participants",
                       "ta6Ref": "11.2.1",
                       "piqRef": "B8.1",
-                      "title": "Other than the sellers, does anyone else aged 17 or over, live at the property?",
+                      "title": "Other than the sellers, does anyone else aged 17 or over live at the property?",
                       "type": "string",
                       "enum": ["Yes", "No"]
                     }

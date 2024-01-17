@@ -3354,8 +3354,25 @@
                         },
                         "supplier": {
                           "baspiRef": "A7.1.0.1.2"
+                        },
+                        "electricityMeter": {
+                          "baspiRef": "B4.4",
+                          "required": [
+                            "location"
+                          ],
+                          "properties": {
+                            "location": {
+                              "baspiRef": "4.4.1"
+                            },
+                            "attachments": {
+                              "baspiRef": "4.4.2"
+                            }
+                          }
                         }
-                      }
+                      },
+                      "required": [
+                        "electricityMeter"
+                      ]
                     },
                     {
                       "properties": {
@@ -3409,8 +3426,175 @@
                         },
                         "supplier": {
                           "baspiRef": "A7.1.0.8.2"
+                        },
+                        "yearInstalled": {
+                          "baspiRef": "B4.3.1"
+                        },
+                        "panelsOwnedOutright": {
+                          "baspiRef": "B4.3.2",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                },
+                                "details": {
+                                  "baspiRef": "B4.3.2.2"
+                                },
+                                "attachments": {
+                                  "baspiRef": "B4.3.2.3"
+                                }
+                              },
+                              "required": [
+                                "details",
+                                "attachments"
+                              ]
+                            }
+                          ],
+                          "required": [
+                            "yesNo"
+                          ],
+                          "properties": {
+                            "yesNo": {
+                              "baspiRef": "B4.3.2.1"
+                            }
+                          }
+                        },
+                        "panelProviderLease": {
+                          "baspiRef": "B4.3.3",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "details": {
+                                  "baspiRef": "4.3.3.2"
+                                },
+                                "attachments": {
+                                  "baspiRef": "4.3.3.3"
+                                }
+                              },
+                              "required": [
+                                "details",
+                                "attachments"
+                              ]
+                            }
+                          ],
+                          "required": [
+                            "yesNo"
+                          ],
+                          "properties": {
+                            "yesNo": {
+                              "baspiRef": "4.3.3.1"
+                            }
+                          }
+                        },
+                        "lastMaintained": {
+                          "baspiRef": "B4.3.4"
+                        },
+                        "inGoodWorkingOrder": {
+                          "baspiRef": "B4.3.5",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                },
+                                "details": {
+                                  "baspiRef": "B4.3.5.2"
+                                }
+                              },
+                              "required": [
+                                "details"
+                              ]
+                            }
+                          ],
+                          "required": [
+                            "yesNo"
+                          ],
+                          "properties": {
+                            "yesNo": {
+                              "baspiRef": "B4.3.5.1"
+                            }
+                          }
+                        },
+                        "isConnectedToNationalGrid": {
+                          "baspiRef": "B4.3.6"
+                        },
+                        "photovoltaicMeterPanelLocation": {
+                          "baspiRef": "B4.7",
+                          "properties": {
+                            "description": {
+                              "baspiRef": "4.7.1"
+                            },
+                            "attachments": {
+                              "baspiRef": "4.7.2"
+                            }
+                          }
+                        },
+                        "photovoltaicBatteriesLocation": {
+                          "baspiRef": "B4.8",
+                          "properties": {
+                            "description": {
+                              "baspiRef": "4.8.1"
+                            },
+                            "attachments": {
+                              "baspiRef": "4.8.2"
+                            }
+                          }
                         }
-                      }
+                      },
+                      "required": [
+                        "yearInstalled",
+                        "panelsOwnedOutright",
+                        "panelProviderLease",
+                        "lastMaintained",
+                        "inGoodWorkingOrder",
+                        "isConnectedToNationalGrid"
+                      ]
                     },
                     {
                       "properties": {
@@ -3538,8 +3722,63 @@
                             },
                             "supplier": {
                               "baspiRef": "A7.1.0.10.2"
+                            },
+                            "stopcock": {
+                              "baspiRef": "B4.6.1",
+                              "properties": {
+                                "location": {
+                                  "baspiRef": "4.6.1.1"
+                                },
+                                "attachments": {
+                                  "baspiRef": "4.6.1.2"
+                                }
+                              }
+                            },
+                            "waterMeter": {
+                              "baspiRef": "A7.",
+                              "discriminator": {
+                                "propertyName": "isSupplyMetered"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "isSupplyMetered": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "isSupplyMetered": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "location": {
+                                      "baspiRef": "4.6.2.1"
+                                    },
+                                    "attachments": {
+                                      "baspiRef": "4.6.2.2"
+                                    }
+                                  }
+                                }
+                              ],
+                              "required": [
+                                "isSupplyMetered"
+                              ],
+                              "properties": {
+                                "isSupplyMetered": {
+                                  "baspiRef": "B4.6.2"
+                                }
+                              }
                             }
-                          }
+                          },
+                          "required": [
+                            "stopcock",
+                            "waterMeter"
+                          ]
                         },
                         {
                           "properties": {
@@ -4039,12 +4278,49 @@
                                   "properties": {
                                     "centralHeatingFuelType": {
                                       "enum": [
-                                        "Mains gas",
-                                        "Electricity",
+                                        "Mains gas"
+                                      ]
+                                    },
+                                    "supplier": {
+                                      "baspiRef": "A7.1.0"
+                                    },
+                                    "gasMeter": {
+                                      "baspiRef": "B4.5",
+                                      "properties": {
+                                        "location": {
+                                          "baspiRef": "4.5.1"
+                                        },
+                                        "attachments": {
+                                          "baspiRef": "4.5.2"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "required": [
+                                    "supplier",
+                                    "gasMeter"
+                                  ]
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
+                                        "Electricity"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "centralHeatingFuelType": {
+                                      "enum": [
                                         "Oil",
                                         "LPG",
                                         "Biomass"
                                       ]
+                                    },
+                                    "supplier": {
+                                      "baspiRef": "A7.1.0"
                                     }
                                   }
                                 },
@@ -5743,7 +6019,7 @@
             "sellersCapacity",
             "legalBoundaries",
             "servicesCrossing",
-            "energyAndMeters",
+            "electricalWorks",
             "smartHomeSystems",
             "guaranteesWarrantiesAndIndemnityInsurances",
             "occupiers",
@@ -6220,12 +6496,11 @@
                 }
               }
             },
-            "energyAndMeters": {
+            "electricalWorks": {
               "baspiRef": "B4",
               "required": [
                 "testedByQualifiedElectrician",
-                "electricalWorkSince2005",
-                "solarPanels"
+                "electricalWorkSince2005"
               ],
               "properties": {
                 "testedByQualifiedElectrician": {
@@ -6323,251 +6598,6 @@
                   "properties": {
                     "yesNo": {
                       "baspiRef": "B4.2.1"
-                    }
-                  }
-                },
-                "solarPanels": {
-                  "baspiRef": "B4.3",
-                  "discriminator": {
-                    "propertyName": "hasSolarPanels"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "hasSolarPanels": {
-                          "enum": [
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "properties": {
-                        "hasSolarPanels": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "yearInstalled": {
-                          "baspiRef": "B4.3.1"
-                        },
-                        "panelsOwnedOutright": {
-                          "baspiRef": "B4.3.2",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                },
-                                "details": {
-                                  "baspiRef": "B4.3.2.2"
-                                },
-                                "attachments": {
-                                  "baspiRef": "B4.3.2.3"
-                                }
-                              },
-                              "required": [
-                                "details",
-                                "attachments"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "B4.3.2.1"
-                            }
-                          }
-                        },
-                        "panelProviderLease": {
-                          "baspiRef": "B4.3.3",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                },
-                                "details": {
-                                  "baspiRef": "4.3.3.2"
-                                },
-                                "attachments": {
-                                  "baspiRef": "4.3.3.3"
-                                }
-                              },
-                              "required": [
-                                "details",
-                                "attachments"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "4.3.3.1"
-                            }
-                          }
-                        },
-                        "lastMaintained": {
-                          "baspiRef": "B4.3.4"
-                        },
-                        "inGoodWorkingOrder": {
-                          "baspiRef": "B4.3.5",
-                          "discriminator": {
-                            "propertyName": "yesNo"
-                          },
-                          "oneOf": [
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "Yes"
-                                  ]
-                                }
-                              }
-                            },
-                            {
-                              "properties": {
-                                "yesNo": {
-                                  "enum": [
-                                    "No"
-                                  ]
-                                },
-                                "details": {
-                                  "baspiRef": "B4.3.5.2"
-                                }
-                              },
-                              "required": [
-                                "details"
-                              ]
-                            }
-                          ],
-                          "required": [
-                            "yesNo"
-                          ],
-                          "properties": {
-                            "yesNo": {
-                              "baspiRef": "B4.3.5.1"
-                            }
-                          }
-                        },
-                        "isConnectedToNationalGrid": {
-                          "baspiRef": "B4.3.6"
-                        },
-                        "photovoltaicMeterPanelLocation": {
-                          "baspiRef": "B4.7",
-                          "properties": {
-                            "description": {
-                              "baspiRef": "4.7.1"
-                            },
-                            "attachments": {
-                              "baspiRef": "4.7.2"
-                            }
-                          }
-                        },
-                        "photovoltaicBatteriesLocation": {
-                          "baspiRef": "B4.8",
-                          "properties": {
-                            "description": {
-                              "baspiRef": "4.8.1"
-                            },
-                            "attachments": {
-                              "baspiRef": "4.8.2"
-                            }
-                          }
-                        }
-                      },
-                      "required": [
-                        "yearInstalled",
-                        "panelsOwnedOutright",
-                        "panelProviderLease",
-                        "lastMaintained",
-                        "inGoodWorkingOrder",
-                        "isConnectedToNationalGrid"
-                      ]
-                    }
-                  ],
-                  "required": [
-                    "hasSolarPanels"
-                  ],
-                  "properties": {
-                    "hasSolarPanels": {
-                      "baspiRef": "B4.3.0"
-                    }
-                  }
-                },
-                "electricityMeter": {
-                  "baspiRef": "B4.4",
-                  "properties": {
-                    "location": {
-                      "baspiRef": "4.4.1"
-                    },
-                    "attachments": {
-                      "baspiRef": "4.4.2"
-                    }
-                  }
-                },
-                "gasMeter": {
-                  "baspiRef": "B4.5",
-                  "properties": {
-                    "location": {
-                      "baspiRef": "4.5.1"
-                    },
-                    "attachments": {
-                      "baspiRef": "4.5.2"
-                    }
-                  }
-                },
-                "stopcock": {
-                  "baspiRef": "B4.6.1",
-                  "properties": {
-                    "location": {
-                      "baspiRef": "4.6.1.1"
-                    },
-                    "attachments": {
-                      "baspiRef": "4.6.1.2"
-                    }
-                  }
-                },
-                "waterMeter": {
-                  "baspiRef": "B4.6.2",
-                  "properties": {
-                    "location": {
-                      "baspiRef": "4.6.2.1"
-                    },
-                    "attachments": {
-                      "baspiRef": "4.6.2.2"
                     }
                   }
                 }
