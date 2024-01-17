@@ -5,6 +5,9 @@
     "propertyPack": {
       "properties": {
         "materialFacts": {
+          "required": [
+            "ownership"
+          ],
           "properties": {
             "address": {
               "ta7Ref": "0.1",
@@ -28,6 +31,9 @@
             },
             "ownership": {
               "ta7Ref": "1",
+              "required": [
+                "ownershipsToBeTransferred"
+              ],
               "properties": {
                 "ownershipsToBeTransferred": {
                   "ta7Ref": "1",
@@ -53,88 +59,6 @@
                               "Managed Freehold",
                               "Commonhold"
                             ]
-                          },
-                          "managedFreeholdOrCommonholdInformation": {
-                            "properties": {
-                              "contactDetails": {
-                                "properties": {
-                                  "managementCompany": {
-                                    "properties": {
-                                      "contact": {
-                                        "ta7Ref": "4.1b",
-                                        "properties": {
-                                          "nameOrOrganisation": {
-                                            "ta7Ref": "4.1b.1"
-                                          },
-                                          "address": {
-                                            "properties": {
-                                              "line1": {
-                                                "ta7Ref": "4.1b.2"
-                                              },
-                                              "line2": {
-                                                "ta7Ref": "4.1b.3"
-                                              },
-                                              "line3": {
-                                                "ta7Ref": "4.1b.4"
-                                              },
-                                              "town": {
-                                                "ta7Ref": "4.1b.5"
-                                              },
-                                              "postcode": {
-                                                "ta7Ref": "4.1b.6"
-                                              }
-                                            }
-                                          },
-                                          "telephone": {
-                                            "ta7Ref": "4.1b.7"
-                                          },
-                                          "emailAddress": {
-                                            "ta7Ref": "4.1b.8"
-                                          }
-                                        }
-                                      }
-                                    }
-                                  },
-                                  "managingAgent": {
-                                    "properties": {
-                                      "contact": {
-                                        "ta7Ref": "4.1c",
-                                        "properties": {
-                                          "nameOrOrganisation": {
-                                            "ta7Ref": "4.1c.1"
-                                          },
-                                          "address": {
-                                            "properties": {
-                                              "line1": {
-                                                "ta7Ref": "4.1c.2"
-                                              },
-                                              "line2": {
-                                                "ta7Ref": "4.1c.3"
-                                              },
-                                              "line3": {
-                                                "ta7Ref": "4.1c.4"
-                                              },
-                                              "town": {
-                                                "ta7Ref": "4.1c.5"
-                                              },
-                                              "postcode": {
-                                                "ta7Ref": "4.1c.6"
-                                              }
-                                            }
-                                          },
-                                          "telephone": {
-                                            "ta7Ref": "4.1c.7"
-                                          },
-                                          "emailAddress": {
-                                            "ta7Ref": "4.1c.8"
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
                           }
                         }
                       },
@@ -147,7 +71,7 @@
                           },
                           "leaseholdInformation": {
                             "required": [
-                              "typeOfLeasehold",
+                              "sharedOwnership",
                               "leaseTerm",
                               "contactDetails",
                               "transferAndRegistration",
@@ -158,9 +82,12 @@
                               "requiredDocuments"
                             ],
                             "properties": {
-                              "typeOfLeasehold": {
+                              "sharedOwnership": {
+                                "required": [
+                                  "isSharedOwnership"
+                                ],
                                 "properties": {
-                                  "leaseholdType": {
+                                  "isSharedOwnership": {
                                     "ta7Ref": "1.1"
                                   }
                                 }
@@ -168,7 +95,8 @@
                               "contactDetails": {
                                 "ta7Ref": "4.1",
                                 "required": [
-                                  "contacts"
+                                  "contacts",
+                                  "serviceContactAssignments"
                                 ],
                                 "properties": {
                                   "contacts": {
@@ -295,9 +223,13 @@
                                     }
                                   },
                                   "serviceContactAssignments": {
+                                    "required": [
+                                      "organisesBuildingInsurance"
+                                    ],
                                     "properties": {
                                       "organisesBuildingInsurance": {
-                                        "ta7Ref": "5.1"
+                                        "ta7Ref": "5.1",
+                                        "title": "Who is responsible for arranging the buildings insurance on the property?"
                                       }
                                     }
                                   }
@@ -310,30 +242,6 @@
                                 ],
                                 "properties": {
                                   "awareOfConsents": {
-                                    "ta7Ref": "9.3",
-                                    "discriminator": {
-                                      "propertyName": "yesNo"
-                                    },
-                                    "oneOf": [
-                                      {
-                                        "properties": {
-                                          "yesNo": {
-                                            "enum": [
-                                              "No"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "yesNo": {
-                                            "enum": [
-                                              "Yes"
-                                            ]
-                                          }
-                                        }
-                                      }
-                                    ],
                                     "required": [
                                       "yesNo"
                                     ],
@@ -761,6 +669,7 @@
                                         }
                                       },
                                       "lastDecoratedPeriod": {
+                                        "ta7Ref": "5",
                                         "properties": {
                                           "internally": {
                                             "ta7Ref": "5.3"
@@ -817,7 +726,18 @@
                                           }
                                         }
                                       }
-                                    }
+                                    },
+                                    "required": [
+                                      "annualServiceCharge",
+                                      "largeAdditionalExpense",
+                                      "problemInServiceChargeLevel",
+                                      "serviceChargeChallenged",
+                                      "dangerousCladdingOrDefects",
+                                      "difficultyInCollectingServiceCharge",
+                                      "serviceChargeOwed",
+                                      "lastDecoratedPeriod",
+                                      "deedOfCertificateServed"
+                                    ]
                                   }
                                 ],
                                 "required": [
@@ -945,6 +865,9 @@
                                           },
                                           "details": {
                                             "ta7Ref": "9.2"
+                                          },
+                                          "landlordConsentObtained": {
+                                            "ta7Ref": "9.3"
                                           }
                                         }
                                       }

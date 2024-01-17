@@ -37,8 +37,7 @@
                     "waterMainsWithinBoundaries",
                     "waterMainsSubjectOfAdoptionAgreement",
                     "lowWaterPressureRisk",
-                    "waterQualityAnalysis",
-                    "waterMeterLocation"
+                    "waterQualityAnalysis"
                   ],
                   "properties": {
                     "mainsWater": {
@@ -65,10 +64,29 @@
                             },
                             "details": {
                               "con29DWRef": "3.1.2"
+                            },
+                            "waterMeter": {
+                              "required": [
+                                "isSupplyMetered"
+                              ],
+                              "oneOf": [
+                                null,
+                                {
+                                  "required": [
+                                    "location"
+                                  ],
+                                  "properties": {
+                                    "location": {
+                                      "con29DWRef": "3.6"
+                                    }
+                                  }
+                                }
+                              ]
                             }
                           },
                           "required": [
-                            "details"
+                            "details",
+                            "waterMeter"
                           ]
                         },
                         {
@@ -216,9 +234,6 @@
                     },
                     "supplyClassification": {
                       "con29DWRef": "3.5"
-                    },
-                    "waterMeterLocation": {
-                      "con29DWRef": "3.6"
                     }
                   }
                 },
