@@ -22,16 +22,14 @@ test("exports a property pack schema, v3 with no overlay by default", () => {
   // expect(testSchema.$id).toEqual(
   //   "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json"
   // );
-  expect(
-    testSchema.properties.propertyPack.properties.materialFacts.baspiRef
-  ).toEqual(undefined);
+  expect(testSchema.properties.propertyPack.properties.baspiRef).toEqual(
+    undefined
+  );
 });
 
 test("sample is valid BASPI", () => {
   const testSchema = getTransactionSchema(schemaId, ["baspiV4"]);
-  expect(
-    testSchema.properties.propertyPack.properties.materialFacts.baspiRef
-  ).toEqual("A");
+  expect(testSchema.properties.propertyPack.baspiRef).toEqual("0");
   const validator = getValidator(schemaId);
   const isValid = validator(exampleTransaction);
   if (!isValid) console.log(validator.errors);
@@ -49,7 +47,7 @@ test("invalid sample is invalid", () => {
   const clonedExampleTransaction = JSON.parse(
     JSON.stringify(exampleTransaction)
   );
-  delete clonedExampleTransaction.propertyPack.materialFacts.notices;
+  delete clonedExampleTransaction.propertyPack.notices;
   const validator = getValidator(schemaId, ["baspiV4"]);
   const isValid = validator(clonedExampleTransaction);
   expect(isValid).toBe(false);
@@ -59,7 +57,7 @@ test("sample with missing dependent required fields is invalid", () => {
   const clonedExampleTransaction = JSON.parse(
     JSON.stringify(exampleTransaction)
   );
-  clonedExampleTransaction.propertyPack.materialFacts.ownership.ownershipsToBeTransferred[0].ownershipType =
+  clonedExampleTransaction.propertyPack.ownership.ownershipsToBeTransferred[0].ownershipType =
     "leasehold";
   const validator = getValidator(schemaId);
   const isValid = validator(clonedExampleTransaction);
@@ -72,7 +70,7 @@ test("correctly gets a top level subschema", () => {
 });
 
 test("correctly identifies a valid path", () => {
-  const isValid = isPathValid("/propertyPack/materialFacts");
+  const isValid = isPathValid("/propertyPack");
   expect(isValid).toBe(true);
 });
 
@@ -90,15 +88,12 @@ test("correctly identifies an error generating invalid path", () => {
 });
 
 test("correctly identifies an array invalid path", () => {
-  const isValid = isPathValid("/propertyPack/materialFacts/1/item");
+  const isValid = isPathValid("/propertyPack/1/item");
   expect(isValid).toBe(false);
 });
 
 test("correctly gets a subschema", () => {
-  const subschema = getSubschema(
-    "/propertyPack/materialFacts/notices",
-    schemaId
-  );
+  const subschema = getSubschema("/propertyPack/notices", schemaId);
   expect(subschema.title).toBe("Notices which Affect the Property");
 });
 
@@ -115,7 +110,7 @@ test("correctly gets a subschema through an arrays element", () => {
 
 test("correctly gets a subschema through a dependency", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/delayFactors/hasDelayFactors/details",
+    "/propertyPack/delayFactors/hasDelayFactors/details",
     schemaId
   );
   expect(subschema.title).toBe(
@@ -125,7 +120,7 @@ test("correctly gets a subschema through a dependency", () => {
 
 test("correctly gets another subschema through a dependency", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/leaseholdInformation/leaseTerm/lengthOfLeaseInYears",
+    "/propertyPack/ownership/ownershipsToBeTransferred/0/leaseholdInformation/leaseTerm/lengthOfLeaseInYears",
     schemaId
   );
   expect(subschema.title).toBe("Length of lease (years)");
@@ -133,14 +128,14 @@ test("correctly gets another subschema through a dependency", () => {
 
 test("correctly gets yet another subschema through a dependency", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/leaseholdInformation/groundRent/rentSubjectToIncrease/rentIncreaseCalculated"
+    "/propertyPack/ownership/ownershipsToBeTransferred/0/leaseholdInformation/groundRent/rentSubjectToIncrease/rentIncreaseCalculated"
   );
   expect(subschema.title).toBe("How is the increase calculated?");
 });
 
 test("correctly gets yet, yet another subschema through a dependency", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/listingAndConservation/isConservationArea/yesNo"
+    "/propertyPack/listingAndConservation/isConservationArea/yesNo"
   );
   expect(subschema.type).toBe("string");
   expect(subschema.enum).toStrictEqual(["Yes", "No", "Not known"]);
@@ -148,7 +143,7 @@ test("correctly gets yet, yet another subschema through a dependency", () => {
 
 test("correctly gets yet, yet, yet another subschema through a second item dependency", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/environmentalIssues/flooding/historicalFlooding/typeOfFlooding"
+    "/propertyPack/environmentalIssues/flooding/historicalFlooding/typeOfFlooding"
   );
   expect(subschema.type).toBe("array");
 });
@@ -169,7 +164,7 @@ test("correctly gets yes another subschema but through a non-baspi oneOf structu
 
 test("correctly gets an overlaid enum in a subschema", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/electricity/mainsElectricity/yesNo",
+    "/propertyPack/electricity/mainsElectricity/yesNo",
     schemaId,
     ["nts2023"]
   );
@@ -178,7 +173,7 @@ test("correctly gets an overlaid enum in a subschema", () => {
 
 test("correctly gets a subschema with multiple overlays", () => {
   const subschema = getSubschema(
-    "/propertyPack/materialFacts/parking/parkingArrangements",
+    "/propertyPack/parking/parkingArrangements",
     schemaId,
     ["baspiV4", "ta6ed4"]
   );
@@ -188,11 +183,11 @@ test("correctly gets a subschema with multiple overlays", () => {
 
 test("correctly gets a subschema validator which is already cached", () => {
   const validator = getSubschemaValidator(
-    "/propertyPack/materialFacts/energyEfficiency/certificate"
+    "/propertyPack/energyEfficiency/certificate"
   );
   expect(validator).not.toBeNull();
   const anotherValidator = getSubschemaValidator(
-    "/propertyPack/materialFacts/energyEfficiency/certificate"
+    "/propertyPack/energyEfficiency/certificate"
   );
   expect(anotherValidator).not.toBeNull();
 });
@@ -209,7 +204,7 @@ test("correctly gets a subschema validator for a TA6 overlay", () => {
 
 test("correctly gets a subschema validator for a TA6 overlay which validates", () => {
   const path =
-    "/propertyPack/additionalLegalInfo/guaranteesWarrantiesAndIndemnityInsurances/subsidenceWork";
+    "/propertyPack/guaranteesWarrantiesAndIndemnityInsurances/subsidenceWork";
   const data = { yesNo: "Yes" };
   const validator = getSubschemaValidator(path, exampleTransaction.$schema, [
     "ta6ed4",
@@ -227,7 +222,7 @@ test("correctly gets a subschema validator for a TA6 overlay which validates wit
     JSON.stringify(exampleTransaction)
   );
   const data = jp.get(exampleTransaction, path);
-  data.materialFacts.uprn = undefined;
+  data.uprn = undefined;
   const validator = getSubschemaValidator(path, exampleTransaction.$schema, [
     "ta6ed4",
   ]);
@@ -241,7 +236,7 @@ test("correctly gets a subschema validator for a TA6 overlay which validates wit
     JSON.stringify(exampleTransaction)
   );
   const data = jp.get(clonedExampleTransaction, path);
-  data.additionalLegalInfo.smartHomeSystems = undefined;
+  data.smartHomeSystems = undefined;
   const validator = getSubschemaValidator(path, exampleTransaction.$schema, [
     "ta6ed4",
   ]);
@@ -255,7 +250,7 @@ test("correctly gets a subschema validator for a TA6 overlay which fails to vali
     JSON.stringify(exampleTransaction)
   );
   const data = jp.get(clonedExampleTransaction, path);
-  data.materialFacts.waterAndDrainage = {};
+  data.waterAndDrainage = {};
   const validator = getSubschemaValidator(path, exampleTransaction.$schema, [
     "ta6ed4",
   ]);
@@ -290,7 +285,7 @@ test("correctly gets a subschema validator for an TA7 overlay", () => {
 });
 
 test("correctly gets a subschema validator which validates", () => {
-  const path = "/propertyPack/materialFacts/notices";
+  const path = "/propertyPack/notices";
   const validator = getSubschemaValidator(path);
   const data = jp.get(exampleTransaction, path);
   expect(data.neighbourDevelopment.yesNo).toBe("No");
@@ -305,23 +300,20 @@ test("correctly gets titles across schemas, arrays and non-existient title prope
   expect(
     getTitleAtPath(
       v3TransactionSchema,
-      "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/ownershipType"
+      "/propertyPack/ownership/ownershipsToBeTransferred/0/ownershipType"
     )
   ).toBe("What type of ownership is the property?");
 
   expect(
     getTitleAtPath(
       v3TransactionSchema,
-      "/propertyPack/materialFacts/ownership/ownershipsToBeTransferred/0/leaseholdInformation/leaseTerm/lengthOfLeaseInYears"
+      "/propertyPack/ownership/ownershipsToBeTransferred/0/leaseholdInformation/leaseTerm/lengthOfLeaseInYears"
     )
   ).toBe("Length of lease (years)");
 
-  expect(
-    getTitleAtPath(
-      v3TransactionSchema,
-      "/propertyPack/materialFacts/invalidPath"
-    )
-  ).toBe(undefined);
+  expect(getTitleAtPath(v3TransactionSchema, "/propertyPack/invalidPath")).toBe(
+    undefined
+  );
 
   expect(
     getTitleAtPath(
@@ -347,14 +339,14 @@ test("correctly gets titles across schemas, arrays and non-existient title prope
   expect(
     getTitleAtPath(
       v3TransactionSchema,
-      "/propertyPack/materialFacts/energyEfficiency/certificate/currentEnergyRating"
+      "/propertyPack/energyEfficiency/certificate/currentEnergyRating"
     )
   ).toBe("Current energy efficiency rating");
 
   expect(
     getTitleAtPath(
       v3TransactionSchema,
-      "/propertyPack/additionalLegalInfo/occupiers/othersAged17OrOver/aged17OrOverNames"
+      "/propertyPack/occupiers/othersAged17OrOver/aged17OrOverNames"
     )
   ).toBe("Please provide their full names and ages.");
 });

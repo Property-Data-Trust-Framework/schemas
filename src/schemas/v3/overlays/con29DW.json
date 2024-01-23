@@ -4,711 +4,707 @@
   "properties": {
     "propertyPack": {
       "properties": {
-        "materialFacts": {
+        "waterAndDrainage": {
+          "con29DWRef": "0",
+          "required": [
+            "maps",
+            "water",
+            "drainage",
+            "charging"
+          ],
           "properties": {
-            "waterAndDrainage": {
-              "con29DWRef": "0",
+            "maps": {
+              "con29DWRef": "1",
               "required": [
-                "maps",
-                "water",
-                "drainage",
-                "charging"
+                "publicSewerMapAttached",
+                "waterworksMapAttached"
               ],
               "properties": {
-                "maps": {
-                  "con29DWRef": "1",
-                  "required": [
-                    "publicSewerMapAttached",
-                    "waterworksMapAttached"
-                  ],
-                  "properties": {
-                    "publicSewerMapAttached": {
-                      "con29DWRef": "1.1"
-                    },
-                    "waterworksMapAttached": {
-                      "con29DWRef": "1.2"
-                    }
-                  }
+                "publicSewerMapAttached": {
+                  "con29DWRef": "1.1"
                 },
-                "water": {
-                  "con29DWRef": "3",
-                  "required": [
-                    "mainsWater",
-                    "waterMainsWithinBoundaries",
-                    "waterMainsSubjectOfAdoptionAgreement",
-                    "lowWaterPressureRisk",
-                    "waterQualityAnalysis"
-                  ],
-                  "properties": {
-                    "mainsWater": {
-                      "con29DWRef": "3.1",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
+                "waterworksMapAttached": {
+                  "con29DWRef": "1.2"
+                }
+              }
+            },
+            "water": {
+              "con29DWRef": "3",
+              "required": [
+                "mainsWater",
+                "waterMainsWithinBoundaries",
+                "waterMainsSubjectOfAdoptionAgreement",
+                "lowWaterPressureRisk",
+                "waterQualityAnalysis"
+              ],
+              "properties": {
+                "mainsWater": {
+                  "con29DWRef": "3.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
                         },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "con29DWRef": "3.1.2"
-                            },
-                            "waterMeter": {
+                        "details": {
+                          "con29DWRef": "3.1.2"
+                        },
+                        "waterMeter": {
+                          "required": [
+                            "isSupplyMetered"
+                          ],
+                          "oneOf": [
+                            null,
+                            {
                               "required": [
-                                "isSupplyMetered"
+                                "location"
                               ],
-                              "oneOf": [
-                                null,
-                                {
-                                  "required": [
-                                    "location"
-                                  ],
-                                  "properties": {
-                                    "location": {
-                                      "con29DWRef": "3.6"
-                                    }
-                                  }
+                              "properties": {
+                                "location": {
+                                  "con29DWRef": "3.6"
                                 }
-                              ]
+                              }
                             }
-                          },
-                          "required": [
-                            "details",
-                            "waterMeter"
                           ]
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "To be connected"
-                              ]
-                            }
-                          }
                         }
-                      ],
+                      },
                       "required": [
-                        "yesNo"
-                      ],
+                        "details",
+                        "waterMeter"
+                      ]
+                    },
+                    {
                       "properties": {
                         "yesNo": {
-                          "con29DWRef": "3.1.1",
                           "enum": [
-                            "Yes",
-                            "No"
+                            "To be connected"
                           ]
                         }
                       }
-                    },
-                    "waterMainsWithinBoundaries": {
-                      "con29DWRef": "3.2",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "con29DWRef": "3.2.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "con29DWRef": "3.2.1"
-                        }
-                      }
-                    },
-                    "waterMainsSubjectOfAdoptionAgreement": {
-                      "con29DWRef": "3.3",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "con29DWRef": "3.3.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "con29DWRef": "3.3.1"
-                        }
-                      }
-                    },
-                    "lowWaterPressureRisk": {
-                      "con29DWRef": "3.4",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "con29DWRef": "3.4.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "con29DWRef": "3.4.1"
-                        }
-                      }
-                    },
-                    "supplyClassification": {
-                      "con29DWRef": "3.5"
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "con29DWRef": "3.1.1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
                     }
                   }
                 },
-                "drainage": {
-                  "con29DWRef": "2",
+                "waterMainsWithinBoundaries": {
+                  "con29DWRef": "3.2",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "con29DWRef": "3.2.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
                   "required": [
-                    "mainsSurfaceWaterDrainage",
-                    "mainsFoulDrainage",
-                    "surfaceDrainageCharge",
-                    "publicDrainWithinBoundaries",
-                    "publicPumpingStationWithinBoundaries",
-                    "publicSewerWithin100ft",
-                    "publicPumpingStationWithin50mOfBuildings",
-                    "sewersSubjectOfAdoptionAgreement",
-                    "sewerageUndertakerApproval",
-                    "riskOfInternalFlooding",
-                    "distanceToNearestSewerageTreatment"
+                    "yesNo"
                   ],
                   "properties": {
-                    "mainsSurfaceWaterDrainage": {
-                      "con29DWRef": "2.2",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No",
-                                "Not known"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "con29DWRef": "2.2.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "To be connected"
-                              ]
-                            }
-                          }
-                        }
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "con29DWRef": "2.2.1",
-                          "enum": [
-                            "Yes",
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    "mainsFoulDrainage": {
-                      "con29DWRef": "2.1",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "con29DWRef": "2.1.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "To be connected"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No",
-                                "Not known"
-                              ]
-                            }
-                          }
-                        }
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "Yes",
-                            "No"
-                          ]
-                        }
-                      }
-                    },
-                    "surfaceDrainageCharge": {
-                      "con29DWRef": "2.3",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "con29DWRef": "2.3.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "con29DWRef": "2.3.1"
-                        }
-                      }
-                    },
-                    "publicDrainWithinBoundaries": {
-                      "con29DWRef": "2.4",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "con29DWRef": "2.4.0.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "con29DWRef": "2.4.0.1"
-                        }
-                      }
-                    },
-                    "publicPumpingStationWithinBoundaries": {
-                      "con29DWRef": "2.4.1",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "con29DWRef": "2.4.1.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "con29DWRef": "2.4.1.1"
-                        }
-                      }
-                    },
-                    "publicSewerWithin100ft": {
-                      "con29DWRef": "2.5",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "con29DWRef": "2.5.0.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "con29DWRef": "2.5.0.1"
-                        }
-                      }
-                    },
-                    "publicPumpingStationWithin50mOfBuildings": {
-                      "con29DWRef": "2.5.1",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "con29DWRef": "2.5.1.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "con29DWRef": "2.5.1.1"
-                        }
-                      }
-                    },
-                    "sewersSubjectOfAdoptionAgreement": {
-                      "con29DWRef": "2.6",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "con29DWRef": "2.6.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "con29DWRef": "2.6.1"
-                        }
-                      }
-                    },
-                    "sewerageUndertakerApproval": {
-                      "con29DWRef": "2.7",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "con29DWRef": "2.7.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "con29DWRef": "2.7.1"
-                        }
-                      }
-                    },
-                    "riskOfInternalFlooding": {
-                      "con29DWRef": "2.8",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "con29DWRef": "2.8.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "con29DWRef": "2.8.1"
-                        }
-                      }
-                    },
-                    "distanceToNearestSewerageTreatment": {
-                      "con29DWRef": "2.9"
+                    "yesNo": {
+                      "con29DWRef": "3.2.1"
                     }
                   }
                 },
-                "charging": {
-                  "con29DWRef": "4",
+                "waterMainsSubjectOfAdoptionAgreement": {
+                  "con29DWRef": "3.3",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "con29DWRef": "3.3.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
                   "required": [
-                    "sewerageProvider",
-                    "waterProvider",
-                    "sewerageBills",
-                    "waterBills",
-                    "currentChargingBasis",
-                    "consequentialChargingBasis"
+                    "yesNo"
                   ],
                   "properties": {
-                    "sewerageProvider": {
-                      "con29DWRef": "4.1.1"
-                    },
-                    "waterProvider": {
-                      "con29DWRef": "4.1.2"
-                    },
-                    "sewerageBills": {
-                      "con29DWRef": "4.2"
-                    },
-                    "waterBills": {
-                      "con29DWRef": "4.3"
-                    },
-                    "currentChargingBasis": {
-                      "con29DWRef": "4.4"
-                    },
-                    "consequentialChargingBasis": {
-                      "con29DWRef": "4.5"
+                    "yesNo": {
+                      "con29DWRef": "3.3.1"
                     }
                   }
+                },
+                "lowWaterPressureRisk": {
+                  "con29DWRef": "3.4",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "con29DWRef": "3.4.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "con29DWRef": "3.4.1"
+                    }
+                  }
+                },
+                "supplyClassification": {
+                  "con29DWRef": "3.5"
+                }
+              }
+            },
+            "drainage": {
+              "con29DWRef": "2",
+              "required": [
+                "mainsSurfaceWaterDrainage",
+                "mainsFoulDrainage",
+                "surfaceDrainageCharge",
+                "publicDrainWithinBoundaries",
+                "publicPumpingStationWithinBoundaries",
+                "publicSewerWithin100ft",
+                "publicPumpingStationWithin50mOfBuildings",
+                "sewersSubjectOfAdoptionAgreement",
+                "sewerageUndertakerApproval",
+                "riskOfInternalFlooding",
+                "distanceToNearestSewerageTreatment"
+              ],
+              "properties": {
+                "mainsSurfaceWaterDrainage": {
+                  "con29DWRef": "2.2",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "con29DWRef": "2.2.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "con29DWRef": "2.2.1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                "mainsFoulDrainage": {
+                  "con29DWRef": "2.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "con29DWRef": "2.1.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                "surfaceDrainageCharge": {
+                  "con29DWRef": "2.3",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "con29DWRef": "2.3.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "con29DWRef": "2.3.1"
+                    }
+                  }
+                },
+                "publicDrainWithinBoundaries": {
+                  "con29DWRef": "2.4",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "con29DWRef": "2.4.0.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "con29DWRef": "2.4.0.1"
+                    }
+                  }
+                },
+                "publicPumpingStationWithinBoundaries": {
+                  "con29DWRef": "2.4.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "con29DWRef": "2.4.1.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "con29DWRef": "2.4.1.1"
+                    }
+                  }
+                },
+                "publicSewerWithin100ft": {
+                  "con29DWRef": "2.5",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "con29DWRef": "2.5.0.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "con29DWRef": "2.5.0.1"
+                    }
+                  }
+                },
+                "publicPumpingStationWithin50mOfBuildings": {
+                  "con29DWRef": "2.5.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "con29DWRef": "2.5.1.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "con29DWRef": "2.5.1.1"
+                    }
+                  }
+                },
+                "sewersSubjectOfAdoptionAgreement": {
+                  "con29DWRef": "2.6",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "con29DWRef": "2.6.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "con29DWRef": "2.6.1"
+                    }
+                  }
+                },
+                "sewerageUndertakerApproval": {
+                  "con29DWRef": "2.7",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "con29DWRef": "2.7.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "con29DWRef": "2.7.1"
+                    }
+                  }
+                },
+                "riskOfInternalFlooding": {
+                  "con29DWRef": "2.8",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "con29DWRef": "2.8.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "con29DWRef": "2.8.1"
+                    }
+                  }
+                },
+                "distanceToNearestSewerageTreatment": {
+                  "con29DWRef": "2.9"
+                }
+              }
+            },
+            "charging": {
+              "con29DWRef": "4",
+              "required": [
+                "sewerageProvider",
+                "waterProvider",
+                "sewerageBills",
+                "waterBills",
+                "currentChargingBasis",
+                "consequentialChargingBasis"
+              ],
+              "properties": {
+                "sewerageProvider": {
+                  "con29DWRef": "4.1.1"
+                },
+                "waterProvider": {
+                  "con29DWRef": "4.1.2"
+                },
+                "sewerageBills": {
+                  "con29DWRef": "4.2"
+                },
+                "waterBills": {
+                  "con29DWRef": "4.3"
+                },
+                "currentChargingBasis": {
+                  "con29DWRef": "4.4"
+                },
+                "consequentialChargingBasis": {
+                  "con29DWRef": "4.5"
                 }
               }
             }
