@@ -3,1072 +3,1068 @@
   "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/ta7.json",
   "properties": {
     "propertyPack": {
+      "required": [
+        "ownership"
+      ],
       "properties": {
-        "materialFacts": {
+        "address": {
+          "ta7Ref": "0.1",
+          "properties": {
+            "line1": {
+              "ta7Ref": "0.1.1"
+            },
+            "line2": {
+              "ta7Ref": "0.1.2"
+            },
+            "line3": {
+              "ta7Ref": "0.1.3"
+            },
+            "town": {
+              "ta7Ref": "0.1.4"
+            },
+            "postcode": {
+              "ta7Ref": "0.1.5"
+            }
+          }
+        },
+        "ownership": {
+          "ta7Ref": "1",
           "required": [
-            "ownership"
+            "ownershipsToBeTransferred"
           ],
           "properties": {
-            "address": {
-              "ta7Ref": "0.1",
-              "properties": {
-                "line1": {
-                  "ta7Ref": "0.1.1"
-                },
-                "line2": {
-                  "ta7Ref": "0.1.2"
-                },
-                "line3": {
-                  "ta7Ref": "0.1.3"
-                },
-                "town": {
-                  "ta7Ref": "0.1.4"
-                },
-                "postcode": {
-                  "ta7Ref": "0.1.5"
-                }
-              }
-            },
-            "ownership": {
+            "ownershipsToBeTransferred": {
               "ta7Ref": "1",
-              "required": [
-                "ownershipsToBeTransferred"
-              ],
-              "properties": {
-                "ownershipsToBeTransferred": {
-                  "ta7Ref": "1",
-                  "items": {
-                    "ta7Ref": "1",
-                    "discriminator": {
-                      "propertyName": "ownershipType"
-                    },
-                    "oneOf": [
-                      {
-                        "properties": {
-                          "ownershipType": {
-                            "enum": [
-                              "Freehold"
-                            ]
-                          }
-                        }
+              "items": {
+                "ta7Ref": "1",
+                "discriminator": {
+                  "propertyName": "ownershipType"
+                },
+                "oneOf": [
+                  {
+                    "properties": {
+                      "ownershipType": {
+                        "enum": [
+                          "Freehold"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "ownershipType": {
+                        "enum": [
+                          "Managed Freehold",
+                          "Commonhold"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "ownershipType": {
+                        "enum": [
+                          "Leasehold"
+                        ]
                       },
-                      {
+                      "leaseholdInformation": {
+                        "required": [
+                          "sharedOwnership",
+                          "leaseTerm",
+                          "contactDetails",
+                          "transferAndRegistration",
+                          "groundRent",
+                          "ownershipAndManagement",
+                          "disputesAndEnfranchisement",
+                          "general",
+                          "requiredDocuments"
+                        ],
                         "properties": {
-                          "ownershipType": {
-                            "enum": [
-                              "Managed Freehold",
-                              "Commonhold"
-                            ]
-                          }
-                        }
-                      },
-                      {
-                        "properties": {
-                          "ownershipType": {
-                            "enum": [
-                              "Leasehold"
-                            ]
-                          },
-                          "leaseholdInformation": {
+                          "sharedOwnership": {
                             "required": [
-                              "sharedOwnership",
-                              "leaseTerm",
-                              "contactDetails",
-                              "transferAndRegistration",
-                              "groundRent",
-                              "ownershipAndManagement",
-                              "disputesAndEnfranchisement",
-                              "general",
-                              "requiredDocuments"
+                              "isSharedOwnership"
                             ],
                             "properties": {
-                              "sharedOwnership": {
-                                "required": [
-                                  "isSharedOwnership"
-                                ],
-                                "properties": {
-                                  "isSharedOwnership": {
-                                    "ta7Ref": "1.1"
-                                  }
-                                }
-                              },
-                              "contactDetails": {
+                              "isSharedOwnership": {
+                                "ta7Ref": "1.1"
+                              }
+                            }
+                          },
+                          "contactDetails": {
+                            "ta7Ref": "4.1",
+                            "required": [
+                              "contacts",
+                              "serviceContactAssignments"
+                            ],
+                            "properties": {
+                              "contacts": {
                                 "ta7Ref": "4.1",
                                 "required": [
-                                  "contacts",
-                                  "serviceContactAssignments"
+                                  "landlord",
+                                  "managementCompany",
+                                  "managingAgent"
                                 ],
                                 "properties": {
-                                  "contacts": {
-                                    "ta7Ref": "4.1",
-                                    "required": [
-                                      "landlord",
-                                      "managementCompany",
-                                      "managingAgent"
-                                    ],
+                                  "landlord": {
+                                    "ta7Ref": "4.1a",
                                     "properties": {
-                                      "landlord": {
+                                      "contact": {
                                         "ta7Ref": "4.1a",
                                         "properties": {
-                                          "contact": {
-                                            "ta7Ref": "4.1a",
+                                          "nameOrOrganisation": {
+                                            "ta7Ref": "4.1a.1"
+                                          },
+                                          "address": {
                                             "properties": {
-                                              "nameOrOrganisation": {
-                                                "ta7Ref": "4.1a.1"
+                                              "line1": {
+                                                "ta7Ref": "4.1a.2"
                                               },
-                                              "address": {
-                                                "properties": {
-                                                  "line1": {
-                                                    "ta7Ref": "4.1a.2"
-                                                  },
-                                                  "line2": {
-                                                    "ta7Ref": "4.1a.3"
-                                                  },
-                                                  "line3": {
-                                                    "ta7Ref": "4.1a.4"
-                                                  },
-                                                  "town": {
-                                                    "ta7Ref": "4.1a.5"
-                                                  },
-                                                  "postcode": {
-                                                    "ta7Ref": "4.1a.6"
-                                                  }
-                                                }
+                                              "line2": {
+                                                "ta7Ref": "4.1a.3"
                                               },
-                                              "telephone": {
-                                                "ta7Ref": "4.1a.7"
+                                              "line3": {
+                                                "ta7Ref": "4.1a.4"
                                               },
-                                              "emailAddress": {
-                                                "ta7Ref": "4.1a.8"
+                                              "town": {
+                                                "ta7Ref": "4.1a.5"
+                                              },
+                                              "postcode": {
+                                                "ta7Ref": "4.1a.6"
                                               }
                                             }
+                                          },
+                                          "telephone": {
+                                            "ta7Ref": "4.1a.7"
+                                          },
+                                          "emailAddress": {
+                                            "ta7Ref": "4.1a.8"
                                           }
                                         }
-                                      },
-                                      "managementCompany": {
+                                      }
+                                    }
+                                  },
+                                  "managementCompany": {
+                                    "properties": {
+                                      "contact": {
+                                        "ta7Ref": "4.1b",
                                         "properties": {
-                                          "contact": {
-                                            "ta7Ref": "4.1b",
+                                          "nameOrOrganisation": {
+                                            "ta7Ref": "4.1b.1"
+                                          },
+                                          "address": {
                                             "properties": {
-                                              "nameOrOrganisation": {
-                                                "ta7Ref": "4.1b.1"
+                                              "line1": {
+                                                "ta7Ref": "4.1b.2"
                                               },
-                                              "address": {
-                                                "properties": {
-                                                  "line1": {
-                                                    "ta7Ref": "4.1b.2"
-                                                  },
-                                                  "line2": {
-                                                    "ta7Ref": "4.1b.3"
-                                                  },
-                                                  "line3": {
-                                                    "ta7Ref": "4.1b.4"
-                                                  },
-                                                  "town": {
-                                                    "ta7Ref": "4.1b.5"
-                                                  },
-                                                  "postcode": {
-                                                    "ta7Ref": "4.1b.6"
-                                                  }
-                                                }
+                                              "line2": {
+                                                "ta7Ref": "4.1b.3"
                                               },
-                                              "telephone": {
-                                                "ta7Ref": "4.1b.7"
+                                              "line3": {
+                                                "ta7Ref": "4.1b.4"
                                               },
-                                              "emailAddress": {
-                                                "ta7Ref": "4.1b.8"
+                                              "town": {
+                                                "ta7Ref": "4.1b.5"
+                                              },
+                                              "postcode": {
+                                                "ta7Ref": "4.1b.6"
                                               }
                                             }
+                                          },
+                                          "telephone": {
+                                            "ta7Ref": "4.1b.7"
+                                          },
+                                          "emailAddress": {
+                                            "ta7Ref": "4.1b.8"
                                           }
                                         }
-                                      },
-                                      "managingAgent": {
+                                      }
+                                    }
+                                  },
+                                  "managingAgent": {
+                                    "ta7Ref": "4.1c",
+                                    "properties": {
+                                      "contact": {
                                         "ta7Ref": "4.1c",
                                         "properties": {
-                                          "contact": {
-                                            "ta7Ref": "4.1c",
+                                          "nameOrOrganisation": {
+                                            "ta7Ref": "4.1c.1"
+                                          },
+                                          "address": {
                                             "properties": {
-                                              "nameOrOrganisation": {
-                                                "ta7Ref": "4.1c.1"
+                                              "line1": {
+                                                "ta7Ref": "4.1c.2"
                                               },
-                                              "address": {
-                                                "properties": {
-                                                  "line1": {
-                                                    "ta7Ref": "4.1c.2"
-                                                  },
-                                                  "line2": {
-                                                    "ta7Ref": "4.1c.3"
-                                                  },
-                                                  "line3": {
-                                                    "ta7Ref": "4.1c.4"
-                                                  },
-                                                  "town": {
-                                                    "ta7Ref": "4.1c.5"
-                                                  },
-                                                  "postcode": {
-                                                    "ta7Ref": "4.1c.6"
-                                                  }
-                                                }
+                                              "line2": {
+                                                "ta7Ref": "4.1c.3"
                                               },
-                                              "telephone": {
-                                                "ta7Ref": "4.1c.7"
+                                              "line3": {
+                                                "ta7Ref": "4.1c.4"
                                               },
-                                              "emailAddress": {
-                                                "ta7Ref": "4.1c.8"
+                                              "town": {
+                                                "ta7Ref": "4.1c.5"
+                                              },
+                                              "postcode": {
+                                                "ta7Ref": "4.1c.6"
                                               }
                                             }
+                                          },
+                                          "telephone": {
+                                            "ta7Ref": "4.1c.7"
+                                          },
+                                          "emailAddress": {
+                                            "ta7Ref": "4.1c.8"
                                           }
                                         }
-                                      }
-                                    }
-                                  },
-                                  "serviceContactAssignments": {
-                                    "required": [
-                                      "organisesBuildingInsurance"
-                                    ],
-                                    "properties": {
-                                      "organisesBuildingInsurance": {
-                                        "ta7Ref": "5.1",
-                                        "title": "Who is responsible for arranging the buildings insurance on the property?"
                                       }
                                     }
                                   }
                                 }
                               },
-                              "transferAndRegistration": {
+                              "serviceContactAssignments": {
                                 "required": [
-                                  "awareOfConsents",
-                                  "changesInTermOfLease"
+                                  "organisesBuildingInsurance"
                                 ],
                                 "properties": {
-                                  "awareOfConsents": {
-                                    "required": [
-                                      "yesNo"
-                                    ],
-                                    "properties": {
-                                      "yesNo": {
-                                        "ta7Ref": "9.3.1"
-                                      }
-                                    }
-                                  },
-                                  "changesInTermOfLease": {
-                                    "ta7Ref": "7.1",
-                                    "discriminator": {
-                                      "propertyName": "isSellerAwareOfChanges"
-                                    },
-                                    "oneOf": [
-                                      {
-                                        "properties": {
-                                          "isSellerAwareOfChanges": {
-                                            "enum": [
-                                              "No",
-                                              "Attached",
-                                              "To follow",
-                                              "Lost"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "isSellerAwareOfChanges": {
-                                            "enum": [
-                                              "Yes"
-                                            ]
-                                          },
-                                          "details": {
-                                            "ta7Ref": "7.1.3"
-                                          }
-                                        }
-                                      }
-                                    ],
-                                    "required": [
-                                      "isSellerAwareOfChanges"
-                                    ]
-                                  }
-                                }
-                              },
-                              "groundRent": {
-                                "ta7Ref": "1.2",
-                                "discriminator": {
-                                  "propertyName": "isGroundRentPayable"
-                                },
-                                "oneOf": [
-                                  {
-                                    "properties": {
-                                      "isGroundRentPayable": {
-                                        "enum": [
-                                          "No"
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "properties": {
-                                      "isGroundRentPayable": {
-                                        "enum": [
-                                          "Yes"
-                                        ]
-                                      },
-                                      "annualGroundRent": {
-                                        "ta7Ref": "1.2a"
-                                      },
-                                      "groundRentFrequency": {
-                                        "ta7Ref": "1.2b"
-                                      },
-                                      "rentSubjectToIncrease": {
-                                        "ta7Ref": "1.2c",
-                                        "discriminator": {
-                                          "propertyName": "yesNo"
-                                        },
-                                        "oneOf": [
-                                          {
-                                            "properties": {
-                                              "yesNo": {
-                                                "enum": [
-                                                  "No"
-                                                ]
-                                              }
-                                            }
-                                          },
-                                          {
-                                            "properties": {
-                                              "yesNo": {
-                                                "enum": [
-                                                  "Yes"
-                                                ]
-                                              },
-                                              "rentReviewFrequency": {
-                                                "ta7Ref": "1.2d"
-                                              },
-                                              "rentIncreaseCalculated": {
-                                                "ta7Ref": "1.2e"
-                                              }
-                                            }
-                                          }
-                                        ],
-                                        "required": [
-                                          "yesNo"
-                                        ],
-                                        "properties": {
-                                          "yesNo": {
-                                            "ta7Ref": "1.2c.1"
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                ],
-                                "required": [
-                                  "isGroundRentPayable"
-                                ],
-                                "properties": {
-                                  "isGroundRentPayable": {
-                                    "ta7Ref": "1.2.1"
-                                  }
-                                }
-                              },
-                              "ownershipAndManagement": {
-                                "ta7Ref": "2",
-                                "required": [
-                                  "freeholdOwner",
-                                  "hasHeadlease",
-                                  "buildingManager",
-                                  "hasTenantCompanyDissolved",
-                                  "isManagingAgentEmployed"
-                                ],
-                                "properties": {
-                                  "freeholdOwner": {
-                                    "ta7Ref": "2.1b"
-                                  },
-                                  "hasHeadlease": {
-                                    "ta7Ref": "2.2",
-                                    "discriminator": {
-                                      "propertyName": "yesNo"
-                                    },
-                                    "oneOf": [
-                                      {
-                                        "properties": {
-                                          "yesNo": {
-                                            "enum": [
-                                              "No"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "yesNo": {
-                                            "enum": [
-                                              "Yes"
-                                            ]
-                                          },
-                                          "headLeaseholderControlled": {
-                                            "ta7Ref": "2.2.2"
-                                          }
-                                        }
-                                      }
-                                    ],
-                                    "required": [
-                                      "yesNo"
-                                    ],
-                                    "properties": {
-                                      "yesNo": {
-                                        "ta7Ref": "2.2.1"
-                                      }
-                                    }
-                                  },
-                                  "buildingManager": {
-                                    "ta7Ref": "2.3",
-                                    "discriminator": {
-                                      "propertyName": "buildingManagerType"
-                                    },
-                                    "oneOf": [
-                                      {
-                                        "properties": {
-                                          "buildingManagerType": {
-                                            "enum": [
-                                              "Freeholder",
-                                              "Headleaseholder",
-                                              "Management company named in lease of the property",
-                                              "Right to manage company set up by the tenants under statutory rights"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "buildingManagerType": {
-                                            "enum": [
-                                              "Other"
-                                            ]
-                                          },
-                                          "details": {
-                                            "ta7Ref": "2.3e"
-                                          }
-                                        }
-                                      }
-                                    ],
-                                    "required": [
-                                      "buildingManagerType"
-                                    ]
-                                  },
-                                  "hasTenantCompanyDissolved": {
-                                    "ta7Ref": "2.4"
-                                  },
-                                  "isManagingAgentEmployed": {
-                                    "ta7Ref": "2.5"
-                                  }
-                                }
-                              },
-                              "serviceCharge": {
-                                "ta7Ref": "5.4",
-                                "discriminator": {
-                                  "propertyName": "sellerContributesToServiceCharge"
-                                },
-                                "oneOf": [
-                                  {
-                                    "properties": {
-                                      "sellerContributesToServiceCharge": {
-                                        "enum": [
-                                          "No"
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "properties": {
-                                      "sellerContributesToServiceCharge": {
-                                        "enum": [
-                                          "Yes"
-                                        ]
-                                      },
-                                      "largeAdditionalExpense": {
-                                        "ta7Ref": "5.5",
-                                        "discriminator": {
-                                          "propertyName": "yesNo"
-                                        },
-                                        "oneOf": [
-                                          {
-                                            "properties": {
-                                              "yesNo": {
-                                                "enum": [
-                                                  "No"
-                                                ]
-                                              }
-                                            }
-                                          },
-                                          {
-                                            "properties": {
-                                              "yesNo": {
-                                                "enum": [
-                                                  "Yes"
-                                                ]
-                                              },
-                                              "details": {
-                                                "ta7Ref": "5.5.2"
-                                              }
-                                            }
-                                          }
-                                        ],
-                                        "required": [
-                                          "yesNo"
-                                        ],
-                                        "properties": {
-                                          "yesNo": {
-                                            "ta7Ref": "5.5.1"
-                                          }
-                                        }
-                                      },
-                                      "problemInServiceChargeLevel": {
-                                        "ta7Ref": "5.6",
-                                        "discriminator": {
-                                          "propertyName": "yesNo"
-                                        },
-                                        "oneOf": [
-                                          {
-                                            "properties": {
-                                              "yesNo": {
-                                                "enum": [
-                                                  "No"
-                                                ]
-                                              }
-                                            }
-                                          },
-                                          {
-                                            "properties": {
-                                              "yesNo": {
-                                                "enum": [
-                                                  "Yes"
-                                                ]
-                                              },
-                                              "details": {
-                                                "ta7Ref": "5.6.2"
-                                              }
-                                            }
-                                          }
-                                        ],
-                                        "required": [
-                                          "yesNo"
-                                        ],
-                                        "properties": {
-                                          "yesNo": {
-                                            "ta7Ref": "5.6.1"
-                                          }
-                                        }
-                                      },
-                                      "serviceChargeChallenged": {
-                                        "ta7Ref": "5.7",
-                                        "discriminator": {
-                                          "propertyName": "yesNo"
-                                        },
-                                        "oneOf": [
-                                          {
-                                            "properties": {
-                                              "yesNo": {
-                                                "enum": [
-                                                  "No"
-                                                ]
-                                              }
-                                            }
-                                          },
-                                          {
-                                            "properties": {
-                                              "yesNo": {
-                                                "enum": [
-                                                  "Yes"
-                                                ]
-                                              },
-                                              "details": {
-                                                "ta7Ref": "5.7.2"
-                                              }
-                                            }
-                                          }
-                                        ],
-                                        "required": [
-                                          "yesNo"
-                                        ],
-                                        "properties": {
-                                          "yesNo": {
-                                            "ta7Ref": "5.7.1"
-                                          }
-                                        }
-                                      },
-                                      "dangerousCladdingOrDefects": {
-                                        "ta7Ref": "5.8"
-                                      },
-                                      "difficultyInCollectingServiceCharge": {
-                                        "ta7Ref": "5.9",
-                                        "discriminator": {
-                                          "propertyName": "yesNo"
-                                        },
-                                        "oneOf": [
-                                          {
-                                            "properties": {
-                                              "yesNo": {
-                                                "enum": [
-                                                  "No"
-                                                ]
-                                              }
-                                            }
-                                          },
-                                          {
-                                            "properties": {
-                                              "yesNo": {
-                                                "enum": [
-                                                  "Yes"
-                                                ]
-                                              }
-                                            }
-                                          }
-                                        ],
-                                        "required": [
-                                          "yesNo"
-                                        ],
-                                        "properties": {
-                                          "yesNo": {
-                                            "ta7Ref": "5.9.1"
-                                          }
-                                        }
-                                      },
-                                      "serviceChargeOwed": {
-                                        "ta7Ref": "5.10",
-                                        "discriminator": {
-                                          "propertyName": "yesNo"
-                                        },
-                                        "oneOf": [
-                                          {
-                                            "properties": {
-                                              "yesNo": {
-                                                "enum": [
-                                                  "No"
-                                                ]
-                                              }
-                                            }
-                                          },
-                                          {
-                                            "properties": {
-                                              "yesNo": {
-                                                "enum": [
-                                                  "Yes"
-                                                ]
-                                              },
-                                              "details": {
-                                                "ta7Ref": "5.10.2"
-                                              }
-                                            }
-                                          }
-                                        ],
-                                        "required": [
-                                          "yesNo"
-                                        ],
-                                        "properties": {
-                                          "yesNo": {
-                                            "ta7Ref": "5.10.1"
-                                          }
-                                        }
-                                      },
-                                      "lastDecoratedPeriod": {
-                                        "ta7Ref": "5",
-                                        "properties": {
-                                          "internally": {
-                                            "ta7Ref": "5.3"
-                                          },
-                                          "externally": {
-                                            "ta7Ref": "5.2"
-                                          }
-                                        }
-                                      },
-                                      "deedOfCertificateServed": {
-                                        "ta7Ref": "11.3",
-                                        "discriminator": {
-                                          "propertyName": "yesNoNotApplicable"
-                                        },
-                                        "oneOf": [
-                                          {
-                                            "properties": {
-                                              "yesNoNotApplicable": {
-                                                "enum": [
-                                                  "Not applicable"
-                                                ]
-                                              }
-                                            }
-                                          },
-                                          {
-                                            "properties": {
-                                              "yesNoNotApplicable": {
-                                                "enum": [
-                                                  "No"
-                                                ]
-                                              }
-                                            }
-                                          },
-                                          {
-                                            "properties": {
-                                              "yesNoNotApplicable": {
-                                                "enum": [
-                                                  "Yes"
-                                                ]
-                                              },
-                                              "sellerCompletedDeedOfCertificate": {
-                                                "ta7Ref": "11.3a"
-                                              }
-                                            }
-                                          }
-                                        ],
-                                        "required": [
-                                          "yesNoNotApplicable"
-                                        ],
-                                        "title": "Is there a Leaseholder Deed of Certificate for the property?",
-                                        "properties": {
-                                          "yesNoNotApplicable": {
-                                            "ta7Ref": "11.3.1"
-                                          }
-                                        }
-                                      }
-                                    },
-                                    "required": [
-                                      "annualServiceCharge",
-                                      "largeAdditionalExpense",
-                                      "problemInServiceChargeLevel",
-                                      "serviceChargeChallenged",
-                                      "dangerousCladdingOrDefects",
-                                      "difficultyInCollectingServiceCharge",
-                                      "serviceChargeOwed",
-                                      "lastDecoratedPeriod",
-                                      "deedOfCertificateServed"
-                                    ]
-                                  }
-                                ],
-                                "required": [
-                                  "sellerContributesToServiceCharge"
-                                ],
-                                "properties": {
-                                  "sellerContributesToServiceCharge": {
-                                    "ta7Ref": "5.4"
-                                  }
-                                }
-                              },
-                              "disputesAndEnfranchisement": {
-                                "required": [
-                                  "sellerReceivedComplaint",
-                                  "sellerSentComplaint"
-                                ],
-                                "properties": {
-                                  "sellerReceivedComplaint": {
-                                    "ta7Ref": "8.1",
-                                    "discriminator": {
-                                      "propertyName": "yesNo"
-                                    },
-                                    "oneOf": [
-                                      {
-                                        "properties": {
-                                          "yesNo": {
-                                            "enum": [
-                                              "No"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "yesNo": {
-                                            "enum": [
-                                              "Yes"
-                                            ]
-                                          },
-                                          "details": {
-                                            "ta7Ref": "8.1.2"
-                                          }
-                                        }
-                                      }
-                                    ],
-                                    "required": [
-                                      "yesNo"
-                                    ],
-                                    "properties": {
-                                      "yesNo": {
-                                        "ta7Ref": "8.1.1"
-                                      }
-                                    }
-                                  },
-                                  "sellerSentComplaint": {
-                                    "ta7Ref": "8.2",
-                                    "discriminator": {
-                                      "propertyName": "yesNo"
-                                    },
-                                    "oneOf": [
-                                      {
-                                        "properties": {
-                                          "yesNo": {
-                                            "enum": [
-                                              "No"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "yesNo": {
-                                            "enum": [
-                                              "Yes"
-                                            ]
-                                          },
-                                          "details": {
-                                            "ta7Ref": "8.2.2"
-                                          }
-                                        }
-                                      }
-                                    ],
-                                    "required": [
-                                      "yesNo"
-                                    ],
-                                    "properties": {
-                                      "yesNo": {
-                                        "ta7Ref": "8.2.1"
-                                      }
-                                    }
-                                  }
-                                }
-                              },
-                              "general": {
-                                "required": [
-                                  "sellerAwareOfAlterations",
-                                  "sellerOwnedProperty",
-                                  "sellerServedNoticeOnLandlord",
-                                  "sellerAwareOfNoticeOfCollectivePurchase",
-                                  "sellerAwareOfResponse",
-                                  "isLeaseQualifying"
-                                ],
-                                "properties": {
-                                  "sellerAwareOfAlterations": {
-                                    "ta7Ref": "9.1",
-                                    "discriminator": {
-                                      "propertyName": "yesNo"
-                                    },
-                                    "oneOf": [
-                                      {
-                                        "properties": {
-                                          "yesNo": {
-                                            "enum": [
-                                              "No"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "yesNo": {
-                                            "enum": [
-                                              "Yes"
-                                            ]
-                                          },
-                                          "details": {
-                                            "ta7Ref": "9.2"
-                                          },
-                                          "landlordConsentObtained": {
-                                            "ta7Ref": "9.3"
-                                          }
-                                        }
-                                      }
-                                    ],
-                                    "required": [
-                                      "yesNo"
-                                    ],
-                                    "properties": {
-                                      "yesNo": {
-                                        "ta7Ref": "9.1.1"
-                                      }
-                                    }
-                                  },
-                                  "sellerOwnedProperty": {
-                                    "ta7Ref": "10.1"
-                                  },
-                                  "sellerServedNoticeOnLandlord": {
-                                    "ta7Ref": "10.2"
-                                  },
-                                  "sellerAwareOfNoticeOfCollectivePurchase": {
-                                    "ta7Ref": "10.3"
-                                  },
-                                  "sellerAwareOfResponse": {
-                                    "ta7Ref": "10.4"
-                                  },
-                                  "isLeaseQualifying": {
-                                    "ta7Ref": "11.2"
-                                  }
-                                }
-                              },
-                              "requiredDocuments": {
-                                "required": [
-                                  "noticeOfSale",
-                                  "noticeOfBuildingCondition",
-                                  "landlordNotifiedOfSale",
-                                  "copyOfcorrespondence",
-                                  "serviceChargeAccounts",
-                                  "groundRent",
-                                  "buildingsInsurancePolicy",
-                                  "additionalRegulationsNotInLease",
-                                  "deedsOfVariation",
-                                  "deedOfCovenant",
-                                  "memorandumAndArticles",
-                                  "shareOrMembershipCertificate",
-                                  "companyAccounts",
-                                  "deedOfCertificate",
-                                  "landlordsCertificate"
-                                ],
-                                "properties": {
-                                  "noticeOfSale": {
-                                    "ta7Ref": "6.1"
-                                  },
-                                  "noticeOfBuildingCondition": {
-                                    "ta7Ref": "6.2"
-                                  },
-                                  "landlordNotifiedOfSale": {
-                                    "ta7Ref": "11.4"
-                                  },
-                                  "copyOfcorrespondence": {
-                                    "ta7Ref": "3.2"
-                                  },
-                                  "serviceChargeAccounts": {
-                                    "ta7Ref": "3.3a"
-                                  },
-                                  "groundRent": {
-                                    "ta7Ref": "3.3b"
-                                  },
-                                  "buildingsInsurancePolicy": {
-                                    "ta7Ref": "3.4",
-                                    "properties": {
-                                      "arrangedBySeller": {
-                                        "ta7Ref": "3.4a"
-                                      },
-                                      "arrangedByLandlord": {
-                                        "ta7Ref": "3.4b"
-                                      }
-                                    }
-                                  },
-                                  "additionalRegulationsNotInLease": {
-                                    "ta7Ref": "3.1b"
-                                  },
-                                  "deedsOfVariation": {
-                                    "ta7Ref": "3.1a"
-                                  },
-                                  "deedOfCovenant": {
-                                    "ta7Ref": "3.1a"
-                                  },
-                                  "memorandumAndArticles": {
-                                    "ta7Ref": "3.5a"
-                                  },
-                                  "shareOrMembershipCertificate": {
-                                    "ta7Ref": "3.5b"
-                                  },
-                                  "companyAccounts": {
-                                    "ta7Ref": "3.5c"
-                                  },
-                                  "deedOfCertificate": {
-                                    "ta7Ref": "11.3b",
-                                    "title": "Please supply a copy of the leaseholder deed of certificate and the accompanying evidence"
-                                  },
-                                  "landlordsCertificate": {
-                                    "ta7Ref": "11.5",
-                                    "title": "Has the seller received a Landlord’s Certificate and the accompanying evidence?",
-                                    "enum": [
-                                      "Enclosed",
-                                      "To follow",
-                                      "No"
-                                    ]
+                                  "organisesBuildingInsurance": {
+                                    "ta7Ref": "5.1",
+                                    "title": "Who is responsible for arranging the buildings insurance on the property?"
                                   }
                                 }
                               }
                             }
+                          },
+                          "transferAndRegistration": {
+                            "required": [
+                              "awareOfConsents",
+                              "changesInTermOfLease"
+                            ],
+                            "properties": {
+                              "awareOfConsents": {
+                                "required": [
+                                  "yesNo"
+                                ],
+                                "properties": {
+                                  "yesNo": {
+                                    "ta7Ref": "9.3.1"
+                                  }
+                                }
+                              },
+                              "changesInTermOfLease": {
+                                "ta7Ref": "7.1",
+                                "discriminator": {
+                                  "propertyName": "isSellerAwareOfChanges"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "isSellerAwareOfChanges": {
+                                        "enum": [
+                                          "No",
+                                          "Attached",
+                                          "To follow",
+                                          "Lost"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "isSellerAwareOfChanges": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "details": {
+                                        "ta7Ref": "7.1.3"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "required": [
+                                  "isSellerAwareOfChanges"
+                                ]
+                              }
+                            }
+                          },
+                          "groundRent": {
+                            "ta7Ref": "1.2",
+                            "discriminator": {
+                              "propertyName": "isGroundRentPayable"
+                            },
+                            "oneOf": [
+                              {
+                                "properties": {
+                                  "isGroundRentPayable": {
+                                    "enum": [
+                                      "No"
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "properties": {
+                                  "isGroundRentPayable": {
+                                    "enum": [
+                                      "Yes"
+                                    ]
+                                  },
+                                  "annualGroundRent": {
+                                    "ta7Ref": "1.2a"
+                                  },
+                                  "groundRentFrequency": {
+                                    "ta7Ref": "1.2b"
+                                  },
+                                  "rentSubjectToIncrease": {
+                                    "ta7Ref": "1.2c",
+                                    "discriminator": {
+                                      "propertyName": "yesNo"
+                                    },
+                                    "oneOf": [
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "No"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "Yes"
+                                            ]
+                                          },
+                                          "rentReviewFrequency": {
+                                            "ta7Ref": "1.2d"
+                                          },
+                                          "rentIncreaseCalculated": {
+                                            "ta7Ref": "1.2e"
+                                          }
+                                        }
+                                      }
+                                    ],
+                                    "required": [
+                                      "yesNo"
+                                    ],
+                                    "properties": {
+                                      "yesNo": {
+                                        "ta7Ref": "1.2c.1"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ],
+                            "required": [
+                              "isGroundRentPayable"
+                            ],
+                            "properties": {
+                              "isGroundRentPayable": {
+                                "ta7Ref": "1.2.1"
+                              }
+                            }
+                          },
+                          "ownershipAndManagement": {
+                            "ta7Ref": "2",
+                            "required": [
+                              "freeholdOwner",
+                              "hasHeadlease",
+                              "buildingManager",
+                              "hasTenantCompanyDissolved",
+                              "isManagingAgentEmployed"
+                            ],
+                            "properties": {
+                              "freeholdOwner": {
+                                "ta7Ref": "2.1b"
+                              },
+                              "hasHeadlease": {
+                                "ta7Ref": "2.2",
+                                "discriminator": {
+                                  "propertyName": "yesNo"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "headLeaseholderControlled": {
+                                        "ta7Ref": "2.2.2"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "required": [
+                                  "yesNo"
+                                ],
+                                "properties": {
+                                  "yesNo": {
+                                    "ta7Ref": "2.2.1"
+                                  }
+                                }
+                              },
+                              "buildingManager": {
+                                "ta7Ref": "2.3",
+                                "discriminator": {
+                                  "propertyName": "buildingManagerType"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "buildingManagerType": {
+                                        "enum": [
+                                          "Freeholder",
+                                          "Headleaseholder",
+                                          "Management company named in lease of the property",
+                                          "Right to manage company set up by the tenants under statutory rights"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "buildingManagerType": {
+                                        "enum": [
+                                          "Other"
+                                        ]
+                                      },
+                                      "details": {
+                                        "ta7Ref": "2.3e"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "required": [
+                                  "buildingManagerType"
+                                ]
+                              },
+                              "hasTenantCompanyDissolved": {
+                                "ta7Ref": "2.4"
+                              },
+                              "isManagingAgentEmployed": {
+                                "ta7Ref": "2.5"
+                              }
+                            }
+                          },
+                          "serviceCharge": {
+                            "ta7Ref": "5.4",
+                            "discriminator": {
+                              "propertyName": "sellerContributesToServiceCharge"
+                            },
+                            "oneOf": [
+                              {
+                                "properties": {
+                                  "sellerContributesToServiceCharge": {
+                                    "enum": [
+                                      "No"
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "properties": {
+                                  "sellerContributesToServiceCharge": {
+                                    "enum": [
+                                      "Yes"
+                                    ]
+                                  },
+                                  "largeAdditionalExpense": {
+                                    "ta7Ref": "5.5",
+                                    "discriminator": {
+                                      "propertyName": "yesNo"
+                                    },
+                                    "oneOf": [
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "No"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "Yes"
+                                            ]
+                                          },
+                                          "details": {
+                                            "ta7Ref": "5.5.2"
+                                          }
+                                        }
+                                      }
+                                    ],
+                                    "required": [
+                                      "yesNo"
+                                    ],
+                                    "properties": {
+                                      "yesNo": {
+                                        "ta7Ref": "5.5.1"
+                                      }
+                                    }
+                                  },
+                                  "problemInServiceChargeLevel": {
+                                    "ta7Ref": "5.6",
+                                    "discriminator": {
+                                      "propertyName": "yesNo"
+                                    },
+                                    "oneOf": [
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "No"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "Yes"
+                                            ]
+                                          },
+                                          "details": {
+                                            "ta7Ref": "5.6.2"
+                                          }
+                                        }
+                                      }
+                                    ],
+                                    "required": [
+                                      "yesNo"
+                                    ],
+                                    "properties": {
+                                      "yesNo": {
+                                        "ta7Ref": "5.6.1"
+                                      }
+                                    }
+                                  },
+                                  "serviceChargeChallenged": {
+                                    "ta7Ref": "5.7",
+                                    "discriminator": {
+                                      "propertyName": "yesNo"
+                                    },
+                                    "oneOf": [
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "No"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "Yes"
+                                            ]
+                                          },
+                                          "details": {
+                                            "ta7Ref": "5.7.2"
+                                          }
+                                        }
+                                      }
+                                    ],
+                                    "required": [
+                                      "yesNo"
+                                    ],
+                                    "properties": {
+                                      "yesNo": {
+                                        "ta7Ref": "5.7.1"
+                                      }
+                                    }
+                                  },
+                                  "dangerousCladdingOrDefects": {
+                                    "ta7Ref": "5.8"
+                                  },
+                                  "difficultyInCollectingServiceCharge": {
+                                    "ta7Ref": "5.9",
+                                    "discriminator": {
+                                      "propertyName": "yesNo"
+                                    },
+                                    "oneOf": [
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "No"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "Yes"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    ],
+                                    "required": [
+                                      "yesNo"
+                                    ],
+                                    "properties": {
+                                      "yesNo": {
+                                        "ta7Ref": "5.9.1"
+                                      }
+                                    }
+                                  },
+                                  "serviceChargeOwed": {
+                                    "ta7Ref": "5.10",
+                                    "discriminator": {
+                                      "propertyName": "yesNo"
+                                    },
+                                    "oneOf": [
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "No"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "Yes"
+                                            ]
+                                          },
+                                          "details": {
+                                            "ta7Ref": "5.10.2"
+                                          }
+                                        }
+                                      }
+                                    ],
+                                    "required": [
+                                      "yesNo"
+                                    ],
+                                    "properties": {
+                                      "yesNo": {
+                                        "ta7Ref": "5.10.1"
+                                      }
+                                    }
+                                  },
+                                  "lastDecoratedPeriod": {
+                                    "ta7Ref": "5",
+                                    "properties": {
+                                      "internally": {
+                                        "ta7Ref": "5.3"
+                                      },
+                                      "externally": {
+                                        "ta7Ref": "5.2"
+                                      }
+                                    }
+                                  },
+                                  "deedOfCertificateServed": {
+                                    "ta7Ref": "11.3",
+                                    "discriminator": {
+                                      "propertyName": "yesNoNotApplicable"
+                                    },
+                                    "oneOf": [
+                                      {
+                                        "properties": {
+                                          "yesNoNotApplicable": {
+                                            "enum": [
+                                              "Not applicable"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "properties": {
+                                          "yesNoNotApplicable": {
+                                            "enum": [
+                                              "No"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "properties": {
+                                          "yesNoNotApplicable": {
+                                            "enum": [
+                                              "Yes"
+                                            ]
+                                          },
+                                          "sellerCompletedDeedOfCertificate": {
+                                            "ta7Ref": "11.3a"
+                                          }
+                                        }
+                                      }
+                                    ],
+                                    "required": [
+                                      "yesNoNotApplicable"
+                                    ],
+                                    "title": "Is there a Leaseholder Deed of Certificate for the property?",
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "ta7Ref": "11.3.1"
+                                      }
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "annualServiceCharge",
+                                  "largeAdditionalExpense",
+                                  "problemInServiceChargeLevel",
+                                  "serviceChargeChallenged",
+                                  "dangerousCladdingOrDefects",
+                                  "difficultyInCollectingServiceCharge",
+                                  "serviceChargeOwed",
+                                  "lastDecoratedPeriod",
+                                  "deedOfCertificateServed"
+                                ]
+                              }
+                            ],
+                            "required": [
+                              "sellerContributesToServiceCharge"
+                            ],
+                            "properties": {
+                              "sellerContributesToServiceCharge": {
+                                "ta7Ref": "5.4"
+                              }
+                            }
+                          },
+                          "disputesAndEnfranchisement": {
+                            "required": [
+                              "sellerReceivedComplaint",
+                              "sellerSentComplaint"
+                            ],
+                            "properties": {
+                              "sellerReceivedComplaint": {
+                                "ta7Ref": "8.1",
+                                "discriminator": {
+                                  "propertyName": "yesNo"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "details": {
+                                        "ta7Ref": "8.1.2"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "required": [
+                                  "yesNo"
+                                ],
+                                "properties": {
+                                  "yesNo": {
+                                    "ta7Ref": "8.1.1"
+                                  }
+                                }
+                              },
+                              "sellerSentComplaint": {
+                                "ta7Ref": "8.2",
+                                "discriminator": {
+                                  "propertyName": "yesNo"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "details": {
+                                        "ta7Ref": "8.2.2"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "required": [
+                                  "yesNo"
+                                ],
+                                "properties": {
+                                  "yesNo": {
+                                    "ta7Ref": "8.2.1"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "general": {
+                            "required": [
+                              "sellerAwareOfAlterations",
+                              "sellerOwnedProperty",
+                              "sellerServedNoticeOnLandlord",
+                              "sellerAwareOfNoticeOfCollectivePurchase",
+                              "sellerAwareOfResponse",
+                              "isLeaseQualifying"
+                            ],
+                            "properties": {
+                              "sellerAwareOfAlterations": {
+                                "ta7Ref": "9.1",
+                                "discriminator": {
+                                  "propertyName": "yesNo"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "details": {
+                                        "ta7Ref": "9.2"
+                                      },
+                                      "landlordConsentObtained": {
+                                        "ta7Ref": "9.3"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "required": [
+                                  "yesNo"
+                                ],
+                                "properties": {
+                                  "yesNo": {
+                                    "ta7Ref": "9.1.1"
+                                  }
+                                }
+                              },
+                              "sellerOwnedProperty": {
+                                "ta7Ref": "10.1"
+                              },
+                              "sellerServedNoticeOnLandlord": {
+                                "ta7Ref": "10.2"
+                              },
+                              "sellerAwareOfNoticeOfCollectivePurchase": {
+                                "ta7Ref": "10.3"
+                              },
+                              "sellerAwareOfResponse": {
+                                "ta7Ref": "10.4"
+                              },
+                              "isLeaseQualifying": {
+                                "ta7Ref": "11.2"
+                              }
+                            }
+                          },
+                          "requiredDocuments": {
+                            "required": [
+                              "noticeOfSale",
+                              "noticeOfBuildingCondition",
+                              "landlordNotifiedOfSale",
+                              "copyOfcorrespondence",
+                              "serviceChargeAccounts",
+                              "groundRent",
+                              "buildingsInsurancePolicy",
+                              "additionalRegulationsNotInLease",
+                              "deedsOfVariation",
+                              "deedOfCovenant",
+                              "memorandumAndArticles",
+                              "shareOrMembershipCertificate",
+                              "companyAccounts",
+                              "deedOfCertificate",
+                              "landlordsCertificate"
+                            ],
+                            "properties": {
+                              "noticeOfSale": {
+                                "ta7Ref": "6.1"
+                              },
+                              "noticeOfBuildingCondition": {
+                                "ta7Ref": "6.2"
+                              },
+                              "landlordNotifiedOfSale": {
+                                "ta7Ref": "11.4"
+                              },
+                              "copyOfcorrespondence": {
+                                "ta7Ref": "3.2"
+                              },
+                              "serviceChargeAccounts": {
+                                "ta7Ref": "3.3a"
+                              },
+                              "groundRent": {
+                                "ta7Ref": "3.3b"
+                              },
+                              "buildingsInsurancePolicy": {
+                                "ta7Ref": "3.4",
+                                "properties": {
+                                  "arrangedBySeller": {
+                                    "ta7Ref": "3.4a"
+                                  },
+                                  "arrangedByLandlord": {
+                                    "ta7Ref": "3.4b"
+                                  }
+                                }
+                              },
+                              "additionalRegulationsNotInLease": {
+                                "ta7Ref": "3.1b"
+                              },
+                              "deedsOfVariation": {
+                                "ta7Ref": "3.1a"
+                              },
+                              "deedOfCovenant": {
+                                "ta7Ref": "3.1a"
+                              },
+                              "memorandumAndArticles": {
+                                "ta7Ref": "3.5a"
+                              },
+                              "shareOrMembershipCertificate": {
+                                "ta7Ref": "3.5b"
+                              },
+                              "companyAccounts": {
+                                "ta7Ref": "3.5c"
+                              },
+                              "deedOfCertificate": {
+                                "ta7Ref": "11.3b",
+                                "title": "Please supply a copy of the leaseholder deed of certificate and the accompanying evidence"
+                              },
+                              "landlordsCertificate": {
+                                "ta7Ref": "11.5",
+                                "title": "Has the seller received a Landlord’s Certificate and the accompanying evidence?",
+                                "enum": [
+                                  "Enclosed",
+                                  "To follow",
+                                  "No"
+                                ]
+                              }
+                            }
                           }
-                        },
-                        "required": [
-                          "leaseholdInformation"
-                        ]
-                      },
-                      {
-                        "properties": {
-                          "ownershipType": {
-                            "enum": [
-                              "Other"
-                            ]
-                          }
-                        }
-                      }
-                    ],
-                    "required": [
-                      "ownershipType"
-                    ],
-                    "properties": {
-                      "ownershipType": {
-                        "ta7Ref": "1.1"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "typeOfConstruction": {
-              "properties": {
-                "buildingSafety": {
-                  "ta7Ref": "11.1",
-                  "discriminator": {
-                    "propertyName": "yesNo"
-                  },
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "No",
-                            "Not applicable"
-                          ]
                         }
                       }
                     },
-                    {
-                      "properties": {
-                        "yesNo": {
-                          "enum": [
-                            "Yes"
-                          ]
-                        },
-                        "details": {
-                          "ta7Ref": "11.1.2",
-                          "title": "Please provide details of the remediation works proposed and evidence of any carried out."
-                        },
-                        "workAlreadyDone": {
-                          "ta7Ref": "11.1.2"
-                        },
-                        "workToBeDone": {
-                          "ta7Ref": "11.1.2"
-                        },
-                        "potentialCost": {
-                          "ta7Ref": "11.1.2"
-                        },
-                        "abilityToResideAtProperty": {
-                          "ta7Ref": "11.1.2"
-                        },
-                        "attachments": {
-                          "ta7Ref": "11.1.3"
-                        }
+                    "required": [
+                      "leaseholdInformation"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "ownershipType": {
+                        "enum": [
+                          "Other"
+                        ]
                       }
                     }
-                  ],
-                  "required": [
-                    "yesNo"
-                  ],
-                  "title": "Have any remediation works on the building been proposed or carried out?",
+                  }
+                ],
+                "required": [
+                  "ownershipType"
+                ],
+                "properties": {
+                  "ownershipType": {
+                    "ta7Ref": "1.1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "typeOfConstruction": {
+          "properties": {
+            "buildingSafety": {
+              "ta7Ref": "11.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
                   "properties": {
                     "yesNo": {
-                      "ta7Ref": "11.1.1",
                       "enum": [
-                        "Yes",
                         "No",
                         "Not applicable"
                       ]
                     }
                   }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta7Ref": "11.1.2",
+                      "title": "Please provide details of the remediation works proposed and evidence of any carried out."
+                    },
+                    "workAlreadyDone": {
+                      "ta7Ref": "11.1.2"
+                    },
+                    "workToBeDone": {
+                      "ta7Ref": "11.1.2"
+                    },
+                    "potentialCost": {
+                      "ta7Ref": "11.1.2"
+                    },
+                    "abilityToResideAtProperty": {
+                      "ta7Ref": "11.1.2"
+                    },
+                    "attachments": {
+                      "ta7Ref": "11.1.3"
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Have any remediation works on the building been proposed or carried out?",
+              "properties": {
+                "yesNo": {
+                  "ta7Ref": "11.1.1",
+                  "enum": [
+                    "Yes",
+                    "No",
+                    "Not applicable"
+                  ]
                 }
               }
             }
