@@ -151,7 +151,6 @@
         "connectivity",
         "heating",
         "insurance",
-        "boundaries",
         "rightsAndInformalArrangements",
         "environmentalIssues",
         "otherIssues",
@@ -18926,7 +18925,7 @@
                         },
                         "supplier": {
                           "baspiRef": "A7.1.0.11.3",
-                          "ta6Ref": "12.4a2",
+                          "ta6Ref": "13.4.2",
                           "title": "Supplier",
                           "type": "string"
                         }
@@ -18959,7 +18958,8 @@
                           "properties": {
                             "offMainsDrainageSystemType": {
                               "ntsRef": "B3.3.3.1",
-                              "baspiRef": "A7.",
+                              "baspiRef": "A7.1",
+                              "ta6Ref": "12.5",
                               "type": "string",
                               "enum": [
                                 "Sustainable Drainage System",
@@ -19180,7 +19180,7 @@
                                 },
                                 "dateReplaced": {
                                   "baspiRef": "A7.1.0.14.2",
-                                  "ta6Ref": "12.5a2",
+                                  "ta6Ref": "12.5.1",
                                   "title": "Date replaced or upgraded",
                                   "type": "string",
                                   "format": "date"
@@ -20065,12 +20065,7 @@
           "ta6Ref": "13",
           "title": "Connectivity",
           "type": "object",
-          "baspiRequired": [
-            "telephone",
-            "cableSatelliteTV",
-            "broadband",
-            "maintenanceAgreements"
-          ],
+          "baspiRequired": ["telephone", "cableSatelliteTV", "broadband"],
           "ntsRequired": ["broadband"],
           "ta6Required": ["telephone", "cableSatelliteTV"],
           "properties": {
@@ -20234,28 +20229,28 @@
                   "title": "Broadband predicted speed per Ofcom Connected Nations",
                   "type": "object",
                   "properties": {
-                    "MaxBbPredictedDown": {
+                    "maxBbPredictedDown": {
                       "type": "number"
                     },
-                    "MaxBbPredictedUp": {
+                    "maxBbPredictedUp": {
                       "type": "number"
                     },
-                    "MaxSfbbPredictedDown": {
+                    "maxSfbbPredictedDown": {
                       "type": "number"
                     },
-                    "MaxSfbbPredictedUp": {
+                    "maxSfbbPredictedUp": {
                       "type": "number"
                     },
-                    "MaxUfbbPredictedDown": {
+                    "maxUfbbPredictedDown": {
                       "type": "number"
                     },
-                    "MaxUfbbPredictedUp": {
+                    "maxUfbbPredictedUp": {
                       "type": "number"
                     },
-                    "MaxPredictedDown": {
+                    "maxPredictedDown": {
                       "type": "number"
                     },
-                    "MaxPredictedUp": {
+                    "maxPredictedUp": {
                       "type": "number"
                     }
                   }
@@ -20736,196 +20731,6 @@
             }
           ]
         },
-        "boundaries": {
-          "baspiRef": "A9",
-          "title": "Boundaries",
-          "type": "object",
-          "description": "You will need to check your title to answer these questions. If you do not have a copy, for a small fee to HM Land Registry, you can download both the title register and the title plan of the property at https://www.gov.uk/search-property-information-land-registry.",
-          "baspiRequired": [
-            "partOutsideLegalOwnership",
-            "partOnSeparateSiteOrDeed",
-            "boundariesDifferFromTitlePlan",
-            "boundaryAlterationProposal"
-          ],
-          "properties": {
-            "partOutsideLegalOwnership": {
-              "baspiRef": "A9.1",
-              "rdsRef": "Tenure/Interests",
-              "piqRef": "A9.1",
-              "title": "Is any part of the property outside the seller’s legal ownership?",
-              "type": "object",
-              "properties": {
-                "yesNo": {
-                  "baspiRef": "A9.1.1",
-                  "piqRef": "A9.1.1",
-                  "type": "string",
-                  "title": "",
-                  "enum": ["Yes", "No"]
-                }
-              },
-              "baspiRequired": ["yesNo"],
-              "discriminator": {
-                "propertyName": "yesNo"
-              },
-              "oneOf": [
-                {
-                  "properties": {
-                    "yesNo": {
-                      "enum": ["No"]
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "yesNo": {
-                      "enum": ["Yes"]
-                    },
-                    "details": {
-                      "baspiRef": "A9.1.2",
-                      "piqRef": "A9.1.2",
-                      "title": "Please provide details. E.g. parking, garden, outbuilding, accessway, etc",
-                      "type": "string",
-                      "minLength": 1
-                    }
-                  },
-                  "baspiRequired": ["details"]
-                }
-              ]
-            },
-            "partOnSeparateSiteOrDeed": {
-              "baspiRef": "A9.2",
-              "rdsRef": "Tenure *with different property entity and references etc*",
-              "title": "Is any part of the property on a separate site or separate title number e.g. garden, outbuilding, parking, garage?",
-              "type": "object",
-              "properties": {
-                "yesNo": {
-                  "baspiRef": "A9.2.1",
-                  "type": "string",
-                  "title": "",
-                  "enum": ["Yes", "No"]
-                }
-              },
-              "baspiRequired": ["yesNo"],
-              "discriminator": {
-                "propertyName": "yesNo"
-              },
-              "oneOf": [
-                {
-                  "properties": {
-                    "yesNo": {
-                      "enum": ["No"]
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "yesNo": {
-                      "enum": ["Yes"]
-                    },
-                    "details": {
-                      "baspiRef": "A9.2.2",
-                      "title": "Details",
-                      "type": "string",
-                      "minLength": 1
-                    }
-                  },
-                  "baspiRequired": ["details"]
-                }
-              ]
-            },
-            "boundariesDifferFromTitlePlan": {
-              "baspiRef": "A9.3",
-              "rdsRef": "Tenure/Boundaries,Tenure/BoundaryDifferences,Tenure/CadastralMapOfParcels",
-              "title": "Do the boundaries differ from those shown on the title plan?",
-              "type": "object",
-              "properties": {
-                "yesNo": {
-                  "baspiRef": "A9.3.1",
-                  "type": "string",
-                  "title": "",
-                  "enum": ["Yes", "No"]
-                }
-              },
-              "baspiRequired": ["yesNo"],
-              "discriminator": {
-                "propertyName": "yesNo"
-              },
-              "oneOf": [
-                {
-                  "properties": {
-                    "yesNo": {
-                      "enum": ["No"]
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "yesNo": {
-                      "enum": ["Yes"]
-                    },
-                    "details": {
-                      "baspiRef": "A9.3.2",
-                      "title": "Please provide details of how they differ and why they changed and provide a plan showing where you believe the boundaries are",
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "attachments": {
-                      "baspiRef": "A9.3.3",
-                      "title": "Attachments",
-                      "type": "string",
-                      "enum": ["Attached", "To follow"]
-                    }
-                  },
-                  "baspiRequired": ["details", "attachments"]
-                }
-              ]
-            },
-            "boundaryAlterationProposal": {
-              "baspiRef": "A9.4",
-              "rdsRef": "Tenure/Boundaries/proposedAlterations=?",
-              "piqRef": "A9.2",
-              "title": "Is there a current proposal with anyone to alter the boundaries of your property?",
-              "type": "object",
-              "properties": {
-                "yesNo": {
-                  "baspiRef": "A9.4.1",
-                  "piqRef": "A9.2.1",
-                  "type": "string",
-                  "title": "",
-                  "enum": ["Yes", "No"]
-                }
-              },
-              "baspiRequired": ["yesNo"],
-              "discriminator": {
-                "propertyName": "yesNo"
-              },
-              "oneOf": [
-                {
-                  "properties": {
-                    "yesNo": {
-                      "enum": ["No"]
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "yesNo": {
-                      "enum": ["Yes"]
-                    },
-                    "details": {
-                      "baspiRef": "A9.4.2",
-                      "piqRef": "A9.2.2",
-                      "title": "Details",
-                      "type": "string",
-                      "minLength": 1
-                    }
-                  },
-                  "baspiRequired": ["details"]
-                }
-              ]
-            }
-          }
-        },
         "rightsAndInformalArrangements": {
           "ntsRef": "C2.2",
           "baspiRef": "A10",
@@ -21236,7 +21041,7 @@
                 "rightsOfSupport": {
                   "baspiRef": "A10.4.2b",
                   "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
-                  "ta6Ref": "8.4b",
+                  "ta6Ref": "8.4a",
                   "piqRef": "A10.5b",
                   "title": "Rights of support from ajoining properties",
                   "type": "object",
@@ -21328,7 +21133,7 @@
                 "rightsToTakeFromLand": {
                   "baspiRef": "A10.4.3b",
                   "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
-                  "ta6Ref": "8.5c",
+                  "ta6Ref": "8.5b",
                   "piqRef": "A10.5f",
                   "title": "Other people's rights to take things from the land (such as timber, hay or fish)",
                   "type": "object",
@@ -23408,6 +23213,10 @@
           "description": "",
           "type": "object",
           "baspiRequired": [
+            "partOutsideLegalOwnership",
+            "partOnSeparateSiteOrDeed",
+            "boundariesDifferFromTitlePlan",
+            "boundaryAlterationProposal",
             "ownership",
             "haveBoundaryFeaturesMoved",
             "adjacentLandIncluded",
@@ -23420,6 +23229,182 @@
             "flyingFreehold"
           ],
           "properties": {
+            "partOutsideLegalOwnership": {
+              "baspiRef": "A9.1",
+              "rdsRef": "Tenure/Interests",
+              "piqRef": "A9.1",
+              "title": "Is any part of the property outside the seller’s legal ownership?",
+              "type": "object",
+              "properties": {
+                "yesNo": {
+                  "baspiRef": "A9.1.1",
+                  "piqRef": "A9.1.1",
+                  "type": "string",
+                  "title": "",
+                  "enum": ["Yes", "No"]
+                }
+              },
+              "baspiRequired": ["yesNo"],
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": ["No"]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": ["Yes"]
+                    },
+                    "details": {
+                      "baspiRef": "A9.1.2",
+                      "piqRef": "A9.1.2",
+                      "title": "Please provide details. E.g. parking, garden, outbuilding, accessway, etc",
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "baspiRequired": ["details"]
+                }
+              ]
+            },
+            "partOnSeparateSiteOrDeed": {
+              "baspiRef": "A9.2",
+              "rdsRef": "Tenure *with different property entity and references etc*",
+              "title": "Is any part of the property on a separate site or separate title number e.g. garden, outbuilding, parking, garage?",
+              "type": "object",
+              "properties": {
+                "yesNo": {
+                  "baspiRef": "A9.2.1",
+                  "type": "string",
+                  "title": "",
+                  "enum": ["Yes", "No"]
+                }
+              },
+              "baspiRequired": ["yesNo"],
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": ["No"]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": ["Yes"]
+                    },
+                    "details": {
+                      "baspiRef": "A9.2.2",
+                      "title": "Details",
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "baspiRequired": ["details"]
+                }
+              ]
+            },
+            "boundariesDifferFromTitlePlan": {
+              "baspiRef": "A9.3",
+              "rdsRef": "Tenure/Boundaries,Tenure/BoundaryDifferences,Tenure/CadastralMapOfParcels",
+              "title": "Do the boundaries differ from those shown on the title plan?",
+              "type": "object",
+              "properties": {
+                "yesNo": {
+                  "baspiRef": "A9.3.1",
+                  "type": "string",
+                  "title": "",
+                  "enum": ["Yes", "No"]
+                }
+              },
+              "baspiRequired": ["yesNo"],
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": ["No"]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": ["Yes"]
+                    },
+                    "details": {
+                      "baspiRef": "A9.3.2",
+                      "title": "Please provide details of how they differ and why they changed and provide a plan showing where you believe the boundaries are",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "attachments": {
+                      "baspiRef": "A9.3.3",
+                      "title": "Attachments",
+                      "type": "string",
+                      "enum": ["Attached", "To follow"]
+                    }
+                  },
+                  "baspiRequired": ["details", "attachments"]
+                }
+              ]
+            },
+            "boundaryAlterationProposal": {
+              "baspiRef": "A9.4",
+              "rdsRef": "Tenure/Boundaries/proposedAlterations=?",
+              "piqRef": "A9.2",
+              "title": "Is there a current proposal with anyone to alter the boundaries of your property?",
+              "type": "object",
+              "properties": {
+                "yesNo": {
+                  "baspiRef": "A9.4.1",
+                  "piqRef": "A9.2.1",
+                  "type": "string",
+                  "title": "",
+                  "enum": ["Yes", "No"]
+                }
+              },
+              "baspiRequired": ["yesNo"],
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": ["No"]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": ["Yes"]
+                    },
+                    "details": {
+                      "baspiRef": "A9.4.2",
+                      "piqRef": "A9.2.2",
+                      "title": "Details",
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "baspiRequired": ["details"]
+                }
+              ]
+            },
             "ownership": {
               "baspiRef": "B2.1.0",
               "ta6Ref": "1",
@@ -23449,6 +23434,7 @@
                     },
                     "uniformBoundaries": {
                       "baspiRef": "B2.1.0.2",
+                      "ta6Ref": "1.1",
                       "title": "Please indicate who has repaired, or treated as belonging to them, each of the boundaries. Identify each boundary as if you were looking at the property from the road.",
                       "type": "object",
                       "properties": {
