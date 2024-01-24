@@ -30,7 +30,7 @@ test("exports a property pack schema, v3 with no overlay by default", () => {
 test("sample is valid BASPI", () => {
   const testSchema = getTransactionSchema(schemaId, ["baspiV4"]);
   expect(testSchema.properties.propertyPack.baspiRef).toEqual("0");
-  const validator = getValidator(schemaId);
+  const validator = getValidator(schemaId, ["baspiV4"]);
   const isValid = validator(exampleTransaction);
   if (!isValid) console.log(validator.errors);
   expect(isValid).toBe(true);
