@@ -73,9 +73,11 @@
                           "leaseTerm",
                           "contactDetails",
                           "transferAndRegistration",
+                          "serviceCharge",
                           "groundRent",
                           "ownershipAndManagement",
                           "disputesAndEnfranchisement",
+                          "buildingSafety",
                           "general",
                           "requiredDocuments"
                         ],
@@ -221,6 +223,7 @@
                                 }
                               },
                               "serviceContactAssignments": {
+                                "ta7Ref": "5.1",
                                 "required": [
                                   "organisesBuildingInsurance"
                                 ],
@@ -449,7 +452,12 @@
                                 ],
                                 "required": [
                                   "buildingManagerType"
-                                ]
+                                ],
+                                "properties": {
+                                  "buildingManagerType": {
+                                    "ta7Ref": "2.3.1"
+                                  }
+                                }
                               },
                               "hasTenantCompanyDissolved": {
                                 "ta7Ref": "2.4"
@@ -676,53 +684,6 @@
                                         "ta7Ref": "5.2"
                                       }
                                     }
-                                  },
-                                  "deedOfCertificateServed": {
-                                    "ta7Ref": "11.3",
-                                    "discriminator": {
-                                      "propertyName": "yesNoNotApplicable"
-                                    },
-                                    "oneOf": [
-                                      {
-                                        "properties": {
-                                          "yesNoNotApplicable": {
-                                            "enum": [
-                                              "Not applicable"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "yesNoNotApplicable": {
-                                            "enum": [
-                                              "No"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "yesNoNotApplicable": {
-                                            "enum": [
-                                              "Yes"
-                                            ]
-                                          },
-                                          "sellerCompletedDeedOfCertificate": {
-                                            "ta7Ref": "11.3a"
-                                          }
-                                        }
-                                      }
-                                    ],
-                                    "required": [
-                                      "yesNoNotApplicable"
-                                    ],
-                                    "title": "Is there a Leaseholder Deed of Certificate for the property?",
-                                    "properties": {
-                                      "yesNoNotApplicable": {
-                                        "ta7Ref": "11.3.1"
-                                      }
-                                    }
                                   }
                                 },
                                 "required": [
@@ -733,8 +694,7 @@
                                   "dangerousCladdingOrDefects",
                                   "difficultyInCollectingServiceCharge",
                                   "serviceChargeOwed",
-                                  "lastDecoratedPeriod",
-                                  "deedOfCertificateServed"
+                                  "lastDecoratedPeriod"
                                 ]
                               }
                             ],
@@ -829,14 +789,120 @@
                               }
                             }
                           },
+                          "buildingSafety": {
+                            "ta7Ref": "11",
+                            "required": [
+                              "isLeaseQualifying",
+                              "landlordNotifiedOfSale",
+                              "deedOfCertificateServed",
+                              "landlordsCertificateServed"
+                            ],
+                            "properties": {
+                              "isLeaseQualifying": {
+                                "ta7Ref": "11.2"
+                              },
+                              "deedOfCertificateServed": {
+                                "ta7Ref": "11.3",
+                                "discriminator": {
+                                  "propertyName": "yesNoNotApplicable"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "enum": [
+                                          "Not applicable",
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "sellerCompletedDeedOfCertificate": {
+                                        "ta7Ref": "11.3a"
+                                      },
+                                      "attachments": {
+                                        "ta7Ref": "11.3b",
+                                        "title": "Please supply a copy of the leaseholder deed of certificate and the accompanying evidence"
+                                      }
+                                    },
+                                    "required": [
+                                      "sellerCompletedDeedOfCertificate",
+                                      "attachments"
+                                    ]
+                                  }
+                                ],
+                                "required": [
+                                  "yesNoNotApplicable"
+                                ],
+                                "title": "Is there a Leaseholder Deed of Certificate for the property?",
+                                "properties": {
+                                  "yesNoNotApplicable": {
+                                    "ta7Ref": "11.3.1"
+                                  }
+                                }
+                              },
+                              "landlordNotifiedOfSale": {
+                                "ta7Ref": "11.4"
+                              },
+                              "landlordsCertificateServed": {
+                                "ta7Ref": "11.5",
+                                "discriminator": {
+                                  "propertyName": "yesNoNotApplicable"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "enum": [
+                                          "Not applicable",
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "attachments": {
+                                        "ta7Ref": "11.5.2",
+                                        "title": "Please supply a copy and the accompanying evidence."
+                                      }
+                                    },
+                                    "required": [
+                                      "attachments"
+                                    ]
+                                  }
+                                ],
+                                "required": [
+                                  "yesNoNotApplicable"
+                                ],
+                                "title": "Has the seller received a Landlord’s Certificate and the accompanying evidence?",
+                                "properties": {
+                                  "yesNoNotApplicable": {
+                                    "ta7Ref": "11.5.2"
+                                  }
+                                }
+                              }
+                            }
+                          },
                           "general": {
                             "required": [
                               "sellerAwareOfAlterations",
                               "sellerOwnedProperty",
                               "sellerServedNoticeOnLandlord",
                               "sellerAwareOfNoticeOfCollectivePurchase",
-                              "sellerAwareOfResponse",
-                              "isLeaseQualifying"
+                              "sellerAwareOfResponse"
                             ],
                             "properties": {
                               "sellerAwareOfAlterations": {
@@ -890,17 +956,14 @@
                               },
                               "sellerAwareOfResponse": {
                                 "ta7Ref": "10.4"
-                              },
-                              "isLeaseQualifying": {
-                                "ta7Ref": "11.2"
                               }
                             }
                           },
                           "requiredDocuments": {
                             "required": [
+                              "lease",
                               "noticeOfSale",
                               "noticeOfBuildingCondition",
-                              "landlordNotifiedOfSale",
                               "copyOfcorrespondence",
                               "serviceChargeAccounts",
                               "groundRent",
@@ -908,21 +971,21 @@
                               "additionalRegulationsNotInLease",
                               "deedsOfVariation",
                               "deedOfCovenant",
-                              "memorandumAndArticles",
-                              "shareOrMembershipCertificate",
-                              "companyAccounts",
-                              "deedOfCertificate",
-                              "landlordsCertificate"
+                              "managementCompanyDocuments"
                             ],
+                            "title": "Relevant documents",
                             "properties": {
-                              "noticeOfSale": {
-                                "ta7Ref": "6.1"
+                              "lease": {
+                                "ta7Ref": "3.1a1"
                               },
-                              "noticeOfBuildingCondition": {
-                                "ta7Ref": "6.2"
-                              },
-                              "landlordNotifiedOfSale": {
-                                "ta7Ref": "11.4"
+                              "deedsOfVariation": {
+                                "ta7Ref": "3.1a2",
+                                "title": "Any supplemental deeds.",
+                                "enum": [
+                                  "Enclosed",
+                                  "To follow",
+                                  "Not applicable"
+                                ]
                               },
                               "copyOfcorrespondence": {
                                 "ta7Ref": "3.2"
@@ -944,36 +1007,28 @@
                                   }
                                 }
                               },
+                              "noticeOfSale": {
+                                "ta7Ref": "6.1"
+                              },
+                              "noticeOfBuildingCondition": {
+                                "ta7Ref": "6.2"
+                              },
                               "additionalRegulationsNotInLease": {
                                 "ta7Ref": "3.1b"
                               },
-                              "deedsOfVariation": {
-                                "ta7Ref": "3.1a"
-                              },
-                              "deedOfCovenant": {
-                                "ta7Ref": "3.1a"
-                              },
-                              "memorandumAndArticles": {
-                                "ta7Ref": "3.5a"
-                              },
-                              "shareOrMembershipCertificate": {
-                                "ta7Ref": "3.5b"
-                              },
-                              "companyAccounts": {
-                                "ta7Ref": "3.5c"
-                              },
-                              "deedOfCertificate": {
-                                "ta7Ref": "11.3b",
-                                "title": "Please supply a copy of the leaseholder deed of certificate and the accompanying evidence"
-                              },
-                              "landlordsCertificate": {
-                                "ta7Ref": "11.5",
-                                "title": "Has the seller received a Landlord’s Certificate and the accompanying evidence?",
-                                "enum": [
-                                  "Enclosed",
-                                  "To follow",
-                                  "No"
-                                ]
+                              "managementCompanyDocuments": {
+                                "ta7Ref": "3.5",
+                                "properties": {
+                                  "memorandumAndArticles": {
+                                    "ta7Ref": "3.5a"
+                                  },
+                                  "shareOrMembershipCertificate": {
+                                    "ta7Ref": "3.5b"
+                                  },
+                                  "companyAccounts": {
+                                    "ta7Ref": "3.5c"
+                                  }
+                                }
                               }
                             }
                           }

@@ -4200,86 +4200,92 @@
                                   },
                                   "dealsWithDayToDayMaintenanceOfBuilding": {
                                     "title": "Who deals with the day to day maintenance of the building?",
-                                    "type": "string",
-                                    "enum": [
-                                      "Landlord",
-                                      "Management Company",
-                                      "Managing Agent",
-                                      "the Lessees"
-                                    ]
-                                  }
-                                },
-                                "oneOf": [
-                                  {
+                                    "type": "object",
                                     "properties": {
-                                      "dealsWithDayToDayMaintenanceOfBuilding": {
+                                      "assignedContact": {
+                                        "title": "",
+                                        "type": "string",
                                         "enum": [
                                           "Landlord",
                                           "Management Company",
-                                          "Managing Agent"
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "properties": {
-                                      "dealsWithDayToDayMaintenanceOfBuilding": {
-                                        "enum": [
+                                          "Managing Agent",
                                           "the Lessees"
                                         ]
-                                      },
-                                      "lesseeInCharge": {
-                                        "title": "If the Lessees, please provide contact details of the Lessee in charge",
-                                        "type": "object",
+                                      }
+                                    },
+                                    "oneOf": [
+                                      {
                                         "properties": {
-                                          "nameOrOrganisation": {
-                                            "title": "Name or organisation",
-                                            "type": "string",
-                                            "minLength": 1
+                                          "assignedContact": {
+                                            "enum": [
+                                              "Landlord",
+                                              "Management Company",
+                                              "Managing Agent"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "properties": {
+                                          "assignedContact": {
+                                            "enum": [
+                                              "the Lessees"
+                                            ]
                                           },
-                                          "address": {
-                                            "title": "Address",
+                                          "lesseeInCharge": {
+                                            "title": "If the Lessees, please provide contact details of the Lessee in charge",
                                             "type": "object",
                                             "properties": {
-                                              "line1": {
-                                                "title": "Address line 1",
+                                              "nameOrOrganisation": {
+                                                "title": "Name or organisation",
                                                 "type": "string",
                                                 "minLength": 1
                                               },
-                                              "line2": {
-                                                "title": "Address line 2",
-                                                "type": "string"
+                                              "address": {
+                                                "title": "Address",
+                                                "type": "object",
+                                                "properties": {
+                                                  "line1": {
+                                                    "title": "Address line 1",
+                                                    "type": "string",
+                                                    "minLength": 1
+                                                  },
+                                                  "line2": {
+                                                    "title": "Address line 2",
+                                                    "type": "string"
+                                                  },
+                                                  "line3": {
+                                                    "title": "Address line 3",
+                                                    "type": "string"
+                                                  },
+                                                  "town": {
+                                                    "title": "Town",
+                                                    "type": "string"
+                                                  },
+                                                  "postcode": {
+                                                    "title": "Postcode",
+                                                    "type": "string",
+                                                    "minLength": 1
+                                                  }
+                                                }
                                               },
-                                              "line3": {
-                                                "title": "Address line 3",
-                                                "type": "string"
-                                              },
-                                              "town": {
-                                                "title": "Town",
-                                                "type": "string"
-                                              },
-                                              "postcode": {
-                                                "title": "Postcode",
+                                              "telephone": {
+                                                "title": "Telephone",
                                                 "type": "string",
                                                 "minLength": 1
+                                              },
+                                              "emailAddress": {
+                                                "title": "Email address",
+                                                "type": "string",
+                                                "format": "email"
                                               }
                                             }
-                                          },
-                                          "telephone": {
-                                            "title": "Telephone",
-                                            "type": "string",
-                                            "minLength": 1
-                                          },
-                                          "emailAddress": {
-                                            "title": "Email address",
-                                            "type": "string",
-                                            "format": "email"
                                           }
                                         }
                                       }
-                                    }
+                                    ]
                                   }
-                                ]
+                                }
                               }
                             }
                           },
@@ -5482,73 +5488,6 @@
                                         }
                                       }
                                     ]
-                                  },
-                                  "deedOfCertificateServed": {
-                                    "title": "Has a Leaseholder Deed of Certificate been served on the Landlord in relation to the property or remedial works required to the property?",
-                                    "type": "object",
-                                    "properties": {
-                                      "yesNoNotApplicable": {
-                                        "type": "string",
-                                        "title": "",
-                                        "enum": [
-                                          "Yes",
-                                          "No",
-                                          "Not applicable"
-                                        ]
-                                      }
-                                    },
-                                    "oneOf": [
-                                      {
-                                        "properties": {
-                                          "yesNoNotApplicable": {
-                                            "enum": [
-                                              "Not applicable"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "yesNoNotApplicable": {
-                                            "enum": [
-                                              "No"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "yesNoNotApplicable": {
-                                            "enum": [
-                                              "Yes"
-                                            ]
-                                          },
-                                          "sellerCompletedDeedOfCertificate": {
-                                            "title": "Did the seller (the current leaseholder) complete the deed of certificate or was it completed by a previous leaseholder?",
-                                            "type": "string",
-                                            "enum": [
-                                              "Current leaseholder",
-                                              "Previous leaseholder"
-                                            ]
-                                          }
-                                        }
-                                      }
-                                    ]
-                                  },
-                                  "landlordsCertificateServed": {
-                                    "title": "Has a Landlord's Certificate been served?",
-                                    "type": "object",
-                                    "properties": {
-                                      "yesNoNotApplicable": {
-                                        "type": "string",
-                                        "title": "",
-                                        "enum": [
-                                          "Yes",
-                                          "No Certificate Served",
-                                          "Not applicable"
-                                        ]
-                                      }
-                                    }
                                   }
                                 }
                               }
@@ -6208,6 +6147,124 @@
                               }
                             }
                           },
+                          "buildingSafety": {
+                            "title": "Building safety",
+                            "type": "object",
+                            "properties": {
+                              "isLeaseQualifying": {
+                                "title": "Is the lease of the property a qualifying lease?",
+                                "type": "string",
+                                "enum": [
+                                  "Yes",
+                                  "No"
+                                ]
+                              },
+                              "deedOfCertificateServed": {
+                                "title": "Has a Leaseholder Deed of Certificate been served on the Landlord in relation to the property or remedial works required to the property?",
+                                "type": "object",
+                                "properties": {
+                                  "yesNoNotApplicable": {
+                                    "type": "string",
+                                    "title": "",
+                                    "enum": [
+                                      "Yes",
+                                      "No",
+                                      "Not applicable"
+                                    ]
+                                  }
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "enum": [
+                                          "Not applicable",
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "sellerCompletedDeedOfCertificate": {
+                                        "title": "Did the seller (the current leaseholder) complete the deed of certificate or was it completed by a previous leaseholder?",
+                                        "type": "string",
+                                        "enum": [
+                                          "Current leaseholder",
+                                          "Previous leaseholder"
+                                        ]
+                                      },
+                                      "attachments": {
+                                        "title": "Leaseholder Deed of Certificate.",
+                                        "type": "string",
+                                        "enum": [
+                                          "Enclosed",
+                                          "To follow"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              "landlordNotifiedOfSale": {
+                                "title": "Has the freeholder / landlord been notified of the intention to sell?",
+                                "type": "string",
+                                "enum": [
+                                  "Yes",
+                                  "No"
+                                ]
+                              },
+                              "landlordsCertificateServed": {
+                                "title": "Has a Landlord's Certificate been served?",
+                                "type": "object",
+                                "properties": {
+                                  "yesNoNotApplicable": {
+                                    "type": "string",
+                                    "title": "",
+                                    "enum": [
+                                      "Yes",
+                                      "No",
+                                      "Not applicable"
+                                    ]
+                                  }
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "enum": [
+                                          "Not applicable",
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "attachments": {
+                                        "title": "Landlord's Certificate.",
+                                        "type": "string",
+                                        "enum": [
+                                          "Enclosed",
+                                          "To follow"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          },
                           "general": {
                             "title": "General",
                             "type": "object",
@@ -6299,7 +6356,7 @@
                                 ]
                               },
                               "sellerAwareOfResponse": {
-                                "title": "Is the seller aware of any response to a notice disclosed in replies to 10.2 and 10.3 above? If Yes, please supply a copy",
+                                "title": "Is the seller aware of any response to a notice disclosed in replies above? If Yes, please supply a copy",
                                 "type": "string",
                                 "enum": [
                                   "Yes",
@@ -6308,14 +6365,6 @@
                                   "Not required",
                                   "Attached",
                                   "To follow"
-                                ]
-                              },
-                              "isLeaseQualifying": {
-                                "title": "Is the lease of the property a qualifying lease?",
-                                "type": "string",
-                                "enum": [
-                                  "Yes",
-                                  "No"
                                 ]
                               },
                               "otherPropertiesInManagedArea": {
@@ -6485,38 +6534,26 @@
                             }
                           },
                           "requiredDocuments": {
-                            "title": "Required Documents",
-                            "description": "Please provide the following applicable documents:",
+                            "title": "Required documents",
                             "type": "object",
                             "properties": {
-                              "noticeOfSale": {
-                                "title": "Has the seller received a notice that the landlord wants to sell the building? If Yes, please supply a copy.",
+                              "lease": {
+                                "title": "Please supply a copy of the lease.",
                                 "type": "string",
                                 "enum": [
-                                  "Yes",
-                                  "No",
-                                  "Attached",
-                                  "To follow",
-                                  "Lost"
+                                  "Enclosed",
+                                  "To follow"
                                 ]
                               },
-                              "noticeOfBuildingCondition": {
-                                "title": "Has the seller received any other notice about the building, its use, its condition or its repair and maintenance? If Yes, please supply a copy.",
+                              "deedsOfVariation": {
+                                "title": "Any Deeds of Variation or other document varying the terms of the lease of this Property.",
                                 "type": "string",
                                 "enum": [
-                                  "Yes",
-                                  "No",
-                                  "Attached",
+                                  "Enclosed",
                                   "To follow",
-                                  "Lost"
-                                ]
-                              },
-                              "landlordNotifiedOfSale": {
-                                "title": "Has the freeholder / landlord been notified of the intention to sell?",
-                                "type": "string",
-                                "enum": [
-                                  "Yes",
-                                  "No"
+                                  "Landlord's lawyer provides",
+                                  "Please supply draft",
+                                  "Not applicable"
                                 ]
                               },
                               "copyOfcorrespondence": {
@@ -6554,7 +6591,8 @@
                                     "type": "string",
                                     "enum": [
                                       "Attached",
-                                      "To follow"
+                                      "To follow",
+                                      "Not applicable"
                                     ]
                                   },
                                   "arrangedByLandlord": {
@@ -6562,10 +6600,33 @@
                                     "type": "string",
                                     "enum": [
                                       "Attached",
-                                      "To follow"
+                                      "To follow",
+                                      "Not applicable"
                                     ]
                                   }
                                 }
+                              },
+                              "noticeOfSale": {
+                                "title": "Has the seller received a notice that the landlord wants to sell the building? If Yes, please supply a copy.",
+                                "type": "string",
+                                "enum": [
+                                  "Yes",
+                                  "No",
+                                  "Attached",
+                                  "To follow",
+                                  "Lost"
+                                ]
+                              },
+                              "noticeOfBuildingCondition": {
+                                "title": "Has the seller received any other notice about the building, its use, its condition or its repair and maintenance? If Yes, please supply a copy.",
+                                "type": "string",
+                                "enum": [
+                                  "Yes",
+                                  "No",
+                                  "Attached",
+                                  "To follow",
+                                  "Lost"
+                                ]
                               },
                               "managedAreasBuildingsInsurancePolicy": {
                                 "title": "Buildings insurance policy and schedule for the Managed Areas.",
@@ -6618,17 +6679,6 @@
                                 "enum": [
                                   "Enclosed",
                                   "To follow",
-                                  "Not applicable"
-                                ]
-                              },
-                              "deedsOfVariation": {
-                                "title": "Any Deeds of Variation or other document varying the terms of the lease of this Property.",
-                                "type": "string",
-                                "enum": [
-                                  "Enclosed",
-                                  "To follow",
-                                  "Landlord's lawyer provides",
-                                  "Please supply draft",
                                   "Not applicable"
                                 ]
                               },
@@ -6701,30 +6751,38 @@
                                   "Not applicable"
                                 ]
                               },
-                              "memorandumAndArticles": {
-                                "title": "Memorandum and Articles of Association of the Management Company.",
-                                "type": "string",
-                                "enum": [
-                                  "Enclosed",
-                                  "To follow",
-                                  "Not applicable"
-                                ]
-                              },
-                              "shareOrMembershipCertificate": {
-                                "title": "Share or membership certificate",
-                                "type": "string",
-                                "enum": [
-                                  "Attached",
-                                  "To follow"
-                                ]
-                              },
-                              "companyAccounts": {
-                                "title": "Company accounts for the past three years",
-                                "type": "string",
-                                "enum": [
-                                  "Attached",
-                                  "To follow"
-                                ]
+                              "managementCompanyDocuments": {
+                                "title": "If a landlord is a company controlled by the tenants and/or if a tenants’ management company or Right to Manage company is managing the building, please supply a copy of:",
+                                "type": "object",
+                                "properties": {
+                                  "memorandumAndArticles": {
+                                    "title": "Memorandum and Articles of Association of the Management Company.",
+                                    "type": "string",
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
+                                  },
+                                  "shareOrMembershipCertificate": {
+                                    "title": "Share or membership certificate",
+                                    "type": "string",
+                                    "enum": [
+                                      "Attached",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
+                                  },
+                                  "companyAccounts": {
+                                    "title": "Company accounts for the past three years",
+                                    "type": "string",
+                                    "enum": [
+                                      "Attached",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
+                                  }
+                                }
                               },
                               "managementCompanyAGMMinutes": {
                                 "title": "Minutes from the last AGM for the Management Company.",
@@ -6732,25 +6790,6 @@
                                 "enum": [
                                   "Enclosed",
                                   "To follow",
-                                  "Not applicable"
-                                ]
-                              },
-                              "deedOfCertificate": {
-                                "title": "Leaseholder Deed of Certificate.",
-                                "type": "string",
-                                "enum": [
-                                  "Enclosed",
-                                  "To follow",
-                                  "Not applicable"
-                                ]
-                              },
-                              "landlordsCertificate": {
-                                "title": "Landlord's Certificate.",
-                                "type": "string",
-                                "enum": [
-                                  "Enclosed",
-                                  "To follow",
-                                  "No",
                                   "Not applicable"
                                 ]
                               },
@@ -7737,6 +7776,7 @@
             "hasDisputesAndComplaints": {
               "title": "Have any disputes or complaints occurred, regarding this property, a property nearby, or their use?",
               "description": "E.g boundary disagreement, noise, trespass etc",
+              "ta6Description": "",
               "type": "object",
               "properties": {
                 "yesNo": {
@@ -9415,7 +9455,7 @@
                       ]
                     },
                     "attachments": {
-                      "title": "Please supply a copy with any insurance cover linked to the plan",
+                      "title": "Please supply a copy with any insurance cover linked to the plan.",
                       "type": "string",
                       "enum": [
                         "Attached",
@@ -16135,7 +16175,8 @@
                         },
                         "supplier": {
                           "title": "Supplier",
-                          "type": "string"
+                          "type": "string",
+                          "minLength": 1
                         },
                         "details": {
                           "title": "Details",
@@ -16145,6 +16186,9 @@
                         "stopcock": {
                           "title": "Location of stopcock",
                           "type": "object",
+                          "required": [
+                            "location"
+                          ],
                           "properties": {
                             "location": {
                               "title": "Describe the location of the stopcock",
@@ -16438,6 +16482,11 @@
                         },
                         "details": {
                           "title": "Details",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "supplier": {
+                          "title": "Supplier",
                           "type": "string",
                           "minLength": 1
                         }
@@ -17213,11 +17262,11 @@
                                   ]
                                 },
                                 "supplier": {
-                                  "title": "Supplier (if known)",
+                                  "title": "Supplier",
                                   "type": "string"
                                 },
                                 "gasMeter": {
-                                  "title": "Location of gas meter (if any)",
+                                  "title": "Location of gas meter",
                                   "type": "object",
                                   "properties": {
                                     "location": {
@@ -17948,6 +17997,7 @@
                 },
                 "insuranceClaims": {
                   "title": "Have you ever made a claim against your building insurance in relation to the property?",
+                  "Title": "Has the seller made any buildings insurance claims?",
                   "type": "object",
                   "properties": {
                     "yesNo": {
@@ -18209,7 +18259,7 @@
                   ]
                 },
                 "rightsOfSupport": {
-                  "title": "Rights of support from ajoining properties",
+                  "title": "Rights of support from adjoining properties",
                   "type": "object",
                   "properties": {
                     "yesNo": {
@@ -20460,6 +20510,7 @@
                     },
                     "uniformBoundaries": {
                       "title": "Please indicate who has repaired, or treated as belonging to them, each of the boundaries. Identify each boundary as if you were looking at the property from the road.",
+                      "ta6title": "Looking towards the property from the road, who owns or accepts responsibility to maintain or repair the boundary features:",
                       "type": "object",
                       "properties": {
                         "left": {
@@ -20624,6 +20675,7 @@
             "flyingFreehold": {
               "title": "Is there a flying freehold?",
               "description": "NOTE: a flying freehold is when part of the property overhangs a neighbour's property or an accessway - e.g. a terrace house where part of the upstairs is over an accessway which belongs to someone else.",
+              "ta6Description": "",
               "type": "object",
               "properties": {
                 "yesNo": {
@@ -20720,6 +20772,7 @@
             },
             "pipesWiresCablesDrainsFromProperty": {
               "title": "Are you aware of any pipes, wires, cables or drains taking services to neighbouring property cross this property?",
+              "ta6Ttle": "Do any drains, pipes or wires leading to any neighbour’s property cross the property?",
               "type": "object",
               "properties": {
                 "yesNo": {
@@ -20805,7 +20858,7 @@
                       "minLength": 1
                     },
                     "attachments": {
-                      "title": "Attachments",
+                      "title": "Please supply a copy",
                       "type": "string",
                       "enum": [
                         "Attached",
@@ -20909,29 +20962,27 @@
                       "type": "string",
                       "minLength": 1
                     },
-                    "electricalSafetyCertificate": {
-                      "title": "Please provide a signed Electrical Safety Certificate (BS7671)",
-                      "type": "string",
-                      "enum": [
-                        "Attached",
-                        "To follow"
-                      ]
-                    },
-                    "buildingRegulationsComplianceCertificate": {
-                      "title": "or a Building Regulations Compliance Certificate (or equivalent)",
-                      "type": "string",
-                      "enum": [
-                        "Attached",
-                        "To follow"
-                      ]
-                    },
-                    "buildingControlCompletionCertificate": {
-                      "title": "or a Building Control Completion Certificate",
-                      "type": "string",
-                      "enum": [
-                        "Attached",
-                        "To follow"
-                      ]
+                    "suppliedCertificate": {
+                      "title": "Please supply one of the following:",
+                      "type": "object",
+                      "properties": {
+                        "certificateType": {
+                          "type": "string",
+                          "enum": [
+                            "Electrical Safety Certificate (BS7671)",
+                            "Building Regulations Compliance Certificate",
+                            "Building Control Completion Certificate"
+                          ]
+                        },
+                        "attachments": {
+                          "title": "Attachments",
+                          "type": "string",
+                          "enum": [
+                            "Attached",
+                            "To follow"
+                          ]
+                        }
+                      }
                     }
                   }
                 }

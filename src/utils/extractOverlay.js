@@ -116,6 +116,11 @@ const extractOverlay = (sourceSchema, ref) => {
       jp.set(returnSchema, `${path}/title`, element[refTitle]);
     }
 
+    const refDescription = `${ref}Description`;
+    if (element[refDescription]) {
+      jp.set(returnSchema, `${path}/description`, element[refDescription]);
+    }
+
     const refEnum = `${ref}Enum`;
     if (element[refEnum]) {
       jp.set(returnSchema, `${path}/enum`, element[refEnum]);

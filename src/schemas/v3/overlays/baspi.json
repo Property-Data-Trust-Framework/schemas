@@ -3140,7 +3140,11 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A5.3.1"
+                  "baspiRef": "A5.3.1",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
                 }
               }
             },
@@ -3883,6 +3887,9 @@
                           "enum": [
                             "Yes"
                           ]
+                        },
+                        "supplier": {
+                          "baspiRef": "A7.1.0.11.2"
                         }
                       }
                     },
@@ -6558,19 +6565,26 @@
                     "details": {
                       "baspiRef": "B4.2.3"
                     },
-                    "electricalSafetyCertificate": {
-                      "baspiRef": "B4.2.4.1"
-                    },
-                    "buildingRegulationsComplianceCertificate": {
-                      "baspiRef": "B4.2.4.2"
-                    },
-                    "buildingControlCompletionCertificate": {
-                      "baspiRef": "B4.2.4.3"
+                    "suppliedCertificate": {
+                      "baspiRef": "B4.2.4.1",
+                      "required": [
+                        "certificateType",
+                        "attachments"
+                      ],
+                      "properties": {
+                        "certificateType": {
+                          "baspiRef": "B4.2.3.1"
+                        },
+                        "attachments": {
+                          "baspiRef": "B4.2.3.2"
+                        }
+                      }
                     }
                   },
                   "required": [
                     "yearWorkCarriedOut",
-                    "details"
+                    "details",
+                    "suppliedCertificate"
                   ]
                 }
               ],
@@ -6579,7 +6593,11 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "B4.2.1"
+                  "baspiRef": "B4.2.1",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
                 }
               }
             }

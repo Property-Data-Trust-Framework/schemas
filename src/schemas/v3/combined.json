@@ -3400,6 +3400,7 @@
                           "serviceCharge",
                           "buildingsInsurance",
                           "disputesAndEnfranchisement",
+                          "buildingSafety",
                           "general",
                           "requiredDocuments",
                           "confirmation"
@@ -3423,9 +3424,11 @@
                           "leaseTerm",
                           "contactDetails",
                           "transferAndRegistration",
+                          "serviceCharge",
                           "groundRent",
                           "ownershipAndManagement",
                           "disputesAndEnfranchisement",
+                          "buildingSafety",
                           "general",
                           "requiredDocuments"
                         ],
@@ -4227,6 +4230,7 @@
                                 }
                               },
                               "serviceContactAssignments": {
+                                "ta7Ref": "5.1",
                                 "lpe1Ref": "1.6",
                                 "type": "object",
                                 "lpe1Required": [
@@ -4876,100 +4880,107 @@
                                   "dealsWithDayToDayMaintenanceOfBuilding": {
                                     "lpe1Ref": "1.10",
                                     "title": "Who deals with the day to day maintenance of the building?",
-                                    "type": "string",
-                                    "enum": [
-                                      "Landlord",
-                                      "Management Company",
-                                      "Managing Agent",
-                                      "the Lessees"
-                                    ]
-                                  }
-                                },
-                                "discriminator": {
-                                  "propertyName": "dealsWithDayToDayMaintenanceOfBuilding"
-                                },
-                                "oneOf": [
-                                  {
+                                    "type": "object",
+                                    "lpe1Required": ["assignedContact"],
                                     "properties": {
-                                      "dealsWithDayToDayMaintenanceOfBuilding": {
+                                      "assignedContact": {
+                                        "title": "",
+                                        "type": "string",
                                         "enum": [
                                           "Landlord",
                                           "Management Company",
-                                          "Managing Agent"
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "properties": {
-                                      "dealsWithDayToDayMaintenanceOfBuilding": {
-                                        "enum": ["the Lessees"]
-                                      },
-                                      "lesseeInCharge": {
-                                        "lpe1Ref": "1.10.1",
-                                        "title": "If the Lessees, please provide contact details of the Lessee in charge",
-                                        "type": "object",
-                                        "properties": {
-                                          "nameOrOrganisation": {
-                                            "title": "Name or organisation",
-                                            "type": "string",
-                                            "minLength": 1
-                                          },
-                                          "address": {
-                                            "title": "Address",
-                                            "type": "object",
-                                            "properties": {
-                                              "line1": {
-                                                "title": "Address line 1",
-                                                "type": "string",
-                                                "minLength": 1
-                                              },
-                                              "line2": {
-                                                "title": "Address line 2",
-                                                "type": "string"
-                                              },
-                                              "line3": {
-                                                "title": "Address line 3",
-                                                "type": "string"
-                                              },
-                                              "town": {
-                                                "title": "Town",
-                                                "type": "string"
-                                              },
-                                              "postcode": {
-                                                "title": "Postcode",
-                                                "type": "string",
-                                                "minLength": 1
-                                              }
-                                            },
-                                            "lpe1Required": [
-                                              "line1",
-                                              "postcode"
-                                            ]
-                                          },
-                                          "telephone": {
-                                            "title": "Telephone",
-                                            "type": "string",
-                                            "minLength": 1
-                                          },
-                                          "emailAddress": {
-                                            "title": "Email address",
-                                            "type": "string",
-                                            "format": "email"
-                                          }
-                                        },
-                                        "lpe1Required": [
-                                          "nameOrOrganisation",
-                                          "line1",
-                                          "postcode",
-                                          "telephone",
-                                          "emailAddress"
+                                          "Managing Agent",
+                                          "the Lessees"
                                         ]
                                       }
                                     },
-                                    "lpe1Required": ["lesseeInCharge"]
+                                    "discriminator": {
+                                      "propertyName": "assignedContact"
+                                    },
+                                    "oneOf": [
+                                      {
+                                        "properties": {
+                                          "assignedContact": {
+                                            "enum": [
+                                              "Landlord",
+                                              "Management Company",
+                                              "Managing Agent"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "properties": {
+                                          "assignedContact": {
+                                            "enum": ["the Lessees"]
+                                          },
+                                          "lesseeInCharge": {
+                                            "lpe1Ref": "1.10.1",
+                                            "title": "If the Lessees, please provide contact details of the Lessee in charge",
+                                            "type": "object",
+                                            "properties": {
+                                              "nameOrOrganisation": {
+                                                "title": "Name or organisation",
+                                                "type": "string",
+                                                "minLength": 1
+                                              },
+                                              "address": {
+                                                "title": "Address",
+                                                "type": "object",
+                                                "properties": {
+                                                  "line1": {
+                                                    "title": "Address line 1",
+                                                    "type": "string",
+                                                    "minLength": 1
+                                                  },
+                                                  "line2": {
+                                                    "title": "Address line 2",
+                                                    "type": "string"
+                                                  },
+                                                  "line3": {
+                                                    "title": "Address line 3",
+                                                    "type": "string"
+                                                  },
+                                                  "town": {
+                                                    "title": "Town",
+                                                    "type": "string"
+                                                  },
+                                                  "postcode": {
+                                                    "title": "Postcode",
+                                                    "type": "string",
+                                                    "minLength": 1
+                                                  }
+                                                },
+                                                "lpe1Required": [
+                                                  "line1",
+                                                  "postcode"
+                                                ]
+                                              },
+                                              "telephone": {
+                                                "title": "Telephone",
+                                                "type": "string",
+                                                "minLength": 1
+                                              },
+                                              "emailAddress": {
+                                                "title": "Email address",
+                                                "type": "string",
+                                                "format": "email"
+                                              }
+                                            },
+                                            "lpe1Required": [
+                                              "nameOrOrganisation",
+                                              "line1",
+                                              "postcode",
+                                              "telephone",
+                                              "emailAddress"
+                                            ]
+                                          }
+                                        },
+                                        "lpe1Required": ["lesseeInCharge"]
+                                      }
+                                    ]
                                   }
-                                ]
+                                }
                               }
                             }
                           },
@@ -5482,6 +5493,7 @@
                                 "ta7Required": ["buildingManagerType"],
                                 "properties": {
                                   "buildingManagerType": {
+                                    "ta7Ref": "2.3.1",
                                     "title": "",
                                     "type": "string",
                                     "enum": [
@@ -6310,78 +6322,6 @@
                                         "lpe1Required": ["details"]
                                       }
                                     ]
-                                  },
-                                  "deedOfCertificateServed": {
-                                    "lpe1Ref": "4.14",
-                                    "ta7Ref": "11.3",
-                                    "title": "Has a Leaseholder Deed of Certificate been served on the Landlord in relation to the property or remedial works required to the property?",
-                                    "ta7Title": "Is there a Leaseholder Deed of Certificate for the property?",
-                                    "type": "object",
-                                    "properties": {
-                                      "yesNoNotApplicable": {
-                                        "ta7Ref": "11.3.1",
-                                        "type": "string",
-                                        "title": "",
-                                        "enum": ["Yes", "No", "Not applicable"]
-                                      }
-                                    },
-                                    "discriminator": {
-                                      "propertyName": "yesNoNotApplicable"
-                                    },
-                                    "oneOf": [
-                                      {
-                                        "properties": {
-                                          "yesNoNotApplicable": {
-                                            "enum": ["Not applicable"]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "yesNoNotApplicable": {
-                                            "enum": ["No"]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "yesNoNotApplicable": {
-                                            "enum": ["Yes"]
-                                          },
-                                          "sellerCompletedDeedOfCertificate": {
-                                            "ta7Ref": "11.3a",
-                                            "title": "Did the seller (the current leaseholder) complete the deed of certificate or was it completed by a previous leaseholder?",
-                                            "type": "string",
-                                            "enum": [
-                                              "Current leaseholder",
-                                              "Previous leaseholder"
-                                            ]
-                                          }
-                                        },
-                                        "lpe1Required": [
-                                          "sellerCompletedDeedOfCertificate"
-                                        ]
-                                      }
-                                    ],
-                                    "lpe1Required": ["yesNoNotApplicable"],
-                                    "ta7Required": ["yesNoNotApplicable"]
-                                  },
-                                  "landlordsCertificateServed": {
-                                    "lpe1Ref": "4.14",
-                                    "title": "Has a Landlord's Certificate been served?",
-                                    "type": "object",
-                                    "properties": {
-                                      "yesNoNotApplicable": {
-                                        "type": "string",
-                                        "title": "",
-                                        "enum": [
-                                          "Yes",
-                                          "No Certificate Served",
-                                          "Not applicable"
-                                        ]
-                                      }
-                                    },
-                                    "lpe1Required": ["yesNoNotApplicable"]
                                   }
                                 },
                                 "lpe1Required": [
@@ -6404,10 +6344,7 @@
                                   "increaseInServiceChargeAnticipated",
                                   "outstandingServiceChargeConsultation",
                                   "japaneseKnotweedAffectingManagedAreas",
-                                  "transferFees",
-                                  "allPropertiesContribute",
-                                  "deedOfCertificateServed",
-                                  "landlordsCertificateServed"
+                                  "transferFees"
                                 ],
                                 "ta7Required": [
                                   "annualServiceCharge",
@@ -6417,8 +6354,7 @@
                                   "dangerousCladdingOrDefects",
                                   "difficultyInCollectingServiceCharge",
                                   "serviceChargeOwed",
-                                  "lastDecoratedPeriod",
-                                  "deedOfCertificateServed"
+                                  "lastDecoratedPeriod"
                                 ],
                                 "baspiRequired": [
                                   "annualServiceCharge",
@@ -7118,6 +7054,139 @@
                               }
                             }
                           },
+                          "buildingSafety": {
+                            "ta7Ref": "11",
+                            "title": "Building safety",
+                            "type": "object",
+                            "ta7Required": [
+                              "isLeaseQualifying",
+                              "landlordNotifiedOfSale",
+                              "deedOfCertificateServed",
+                              "landlordsCertificateServed"
+                            ],
+                            "properties": {
+                              "isLeaseQualifying": {
+                                "ta7Ref": "11.2",
+                                "title": "Is the lease of the property a qualifying lease?",
+                                "type": "string",
+                                "enum": ["Yes", "No"]
+                              },
+                              "deedOfCertificateServed": {
+                                "lpe1Ref": "4.14",
+                                "ta7Ref": "11.3",
+                                "title": "Has a Leaseholder Deed of Certificate been served on the Landlord in relation to the property or remedial works required to the property?",
+                                "ta7Title": "Is there a Leaseholder Deed of Certificate for the property?",
+                                "type": "object",
+                                "properties": {
+                                  "yesNoNotApplicable": {
+                                    "ta7Ref": "11.3.1",
+                                    "lpe1Ref": "4.14",
+                                    "type": "string",
+                                    "title": "",
+                                    "enum": ["Yes", "No", "Not applicable"]
+                                  }
+                                },
+                                "discriminator": {
+                                  "propertyName": "yesNoNotApplicable"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "enum": ["Not applicable", "No"]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "enum": ["Yes"]
+                                      },
+                                      "sellerCompletedDeedOfCertificate": {
+                                        "ta7Ref": "11.3a",
+                                        "title": "Did the seller (the current leaseholder) complete the deed of certificate or was it completed by a previous leaseholder?",
+                                        "type": "string",
+                                        "enum": [
+                                          "Current leaseholder",
+                                          "Previous leaseholder"
+                                        ]
+                                      },
+                                      "attachments": {
+                                        "lpe1Ref": "8.19",
+                                        "ta7Ref": "11.3b",
+                                        "title": "Leaseholder Deed of Certificate.",
+                                        "ta7Title": "Please supply a copy of the leaseholder deed of certificate and the accompanying evidence",
+                                        "type": "string",
+                                        "enum": ["Enclosed", "To follow"]
+                                      }
+                                    },
+                                    "lpe1Required": [
+                                      "sellerCompletedDeedOfCertificate",
+                                      "attachments"
+                                    ],
+                                    "ta7Required": [
+                                      "sellerCompletedDeedOfCertificate",
+                                      "attachments"
+                                    ]
+                                  }
+                                ],
+                                "lpe1Required": ["yesNoNotApplicable"],
+                                "ta7Required": ["yesNoNotApplicable"]
+                              },
+                              "landlordNotifiedOfSale": {
+                                "ta7Ref": "11.4",
+                                "title": "Has the freeholder / landlord been notified of the intention to sell?",
+                                "type": "string",
+                                "enum": ["Yes", "No"]
+                              },
+                              "landlordsCertificateServed": {
+                                "lpe1Ref": "4.14",
+                                "ta7Ref": "11.5",
+                                "title": "Has a Landlord's Certificate been served?",
+                                "ta7Title": "Has the seller received a Landlord’s Certificate and the accompanying evidence?",
+                                "type": "object",
+                                "lpe1Required": ["yesNoNotApplicable"],
+                                "ta7Required": ["yesNoNotApplicable"],
+                                "properties": {
+                                  "yesNoNotApplicable": {
+                                    "ta7Ref": "11.5.2",
+                                    "type": "string",
+                                    "title": "",
+                                    "enum": ["Yes", "No", "Not applicable"]
+                                  }
+                                },
+                                "discriminator": {
+                                  "propertyName": "yesNoNotApplicable"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "enum": ["Not applicable", "No"]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "enum": ["Yes"]
+                                      },
+                                      "attachments": {
+                                        "lpe1Ref": "8.20",
+                                        "ta7Ref": "11.5.2",
+                                        "title": "Landlord's Certificate.",
+                                        "ta7Title": "Please supply a copy and the accompanying evidence.",
+                                        "type": "string",
+                                        "enum": ["Enclosed", "To follow"]
+                                      }
+                                    },
+                                    "lpe1Required": ["attachments"],
+                                    "ta7Required": ["attachments"]
+                                  }
+                                ]
+                              }
+                            }
+                          },
                           "general": {
                             "lpe1Ref": "7",
                             "title": "General",
@@ -7128,7 +7197,6 @@
                               "sellerServedNoticeOnLandlord",
                               "sellerAwareOfNoticeOfCollectivePurchase",
                               "sellerAwareOfResponse",
-                              "isLeaseQualifying",
                               "otherPropertiesInManagedArea",
                               "leasedOnSimilarTerms",
                               "buildingKnownToBeHMO",
@@ -7140,8 +7208,7 @@
                               "sellerOwnedProperty",
                               "sellerServedNoticeOnLandlord",
                               "sellerAwareOfNoticeOfCollectivePurchase",
-                              "sellerAwareOfResponse",
-                              "isLeaseQualifying"
+                              "sellerAwareOfResponse"
                             ],
                             "properties": {
                               "sellerAwareOfAlterations": {
@@ -7235,7 +7302,7 @@
                               },
                               "sellerAwareOfResponse": {
                                 "ta7Ref": "10.4",
-                                "title": "Is the seller aware of any response to a notice disclosed in replies to 10.2 and 10.3 above? If Yes, please supply a copy",
+                                "title": "Is the seller aware of any response to a notice disclosed in replies above? If Yes, please supply a copy",
                                 "type": "string",
                                 "enum": [
                                   "Yes",
@@ -7245,12 +7312,6 @@
                                   "Attached",
                                   "To follow"
                                 ]
-                              },
-                              "isLeaseQualifying": {
-                                "ta7Ref": "11.2",
-                                "title": "Is the lease of the property a qualifying lease?",
-                                "type": "string",
-                                "enum": ["Yes", "No"]
                               },
                               "otherPropertiesInManagedArea": {
                                 "lpe1Ref": "7.1",
@@ -7417,8 +7478,8 @@
                           },
                           "requiredDocuments": {
                             "lpe1Ref": "8",
-                            "title": "Required Documents",
-                            "description": "Please provide the following applicable documents:",
+                            "title": "Required documents",
+                            "ta7Title": "Relevant documents",
                             "type": "object",
                             "lpe1Required": [
                               "noticeOfSale",
@@ -7441,16 +7502,14 @@
                               "noticesServedOnLessee",
                               "asbestosSurvey",
                               "managedAreaFireRiskAssessment",
-                              "memorandumAndArticles",
+                              "managementCompanyDocuments",
                               "managementCompanyAGMMinutes",
-                              "deedOfCertificate",
-                              "landlordsCertificate",
                               "enforcementNotices"
                             ],
                             "ta7Required": [
+                              "lease",
                               "noticeOfSale",
                               "noticeOfBuildingCondition",
-                              "landlordNotifiedOfSale",
                               "copyOfcorrespondence",
                               "serviceChargeAccounts",
                               "groundRent",
@@ -7458,42 +7517,33 @@
                               "additionalRegulationsNotInLease",
                               "deedsOfVariation",
                               "deedOfCovenant",
-                              "memorandumAndArticles",
-                              "shareOrMembershipCertificate",
-                              "companyAccounts",
-                              "deedOfCertificate",
-                              "landlordsCertificate"
+                              "managementCompanyDocuments"
                             ],
                             "properties": {
-                              "noticeOfSale": {
-                                "ta7Ref": "6.1",
-                                "title": "Has the seller received a notice that the landlord wants to sell the building? If Yes, please supply a copy.",
+                              "lease": {
+                                "ta7Ref": "3.1a1",
+                                "title": "Please supply a copy of the lease.",
+                                "type": "string",
+                                "enum": ["Enclosed", "To follow"]
+                              },
+                              "deedsOfVariation": {
+                                "lpe1Ref": "8.9",
+                                "ta7Ref": "3.1a2",
+                                "title": "Any Deeds of Variation or other document varying the terms of the lease of this Property.",
+                                "ta7Title": "Any supplemental deeds.",
                                 "type": "string",
                                 "enum": [
-                                  "Yes",
-                                  "No",
-                                  "Attached",
+                                  "Enclosed",
                                   "To follow",
-                                  "Lost"
-                                ]
-                              },
-                              "noticeOfBuildingCondition": {
-                                "ta7Ref": "6.2",
-                                "title": "Has the seller received any other notice about the building, its use, its condition or its repair and maintenance? If Yes, please supply a copy.",
-                                "type": "string",
-                                "enum": [
-                                  "Yes",
-                                  "No",
-                                  "Attached",
+                                  "Landlord's lawyer provides",
+                                  "Please supply draft",
+                                  "Not applicable"
+                                ],
+                                "ta7Enum": [
+                                  "Enclosed",
                                   "To follow",
-                                  "Lost"
+                                  "Not applicable"
                                 ]
-                              },
-                              "landlordNotifiedOfSale": {
-                                "ta7Ref": "11.4",
-                                "title": "Has the freeholder / landlord been notified of the intention to sell?",
-                                "type": "string",
-                                "enum": ["Yes", "No"]
                               },
                               "copyOfcorrespondence": {
                                 "ta7Ref": "3.2",
@@ -7532,15 +7582,47 @@
                                     "ta7Ref": "3.4a",
                                     "title": "Arranged by the seller and a receipt for payment of the last premium",
                                     "type": "string",
-                                    "enum": ["Attached", "To follow"]
+                                    "enum": [
+                                      "Attached",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   },
                                   "arrangedByLandlord": {
                                     "ta7Ref": "3.4b",
                                     "title": "Arranged by the landlord or management company and the schedule for the current year",
                                     "type": "string",
-                                    "enum": ["Attached", "To follow"]
+                                    "enum": [
+                                      "Attached",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
                                   }
                                 }
+                              },
+                              "noticeOfSale": {
+                                "ta7Ref": "6.1",
+                                "title": "Has the seller received a notice that the landlord wants to sell the building? If Yes, please supply a copy.",
+                                "type": "string",
+                                "enum": [
+                                  "Yes",
+                                  "No",
+                                  "Attached",
+                                  "To follow",
+                                  "Lost"
+                                ]
+                              },
+                              "noticeOfBuildingCondition": {
+                                "ta7Ref": "6.2",
+                                "title": "Has the seller received any other notice about the building, its use, its condition or its repair and maintenance? If Yes, please supply a copy.",
+                                "type": "string",
+                                "enum": [
+                                  "Yes",
+                                  "No",
+                                  "Attached",
+                                  "To follow",
+                                  "Lost"
+                                ]
                               },
                               "managedAreasBuildingsInsurancePolicy": {
                                 "lpe1Ref": "8.3",
@@ -7603,22 +7685,8 @@
                                   "Not applicable"
                                 ]
                               },
-                              "deedsOfVariation": {
-                                "lpe1Ref": "8.9",
-                                "ta7Ref": "3.1a",
-                                "title": "Any Deeds of Variation or other document varying the terms of the lease of this Property.",
-                                "type": "string",
-                                "enum": [
-                                  "Enclosed",
-                                  "To follow",
-                                  "Landlord's lawyer provides",
-                                  "Please supply draft",
-                                  "Not applicable"
-                                ]
-                              },
                               "deedOfCovenant": {
                                 "lpe1Ref": "8.10",
-                                "ta7Ref": "3.1a",
                                 "title": "Any required Deed of Covenant.",
                                 "type": "string",
                                 "enum": [
@@ -7694,65 +7762,50 @@
                                   "Not applicable"
                                 ]
                               },
-                              "memorandumAndArticles": {
+                              "managementCompanyDocuments": {
+                                "ta7Ref": "3.5",
                                 "lpe1Ref": "8.17",
-                                "ta7Ref": "3.5a",
-                                "title": "Memorandum and Articles of Association of the Management Company.",
-                                "type": "string",
-                                "enum": [
-                                  "Enclosed",
-                                  "To follow",
-                                  "Not applicable"
-                                ]
-                              },
-                              "shareOrMembershipCertificate": {
-                                "ta7Ref": "3.5b",
-                                "title": "Share or membership certificate",
-                                "type": "string",
-                                "enum": ["Attached", "To follow"]
-                              },
-                              "companyAccounts": {
-                                "ta7Ref": "3.5c",
-                                "title": "Company accounts for the past three years",
-                                "type": "string",
-                                "enum": ["Attached", "To follow"]
+                                "title": "If a landlord is a company controlled by the tenants and/or if a tenants’ management company or Right to Manage company is managing the building, please supply a copy of:",
+                                "type": "object",
+                                "properties": {
+                                  "memorandumAndArticles": {
+                                    "lpe1Ref": "8.17.1",
+                                    "ta7Ref": "3.5a",
+                                    "title": "Memorandum and Articles of Association of the Management Company.",
+                                    "type": "string",
+                                    "enum": [
+                                      "Enclosed",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
+                                  },
+                                  "shareOrMembershipCertificate": {
+                                    "ta7Ref": "3.5b",
+                                    "title": "Share or membership certificate",
+                                    "type": "string",
+                                    "enum": [
+                                      "Attached",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
+                                  },
+                                  "companyAccounts": {
+                                    "ta7Ref": "3.5c",
+                                    "title": "Company accounts for the past three years",
+                                    "type": "string",
+                                    "enum": [
+                                      "Attached",
+                                      "To follow",
+                                      "Not applicable"
+                                    ]
+                                  }
+                                }
                               },
                               "managementCompanyAGMMinutes": {
                                 "lpe1Ref": "8.18",
                                 "title": "Minutes from the last AGM for the Management Company.",
                                 "type": "string",
                                 "enum": [
-                                  "Enclosed",
-                                  "To follow",
-                                  "Not applicable"
-                                ]
-                              },
-                              "deedOfCertificate": {
-                                "lpe1Ref": "8.19",
-                                "ta7Ref": "11.3b",
-                                "title": "Leaseholder Deed of Certificate.",
-                                "ta7Title": "Please supply a copy of the leaseholder deed of certificate and the accompanying evidence",
-                                "type": "string",
-                                "enum": [
-                                  "Enclosed",
-                                  "To follow",
-                                  "Not applicable"
-                                ]
-                              },
-                              "landlordsCertificate": {
-                                "lpe1Ref": "8.20",
-                                "ta7Ref": "11.5",
-                                "title": "Landlord's Certificate.",
-                                "ta7Title": "Has the seller received a Landlord’s Certificate and the accompanying evidence?",
-                                "type": "string",
-                                "enum": [
-                                  "Enclosed",
-                                  "To follow",
-                                  "No",
-                                  "Not applicable"
-                                ],
-                                "ta7Enum": ["Enclosed", "To follow", "No"],
-                                "lpe1Enum": [
                                   "Enclosed",
                                   "To follow",
                                   "Not applicable"
@@ -8928,7 +8981,9 @@
               "ta6Ref": "2.1",
               "piqRef": "A2.1",
               "title": "Have any disputes or complaints occurred, regarding this property, a property nearby, or their use?",
+              "ta6Title": "Have there been any disputes or complaints regarding this property or a property nearby?",
               "description": "E.g boundary disagreement, noise, trespass etc",
+              "ta6Description": "",
               "type": "object",
               "properties": {
                 "yesNo": {
@@ -9153,6 +9208,7 @@
                       "properties": {
                         "yesNo": {
                           "baspiRef": "A3.5.2.1",
+                          "ta6Ref": "4.2.1",
                           "type": "string",
                           "title": "",
                           "enum": ["Yes", "No", "Not required"]
@@ -10345,6 +10401,7 @@
               "rdsRef": "Property/Flags,Planning",
               "piqRef": "A4.1",
               "title": "The owner of a neighbouring property is proposing to develop property or land nearby, make alterations to nearby buildings or change the use?",
+              "ta6Title": "Is the seller aware of any proposals to develop property or land nearby, or of any proposals to make alterations to buildings nearby?",
               "type": "object",
               "properties": {
                 "yesNo": {
@@ -10842,6 +10899,7 @@
               "ta6Ref": "7.8",
               "piqRef": "A5.3",
               "title": "To your knowledge, is the property or neighbouring land, affected by Japanese knotweed or other invasive species?",
+              "ta6Title": "Is the property affected by Japanese knotweed?",
               "type": "object",
               "properties": {
                 "yesNo": {
@@ -10850,7 +10908,8 @@
                   "piqRef": "A5.3.1",
                   "type": "string",
                   "title": "",
-                  "enum": ["Yes", "No", "Not known"]
+                  "enum": ["Yes", "No", "Not known"],
+                  "baspiEnum": ["Yes", "No"]
                 }
               },
               "baspiRequired": ["yesNo"],
@@ -10880,13 +10939,13 @@
                     "attachments": {
                       "baspiRef": "A5.3.3",
                       "ta6Ref": "7.8.3",
-                      "title": "Please supply a copy with any insurance cover linked to the plan",
+                      "title": "Please supply a copy with any insurance cover linked to the plan.",
                       "type": "string",
                       "enum": ["Attached", "To follow"]
                     }
                   },
                   "baspiRequired": ["managementPlanInPlace"],
-                  "ta6Required": ["managementPlanInPlace"]
+                  "ta6Required": ["managementPlanInPlace", "attachments"]
                 }
               ],
               "ta6Required": ["yesNo"]
@@ -18535,7 +18594,8 @@
                           "ta6Ref": "13.3.2",
                           "piqRef": "A7.1.8",
                           "title": "Supplier",
-                          "type": "string"
+                          "type": "string",
+                          "minLength": 1
                         },
                         "details": {
                           "con29DWRef": "3.1.2",
@@ -18549,6 +18609,7 @@
                           "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
                           "title": "Location of stopcock",
                           "type": "object",
+                          "required": ["location"],
                           "properties": {
                             "location": {
                               "baspiRef": "4.6.1.1",
@@ -18569,7 +18630,7 @@
                           "type": "object",
                           "ntsRef": "B3.2.1.1",
                           "baspiRef": "A7.",
-                          "ta6Ref": "13.3b2",
+                          "ta6Ref": "13.3b1",
                           "ntsRequired": ["isSupplyMetered"],
                           "baspiRequired": ["isSupplyMetered"],
                           "ta6Required": ["isSupplyMetered"],
@@ -18602,7 +18663,7 @@
                                 },
                                 "location": {
                                   "baspiRef": "4.6.2.1",
-                                  "ta6Ref": "13.3b2.1",
+                                  "ta6Ref": "13.3b3",
                                   "con29DWRef": "3.6",
                                   "title": "Describe the location of the meter",
                                   "type": "string",
@@ -18908,9 +18969,17 @@
                           "title": "Details",
                           "type": "string",
                           "minLength": 1
+                        },
+                        "supplier": {
+                          "ta6Ref": "13.4a",
+                          "baspiRef": "A7.1.0.11.2",
+                          "title": "Supplier",
+                          "type": "string",
+                          "minLength": 1
                         }
                       },
-                      "con29DWRequired": ["details"]
+                      "con29DWRequired": ["details"],
+                      "ta6Required": ["supplier"]
                     },
                     {
                       "properties": {
@@ -19031,6 +19100,7 @@
                               "ta6Ref": "12.10",
                               "piqRef": "A7.1.30",
                               "title": "Is any part of the septic tank, cesspit or sewerage treatment plant located on someone else’s land?",
+                              "ta6Title": "Is any part of the septic tank, sewage treatment plant (including any soakaway or outfall) or cesspool, or the access to it, outside the boundary of the property?",
                               "type": "object",
                               "properties": {
                                 "yesNo": {
@@ -19822,19 +19892,20 @@
                                 },
                                 "supplier": {
                                   "baspiRef": "A7.1.0",
-                                  "title": "Supplier (if known)",
+                                  "ta6Ref": "13.2b",
+                                  "title": "Supplier",
                                   "type": "string"
                                 },
                                 "gasMeter": {
                                   "baspiRef": "B4.5",
-                                  "ta6Ref": "13.2b",
+                                  "ta6Ref": "13.2c",
                                   "rdsRef": "Objects/class='meters'&access=?&accessLocation=?",
-                                  "title": "Location of gas meter (if any)",
+                                  "title": "Location of gas meter",
                                   "type": "object",
                                   "properties": {
                                     "location": {
                                       "baspiRef": "4.5.1",
-                                      "ta6Ref": "13.2b1",
+                                      "ta6Ref": "13.2c1",
                                       "title": "Describe the location of the meter",
                                       "type": "string",
                                       "minLength": 1
@@ -20083,7 +20154,8 @@
                   "type": "string",
                   "title": "",
                   "enum": ["Yes", "To be connected", "No"],
-                  "ntsEnum": ["Yes", "No"]
+                  "ntsEnum": ["Yes", "No"],
+                  "ta6Enum": ["Yes", "No"]
                 }
               },
               "baspiRequired": ["yesNo"],
@@ -20151,7 +20223,8 @@
                   "type": "string",
                   "title": "",
                   "enum": ["Yes", "To be connected", "No"],
-                  "ntsEnum": ["Yes", "No"]
+                  "ntsEnum": ["Yes", "No"],
+                  "ta6Enum": ["Yes", "No"]
                 }
               },
               "baspiRequired": ["yesNo"],
@@ -20423,6 +20496,7 @@
               "ta6Ref": "6.1",
               "piqRef": "A8.2",
               "title": "Do you insure the property?",
+              "ta6Title": "Does the seller insure the property?",
               "type": "string",
               "enum": ["Yes", "No"]
             }
@@ -20465,6 +20539,7 @@
                   "ta6Ref": "6.4",
                   "piqRef": "A8.1",
                   "title": "Have you had any difficulty obtaining competitively priced building insurance due to the structure or location of the property or had insurance refused?",
+                  "ta6Title": "Has any buildings insurance taken out by the seller ever been:",
                   "type": "object",
                   "baspiRequired": [
                     "abnormalRiseInPremiums",
@@ -20678,6 +20753,7 @@
                   "rdsRef": "Insurance/Claims",
                   "ta6Ref": "6.5",
                   "title": "Have you ever made a claim against your building insurance in relation to the property?",
+                  "Title": "Has the seller made any buildings insurance claims?",
                   "type": "object",
                   "properties": {
                     "yesNo": {
@@ -21043,7 +21119,7 @@
                   "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
                   "ta6Ref": "8.4a",
                   "piqRef": "A10.5b",
-                  "title": "Rights of support from ajoining properties",
+                  "title": "Rights of support from adjoining properties",
                   "type": "object",
                   "properties": {
                     "yesNo": {
@@ -23436,6 +23512,7 @@
                       "baspiRef": "B2.1.0.2",
                       "ta6Ref": "1.1",
                       "title": "Please indicate who has repaired, or treated as belonging to them, each of the boundaries. Identify each boundary as if you were looking at the property from the road.",
+                      "ta6title": "Looking towards the property from the road, who owns or accepts responsibility to maintain or repair the boundary features:",
                       "type": "object",
                       "properties": {
                         "left": {
@@ -23518,6 +23595,7 @@
               "ta6Ref": "1.3",
               "piqRef": "B3.3",
               "title": "Has any boundary features been moved during your ownership or in the last 10 years, to your knowledge?",
+              "ta6Title": "Is the seller aware of any boundary feature having been moved in the last 10 years or during the seller’s period of ownership if longer?",
               "type": "object",
               "properties": {
                 "yesNo": {
@@ -23566,6 +23644,7 @@
               "rdsRef": "Property/Flags,Property/GUID/name='UPRN'&id=?",
               "ta6Ref": "1.4",
               "title": "Has any adjacent land or property been purchased by you that will be included in the sale?",
+              "ta6Title": "During the seller’s ownership, has any adjacent land or property been purchased by the seller?",
               "type": "object",
               "properties": {
                 "yesNo": {
@@ -23613,7 +23692,9 @@
               "rdsRef": "Tenure/tenure=?",
               "ta6Ref": "1.5",
               "title": "Is there a flying freehold?",
+              "ta6Title": "Does any part of the property or any building on the property overhang, or project under, the boundary of the neighbouring property or road, for example cellars under the pavement, overhanging eaves or covered walkways?",
               "description": "NOTE: a flying freehold is when part of the property overhangs a neighbour's property or an accessway - e.g. a terrace house where part of the upstairs is over an accessway which belongs to someone else.",
+              "ta6Description": "",
               "type": "object",
               "properties": {
                 "yesNo": {
@@ -23679,6 +23760,7 @@
               "ta6Ref": "8.7",
               "piqRef": "B4.1",
               "title": "Are you aware of any pipes, wires, cables or drains bringing services to the property which cross any neighbouring land or property?",
+              "ta6Title": "Do any drains, pipes or wires serving the property cross any neighbour’s property?",
               "type": "object",
               "properties": {
                 "yesNo": {
@@ -23711,6 +23793,7 @@
                     "details": {
                       "baspiRef": "B3.1.2",
                       "piqRef": "B4.1.2",
+                      "ta6Ref": "8.7.2",
                       "title": "Please provide details",
                       "type": "string",
                       "minLength": 1
@@ -23722,7 +23805,8 @@
                       "enum": ["Attached", "To follow"]
                     }
                   },
-                  "baspiRequired": ["details"]
+                  "baspiRequired": ["details"],
+                  "ta6Required": ["details"]
                 }
               ]
             },
@@ -23732,6 +23816,7 @@
               "ta6Ref": "8.8",
               "piqRef": "B4.2",
               "title": "Are you aware of any pipes, wires, cables or drains taking services to neighbouring property cross this property?",
+              "ta6Ttle": "Do any drains, pipes or wires leading to any neighbour’s property cross the property?",
               "type": "object",
               "properties": {
                 "yesNo": {
@@ -23763,6 +23848,7 @@
                     },
                     "details": {
                       "baspiRef": "B3.2.2",
+                      "ta6Ref": "8.8.2",
                       "piqRef": "B4.2.2",
                       "title": "Please provide details",
                       "type": "string",
@@ -23775,7 +23861,8 @@
                       "enum": ["Attached", "To follow"]
                     }
                   },
-                  "baspiRequired": ["details"]
+                  "baspiRequired": ["details"],
+                  "ta6Required": ["details"]
                 }
               ]
             },
@@ -23785,6 +23872,7 @@
               "ta6Ref": "8.9",
               "piqRef": "B4.3",
               "title": "Are you aware of any formal or informal agreements or arrangements for pipes, wires cables or drains to cross either your property or neighbouring property?",
+              "ta6Title": "Is there any agreement or arrangement about drains, pipes or wires?",
               "type": "object",
               "properties": {
                 "yesNo": {
@@ -23825,7 +23913,7 @@
                     "attachments": {
                       "baspiRef": "B3.3.3",
                       "ta6Ref": "8.9.3",
-                      "title": "Attachments",
+                      "title": "Please supply a copy",
                       "type": "string",
                       "enum": ["Attached", "To follow"]
                     }
@@ -23920,7 +24008,8 @@
                   "piqRef": "B7.2.1",
                   "type": "string",
                   "title": "",
-                  "enum": ["Yes", "No", "Not known"]
+                  "enum": ["Yes", "No", "Not known"],
+                  "baspiEnum": ["Yes", "No"]
                 }
               },
               "baspiRequired": ["yesNo"],
@@ -23953,29 +24042,40 @@
                       "type": "string",
                       "minLength": 1
                     },
-                    "electricalSafetyCertificate": {
+                    "suppliedCertificate": {
+                      "title": "Please supply one of the following:",
+                      "type": "object",
                       "baspiRef": "B4.2.4.1",
                       "ta6Ref": "12.2.2a",
-                      "title": "Please provide a signed Electrical Safety Certificate (BS7671)",
-                      "type": "string",
-                      "enum": ["Attached", "To follow"]
-                    },
-                    "buildingRegulationsComplianceCertificate": {
-                      "baspiRef": "B4.2.4.2",
-                      "ta6Ref": "12.2.2b",
-                      "title": "or a Building Regulations Compliance Certificate (or equivalent)",
-                      "type": "string",
-                      "enum": ["Attached", "To follow"]
-                    },
-                    "buildingControlCompletionCertificate": {
-                      "baspiRef": "B4.2.4.3",
-                      "ta6Ref": "12.2.2c",
-                      "title": "or a Building Control Completion Certificate",
-                      "type": "string",
-                      "enum": ["Attached", "To follow"]
+                      "baspiRequired": ["certificateType", "attachments"],
+                      "ta6Required": ["certificateType", "attachments"],
+                      "properties": {
+                        "certificateType": {
+                          "baspiRef": "B4.2.3.1",
+                          "ta6Ref": "12.2.2a.1",
+                          "type": "string",
+                          "enum": [
+                            "Electrical Safety Certificate (BS7671)",
+                            "Building Regulations Compliance Certificate",
+                            "Building Control Completion Certificate"
+                          ]
+                        },
+                        "attachments": {
+                          "baspiRef": "B4.2.3.2",
+                          "ta6Ref": "12.2.2a.2",
+                          "title": "Attachments",
+                          "type": "string",
+                          "enum": ["Attached", "To follow"]
+                        }
+                      }
                     }
                   },
-                  "baspiRequired": ["yearWorkCarriedOut", "details"]
+                  "baspiRequired": [
+                    "yearWorkCarriedOut",
+                    "details",
+                    "suppliedCertificate"
+                  ],
+                  "ta6Required": ["suppliedCertificate"]
                 }
               ]
             }
@@ -24668,6 +24768,7 @@
                   "ta6Ref": "5.2",
                   "piqRef": "B5.2",
                   "title": "Are there any outstanding claims or current applications relating to any of the above?",
+                  "ta6Title": "Have any claims been made under any of these guarantees or warranties?",
                   "type": "object",
                   "properties": {
                     "yesNo": {
