@@ -3399,11 +3399,12 @@
                           "ownershipAndManagement",
                           "serviceCharge",
                           "buildingsInsurance",
-                          "disputesAndEnfranchisement",
-                          "buildingSafety",
+                          "disputes",
+                          "enfranchisement",
+                          "buildingSafetyAct",
                           "general",
                           "requiredDocuments",
-                          "confirmation"
+                          "confirmationOfAccuracy"
                         ],
                         "baspiRequired": [
                           "sharedOwnership",
@@ -3423,14 +3424,17 @@
                           "sharedOwnership",
                           "leaseTerm",
                           "contactDetails",
-                          "transferAndRegistration",
-                          "serviceCharge",
+                          "consents",
                           "groundRent",
                           "ownershipAndManagement",
-                          "disputesAndEnfranchisement",
+                          "serviceCharge",
+                          "disputes",
+                          "buildingSafetyAct",
+                          "enfranchisement",
                           "buildingSafety",
                           "general",
-                          "requiredDocuments"
+                          "requiredDocuments",
+                          "confirmationOfAccuracy"
                         ],
                         "properties": {
                           "sharedOwnership": {
@@ -3560,11 +3564,6 @@
                                 "title": "Contacts",
                                 "description": "Complete the details for the relevant parties",
                                 "baspiRequired": ["landlord", "managingAgent"],
-                                "ta7Required": [
-                                  "landlord",
-                                  "managementCompany",
-                                  "managingAgent"
-                                ],
                                 "properties": {
                                   "landlord": {
                                     "baspiRef": "A1.5.4",
@@ -3602,6 +3601,7 @@
                                           },
                                           "address": {
                                             "baspiRef": "A1.5.4.1.2",
+                                            "ta7Ref": "4.1a.2",
                                             "title": "Address",
                                             "type": "object",
                                             "properties": {
@@ -3800,6 +3800,7 @@
                                   },
                                   "managementCompany": {
                                     "lpe1Ref": "1.2",
+                                    "ta7Ref": "4.1b",
                                     "title": "Management Company",
                                     "type": "object",
                                     "properties": {
@@ -4984,6 +4985,71 @@
                               }
                             }
                           },
+                          "consents": {
+                            "ta7Ref": "7",
+                            "title": "Consents",
+                            "type": "object",
+                            "ta7Required": ["changesInTermOfLease"],
+                            "properties": {
+                              "changesInTermOfLease": {
+                                "ta7Ref": "7.1",
+                                "title": "Is the seller aware of any changes in the terms of the lease or of the landlord giving any consents under the lease?",
+                                "type": "object",
+                                "lpe1Required": ["isSellerAwareOfChanges"],
+                                "ta7Required": ["isSellerAwareOfChanges"],
+                                "properties": {
+                                  "isSellerAwareOfChanges": {
+                                    "ta7Ref": "7.1.1",
+                                    "title": "",
+                                    "type": "string",
+                                    "enum": [
+                                      "Yes",
+                                      "No",
+                                      "Attached",
+                                      "To follow",
+                                      "Lost"
+                                    ]
+                                  }
+                                },
+                                "discriminator": {
+                                  "propertyName": "isSellerAwareOfChanges"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "isSellerAwareOfChanges": {
+                                        "enum": [
+                                          "No",
+                                          "Attached",
+                                          "To follow",
+                                          "Lost"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "isSellerAwareOfChanges": {
+                                        "enum": ["Yes"]
+                                      },
+                                      "details": {
+                                        "ta7Ref": "7.1.2",
+                                        "title": "Please supply a copy or, if not in writing, please give details:",
+                                        "type": "string",
+                                        "minLength": 1
+                                      },
+                                      "attachments": {
+                                        "ta7Ref": "7.1.3",
+                                        "type": "string",
+                                        "enum": ["Attached", "To follow"]
+                                      }
+                                    },
+                                    "lpe1Required": ["details"]
+                                  }
+                                ]
+                              }
+                            }
+                          },
                           "transferAndRegistration": {
                             "lpe1Ref": "2",
                             "baspiRef": "A1.5.6",
@@ -4998,10 +5064,6 @@
                             ],
                             "baspiRequired": [
                               "requirementsToBeMemberOfManagementCompany"
-                            ],
-                            "ta7Required": [
-                              "awareOfConsents",
-                              "changesInTermOfLease"
                             ],
                             "properties": {
                               "deedOfCovenantRequired": {
@@ -5095,13 +5157,11 @@
                                 "type": "object",
                                 "properties": {
                                   "yesNo": {
-                                    "ta7Ref": "9.3.1",
                                     "type": "string",
                                     "enum": ["Yes", "No"]
                                   }
                                 },
                                 "lpe1Required": ["yesNo"],
-                                "ta7Required": ["yesNo"],
                                 "discriminator": {
                                   "propertyName": "yesNo"
                                 },
@@ -5129,57 +5189,7 @@
                                   }
                                 ]
                               },
-                              "changesInTermOfLease": {
-                                "ta7Ref": "7.1",
-                                "title": "Is the seller aware of any changes in the terms of the lease or of the landlord giving any consents under the lease?",
-                                "type": "object",
-                                "lpe1Required": ["isSellerAwareOfChanges"],
-                                "ta7Required": ["isSellerAwareOfChanges"],
-                                "properties": {
-                                  "isSellerAwareOfChanges": {
-                                    "title": "",
-                                    "type": "string",
-                                    "enum": [
-                                      "Yes",
-                                      "No",
-                                      "Attached",
-                                      "To follow",
-                                      "Lost"
-                                    ]
-                                  }
-                                },
-                                "discriminator": {
-                                  "propertyName": "isSellerAwareOfChanges"
-                                },
-                                "oneOf": [
-                                  {
-                                    "properties": {
-                                      "isSellerAwareOfChanges": {
-                                        "enum": [
-                                          "No",
-                                          "Attached",
-                                          "To follow",
-                                          "Lost"
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "properties": {
-                                      "isSellerAwareOfChanges": {
-                                        "enum": ["Yes"]
-                                      },
-                                      "details": {
-                                        "ta7Ref": "7.1.3",
-                                        "title": "Please supply a copy or, if not in writing, please give details:",
-                                        "type": "string",
-                                        "minLength": 1
-                                      }
-                                    },
-                                    "lpe1Required": ["details"]
-                                  }
-                                ]
-                              },
+
                               "requirementsToBeMemberOfManagementCompany": {
                                 "baspiRef": "A1.5.6",
                                 "lpe1Ref": "2.5",
@@ -5481,7 +5491,8 @@
                                     },
                                     "lpe1Required": [
                                       "headLeaseholderControlled"
-                                    ]
+                                    ],
+                                    "ta7Required": ["headLeaseholderControlled"]
                                   }
                                 ]
                               },
@@ -5500,7 +5511,7 @@
                                       "Freeholder",
                                       "Headleaseholder",
                                       "Management company named in lease of the property",
-                                      "Right to manage company set up by the tenants under statutory rights",
+                                      "A Right to Manage company set up by the tenants under statutory rights",
                                       "Other"
                                     ]
                                   }
@@ -5516,7 +5527,7 @@
                                           "Freeholder",
                                           "Headleaseholder",
                                           "Management company named in lease of the property",
-                                          "Right to manage company set up by the tenants under statutory rights"
+                                          "A Right to Manage company set up by the tenants under statutory rights"
                                         ]
                                       }
                                     }
@@ -5532,7 +5543,8 @@
                                         "type": "string"
                                       }
                                     },
-                                    "lpe1Required": ["details"]
+                                    "lpe1Required": ["details"],
+                                    "ta7Required": ["details"]
                                   }
                                 ]
                               },
@@ -5639,7 +5651,8 @@
                                           }
                                         },
                                         "lpe1Required": ["details"],
-                                        "baspiRequired": ["details"]
+                                        "baspiRequired": ["details"],
+                                        "ta7Required": ["details"]
                                       }
                                     ]
                                   },
@@ -5679,7 +5692,8 @@
                                             "type": "string"
                                           }
                                         },
-                                        "lpe1Required": ["details"]
+                                        "lpe1Required": ["details"],
+                                        "ta7Required": ["details"]
                                       }
                                     ]
                                   },
@@ -5760,11 +5774,13 @@
                                             "enum": ["Yes"]
                                           },
                                           "details": {
+                                            "ta7Ref": "5.9.2",
                                             "title": "Please give details:",
                                             "type": "string"
                                           }
                                         },
-                                        "lpe1Required": ["details"]
+                                        "lpe1Required": ["details"],
+                                        "ta7Required": ["details"]
                                       }
                                     ]
                                   },
@@ -6037,13 +6053,19 @@
                                     "lpe1Ref": "4.7",
                                     "ta7Ref": "5",
                                     "title": "Confirm the date when the Managed Areas were last decorated, internally and externally.",
+                                    "ta7itle": "In what year was the building last decorated:",
                                     "type": "object",
                                     "properties": {
-                                      "internally": {
-                                        "ta7Ref": "5.3",
-                                        "title": "Internally",
+                                      "externally": {
+                                        "ta7Ref": "5.2",
+                                        "title": "The outside of the building (if known)",
                                         "type": "object",
                                         "properties": {
+                                          "year": {
+                                            "ta7Ref": "5.2.1",
+                                            "title": "Year",
+                                            "type": "integer"
+                                          },
                                           "from": {
                                             "title": "To",
                                             "type": "string",
@@ -6056,11 +6078,17 @@
                                           }
                                         }
                                       },
-                                      "externally": {
-                                        "ta7Ref": "5.2",
-                                        "title": "Externally",
+                                      "internally": {
+                                        "ta7Ref": "5.3",
+                                        "title": "Internally",
+                                        "ta7Title": "The internal communal parts (if known)",
                                         "type": "object",
                                         "properties": {
+                                          "year": {
+                                            "ta7Ref": "5.3.1",
+                                            "title": "Year",
+                                            "type": "integer"
+                                          },
                                           "from": {
                                             "title": "To",
                                             "type": "string",
@@ -6824,16 +6852,17 @@
                               }
                             }
                           },
-                          "disputesAndEnfranchisement": {
+                          "disputes": {
                             "lpe1Ref": "6",
-                            "title": "Disputes & Enfranchisement",
+                            "ta7Ref": "8",
+                            "title": "Disputes",
+                            "ta7Ttle": "Complaints",
                             "type": "object",
                             "lpe1Required": [
                               "sellerReceivedComplaint",
                               "sellerSentComplaint",
                               "ongoingForfeitureProceedings",
                               "unresolvedDisputes",
-                              "enfranchisementSteps",
                               "breachOfTermsOfLease"
                             ],
                             "ta7Required": [
@@ -6974,45 +7003,6 @@
                                   }
                                 ]
                               },
-                              "enfranchisementSteps": {
-                                "lpe1Ref": "6.3",
-                                "type": "object",
-                                "title": "Have any steps been taken by anyone to enfranchise, exercise the right to manage, form a right to enfranchise or management company, extend the term of the lease of the Property or anything similar?",
-                                "properties": {
-                                  "yesNo": {
-                                    "type": "string",
-                                    "title": "",
-                                    "enum": ["Yes", "No", "Not Known"]
-                                  }
-                                },
-                                "lpe1Required": ["yesNo"],
-                                "discriminator": {
-                                  "propertyName": "yesNo"
-                                },
-                                "oneOf": [
-                                  {
-                                    "properties": {
-                                      "yesNo": {
-                                        "enum": ["No", "Not Known"]
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "properties": {
-                                      "yesNo": {
-                                        "enum": ["Yes"]
-                                      },
-                                      "details": {
-                                        "lpe1Ref": "6.3.1",
-                                        "title": "Provide details and copies of relevant documentation",
-                                        "type": "string",
-                                        "minLength": 1
-                                      }
-                                    },
-                                    "lpe1Required": ["details"]
-                                  }
-                                ]
-                              },
                               "breachOfTermsOfLease": {
                                 "lpe1Ref": "6.4",
                                 "type": "object",
@@ -7054,7 +7044,7 @@
                               }
                             }
                           },
-                          "buildingSafety": {
+                          "buildingSafetyAct": {
                             "ta7Ref": "11",
                             "title": "Building safety",
                             "type": "object",
@@ -7187,29 +7177,11 @@
                               }
                             }
                           },
-                          "general": {
-                            "lpe1Ref": "7",
-                            "title": "General",
+                          "alterations": {
+                            "ta7Ref": "9",
+                            "title": "Alterations",
                             "type": "object",
-                            "lpe1Required": [
-                              "sellerAwareOfAlterations",
-                              "sellerOwnedProperty",
-                              "sellerServedNoticeOnLandlord",
-                              "sellerAwareOfNoticeOfCollectivePurchase",
-                              "sellerAwareOfResponse",
-                              "otherPropertiesInManagedArea",
-                              "leasedOnSimilarTerms",
-                              "buildingKnownToBeHMO",
-                              "additionalParkingRegulations",
-                              "restrictionOnKeepingPets"
-                            ],
-                            "ta7Required": [
-                              "sellerAwareOfAlterations",
-                              "sellerOwnedProperty",
-                              "sellerServedNoticeOnLandlord",
-                              "sellerAwareOfNoticeOfCollectivePurchase",
-                              "sellerAwareOfResponse"
-                            ],
+                            "ta7Required": ["sellerAwareOfAlterations"],
                             "properties": {
                               "sellerAwareOfAlterations": {
                                 "ta7Ref": "9.1",
@@ -7267,7 +7239,22 @@
                                     ]
                                   }
                                 ]
-                              },
+                              }
+                            }
+                          },
+                          "enfranchisement": {
+                            "lpe1Ref": "6",
+                            "ta7Ref": "10",
+                            "title": "Enfranchisement",
+                            "type": "object",
+                            "ta7Required": [
+                              "sellerOwnedProperty",
+                              "sellerServedNoticeOnLandlord",
+                              "sellerAwareOfNoticeOfCollectivePurchase",
+                              "sellerAwareOfResponse"
+                            ],
+                            "lpe1Required": ["enfranchisementSteps"],
+                            "properties": {
                               "sellerOwnedProperty": {
                                 "ta7Ref": "10.1",
                                 "title": "Has the seller owned the property for at least two years?",
@@ -7313,6 +7300,59 @@
                                   "To follow"
                                 ]
                               },
+                              "enfranchisementSteps": {
+                                "lpe1Ref": "6.3",
+                                "type": "object",
+                                "title": "Have any steps been taken by anyone to enfranchise, exercise the right to manage, form a right to enfranchise or management company, extend the term of the lease of the Property or anything similar?",
+                                "properties": {
+                                  "yesNo": {
+                                    "type": "string",
+                                    "title": "",
+                                    "enum": ["Yes", "No", "Not Known"]
+                                  }
+                                },
+                                "lpe1Required": ["yesNo"],
+                                "discriminator": {
+                                  "propertyName": "yesNo"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": ["No", "Not Known"]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": ["Yes"]
+                                      },
+                                      "details": {
+                                        "lpe1Ref": "6.3.1",
+                                        "title": "Provide details and copies of relevant documentation",
+                                        "type": "string",
+                                        "minLength": 1
+                                      }
+                                    },
+                                    "lpe1Required": ["details"]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          "general": {
+                            "lpe1Ref": "7",
+                            "title": "General",
+                            "type": "object",
+                            "lpe1Required": [
+                              "otherPropertiesInManagedArea",
+                              "leasedOnSimilarTerms",
+                              "buildingKnownToBeHMO",
+                              "additionalParkingRegulations",
+                              "restrictionOnKeepingPets"
+                            ],
+                            "properties": {
                               "otherPropertiesInManagedArea": {
                                 "lpe1Ref": "7.1",
                                 "title": "How many other properties are there in the Managed Area?",
@@ -7478,6 +7518,7 @@
                           },
                           "requiredDocuments": {
                             "lpe1Ref": "8",
+                            "ta7Ref": "3",
                             "title": "Required documents",
                             "ta7Title": "Relevant documents",
                             "type": "object",
@@ -7823,20 +7864,18 @@
                               }
                             }
                           },
-                          "confirmation": {
+                          "confirmationOfAccuracy": {
+                            "ta7Ref": "12",
                             "lpe1Ref": "9",
-                            "title": "Confirmation",
-                            "description": "By checking the box you are .",
+                            "title": "Confirmation of accuracy",
                             "type": "object",
                             "lpe1Required": ["response"],
                             "properties": {
-                              "response": {
+                              "confirmation": {
                                 "title": "Declaration",
                                 "description": "I/we confirm that I am the person authorised to provide the information which I have completed in it on behalf of those parties which I have selected from the list, and that a buyer may rely on the information which I have supplied without applying to any other party except where I have left a section blank because I do not have the authority to provide the information",
-                                "confirmation": {
-                                  "type": "string",
-                                  "enum": ["true", "false"]
-                                }
+                                "ta7Title": "I/we confirm that all information provided is accurate to the best of our knowledge and if we become aware of any change to/changes which alter the information supplied/provided prior to exchange of contracts for the sale of the property, I/we will update immediately notify the person marketing the property as well as my/our property lawyer",
+                                "type": "boolean"
                               },
                               "capacity": {
                                 "title": "Confirm the capacity in which the answers are given.",

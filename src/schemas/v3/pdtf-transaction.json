@@ -4289,6 +4289,64 @@
                               }
                             }
                           },
+                          "consents": {
+                            "title": "Consents",
+                            "type": "object",
+                            "properties": {
+                              "changesInTermOfLease": {
+                                "title": "Is the seller aware of any changes in the terms of the lease or of the landlord giving any consents under the lease?",
+                                "type": "object",
+                                "properties": {
+                                  "isSellerAwareOfChanges": {
+                                    "title": "",
+                                    "type": "string",
+                                    "enum": [
+                                      "Yes",
+                                      "No",
+                                      "Attached",
+                                      "To follow",
+                                      "Lost"
+                                    ]
+                                  }
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "isSellerAwareOfChanges": {
+                                        "enum": [
+                                          "No",
+                                          "Attached",
+                                          "To follow",
+                                          "Lost"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "isSellerAwareOfChanges": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "details": {
+                                        "title": "Please supply a copy or, if not in writing, please give details:",
+                                        "type": "string",
+                                        "minLength": 1
+                                      },
+                                      "attachments": {
+                                        "type": "string",
+                                        "enum": [
+                                          "Attached",
+                                          "To follow"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          },
                           "transferAndRegistration": {
                             "title": "Transfer and Registration",
                             "type": "object",
@@ -4407,51 +4465,6 @@
                                       },
                                       "details": {
                                         "title": "Provide details and copies of any consent",
-                                        "type": "string",
-                                        "minLength": 1
-                                      }
-                                    }
-                                  }
-                                ]
-                              },
-                              "changesInTermOfLease": {
-                                "title": "Is the seller aware of any changes in the terms of the lease or of the landlord giving any consents under the lease?",
-                                "type": "object",
-                                "properties": {
-                                  "isSellerAwareOfChanges": {
-                                    "title": "",
-                                    "type": "string",
-                                    "enum": [
-                                      "Yes",
-                                      "No",
-                                      "Attached",
-                                      "To follow",
-                                      "Lost"
-                                    ]
-                                  }
-                                },
-                                "oneOf": [
-                                  {
-                                    "properties": {
-                                      "isSellerAwareOfChanges": {
-                                        "enum": [
-                                          "No",
-                                          "Attached",
-                                          "To follow",
-                                          "Lost"
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "properties": {
-                                      "isSellerAwareOfChanges": {
-                                        "enum": [
-                                          "Yes"
-                                        ]
-                                      },
-                                      "details": {
-                                        "title": "Please supply a copy or, if not in writing, please give details:",
                                         "type": "string",
                                         "minLength": 1
                                       }
@@ -4711,7 +4724,7 @@
                                       "Freeholder",
                                       "Headleaseholder",
                                       "Management company named in lease of the property",
-                                      "Right to manage company set up by the tenants under statutory rights",
+                                      "A Right to Manage company set up by the tenants under statutory rights",
                                       "Other"
                                     ]
                                   }
@@ -4724,7 +4737,7 @@
                                           "Freeholder",
                                           "Headleaseholder",
                                           "Management company named in lease of the property",
-                                          "Right to manage company set up by the tenants under statutory rights"
+                                          "A Right to Manage company set up by the tenants under statutory rights"
                                         ]
                                       }
                                     }
@@ -5215,12 +5228,17 @@
                                   },
                                   "lastDecoratedPeriod": {
                                     "title": "Confirm the date when the Managed Areas were last decorated, internally and externally.",
+                                    "ta7itle": "In what year was the building last decorated:",
                                     "type": "object",
                                     "properties": {
-                                      "internally": {
-                                        "title": "Internally",
+                                      "externally": {
+                                        "title": "The outside of the building (if known)",
                                         "type": "object",
                                         "properties": {
+                                          "year": {
+                                            "title": "Year",
+                                            "type": "integer"
+                                          },
                                           "from": {
                                             "title": "To",
                                             "type": "string",
@@ -5233,10 +5251,14 @@
                                           }
                                         }
                                       },
-                                      "externally": {
-                                        "title": "Externally",
+                                      "internally": {
+                                        "title": "Internally",
                                         "type": "object",
                                         "properties": {
+                                          "year": {
+                                            "title": "Year",
+                                            "type": "integer"
+                                          },
                                           "from": {
                                             "title": "To",
                                             "type": "string",
@@ -5930,8 +5952,9 @@
                               }
                             }
                           },
-                          "disputesAndEnfranchisement": {
-                            "title": "Disputes & Enfranchisement",
+                          "disputes": {
+                            "title": "Disputes",
+                            "ta7Ttle": "Complaints",
                             "type": "object",
                             "properties": {
                               "sellerReceivedComplaint": {
@@ -6065,47 +6088,6 @@
                                   }
                                 ]
                               },
-                              "enfranchisementSteps": {
-                                "type": "object",
-                                "title": "Have any steps been taken by anyone to enfranchise, exercise the right to manage, form a right to enfranchise or management company, extend the term of the lease of the Property or anything similar?",
-                                "properties": {
-                                  "yesNo": {
-                                    "type": "string",
-                                    "title": "",
-                                    "enum": [
-                                      "Yes",
-                                      "No",
-                                      "Not Known"
-                                    ]
-                                  }
-                                },
-                                "oneOf": [
-                                  {
-                                    "properties": {
-                                      "yesNo": {
-                                        "enum": [
-                                          "No",
-                                          "Not Known"
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "properties": {
-                                      "yesNo": {
-                                        "enum": [
-                                          "Yes"
-                                        ]
-                                      },
-                                      "details": {
-                                        "title": "Provide details and copies of relevant documentation",
-                                        "type": "string",
-                                        "minLength": 1
-                                      }
-                                    }
-                                  }
-                                ]
-                              },
                               "breachOfTermsOfLease": {
                                 "type": "object",
                                 "title": "Are you aware of any breach of the terms of the lease of this Property?",
@@ -6147,7 +6129,7 @@
                               }
                             }
                           },
-                          "buildingSafety": {
+                          "buildingSafetyAct": {
                             "title": "Building safety",
                             "type": "object",
                             "properties": {
@@ -6265,8 +6247,8 @@
                               }
                             }
                           },
-                          "general": {
-                            "title": "General",
+                          "alterations": {
+                            "title": "Alterations",
                             "type": "object",
                             "properties": {
                               "sellerAwareOfAlterations": {
@@ -6322,7 +6304,13 @@
                                     ]
                                   }
                                 ]
-                              },
+                              }
+                            }
+                          },
+                          "enfranchisement": {
+                            "title": "Enfranchisement",
+                            "type": "object",
+                            "properties": {
                               "sellerOwnedProperty": {
                                 "title": "Has the seller owned the property for at least two years?",
                                 "type": "string",
@@ -6367,6 +6355,53 @@
                                   "To follow"
                                 ]
                               },
+                              "enfranchisementSteps": {
+                                "type": "object",
+                                "title": "Have any steps been taken by anyone to enfranchise, exercise the right to manage, form a right to enfranchise or management company, extend the term of the lease of the Property or anything similar?",
+                                "properties": {
+                                  "yesNo": {
+                                    "type": "string",
+                                    "title": "",
+                                    "enum": [
+                                      "Yes",
+                                      "No",
+                                      "Not Known"
+                                    ]
+                                  }
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "No",
+                                          "Not Known"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "details": {
+                                        "title": "Provide details and copies of relevant documentation",
+                                        "type": "string",
+                                        "minLength": 1
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          "general": {
+                            "title": "General",
+                            "type": "object",
+                            "properties": {
                               "otherPropertiesInManagedArea": {
                                 "title": "How many other properties are there in the Managed Area?",
                                 "type": "number"
@@ -6804,21 +6839,14 @@
                               }
                             }
                           },
-                          "confirmation": {
-                            "title": "Confirmation",
-                            "description": "By checking the box you are .",
+                          "confirmationOfAccuracy": {
+                            "title": "Confirmation of accuracy",
                             "type": "object",
                             "properties": {
-                              "response": {
+                              "confirmation": {
                                 "title": "Declaration",
                                 "description": "I/we confirm that I am the person authorised to provide the information which I have completed in it on behalf of those parties which I have selected from the list, and that a buyer may rely on the information which I have supplied without applying to any other party except where I have left a section blank because I do not have the authority to provide the information",
-                                "confirmation": {
-                                  "type": "string",
-                                  "enum": [
-                                    "true",
-                                    "false"
-                                  ]
-                                }
+                                "type": "boolean"
                               },
                               "capacity": {
                                 "title": "Confirm the capacity in which the answers are given.",

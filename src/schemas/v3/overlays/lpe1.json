@@ -38,11 +38,12 @@
                           "ownershipAndManagement",
                           "serviceCharge",
                           "buildingsInsurance",
-                          "disputesAndEnfranchisement",
-                          "buildingSafety",
+                          "disputes",
+                          "enfranchisement",
+                          "buildingSafetyAct",
                           "general",
                           "requiredDocuments",
-                          "confirmation"
+                          "confirmationOfAccuracy"
                         ],
                         "properties": {
                           "sharedOwnership": {
@@ -501,6 +502,23 @@
                               }
                             }
                           },
+                          "consents": {
+                            "properties": {
+                              "changesInTermOfLease": {
+                                "required": [
+                                  "isSellerAwareOfChanges"
+                                ],
+                                "oneOf": [
+                                  null,
+                                  {
+                                    "required": [
+                                      "details"
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
                           "transferAndRegistration": {
                             "lpe1Ref": "2",
                             "required": [
@@ -619,19 +637,6 @@
                                 ],
                                 "required": [
                                   "yesNo"
-                                ]
-                              },
-                              "changesInTermOfLease": {
-                                "required": [
-                                  "isSellerAwareOfChanges"
-                                ],
-                                "oneOf": [
-                                  null,
-                                  {
-                                    "required": [
-                                      "details"
-                                    ]
-                                  }
                                 ]
                               },
                               "requirementsToBeMemberOfManagementCompany": {
@@ -1684,14 +1689,13 @@
                               }
                             }
                           },
-                          "disputesAndEnfranchisement": {
+                          "disputes": {
                             "lpe1Ref": "6",
                             "required": [
                               "sellerReceivedComplaint",
                               "sellerSentComplaint",
                               "ongoingForfeitureProceedings",
                               "unresolvedDisputes",
-                              "enfranchisementSteps",
                               "breachOfTermsOfLease"
                             ],
                             "properties": {
@@ -1759,42 +1763,6 @@
                                   "yesNo"
                                 ]
                               },
-                              "enfranchisementSteps": {
-                                "lpe1Ref": "6.3",
-                                "discriminator": {
-                                  "propertyName": "yesNo"
-                                },
-                                "oneOf": [
-                                  {
-                                    "properties": {
-                                      "yesNo": {
-                                        "enum": [
-                                          "No",
-                                          "Not Known"
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "properties": {
-                                      "yesNo": {
-                                        "enum": [
-                                          "Yes"
-                                        ]
-                                      },
-                                      "details": {
-                                        "lpe1Ref": "6.3.1"
-                                      }
-                                    },
-                                    "required": [
-                                      "details"
-                                    ]
-                                  }
-                                ],
-                                "required": [
-                                  "yesNo"
-                                ]
-                              },
                               "breachOfTermsOfLease": {
                                 "lpe1Ref": "6.4",
                                 "discriminator": {
@@ -1832,7 +1800,7 @@
                               }
                             }
                           },
-                          "buildingSafety": {
+                          "buildingSafetyAct": {
                             "properties": {
                               "deedOfCertificateServed": {
                                 "lpe1Ref": "4.14",
@@ -1914,20 +1882,7 @@
                               }
                             }
                           },
-                          "general": {
-                            "lpe1Ref": "7",
-                            "required": [
-                              "sellerAwareOfAlterations",
-                              "sellerOwnedProperty",
-                              "sellerServedNoticeOnLandlord",
-                              "sellerAwareOfNoticeOfCollectivePurchase",
-                              "sellerAwareOfResponse",
-                              "otherPropertiesInManagedArea",
-                              "leasedOnSimilarTerms",
-                              "buildingKnownToBeHMO",
-                              "additionalParkingRegulations",
-                              "restrictionOnKeepingPets"
-                            ],
+                          "alterations": {
                             "properties": {
                               "sellerAwareOfAlterations": {
                                 "required": [
@@ -1941,7 +1896,63 @@
                                     ]
                                   }
                                 ]
-                              },
+                              }
+                            }
+                          },
+                          "enfranchisement": {
+                            "lpe1Ref": "6",
+                            "required": [
+                              "enfranchisementSteps"
+                            ],
+                            "properties": {
+                              "enfranchisementSteps": {
+                                "lpe1Ref": "6.3",
+                                "discriminator": {
+                                  "propertyName": "yesNo"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "No",
+                                          "Not Known"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "details": {
+                                        "lpe1Ref": "6.3.1"
+                                      }
+                                    },
+                                    "required": [
+                                      "details"
+                                    ]
+                                  }
+                                ],
+                                "required": [
+                                  "yesNo"
+                                ]
+                              }
+                            }
+                          },
+                          "general": {
+                            "lpe1Ref": "7",
+                            "required": [
+                              "otherPropertiesInManagedArea",
+                              "leasedOnSimilarTerms",
+                              "buildingKnownToBeHMO",
+                              "additionalParkingRegulations",
+                              "restrictionOnKeepingPets"
+                            ],
+                            "properties": {
                               "otherPropertiesInManagedArea": {
                                 "lpe1Ref": "7.1"
                               },
@@ -2184,7 +2195,7 @@
                               }
                             }
                           },
-                          "confirmation": {
+                          "confirmationOfAccuracy": {
                             "lpe1Ref": "9",
                             "required": [
                               "response"
