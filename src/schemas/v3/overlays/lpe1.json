@@ -38,10 +38,12 @@
                           "ownershipAndManagement",
                           "serviceCharge",
                           "buildingsInsurance",
-                          "disputesAndEnfranchisement",
+                          "disputes",
+                          "enfranchisement",
+                          "buildingSafetyAct",
                           "general",
                           "requiredDocuments",
-                          "confirmation"
+                          "confirmationOfAccuracy"
                         ],
                         "properties": {
                           "sharedOwnership": {
@@ -207,52 +209,6 @@
                               },
                               "serviceContactAssignments": {
                                 "lpe1Ref": "1.6",
-                                "discriminator": {
-                                  "propertyName": "dealsWithDayToDayMaintenanceOfBuilding"
-                                },
-                                "oneOf": [
-                                  {
-                                    "properties": {
-                                      "dealsWithDayToDayMaintenanceOfBuilding": {
-                                        "enum": [
-                                          "Landlord",
-                                          "Management Company",
-                                          "Managing Agent"
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "properties": {
-                                      "dealsWithDayToDayMaintenanceOfBuilding": {
-                                        "enum": [
-                                          "the Lessees"
-                                        ]
-                                      },
-                                      "lesseeInCharge": {
-                                        "lpe1Ref": "1.10.1",
-                                        "required": [
-                                          "nameOrOrganisation",
-                                          "line1",
-                                          "postcode",
-                                          "telephone",
-                                          "emailAddress"
-                                        ],
-                                        "properties": {
-                                          "address": {
-                                            "required": [
-                                              "line1",
-                                              "postcode"
-                                            ]
-                                          }
-                                        }
-                                      }
-                                    },
-                                    "required": [
-                                      "lesseeInCharge"
-                                    ]
-                                  }
-                                ],
                                 "required": [
                                   "noticeOfAssignmentAndCharge",
                                   "collectsGroundRent",
@@ -454,14 +410,18 @@
                                           {
                                             "properties": {
                                               "areOtherDetailsRequired": {
-                                                "const": "No"
+                                                "enum": [
+                                                  "No"
+                                                ]
                                               }
                                             }
                                           },
                                           {
                                             "properties": {
                                               "areOtherDetailsRequired": {
-                                                "const": "Yes"
+                                                "enum": [
+                                                  "Yes"
+                                                ]
                                               }
                                             },
                                             "required": [
@@ -491,9 +451,75 @@
                                     "lpe1Ref": "1.12"
                                   },
                                   "dealsWithDayToDayMaintenanceOfBuilding": {
-                                    "lpe1Ref": "1.10"
+                                    "lpe1Ref": "1.10",
+                                    "discriminator": {
+                                      "propertyName": "assignedContact"
+                                    },
+                                    "oneOf": [
+                                      {
+                                        "properties": {
+                                          "assignedContact": {
+                                            "enum": [
+                                              "Landlord",
+                                              "Management Company",
+                                              "Managing Agent"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "properties": {
+                                          "assignedContact": {
+                                            "enum": [
+                                              "the Lessees"
+                                            ]
+                                          },
+                                          "lesseeInCharge": {
+                                            "lpe1Ref": "1.10.1",
+                                            "required": [
+                                              "nameOrOrganisation",
+                                              "line1",
+                                              "postcode",
+                                              "telephone",
+                                              "emailAddress"
+                                            ],
+                                            "properties": {
+                                              "address": {
+                                                "required": [
+                                                  "line1",
+                                                  "postcode"
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "required": [
+                                          "lesseeInCharge"
+                                        ]
+                                      }
+                                    ],
+                                    "required": [
+                                      "assignedContact"
+                                    ]
                                   }
                                 }
+                              }
+                            }
+                          },
+                          "consents": {
+                            "properties": {
+                              "changesInTermOfLease": {
+                                "required": [
+                                  "isSellerAwareOfChanges"
+                                ],
+                                "oneOf": [
+                                  null,
+                                  {
+                                    "required": [
+                                      "details"
+                                    ]
+                                  }
+                                ]
                               }
                             }
                           },
@@ -615,19 +641,6 @@
                                 ],
                                 "required": [
                                   "yesNo"
-                                ]
-                              },
-                              "changesInTermOfLease": {
-                                "required": [
-                                  "isSellerAwareOfChanges"
-                                ],
-                                "oneOf": [
-                                  null,
-                                  {
-                                    "required": [
-                                      "details"
-                                    ]
-                                  }
                                 ]
                               },
                               "requirementsToBeMemberOfManagementCompany": {
@@ -1283,53 +1296,6 @@
                                     "required": [
                                       "yesNo"
                                     ]
-                                  },
-                                  "deedOfCertificateServed": {
-                                    "lpe1Ref": "4.14",
-                                    "discriminator": {
-                                      "propertyName": "yesNoNotApplicable"
-                                    },
-                                    "oneOf": [
-                                      {
-                                        "properties": {
-                                          "yesNoNotApplicable": {
-                                            "enum": [
-                                              "Not applicable"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "yesNoNotApplicable": {
-                                            "enum": [
-                                              "No"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "yesNoNotApplicable": {
-                                            "enum": [
-                                              "Yes"
-                                            ]
-                                          }
-                                        },
-                                        "required": [
-                                          "sellerCompletedDeedOfCertificate"
-                                        ]
-                                      }
-                                    ],
-                                    "required": [
-                                      "yesNoNotApplicable"
-                                    ]
-                                  },
-                                  "landlordsCertificateServed": {
-                                    "lpe1Ref": "4.14",
-                                    "required": [
-                                      "yesNoNotApplicable"
-                                    ]
                                   }
                                 },
                                 "required": [
@@ -1352,10 +1318,7 @@
                                   "increaseInServiceChargeAnticipated",
                                   "outstandingServiceChargeConsultation",
                                   "japaneseKnotweedAffectingManagedAreas",
-                                  "transferFees",
-                                  "allPropertiesContribute",
-                                  "deedOfCertificateServed",
-                                  "landlordsCertificateServed"
+                                  "transferFees"
                                 ]
                               }
                             ],
@@ -1730,14 +1693,13 @@
                               }
                             }
                           },
-                          "disputesAndEnfranchisement": {
+                          "disputes": {
                             "lpe1Ref": "6",
                             "required": [
                               "sellerReceivedComplaint",
                               "sellerSentComplaint",
                               "ongoingForfeitureProceedings",
                               "unresolvedDisputes",
-                              "enfranchisementSteps",
                               "breachOfTermsOfLease"
                             ],
                             "properties": {
@@ -1805,42 +1767,6 @@
                                   "yesNo"
                                 ]
                               },
-                              "enfranchisementSteps": {
-                                "lpe1Ref": "6.3",
-                                "discriminator": {
-                                  "propertyName": "yesNo"
-                                },
-                                "oneOf": [
-                                  {
-                                    "properties": {
-                                      "yesNo": {
-                                        "enum": [
-                                          "No",
-                                          "Not Known"
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "properties": {
-                                      "yesNo": {
-                                        "enum": [
-                                          "Yes"
-                                        ]
-                                      },
-                                      "details": {
-                                        "lpe1Ref": "6.3.1"
-                                      }
-                                    },
-                                    "required": [
-                                      "details"
-                                    ]
-                                  }
-                                ],
-                                "required": [
-                                  "yesNo"
-                                ]
-                              },
                               "breachOfTermsOfLease": {
                                 "lpe1Ref": "6.4",
                                 "discriminator": {
@@ -1878,21 +1804,89 @@
                               }
                             }
                           },
-                          "general": {
-                            "lpe1Ref": "7",
-                            "required": [
-                              "sellerAwareOfAlterations",
-                              "sellerOwnedProperty",
-                              "sellerServedNoticeOnLandlord",
-                              "sellerAwareOfNoticeOfCollectivePurchase",
-                              "sellerAwareOfResponse",
-                              "isLeaseQualifying",
-                              "otherPropertiesInManagedArea",
-                              "leasedOnSimilarTerms",
-                              "buildingKnownToBeHMO",
-                              "additionalParkingRegulations",
-                              "restrictionOnKeepingPets"
-                            ],
+                          "buildingSafetyAct": {
+                            "properties": {
+                              "deedOfCertificateServed": {
+                                "lpe1Ref": "4.14",
+                                "discriminator": {
+                                  "propertyName": "yesNoNotApplicable"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "enum": [
+                                          "Not applicable",
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "attachments": {
+                                        "lpe1Ref": "8.19"
+                                      }
+                                    },
+                                    "required": [
+                                      "sellerCompletedDeedOfCertificate",
+                                      "attachments"
+                                    ]
+                                  }
+                                ],
+                                "required": [
+                                  "yesNoNotApplicable"
+                                ],
+                                "properties": {
+                                  "yesNoNotApplicable": {
+                                    "lpe1Ref": "4.14"
+                                  }
+                                }
+                              },
+                              "landlordsCertificateServed": {
+                                "lpe1Ref": "4.14",
+                                "discriminator": {
+                                  "propertyName": "yesNoNotApplicable"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "enum": [
+                                          "Not applicable",
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNoNotApplicable": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "attachments": {
+                                        "lpe1Ref": "8.20"
+                                      }
+                                    },
+                                    "required": [
+                                      "attachments"
+                                    ]
+                                  }
+                                ],
+                                "required": [
+                                  "yesNoNotApplicable"
+                                ]
+                              }
+                            }
+                          },
+                          "alterations": {
                             "properties": {
                               "sellerAwareOfAlterations": {
                                 "required": [
@@ -1906,7 +1900,63 @@
                                     ]
                                   }
                                 ]
-                              },
+                              }
+                            }
+                          },
+                          "enfranchisement": {
+                            "lpe1Ref": "6",
+                            "required": [
+                              "enfranchisementSteps"
+                            ],
+                            "properties": {
+                              "enfranchisementSteps": {
+                                "lpe1Ref": "6.3",
+                                "discriminator": {
+                                  "propertyName": "yesNo"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "No",
+                                          "Not Known"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "details": {
+                                        "lpe1Ref": "6.3.1"
+                                      }
+                                    },
+                                    "required": [
+                                      "details"
+                                    ]
+                                  }
+                                ],
+                                "required": [
+                                  "yesNo"
+                                ]
+                              }
+                            }
+                          },
+                          "general": {
+                            "lpe1Ref": "7",
+                            "required": [
+                              "otherPropertiesInManagedArea",
+                              "leasedOnSimilarTerms",
+                              "buildingKnownToBeHMO",
+                              "additionalParkingRegulations",
+                              "restrictionOnKeepingPets"
+                            ],
+                            "properties": {
                               "otherPropertiesInManagedArea": {
                                 "lpe1Ref": "7.1"
                               },
@@ -2077,13 +2127,14 @@
                               "noticesServedOnLessee",
                               "asbestosSurvey",
                               "managedAreaFireRiskAssessment",
-                              "memorandumAndArticles",
+                              "managementCompanyDocuments",
                               "managementCompanyAGMMinutes",
-                              "deedOfCertificate",
-                              "landlordsCertificate",
                               "enforcementNotices"
                             ],
                             "properties": {
+                              "deedsOfVariation": {
+                                "lpe1Ref": "8.9"
+                              },
                               "serviceChargeAccounts": {
                                 "lpe1Ref": "8.1"
                               },
@@ -2107,9 +2158,6 @@
                               },
                               "additionalRegulationsNotInLease": {
                                 "lpe1Ref": "8.8"
-                              },
-                              "deedsOfVariation": {
-                                "lpe1Ref": "8.9"
                               },
                               "deedOfCovenant": {
                                 "lpe1Ref": "8.10"
@@ -2135,32 +2183,27 @@
                               "managedAreaFireRiskAssessment": {
                                 "lpe1Ref": "8.16"
                               },
-                              "memorandumAndArticles": {
-                                "lpe1Ref": "8.17"
+                              "managementCompanyDocuments": {
+                                "lpe1Ref": "8.17",
+                                "properties": {
+                                  "memorandumAndArticles": {
+                                    "lpe1Ref": "8.17.1"
+                                  }
+                                }
                               },
                               "managementCompanyAGMMinutes": {
                                 "lpe1Ref": "8.18"
-                              },
-                              "deedOfCertificate": {
-                                "lpe1Ref": "8.19"
-                              },
-                              "landlordsCertificate": {
-                                "lpe1Ref": "8.20",
-                                "enum": [
-                                  "Enclosed",
-                                  "To follow",
-                                  "Not applicable"
-                                ]
                               },
                               "enforcementNotices": {
                                 "lpe1Ref": "8.21"
                               }
                             }
                           },
-                          "confirmation": {
+                          "confirmationOfAccuracy": {
                             "lpe1Ref": "9",
                             "required": [
-                              "response"
+                              "confirmation",
+                              "capacity"
                             ]
                           }
                         }
