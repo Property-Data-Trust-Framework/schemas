@@ -202,6 +202,26 @@ test("correctly gets a subschema validator for a TA6 overlay", () => {
   expect(isValid).toBe(true);
 });
 
+test("correctly gets a subschema validator for a TA7 overlay", () => {
+  const path = "/propertyPack";
+  const data = jp.get(exampleTransaction, path);
+  const validator = getSubschemaValidator(path, exampleTransaction.$schema, [
+    "ta7ed3",
+  ]);
+  let isValid = validator(data);
+  expect(isValid).toBe(false);
+});
+
+test("correctly gets a subschema validator for a TA10 overlay", () => {
+  const path = "/propertyPack";
+  const data = jp.get(exampleTransaction, path);
+  const validator = getSubschemaValidator(path, exampleTransaction.$schema, [
+    "ta10ed3",
+  ]);
+  let isValid = validator(data);
+  expect(isValid).toBe(false);
+});
+
 test("correctly gets a subschema validator for a TA6 overlay which validates", () => {
   const path =
     "/propertyPack/guaranteesWarrantiesAndIndemnityInsurances/subsidenceWork";

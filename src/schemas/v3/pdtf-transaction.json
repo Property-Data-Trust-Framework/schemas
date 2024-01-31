@@ -156,7 +156,7 @@
           }
         },
         "uprn": {
-          "title": "Unique Property Reference Number ",
+          "title": "Unique Property Reference Number",
           "type": "integer"
         },
         "location": {
@@ -6354,14 +6354,49 @@
                                         "minLength": 1
                                       },
                                       "landlordConsentObtained": {
-                                        "title": "Was the landlord’s consent for the alterations obtained? If Yes, please supply a copy.",
-                                        "type": "string",
-                                        "enum": [
-                                          "No",
-                                          "Not known",
-                                          "Not required",
-                                          "Attached",
-                                          "To follow"
+                                        "title": "Was the landlord’s consent for the alterations obtained?",
+                                        "type": "object",
+                                        "properties": {
+                                          "yesNo": {
+                                            "type": "string",
+                                            "title": "",
+                                            "enum": [
+                                              "Yes",
+                                              "No",
+                                              "Not known",
+                                              "Not required"
+                                            ]
+                                          }
+                                        },
+                                        "oneOf": [
+                                          {
+                                            "properties": {
+                                              "yesNo": {
+                                                "enum": [
+                                                  "No",
+                                                  "Not known",
+                                                  "Not required"
+                                                ]
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "properties": {
+                                              "yesNo": {
+                                                "enum": [
+                                                  "Yes"
+                                                ]
+                                              },
+                                              "attachments": {
+                                                "title": "Please supply a copy.",
+                                                "type": "string",
+                                                "enum": [
+                                                  "Attached",
+                                                  "To follow"
+                                                ]
+                                              }
+                                            }
+                                          }
                                         ]
                                       }
                                     }
@@ -6816,25 +6851,89 @@
                                 }
                               },
                               "noticeOfSale": {
-                                "title": "Has the seller received a notice that the landlord wants to sell the building? If Yes, please supply a copy.",
-                                "type": "string",
-                                "enum": [
-                                  "Yes",
-                                  "No",
-                                  "Attached",
-                                  "To follow",
-                                  "Lost"
+                                "title": "Has the seller received a notice that the landlord wants to sell the building?",
+                                "type": "object",
+                                "properties": {
+                                  "yesNo": {
+                                    "type": "string",
+                                    "title": "",
+                                    "enum": [
+                                      "Yes",
+                                      "No"
+                                    ]
+                                  }
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "attachments": {
+                                        "title": "Please supply a copy.",
+                                        "type": "string",
+                                        "enum": [
+                                          "Attached",
+                                          "To follow",
+                                          "Lost"
+                                        ]
+                                      }
+                                    }
+                                  }
                                 ]
                               },
                               "noticeOfBuildingCondition": {
-                                "title": "Has the seller received any other notice about the building, its use, its condition or its repair and maintenance? If Yes, please supply a copy.",
-                                "type": "string",
-                                "enum": [
-                                  "Yes",
-                                  "No",
-                                  "Attached",
-                                  "To follow",
-                                  "Lost"
+                                "title": "Has the seller received any other notice about the building, its use, its condition or its repair and maintenance?",
+                                "type": "object",
+                                "properties": {
+                                  "yesNo": {
+                                    "type": "string",
+                                    "title": "",
+                                    "enum": [
+                                      "Yes",
+                                      "No"
+                                    ]
+                                  }
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "attachments": {
+                                        "title": "Please supply a copy.",
+                                        "type": "string",
+                                        "enum": [
+                                          "Attached",
+                                          "To follow",
+                                          "Lost"
+                                        ]
+                                      }
+                                    }
+                                  }
                                 ]
                               },
                               "managedAreasBuildingsInsurancePolicy": {
