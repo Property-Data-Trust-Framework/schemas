@@ -1,9 +1,9 @@
 const { validateVerifiedClaims } = require("../../../index.js");
 
-const exampleVouch = require("../../examples/v1/exampleVouch.json");
-const exampleDocumentedVouch = require("../../examples/v1/exampleDocumentedVouch.json");
-const v2SchemaId =
-  "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json";
+const exampleVouch = require("../../examples/v3/exampleVouch.json");
+const exampleDocumentedVouch = require("../../examples/v3/exampleDocumentedVouch.json");
+const v3SchemaId =
+  "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json";
 
 test("returns an empty array for a valid claim", () => {
   expect(validateVerifiedClaims([exampleVouch])).toEqual([]);
@@ -19,22 +19,22 @@ test("returns an array with an error stating if path is incorrect", () => {
   const originalPath = Object.keys(clonedVouch.claims)[0];
   const data = clonedVouch.claims[originalPath];
   clonedVouch.claims = {
-    "/propertyPack/INVALID/materialFacts/councilTax": data,
+    "/propertyPack/INVALID/councilTax": data,
   };
-  // v2 schema, no overlay
-  expect(validateVerifiedClaims([clonedVouch], v2SchemaId, null)).toEqual([
-    "Path /propertyPack/INVALID/materialFacts/councilTax is not a valid PDTF schema path",
+  // v3 schema, no overlay
+  expect(validateVerifiedClaims([clonedVouch], v3SchemaId, null)).toEqual([
+    "Path /propertyPack/INVALID/councilTax is not a valid PDTF schema path",
   ]);
 });
 
-test("returns errors if BASPI requirements are not met and BASPI overlay is specified (default)", () => {
+test("returns errors if BASPI requirements are not met and BASPI overlay is specified", () => {
   const clonedVouch = JSON.parse(JSON.stringify(exampleVouch));
   clonedVouch.claims = {
-    "/propertyPack/materialFacts/delayFactors": {
+    "/propertyPack/delayFactors": {
       hasDelayFactors: { yesNo: "Yes" },
     },
   };
-  const errors = validateVerifiedClaims([clonedVouch], v2SchemaId);
+  const errors = validateVerifiedClaims([clonedVouch], v3SchemaId, ["baspiV4"]);
   expect(errors).toEqual([
     {
       instancePath: "/hasDelayFactors",
@@ -56,29 +56,29 @@ test("returns errors if BASPI requirements are not met and BASPI overlay is spec
 test("returns no errors if BASPI requirements are not met and null overlay is specified", () => {
   const clonedVouch = JSON.parse(JSON.stringify(exampleVouch));
   clonedVouch.claims = {
-    "/propertyPack/materialFacts/delayFactors": {
+    "/propertyPack/delayFactors": {
       hasDelayFactors: { yesNo: "Yes" },
     },
   };
-  const errors = validateVerifiedClaims([clonedVouch], v2SchemaId, null);
+  const errors = validateVerifiedClaims([clonedVouch], v3SchemaId, null);
   expect(errors).toEqual([]);
 });
 
 test("returns errors for invalid fields even if null overlay is specified", () => {
   const clonedVouch = JSON.parse(JSON.stringify(exampleVouch));
   clonedVouch.claims = {
-    "/propertyPack/materialFacts/delayFactors": {
+    "/propertyPack/delayFactors": {
       hasDelayFactors: { yesNo: "Maybe" },
     },
   };
-  const errors = validateVerifiedClaims([clonedVouch], v2SchemaId, null);
+  const errors = validateVerifiedClaims([clonedVouch], v3SchemaId, null);
   expect(errors).toHaveLength(4);
 });
 
 test("returns an array of errors for verified claim with multiple paths", () => {
   const clonedVouch = JSON.parse(JSON.stringify(exampleVouch));
   clonedVouch.claims = {
-    "/propertyPack/materialFacts/cousncilTaxBad": {
+    "/propertyPack/cousncilTaxBad": {
       councilTaxBand: "D",
       councilTaxAffectingAlterations: {
         yesNo: "Yes",
@@ -86,7 +86,7 @@ test("returns an array of errors for verified claim with multiple paths", () => 
           "Extension added in 2005 to add bedroom with ensuite shower room. Certificate of Compliance issued 17th Feb 2006 and council tax updated",
       },
     },
-    "/propertyPack/materialFacts/councilTaxBadTwo": {
+    "/propertyPack/councilTaxBadTwo": {
       councilTaxBand: "D",
       councilTaxAffectingAlterations: {
         yesNo: "Yes",
@@ -95,20 +95,20 @@ test("returns an array of errors for verified claim with multiple paths", () => 
       },
     },
   };
-  expect(validateVerifiedClaims([clonedVouch], v2SchemaId, null)).toEqual([
-    "Path /propertyPack/materialFacts/cousncilTaxBad is not a valid PDTF schema path",
-    "Path /propertyPack/materialFacts/councilTaxBadTwo is not a valid PDTF schema path",
+  expect(validateVerifiedClaims([clonedVouch], v3SchemaId, null)).toEqual([
+    "Path /propertyPack/cousncilTaxBad is not a valid PDTF schema path",
+    "Path /propertyPack/councilTaxBadTwo is not a valid PDTF schema path",
   ]);
 });
 
 test("returns an empty array of errors for verified claim with multiple valid paths", () => {
   const clonedVouch = JSON.parse(
     JSON.stringify(exampleVouch),
-    v2SchemaId,
+    v3SchemaId,
     null
   );
   clonedVouch.claims = {
-    "/propertyPack/materialFacts/councilTax": {
+    "/propertyPack/councilTax": {
       councilTaxBand: "D",
       councilTaxAffectingAlterations: {
         yesNo: "Yes",
@@ -116,7 +116,7 @@ test("returns an empty array of errors for verified claim with multiple valid pa
           "Extension added in 2005 to add bedroom with ensuite shower room. Certificate of Compliance issued 17th Feb 2006 and council tax updated",
       },
     },
-    "/propertyPack/materialFacts/address": {
+    "/propertyPack/address": {
       line1: "property.line1",
       line2: "property.line2",
       town: "property.city",
@@ -124,5 +124,5 @@ test("returns an empty array of errors for verified claim with multiple valid pa
       postcode: "property.postcode",
     },
   };
-  expect(validateVerifiedClaims([clonedVouch], v2SchemaId, null)).toEqual([]);
+  expect(validateVerifiedClaims([clonedVouch], v3SchemaId, null)).toEqual([]);
 });

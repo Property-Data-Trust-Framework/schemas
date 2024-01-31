@@ -1,0 +1,4474 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/ta6.json",
+  "required": [
+    "participants",
+    "propertyPack"
+  ],
+  "properties": {
+    "propertyPack": {
+      "ta6Ref": "0",
+      "required": [
+        "address",
+        "parking",
+        "listingAndConservation",
+        "energyEfficiency",
+        "disputesAndComplaints",
+        "alterationsAndChanges",
+        "notices",
+        "specialistIssues",
+        "waterAndDrainage",
+        "electricity",
+        "heating",
+        "insurance",
+        "rightsAndInformalArrangements",
+        "environmentalIssues",
+        "additionalInformation",
+        "legalBoundaries",
+        "servicesCrossing",
+        "electricalWorks",
+        "guaranteesWarrantiesAndIndemnityInsurances",
+        "occupiers",
+        "completionAndMoving",
+        "confirmationOfAccuracyByOwners"
+      ],
+      "properties": {
+        "address": {
+          "ta6Ref": "0.1",
+          "required": [
+            "line1",
+            "postcode"
+          ],
+          "properties": {
+            "line1": {
+              "ta6Ref": "0.1.1"
+            },
+            "line2": {
+              "ta6Ref": "0.1.2"
+            },
+            "line3": {
+              "ta6Ref": "0.1.3"
+            },
+            "town": {
+              "ta6Ref": "0.1.4"
+            },
+            "postcode": {
+              "ta6Ref": "0.1.5"
+            }
+          }
+        },
+        "parking": {
+          "ta6Ref": "9",
+          "required": [
+            "parkingArrangements",
+            "controlledParking"
+          ],
+          "properties": {
+            "parkingArrangements": {
+              "ta6Ref": "9.1"
+            },
+            "controlledParking": {
+              "ta6Ref": "9.2",
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "9.2.1"
+                }
+              }
+            }
+          }
+        },
+        "listingAndConservation": {
+          "ta6Ref": "4.7",
+          "required": [
+            "isListed",
+            "isConservationArea",
+            "hasTreePreservationOrder"
+          ],
+          "properties": {
+            "isListed": {
+              "ta6Ref": "4.7a",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "4.7a2"
+                    },
+                    "attachments": {
+                      "ta6Ref": "4.7a3"
+                    }
+                  },
+                  "required": [
+                    "details",
+                    "attachments"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "4.7a1"
+                }
+              }
+            },
+            "isConservationArea": {
+              "ta6Ref": "4.7b",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "4.7b2"
+                    },
+                    "attachments": {
+                      "ta6Ref": "4.7b3"
+                    }
+                  },
+                  "required": [
+                    "details",
+                    "attachments"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "4.7b1"
+                }
+              }
+            },
+            "hasTreePreservationOrder": {
+              "ta6Ref": "4.8",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "workCarriedOut": {
+                      "ta6Ref": "4.8a",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "consentsObtained": {
+                              "ta6Ref": "4.8a2"
+                            },
+                            "attachments": {
+                              "ta6Ref": "4.8a3"
+                            }
+                          },
+                          "required": [
+                            "consentsObtained"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "4.8a1"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "workCarriedOut"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "4.8.1"
+                }
+              }
+            }
+          }
+        },
+        "energyEfficiency": {
+          "ta6Ref": "7.6",
+          "required": [
+            "certificateIsSupplied",
+            "greenDealLoan"
+          ],
+          "properties": {
+            "certificateIsSupplied": {
+              "ta6Ref": "7.6.1"
+            },
+            "greenDealLoan": {
+              "ta6Ref": "7.7",
+              "required": [
+                "hasGreenDealLoan"
+              ],
+              "properties": {
+                "hasGreenDealLoan": {
+                  "ta6Ref": "7.7.0",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6Ref": "7.7.2"
+                        },
+                        "attachments": {
+                          "ta6Ref": "7.7.3"
+                        }
+                      },
+                      "required": [
+                        "details",
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "7.7.1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "disputesAndComplaints": {
+          "ta6Ref": "2",
+          "required": [
+            "hasDisputesAndComplaints",
+            "leadingToDisputesAndComplaints"
+          ],
+          "properties": {
+            "hasDisputesAndComplaints": {
+              "ta6Ref": "2.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "2.1.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Have there been any disputes or complaints regarding this property or a property nearby?",
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "2.1.1"
+                }
+              }
+            },
+            "leadingToDisputesAndComplaints": {
+              "ta6Ref": "2.2",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "2.2.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "2.2.1"
+                }
+              }
+            }
+          }
+        },
+        "alterationsAndChanges": {
+          "ta6Ref": "4.1",
+          "required": [
+            "hasStructuralAlterations",
+            "changeOfUse",
+            "windowReplacementsSince2002",
+            "hasAddedConservatory",
+            "worksUnfinished",
+            "planningPermissionBreaches",
+            "unresolvedPlanningIssues"
+          ],
+          "properties": {
+            "hasStructuralAlterations": {
+              "ta6Ref": "4.1a",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "4.1a2"
+                    },
+                    "buildingRegApproval": {
+                      "ta6Ref": "4.2",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "attachments": {
+                              "ta6Ref": "4.2a"
+                            }
+                          },
+                          "required": [
+                            "attachments"
+                          ]
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            },
+                            "details": {
+                              "ta6Ref": "4.2b"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "4.2.1"
+                        }
+                      }
+                    },
+                    "planningPermission": {
+                      "ta6Ref": "4.2.1",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "attachments": {
+                              "ta6Ref": "4.2a"
+                            }
+                          },
+                          "required": [
+                            "attachments"
+                          ]
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            },
+                            "details": {
+                              "ta6Ref": "4.2b"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "4.2.1"
+                        }
+                      }
+                    },
+                    "listedBuildingConsent": {
+                      "oneOf": [
+                        {
+                          "required": [
+                            "attachments"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "4.1a1"
+                }
+              }
+            },
+            "changeOfUse": {
+              "ta6Ref": "4.1b",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "yearCompleted": {
+                      "ta6Ref": "4.1b2"
+                    },
+                    "buildingRegApproval": {
+                      "ta6Ref": "4.2",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "attachments": {
+                              "ta6Ref": "4.2a"
+                            }
+                          },
+                          "required": [
+                            "attachments"
+                          ]
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            },
+                            "details": {
+                              "ta6Ref": "4.2b"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "4.2.1"
+                        }
+                      }
+                    },
+                    "planningPermission": {
+                      "ta6Ref": "4.2",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "attachments": {
+                              "ta6Ref": "4.2a"
+                            }
+                          },
+                          "required": [
+                            "attachments"
+                          ]
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            },
+                            "details": {
+                              "ta6Ref": "4.2b"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "4.2.1"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "yearCompleted"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "4.1b1"
+                }
+              }
+            },
+            "windowReplacementsSince2002": {
+              "ta6Ref": "4.1c",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "yearCompleted": {
+                      "ta6Ref": "4.1c2"
+                    },
+                    "buildingRegApproval": {
+                      "ta6Ref": "4.2",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "attachments": {
+                              "ta6Ref": "4.2a"
+                            }
+                          },
+                          "required": [
+                            "attachments"
+                          ]
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            },
+                            "details": {
+                              "ta6Ref": "4.2b"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "4.2.1"
+                        }
+                      }
+                    },
+                    "planningPermission": {
+                      "ta6Ref": "4.2",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "attachments": {
+                              "ta6Ref": "4.2a"
+                            }
+                          },
+                          "required": [
+                            "attachments"
+                          ]
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            },
+                            "details": {
+                              "ta6Ref": "4.2b"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "4.2.1"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "yearCompleted"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "4.1c1"
+                }
+              }
+            },
+            "hasAddedConservatory": {
+              "ta6Ref": "4.1d",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "yearCompleted": {
+                      "ta6Ref": "4.1d2"
+                    },
+                    "buildingRegApproval": {
+                      "ta6Ref": "4.2",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "attachments": {
+                              "ta6Ref": "4.2a"
+                            }
+                          },
+                          "required": [
+                            "attachments"
+                          ]
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            },
+                            "details": {
+                              "ta6Ref": "4.2b"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "4.2.1"
+                        }
+                      }
+                    },
+                    "planningPermission": {
+                      "ta6Ref": "4.2",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "attachments": {
+                              "ta6Ref": "4.2a"
+                            }
+                          },
+                          "required": [
+                            "attachments"
+                          ]
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            },
+                            "details": {
+                              "ta6Ref": "4.2b"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "4.2.1"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "yearCompleted"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "4.1d1"
+                }
+              }
+            },
+            "worksUnfinished": {
+              "ta6Ref": "4.3",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "4.3.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "4.3.1"
+                }
+              }
+            },
+            "planningPermissionBreaches": {
+              "ta6Ref": "4.4",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "4.4.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "4.4.1"
+                }
+              }
+            },
+            "unresolvedPlanningIssues": {
+              "ta6Ref": "4.5",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "4.5.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "4.5.1"
+                }
+              }
+            }
+          }
+        },
+        "notices": {
+          "ta6Ref": "3",
+          "required": [
+            "neighbourDevelopment",
+            "partyWallAct",
+            "otherNotices"
+          ],
+          "properties": {
+            "neighbourDevelopment": {
+              "ta6Ref": "3.2",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "3.2.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Is the seller aware of any proposals to develop property or land nearby, or of any proposals to make alterations to buildings nearby?",
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "3.2.1"
+                }
+              }
+            },
+            "planningApplication": {
+              "ta6Ref": "3.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "3.1.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "3.1.1"
+                }
+              }
+            },
+            "requiredMaintenance": {
+              "ta6Ref": "3.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "3.1.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "3.1.1"
+                }
+              }
+            },
+            "listedBuildingApplication": {
+              "ta6Ref": "3.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "3.1.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "3.1.1"
+                }
+              }
+            },
+            "infrastructureProject": {
+              "ta6Ref": "3.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "3.1.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "3.1.1"
+                }
+              }
+            },
+            "partyWallAct": {
+              "ta6Ref": "1.6",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "1.6.2"
+                    },
+                    "attachments": {
+                      "ta6Ref": "1.6.3"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "1.6.1"
+                }
+              }
+            },
+            "otherNotices": {
+              "ta6Ref": "3.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "3.1.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "3.1.1"
+                }
+              }
+            }
+          }
+        },
+        "specialistIssues": {
+          "required": [
+            "japaneseKnotweed"
+          ],
+          "properties": {
+            "japaneseKnotweed": {
+              "ta6Ref": "7.8",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "managementPlanInPlace": {
+                      "ta6Ref": "7.8.2"
+                    },
+                    "attachments": {
+                      "ta6Ref": "7.8.3"
+                    }
+                  },
+                  "required": [
+                    "managementPlanInPlace",
+                    "attachments"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Is the property affected by Japanese knotweed?",
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "7.8.1"
+                }
+              }
+            }
+          }
+        },
+        "electricity": {
+          "ta6Ref": "13.1",
+          "required": [
+            "mainsElectricity",
+            "solarPanels"
+          ],
+          "properties": {
+            "mainsElectricity": {
+              "ta6Ref": "13.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "supplier": {
+                      "ta6Ref": "13.1.2"
+                    },
+                    "electricityMeter": {
+                      "ta6Ref": "13.1b",
+                      "required": [
+                        "location"
+                      ],
+                      "properties": {
+                        "location": {
+                          "ta6Ref": "13.1b1"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "supplier",
+                    "electricityMeter"
+                  ]
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    },
+                    "supplier": {
+                      "ta6Ref": "13.1.2"
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "13.1.1",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              }
+            },
+            "solarPanels": {
+              "ta6Ref": "4.6",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "yearInstalled": {
+                      "ta6Ref": "4.6a"
+                    },
+                    "panelsOwnedOutright": {
+                      "ta6Ref": "4.6b",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "4.6b1"
+                        }
+                      }
+                    },
+                    "panelProviderLease": {
+                      "ta6Ref": "4.6c",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "attachments": {
+                              "ta6Ref": "4.6c2"
+                            }
+                          },
+                          "required": [
+                            "attachments"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "4.6c1"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "yearInstalled",
+                    "panelsOwnedOutright",
+                    "panelProviderLease"
+                  ]
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "4.6"
+                }
+              }
+            }
+          }
+        },
+        "waterAndDrainage": {
+          "ta6Ref": "13",
+          "required": [
+            "water",
+            "drainage"
+          ],
+          "properties": {
+            "water": {
+              "ta6Ref": "13",
+              "required": [
+                "mainsWater"
+              ],
+              "properties": {
+                "mainsWater": {
+                  "ta6Ref": "13.3",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "supplier": {
+                          "ta6Ref": "13.3.2"
+                        },
+                        "stopcock": {
+                          "ta6Ref": "13.3b",
+                          "properties": {
+                            "location": {
+                              "ta6Ref": "13.3b1"
+                            }
+                          }
+                        },
+                        "waterMeter": {
+                          "ta6Ref": "13.3b",
+                          "discriminator": {
+                            "propertyName": "isSupplyMetered"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "isSupplyMetered": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "isSupplyMetered": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "location": {
+                                  "ta6Ref": "13.3b2"
+                                }
+                              },
+                              "required": [
+                                "location"
+                              ]
+                            }
+                          ],
+                          "required": [
+                            "isSupplyMetered"
+                          ],
+                          "properties": {
+                            "isSupplyMetered": {
+                              "ta6Ref": "13.3b"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "supplier",
+                        "stopcock",
+                        "waterMeter"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        },
+                        "supplier": {
+                          "ta6Ref": "13.3.2"
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "13.3.1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "drainage": {
+              "required": [
+                "mainsSurfaceWaterDrainage",
+                "mainsFoulDrainage"
+              ],
+              "properties": {
+                "mainsSurfaceWaterDrainage": {
+                  "ta6Ref": "12.4b",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "12.4b1",
+                      "enum": [
+                        "Yes",
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                "mainsFoulDrainage": {
+                  "ta6Ref": "12.4a",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "supplier": {
+                          "ta6Ref": "13.4.2"
+                        }
+                      },
+                      "required": [
+                        "supplier"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        },
+                        "supplier": {
+                          "ta6Ref": "13.4.2"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        },
+                        "offMainsDrainageSystem": {
+                          "ta6Ref": "12.4a",
+                          "discriminator": {
+                            "propertyName": "offMainsDrainageSystemType"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "offMainsDrainageSystemType": {
+                                  "enum": [
+                                    "Sustainable Drainage System"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "offMainsDrainageSystemType": {
+                                  "enum": [
+                                    "Septic tank"
+                                  ]
+                                },
+                                "dateReplaced": {
+                                  "ta6Ref": "12.5.1"
+                                },
+                                "dateLastEmptied": {
+                                  "ta6Ref": "12.7"
+                                }
+                              },
+                              "required": [
+                                "dateReplaced",
+                                "dateLastEmptied"
+                              ]
+                            },
+                            {
+                              "properties": {
+                                "offMainsDrainageSystemType": {
+                                  "enum": [
+                                    "Cesspit"
+                                  ]
+                                },
+                                "dateLastEmptied": {
+                                  "ta6Ref": "12.7"
+                                }
+                              },
+                              "required": [
+                                "dateLastEmptied"
+                              ]
+                            },
+                            {
+                              "properties": {
+                                "offMainsDrainageSystemType": {
+                                  "enum": [
+                                    "Sewerage treatment plant"
+                                  ]
+                                },
+                                "dateInstalled": {
+                                  "ta6Ref": "12.9"
+                                },
+                                "dateLastServiced": {
+                                  "ta6Ref": "12.8"
+                                }
+                              },
+                              "required": [
+                                "dateInstalled",
+                                "dateLastServiced"
+                              ]
+                            },
+                            {
+                              "properties": {
+                                "offMainsDrainageSystemType": {
+                                  "enum": [
+                                    "Other",
+                                    "Not known"
+                                  ]
+                                }
+                              }
+                            }
+                          ],
+                          "required": [
+                            "offMainsDrainageSystemType",
+                            "otherConnectedProperties",
+                            "plantOnOtherLand"
+                          ],
+                          "properties": {
+                            "offMainsDrainageSystemType": {
+                              "ta6Ref": "12.5"
+                            },
+                            "otherConnectedProperties": {
+                              "ta6Ref": "12.6",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "numberOfPropertiesSharing": {
+                                      "ta6Ref": "12.6.2"
+                                    }
+                                  },
+                                  "required": [
+                                    "numberOfPropertiesSharing"
+                                  ]
+                                }
+                              ],
+                              "required": [
+                                "yesNo"
+                              ],
+                              "properties": {
+                                "yesNo": {
+                                  "ta6Ref": "12.6.1"
+                                }
+                              }
+                            },
+                            "plantOnOtherLand": {
+                              "ta6Ref": "12.10",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "attachments": {
+                                      "ta6Ref": "12.10.2"
+                                    }
+                                  },
+                                  "required": [
+                                    "attachments"
+                                  ]
+                                }
+                              ],
+                              "required": [
+                                "yesNo"
+                              ],
+                              "title": "Is any part of the septic tank, sewage treatment plant (including any soakaway or outfall) or cesspool, or the access to it, outside the boundary of the property?",
+                              "properties": {
+                                "yesNo": {
+                                  "ta6Ref": "12.10.1"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "12.4a1",
+                      "enum": [
+                        "Yes",
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "heating": {
+          "ta6Ref": "12.3",
+          "required": [
+            "heatingSystem"
+          ],
+          "properties": {
+            "heatingSystem": {
+              "ta6Ref": "12.3.1",
+              "discriminator": {
+                "propertyName": "heatingType"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "heatingType": {
+                      "enum": [
+                        "None",
+                        "Room heaters only"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "heatingType": {
+                      "enum": [
+                        "Central heating"
+                      ]
+                    },
+                    "centralHeatingDetails": {
+                      "ta6Ref": "12.3.2",
+                      "required": [
+                        "centralHeatingFuel",
+                        "centralHeatingInstalled",
+                        "boilerInstallationCertificate",
+                        "heatingLastServicedDate",
+                        "heatingLastServicedReport",
+                        "heatingInGoodWorkingOrder"
+                      ],
+                      "properties": {
+                        "centralHeatingFuel": {
+                          "ta6Ref": "12.3.3",
+                          "discriminator": {
+                            "propertyName": "centralHeatingFuelType"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "centralHeatingFuelType": {
+                                  "enum": [
+                                    "Mains gas"
+                                  ]
+                                },
+                                "supplier": {
+                                  "ta6Ref": "13.2b"
+                                },
+                                "gasMeter": {
+                                  "ta6Ref": "13.2c",
+                                  "required": [
+                                    "location"
+                                  ],
+                                  "properties": {
+                                    "location": {
+                                      "ta6Ref": "13.2c1"
+                                    }
+                                  }
+                                }
+                              },
+                              "required": [
+                                "supplier",
+                                "gasMeter"
+                              ]
+                            },
+                            {
+                              "properties": {
+                                "centralHeatingFuelType": {
+                                  "enum": [
+                                    "Electricity"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "centralHeatingFuelType": {
+                                  "enum": [
+                                    "Oil",
+                                    "LPG",
+                                    "Biomass"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "centralHeatingFuelType": {
+                                  "enum": [
+                                    "Other"
+                                  ]
+                                },
+                                "otherCentralHeatingFuelType": {
+                                  "ta6Ref": "12.3a2"
+                                }
+                              },
+                              "required": [
+                                "otherCentralHeatingFuelType"
+                              ]
+                            }
+                          ],
+                          "required": [
+                            "centralHeatingFuelType"
+                          ],
+                          "properties": {
+                            "centralHeatingFuelType": {
+                              "ta6Ref": "12.3a1"
+                            }
+                          }
+                        },
+                        "centralHeatingInstalled": {
+                          "ta6Ref": "12.3b1"
+                        },
+                        "boilerInstallationCertificate": {
+                          "ta6Ref": "12.3b2",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "attachments": {
+                                  "ta6Ref": "12.3b4"
+                                }
+                              },
+                              "required": [
+                                "attachments"
+                              ]
+                            }
+                          ],
+                          "required": [
+                            "yesNo"
+                          ],
+                          "properties": {
+                            "yesNo": {
+                              "ta6Ref": "12.3b3"
+                            }
+                          }
+                        },
+                        "heatingLastServicedDate": {
+                          "ta6Ref": "12.3d1"
+                        },
+                        "heatingLastServicedReport": {
+                          "ta6Ref": "12.3d2"
+                        },
+                        "heatingInGoodWorkingOrder": {
+                          "ta6Ref": "12.3c",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            }
+                          ],
+                          "required": [
+                            "yesNo"
+                          ],
+                          "properties": {
+                            "yesNo": {
+                              "ta6Ref": "12.3c1"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "centralHeatingDetails"
+                  ]
+                },
+                {
+                  "properties": {
+                    "heatingType": {
+                      "enum": [
+                        "Community heating system"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "heatingType"
+              ],
+              "properties": {
+                "heatingType": {
+                  "ta6Ref": "12.3.1"
+                }
+              }
+            }
+          }
+        },
+        "connectivity": {
+          "ta6Ref": "13",
+          "required": [
+            "telephone",
+            "cableSatelliteTV"
+          ],
+          "properties": {
+            "telephone": {
+              "ta6Ref": "13.5",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "supplier": {
+                      "ta6Ref": "13.5.2"
+                    }
+                  },
+                  "required": [
+                    "supplier"
+                  ]
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    },
+                    "supplier": {
+                      "ta6Ref": "13.5.2"
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "13.5.1",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              }
+            },
+            "cableSatelliteTV": {
+              "ta6Ref": "13.6",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "supplier": {
+                      "ta6Ref": "13.6.2"
+                    }
+                  },
+                  "required": [
+                    "supplier"
+                  ]
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "13.6.1",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "insurance": {
+          "ta6Ref": "6",
+          "discriminator": {
+            "propertyName": "isInsured"
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "isInsured": {
+                  "enum": [
+                    "No"
+                  ]
+                },
+                "details": {
+                  "ta6Ref": "6.2"
+                },
+                "landlordInsuresIfFlat": {
+                  "ta6Ref": "6.3"
+                }
+              },
+              "required": [
+                "details",
+                "landlordInsuresIfFlat"
+              ]
+            },
+            {
+              "properties": {
+                "isInsured": {
+                  "enum": [
+                    "Yes"
+                  ]
+                },
+                "difficultiesObtainingInsurance": {
+                  "ta6Ref": "6.4",
+                  "required": [
+                    "abnormalRiseInPremiums",
+                    "subjectToHighExcesses",
+                    "subjectToUnusualConditions",
+                    "refused"
+                  ],
+                  "title": "Has any buildings insurance taken out by the seller ever been:",
+                  "properties": {
+                    "abnormalRiseInPremiums": {
+                      "ta6Ref": "6.4a",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "ta6Ref": "6.4.2"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "6.4a1"
+                        }
+                      }
+                    },
+                    "subjectToHighExcesses": {
+                      "ta6Ref": "6.4b",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "ta6Ref": "6.4.2"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "6.4b1"
+                        }
+                      }
+                    },
+                    "subjectToUnusualConditions": {
+                      "ta6Ref": "6.4c",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "ta6Ref": "6.4.2"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "6.4c1"
+                        }
+                      }
+                    },
+                    "refused": {
+                      "ta6Ref": "6.4d",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "ta6Ref": "6.4.2"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "6.4d1"
+                        }
+                      }
+                    }
+                  }
+                },
+                "insuranceClaims": {
+                  "ta6Ref": "6.5",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6Ref": "6.5.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "6.5.1"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "difficultiesObtainingInsurance",
+                "insuranceClaims"
+              ]
+            }
+          ],
+          "required": [
+            "isInsured"
+          ],
+          "properties": {
+            "isInsured": {
+              "ta6Ref": "6.1",
+              "title": "Does the seller insure the property?"
+            }
+          }
+        },
+        "rightsAndInformalArrangements": {
+          "ta6Ref": "8",
+          "required": [
+            "sharedContributions",
+            "neighbouringLandRights",
+            "accessRestrictionAttempts",
+            "rightsOrArrangements"
+          ],
+          "properties": {
+            "sharedContributions": {
+              "ta6Ref": "8.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "8.1.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "8.1.1"
+                }
+              }
+            },
+            "neighbouringLandRights": {
+              "ta6Ref": "8.2",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "8.2.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "8.2.1"
+                }
+              }
+            },
+            "accessRestrictionAttempts": {
+              "ta6Ref": "8.3",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "8.3.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "8.3.1"
+                }
+              }
+            },
+            "rightsOrArrangements": {
+              "ta6Ref": "8.4",
+              "required": [
+                "rightsOfLight",
+                "rightsOfSupport",
+                "rightsCreatedThroughCustom",
+                "minesAndMinerals",
+                "churchChancel",
+                "rightsToTakeFromLand",
+                "otherRights"
+              ],
+              "properties": {
+                "publicRightOfWay": {
+                  "ta6Ref": "8.6",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6Ref": "8.6.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "8.6.1"
+                    }
+                  }
+                },
+                "rightsOfLight": {
+                  "ta6Ref": "8.4a",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "8.4a1"
+                    }
+                  }
+                },
+                "rightsOfSupport": {
+                  "ta6Ref": "8.4a",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "8.4b1"
+                    }
+                  }
+                },
+                "rightsCreatedThroughCustom": {
+                  "ta6Ref": "8.4c",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "8.4c1"
+                    }
+                  }
+                },
+                "rightsToTakeFromLand": {
+                  "ta6Ref": "8.5b",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6Ref": "8.5c2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "8.5c1"
+                    }
+                  }
+                },
+                "minesAndMinerals": {
+                  "ta6Ref": "8.5a",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "8.5a1"
+                    }
+                  }
+                },
+                "churchChancel": {
+                  "ta6Ref": "8.5b",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "8.5b1"
+                    }
+                  }
+                },
+                "otherRights": {
+                  "ta6Ref": "8.6",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6Ref": "8.6.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "8.6.1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "environmentalIssues": {
+          "ta6Ref": "7",
+          "required": [
+            "flooding",
+            "radon"
+          ],
+          "properties": {
+            "flooding": {
+              "ta6Ref": "7.1.0",
+              "required": [
+                "historicalFlooding"
+              ],
+              "properties": {
+                "historicalFlooding": {
+                  "ta6Ref": "7.1",
+                  "discriminator": {
+                    "propertyName": "hasBeenFlooded"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "hasBeenFlooded": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "hasBeenFlooded": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "typeOfFlooding": {
+                          "ta6Ref": "7.2"
+                        },
+                        "details": {
+                          "ta6Ref": "7.1.2"
+                        }
+                      },
+                      "required": [
+                        "typeOfFlooding",
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "hasBeenFlooded"
+                  ],
+                  "properties": {
+                    "hasBeenFlooded": {
+                      "ta6Ref": "7.1.1"
+                    }
+                  }
+                }
+              }
+            },
+            "radon": {
+              "ta6Ref": "7.4",
+              "required": [
+                "remedialMeasuresOnConstruction",
+                "radonTest"
+              ],
+              "properties": {
+                "radonTest": {
+                  "ta6Ref": "7.4",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6Ref": "7.4b"
+                        },
+                        "attachments": {
+                          "ta6Ref": "7.4a"
+                        }
+                      },
+                      "required": [
+                        "details",
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "7.4.1"
+                    }
+                  }
+                },
+                "remedialMeasuresOnConstruction": {
+                  "ta6Ref": "7.5",
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "7.5.1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "additionalInformation": {
+          "ta6Ref": "10",
+          "required": [
+            "otherCharges"
+          ],
+          "properties": {
+            "otherCharges": {
+              "ta6Ref": "10.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "10.1.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "10.1.1"
+                }
+              }
+            }
+          }
+        },
+        "legalBoundaries": {
+          "ta6Ref": "1",
+          "required": [
+            "ownership",
+            "haveBoundaryFeaturesMoved",
+            "adjacentLandIncluded",
+            "flyingFreehold"
+          ],
+          "properties": {
+            "ownership": {
+              "ta6Ref": "1",
+              "discriminator": {
+                "propertyName": "areBoundariesUniform"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "areBoundariesUniform": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "uniformBoundaries": {
+                      "ta6Ref": "1.1",
+                      "required": [
+                        "left",
+                        "right",
+                        "rear",
+                        "front"
+                      ],
+                      "properties": {
+                        "left": {
+                          "ta6Ref": "1.1a"
+                        },
+                        "right": {
+                          "ta6Ref": "1.1b"
+                        },
+                        "rear": {
+                          "ta6Ref": "1.1c"
+                        },
+                        "front": {
+                          "ta6Ref": "1.1d"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "areBoundariesUniform": {
+                      "enum": [
+                        "No"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "1.2.1"
+                    },
+                    "attachments": {
+                      "ta6Ref": "1.2.2"
+                    }
+                  },
+                  "required": [
+                    "details",
+                    "attachments"
+                  ]
+                },
+                {
+                  "properties": {
+                    "areBoundariesUniform": {
+                      "enum": [
+                        "Not applicable"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "areBoundariesUniform"
+              ],
+              "properties": {
+                "areBoundariesUniform": {
+                  "ta6Ref": "1.2"
+                }
+              }
+            },
+            "haveBoundaryFeaturesMoved": {
+              "ta6Ref": "1.3",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not applicable"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "1.3.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Is the seller aware of any boundary feature having been moved in the last 10 years or during the seller’s period of ownership if longer?",
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "1.3.1"
+                }
+              }
+            },
+            "adjacentLandIncluded": {
+              "ta6Ref": "1.4",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not applicable"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "1.4.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "During the seller’s ownership, has any adjacent land or property been purchased by the seller?",
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "1.4.1"
+                }
+              }
+            },
+            "flyingFreehold": {
+              "ta6Ref": "1.5",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not applicable"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "1.5.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Does any part of the property or any building on the property overhang, or project under, the boundary of the neighbouring property or road, for example cellars under the pavement, overhanging eaves or covered walkways?",
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "1.5.1"
+                }
+              }
+            }
+          }
+        },
+        "servicesCrossing": {
+          "ta6Ref": "8",
+          "required": [
+            "pipesWiresCablesDrainsToProperty",
+            "pipesWiresCablesDrainsFromProperty",
+            "formalOrInformalAgreements"
+          ],
+          "properties": {
+            "pipesWiresCablesDrainsToProperty": {
+              "ta6Ref": "8.7",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "8.7.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Do any drains, pipes or wires serving the property cross any neighbour’s property?",
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "8.7.1"
+                }
+              }
+            },
+            "pipesWiresCablesDrainsFromProperty": {
+              "ta6Ref": "8.8",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "8.8.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "8.8.1"
+                }
+              }
+            },
+            "formalOrInformalAgreements": {
+              "ta6Ref": "8.9",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "8.9.2"
+                    },
+                    "attachments": {
+                      "ta6Ref": "8.9.3"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Is there any agreement or arrangement about drains, pipes or wires?",
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "8.9.1"
+                }
+              }
+            }
+          }
+        },
+        "electricalWorks": {
+          "ta6Ref": "12",
+          "required": [
+            "testedByQualifiedElectrician",
+            "electricalWorkSince2005"
+          ],
+          "properties": {
+            "testedByQualifiedElectrician": {
+              "ta6Ref": "12.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "yearTested": {
+                      "ta6Ref": "12.1.2"
+                    },
+                    "attachments": {
+                      "ta6Ref": "12.1.3"
+                    }
+                  },
+                  "required": [
+                    "yearTested",
+                    "attachments"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "12.1.1"
+                }
+              }
+            },
+            "electricalWorkSince2005": {
+              "ta6Ref": "12.2",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "suppliedCertificate": {
+                      "ta6Ref": "12.2.2a",
+                      "required": [
+                        "certificateType",
+                        "attachments"
+                      ],
+                      "properties": {
+                        "certificateType": {
+                          "ta6Ref": "12.2.2a.1"
+                        },
+                        "attachments": {
+                          "ta6Ref": "12.2.2a.2"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "suppliedCertificate"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "12.2.1"
+                }
+              }
+            }
+          }
+        },
+        "guaranteesWarrantiesAndIndemnityInsurances": {
+          "ta6Ref": "5",
+          "discriminator": {
+            "propertyName": "hasValidGuaranteesOrWarranties"
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "hasValidGuaranteesOrWarranties": {
+                  "enum": [
+                    "No"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "hasValidGuaranteesOrWarranties": {
+                  "enum": [
+                    "Yes"
+                  ]
+                },
+                "newHomeWarranty": {
+                  "ta6Ref": "5.1a",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6Ref": "5.1a2"
+                        },
+                        "attachments": {
+                          "ta6Ref": "5.1a3"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "5.1a1"
+                    }
+                  }
+                },
+                "roofingWork": {
+                  "ta6Ref": "5.1f",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "attachments": {
+                          "ta6Ref": "5.1f2"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "5.1f1"
+                    }
+                  }
+                },
+                "dampProofingTreatment": {
+                  "ta6Ref": "5.1b",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "attachments": {
+                          "ta6Ref": "5.1b2"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "5.1b1"
+                    }
+                  }
+                },
+                "timberRotOrInfestationTreatment": {
+                  "ta6Ref": "5.1c",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "attachments": {
+                          "ta6Ref": "5.1c2"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "5.1c1"
+                    }
+                  }
+                },
+                "centralHeatingAndorPlumbing": {
+                  "ta6Ref": "5.1g",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "attachments": {
+                          "ta6Ref": "5.1g2"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "5.1g1"
+                    }
+                  }
+                },
+                "doubleGlazing": {
+                  "ta6Ref": "5.1d",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "attachments": {
+                          "ta6Ref": "5.1d2"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "5.1d1"
+                    }
+                  }
+                },
+                "electricalRepairOrInstallation": {
+                  "ta6Ref": "5.1e",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "attachments": {
+                          "ta6Ref": "5.1e2"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "5.1e1"
+                    }
+                  }
+                },
+                "subsidenceWork": {
+                  "ta6Ref": "5.1h",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "attachments": {
+                          "ta6Ref": "5.1h2"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "5.1h1"
+                    }
+                  }
+                },
+                "otherGuarantees": {
+                  "ta6Ref": "5.1i",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6Ref": "5.1i2"
+                        },
+                        "attachments": {
+                          "ta6Ref": "5.1i3"
+                        }
+                      },
+                      "required": [
+                        "details",
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "5.1i1"
+                    }
+                  }
+                },
+                "outstandingClaimsOrApplications": {
+                  "ta6Ref": "5.2",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6Ref": "5.2.2"
+                        },
+                        "attachments": {
+                          "ta6Ref": "5.2.3"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "Have any claims been made under any of these guarantees or warranties?",
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "5.2.1"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "newHomeWarranty",
+                "roofingWork",
+                "dampProofingTreatment",
+                "timberRotOrInfestationTreatment",
+                "centralHeatingAndorPlumbing",
+                "doubleGlazing",
+                "electricalRepairOrInstallation",
+                "subsidenceWork",
+                "otherGuarantees",
+                "outstandingClaimsOrApplications"
+              ]
+            }
+          ],
+          "required": [
+            "hasValidGuaranteesOrWarranties"
+          ],
+          "properties": {
+            "hasValidGuaranteesOrWarranties": {
+              "ta6Ref": "5.1"
+            }
+          }
+        },
+        "occupiers": {
+          "ta6Ref": "11",
+          "required": [
+            "sellerLivesAtProperty",
+            "othersAged17OrOver"
+          ],
+          "properties": {
+            "sellerLivesAtProperty": {
+              "ta6Ref": "11.1",
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "11.1.1"
+                }
+              }
+            },
+            "othersAged17OrOver": {
+              "ta6Ref": "11.2",
+              "discriminator": {
+                "propertyName": "hasOthersAged17OrOver"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "hasOthersAged17OrOver": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "hasOthersAged17OrOver": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "aged17OrOverNames": {
+                      "ta6Ref": "11.3"
+                    },
+                    "aged17OrOverTenantsOrLodgers": {
+                      "ta6Ref": "11.4",
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6Ref": "11.4.1"
+                        }
+                      }
+                    },
+                    "vacantPossession": {
+                      "ta6Ref": "11.5",
+                      "discriminator": {
+                        "propertyName": "soldWithVacantPossession"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "soldWithVacantPossession": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "soldWithVacantPossession": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "aged17OrOverAgreedToLeave": {
+                              "ta6Ref": "11.5a",
+                              "required": [
+                                "yesNo"
+                              ],
+                              "properties": {
+                                "yesNo": {
+                                  "ta6Ref": "11.5a1"
+                                }
+                              }
+                            },
+                            "aged17OrOverWillSignToConfirmWillVacate": {
+                              "ta6Ref": "11.5b",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    },
+                                    "attachments": {
+                                      "ta6Ref": "11.5b2"
+                                    }
+                                  },
+                                  "required": [
+                                    "attachments"
+                                  ]
+                                }
+                              ],
+                              "required": [
+                                "yesNo"
+                              ],
+                              "properties": {
+                                "yesNo": {
+                                  "ta6Ref": "11.5b1"
+                                }
+                              }
+                            }
+                          },
+                          "required": [
+                            "aged17OrOverAgreedToLeave",
+                            "aged17OrOverWillSignToConfirmWillVacate"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "soldWithVacantPossession"
+                      ],
+                      "properties": {
+                        "soldWithVacantPossession": {
+                          "ta6Ref": "11.5.1"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "aged17OrOverNames",
+                    "aged17OrOverTenantsOrLodgers",
+                    "vacantPossession"
+                  ]
+                }
+              ],
+              "required": [
+                "hasOthersAged17OrOver"
+              ],
+              "properties": {
+                "hasOthersAged17OrOver": {
+                  "ta6Ref": "11.2.1"
+                }
+              }
+            }
+          }
+        },
+        "completionAndMoving": {
+          "ta6Ref": "14",
+          "required": [
+            "sellerWillEnsure",
+            "otherPropertyInChain",
+            "moveRestrictionDates",
+            "sufficientToRepayAllMortgages"
+          ],
+          "properties": {
+            "sellerWillEnsure": {
+              "ta6Ref": "14.4",
+              "properties": {
+                "removeRubbish": {
+                  "ta6Ref": "14.4a"
+                },
+                "replaceLightFittings": {
+                  "ta6Ref": "14.4b"
+                },
+                "takeReasonableCare": {
+                  "ta6Ref": "14.4c"
+                },
+                "leaveKeys": {
+                  "ta6Ref": "14.4d"
+                }
+              }
+            },
+            "otherPropertyInChain": {
+              "ta6Ref": "14.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "14.1.1"
+                }
+              }
+            },
+            "moveRestrictionDates": {
+              "ta6Ref": "14.2",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6Ref": "14.2.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "14.2.1"
+                }
+              }
+            },
+            "sufficientToRepayAllMortgages": {
+              "ta6Ref": "14.3",
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6Ref": "14.3.1"
+                }
+              }
+            }
+          }
+        },
+        "confirmationOfAccuracyByOwners": {
+          "ta6Ref": "14.5",
+          "required": [
+            "confirmInformationIsAccurate"
+          ],
+          "properties": {
+            "confirmInformationIsAccurate": {
+              "ta6Ref": "14.5.1"
+            }
+          }
+        }
+      }
+    }
+  }
+}

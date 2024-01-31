@@ -1,0 +1,3515 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/rds.json",
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "address": {
+          "rdsRef": "Property/Address/xal:AddressDetails"
+        },
+        "uprn": {
+          "rdsRef": "Property/GUID/{name='UPRN',id=?}"
+        },
+        "ownership": {
+          "properties": {
+            "ownershipsToBeTransferred": {
+              "items": {
+                "properties": {
+                  "ownershipType": {
+                    "rdsRef": "Tenure/Tenure"
+                  }
+                },
+                "oneOf": [
+                  null,
+                  null,
+                  {
+                    "properties": {
+                      "leaseholdInformation": {
+                        "properties": {
+                          "groundRent": {
+                            "oneOf": [
+                              null,
+                              {
+                                "properties": {
+                                  "annualGroundRent": {
+                                    "rdsRef": "TenureAgreements/RentPayable/Value"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "parking": {
+          "rdsRef": "Services/Parking"
+        },
+        "listingAndConservation": {
+          "properties": {
+            "isListed": {
+              "rdsRef": "Protections",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "isConservationArea": {
+              "rdsRef": "Protections",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "hasTreePreservationOrder": {
+              "rdsRef": "Property/Flags",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "workCarriedOut": {
+                      "rdsRef": "WorksAlterationsChanges",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "consentsObtained": {
+                              "rdsRef": "Protections"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "typeOfConstruction": {
+          "properties": {
+            "isStandardForm": {
+              "rdsRef": "Buildings,BuildingSections/ConstructionType,ConstructionMaterials",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "energyEfficiency": {
+          "rdsRef": "Certificates/{category='energyEfficiency',standard='EPC',gradeLevelRating=?},Certificates/{category='energyEfficiency',standard='EPC',status='exempt'},",
+          "properties": {
+            "greenDealLoan": {
+              "rdsRef": "RightsHolders/Loans,RightsHolders/OtherDocumentation"
+            }
+          }
+        },
+        "councilTax": {
+          "properties": {
+            "councilTaxBand": {
+              "rdsRef": "TenureAgreements/Taxes/{banding=?}"
+            },
+            "councilTaxAffectingAlterations": {
+              "rdsRef": "TenureAgreements/Taxes/WorksAlterationsChanges",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "disputesAndComplaints": {
+          "properties": {
+            "hasDisputesAndComplaints": {
+              "rdsRef": "Tenure/DisputesComplaints,Tenure/LegalClaims",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "leadingToDisputesAndComplaints": {
+              "rdsRef": "Tenure/DisputesComplaints,Tenure/LegalClaims",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "alterationsAndChanges": {
+          "properties": {
+            "hasStructuralAlterations": {
+              "rdsRef": "WorksAlterationsChanges",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "buildingRegApproval": {
+                      "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "planningPermission": {
+                      "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "listedBuildingConsent": {
+                      "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "deedRestrictionConsent": {
+                      "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "changeOfUse": {
+              "rdsRef": "WorksAlterationsChanges",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "buildingRegApproval": {
+                      "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "planningPermission": {
+                      "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "listedBuildingConsent": {
+                      "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "deedRestrictionConsent": {
+                      "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "windowReplacementsSince2002": {
+              "rdsRef": "WorksAlterationsChanges",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "buildingRegApproval": {
+                      "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "planningPermission": {
+                      "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "listedBuildingConsent": {
+                      "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "deedRestrictionConsent": {
+                      "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "hasAddedConservatory": {
+              "rdsRef": "WorksAlterationsChanges",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "buildingRegApproval": {
+                      "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "planningPermission": {
+                      "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "listedBuildingConsent": {
+                      "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "deedRestrictionConsent": {
+                      "rdsRef": "WorksAlterationsChanges/ConsentApproval",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "worksUnfinished": {
+              "rdsRef": "WorksAlterationsChanges/isIncomplete",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "planningPermissionBreaches": {
+              "rdsRef": "Property/Flags",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "rdsRef": "Buildings,BuildingsSections/StructureAuthorised,BuildingsSections/StructureUnauthorised"
+                    },
+                    "willingToInsure": {
+                      "rdsRef": "Insurance/isWillingToProvide"
+                    }
+                  }
+                }
+              ]
+            },
+            "unresolvedPlanningIssues": {
+              "rdsRef": "Buildings,BuildingsSections/StructureAuthorised,BuildingsSections/StructureUnauthorised",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "rdsRef": "Buildings,BuildingsSections/StructureAuthorised,BuildingsSections/StructureUnauthorised"
+                    },
+                    "willingToInsure": {
+                      "rdsRef": "Insurance/isWillingToProvide"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "notices": {
+          "properties": {
+            "neighbourDevelopment": {
+              "rdsRef": "Property/Flags,Planning",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "planningApplication": {
+              "rdsRef": "Property/Flags,Planning",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "requiredMaintenance": {
+              "rdsRef": "Property/Flags,Notifications",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "listedBuildingApplication": {
+              "rdsRef": "Property/Flags,Protections",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "infrastructureProject": {
+              "rdsRef": "Property/Flags,Planning",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "partyWallAct": {
+              "rdsRef": "Property/Flags,Notifications",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "otherNotices": {
+              "rdsRef": "Property/Flags,Notifications",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "specialistIssues": {
+          "properties": {
+            "dryRotEtcTreatment": {
+              "rdsRef": "Property/Flags,BuildingSections/EnvironmentalIssues",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "containsAsbestos": {
+              "rdsRef": "Property/Flags,BuildingSections/EnvironmentalIssues",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "japaneseKnotweed": {
+              "rdsRef": "Property/Flags,BuildingSections/EnvironmentalIssues,Use/EnvironmentalIssues",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "subsidenceOrStructuralFault": {
+              "rdsRef": "Property/Flags,BuildingSections/EnvironmentalIssues",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "ongoingHealthOrSafetyIssue": {
+              "rdsRef": "Property/Flags,BuildingSections/EnvironmentalIssues",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "fixturesAndFittings": {
+          "properties": {
+            "itemsToRemove": {
+              "rdsRef": "Objects/{isIncludedInExchange='no',class='fixture|fitting}",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "itemsToInclude": {
+              "rdsRef": "Objects/{isIncludedInExchange='true',class='equipment|furniture}",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "electricity": {
+          "rdsRef": "Services/Electricity",
+          "properties": {
+            "mainsElectricity": {
+              "rdsRef": "Services/Electricity",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "electricityMeter": {
+                      "rdsRef": "Objects/class='meters|'&access=?&accessLocation=?"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "solarPanels": {
+              "oneOf": [
+                null,
+                {
+                  "properties": {
+                    "yearInstalled": {
+                      "rdsRef": "Objects/Installation"
+                    },
+                    "panelsOwnedOutright": {
+                      "rdsRef": "Objects/Ownership",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "panelProviderLease": {
+                      "rdsRef": "Objects/Ownership",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "lastMaintained": {
+                      "rdsRef": "Objects/Servicing"
+                    },
+                    "inGoodWorkingOrder": {
+                      "rdsRef": "Objects/isNotWorking=yes|no|true|false",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "isConnectedToNationalGrid": {
+                      "rdsRef": "Objects/isExternallyConnected=yes|no|true|false,Connection,Objects/ExternalConnection"
+                    },
+                    "photovoltaicMeterPanelLocation": {
+                      "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?"
+                    },
+                    "photovoltaicBatteriesLocation": {
+                      "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?"
+                    }
+                  }
+                }
+              ]
+            },
+            "otherSources": {
+              "rdsRef": "Services/Other",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "waterAndDrainage": {
+          "properties": {
+            "water": {
+              "properties": {
+                "mainsWater": {
+                  "rdsRef": "Services/PotableWaterSupply",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "stopcock": {
+                          "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "drainage": {
+              "properties": {
+                "mainsSurfaceWaterDrainage": {
+                  "rdsRef": "Services/StormWaterDrainage",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "mainsFoulDrainage": {
+                  "rdsRef": "Services/WasteWaterSewerageDisposal",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        },
+                        "offMainsDrainageSystem": {
+                          "properties": {
+                            "otherConnectedProperties": {
+                              "rdsRef": "Services/OtherServices/SharedWith",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            "plantOnOtherLand": {
+                              "rdsRef": "Services/OtherServices/Located,Services/OtherServices/{access=?}",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            "plantRegistered": {
+                              "rdsRef": "Services/OtherServices/Certificates",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            "plantDrainsIntoWaterway": {
+                              "rdsRef": "Services/OtherServices/{isExternallyConnected='yes?true'}",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No, the effluent is discharged through a soakaway system."
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "dischargeCompliesWithGBR": {
+                                      "rdsRef": "Services/OtherServices/ExternalConnections/Flags"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "maintenanceAgreements": {
+              "rdsRef": "Services/Certificates,Services/OtherServices/Certificates",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "heating": {
+          "rdsRef": "Buildings|BuildingSections/isUnheated=no|yes|true|false",
+          "properties": {
+            "heatingSystem": {
+              "oneOf": [
+                null,
+                {
+                  "properties": {
+                    "centralHeatingDetails": {
+                      "properties": {
+                        "centralHeatingFuel": {
+                          "rdsRef": "Buildings|BuildingSections/Heating/isGas=no|yes|true|false",
+                          "discriminator": {
+                            "propertyName": "centralHeatingFuelType"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "centralHeatingFuelType": {
+                                  "enum": [
+                                    "Mains gas"
+                                  ]
+                                },
+                                "gasMeter": {
+                                  "rdsRef": "Objects/class='meters'&access=?&accessLocation=?"
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "centralHeatingFuelType": {
+                                  "enum": [
+                                    "Electricity"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "centralHeatingFuelType": {
+                                  "enum": [
+                                    "Oil",
+                                    "LPG",
+                                    "Biomass"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "centralHeatingFuelType": {
+                                  "enum": [
+                                    "Other"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "centralHeatingInstalled": {
+                          "rdsRef": "Objects/Installed"
+                        },
+                        "boilerInstallationCertificate": {
+                          "rdsRef": "Objects/Installation,Objects/Certificates",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "heatingLastServicedDate": {
+                          "rdsRef": "Objects/Maintenance"
+                        },
+                        "heatingInGoodWorkingOrder": {
+                          "rdsRef": "Objects/Condition=?",
+                          "discriminator": {
+                            "propertyName": "yesNo"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "yesNo": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "connectivity": {
+          "properties": {
+            "telephone": {
+              "rdsRef": "Services/Telephone",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "cableSatelliteTV": {
+              "rdsRef": "Services/CableSatelliteTV",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "broadband": {
+              "rdsRef": "Services/Internet"
+            }
+          }
+        },
+        "insurance": {
+          "properties": {
+            "isInsured": {
+              "rdsRef": "Insurance/isInsured=no|yes|true|false"
+            }
+          },
+          "oneOf": [
+            null,
+            {
+              "properties": {
+                "difficultiesObtainingInsurance": {
+                  "rdsRef": "Insurance/Flags,Insurance/refusalReason=?"
+                },
+                "insuranceClaims": {
+                  "rdsRef": "Insurance/Claims",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "rightsAndInformalArrangements": {
+          "properties": {
+            "sharedContributions": {
+              "rdsRef": "Services/SharedCosts",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "neighbouringLandRights": {
+              "rdsRef": "Tenure/Rights,Tenure *with different property entity and references etc*",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "accessRestrictionAttempts": {
+              "rdsRef": "Tenure/Restrictions",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "rightsOrArrangements": {
+              "properties": {
+                "publicRightOfWay": {
+                  "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities,Tenure/CadastralMapOfParcels",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "rightsOfLight": {
+                  "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "rightsOfSupport": {
+                  "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "rightsCreatedThroughCustom": {
+                  "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "rightsToTakeFromLand": {
+                  "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "minesAndMinerals": {
+                  "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "churchChancel": {
+                  "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "otherRights": {
+                  "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "environmentalIssues": {
+          "properties": {
+            "flooding": {
+              "rdsRef": "Sustainability/Environmental|Natural|Situational",
+              "properties": {
+                "floodRisk": {
+                  "rdsRef": "Sustainability/Environmental|Natural|Situational",
+                  "discriminator": {
+                    "propertyName": "riskIndicator"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "riskIndicator": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "riskIndicator": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "historicalFlooding": {
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "typeOfFlooding": {
+                          "rdsRef": "Sustainability/Environmental|Natural|Situational"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "radon": {
+              "rdsRef": "Sustainability/Environmental|Natural|Situational",
+              "properties": {
+                "remedialMeasuresOnConstruction": {
+                  "rdsRef": "Sustainability/Environmental|Natural|Situational"
+                }
+              }
+            },
+            "contaminatedLand": {
+              "rdsRef": "Sustainability/Environmental|Natural|Situational"
+            },
+            "groundStability": {
+              "rdsRef": "Sustainability/Environmental|Natural|Situational"
+            },
+            "infrastructure": {
+              "rdsRef": "Sustainability/Environmental|Natural|Situational"
+            },
+            "energy": {
+              "rdsRef": "Sustainability/Environmental|Natural|Situational"
+            },
+            "transportation": {
+              "rdsRef": "Sustainability/Environmental|Natural|Situational"
+            },
+            "planning": {
+              "rdsRef": "Sustainability/Environmental|Natural|Situational"
+            },
+            "climate": {
+              "rdsRef": "Sustainability/Environmental|Natural|Situational"
+            },
+            "coalMining": {
+              "rdsRef": "Sustainability/Environmental|Natural|Situational",
+              "discriminator": {
+                "propertyName": "riskIndicator"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "riskIndicator": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "riskIndicator": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "nonCoalMining": {
+              "rdsRef": "Sustainability/Environmental|Natural|Situational",
+              "discriminator": {
+                "propertyName": "riskIndicator"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "riskIndicator": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "riskIndicator": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "coastalErosion": {
+              "rdsRef": "Sustainability/Environmental|Natural|Situational",
+              "discriminator": {
+                "propertyName": "riskIndicator"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "riskIndicator": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "riskIndicator": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "otherEnvironmental": {
+              "rdsRef": "Sustainability/Environmental|Natural|Situational",
+              "discriminator": {
+                "propertyName": "riskIndicator"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "riskIndicator": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "riskIndicator": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "otherIssues": {
+          "properties": {
+            "excessiveNoise": {
+              "rdsRef": "Tenure/OtherMaterialIssues",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "crime": {
+              "rdsRef": "Tenure/OtherMaterialIssues",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "cautionOrConviction": {
+              "rdsRef": "Tenure/OtherMaterialIssues",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "failedTransactionsInLast12Months": {
+              "rdsRef": "Tenure/OtherMaterialIssues",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "additionalInformation": {
+          "properties": {
+            "restrictionsOnUseNotCompliedWith": {
+              "rdsRef": "Use/NonCompliance",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "otherMaterialIssue": {
+              "rdsRef": "Tenure/OtherMaterialIssues",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "legalOwners": {
+          "properties": {
+            "namesOfLegalOwners": {
+              "rdsRef": "RightsHolders"
+            }
+          }
+        },
+        "sellersCapacity": {
+          "rdsRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
+          "discriminator": {
+            "propertyName": "capacity"
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "capacity": {
+                  "enum": [
+                    "Legal Owner",
+                    "Mortgagee in Possession"
+                  ]
+                },
+                "sellersCapacityDetails": {
+                  "rdsRef": "Participants/OtherDocumentation"
+                }
+              }
+            },
+            {
+              "properties": {
+                "capacity": {
+                  "enum": [
+                    "Personal Representative for a Deceased Owner",
+                    "Under Power of Attorney",
+                    "Other"
+                  ]
+                },
+                "sellersCapacityDetails": {
+                  "rdsRef": "Participants/OtherDocumentation"
+                }
+              }
+            }
+          ]
+        },
+        "legalBoundaries": {
+          "properties": {
+            "partOutsideLegalOwnership": {
+              "rdsRef": "Tenure/Interests",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "partOnSeparateSiteOrDeed": {
+              "rdsRef": "Tenure *with different property entity and references etc*",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "boundariesDifferFromTitlePlan": {
+              "rdsRef": "Tenure/Boundaries,Tenure/BoundaryDifferences,Tenure/CadastralMapOfParcels",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "boundaryAlterationProposal": {
+              "rdsRef": "Tenure/Boundaries/proposedAlterations=?",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "ownership": {
+              "rdsRef": "Tenure/Boundaries",
+              "discriminator": {
+                "propertyName": "areBoundariesUniform"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "areBoundariesUniform": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "uniformBoundaries": {
+                      "properties": {
+                        "left": {
+                          "rdsRef": "Tenure/Boundaries"
+                        },
+                        "right": {
+                          "rdsRef": "Tenure/Boundaries"
+                        },
+                        "rear": {
+                          "rdsRef": "Tenure/Boundaries"
+                        },
+                        "front": {
+                          "rdsRef": "Tenure/Boundaries"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "areBoundariesUniform": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "areBoundariesUniform": {
+                      "enum": [
+                        "Not applicable"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "haveBoundaryFeaturesMoved": {
+              "rdsRef": "Tenure/Boundaries",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not applicable"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "adjacentLandIncluded": {
+              "rdsRef": "Property/Flags,Property/GUID/name='UPRN'&id=?",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not applicable"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "flyingFreehold": {
+              "rdsRef": "Tenure/tenure=?",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not applicable"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "servicesCrossing": {
+          "properties": {
+            "pipesWiresCablesDrainsToProperty": {
+              "rdsRef": "Services/.../Located",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "pipesWiresCablesDrainsFromProperty": {
+              "rdsRef": "Services/.../Located *with Property entities and references for the related properties etc",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "formalOrInformalAgreements": {
+              "rdsRef": "Services/.../Consent",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "electricalWorks": {
+          "properties": {
+            "testedByQualifiedElectrician": {
+              "rdsRef": "Objects/Servicing",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "electricalWorkSince2005": {
+              "rdsRef": "WorksAlterationsChanges/Consent,WorksAlterationsChanges/Consent/Certificates",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "guaranteesWarrantiesAndIndemnityInsurances": {
+          "properties": {
+            "hasValidGuaranteesOrWarranties": {
+              "rdsRef": "Certificates"
+            }
+          },
+          "oneOf": [
+            null,
+            {
+              "properties": {
+                "newHomeWarranty": {
+                  "rdsRef": "Certificates",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "roofingWork": {
+                  "rdsRef": "Certificates",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "dampProofingTreatment": {
+                  "rdsRef": "Certificates",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "timberRotOrInfestationTreatment": {
+                  "rdsRef": "Certificates",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "centralHeatingAndorPlumbing": {
+                  "rdsRef": "Certificates",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "doubleGlazing": {
+                  "rdsRef": "Certificates",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "electricalRepairOrInstallation": {
+                  "rdsRef": "Certificates",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "subsidenceWork": {
+                  "rdsRef": "Certificates",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "solarPanels": {
+                  "rdsRef": "Certificates",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "otherGuarantees": {
+                  "rdsRef": "Certificates",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "outstandingClaimsOrApplications": {
+                  "rdsRef": "Certificates",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "titleDefectInsurance": {
+                  "rdsRef": "Certificates",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "occupiers": {
+          "properties": {
+            "sellerLivesAtProperty": {
+              "rdsRef": "Property/Flags"
+            },
+            "othersAged17OrOver": {
+              "rdsRef": "Participants",
+              "discriminator": {
+                "propertyName": "hasOthersAged17OrOver"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "hasOthersAged17OrOver": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "hasOthersAged17OrOver": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "aged17OrOverTenantsOrLodgers": {
+                      "rdsRef": "Property/Flags"
+                    },
+                    "vacantPossession": {
+                      "oneOf": [
+                        null,
+                        {
+                          "properties": {
+                            "aged17OrOverAgreedToLeave": {
+                              "rdsRef": "RightsHolders,TenureAgreements,Notifications"
+                            },
+                            "aged17OrOverWillSignToConfirmWillVacate": {
+                              "rdsRef": "RightsHolders,TenureAgreements,Notifications",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "properties": {
+                "hasOthersAged17OrOver": {
+                  "rdsRef": "Participants"
+                }
+              }
+            }
+          }
+        },
+        "completionAndMoving": {
+          "properties": {
+            "sellerWillEnsure": {
+              "rdsRef": "RightsHolders/Flags"
+            },
+            "otherPropertyInChain": {
+              "rdsRef": "RightsHolders/Flags",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "moveRestrictionDates": {
+              "rdsRef": "RightsHolders/Text",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
