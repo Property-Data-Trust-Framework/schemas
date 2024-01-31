@@ -922,7 +922,11 @@
                                 "title": "Has the seller received a Landlord’s Certificate and the accompanying evidence?",
                                 "properties": {
                                   "yesNoNotApplicable": {
-                                    "ta7Ref": "11.5.2"
+                                    "ta7Ref": "11.5.1",
+                                    "enum": [
+                                      "Yes",
+                                      "No"
+                                    ]
                                   }
                                 }
                               }
@@ -960,7 +964,46 @@
                                         "ta7Ref": "9.2"
                                       },
                                       "landlordConsentObtained": {
-                                        "ta7Ref": "9.3"
+                                        "ta7Ref": "9.3",
+                                        "discriminator": {
+                                          "propertyName": "yesNo"
+                                        },
+                                        "oneOf": [
+                                          {
+                                            "properties": {
+                                              "yesNo": {
+                                                "enum": [
+                                                  "No",
+                                                  "Not known",
+                                                  "Not required"
+                                                ]
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "properties": {
+                                              "yesNo": {
+                                                "enum": [
+                                                  "Yes"
+                                                ]
+                                              },
+                                              "attachments": {
+                                                "ta7Ref": "9.3.2"
+                                              }
+                                            },
+                                            "required": [
+                                              "attachments"
+                                            ]
+                                          }
+                                        ],
+                                        "required": [
+                                          "yesNo"
+                                        ],
+                                        "properties": {
+                                          "yesNo": {
+                                            "ta7Ref": "9.3.1"
+                                          }
+                                        }
                                       }
                                     },
                                     "required": [
@@ -1137,10 +1180,10 @@
                             "title": "Relevant documents",
                             "properties": {
                               "lease": {
-                                "ta7Ref": "3.1a1"
+                                "ta7Ref": "3.1a"
                               },
                               "deedsOfVariation": {
-                                "ta7Ref": "3.1a2",
+                                "ta7Ref": "3.1b",
                                 "title": "Any supplemental deeds.",
                                 "enum": [
                                   "Attached",
@@ -1169,10 +1212,84 @@
                                 }
                               },
                               "noticeOfSale": {
-                                "ta7Ref": "6.1"
+                                "ta7Ref": "6.1",
+                                "discriminator": {
+                                  "propertyName": "yesNo"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "attachments": {
+                                        "ta7Ref": "6.1.2"
+                                      }
+                                    },
+                                    "required": [
+                                      "attachments"
+                                    ]
+                                  }
+                                ],
+                                "required": [
+                                  "yesNo"
+                                ],
+                                "properties": {
+                                  "yesNo": {
+                                    "ta7Ref": "6.1.1"
+                                  }
+                                }
                               },
                               "noticeOfBuildingCondition": {
-                                "ta7Ref": "6.2"
+                                "ta7Ref": "6.2",
+                                "discriminator": {
+                                  "propertyName": "yesNo"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "No"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": [
+                                          "Yes"
+                                        ]
+                                      },
+                                      "attachments": {
+                                        "ta7Ref": "6.2.2"
+                                      }
+                                    },
+                                    "required": [
+                                      "attachments"
+                                    ]
+                                  }
+                                ],
+                                "required": [
+                                  "yesNo"
+                                ],
+                                "properties": {
+                                  "yesNo": {
+                                    "ta7Ref": "6.2.1"
+                                  }
+                                }
                               },
                               "additionalRegulationsNotInLease": {
                                 "ta7Ref": "3.1b"

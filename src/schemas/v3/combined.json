@@ -272,7 +272,7 @@
         "uprn": {
           "baspiRef": "A1.1.5",
           "rdsRef": "Property/GUID/{name='UPRN',id=?}",
-          "title": "Unique Property Reference Number ",
+          "title": "Unique Property Reference Number",
           "type": "integer"
         },
         "location": {
@@ -7141,10 +7141,11 @@
                                 "ta7Required": ["yesNoNotApplicable"],
                                 "properties": {
                                   "yesNoNotApplicable": {
-                                    "ta7Ref": "11.5.2",
+                                    "ta7Ref": "11.5.1",
                                     "type": "string",
                                     "title": "",
-                                    "enum": ["Yes", "No", "Not applicable"]
+                                    "enum": ["Yes", "No", "Not applicable"],
+                                    "ta7Enum": ["Yes", "No"]
                                   }
                                 },
                                 "discriminator": {
@@ -7223,14 +7224,54 @@
                                       },
                                       "landlordConsentObtained": {
                                         "ta7Ref": "9.3",
-                                        "title": "Was the landlord’s consent for the alterations obtained? If Yes, please supply a copy.",
-                                        "type": "string",
-                                        "enum": [
-                                          "No",
-                                          "Not known",
-                                          "Not required",
-                                          "Attached",
-                                          "To follow"
+                                        "title": "Was the landlord’s consent for the alterations obtained?",
+                                        "type": "object",
+                                        "properties": {
+                                          "yesNo": {
+                                            "ta7Ref": "9.3.1",
+                                            "type": "string",
+                                            "title": "",
+                                            "enum": [
+                                              "Yes",
+                                              "No",
+                                              "Not known",
+                                              "Not required"
+                                            ]
+                                          }
+                                        },
+                                        "ta7Required": ["yesNo"],
+                                        "discriminator": {
+                                          "propertyName": "yesNo"
+                                        },
+                                        "oneOf": [
+                                          {
+                                            "properties": {
+                                              "yesNo": {
+                                                "enum": [
+                                                  "No",
+                                                  "Not known",
+                                                  "Not required"
+                                                ]
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "properties": {
+                                              "yesNo": {
+                                                "enum": ["Yes"]
+                                              },
+                                              "attachments": {
+                                                "ta7Ref": "9.3.2",
+                                                "title": "Please supply a copy.",
+                                                "type": "string",
+                                                "enum": [
+                                                  "Attached",
+                                                  "To follow"
+                                                ]
+                                              }
+                                            },
+                                            "ta7Required": ["attachments"]
+                                          }
                                         ]
                                       }
                                     },
@@ -7671,14 +7712,14 @@
                             ],
                             "properties": {
                               "lease": {
-                                "ta7Ref": "3.1a1",
+                                "ta7Ref": "3.1a",
                                 "title": "Please supply a copy of the lease.",
                                 "type": "string",
                                 "enum": ["Attached", "To follow"]
                               },
                               "deedsOfVariation": {
                                 "lpe1Ref": "8.9",
-                                "ta7Ref": "3.1a2",
+                                "ta7Ref": "3.1b",
                                 "title": "Any Deeds of Variation or other document varying the terms of the lease of this Property.",
                                 "ta7Title": "Any supplemental deeds.",
                                 "type": "string",
@@ -7761,26 +7802,90 @@
                               },
                               "noticeOfSale": {
                                 "ta7Ref": "6.1",
-                                "title": "Has the seller received a notice that the landlord wants to sell the building? If Yes, please supply a copy.",
-                                "type": "string",
-                                "enum": [
-                                  "Yes",
-                                  "No",
-                                  "Attached",
-                                  "To follow",
-                                  "Lost"
+                                "title": "Has the seller received a notice that the landlord wants to sell the building?",
+                                "type": "object",
+                                "properties": {
+                                  "yesNo": {
+                                    "ta7Ref": "6.1.1",
+                                    "type": "string",
+                                    "title": "",
+                                    "enum": ["Yes", "No"]
+                                  }
+                                },
+                                "ta7Required": ["yesNo"],
+                                "discriminator": {
+                                  "propertyName": "yesNo"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": ["No"]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": ["Yes"]
+                                      },
+                                      "attachments": {
+                                        "ta7Ref": "6.1.2",
+                                        "title": "Please supply a copy.",
+                                        "type": "string",
+                                        "enum": [
+                                          "Attached",
+                                          "To follow",
+                                          "Lost"
+                                        ]
+                                      }
+                                    },
+                                    "ta7Required": ["attachments"]
+                                  }
                                 ]
                               },
                               "noticeOfBuildingCondition": {
                                 "ta7Ref": "6.2",
-                                "title": "Has the seller received any other notice about the building, its use, its condition or its repair and maintenance? If Yes, please supply a copy.",
-                                "type": "string",
-                                "enum": [
-                                  "Yes",
-                                  "No",
-                                  "Attached",
-                                  "To follow",
-                                  "Lost"
+                                "title": "Has the seller received any other notice about the building, its use, its condition or its repair and maintenance?",
+                                "type": "object",
+                                "properties": {
+                                  "yesNo": {
+                                    "ta7Ref": "6.2.1",
+                                    "type": "string",
+                                    "title": "",
+                                    "enum": ["Yes", "No"]
+                                  }
+                                },
+                                "ta7Required": ["yesNo"],
+                                "discriminator": {
+                                  "propertyName": "yesNo"
+                                },
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": ["No"]
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "properties": {
+                                      "yesNo": {
+                                        "enum": ["Yes"]
+                                      },
+                                      "attachments": {
+                                        "ta7Ref": "6.2.2",
+                                        "title": "Please supply a copy.",
+                                        "type": "string",
+                                        "enum": [
+                                          "Attached",
+                                          "To follow",
+                                          "Lost"
+                                        ]
+                                      }
+                                    },
+                                    "ta7Required": ["attachments"]
+                                  }
                                 ]
                               },
                               "managedAreasBuildingsInsurancePolicy": {
@@ -11339,8 +11444,7 @@
                 "externalDoorFittings",
                 "doorbellChime",
                 "electricSockets",
-                "burglarAlarm",
-                "otherItems"
+                "burglarAlarm"
               ],
               "properties": {
                 "boilerImmersionHeater": {
@@ -12244,6 +12348,7 @@
                   ]
                 },
                 "otherItems": {
+                  "ta10Ref": "1.16",
                   "title": "Other items (please specify)",
                   "type": "array",
                   "items": {
@@ -12315,8 +12420,7 @@
                 "freezer",
                 "dishwasher",
                 "tumbleDryer",
-                "washingMachine",
-                "otherItems"
+                "washingMachine"
               ],
               "properties": {
                 "hob": {
@@ -12342,7 +12446,7 @@
                           "enum": ["Included"]
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.1d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -12396,7 +12500,7 @@
                           "type": "number"
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.1d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -12476,7 +12580,7 @@
                           "enum": ["Included"]
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.2d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -12530,7 +12634,7 @@
                           "type": "number"
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.2d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -12610,7 +12714,7 @@
                           "enum": ["Included"]
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.3d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -12664,7 +12768,7 @@
                           "type": "number"
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.3d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -12744,7 +12848,7 @@
                           "enum": ["Included"]
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.4d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -12798,7 +12902,7 @@
                           "type": "number"
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.4d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -12878,7 +12982,7 @@
                           "enum": ["Included"]
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.5d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -12932,7 +13036,7 @@
                           "type": "number"
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.5d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -13012,7 +13116,7 @@
                           "enum": ["Included"]
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.6d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -13066,7 +13170,7 @@
                           "type": "number"
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.6d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -13146,7 +13250,7 @@
                           "enum": ["Included"]
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.7d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -13200,7 +13304,7 @@
                           "type": "number"
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.7d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -13280,7 +13384,7 @@
                           "enum": ["Included"]
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.8d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -13334,7 +13438,7 @@
                           "type": "number"
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.8d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -13414,7 +13518,7 @@
                           "enum": ["Included"]
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.9d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -13468,7 +13572,7 @@
                           "type": "number"
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.9d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -13548,7 +13652,7 @@
                           "enum": ["Included"]
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.10d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -13602,7 +13706,7 @@
                           "type": "number"
                         },
                         "fittedOrFreestanding": {
-                          "ta10Ref": "xxx",
+                          "ta10Ref": "2.10d",
                           "type": "object",
                           "properties": {
                             "isFittedOrFreestanding": {
@@ -13660,6 +13764,7 @@
                   ]
                 },
                 "otherItems": {
+                  "ta10Ref": "2.11",
                   "title": "Other items (please specify)",
                   "type": "array",
                   "items": {
@@ -13688,7 +13793,7 @@
                             "enum": ["Included"]
                           },
                           "fittedOrFreestanding": {
-                            "ta10Ref": "xxx",
+                            "ta10Ref": "2.11d",
                             "type": "object",
                             "properties": {
                               "isFittedOrFreestanding": {
@@ -13742,7 +13847,7 @@
                             "type": "number"
                           },
                           "fittedOrFreestanding": {
-                            "ta10Ref": "xxx",
+                            "ta10Ref": "2.11d",
                             "type": "object",
                             "properties": {
                               "isFittedOrFreestanding": {
@@ -14432,8 +14537,7 @@
                 "kitchen",
                 "bedroom1",
                 "bedroom2",
-                "bedroom3",
-                "otherRooms"
+                "bedroom3"
               ],
               "properties": {
                 "hallStairsLanding": {
@@ -14857,6 +14961,7 @@
                   ]
                 },
                 "otherRooms": {
+                  "ta10Ref": "4.8",
                   "title": "Other rooms (please specify)",
                   "type": "array",
                   "items": {
@@ -14920,6 +15025,7 @@
               "ta10Required": ["curtainRailsPolesPelmets", "curtainsBlinds"],
               "properties": {
                 "curtainRailsPolesPelmets": {
+                  "ta10Ref": "5",
                   "type": "object",
                   "title": "Curtain rails/poles/pelmets",
                   "ta10Required": [
@@ -14929,8 +15035,7 @@
                     "kitchen",
                     "bedroom1",
                     "bedroom2",
-                    "bedroom3",
-                    "otherRooms"
+                    "bedroom3"
                   ],
                   "properties": {
                     "hallStairsLanding": {
@@ -15354,6 +15459,7 @@
                       ]
                     },
                     "otherRooms": {
+                      "ta10Ref": "5.8",
                       "title": "Other rooms (please specify)",
                       "type": "array",
                       "items": {
@@ -15411,6 +15517,7 @@
                   }
                 },
                 "curtainsBlinds": {
+                  "ta10Ref": "5",
                   "title": "Curtains/blinds",
                   "type": "object",
                   "ta10Required": [
@@ -15420,8 +15527,7 @@
                     "kitchen",
                     "bedroom1",
                     "bedroom2",
-                    "bedroom3",
-                    "otherRooms"
+                    "bedroom3"
                   ],
                   "properties": {
                     "hallStairsLanding": {
@@ -15845,6 +15951,7 @@
                       ]
                     },
                     "otherRooms": {
+                      "ta10Ref": "5.19",
                       "title": "Other rooms (please specify)",
                       "type": "array",
                       "items": {
@@ -15915,8 +16022,7 @@
                 "kitchen",
                 "bedroom1",
                 "bedroom2",
-                "bedroom3",
-                "otherRooms"
+                "bedroom3"
               ],
               "properties": {
                 "hallStairsLanding": {
@@ -16340,6 +16446,7 @@
                   ]
                 },
                 "otherRooms": {
+                  "ta10Ref": "6.8",
                   "title": "Other rooms (please specify)",
                   "type": "array",
                   "items": {
@@ -16408,8 +16515,7 @@
                 "kitchen",
                 "bedroom1",
                 "bedroom2",
-                "bedroom3",
-                "otherRooms"
+                "bedroom3"
               ],
               "properties": {
                 "hallStairsLanding": {
@@ -16833,6 +16939,7 @@
                   ]
                 },
                 "otherRooms": {
+                  "ta10Ref": "7.8",
                   "title": "Other rooms (please specify)",
                   "type": "array",
                   "items": {
@@ -16905,8 +17012,7 @@
                 "outdoorLights",
                 "waterButt",
                 "clothesLine",
-                "rotaryLine",
-                "otherItems"
+                "rotaryLine"
               ],
               "properties": {
                 "gardenFurniture": {
@@ -17630,6 +17736,7 @@
                   ]
                 },
                 "otherItems": {
+                  "ta10Ref": "8.13",
                   "title": "Other items (please specify)",
                   "type": "array",
                   "items": {
@@ -18330,6 +18437,7 @@
                 "yesNo": {
                   "ntsRef": "B3.7.1",
                   "baspiRef": "A7.1.0.8.1",
+                  "ta6Ref": "4.6",
                   "type": "string",
                   "title": "",
                   "enum": ["Yes", "To be connected", "No"],
@@ -18830,7 +18938,7 @@
                           "type": "object",
                           "ntsRef": "B3.2.1.1",
                           "baspiRef": "A7.",
-                          "ta6Ref": "13.3b1",
+                          "ta6Ref": "13.3b",
                           "ntsRequired": ["isSupplyMetered"],
                           "baspiRequired": ["isSupplyMetered"],
                           "ta6Required": ["isSupplyMetered"],
@@ -18838,7 +18946,7 @@
                           "properties": {
                             "isSupplyMetered": {
                               "ntsRef": "3.2.3",
-                              "ta6Ref": "13.3b2",
+                              "ta6Ref": "13.3b",
                               "baspiRef": "B4.6.2",
                               "title": "Is the supply metered?",
                               "type": "string",
@@ -18863,7 +18971,7 @@
                                 },
                                 "location": {
                                   "baspiRef": "4.6.2.1",
-                                  "ta6Ref": "13.3b3",
+                                  "ta6Ref": "13.3b2",
                                   "con29DWRef": "3.6",
                                   "title": "Describe the location of the meter",
                                   "type": "string",
@@ -19171,7 +19279,7 @@
                           "minLength": 1
                         },
                         "supplier": {
-                          "ta6Ref": "13.4a",
+                          "ta6Ref": "13.4.2",
                           "baspiRef": "A7.1.0.11.2",
                           "title": "Supplier",
                           "type": "string",
@@ -21739,7 +21847,7 @@
                 "historicalFlooding": {
                   "ntsRef": "C3.1.1.2",
                   "baspiRef": "A11.1.2",
-                  "ta6Ref": "7.1.1",
+                  "ta6Ref": "7.1",
                   "title": "Historical flooding",
                   "type": "object",
                   "baspiRequired": ["hasBeenFlooded"],
@@ -21749,7 +21857,7 @@
                     "hasBeenFlooded": {
                       "ntsRef": "C3.1.1.2.1",
                       "baspiRef": "A11.1.2.1",
-                      "ta6Ref": "7.1.1.1",
+                      "ta6Ref": "7.1.1",
                       "title": "Has any part of the property (whether buildings or surrounding garden or land) ever been flooded?",
                       "type": "string",
                       "enum": ["Yes", "No"]
