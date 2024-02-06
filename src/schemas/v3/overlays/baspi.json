@@ -25,6 +25,59 @@
               "line1",
               "postcode"
             ]
+          },
+          "sellersCapacity": {
+            "baspiRef": "B1.3",
+            "discriminator": {
+              "propertyName": "capacity"
+            },
+            "oneOf": [
+              {
+                "properties": {
+                  "capacity": {
+                    "enum": [
+                      "Legal Owner",
+                      "Mortgagee in Possession"
+                    ]
+                  },
+                  "sellersCapacityDetails": {
+                    "baspiRef": "B1.3.2"
+                  },
+                  "attachments": {
+                    "baspiRef": "B1.3.3"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "capacity": {
+                    "enum": [
+                      "Personal Representative for a Deceased Owner",
+                      "Under Power of Attorney",
+                      "Other"
+                    ]
+                  },
+                  "sellersCapacityDetails": {
+                    "baspiRef": "B1.3.2"
+                  },
+                  "attachments": {
+                    "baspiRef": "B1.3.3"
+                  }
+                },
+                "required": [
+                  "sellersCapacityDetails",
+                  "attachments"
+                ]
+              }
+            ],
+            "required": [
+              "capacity"
+            ],
+            "properties": {
+              "capacity": {
+                "baspiRef": "B1.3.1"
+              }
+            }
           }
         }
       }
@@ -57,7 +110,6 @@
         "additionalInformation",
         "consumerProtectionRegulationsDeclaration",
         "legalOwners",
-        "sellersCapacity",
         "legalBoundaries",
         "servicesCrossing",
         "electricalWorks",
@@ -5909,59 +5961,6 @@
                   }
                 }
               }
-            }
-          }
-        },
-        "sellersCapacity": {
-          "baspiRef": "B1.3",
-          "discriminator": {
-            "propertyName": "capacity"
-          },
-          "oneOf": [
-            {
-              "properties": {
-                "capacity": {
-                  "enum": [
-                    "Legal Owner",
-                    "Mortgagee in Possession"
-                  ]
-                },
-                "sellersCapacityDetails": {
-                  "baspiRef": "B1.3.2"
-                },
-                "attachments": {
-                  "baspiRef": "B1.3.3"
-                }
-              }
-            },
-            {
-              "properties": {
-                "capacity": {
-                  "enum": [
-                    "Personal Representative for a Deceased Owner",
-                    "Under Power of Attorney",
-                    "Other"
-                  ]
-                },
-                "sellersCapacityDetails": {
-                  "baspiRef": "B1.3.2"
-                },
-                "attachments": {
-                  "baspiRef": "B1.3.3"
-                }
-              },
-              "required": [
-                "sellersCapacityDetails",
-                "attachments"
-              ]
-            }
-          ],
-          "required": [
-            "capacity"
-          ],
-          "properties": {
-            "capacity": {
-              "baspiRef": "B1.3.1"
             }
           }
         },
