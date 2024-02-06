@@ -3423,7 +3423,8 @@
                           "sharedOwnership",
                           "leaseTerm",
                           "groundRent",
-                          "serviceCharge"
+                          "serviceCharge",
+                          "leaseRestrictions"
                         ],
                         "ta7Required": [
                           "sharedOwnership",
@@ -6390,6 +6391,45 @@
                                   "reserveFund"
                                 ],
                                 "ntsRequired": ["annualServiceCharge"]
+                              }
+                            ]
+                          },
+                          "leaseRestrictions": {
+                            "ntsRef": "A3.6",
+                            "title": "Are there restrictions imposed by the lease?",
+                            "type": "object",
+                            "properties": {
+                              "yesNo": {
+                                "ntsRef": "A3.6.1",
+                                "type": "string",
+                                "title": "",
+                                "enum": ["Yes", "No"]
+                              }
+                            },
+                            "ntsRequired": ["yesNo"],
+                            "discriminator": {
+                              "propertyName": "yesNo"
+                            },
+                            "oneOf": [
+                              {
+                                "properties": {
+                                  "yesNo": {
+                                    "enum": ["No"]
+                                  }
+                                }
+                              },
+                              {
+                                "properties": {
+                                  "yesNo": {
+                                    "enum": ["Yes"]
+                                  },
+                                  "details": {
+                                    "ntsRef": "A3.6.2",
+                                    "title": "Details",
+                                    "type": "string"
+                                  }
+                                },
+                                "ntsRequired": ["details"]
                               }
                             ]
                           },
@@ -18238,10 +18278,10 @@
               "ta10Ref": "11",
               "title": "Other items",
               "type": "object",
-              "ta10Required": ["otherItems"],
               "properties": {
                 "otherItems": {
                   "title": "",
+                  "ta10Ref": "11.1",
                   "type": "array",
                   "items": {
                     "type": "object",
