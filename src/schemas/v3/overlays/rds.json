@@ -2,6 +2,47 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/rds.json",
   "properties": {
+    "participants": {
+      "items": {
+        "properties": {
+          "sellersCapacity": {
+            "rdsRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
+            "discriminator": {
+              "propertyName": "capacity"
+            },
+            "oneOf": [
+              {
+                "properties": {
+                  "capacity": {
+                    "enum": [
+                      "Legal Owner",
+                      "Mortgagee in Possession"
+                    ]
+                  },
+                  "sellersCapacityDetails": {
+                    "rdsRef": "Participants/OtherDocumentation"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "capacity": {
+                    "enum": [
+                      "Personal Representative for a Deceased Owner",
+                      "Under Power of Attorney",
+                      "Other"
+                    ]
+                  },
+                  "sellersCapacityDetails": {
+                    "rdsRef": "Participants/OtherDocumentation"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
     "propertyPack": {
       "properties": {
         "address": {
@@ -2627,41 +2668,6 @@
               "rdsRef": "RightsHolders"
             }
           }
-        },
-        "sellersCapacity": {
-          "rdsRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
-          "discriminator": {
-            "propertyName": "capacity"
-          },
-          "oneOf": [
-            {
-              "properties": {
-                "capacity": {
-                  "enum": [
-                    "Legal Owner",
-                    "Mortgagee in Possession"
-                  ]
-                },
-                "sellersCapacityDetails": {
-                  "rdsRef": "Participants/OtherDocumentation"
-                }
-              }
-            },
-            {
-              "properties": {
-                "capacity": {
-                  "enum": [
-                    "Personal Representative for a Deceased Owner",
-                    "Under Power of Attorney",
-                    "Other"
-                  ]
-                },
-                "sellersCapacityDetails": {
-                  "rdsRef": "Participants/OtherDocumentation"
-                }
-              }
-            }
-          ]
         },
         "legalBoundaries": {
           "properties": {
