@@ -2,6 +2,41 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/piq.json",
   "properties": {
+    "participants": {
+      "items": {
+        "properties": {
+          "sellersCapacity": {
+            "piqRef": "B1.3.1",
+            "discriminator": {
+              "propertyName": "capacity"
+            },
+            "oneOf": [
+              {
+                "properties": {
+                  "capacity": {
+                    "enum": [
+                      "Legal Owner",
+                      "Mortgagee in Possession"
+                    ]
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "capacity": {
+                    "enum": [
+                      "Personal Representative for a Deceased Owner",
+                      "Under Power of Attorney",
+                      "Other"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
     "propertyPack": {
       "properties": {
         "address": {
@@ -2395,35 +2430,6 @@
               "piqRef": "B1.1"
             }
           }
-        },
-        "sellersCapacity": {
-          "piqRef": "B1.3.1",
-          "discriminator": {
-            "propertyName": "capacity"
-          },
-          "oneOf": [
-            {
-              "properties": {
-                "capacity": {
-                  "enum": [
-                    "Legal Owner",
-                    "Mortgagee in Possession"
-                  ]
-                }
-              }
-            },
-            {
-              "properties": {
-                "capacity": {
-                  "enum": [
-                    "Personal Representative for a Deceased Owner",
-                    "Under Power of Attorney",
-                    "Other"
-                  ]
-                }
-              }
-            }
-          ]
         },
         "legalBoundaries": {
           "piqRef": "B3.1",
