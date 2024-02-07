@@ -291,7 +291,8 @@
                           "sharedOwnership",
                           "leaseTerm",
                           "groundRent",
-                          "serviceCharge"
+                          "serviceCharge",
+                          "leaseRestrictions"
                         ],
                         "properties": {
                           "sharedOwnership": {
@@ -482,6 +483,46 @@
                             "properties": {
                               "sellerContributesToServiceCharge": {
                                 "ntsRef": "A3.5.1"
+                              }
+                            }
+                          },
+                          "leaseRestrictions": {
+                            "ntsRef": "A3.6",
+                            "discriminator": {
+                              "propertyName": "yesNo"
+                            },
+                            "oneOf": [
+                              {
+                                "properties": {
+                                  "yesNo": {
+                                    "enum": [
+                                      "No"
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "properties": {
+                                  "yesNo": {
+                                    "enum": [
+                                      "Yes"
+                                    ]
+                                  },
+                                  "details": {
+                                    "ntsRef": "A3.6.2"
+                                  }
+                                },
+                                "required": [
+                                  "details"
+                                ]
+                              }
+                            ],
+                            "required": [
+                              "yesNo"
+                            ],
+                            "properties": {
+                              "yesNo": {
+                                "ntsRef": "A3.6.1"
                               }
                             }
                           }
