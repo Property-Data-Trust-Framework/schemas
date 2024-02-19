@@ -2665,7 +2665,32 @@
         "legalOwners": {
           "properties": {
             "namesOfLegalOwners": {
-              "rdsRef": "RightsHolders"
+              "rdsRef": "RightsHolders",
+              "items": {
+                "discriminator": {
+                  "propertyName": "ownerType"
+                },
+                "oneOf": [
+                  {
+                    "properties": {
+                      "ownerType": {
+                        "enum": [
+                          "Private individual"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "ownerType": {
+                        "enum": [
+                          "Organisation"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
             }
           }
         },
