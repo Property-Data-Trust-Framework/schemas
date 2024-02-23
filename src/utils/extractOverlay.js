@@ -9,6 +9,7 @@ const combinedSchema = require("../schemas/v3/combined.json");
 const extractFields = [
   "baspi",
   "nts",
+  "ntsl",
   "ta6",
   "ta7",
   "ta10",
@@ -20,14 +21,6 @@ const extractFields = [
   "llc1",
   "rds",
   "oc1",
-];
-
-const overlayIncludeProperties = [
-  // "title",
-  // "description",
-  // "enum",
-  "discriminator",
-  // "minItems",
 ];
 
 const flattenSkeleton = (schema) => {
