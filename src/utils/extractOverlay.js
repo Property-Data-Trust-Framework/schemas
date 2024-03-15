@@ -9,6 +9,7 @@ const combinedSchema = require("../schemas/v3/combined.json");
 const extractFields = [
   "baspi",
   "nts",
+  "ntsl",
   "ta6",
   "ta7",
   "ta10",
@@ -20,14 +21,6 @@ const extractFields = [
   "llc1",
   "rds",
   "oc1",
-];
-
-const overlayIncludeProperties = [
-  // "title",
-  // "description",
-  // "enum",
-  "discriminator",
-  // "minItems",
 ];
 
 const flattenSkeleton = (schema) => {
@@ -64,43 +57,60 @@ const extractOverlay = (sourceSchema, ref) => {
     if (path === "/") path = "";
     if (element[refName]) {
       jp.set(returnSchema, `${path}/${refName}`, element[refName]);
-      overlayIncludeProperties.forEach((property) => {
-        if (element[property]) {
-          jp.set(returnSchema, `${path}/${property}`, element[property]);
-        }
-      });
 
-      const { discriminator } = element;
-      if (discriminator) {
-        const { propertyName } = discriminator;
-        element.oneOf.forEach((item, index) => {
-          const discriminatorProperty = item.properties[propertyName];
-          // copy const discriminator as-is
-          if (discriminatorProperty.const) {
+      if (element.discriminator) {
+        jp.set(returnSchema, `${path}/discriminator`, element.discriminator);
+        const { propertyName } = element.discriminator;
+        element.oneOf.forEach((oneOf, index) => {
+          const discriminatorProperty = oneOf.properties[propertyName];
+          // must be an enum
+          const discriminatorEnumPath = `${path}/oneOf/${index}/properties/${propertyName}/enum`;
+          // if a refEnum use that
+          const refEnum = `${ref}Enum`;
+          if (discriminatorProperty[refEnum]) {
             jp.set(
               returnSchema,
-              `${path}/oneOf/${index}/properties/${propertyName}/const`,
-              discriminatorProperty.const
+              discriminatorEnumPath,
+              discriminatorProperty[refEnum]
             );
           } else {
-            // must be an enum
-            const discriminatorEnumPath = `${path}/oneOf/${index}/properties/${propertyName}/enum`;
-            // if a refEnum use that
-            const refEnum = `${ref}Enum`;
-            if (discriminatorProperty[refEnum]) {
-              jp.set(
-                returnSchema,
-                discriminatorEnumPath,
-                discriminatorProperty[refEnum]
-              );
-            } else {
-              // use the base enum
-              jp.set(
-                returnSchema,
-                discriminatorEnumPath,
-                discriminatorProperty.enum
-              );
-            }
+            // use the base enum
+            jp.set(
+              returnSchema,
+              discriminatorEnumPath,
+              discriminatorProperty.enum
+            );
+          }
+        });
+      }
+
+      // also handle discriminator properties nested in items
+      if (element.items?.discriminator) {
+        jp.set(
+          returnSchema,
+          `${path}/items/discriminator`,
+          element.items.discriminator
+        );
+        const { propertyName } = element.items.discriminator;
+        element.items.oneOf.forEach((oneOf, index) => {
+          const discriminatorProperty = oneOf.properties[propertyName];
+          // must be an enum
+          const discriminatorEnumPath = `${path}/items/oneOf/${index}/properties/${propertyName}/enum`;
+          // if a refEnum use that
+          const refEnum = `${ref}Enum`;
+          if (discriminatorProperty[refEnum]) {
+            jp.set(
+              returnSchema,
+              discriminatorEnumPath,
+              discriminatorProperty[refEnum]
+            );
+          } else {
+            // use the base enum
+            jp.set(
+              returnSchema,
+              discriminatorEnumPath,
+              discriminatorProperty.enum
+            );
           }
         });
       }

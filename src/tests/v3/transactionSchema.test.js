@@ -43,6 +43,32 @@ test("sample is valid NTS", () => {
   expect(isValid).toBe(true);
 });
 
+test("sample is not valid NTSL (lettings)", () => {
+  const validator = getValidator(schemaId, ["ntsl2023"]);
+  const isValid = validator(exampleTransaction);
+  expect(isValid).toBe(false);
+  expect(validator.errors[0].message).toBe(
+    "must have required property 'lettingInformation'"
+  );
+});
+
+test("sample is valid NTSL if we change it accordingly", () => {
+  const validator = getValidator(schemaId, ["ntsl2023"]);
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
+  );
+  clonedExampleTransaction.propertyPack.lettingInformation = {
+    rent: 3500,
+    rentFrequency: "Monthly",
+    securityDeposit: 5000,
+  };
+  delete clonedExampleTransaction.propertyPack.priceInformation;
+  delete clonedExampleTransaction.propertyPack.ownership;
+  const isValid = validator(clonedExampleTransaction);
+  if (!isValid) console.log(validator.errors);
+  expect(isValid).toBe(true);
+});
+
 test("invalid sample is invalid", () => {
   const clonedExampleTransaction = JSON.parse(
     JSON.stringify(exampleTransaction)
