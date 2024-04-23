@@ -61,6 +61,10 @@
                 "type": "string",
                 "minLength": 1
               },
+              "maidenName": {
+                "title": "Middle name(s)",
+                "type": "string"
+              },
               "preferredName": {
                 "title": "Preferred name / known as",
                 "type": "string"
@@ -145,79 +149,1005 @@
           },
           "externalIds": {
             "type": "object"
-          },
-          "sellersCapacity": {
-            "baspiRef": "B1.3",
-            "rdsRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
-            "piqRef": "B1.3.1",
-            "title": "Capacity in which the Seller sells",
-            "type": "object",
-            "baspiRequired": ["capacity"],
+          }
+        },
+        "discriminator": {
+          "propertyName": "role"
+        },
+        "oneOf": [
+          {
             "properties": {
-              "capacity": {
-                "baspiRef": "B1.3.1",
-                "type": "string",
-                "title": "",
+              "role": {
                 "enum": [
-                  "Legal Owner",
-                  "Personal Representative for a Deceased Owner",
-                  "Under Power of Attorney",
-                  "Mortgagee in Possession",
-                  "Other"
+                  "Seller",
+                  "Seller's Conveyancer",
+                  "Prospective Buyer",
+                  "Buyer's Conveyancer",
+                  "Estate Agent",
+                  "Buyer's Agent",
+                  "Surveyor",
+                  "Mortgage Broker",
+                  "Lender",
+                  "Landlord",
+                  "Tenant"
+                ]
+              }
+            }
+          },
+          {
+            "properties": {
+              "role": {
+                "enum": ["Seller"]
+              },
+              "sellersCapacity": {
+                "baspiRef": "B1.3",
+                "rdsRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
+                "piqRef": "B1.3.1",
+                "title": "Capacity in which the Seller sells",
+                "type": "object",
+                "baspiRequired": ["capacity"],
+                "properties": {
+                  "capacity": {
+                    "baspiRef": "B1.3.1",
+                    "type": "string",
+                    "title": "",
+                    "enum": [
+                      "Legal Owner",
+                      "Personal Representative for a Deceased Owner",
+                      "Under Power of Attorney",
+                      "Mortgagee in Possession",
+                      "Other"
+                    ]
+                  }
+                },
+                "discriminator": {
+                  "propertyName": "capacity"
+                },
+                "oneOf": [
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": ["Legal Owner", "Mortgagee in Possession"]
+                      },
+                      "sellersCapacityDetails": {
+                        "baspiRef": "B1.3.2",
+                        "rdsRef": "Participants/OtherDocumentation",
+                        "title": "Please provide details if applicable",
+                        "description": "(for example if the sellers names do not match the legal owners on the title deed due to change of name on marriage)",
+                        "type": "string"
+                      },
+                      "attachments": {
+                        "baspiRef": "B1.3.3",
+                        "title": "Attachments",
+                        "type": "string",
+                        "enum": ["Attached", "To follow"]
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Personal Representative for a Deceased Owner",
+                          "Under Power of Attorney",
+                          "Other"
+                        ]
+                      },
+                      "sellersCapacityDetails": {
+                        "baspiRef": "B1.3.2",
+                        "rdsRef": "Participants/OtherDocumentation",
+                        "title": "Please provide details and provide any probate, grant of representation or power of attorney ",
+                        "type": "string"
+                      },
+                      "attachments": {
+                        "baspiRef": "B1.3.3",
+                        "title": "Attachments",
+                        "type": "string",
+                        "enum": ["Attached", "To follow"]
+                      }
+                    },
+                    "baspiRequired": ["sellersCapacityDetails", "attachments"]
+                  }
                 ]
               }
             },
-            "discriminator": {
-              "propertyName": "capacity"
-            },
-            "oneOf": [
-              {
-                "properties": {
-                  "capacity": {
-                    "enum": ["Legal Owner", "Mortgagee in Possession"]
+            "baspiRequired": ["sellersCapacity"]
+          },
+          {
+            "properties": {
+              "role": {
+                "enum": ["Buyer"]
+              },
+              "anticipatedRetirementAge": {
+                "type": "integer"
+              },
+              "stateRetirementAge": {
+                "type": "integer"
+              },
+              "isSmoker": {
+                "type": "boolean"
+              },
+              "sexOrGender": {
+                "type": "string",
+                "enum": ["Male", "Female", "Other"]
+              },
+              "nationality": {
+                "type": "string",
+                "enum": ["British", "American", "Canadian", "Other"]
+              },
+              "dateOfArrivalInTheUk": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "indefiniteRightToReside": {
+                "type": "boolean"
+              },
+              "visaDetails": {
+                "type": "string"
+              },
+              "visaExpiryDate": {
+                "type": "string",
+                "format": "date"
+              },
+              "maritalStatus": {
+                "type": "string",
+                "enum": [
+                  "Single",
+                  "Married",
+                  "Divorced",
+                  "Separated",
+                  "Widow",
+                  "Widower",
+                  "CoHabiting",
+                  "CivilPartner"
+                ]
+              },
+              "nationalInsuranceNumber": {
+                "type": "string"
+              },
+              "countryOfBirth": {
+                "type": "string",
+                "enum": ["UK", "USA", "Canada", "Other"]
+              },
+              "previousAddresses": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "line1": {
+                      "title": "Address 1",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "line2": {
+                      "title": "Address 2",
+                      "type": "string"
+                    },
+                    "line 3": {
+                      "title": "Address 3",
+                      "type": "string"
+                    },
+                    "town": {
+                      "title": "Town",
+                      "type": "string"
+                    },
+                    "postcode": {
+                      "title": "Postcode",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "countryCode": {
+                      "title": "Country code",
+                      "description": "ISO 3166-1 alpha-3 country code",
+                      "type": "string",
+                      "minLength": 3,
+                      "maxLength": 3
+                    },
+                    "effectiveFrom": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "effectiveTo": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "residentialStatus": {
+                      "type": "string",
+                      "enum": [
+                        "Owner",
+                        "Renting - Private",
+                        "Renting - Local Authority",
+                        "Tied Accommodation",
+                        "Living with Parents",
+                        "Living with Family/Friends"
+                      ]
+                    },
+                    "monthlyRentalPayment": {
+                      "type": "number"
+                    },
+                    "landlordName": {
+                      "type": "string"
+                    }
                   },
-                  "sellersCapacityDetails": {
-                    "baspiRef": "B1.3.2",
-                    "rdsRef": "Participants/OtherDocumentation",
-                    "title": "Please provide details if applicable",
-                    "description": "(for example if the sellers names do not match the legal owners on the title deed due to change of name on marriage)",
+                  "required": [
+                    "houseNameOrNumber",
+                    "addressLine1",
+                    "city",
+                    "county",
+                    "country",
+                    "postcode",
+                    "effectiveFrom",
+                    "residentialStatus"
+                  ]
+                }
+              },
+              "dependents": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "dateOfBirth": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  },
+                  "required": ["name", "dateOfBirth"]
+                }
+              },
+              "employment": {
+                "type": "object",
+                "properties": {
+                  "employmentStatus": {
+                    "type": "string",
+                    "enum": [
+                      "Employed",
+                      "SelfEmployed",
+                      "Retired",
+                      "Other",
+                      "Unemployed",
+                      "Houseperson",
+                      "Contractor",
+                      "NotIncomeLed",
+                      "Locum"
+                    ]
+                  },
+                  "employmentType": {
+                    "type": "string",
+                    "enum": ["Permanent", "Contract", "Temporary"]
+                  },
+                  "occupation": {
                     "type": "string"
                   },
-                  "attachments": {
-                    "baspiRef": "B1.3.3",
-                    "title": "Attachments",
+                  "industry": {
+                    "type": "string"
+                  },
+                  "startDate": {
                     "type": "string",
-                    "enum": ["Attached", "To follow"]
+                    "format": "date-time"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "taxCode": {
+                    "type": "string"
+                  },
+                  "incomePaidInForeignCurrency": {
+                    "type": "boolean"
+                  },
+                  "incomeDetails": {
+                    "type": "object",
+                    "properties": {
+                      "grossAnnualIncome": {
+                        "type": "number"
+                      },
+                      "netAnnualIncome": {
+                        "type": "number"
+                      },
+                      "netMonthlyIncome": {
+                        "type": "number"
+                      },
+                      "monthlyPensionDeduction": {
+                        "type": "number"
+                      },
+                      "monthlyStudentLoanDeduction": {
+                        "type": "number"
+                      },
+                      "monthlyOtherDeductions": {
+                        "type": "number"
+                      },
+                      "onProbationaryPeriod": {
+                        "type": "boolean"
+                      },
+                      "bonus": {
+                        "type": "number"
+                      },
+                      "bonusGuaranteed": {
+                        "type": "boolean"
+                      },
+                      "bonusFrequency": {
+                        "type": "string",
+                        "enum": [
+                          "Never",
+                          "Daily",
+                          "Weekly",
+                          "BiWeekly",
+                          "Monthly",
+                          "BiMonthly",
+                          "Annually",
+                          "Quarterly",
+                          "BiAnnually"
+                        ]
+                      },
+                      "overtime": {
+                        "type": "number"
+                      },
+                      "overtimeGuaranteed": {
+                        "type": "boolean"
+                      },
+                      "overtimeFrequency": {
+                        "type": "string",
+                        "enum": [
+                          "Never",
+                          "Daily",
+                          "Weekly",
+                          "BiWeekly",
+                          "Monthly",
+                          "BiMonthly",
+                          "Annually",
+                          "Quarterly",
+                          "BiAnnually"
+                        ]
+                      },
+                      "allowance": {
+                        "type": "number"
+                      },
+                      "allowanceGuaranteed": {
+                        "type": "boolean"
+                      },
+                      "allowanceFrequency": {
+                        "type": "string",
+                        "enum": [
+                          "Never",
+                          "Daily",
+                          "Weekly",
+                          "BiWeekly",
+                          "Monthly",
+                          "BiMonthly",
+                          "Annually",
+                          "Quarterly",
+                          "BiAnnually"
+                        ]
+                      },
+                      "telephone": {
+                        "type": "string"
+                      },
+                      "incomeSource": {
+                        "type": "string",
+                        "enum": [
+                          "Private Pension",
+                          "Investment Income",
+                          "Rental Income",
+                          "Bursary",
+                          "Fostering",
+                          "Child Benefit",
+                          "Invalidity Benefit",
+                          "Maintenance Payments",
+                          "Vested Shares",
+                          "Trust Income",
+                          "Regional Weighting",
+                          "Mortgage Subsidy",
+                          "Special Duties Allowance",
+                          "Second Employed Income",
+                          "Second SE Income"
+                        ]
+                      },
+                      "employersNameForReference": {
+                        "type": "string"
+                      },
+                      "employersEmailForReference": {
+                        "type": "string"
+                      },
+                      "incomeVerification": {
+                        "type": "string",
+                        "enum": [
+                          "Self-certified with chekcs",
+                          "Self-certified with no affordability confirmation",
+                          "Verified",
+                          "Non-verified",
+                          "Other"
+                        ]
+                      }
+                    }
+                  },
+                  "dividends": {
+                    "type": "number"
+                  },
+                  "turnover": {
+                    "type": "number"
+                  },
+                  "previousFinancialYearsSalary": {
+                    "type": "number"
+                  },
+                  "previousFinancialYearsDividends": {
+                    "type": "number"
+                  },
+                  "previousFinancialYearTurnOver": {
+                    "type": "number"
+                  },
+                  "thirdPreviousFinancialYearsSalary": {
+                    "type": "number"
+                  },
+                  "thirdPreviousFinancialYearsDividends": {
+                    "type": "number"
+                  },
+                  "thirdPreviousFinancialYearTurnOver": {
+                    "type": "number"
+                  },
+                  "dayRate": {
+                    "type": "number"
+                  },
+                  "hourlyRate": {
+                    "type": "number"
+                  },
+                  "workingDaysAWeek": {
+                    "type": "number"
+                  },
+                  "workingHoursAWeek": {
+                    "type": "number"
                   }
                 }
               },
-              {
-                "properties": {
-                  "capacity": {
-                    "enum": [
-                      "Personal Representative for a Deceased Owner",
-                      "Under Power of Attorney",
-                      "Other"
-                    ]
+              "creditCommitments": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "isJoint": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "CreditCard",
+                        "StoreCard",
+                        "Loan",
+                        "HirePurchase",
+                        "Overdraft",
+                        "StudentLoan",
+                        "Maintenance",
+                        "Lease",
+                        "Unsecured",
+                        "MortgageOrRent",
+                        "PublicUtility",
+                        "Communications",
+                        "Insurance",
+                        "Secured",
+                        "PersonalContractPurchase",
+                        "MailOrder",
+                        "Childcare",
+                        "CarFinance",
+                        "Unknown"
+                      ]
+                    },
+                    "company": {
+                      "type": "string"
+                    },
+                    "accountNumber": {
+                      "type": "string"
+                    },
+                    "outstandingBalance": {
+                      "type": "number"
+                    },
+                    "settleBalance": {
+                      "type": "number"
+                    },
+                    "monthlyRepayment": {
+                      "type": "number"
+                    },
+                    "interestRate": {
+                      "type": "number"
+                    },
+                    "cardLimit": {
+                      "type": "number"
+                    },
+                    "termRemainingInMonths": {
+                      "type": "integer"
+                    },
+                    "ballonPayment": {
+                      "type": "number"
+                    },
+                    "isCourtOrdered": {
+                      "type": "boolean"
+                    },
+                    "totalCostOfCredit": {
+                      "type": "number"
+                    },
+                    "isPaidOnCompletion": {
+                      "type": "boolean"
+                    },
+                    "source": {
+                      "type": "string"
+                    }
                   },
-                  "sellersCapacityDetails": {
-                    "baspiRef": "B1.3.2",
-                    "rdsRef": "Participants/OtherDocumentation",
-                    "title": "Please provide details and provide any probate, grant of representation or power of attorney ",
+                  "required": [
+                    "isJoint",
+                    "type",
+                    "company",
+                    "accountNumber",
+                    "outstandingBalance",
+                    "monthlyRepayment",
+                    "source"
+                  ]
+                }
+              },
+              "adverse": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "Default",
+                        "CountyCourtJudgement",
+                        "MissedPayment",
+                        "PropertyRepossessed",
+                        "Bankrupt",
+                        "IndividualVoluntaryArrangements",
+                        "DebtManagementPlan",
+                        "PayDayLoan",
+                        "Overdraft",
+                        "DirectDebt"
+                      ]
+                    },
+                    "amount": {
+                      "type": "number"
+                    },
+                    "lenderName": {
+                      "type": "string",
+                      "enum": ["Experian", "Equifax", "Other"]
+                    },
+                    "loanCompanyName": {
+                      "type": "string"
+                    },
+                    "loanDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "reason": {
+                      "type": "string"
+                    },
+                    "dateRegistered": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "isSatisfied": {
+                      "type": "boolean"
+                    },
+                    "dateSatisfied": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "commitmentType": {
+                      "type": "string",
+                      "enum": [
+                        "CreditCard",
+                        "StoreCard",
+                        "Loan",
+                        "HirePurchase",
+                        "Overdraft",
+                        "StudentLoan",
+                        "Maintenance",
+                        "Lease",
+                        "Unsecured",
+                        "MortgageOrRent",
+                        "PublicUtility",
+                        "Communications",
+                        "Insurance",
+                        "Secured",
+                        "PersonalContractPurchase",
+                        "MailOrder",
+                        "Childcare",
+                        "CarFinance",
+                        "Unknown"
+                      ]
+                    },
+                    "managedBy": {
+                      "type": "string",
+                      "enum": ["Directly", "ThirdParty"]
+                    },
+                    "creditSearchKey": {
+                      "type": "string"
+                    },
+                    "paymentsMissedLast3Months": {
+                      "type": "integer"
+                    },
+                    "paymentsMissedLast12Months": {
+                      "type": "integer"
+                    },
+                    "paymentsMissedLast24Months": {
+                      "type": "integer"
+                    },
+                    "paymentsMissedLast36Months": {
+                      "type": "integer"
+                    },
+                    "paymentsMissedLast60Months": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "amount",
+                    "lenderName",
+                    "loanDate",
+                    "dateRegistered",
+                    "commitmentType",
+                    "managedBy"
+                  ]
+                }
+              },
+              "limitedCompany": {
+                "type": "object",
+                "properties": {
+                  "name": {
                     "type": "string"
                   },
-                  "attachments": {
-                    "baspiRef": "B1.3.3",
-                    "title": "Attachments",
+                  "registrationNumber": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "dateOfIncorporation": {
                     "type": "string",
-                    "enum": ["Attached", "To follow"]
+                    "format": "date-time"
+                  },
+                  "tradeOrBusinessType": {
+                    "type": "string"
+                  },
+                  "standardIndustrialClassificationCode": {
+                    "type": "string"
+                  },
+                  "isSpecialPurposeVehicle": {
+                    "type": "boolean"
+                  },
+                  "numberOfDirectorsOrShareholders": {
+                    "type": "integer"
+                  },
+                  "directorsAndShareholders": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "fullName": {
+                          "type": "string"
+                        },
+                        "percentageShare": {
+                          "type": "number"
+                        },
+                        "role": {
+                          "type": "string",
+                          "enum": ["Director", "Shareholder", "Both"]
+                        }
+                      },
+                      "required": ["fullName", "percentageShare", "role"]
+                    }
                   }
                 },
-                "baspiRequired": ["sellersCapacityDetails", "attachments"]
+                "address": {
+                  "type": "object",
+                  "properties": {
+                    "line1": {
+                      "title": "Address 1",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "line2": {
+                      "title": "Address 2",
+                      "type": "string"
+                    },
+                    "line 3": {
+                      "title": "Address 3",
+                      "type": "string"
+                    },
+                    "town": {
+                      "title": "Town",
+                      "type": "string"
+                    },
+                    "postcode": {
+                      "title": "Postcode",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "countryCode": {
+                      "title": "Country code",
+                      "description": "ISO 3166-1 alpha-3 country code",
+                      "type": "string",
+                      "minLength": 3,
+                      "maxLength": 3
+                    }
+                  }
+                }
+              },
+              "assetsAndLiabilities": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["Asset", "Liability"]
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "company": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "number"
+                    },
+                    "repaymentAmount": {
+                      "type": "number"
+                    },
+                    "dateOfLastValuation": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "isThereOutstandingDebt": {
+                      "type": "boolean"
+                    },
+                    "isBeingUsedForThisApplication": {
+                      "type": "boolean"
+                    },
+                    "isUkRegistered": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "description",
+                    "company",
+                    "value",
+                    "dateOfLastValuation",
+                    "isThereOutstandingDebt",
+                    "isBeingUsedForThisApplication",
+                    "isUkRegistered"
+                  ]
+                }
+              },
+              "budgetPlanner": {
+                "type": "object",
+                "properties": {
+                  "householdIncome": {
+                    "type": "object",
+                    "properties": {
+                      "monthlyIncome": {
+                        "type": "number"
+                      },
+                      "rentalIncome": {
+                        "type": "number"
+                      },
+                      "partTimeIncome": {
+                        "type": "number"
+                      },
+                      "jobSeekersAllowance": {
+                        "type": "number"
+                      },
+                      "childBenefits": {
+                        "type": "number"
+                      },
+                      "taxCredits": {
+                        "type": "number"
+                      },
+                      "workingTaxCredits": {
+                        "type": "number"
+                      },
+                      "maintenance": {
+                        "type": "number"
+                      },
+                      "pension": {
+                        "type": "number"
+                      },
+                      "otherBenefits": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "debt": {
+                    "type": "object",
+                    "properties": {
+                      "debtRepayments": {
+                        "type": "object",
+                        "properties": {
+                          "monthlyMortgage": {
+                            "type": "number"
+                          },
+                          "monthlyRent": {
+                            "type": "number"
+                          },
+                          "monthlySecondMortgage": {
+                            "type": "number"
+                          },
+                          "monthlySharedOwnershipRent": {
+                            "type": "number"
+                          }
+                        }
+                      },
+                      "priorityDebt": {
+                        "type": "object",
+                        "properties": {
+                          "monthlyMortgageArrears": {
+                            "type": "number"
+                          },
+                          "monthlyGasArrears": {
+                            "type": "number"
+                          },
+                          "monthlyMaintenanceArrears": {
+                            "type": "number"
+                          },
+                          "monthlyDefaults": {
+                            "type": "number"
+                          },
+                          "monthlyCountyCourtJudgements": {
+                            "type": "number"
+                          },
+                          "monthlyDebtManagementPlans": {
+                            "type": "number"
+                          },
+                          "monthlyMagistrateCourtFines": {
+                            "type": "number"
+                          },
+                          "monthlyCouncilTaxArrears": {
+                            "type": "number"
+                          }
+                        }
+                      },
+                      "unsecuredBorrowing": {
+                        "type": "object",
+                        "properties": {
+                          "monthlyCreditCards": {
+                            "type": "number"
+                          },
+                          "monthlyLoans": {
+                            "type": "number"
+                          },
+                          "monthlyCarFinance": {
+                            "type": "number"
+                          },
+                          "monthlyOverdraft": {
+                            "type": "number"
+                          },
+                          "monthlyStoreCards": {
+                            "type": "number"
+                          },
+                          "monthlyStudentLoan": {
+                            "type": "number"
+                          },
+                          "monthlyOtherBorrowing": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "expenditure": {
+                    "type": "object",
+                    "properties": {
+                      "livingCosts": {
+                        "type": "object",
+                        "properties": {
+                          "electricity": {
+                            "type": "number"
+                          },
+                          "gas": {
+                            "type": "number"
+                          },
+                          "water": {
+                            "type": "number"
+                          },
+                          "landline": {
+                            "type": "number"
+                          },
+                          "mobilePhones": {
+                            "type": "number"
+                          },
+                          "televisionLicence": {
+                            "type": "number"
+                          },
+                          "councilTax": {
+                            "type": "number"
+                          },
+                          "groundRent": {
+                            "type": "number"
+                          },
+                          "serviceCharge": {
+                            "type": "number"
+                          },
+                          "endowment": {
+                            "type": "number"
+                          },
+                          "pensionContribution": {
+                            "type": "number"
+                          },
+                          "childcare": {
+                            "type": "number"
+                          },
+                          "maintenance": {
+                            "type": "number"
+                          },
+                          "food": {
+                            "type": "number"
+                          },
+                          "carMaintenance": {
+                            "type": "number"
+                          },
+                          "fuel": {
+                            "type": "number"
+                          },
+                          "publicTransport": {
+                            "type": "number"
+                          },
+                          "televisionBroadband": {
+                            "type": "number"
+                          },
+                          "recreation": {
+                            "type": "number"
+                          },
+                          "clothing": {
+                            "type": "number"
+                          },
+                          "medicalExpenses": {
+                            "type": "number"
+                          },
+                          "education": {
+                            "type": "number"
+                          },
+                          "otherLivingCosts": {
+                            "type": "number"
+                          }
+                        }
+                      },
+                      "insurances": {
+                        "type": "object",
+                        "properties": {
+                          "buildingsAndContents": {
+                            "type": "number"
+                          },
+                          "mortgagePaymentProtection": {
+                            "type": "number"
+                          },
+                          "motorInsurance": {
+                            "type": "number"
+                          },
+                          "healthInsurance": {
+                            "type": "number"
+                          },
+                          "paymentProtection": {
+                            "type": "number"
+                          },
+                          "lifeInsurance": {
+                            "type": "number"
+                          },
+                          "dentalInsurance": {
+                            "type": "number"
+                          },
+                          "otherInsurance": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
-            ]
+            }
           }
-        }
+        ]
       }
     },
     "propertyPack": {
@@ -678,6 +1608,13 @@
                     "propertyType": {
                       "enum": ["Maisonette", "Flat"]
                     },
+                    "flatType": {
+                      "type": "string",
+                      "enum": ["Purpose Built", "Converted", "Studio"]
+                    },
+                    "isBasementFlat": {
+                      "type": "boolean"
+                    },
                     "numberOfFloors": {
                       "ntsRef": "B1.1.3",
                       "ntslRef": "B1.1.3",
@@ -787,6 +1724,24 @@
                   "enum": ["Yes", "No"]
                 }
               }
+            },
+            "isHMO": {
+              "type": "boolean"
+            },
+            "isMUFB": {
+              "type": "boolean"
+            },
+            "isRightToBuy": {
+              "type": "boolean"
+            },
+            "isExLocalAuthority": {
+              "type": "boolean"
+            },
+            "isBeingPurchasedFromCouncil": {
+              "type": "boolean"
+            },
+            "isAnnexe": {
+              "type": "boolean"
             },
             "roomDimensions": {
               "ntsRef": "B2",
@@ -5378,7 +6333,6 @@
                                   }
                                 ]
                               },
-
                               "requirementsToBeMemberOfManagementCompany": {
                                 "baspiRef": "A1.5.6",
                                 "lpe1Ref": "2.5",
@@ -8782,6 +9736,38 @@
           "ntsRequired": ["isStandardForm", "buildingSafety"],
           "ntslRequired": ["isStandardForm", "buildingSafety"],
           "properties": {
+            "constructionType": {
+              "type": "string",
+              "enum": [
+                "Concrete",
+                "TimberFramed",
+                "SteelFramed",
+                "Brick",
+                "MundicBlock",
+                "PRCRepairWithCertificate",
+                "Stone",
+                "Cob"
+              ]
+            },
+            "constructionTypeRoof": {
+              "type": "string",
+              "enum": [
+                "Tile",
+                "ClayTile",
+                "SlateTile",
+                "ConcreteTile",
+                "Flat",
+                "Thatched",
+                "Metal",
+                "Wood",
+                "Plastic",
+                "Bitumen",
+                "GreenRoof",
+                "Shingles",
+                "OneHundredPercentFeltAsphalt",
+                "Other"
+              ]
+            },
             "isStandardForm": {
               "baspiRef": "A1.8.1",
               "ntsRef": "A1.2.1",
@@ -20612,7 +21598,6 @@
                           },
                           "riskIndicator": {
                             "type": "string",
-
                             "title": "Is action recommended?",
                             "enum": ["Yes", "No"]
                           },
@@ -21863,7 +22848,6 @@
             }
           }
         },
-
         "legalOwners": {
           "baspiRef": "B1",
           "title": "Legal Owners",
@@ -36616,6 +37600,83 @@
             }
           }
         }
+      }
+    },
+    "valuations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "StandardValuation",
+              "Homebuyers",
+              "FullStandardBuildingSurvey",
+              "FreeSurvey",
+              "AutomatedValuationModel",
+              "IndexValuation",
+              "MortgageValuation",
+              "DriveBy"
+            ]
+          },
+          "contactsName": {
+            "type": "string"
+          },
+          "contactsMobile": {
+            "type": "string"
+          },
+          "contactsHomeTelephone": {
+            "type": "string"
+          },
+          "contactsEmailAddress": {
+            "type": "string",
+            "format": "email"
+          },
+          "estimatedValue": {
+            "type": "number"
+          },
+          "estimatedValueLowerBound": {
+            "type": "number"
+          },
+          "estimatedValueUpperBound": {
+            "type": "number"
+          },
+          "estimatedValueConfidenceLevel": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "estimatedRentalPerMonth": {
+            "type": "number"
+          },
+          "estimatedRentalPerMonthLowerBound": {
+            "type": "number"
+          },
+          "estimatedRentalPerMonthUpperBound": {
+            "type": "number"
+          },
+          "estimatedRentalPerMonthConfidenceLevel": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          }
+        },
+        "required": [
+          "type",
+          "contactsName",
+          "contactsMobile",
+          "contactsHomeTelephone",
+          "contactsEmailAddress",
+          "estimatedValue",
+          "estimatedValueLowerBound",
+          "estimatedValueUpperBound",
+          "estimatedValueConfidenceLevel",
+          "estimatedRentalPerMonth",
+          "estimatedRentalPerMonthLowerBound",
+          "estimatedRentalPerMonthUpperBound",
+          "estimatedRentalPerMonthConfidenceLevel"
+        ]
       }
     },
     "valuationComparisonData": {
