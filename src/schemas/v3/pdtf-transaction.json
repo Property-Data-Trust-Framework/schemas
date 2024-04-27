@@ -25685,29 +25685,62 @@
                         }
                       },
                       "propertyAddress": {
-                        "type": "object",
-                        "properties": {
-                          "postcodeZone": {
-                            "type": "object",
-                            "properties": {
-                              "postcode": {
-                                "type": "string"
-                              }
-                            }
-                          },
-                          "addressLine": {
-                            "type": "object",
-                            "properties": {
-                              "line": {
-                                "type": "array",
-                                "items": {
-                                  "type": "string"
+                        "oneOf": [
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "postcodeZone": {
+                                  "type": "object",
+                                  "properties": {
+                                    "postcode": {
+                                      "type": "string"
+                                    }
+                                  }
                                 },
-                                "minItems": 0
+                                "addressLine": {
+                                  "type": "object",
+                                  "properties": {
+                                    "line": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      },
+                                      "minItems": 0
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "minItems": 0
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "postcodeZone": {
+                                "type": "object",
+                                "properties": {
+                                  "postcode": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              "addressLine": {
+                                "type": "object",
+                                "properties": {
+                                  "line": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "minItems": 0
+                                  }
+                                }
                               }
                             }
                           }
-                        }
+                        ]
                       },
                       "title": {
                         "type": "object",
