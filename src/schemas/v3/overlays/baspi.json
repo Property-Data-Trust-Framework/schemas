@@ -7,7 +7,105 @@
   ],
   "properties": {
     "participants": {
+      "baspiRef": "B1",
       "items": {
+        "discriminator": {
+          "propertyName": "role"
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "role": {
+                "enum": [
+                  "Seller's Conveyancer",
+                  "Prospective Buyer",
+                  "Buyer's Conveyancer",
+                  "Estate Agent",
+                  "Buyer's Agent",
+                  "Surveyor",
+                  "Mortgage Broker",
+                  "Lender",
+                  "Landlord",
+                  "Tenant"
+                ]
+              }
+            }
+          },
+          {
+            "properties": {
+              "role": {
+                "enum": [
+                  "Seller"
+                ]
+              },
+              "sellersCapacity": {
+                "baspiRef": "B1.3",
+                "discriminator": {
+                  "propertyName": "capacity"
+                },
+                "oneOf": [
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Legal Owner",
+                          "Mortgagee in Possession"
+                        ]
+                      },
+                      "sellersCapacityDetails": {
+                        "baspiRef": "B1.3.2"
+                      },
+                      "attachments": {
+                        "baspiRef": "B1.3.3"
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Personal Representative for a Deceased Owner",
+                          "Under Power of Attorney",
+                          "Other"
+                        ]
+                      },
+                      "sellersCapacityDetails": {
+                        "baspiRef": "B1.3.2"
+                      },
+                      "attachments": {
+                        "baspiRef": "B1.3.3"
+                      }
+                    },
+                    "required": [
+                      "sellersCapacityDetails",
+                      "attachments"
+                    ]
+                  }
+                ],
+                "required": [
+                  "capacity"
+                ],
+                "properties": {
+                  "capacity": {
+                    "baspiRef": "B1.3.1"
+                  }
+                }
+              }
+            },
+            "required": [
+              "sellersCapacity"
+            ]
+          },
+          {
+            "properties": {
+              "role": {
+                "enum": [
+                  "Buyer"
+                ]
+              }
+            }
+          }
+        ],
         "required": [
           "name",
           "email",
@@ -25,59 +123,6 @@
               "line1",
               "postcode"
             ]
-          },
-          "sellersCapacity": {
-            "baspiRef": "B1.3",
-            "discriminator": {
-              "propertyName": "capacity"
-            },
-            "oneOf": [
-              {
-                "properties": {
-                  "capacity": {
-                    "enum": [
-                      "Legal Owner",
-                      "Mortgagee in Possession"
-                    ]
-                  },
-                  "sellersCapacityDetails": {
-                    "baspiRef": "B1.3.2"
-                  },
-                  "attachments": {
-                    "baspiRef": "B1.3.3"
-                  }
-                }
-              },
-              {
-                "properties": {
-                  "capacity": {
-                    "enum": [
-                      "Personal Representative for a Deceased Owner",
-                      "Under Power of Attorney",
-                      "Other"
-                    ]
-                  },
-                  "sellersCapacityDetails": {
-                    "baspiRef": "B1.3.2"
-                  },
-                  "attachments": {
-                    "baspiRef": "B1.3.3"
-                  }
-                },
-                "required": [
-                  "sellersCapacityDetails",
-                  "attachments"
-                ]
-              }
-            ],
-            "required": [
-              "capacity"
-            ],
-            "properties": {
-              "capacity": {
-                "baspiRef": "B1.3.1"
-              }
-            }
           }
         }
       }

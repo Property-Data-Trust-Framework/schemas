@@ -3,38 +3,78 @@
   "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/piq.json",
   "properties": {
     "participants": {
+      "piqRef": "B1",
       "items": {
-        "properties": {
-          "sellersCapacity": {
-            "piqRef": "B1.3.1",
-            "discriminator": {
-              "propertyName": "capacity"
-            },
-            "oneOf": [
-              {
-                "properties": {
-                  "capacity": {
-                    "enum": [
-                      "Legal Owner",
-                      "Mortgagee in Possession"
-                    ]
-                  }
-                }
-              },
-              {
-                "properties": {
-                  "capacity": {
-                    "enum": [
-                      "Personal Representative for a Deceased Owner",
-                      "Under Power of Attorney",
-                      "Other"
-                    ]
-                  }
-                }
+        "discriminator": {
+          "propertyName": "role"
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "role": {
+                "enum": [
+                  "Seller's Conveyancer",
+                  "Prospective Buyer",
+                  "Buyer's Conveyancer",
+                  "Estate Agent",
+                  "Buyer's Agent",
+                  "Surveyor",
+                  "Mortgage Broker",
+                  "Lender",
+                  "Landlord",
+                  "Tenant"
+                ]
               }
-            ]
+            }
+          },
+          {
+            "properties": {
+              "role": {
+                "enum": [
+                  "Seller"
+                ]
+              },
+              "sellersCapacity": {
+                "piqRef": "B1.3.1",
+                "discriminator": {
+                  "propertyName": "capacity"
+                },
+                "oneOf": [
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Legal Owner",
+                          "Mortgagee in Possession"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Personal Representative for a Deceased Owner",
+                          "Under Power of Attorney",
+                          "Other"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "properties": {
+              "role": {
+                "enum": [
+                  "Buyer"
+                ]
+              }
+            }
           }
-        }
+        ]
       }
     },
     "propertyPack": {
