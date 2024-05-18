@@ -1,13 +1,103 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/baspi.json",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/baspi4.json",
   "required": [
     "participants",
     "propertyPack"
   ],
   "properties": {
     "participants": {
+      "baspi4Ref": "B1",
       "items": {
+        "discriminator": {
+          "propertyName": "role"
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "role": {
+                "enum": [
+                  "Buyer",
+                  "Seller's Conveyancer",
+                  "Prospective Buyer",
+                  "Buyer's Conveyancer",
+                  "Estate Agent",
+                  "Buyer's Agent",
+                  "Surveyor",
+                  "Mortgage Broker",
+                  "Lender",
+                  "Landlord",
+                  "Tenant"
+                ]
+              }
+            }
+          },
+          {
+            "properties": {
+              "role": {
+                "enum": [
+                  "Seller"
+                ]
+              },
+              "sellersCapacity": {
+                "baspi4Ref": "B1.3",
+                "discriminator": {
+                  "propertyName": "capacity"
+                },
+                "oneOf": [
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Legal Owner",
+                          "Mortgagee in Possession"
+                        ]
+                      },
+                      "sellersCapacityDetails": {
+                        "baspi4Ref": "B1.3.2"
+                      },
+                      "attachments": {
+                        "baspi4Ref": "B1.3.3"
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Personal Representative for a Deceased Owner",
+                          "Under Power of Attorney",
+                          "Other"
+                        ]
+                      },
+                      "sellersCapacityDetails": {
+                        "baspi4Ref": "B1.3.2"
+                      },
+                      "attachments": {
+                        "baspi4Ref": "B1.3.3"
+                      }
+                    },
+                    "required": [
+                      "sellersCapacityDetails",
+                      "attachments"
+                    ]
+                  }
+                ],
+                "required": [
+                  "capacity"
+                ],
+                "properties": {
+                  "capacity": {
+                    "baspi4Ref": "B1.3.1"
+                  }
+                }
+              }
+            },
+            "required": [
+              "sellersCapacity"
+            ]
+          }
+        ],
         "required": [
           "name",
           "email",
@@ -25,65 +115,12 @@
               "line1",
               "postcode"
             ]
-          },
-          "sellersCapacity": {
-            "baspiRef": "B1.3",
-            "discriminator": {
-              "propertyName": "capacity"
-            },
-            "oneOf": [
-              {
-                "properties": {
-                  "capacity": {
-                    "enum": [
-                      "Legal Owner",
-                      "Mortgagee in Possession"
-                    ]
-                  },
-                  "sellersCapacityDetails": {
-                    "baspiRef": "B1.3.2"
-                  },
-                  "attachments": {
-                    "baspiRef": "B1.3.3"
-                  }
-                }
-              },
-              {
-                "properties": {
-                  "capacity": {
-                    "enum": [
-                      "Personal Representative for a Deceased Owner",
-                      "Under Power of Attorney",
-                      "Other"
-                    ]
-                  },
-                  "sellersCapacityDetails": {
-                    "baspiRef": "B1.3.2"
-                  },
-                  "attachments": {
-                    "baspiRef": "B1.3.3"
-                  }
-                },
-                "required": [
-                  "sellersCapacityDetails",
-                  "attachments"
-                ]
-              }
-            ],
-            "required": [
-              "capacity"
-            ],
-            "properties": {
-              "capacity": {
-                "baspiRef": "B1.3.1"
-              }
-            }
           }
         }
       }
     },
     "propertyPack": {
-      "baspiRef": "0",
+      "baspi4Ref": "0",
       "required": [
         "uprn",
         "address",
@@ -121,31 +158,31 @@
       ],
       "properties": {
         "address": {
-          "baspiRef": "A1.1",
+          "baspi4Ref": "A1.1",
           "required": [
             "line1",
             "postcode"
           ],
           "properties": {
             "line1": {
-              "baspiRef": "A1.1.1"
+              "baspi4Ref": "A1.1.1"
             },
             "line2": {
-              "baspiRef": "A1.1.2"
+              "baspi4Ref": "A1.1.2"
             },
             "line3": {
-              "baspiRef": "A1.1.3"
+              "baspi4Ref": "A1.1.3"
             },
             "town": {
-              "baspiRef": "A1.1.4"
+              "baspi4Ref": "A1.1.4"
             },
             "postcode": {
-              "baspiRef": "A1.1.5"
+              "baspi4Ref": "A1.1.5"
             }
           }
         },
         "uprn": {
-          "baspiRef": "A1.1.5"
+          "baspi4Ref": "A1.1.5"
         },
         "media": {
           "items": {
@@ -155,13 +192,13 @@
           }
         },
         "delayFactors": {
-          "baspiRef": "A1.2",
+          "baspi4Ref": "A1.2",
           "required": [
             "hasDelayFactors"
           ],
           "properties": {
             "hasDelayFactors": {
-              "baspiRef": "A1.2.1",
+              "baspi4Ref": "A1.2.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -183,10 +220,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A1.2.2"
+                      "baspi4Ref": "A1.2.2"
                     },
                     "attachments": {
-                      "baspiRef": "A1.2.3"
+                      "baspi4Ref": "A1.2.3"
                     }
                   },
                   "required": [
@@ -200,20 +237,20 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A10.1.1"
+                  "baspi4Ref": "A10.1.1"
                 }
               }
             }
           }
         },
         "ownership": {
-          "baspiRef": "A1.3",
+          "baspi4Ref": "A1.3",
           "required": [
             "ownershipsToBeTransferred"
           ],
           "properties": {
             "ownershipsToBeTransferred": {
-              "baspiRef": "A1.3",
+              "baspi4Ref": "A1.3",
               "items": {
                 "discriminator": {
                   "propertyName": "ownershipType"
@@ -227,7 +264,7 @@
                         ]
                       },
                       "wholeFreeholdForSale": {
-                        "baspiRef": "A1.3.0.2.1",
+                        "baspi4Ref": "A1.3.0.2.1",
                         "discriminator": {
                           "propertyName": "yesNo"
                         },
@@ -249,7 +286,7 @@
                                 ]
                               },
                               "details": {
-                                "baspiRef": "A1.3.0.2.2"
+                                "baspi4Ref": "A1.3.0.2.2"
                               }
                             },
                             "required": [
@@ -262,7 +299,7 @@
                         ],
                         "properties": {
                           "yesNo": {
-                            "baspiRef": "A1.3.0.2.1"
+                            "baspi4Ref": "A1.3.0.2.1"
                           }
                         }
                       }
@@ -280,27 +317,27 @@
                         ]
                       },
                       "managedFreeholdOrCommonholdInformation": {
-                        "baspiRef": "A1.5",
+                        "baspi4Ref": "A1.5",
                         "required": [
                           "contactDetails",
                           "serviceCharge"
                         ],
                         "properties": {
                           "contactDetails": {
-                            "baspiRef": "A1.5.1",
+                            "baspi4Ref": "A1.5.1",
                             "required": [
                               "rentchargeOwner",
                               "managingAgent"
                             ],
                             "properties": {
                               "rentchargeOwner": {
-                                "baspiRef": "A1.5.4",
+                                "baspi4Ref": "A1.5.4",
                                 "required": [
                                   "contact"
                                 ],
                                 "properties": {
                                   "contact": {
-                                    "baspiRef": "A1.5.4.1",
+                                    "baspi4Ref": "A1.5.4.1",
                                     "required": [
                                       "nameOrOrganisation",
                                       "address",
@@ -308,47 +345,47 @@
                                     ],
                                     "properties": {
                                       "nameOrOrganisation": {
-                                        "baspiRef": "A1.5.4.1.1"
+                                        "baspi4Ref": "A1.5.4.1.1"
                                       },
                                       "address": {
-                                        "baspiRef": "A1.5.4.1.2",
+                                        "baspi4Ref": "A1.5.4.1.2",
                                         "required": [
                                           "line1",
                                           "postcode"
                                         ],
                                         "properties": {
                                           "line1": {
-                                            "baspiRef": "A1.5.4.1.2.1"
+                                            "baspi4Ref": "A1.5.4.1.2.1"
                                           },
                                           "line2": {
-                                            "baspiRef": "A1.5.4.1.2.2"
+                                            "baspi4Ref": "A1.5.4.1.2.2"
                                           },
                                           "line3": {
-                                            "baspiRef": "A1.5.4.1.2.3"
+                                            "baspi4Ref": "A1.5.4.1.2.3"
                                           },
                                           "town": {
-                                            "baspiRef": "A1.5.4.1.2.4"
+                                            "baspi4Ref": "A1.5.4.1.2.4"
                                           },
                                           "postcode": {
-                                            "baspiRef": "A1.5.4.1.2.5"
+                                            "baspi4Ref": "A1.5.4.1.2.5"
                                           }
                                         }
                                       },
                                       "emailAddress": {
-                                        "baspiRef": "A1.5.5.1.3"
+                                        "baspi4Ref": "A1.5.5.1.3"
                                       }
                                     }
                                   }
                                 }
                               },
                               "managingAgent": {
-                                "baspiRef": "A1.5.5",
+                                "baspi4Ref": "A1.5.5",
                                 "required": [
                                   "contact"
                                 ],
                                 "properties": {
                                   "contact": {
-                                    "baspiRef": "A1.5.5.1",
+                                    "baspi4Ref": "A1.5.5.1",
                                     "required": [
                                       "nameOrOrganisation",
                                       "telephone",
@@ -356,34 +393,34 @@
                                     ],
                                     "properties": {
                                       "nameOrOrganisation": {
-                                        "baspiRef": "A1.5.5.1.1"
+                                        "baspi4Ref": "A1.5.5.1.1"
                                       },
                                       "address": {
-                                        "baspiRef": "A1.5.5.1.2",
+                                        "baspi4Ref": "A1.5.5.1.2",
                                         "required": [
                                           "line1",
                                           "postcode"
                                         ],
                                         "properties": {
                                           "line1": {
-                                            "baspiRef": "A1.5.5.1.2.1"
+                                            "baspi4Ref": "A1.5.5.1.2.1"
                                           },
                                           "line2": {
-                                            "baspiRef": "A1.5.5.1.2.2"
+                                            "baspi4Ref": "A1.5.5.1.2.2"
                                           },
                                           "line3": {
-                                            "baspiRef": "A1.5.5.1.2.3"
+                                            "baspi4Ref": "A1.5.5.1.2.3"
                                           },
                                           "town": {
-                                            "baspiRef": "A1.5.5.1.2.4"
+                                            "baspi4Ref": "A1.5.5.1.2.4"
                                           },
                                           "postcode": {
-                                            "baspiRef": "A1.5.5.1.2.5"
+                                            "baspi4Ref": "A1.5.5.1.2.5"
                                           }
                                         }
                                       },
                                       "emailAddress": {
-                                        "baspiRef": "A1.5.5.1.3"
+                                        "baspi4Ref": "A1.5.5.1.3"
                                       }
                                     }
                                   }
@@ -394,7 +431,7 @@
                           "transferAndRegistration": {
                             "properties": {
                               "requirementsToBeMemberOfManagementCompany": {
-                                "baspiRef": "A1.5.6",
+                                "baspi4Ref": "A1.5.6",
                                 "discriminator": {
                                   "propertyName": "yesNo"
                                 },
@@ -423,14 +460,14 @@
                                 ],
                                 "properties": {
                                   "yesNo": {
-                                    "baspiRef": "A1.5.6.1"
+                                    "baspi4Ref": "A1.5.6.1"
                                   }
                                 }
                               }
                             }
                           },
                           "serviceCharge": {
-                            "baspiRef": "A1.5.1",
+                            "baspi4Ref": "A1.5.1",
                             "required": [
                               "annualServiceCharge",
                               "largeAdditionalExpense",
@@ -438,10 +475,10 @@
                             ],
                             "properties": {
                               "annualServiceCharge": {
-                                "baspiRef": "A1.5.1.1.2"
+                                "baspi4Ref": "A1.5.1.1.2"
                               },
                               "largeAdditionalExpense": {
-                                "baspiRef": "A1.5.2.1",
+                                "baspi4Ref": "A1.5.2.1",
                                 "discriminator": {
                                   "propertyName": "yesNo"
                                 },
@@ -463,7 +500,7 @@
                                         ]
                                       },
                                       "details": {
-                                        "baspiRef": "A1.5.2.3"
+                                        "baspi4Ref": "A1.5.2.3"
                                       }
                                     },
                                     "required": [
@@ -476,12 +513,12 @@
                                 ],
                                 "properties": {
                                   "yesNo": {
-                                    "baspiRef": "A1.5.2.2"
+                                    "baspi4Ref": "A1.5.2.2"
                                   }
                                 }
                               },
                               "transferFees": {
-                                "baspiRef": "A1.5.3",
+                                "baspi4Ref": "A1.5.3",
                                 "discriminator": {
                                   "propertyName": "yesNo"
                                 },
@@ -503,7 +540,7 @@
                                         ]
                                       },
                                       "details": {
-                                        "baspiRef": "A1.5.3.2"
+                                        "baspi4Ref": "A1.5.3.2"
                                       }
                                     }
                                   }
@@ -511,9 +548,10 @@
                                 "required": [
                                   "yesNo"
                                 ],
+                                "title": "Additional fees payable on sale or letting, if known",
                                 "properties": {
                                   "yesNo": {
-                                    "baspiRef": "A1.5.3.1"
+                                    "baspi4Ref": "A1.5.3.1"
                                   }
                                 }
                               }
@@ -534,7 +572,7 @@
                         ]
                       },
                       "leaseholdInformation": {
-                        "baspiRef": "A1.5",
+                        "baspi4Ref": "A1.5",
                         "required": [
                           "sharedOwnership",
                           "leaseTerm",
@@ -545,7 +583,7 @@
                         ],
                         "properties": {
                           "sharedOwnership": {
-                            "baspiRef": "A1.3.1",
+                            "baspi4Ref": "A1.3.1",
                             "discriminator": {
                               "propertyName": "isSharedOwnership"
                             },
@@ -567,13 +605,13 @@
                                     ]
                                   },
                                   "sharedOwnershipPercentage": {
-                                    "baspiRef": "A1.3.1.1"
+                                    "baspi4Ref": "A1.3.1.1"
                                   },
                                   "sharedOwnershipRent": {
-                                    "baspiRef": "A1.3.1.2"
+                                    "baspi4Ref": "A1.3.1.2"
                                   },
                                   "sharedOwnershipRentFrequency": {
-                                    "baspiRef": "A1.3.1.3"
+                                    "baspi4Ref": "A1.3.1.3"
                                   }
                                 },
                                 "required": [
@@ -588,46 +626,46 @@
                             ],
                             "properties": {
                               "isSharedOwnership": {
-                                "baspiRef": "A1.3.1"
+                                "baspi4Ref": "A1.3.1"
                               }
                             }
                           },
                           "leaseTerm": {
-                            "baspiRef": "A1.4.1",
+                            "baspi4Ref": "A1.4.1",
                             "required": [
                               "startYearOfLease",
                               "lengthOfLeaseInYears"
                             ],
                             "properties": {
                               "startYearOfLease": {
-                                "baspiRef": "A1.4.1.1"
+                                "baspi4Ref": "A1.4.1.1"
                               },
                               "lengthOfLeaseInYears": {
-                                "baspiRef": "A1.4.1.2"
+                                "baspi4Ref": "A1.4.1.2"
                               }
                             }
                           },
                           "contactDetails": {
-                            "baspiRef": "A1.5.4",
+                            "baspi4Ref": "A1.5.4",
                             "required": [
                               "contacts"
                             ],
                             "properties": {
                               "contacts": {
-                                "baspiRef": "A1.5.4.",
+                                "baspi4Ref": "A1.5.4",
                                 "required": [
                                   "landlord",
                                   "managingAgent"
                                 ],
                                 "properties": {
                                   "landlord": {
-                                    "baspiRef": "A1.5.4",
+                                    "baspi4Ref": "A1.5.4",
                                     "required": [
                                       "contact"
                                     ],
                                     "properties": {
                                       "contact": {
-                                        "baspiRef": "A1.5.4.1",
+                                        "baspi4Ref": "A1.5.4.1",
                                         "required": [
                                           "nameOrOrganisation",
                                           "address",
@@ -635,47 +673,47 @@
                                         ],
                                         "properties": {
                                           "nameOrOrganisation": {
-                                            "baspiRef": "A1.5.4.1.1"
+                                            "baspi4Ref": "A1.5.4.1.1"
                                           },
                                           "address": {
-                                            "baspiRef": "A1.5.4.1.2",
+                                            "baspi4Ref": "A1.5.4.1.2",
                                             "required": [
                                               "line1",
                                               "postcode"
                                             ],
                                             "properties": {
                                               "line1": {
-                                                "baspiRef": "A1.5.4.1.2.1"
+                                                "baspi4Ref": "A1.5.4.1.2.1"
                                               },
                                               "line2": {
-                                                "baspiRef": "A1.5.4.1.2.2"
+                                                "baspi4Ref": "A1.5.4.1.2.2"
                                               },
                                               "line3": {
-                                                "baspiRef": "A1.5.4.1.2.3"
+                                                "baspi4Ref": "A1.5.4.1.2.3"
                                               },
                                               "town": {
-                                                "baspiRef": "A1.5.4.1.2.4"
+                                                "baspi4Ref": "A1.5.4.1.2.4"
                                               },
                                               "postcode": {
-                                                "baspiRef": "A1.5.4.1.2.5"
+                                                "baspi4Ref": "A1.5.4.1.2.5"
                                               }
                                             }
                                           },
                                           "emailAddress": {
-                                            "baspiRef": "A1.5.4.3"
+                                            "baspi4Ref": "A1.5.4.3"
                                           }
                                         }
                                       }
                                     }
                                   },
                                   "managingAgent": {
-                                    "baspiRef": "A1.5.5",
+                                    "baspi4Ref": "A1.5.5",
                                     "required": [
                                       "contact"
                                     ],
                                     "properties": {
                                       "contact": {
-                                        "baspiRef": "A1.5.5.1",
+                                        "baspi4Ref": "A1.5.5.1",
                                         "required": [
                                           "nameOrOrganisation",
                                           "address",
@@ -683,34 +721,34 @@
                                         ],
                                         "properties": {
                                           "nameOrOrganisation": {
-                                            "baspiRef": "A1.5.5.1.1"
+                                            "baspi4Ref": "A1.5.5.1.1"
                                           },
                                           "address": {
-                                            "baspiRef": "A1.5.5.1.2",
+                                            "baspi4Ref": "A1.5.5.1.2",
                                             "required": [
                                               "line1",
                                               "postcode"
                                             ],
                                             "properties": {
                                               "line1": {
-                                                "baspiRef": "A1.5.5.1.2.1"
+                                                "baspi4Ref": "A1.5.5.1.2.1"
                                               },
                                               "line2": {
-                                                "baspiRef": "A1.5.5.1.2.2"
+                                                "baspi4Ref": "A1.5.5.1.2.2"
                                               },
                                               "line3": {
-                                                "baspiRef": "A1.5.5.1.2.3"
+                                                "baspi4Ref": "A1.5.5.1.2.3"
                                               },
                                               "town": {
-                                                "baspiRef": "A1.5.5.1.2.4"
+                                                "baspi4Ref": "A1.5.5.1.2.4"
                                               },
                                               "postcode": {
-                                                "baspiRef": "A1.5.5.1.2.5"
+                                                "baspi4Ref": "A1.5.5.1.2.5"
                                               }
                                             }
                                           },
                                           "emailAddress": {
-                                            "baspiRef": "A1.5.5.1.3"
+                                            "baspi4Ref": "A1.5.5.1.3"
                                           }
                                         }
                                       }
@@ -732,13 +770,13 @@
                             }
                           },
                           "transferAndRegistration": {
-                            "baspiRef": "A1.5.6",
+                            "baspi4Ref": "A1.5.6",
                             "required": [
                               "requirementsToBeMemberOfManagementCompany"
                             ],
                             "properties": {
                               "requirementsToBeMemberOfManagementCompany": {
-                                "baspiRef": "A1.5.6",
+                                "baspi4Ref": "A1.5.6",
                                 "discriminator": {
                                   "propertyName": "yesNoNotApplicable"
                                 },
@@ -766,16 +804,17 @@
                                 "required": [
                                   "yesNoNotApplicable"
                                 ],
+                                "title": "Is the owner of the Property required to become a director in a management company for the maintenance of shared amenities?",
                                 "properties": {
                                   "yesNoNotApplicable": {
-                                    "baspiRef": "A1.5.6.1"
+                                    "baspi4Ref": "A1.5.6.1"
                                   }
                                 }
                               }
                             }
                           },
                           "groundRent": {
-                            "baspiRef": "A1.4.2",
+                            "baspi4Ref": "A1.4.2",
                             "discriminator": {
                               "propertyName": "isGroundRentPayable"
                             },
@@ -797,10 +836,10 @@
                                     ]
                                   },
                                   "annualGroundRent": {
-                                    "baspiRef": "A1.4.2.2"
+                                    "baspi4Ref": "A1.4.2.2"
                                   },
                                   "rentSubjectToIncrease": {
-                                    "baspiRef": "A1.4.2.3",
+                                    "baspi4Ref": "A1.4.2.3",
                                     "discriminator": {
                                       "propertyName": "yesNo"
                                     },
@@ -822,10 +861,10 @@
                                             ]
                                           },
                                           "rentReviewFrequency": {
-                                            "baspiRef": "A1.4.2.3.2"
+                                            "baspi4Ref": "A1.4.2.3.2"
                                           },
                                           "rentIncreaseCalculated": {
-                                            "baspiRef": "A1.4.2.3.3"
+                                            "baspi4Ref": "A1.4.2.3.3"
                                           }
                                         },
                                         "required": [
@@ -839,7 +878,7 @@
                                     ],
                                     "properties": {
                                       "yesNo": {
-                                        "baspiRef": "A1.4.2.3.1"
+                                        "baspi4Ref": "A1.4.2.3.1"
                                       }
                                     }
                                   }
@@ -855,12 +894,12 @@
                             ],
                             "properties": {
                               "isGroundRentPayable": {
-                                "baspiRef": "A1.4.2.1"
+                                "baspi4Ref": "A1.4.2.1"
                               }
                             }
                           },
                           "serviceCharge": {
-                            "baspiRef": "A1.5.1",
+                            "baspi4Ref": "A1.5.1",
                             "discriminator": {
                               "propertyName": "sellerContributesToServiceCharge"
                             },
@@ -882,10 +921,10 @@
                                     ]
                                   },
                                   "annualServiceCharge": {
-                                    "baspiRef": "A1.5.1.1.2"
+                                    "baspi4Ref": "A1.5.1.1.2"
                                   },
                                   "largeAdditionalExpense": {
-                                    "baspiRef": "A1.5.2.1",
+                                    "baspi4Ref": "A1.5.2.1",
                                     "discriminator": {
                                       "propertyName": "yesNo"
                                     },
@@ -907,7 +946,7 @@
                                             ]
                                           },
                                           "details": {
-                                            "baspiRef": "A1.5.2.3"
+                                            "baspi4Ref": "A1.5.2.3"
                                           }
                                         },
                                         "required": [
@@ -920,12 +959,12 @@
                                     ],
                                     "properties": {
                                       "yesNo": {
-                                        "baspiRef": "A1.5.2.2"
+                                        "baspi4Ref": "A1.5.2.2"
                                       }
                                     }
                                   },
                                   "reserveFund": {
-                                    "baspiRef": "1.5.2.1",
+                                    "baspi4Ref": "1.5.2.1",
                                     "discriminator": {
                                       "propertyName": "yesNo"
                                     },
@@ -952,14 +991,15 @@
                                     "required": [
                                       "yesNo"
                                     ],
+                                    "title": "Is there a reserve fund (also known as sinking fund or replacement fund)?",
                                     "properties": {
                                       "yesNo": {
-                                        "baspiRef": "1.5.2.1.1"
+                                        "baspi4Ref": "1.5.2.1.1"
                                       }
                                     }
                                   },
                                   "transferFees": {
-                                    "baspiRef": "A1.5.3",
+                                    "baspi4Ref": "A1.5.3",
                                     "discriminator": {
                                       "propertyName": "yesNo"
                                     },
@@ -981,7 +1021,7 @@
                                             ]
                                           },
                                           "details": {
-                                            "baspiRef": "A1.5.3.2"
+                                            "baspi4Ref": "A1.5.3.2"
                                           }
                                         }
                                       }
@@ -991,7 +1031,7 @@
                                     ],
                                     "properties": {
                                       "yesNo": {
-                                        "baspiRef": "A1.5.3.1"
+                                        "baspi4Ref": "A1.5.3.1"
                                       }
                                     }
                                   }
@@ -1008,7 +1048,7 @@
                             ],
                             "properties": {
                               "sellerContributesToServiceCharge": {
-                                "baspiRef": "A1.5.1.1"
+                                "baspi4Ref": "A1.5.1.1"
                               }
                             }
                           }
@@ -1027,7 +1067,7 @@
                         ]
                       },
                       "otherOwnershipDetails": {
-                        "baspiRef": "A1.3.2"
+                        "baspi4Ref": "A1.3.2"
                       }
                     },
                     "required": [
@@ -1035,16 +1075,16 @@
                     ]
                   }
                 ],
-                "baspiRef": "A1.3.0",
+                "baspi4Ref": "A1.3.0",
                 "required": [
                   "ownershipType"
                 ],
                 "properties": {
                   "titleNumber": {
-                    "baspiRef": "A1.3.0.1"
+                    "baspi4Ref": "A1.3.0.1"
                   },
                   "ownershipType": {
-                    "baspiRef": "A1.3.0.2"
+                    "baspi4Ref": "A1.3.0.2"
                   }
                 }
               }
@@ -1052,7 +1092,7 @@
           }
         },
         "parking": {
-          "baspiRef": "A1.6",
+          "baspi4Ref": "A1.6",
           "required": [
             "parkingArrangements",
             "controlledParking",
@@ -1060,34 +1100,69 @@
           ],
           "properties": {
             "parkingArrangements": {
-              "baspiRef": "A1.6.0"
+              "baspi4Ref": "A1.6.0"
             },
             "controlledParking": {
-              "baspiRef": "A1.6.2",
+              "baspi4Ref": "A1.6.0.2",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
               "required": [
                 "yesNo"
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A1.6.2.1"
+                  "baspi4Ref": "A1.6.0.2.1"
                 }
               }
             },
             "electricVehicleChargingPoint": {
-              "baspiRef": "A1.6.1",
+              "baspi4Ref": "A1.6.1",
               "required": [
                 "yesNo"
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A1.6.1.1"
+                  "baspi4Ref": "A1.6.1.1"
+                }
+              }
+            },
+            "locatedInUlez": {
+              "baspi4Ref": "A1.6.2",
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "baspi4Ref": "A1.6.2.1"
                 }
               }
             }
           }
         },
         "listingAndConservation": {
-          "baspiRef": "A1.7",
+          "baspi4Ref": "A1.7",
           "required": [
             "isListed",
             "isConservationArea",
@@ -1095,7 +1170,7 @@
           ],
           "properties": {
             "isListed": {
-              "baspiRef": "A1.7.1",
+              "baspi4Ref": "A1.7.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1118,10 +1193,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A1.7.1.2"
+                      "baspi4Ref": "A1.7.1.2"
                     },
                     "attachments": {
-                      "baspiRef": "A1.7.1.3"
+                      "baspi4Ref": "A1.7.1.3"
                     }
                   },
                   "required": [
@@ -1135,12 +1210,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A1.7.1.1"
+                  "baspi4Ref": "A1.7.1.1"
                 }
               }
             },
             "isConservationArea": {
-              "baspiRef": "A1.7.2",
+              "baspi4Ref": "A1.7.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1163,10 +1238,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A1.7.2.2"
+                      "baspi4Ref": "A1.7.2.2"
                     },
                     "attachments": {
-                      "baspiRef": "A1.7.2.3"
+                      "baspi4Ref": "A1.7.2.3"
                     }
                   },
                   "required": [
@@ -1180,12 +1255,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A1.7.2.1"
+                  "baspi4Ref": "A1.7.2.1"
                 }
               }
             },
             "hasTreePreservationOrder": {
-              "baspiRef": "A1.7.3",
+              "baspi4Ref": "A1.7.3",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1208,7 +1283,7 @@
                       ]
                     },
                     "workCarriedOut": {
-                      "baspiRef": "A1.7.3.2",
+                      "baspi4Ref": "A1.7.3.2",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -1230,10 +1305,10 @@
                               ]
                             },
                             "consentsObtained": {
-                              "baspiRef": "A1.7.3.3"
+                              "baspi4Ref": "A1.7.3.3"
                             },
                             "attachments": {
-                              "baspiRef": "A1.7.3.4"
+                              "baspi4Ref": "A1.7.3.4"
                             }
                           },
                           "required": [
@@ -1246,7 +1321,7 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A1.7.3.2.1"
+                          "baspi4Ref": "A1.7.3.2.1"
                         }
                       }
                     }
@@ -1261,14 +1336,14 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A1.7.3.1"
+                  "baspi4Ref": "A1.7.3.1"
                 }
               }
             }
           }
         },
         "typeOfConstruction": {
-          "baspiRef": "A1.8",
+          "baspi4Ref": "A1.8",
           "required": [
             "isStandardForm",
             "buildingSafety",
@@ -1276,7 +1351,7 @@
           ],
           "properties": {
             "isStandardForm": {
-              "baspiRef": "A1.8.1",
+              "baspi4Ref": "A1.8.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1298,7 +1373,7 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A1.8.1.2"
+                      "baspi4Ref": "A1.8.1.2"
                     }
                   },
                   "required": [
@@ -1311,12 +1386,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A1.8.1.1"
+                  "baspi4Ref": "A1.8.1.1"
                 }
               }
             },
             "buildingSafety": {
-              "baspiRef": "A1.8.2",
+              "baspi4Ref": "A1.8.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1338,22 +1413,22 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A1.8.2.2"
+                      "baspi4Ref": "A1.8.2.2"
                     },
                     "workAlreadyDone": {
-                      "baspiRef": "A1.8.2.2"
+                      "baspi4Ref": "A1.8.2.2"
                     },
                     "workToBeDone": {
-                      "baspiRef": "A1.8.2.2"
+                      "baspi4Ref": "A1.8.2.2"
                     },
                     "potentialCost": {
-                      "baspiRef": "A1.8.2.2"
+                      "baspi4Ref": "A1.8.2.2"
                     },
                     "abilityToResideAtProperty": {
-                      "baspiRef": "A1.8.2.2"
+                      "baspi4Ref": "A1.8.2.2"
                     },
                     "attachments": {
-                      "baspiRef": "A1.8.2.3"
+                      "baspi4Ref": "A1.8.2.3"
                     }
                   },
                   "required": [
@@ -1368,7 +1443,7 @@
               "title": "Are you aware of any remediation required to the property due to building safety?",
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A1.8.2.1",
+                  "baspi4Ref": "A1.8.2.1",
                   "enum": [
                     "Yes",
                     "No"
@@ -1377,7 +1452,7 @@
               }
             },
             "sprayFoamInsulation": {
-              "baspiRef": "A1.8.4",
+              "baspi4Ref": "A1.8.4",
               "discriminator": {
                 "propertyName": "hasSprayFoamInstalled"
               },
@@ -1399,10 +1474,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A1.8.4.2"
+                      "baspi4Ref": "A1.8.4.2"
                     },
                     "attachments": {
-                      "baspiRef": "A1.8.4.3"
+                      "baspi4Ref": "A1.8.4.3"
                     }
                   },
                   "required": [
@@ -1416,38 +1491,38 @@
               ],
               "properties": {
                 "hasSprayFoamInstalled": {
-                  "baspiRef": "A1.8.4.1"
+                  "baspi4Ref": "A1.8.4.1"
                 }
               }
             }
           }
         },
         "energyEfficiency": {
-          "baspiRef": "A1.8.3",
+          "baspi4Ref": "A1.8.3",
           "required": [
             "certificate",
             "greenDealLoan"
           ],
           "properties": {
             "certificate": {
-              "baspiRef": "A1.8.3.1",
+              "baspi4Ref": "A1.8.3.1",
               "required": [
                 "currentEnergyRating"
               ],
               "properties": {
                 "currentEnergyRating": {
-                  "baspiRef": "A1.8.3.1.1"
+                  "baspi4Ref": "A1.8.3.1.1"
                 }
               }
             },
             "greenDealLoan": {
-              "baspiRef": "A7.3",
+              "baspi4Ref": "A7.3",
               "required": [
                 "hasGreenDealLoan"
               ],
               "properties": {
                 "hasGreenDealLoan": {
-                  "baspiRef": "A7.3",
+                  "baspi4Ref": "A7.3",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -1469,10 +1544,10 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "A7.3.2"
+                          "baspi4Ref": "A7.3.2"
                         },
                         "attachments": {
-                          "baspiRef": "A7.3.3"
+                          "baspi4Ref": "A7.3.3"
                         }
                       },
                       "required": [
@@ -1486,7 +1561,7 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A7.3.1"
+                      "baspi4Ref": "A7.3.1"
                     }
                   }
                 }
@@ -1495,17 +1570,17 @@
           }
         },
         "councilTax": {
-          "baspiRef": "A1.9",
+          "baspi4Ref": "A1.9",
           "required": [
             "councilTaxBand",
             "councilTaxAffectingAlterations"
           ],
           "properties": {
             "councilTaxBand": {
-              "baspiRef": "A1.9.1"
+              "baspi4Ref": "A1.9.1"
             },
             "councilTaxAffectingAlterations": {
-              "baspiRef": "A1.9.2",
+              "baspi4Ref": "A1.9.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1527,10 +1602,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A1.9.2.2"
+                      "baspi4Ref": "A1.9.2.2"
                     },
                     "attachments": {
-                      "baspiRef": "A1.9.2.3"
+                      "baspi4Ref": "A1.9.2.3"
                     }
                   },
                   "required": [
@@ -1543,21 +1618,21 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A1.9.2.1"
+                  "baspi4Ref": "A1.9.2.1"
                 }
               }
             }
           }
         },
         "disputesAndComplaints": {
-          "baspiRef": "A2",
+          "baspi4Ref": "A2",
           "required": [
             "hasDisputesAndComplaints",
             "leadingToDisputesAndComplaints"
           ],
           "properties": {
             "hasDisputesAndComplaints": {
-              "baspiRef": "A2.1.1",
+              "baspi4Ref": "A2.1.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1579,7 +1654,7 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A2.1.1.2"
+                      "baspi4Ref": "A2.1.1.2"
                     }
                   },
                   "required": [
@@ -1592,12 +1667,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A2.1.1.1"
+                  "baspi4Ref": "A2.1.1.1"
                 }
               }
             },
             "leadingToDisputesAndComplaints": {
-              "baspiRef": "A2.1.2",
+              "baspi4Ref": "A2.1.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1619,7 +1694,7 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A2.1.2.2"
+                      "baspi4Ref": "A2.1.2.2"
                     }
                   },
                   "required": [
@@ -1632,14 +1707,14 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A2.1.2.1"
+                  "baspi4Ref": "A2.1.2.1"
                 }
               }
             }
           }
         },
         "alterationsAndChanges": {
-          "baspiRef": "A3",
+          "baspi4Ref": "A3",
           "required": [
             "hasStructuralAlterations",
             "changeOfUse",
@@ -1651,7 +1726,7 @@
           ],
           "properties": {
             "hasStructuralAlterations": {
-              "baspiRef": "A3.1",
+              "baspi4Ref": "A3.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1673,10 +1748,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A3.1.2"
+                      "baspi4Ref": "A3.1.2"
                     },
                     "buildingRegApproval": {
-                      "baspiRef": "A3.5.1",
+                      "baspi4Ref": "A3.5.1",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -1689,7 +1764,7 @@
                               ]
                             },
                             "attachments": {
-                              "baspiRef": "A3.5.1.3"
+                              "baspi4Ref": "A3.5.1.3"
                             }
                           },
                           "required": [
@@ -1705,7 +1780,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A3.5.1.2"
+                              "baspi4Ref": "A3.5.1.2"
                             }
                           },
                           "required": [
@@ -1718,12 +1793,12 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A3.5.1.1"
+                          "baspi4Ref": "A3.5.1.1"
                         }
                       }
                     },
                     "planningPermission": {
-                      "baspiRef": "A3.5.2",
+                      "baspi4Ref": "A3.5.2",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -1736,7 +1811,7 @@
                               ]
                             },
                             "attachments": {
-                              "baspiRef": "A3.5.2.3"
+                              "baspi4Ref": "A3.5.2.3"
                             }
                           },
                           "required": [
@@ -1752,7 +1827,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A3.5.2.2"
+                              "baspi4Ref": "A3.5.2.2"
                             }
                           },
                           "required": [
@@ -1765,12 +1840,12 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A3.5.2.1"
+                          "baspi4Ref": "A3.5.2.1"
                         }
                       }
                     },
                     "listedBuildingConsent": {
-                      "baspiRef": "A3.5.3",
+                      "baspi4Ref": "A3.5.3",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -1783,7 +1858,7 @@
                               ]
                             },
                             "attachments": {
-                              "baspiRef": "A3.5.1.3"
+                              "baspi4Ref": "A3.5.1.3"
                             }
                           },
                           "required": [
@@ -1799,7 +1874,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A3.5.3.2"
+                              "baspi4Ref": "A3.5.3.2"
                             }
                           },
                           "required": [
@@ -1812,12 +1887,12 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A3.5.3.1"
+                          "baspi4Ref": "A3.5.3.1"
                         }
                       }
                     },
                     "deedRestrictionConsent": {
-                      "baspiRef": "A3.5.4",
+                      "baspi4Ref": "A3.5.4",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -1830,7 +1905,7 @@
                               ]
                             },
                             "attachments": {
-                              "baspiRef": "A3.5.1.3"
+                              "baspi4Ref": "A3.5.1.3"
                             }
                           },
                           "required": [
@@ -1846,7 +1921,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A3.5.4.2"
+                              "baspi4Ref": "A3.5.4.2"
                             }
                           },
                           "required": [
@@ -1859,7 +1934,7 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A3.5.4.1"
+                          "baspi4Ref": "A3.5.4.1"
                         }
                       }
                     }
@@ -1878,12 +1953,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A3.1.1"
+                  "baspi4Ref": "A3.1.1"
                 }
               }
             },
             "changeOfUse": {
-              "baspiRef": "A3.2",
+              "baspi4Ref": "A3.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1905,13 +1980,13 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A3.2.2"
+                      "baspi4Ref": "A3.2.2"
                     },
                     "yearCompleted": {
-                      "baspiRef": "A3.2.3"
+                      "baspi4Ref": "A3.2.3"
                     },
                     "buildingRegApproval": {
-                      "baspiRef": "A3.5.1",
+                      "baspi4Ref": "A3.5.1",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -1924,7 +1999,7 @@
                               ]
                             },
                             "attachments": {
-                              "baspiRef": "A3.5.1.3"
+                              "baspi4Ref": "A3.5.1.3"
                             }
                           },
                           "required": [
@@ -1940,7 +2015,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A3.5.1.2"
+                              "baspi4Ref": "A3.5.1.2"
                             }
                           },
                           "required": [
@@ -1953,12 +2028,12 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A3.5.1.1"
+                          "baspi4Ref": "A3.5.1.1"
                         }
                       }
                     },
                     "planningPermission": {
-                      "baspiRef": "A3.5.2",
+                      "baspi4Ref": "A3.5.2",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -1971,7 +2046,7 @@
                               ]
                             },
                             "attachments": {
-                              "baspiRef": "A3.5.1.3"
+                              "baspi4Ref": "A3.5.1.3"
                             }
                           },
                           "required": [
@@ -1987,7 +2062,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A3.5.2.2"
+                              "baspi4Ref": "A3.5.2.2"
                             }
                           },
                           "required": [
@@ -2000,12 +2075,12 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A3.5.2.1"
+                          "baspi4Ref": "A3.5.2.1"
                         }
                       }
                     },
                     "listedBuildingConsent": {
-                      "baspiRef": "A3.5.3",
+                      "baspi4Ref": "A3.5.3",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -2018,7 +2093,7 @@
                               ]
                             },
                             "attachments": {
-                              "baspiRef": "A3.5.1.3"
+                              "baspi4Ref": "A3.5.1.3"
                             }
                           },
                           "required": [
@@ -2034,7 +2109,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A3.5.3.2"
+                              "baspi4Ref": "A3.5.3.2"
                             }
                           },
                           "required": [
@@ -2047,12 +2122,12 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A3.5.3.1"
+                          "baspi4Ref": "A3.5.3.1"
                         }
                       }
                     },
                     "deedRestrictionConsent": {
-                      "baspiRef": "A3.5.4",
+                      "baspi4Ref": "A3.5.4",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -2065,7 +2140,7 @@
                               ]
                             },
                             "attachments": {
-                              "baspiRef": "A3.5.1.3"
+                              "baspi4Ref": "A3.5.1.3"
                             }
                           },
                           "required": [
@@ -2081,7 +2156,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A3.5.4.2"
+                              "baspi4Ref": "A3.5.4.2"
                             }
                           },
                           "required": [
@@ -2094,7 +2169,7 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A3.5.4.1"
+                          "baspi4Ref": "A3.5.4.1"
                         }
                       }
                     }
@@ -2114,12 +2189,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A3.2.1"
+                  "baspi4Ref": "A3.2.1"
                 }
               }
             },
             "windowReplacementsSince2002": {
-              "baspiRef": "A3.3",
+              "baspi4Ref": "A3.3",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -2141,13 +2216,13 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A3.3.2"
+                      "baspi4Ref": "A3.3.2"
                     },
                     "yearCompleted": {
-                      "baspiRef": "A3.3.3"
+                      "baspi4Ref": "A3.3.3"
                     },
                     "buildingRegApproval": {
-                      "baspiRef": "A3.5.1",
+                      "baspi4Ref": "A3.5.1",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -2160,7 +2235,7 @@
                               ]
                             },
                             "attachments": {
-                              "baspiRef": "A3.5.1.3"
+                              "baspi4Ref": "A3.5.1.3"
                             }
                           },
                           "required": [
@@ -2176,7 +2251,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A3.5.1.2"
+                              "baspi4Ref": "A3.5.1.2"
                             }
                           },
                           "required": [
@@ -2189,12 +2264,12 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A3.5.1.1"
+                          "baspi4Ref": "A3.5.1.1"
                         }
                       }
                     },
                     "planningPermission": {
-                      "baspiRef": "A3.5.2",
+                      "baspi4Ref": "A3.5.2",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -2207,7 +2282,7 @@
                               ]
                             },
                             "attachments": {
-                              "baspiRef": "A3.5.2.3"
+                              "baspi4Ref": "A3.5.2.3"
                             }
                           },
                           "required": [
@@ -2223,7 +2298,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A3.5.2.2"
+                              "baspi4Ref": "A3.5.2.2"
                             }
                           },
                           "required": [
@@ -2236,12 +2311,12 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A3.5.2.1"
+                          "baspi4Ref": "A3.5.2.1"
                         }
                       }
                     },
                     "listedBuildingConsent": {
-                      "baspiRef": "A3.5.3",
+                      "baspi4Ref": "A3.5.3",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -2254,7 +2329,7 @@
                               ]
                             },
                             "attachments": {
-                              "baspiRef": "A3.5.3.3"
+                              "baspi4Ref": "A3.5.3.3"
                             }
                           },
                           "required": [
@@ -2270,7 +2345,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A3.5.3.2"
+                              "baspi4Ref": "A3.5.3.2"
                             }
                           },
                           "required": [
@@ -2283,12 +2358,12 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A3.5.3.1"
+                          "baspi4Ref": "A3.5.3.1"
                         }
                       }
                     },
                     "deedRestrictionConsent": {
-                      "baspiRef": "A3.5.4",
+                      "baspi4Ref": "A3.5.4",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -2301,7 +2376,7 @@
                               ]
                             },
                             "attachments": {
-                              "baspiRef": "A3.5.4.3"
+                              "baspi4Ref": "A3.5.4.3"
                             }
                           },
                           "required": [
@@ -2317,7 +2392,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A3.5.4.2"
+                              "baspi4Ref": "A3.5.4.2"
                             }
                           },
                           "required": [
@@ -2330,7 +2405,7 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A3.5.4.1"
+                          "baspi4Ref": "A3.5.4.1"
                         }
                       }
                     }
@@ -2350,12 +2425,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A3.3.1"
+                  "baspi4Ref": "A3.3.1"
                 }
               }
             },
             "hasAddedConservatory": {
-              "baspiRef": "A3.4",
+              "baspi4Ref": "A3.4",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -2377,13 +2452,13 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A3.4.2"
+                      "baspi4Ref": "A3.4.2"
                     },
                     "yearCompleted": {
-                      "baspiRef": "A3.4.3"
+                      "baspi4Ref": "A3.4.3"
                     },
                     "buildingRegApproval": {
-                      "baspiRef": "A3.5.1",
+                      "baspi4Ref": "A3.5.1",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -2396,7 +2471,7 @@
                               ]
                             },
                             "attachments": {
-                              "baspiRef": "A3.5.1.3"
+                              "baspi4Ref": "A3.5.1.3"
                             }
                           },
                           "required": [
@@ -2412,7 +2487,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A3.5.1.2"
+                              "baspi4Ref": "A3.5.1.2"
                             }
                           },
                           "required": [
@@ -2425,12 +2500,12 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A3.5.1.1"
+                          "baspi4Ref": "A3.5.1.1"
                         }
                       }
                     },
                     "planningPermission": {
-                      "baspiRef": "A3.5.2",
+                      "baspi4Ref": "A3.5.2",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -2443,7 +2518,7 @@
                               ]
                             },
                             "attachments": {
-                              "baspiRef": "A3.5.2.3"
+                              "baspi4Ref": "A3.5.2.3"
                             }
                           },
                           "required": [
@@ -2459,7 +2534,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A3.5.2.2"
+                              "baspi4Ref": "A3.5.2.2"
                             }
                           },
                           "required": [
@@ -2472,12 +2547,12 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A3.5.2.1"
+                          "baspi4Ref": "A3.5.2.1"
                         }
                       }
                     },
                     "listedBuildingConsent": {
-                      "baspiRef": "A3.5.3",
+                      "baspi4Ref": "A3.5.3",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -2490,7 +2565,7 @@
                               ]
                             },
                             "attachments": {
-                              "baspiRef": "A3.5.3.3"
+                              "baspi4Ref": "A3.5.3.3"
                             }
                           },
                           "required": [
@@ -2506,7 +2581,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A3.5.3.2"
+                              "baspi4Ref": "A3.5.3.2"
                             }
                           },
                           "required": [
@@ -2519,12 +2594,12 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A3.5.3.1"
+                          "baspi4Ref": "A3.5.3.1"
                         }
                       }
                     },
                     "deedRestrictionConsent": {
-                      "baspiRef": "A3.5.4",
+                      "baspi4Ref": "A3.5.4",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -2537,7 +2612,7 @@
                               ]
                             },
                             "attachments": {
-                              "baspiRef": "A3.5.4.3"
+                              "baspi4Ref": "A3.5.4.3"
                             }
                           },
                           "required": [
@@ -2553,7 +2628,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "A3.5.4.2"
+                              "baspi4Ref": "A3.5.4.2"
                             }
                           },
                           "required": [
@@ -2566,7 +2641,7 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "A3.5.4.1"
+                          "baspi4Ref": "A3.5.4.1"
                         }
                       }
                     }
@@ -2586,12 +2661,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A3.4.1"
+                  "baspi4Ref": "A3.4.1"
                 }
               }
             },
             "worksUnfinished": {
-              "baspiRef": "A3.6",
+              "baspi4Ref": "A3.6",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -2613,10 +2688,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A3.6.2"
+                      "baspi4Ref": "A3.6.2"
                     },
                     "attachments": {
-                      "baspiRef": "A3.6.3"
+                      "baspi4Ref": "A3.6.3"
                     }
                   },
                   "required": [
@@ -2630,12 +2705,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A3.6.1"
+                  "baspi4Ref": "A3.6.1"
                 }
               }
             },
             "planningPermissionBreaches": {
-              "baspiRef": "A3.7",
+              "baspi4Ref": "A3.7",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -2657,13 +2732,13 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A3.7.2"
+                      "baspi4Ref": "A3.7.2"
                     },
                     "willingToInsure": {
-                      "baspiRef": "A3.9"
+                      "baspi4Ref": "A3.9"
                     },
                     "attachments": {
-                      "baspiRef": "A3.7.3"
+                      "baspi4Ref": "A3.7.3"
                     }
                   },
                   "required": [
@@ -2678,12 +2753,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A3.7.1"
+                  "baspi4Ref": "A3.7.1"
                 }
               }
             },
             "unresolvedPlanningIssues": {
-              "baspiRef": "A3.8",
+              "baspi4Ref": "A3.8",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -2705,13 +2780,13 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A3.8.2"
+                      "baspi4Ref": "A3.8.2"
                     },
                     "willingToInsure": {
-                      "baspiRef": "A3.9"
+                      "baspi4Ref": "A3.9"
                     },
                     "attachments": {
-                      "baspiRef": "A3.8.3"
+                      "baspi4Ref": "A3.8.3"
                     }
                   },
                   "required": [
@@ -2726,14 +2801,14 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A3.8.1"
+                  "baspi4Ref": "A3.8.1"
                 }
               }
             }
           }
         },
         "notices": {
-          "baspiRef": "A4",
+          "baspi4Ref": "A4",
           "required": [
             "neighbourDevelopment",
             "planningApplication",
@@ -2745,7 +2820,7 @@
           ],
           "properties": {
             "neighbourDevelopment": {
-              "baspiRef": "A4.1",
+              "baspi4Ref": "A4.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -2767,10 +2842,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A4.1.2"
+                      "baspi4Ref": "A4.1.2"
                     },
                     "attachments": {
-                      "baspiRef": "A4.1.3"
+                      "baspi4Ref": "A4.1.3"
                     }
                   },
                   "required": [
@@ -2784,12 +2859,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A4.1.1"
+                  "baspi4Ref": "A4.1.1"
                 }
               }
             },
             "planningApplication": {
-              "baspiRef": "A4.2",
+              "baspi4Ref": "A4.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -2811,10 +2886,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A4.2.2"
+                      "baspi4Ref": "A4.2.2"
                     },
                     "attachments": {
-                      "baspiRef": "A4.2.3"
+                      "baspi4Ref": "A4.2.3"
                     }
                   },
                   "required": [
@@ -2828,12 +2903,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A4.2.1"
+                  "baspi4Ref": "A4.2.1"
                 }
               }
             },
             "requiredMaintenance": {
-              "baspiRef": "A4.3",
+              "baspi4Ref": "A4.3",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -2855,10 +2930,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A4.3.2"
+                      "baspi4Ref": "A4.3.2"
                     },
                     "attachments": {
-                      "baspiRef": "A4.3.3"
+                      "baspi4Ref": "A4.3.3"
                     }
                   },
                   "required": [
@@ -2872,12 +2947,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A4.3.1"
+                  "baspi4Ref": "A4.3.1"
                 }
               }
             },
             "listedBuildingApplication": {
-              "baspiRef": "A4.4",
+              "baspi4Ref": "A4.4",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -2899,10 +2974,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A4.4.2"
+                      "baspi4Ref": "A4.4.2"
                     },
                     "attachments": {
-                      "baspiRef": "A4.4.3"
+                      "baspi4Ref": "A4.4.3"
                     }
                   },
                   "required": [
@@ -2916,12 +2991,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A4.4.1"
+                  "baspi4Ref": "A4.4.1"
                 }
               }
             },
             "infrastructureProject": {
-              "baspiRef": "A4.5",
+              "baspi4Ref": "A4.5",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -2943,10 +3018,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A4.5.2"
+                      "baspi4Ref": "A4.5.2"
                     },
                     "attachments": {
-                      "baspiRef": "A4.5.3"
+                      "baspi4Ref": "A4.5.3"
                     }
                   },
                   "required": [
@@ -2960,12 +3035,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A4.5.1"
+                  "baspi4Ref": "A4.5.1"
                 }
               }
             },
             "partyWallAct": {
-              "baspiRef": "A4.6",
+              "baspi4Ref": "A4.6",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -2987,10 +3062,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A4.6.2"
+                      "baspi4Ref": "A4.6.2"
                     },
                     "attachments": {
-                      "baspiRef": "A4.6.3"
+                      "baspi4Ref": "A4.6.3"
                     }
                   },
                   "required": [
@@ -3004,12 +3079,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A4.6.1"
+                  "baspi4Ref": "A4.6.1"
                 }
               }
             },
             "otherNotices": {
-              "baspiRef": "A4.7",
+              "baspi4Ref": "A4.7",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -3031,10 +3106,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A4.7.2"
+                      "baspi4Ref": "A4.7.2"
                     },
                     "attachments": {
-                      "baspiRef": "A4.7.3"
+                      "baspi4Ref": "A4.7.3"
                     }
                   },
                   "required": [
@@ -3048,14 +3123,14 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A4.7.1"
+                  "baspi4Ref": "A4.7.1"
                 }
               }
             }
           }
         },
         "specialistIssues": {
-          "baspiRef": "A5",
+          "baspi4Ref": "A5",
           "required": [
             "dryRotEtcTreatment",
             "containsAsbestos",
@@ -3065,7 +3140,7 @@
           ],
           "properties": {
             "dryRotEtcTreatment": {
-              "baspiRef": "A5.1",
+              "baspi4Ref": "A5.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -3087,10 +3162,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A5.1.2"
+                      "baspi4Ref": "A5.1.2"
                     },
                     "attachments": {
-                      "baspiRef": "A5.1.3"
+                      "baspi4Ref": "A5.1.3"
                     }
                   },
                   "required": [
@@ -3104,12 +3179,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A5.1.1"
+                  "baspi4Ref": "A5.1.1"
                 }
               }
             },
             "containsAsbestos": {
-              "baspiRef": "A5.2",
+              "baspi4Ref": "A5.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -3131,10 +3206,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A5.2.2"
+                      "baspi4Ref": "A5.2.2"
                     },
                     "attachments": {
-                      "baspiRef": "A5.2.3"
+                      "baspi4Ref": "A5.2.3"
                     }
                   },
                   "required": [
@@ -3148,12 +3223,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A5.2.1"
+                  "baspi4Ref": "A5.2.1"
                 }
               }
             },
             "japaneseKnotweed": {
-              "baspiRef": "A5.3",
+              "baspi4Ref": "A5.3",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -3176,10 +3251,10 @@
                       ]
                     },
                     "managementPlanInPlace": {
-                      "baspiRef": "A5.3.2"
+                      "baspi4Ref": "A5.3.2"
                     },
                     "attachments": {
-                      "baspiRef": "A5.3.3"
+                      "baspi4Ref": "A5.3.3"
                     }
                   },
                   "required": [
@@ -3192,7 +3267,7 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A5.3.1",
+                  "baspi4Ref": "A5.3.1",
                   "enum": [
                     "Yes",
                     "No"
@@ -3201,7 +3276,7 @@
               }
             },
             "subsidenceOrStructuralFault": {
-              "baspiRef": "A5.4",
+              "baspi4Ref": "A5.4",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -3223,10 +3298,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A5.4.2"
+                      "baspi4Ref": "A5.4.2"
                     },
                     "attachments": {
-                      "baspiRef": "A5.4.3"
+                      "baspi4Ref": "A5.4.3"
                     }
                   },
                   "required": [
@@ -3240,12 +3315,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A5.4.1"
+                  "baspi4Ref": "A5.4.1"
                 }
               }
             },
             "ongoingHealthOrSafetyIssue": {
-              "baspiRef": "A5.5",
+              "baspi4Ref": "A5.5",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -3267,10 +3342,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A5.5.2"
+                      "baspi4Ref": "A5.5.2"
                     },
                     "attachments": {
-                      "baspiRef": "A5.5.3"
+                      "baspi4Ref": "A5.5.3"
                     }
                   },
                   "required": [
@@ -3284,21 +3359,21 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A5.5.1"
+                  "baspi4Ref": "A5.5.1"
                 }
               }
             }
           }
         },
         "fixturesAndFittings": {
-          "baspiRef": "A6",
+          "baspi4Ref": "A6",
           "required": [
             "itemsToRemove",
             "itemsToInclude"
           ],
           "properties": {
             "itemsToRemove": {
-              "baspiRef": "A6.1",
+              "baspi4Ref": "A6.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -3320,7 +3395,7 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A6.1.2"
+                      "baspi4Ref": "A6.1.2"
                     }
                   },
                   "required": [
@@ -3333,12 +3408,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A6.1.1"
+                  "baspi4Ref": "A6.1.1"
                 }
               }
             },
             "itemsToInclude": {
-              "baspiRef": "A6.2",
+              "baspi4Ref": "A6.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -3360,7 +3435,7 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A6.2.2"
+                      "baspi4Ref": "A6.2.2"
                     }
                   },
                   "required": [
@@ -3373,14 +3448,14 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A6.2.1"
+                  "baspi4Ref": "A6.2.1"
                 }
               }
             }
           }
         },
         "electricity": {
-          "baspiRef": "A7.1.0.1",
+          "baspi4Ref": "A7.1.0.1",
           "required": [
             "mainsElectricity",
             "solarPanels",
@@ -3388,7 +3463,7 @@
           ],
           "properties": {
             "mainsElectricity": {
-              "baspiRef": "A7.1.0.1",
+              "baspi4Ref": "A7.1.0.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -3410,19 +3485,19 @@
                       ]
                     },
                     "supplier": {
-                      "baspiRef": "A7.1.0.1.2"
+                      "baspi4Ref": "A7.1.0.1.2"
                     },
                     "electricityMeter": {
-                      "baspiRef": "B4.4",
+                      "baspi4Ref": "B4.4",
                       "required": [
                         "location"
                       ],
                       "properties": {
                         "location": {
-                          "baspiRef": "4.4.1"
+                          "baspi4Ref": "4.4.1"
                         },
                         "attachments": {
-                          "baspiRef": "4.4.2"
+                          "baspi4Ref": "4.4.2"
                         }
                       }
                     }
@@ -3439,10 +3514,10 @@
                       ]
                     },
                     "dateToBeConnected": {
-                      "baspiRef": "A7.1.0.1.3"
+                      "baspi4Ref": "A7.1.0.1.3"
                     },
                     "supplier": {
-                      "baspiRef": "A7.1.0.1.2"
+                      "baspi4Ref": "A7.1.0.1.2"
                     }
                   },
                   "required": [
@@ -3455,12 +3530,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A7.1.0.1.1"
+                  "baspi4Ref": "A7.1.0.1.1"
                 }
               }
             },
             "solarPanels": {
-              "baspiRef": "A7.1.0.8",
+              "baspi4Ref": "A7.1.0.8",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -3482,13 +3557,13 @@
                       ]
                     },
                     "supplier": {
-                      "baspiRef": "A7.1.0.8.2"
+                      "baspi4Ref": "A7.1.0.8.2"
                     },
                     "yearInstalled": {
-                      "baspiRef": "B4.3.1"
+                      "baspi4Ref": "B4.3.1"
                     },
                     "panelsOwnedOutright": {
-                      "baspiRef": "B4.3.2",
+                      "baspi4Ref": "B4.3.2",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -3510,10 +3585,10 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "B4.3.2.2"
+                              "baspi4Ref": "B4.3.2.2"
                             },
                             "attachments": {
-                              "baspiRef": "B4.3.2.3"
+                              "baspi4Ref": "B4.3.2.3"
                             }
                           },
                           "required": [
@@ -3527,12 +3602,12 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "B4.3.2.1"
+                          "baspi4Ref": "B4.3.2.1"
                         }
                       }
                     },
                     "panelProviderLease": {
-                      "baspiRef": "B4.3.3",
+                      "baspi4Ref": "B4.3.3",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -3554,10 +3629,10 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "4.3.3.2"
+                              "baspi4Ref": "4.3.3.2"
                             },
                             "attachments": {
-                              "baspiRef": "4.3.3.3"
+                              "baspi4Ref": "4.3.3.3"
                             }
                           },
                           "required": [
@@ -3571,15 +3646,15 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "4.3.3.1"
+                          "baspi4Ref": "4.3.3.1"
                         }
                       }
                     },
                     "lastMaintained": {
-                      "baspiRef": "B4.3.4"
+                      "baspi4Ref": "B4.3.4"
                     },
                     "inGoodWorkingOrder": {
-                      "baspiRef": "B4.3.5",
+                      "baspi4Ref": "B4.3.5",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -3601,7 +3676,7 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "B4.3.5.2"
+                              "baspi4Ref": "B4.3.5.2"
                             }
                           },
                           "required": [
@@ -3614,32 +3689,32 @@
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "B4.3.5.1"
+                          "baspi4Ref": "B4.3.5.1"
                         }
                       }
                     },
                     "isConnectedToNationalGrid": {
-                      "baspiRef": "B4.3.6"
+                      "baspi4Ref": "B4.3.6"
                     },
                     "photovoltaicMeterPanelLocation": {
-                      "baspiRef": "B4.7",
+                      "baspi4Ref": "B4.7",
                       "properties": {
                         "description": {
-                          "baspiRef": "4.7.1"
+                          "baspi4Ref": "4.7.1"
                         },
                         "attachments": {
-                          "baspiRef": "4.7.2"
+                          "baspi4Ref": "4.7.2"
                         }
                       }
                     },
                     "photovoltaicBatteriesLocation": {
-                      "baspiRef": "B4.8",
+                      "baspi4Ref": "B4.8",
                       "properties": {
                         "description": {
-                          "baspiRef": "4.8.1"
+                          "baspi4Ref": "4.8.1"
                         },
                         "attachments": {
-                          "baspiRef": "4.8.2"
+                          "baspi4Ref": "4.8.2"
                         }
                       }
                     }
@@ -3661,10 +3736,10 @@
                       ]
                     },
                     "dateToBeConnected": {
-                      "baspiRef": "A7.1.0.8.3"
+                      "baspi4Ref": "A7.1.0.8.3"
                     },
                     "supplier": {
-                      "baspiRef": "A7.1.0.8.2"
+                      "baspi4Ref": "A7.1.0.8.2"
                     }
                   },
                   "required": [
@@ -3677,12 +3752,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A7.1.0.8.1"
+                  "baspi4Ref": "A7.1.0.8.1"
                 }
               }
             },
-            "otherSources": {
-              "baspiRef": "A7.1.0.9",
+            "heatPump": {
+              "baspi4Ref": "A7.1.0.9",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -3704,9 +3779,19 @@
                       ]
                     },
                     "supplier": {
-                      "baspiRef": "A7.1.0.9.2"
+                      "baspi4Ref": "A7.1.0.10.2"
+                    },
+                    "dateInstalled": {
+                      "baspi4Ref": "A7.1.0.10.3"
+                    },
+                    "attachments": {
+                      "baspi4Ref": "A7.1.0.10.4"
                     }
-                  }
+                  },
+                  "required": [
+                    "dateInstalled",
+                    "attachments"
+                  ]
                 },
                 {
                   "properties": {
@@ -3716,13 +3801,13 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A7.1.0.9.2"
+                      "baspi4Ref": "A7.1.0.10.2"
                     },
                     "dateToBeConnected": {
-                      "baspiRef": "A7.1.0.9.3"
+                      "baspi4Ref": "A7.1.0.10.3"
                     },
                     "supplier": {
-                      "baspiRef": "A7.1.0.9.4"
+                      "baspi4Ref": "A7.1.0.10.4"
                     }
                   },
                   "required": [
@@ -3735,14 +3820,72 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A7.1.0.9.1"
+                  "baspi4Ref": "A7.1.0.10.1"
+                }
+              }
+            },
+            "otherSources": {
+              "baspi4Ref": "A7.1.0.9",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "supplier": {
+                      "baspi4Ref": "A7.1.0.9.2"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    },
+                    "details": {
+                      "baspi4Ref": "A7.1.0.9.2"
+                    },
+                    "dateToBeConnected": {
+                      "baspi4Ref": "A7.1.0.9.3"
+                    },
+                    "supplier": {
+                      "baspi4Ref": "A7.1.0.9.4"
+                    }
+                  },
+                  "required": [
+                    "dateToBeConnected"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "baspi4Ref": "A7.1.0.9.1"
                 }
               }
             }
           }
         },
         "waterAndDrainage": {
-          "baspiRef": "A7.1.0",
+          "baspi4Ref": "A7.1.0",
           "required": [
             "water",
             "drainage",
@@ -3750,13 +3893,13 @@
           ],
           "properties": {
             "water": {
-              "baspiRef": "A7.1.0.10",
+              "baspi4Ref": "A7.1.0.10",
               "required": [
                 "mainsWater"
               ],
               "properties": {
                 "mainsWater": {
-                  "baspiRef": "A7.1.0.10.0",
+                  "baspi4Ref": "A7.1.0.10.0",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -3778,21 +3921,21 @@
                           ]
                         },
                         "supplier": {
-                          "baspiRef": "A7.1.0.10.2"
+                          "baspi4Ref": "A7.1.0.10.2"
                         },
                         "stopcock": {
-                          "baspiRef": "B4.6.1",
+                          "baspi4Ref": "B4.6.1",
                           "properties": {
                             "location": {
-                              "baspiRef": "4.6.1.1"
+                              "baspi4Ref": "4.6.1.1"
                             },
                             "attachments": {
-                              "baspiRef": "4.6.1.2"
+                              "baspi4Ref": "4.6.1.2"
                             }
                           }
                         },
                         "waterMeter": {
-                          "baspiRef": "A7.",
+                          "baspi4Ref": "A7.",
                           "discriminator": {
                             "propertyName": "isSupplyMetered"
                           },
@@ -3814,10 +3957,10 @@
                                   ]
                                 },
                                 "location": {
-                                  "baspiRef": "4.6.2.1"
+                                  "baspi4Ref": "4.6.2.1"
                                 },
                                 "attachments": {
-                                  "baspiRef": "4.6.2.2"
+                                  "baspi4Ref": "4.6.2.2"
                                 }
                               },
                               "required": [
@@ -3830,7 +3973,7 @@
                           ],
                           "properties": {
                             "isSupplyMetered": {
-                              "baspiRef": "B4.6.2"
+                              "baspi4Ref": "B4.6.2"
                             }
                           }
                         }
@@ -3848,10 +3991,10 @@
                           ]
                         },
                         "dateToBeConnected": {
-                          "baspiRef": "A7.1.0.10.3"
+                          "baspi4Ref": "A7.1.0.10.3"
                         },
                         "supplier": {
-                          "baspiRef": "A7.1.0.10.2"
+                          "baspi4Ref": "A7.1.0.10.2"
                         }
                       },
                       "required": [
@@ -3864,21 +4007,21 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A7.1.0.10.1"
+                      "baspi4Ref": "A7.1.0.10.1"
                     }
                   }
                 }
               }
             },
             "drainage": {
-              "baspiRef": "A7.1.0.12",
+              "baspi4Ref": "A7.1.0.12",
               "required": [
                 "mainsSurfaceWaterDrainage",
                 "mainsFoulDrainage"
               ],
               "properties": {
                 "mainsSurfaceWaterDrainage": {
-                  "baspiRef": "A7.1.0.12.0",
+                  "baspi4Ref": "A7.1.0.12.0",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -3910,7 +4053,7 @@
                           ]
                         },
                         "dateToBeConnected": {
-                          "baspiRef": "A7.1.0.12.3"
+                          "baspi4Ref": "A7.1.0.12.3"
                         }
                       },
                       "required": [
@@ -3923,12 +4066,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A7.1.0.12.1"
+                      "baspi4Ref": "A7.1.0.12.1"
                     }
                   }
                 },
                 "mainsFoulDrainage": {
-                  "baspiRef": "A7.1.0.11",
+                  "baspi4Ref": "A7.1.0.11",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -3941,7 +4084,7 @@
                           ]
                         },
                         "supplier": {
-                          "baspiRef": "A7.1.0.11.2"
+                          "baspi4Ref": "A7.1.0.11.2"
                         }
                       }
                     },
@@ -3953,10 +4096,10 @@
                           ]
                         },
                         "dateToBeConnected": {
-                          "baspiRef": "A7.1.0.11.2"
+                          "baspi4Ref": "A7.1.0.11.2"
                         },
                         "supplier": {
-                          "baspiRef": "A7.1.0.11.3"
+                          "baspi4Ref": "A7.1.0.11.3"
                         }
                       },
                       "required": [
@@ -3972,7 +4115,7 @@
                           ]
                         },
                         "offMainsDrainageSystem": {
-                          "baspiRef": "A7.1.10.13",
+                          "baspi4Ref": "A7.1.10.13",
                           "discriminator": {
                             "propertyName": "offMainsDrainageSystemType"
                           },
@@ -3994,10 +4137,10 @@
                                   ]
                                 },
                                 "dateReplaced": {
-                                  "baspiRef": "A7.1.0.14.2"
+                                  "baspi4Ref": "A7.1.0.14.2"
                                 },
                                 "dateLastEmptied": {
-                                  "baspiRef": "A7.1.0.14.3"
+                                  "baspi4Ref": "A7.1.0.14.3"
                                 }
                               },
                               "required": [
@@ -4013,7 +4156,7 @@
                                   ]
                                 },
                                 "dateLastEmptied": {
-                                  "baspiRef": "A7.1.0.15.2"
+                                  "baspi4Ref": "A7.1.0.15.2"
                                 }
                               },
                               "required": [
@@ -4028,13 +4171,13 @@
                                   ]
                                 },
                                 "dateInstalled": {
-                                  "baspiRef": "A7.1.0.16.2"
+                                  "baspi4Ref": "A7.1.0.16.2"
                                 },
                                 "dateLastServiced": {
-                                  "baspiRef": "A7.1.0.16.3"
+                                  "baspi4Ref": "A7.1.0.16.3"
                                 },
                                 "attachments": {
-                                  "baspiRef": "A7.1.0.16.3"
+                                  "baspi4Ref": "A7.1.0.16.3"
                                 }
                               },
                               "required": [
@@ -4063,10 +4206,10 @@
                           ],
                           "properties": {
                             "offMainsDrainageSystemType": {
-                              "baspiRef": "A7.1"
+                              "baspi4Ref": "A7.1"
                             },
                             "otherConnectedProperties": {
-                              "baspiRef": "A7.1.1",
+                              "baspi4Ref": "A7.1.1",
                               "discriminator": {
                                 "propertyName": "yesNo"
                               },
@@ -4088,10 +4231,10 @@
                                       ]
                                     },
                                     "numberOfPropertiesSharing": {
-                                      "baspiRef": "A7.1.1.1"
+                                      "baspi4Ref": "A7.1.1.1"
                                     },
                                     "details": {
-                                      "baspiRef": "A7.1.1.2"
+                                      "baspi4Ref": "A7.1.1.2"
                                     }
                                   },
                                   "required": [
@@ -4105,12 +4248,12 @@
                               ],
                               "properties": {
                                 "yesNo": {
-                                  "baspiRef": "A7.1.1.1"
+                                  "baspi4Ref": "A7.1.1.1"
                                 }
                               }
                             },
                             "plantOnOtherLand": {
-                              "baspiRef": "A7.1.2",
+                              "baspi4Ref": "A7.1.2",
                               "discriminator": {
                                 "propertyName": "yesNo"
                               },
@@ -4132,7 +4275,7 @@
                                       ]
                                     },
                                     "attachments": {
-                                      "baspiRef": "7.1.2.2"
+                                      "baspi4Ref": "7.1.2.2"
                                     }
                                   },
                                   "required": [
@@ -4145,12 +4288,12 @@
                               ],
                               "properties": {
                                 "yesNo": {
-                                  "baspiRef": "7.1.2.1"
+                                  "baspi4Ref": "7.1.2.1"
                                 }
                               }
                             },
                             "plantRegistered": {
-                              "baspiRef": "A7.1.3",
+                              "baspi4Ref": "A7.1.3",
                               "discriminator": {
                                 "propertyName": "yesNo"
                               },
@@ -4172,7 +4315,7 @@
                                       ]
                                     },
                                     "attachments": {
-                                      "baspiRef": "A7.1.3.2"
+                                      "baspi4Ref": "A7.1.3.2"
                                     }
                                   },
                                   "required": [
@@ -4185,12 +4328,12 @@
                               ],
                               "properties": {
                                 "yesNo": {
-                                  "baspiRef": "A7.1.3.1"
+                                  "baspi4Ref": "A7.1.3.1"
                                 }
                               }
                             },
                             "plantDrainsIntoWaterway": {
-                              "baspiRef": "A7.1.4",
+                              "baspi4Ref": "A7.1.4",
                               "discriminator": {
                                 "propertyName": "yesNo"
                               },
@@ -4212,7 +4355,7 @@
                                       ]
                                     },
                                     "dischargeCompliesWithGBR": {
-                                      "baspiRef": "A7.1.4.1"
+                                      "baspi4Ref": "A7.1.4.1"
                                     }
                                   },
                                   "required": [
@@ -4225,7 +4368,7 @@
                               ],
                               "properties": {
                                 "yesNo": {
-                                  "baspiRef": "A7.1.4.1"
+                                  "baspi4Ref": "A7.1.4.1"
                                 }
                               }
                             }
@@ -4239,14 +4382,14 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A7.1.0.11.1"
+                      "baspi4Ref": "A7.1.0.11.1"
                     }
                   }
                 }
               }
             },
             "maintenanceAgreements": {
-              "baspiRef": "A7.2",
+              "baspi4Ref": "A7.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -4268,10 +4411,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A7.2.2"
+                      "baspi4Ref": "A7.2.2"
                     },
                     "attachments": {
-                      "baspiRef": "A7.2.3"
+                      "baspi4Ref": "A7.2.3"
                     }
                   },
                   "required": [
@@ -4285,20 +4428,20 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A7.2.1"
+                  "baspi4Ref": "A7.2.1"
                 }
               }
             }
           }
         },
         "heating": {
-          "baspiRef": "A7.4",
+          "baspi4Ref": "A7.4",
           "required": [
             "heatingSystem"
           ],
           "properties": {
             "heatingSystem": {
-              "baspiRef": "A7.4.0",
+              "baspi4Ref": "A7.4.0",
               "discriminator": {
                 "propertyName": "heatingType"
               },
@@ -4321,7 +4464,7 @@
                       ]
                     },
                     "centralHeatingDetails": {
-                      "baspiRef": "A7.4.0.0",
+                      "baspi4Ref": "A7.4.0.0",
                       "required": [
                         "centralHeatingFuel",
                         "centralHeatingInstalled",
@@ -4332,7 +4475,7 @@
                       ],
                       "properties": {
                         "centralHeatingFuel": {
-                          "baspiRef": "A7.4.0.1",
+                          "baspi4Ref": "A7.4.0.1",
                           "discriminator": {
                             "propertyName": "centralHeatingFuelType"
                           },
@@ -4345,19 +4488,19 @@
                                   ]
                                 },
                                 "supplier": {
-                                  "baspiRef": "A7.1.0"
+                                  "baspi4Ref": "A7.1.0"
                                 },
                                 "gasMeter": {
-                                  "baspiRef": "B4.5",
+                                  "baspi4Ref": "B4.5",
                                   "required": [
                                     "location"
                                   ],
                                   "properties": {
                                     "location": {
-                                      "baspiRef": "4.5.1"
+                                      "baspi4Ref": "4.5.1"
                                     },
                                     "attachments": {
-                                      "baspiRef": "4.5.2"
+                                      "baspi4Ref": "4.5.2"
                                     }
                                   }
                                 }
@@ -4386,7 +4529,7 @@
                                   ]
                                 },
                                 "supplier": {
-                                  "baspiRef": "A7.1.0"
+                                  "baspi4Ref": "A7.1.0"
                                 }
                               }
                             },
@@ -4398,7 +4541,7 @@
                                   ]
                                 },
                                 "otherCentralHeatingFuelType": {
-                                  "baspiRef": "A7.4.0.3"
+                                  "baspi4Ref": "A7.4.0.3"
                                 }
                               },
                               "required": [
@@ -4411,15 +4554,15 @@
                           ],
                           "properties": {
                             "centralHeatingFuelType": {
-                              "baspiRef": "A7.4.0.2"
+                              "baspi4Ref": "A7.4.0.2"
                             }
                           }
                         },
                         "centralHeatingInstalled": {
-                          "baspiRef": "A7.4.1"
+                          "baspi4Ref": "A7.4.1"
                         },
                         "boilerInstallationCertificate": {
-                          "baspiRef": "A7.4.1.1",
+                          "baspi4Ref": "A7.4.1.1",
                           "discriminator": {
                             "propertyName": "yesNo"
                           },
@@ -4441,7 +4584,7 @@
                                   ]
                                 },
                                 "attachments": {
-                                  "baspiRef": "A7.4.1.2"
+                                  "baspi4Ref": "A7.4.1.2"
                                 }
                               },
                               "required": [
@@ -4454,18 +4597,18 @@
                           ],
                           "properties": {
                             "yesNo": {
-                              "baspiRef": "A10.1.1"
+                              "baspi4Ref": "A10.1.1"
                             }
                           }
                         },
                         "heatingLastServicedDate": {
-                          "baspiRef": "A7.4.2.1"
+                          "baspi4Ref": "A7.4.2.1"
                         },
                         "heatingLastServicedReport": {
-                          "baspiRef": "A7.4.2.2"
+                          "baspi4Ref": "A7.4.2.2"
                         },
                         "heatingInGoodWorkingOrder": {
-                          "baspiRef": "A7.4.3",
+                          "baspi4Ref": "A7.4.3",
                           "discriminator": {
                             "propertyName": "yesNo"
                           },
@@ -4487,7 +4630,7 @@
                                   ]
                                 },
                                 "details": {
-                                  "baspiRef": "A7.4.3.2"
+                                  "baspi4Ref": "A7.4.3.2"
                                 }
                               },
                               "required": [
@@ -4500,7 +4643,7 @@
                           ],
                           "properties": {
                             "yesNo": {
-                              "baspiRef": "A7.4.3.1"
+                              "baspi4Ref": "A7.4.3.1"
                             }
                           }
                         }
@@ -4526,14 +4669,14 @@
               ],
               "properties": {
                 "heatingType": {
-                  "baspiRef": "A7.4.0"
+                  "baspi4Ref": "A7.4.0"
                 }
               }
             }
           }
         },
         "connectivity": {
-          "baspiRef": "A7",
+          "baspi4Ref": "A7",
           "required": [
             "telephone",
             "cableSatelliteTV",
@@ -4541,7 +4684,7 @@
           ],
           "properties": {
             "telephone": {
-              "baspiRef": "A7.1.0.5",
+              "baspi4Ref": "A7.1.0.5",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -4563,7 +4706,7 @@
                       ]
                     },
                     "supplier": {
-                      "baspiRef": "A7.1.0.5.2"
+                      "baspi4Ref": "A7.1.0.5.2"
                     }
                   }
                 },
@@ -4575,10 +4718,10 @@
                       ]
                     },
                     "dateToBeConnected": {
-                      "baspiRef": "A7.1.0.5.3"
+                      "baspi4Ref": "A7.1.0.5.3"
                     },
                     "supplier": {
-                      "baspiRef": "A7.1.0.5.2"
+                      "baspi4Ref": "A7.1.0.5.2"
                     }
                   },
                   "required": [
@@ -4591,12 +4734,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A7.1.0.5.1"
+                  "baspi4Ref": "A7.1.0.5.1"
                 }
               }
             },
             "cableSatelliteTV": {
-              "baspiRef": "A7.1.0.6",
+              "baspi4Ref": "A7.1.0.6",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -4618,7 +4761,7 @@
                       ]
                     },
                     "supplier": {
-                      "baspiRef": "A7.1.0.6.2"
+                      "baspi4Ref": "A7.1.0.6.2"
                     }
                   }
                 },
@@ -4630,10 +4773,10 @@
                       ]
                     },
                     "dateToBeConnected": {
-                      "baspiRef": "A7.1.0.6.3"
+                      "baspi4Ref": "A7.1.0.6.3"
                     },
                     "supplier": {
-                      "baspiRef": "A7.1.0.6.2"
+                      "baspi4Ref": "A7.1.0.6.2"
                     }
                   },
                   "required": [
@@ -4646,22 +4789,22 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A7.1.0.6.1"
+                  "baspi4Ref": "A7.1.0.6.1"
                 }
               }
             },
             "broadband": {
-              "baspiRef": "A7.1.0.7",
+              "baspi4Ref": "A7.1.0.7",
               "properties": {
                 "typeOfConnection": {
-                  "baspiRef": "A7.1.0.7.2"
+                  "baspi4Ref": "A7.1.0.7.2"
                 }
               }
             }
           }
         },
         "insurance": {
-          "baspiRef": "A8",
+          "baspi4Ref": "A8",
           "discriminator": {
             "propertyName": "isInsured"
           },
@@ -4674,10 +4817,10 @@
                   ]
                 },
                 "details": {
-                  "baspiRef": "A8.1.1"
+                  "baspi4Ref": "A8.1.1"
                 },
                 "landlordInsuresIfFlat": {
-                  "baspiRef": "A8.1.2"
+                  "baspi4Ref": "A8.1.2"
                 }
               },
               "required": [
@@ -4692,179 +4835,8 @@
                     "Yes"
                   ]
                 },
-                "difficultiesObtainingInsurance": {
-                  "baspiRef": "A8.1.2.1",
-                  "required": [
-                    "abnormalRiseInPremiums",
-                    "subjectToHighExcesses",
-                    "subjectToUnusualConditions",
-                    "refused"
-                  ],
-                  "properties": {
-                    "abnormalRiseInPremiums": {
-                      "baspiRef": "A8.1.2.1.1",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "baspiRef": "A8.1.2.1.1.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "baspiRef": "A8.1.2.1.1.1"
-                        }
-                      }
-                    },
-                    "subjectToHighExcesses": {
-                      "baspiRef": "A8.1.2.1.2",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "baspiRef": "A8.1.2.1.2.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "baspiRef": "A8.1.2.1.2.1"
-                        }
-                      }
-                    },
-                    "subjectToUnusualConditions": {
-                      "baspiRef": "A8.1.2.1.3",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "baspiRef": "A8.1.2.1.3.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "baspiRef": "A8.1.2.1.3.1"
-                        }
-                      }
-                    },
-                    "refused": {
-                      "baspiRef": "A8.1.2.1.4",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "baspiRef": "A8.1.2.1.4.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "baspiRef": "A8.1.2.1.4.1"
-                        }
-                      }
-                    }
-                  }
-                },
                 "insuranceClaims": {
-                  "baspiRef": "A8.2",
+                  "baspi4Ref": "A8.2",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -4886,7 +4858,7 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "A8.2.1"
+                          "baspi4Ref": "A8.2.1"
                         }
                       },
                       "required": [
@@ -4899,28 +4871,199 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A8.2.1"
+                      "baspi4Ref": "A8.2.1"
                     }
                   }
                 }
               },
               "required": [
-                "difficultiesObtainingInsurance",
                 "insuranceClaims"
               ]
             }
           ],
           "required": [
+            "difficultiesObtainingInsurance",
             "isInsured"
           ],
           "properties": {
+            "difficultiesObtainingInsurance": {
+              "baspi4Ref": "A8.1.2.1",
+              "required": [
+                "abnormalRiseInPremiums",
+                "subjectToHighExcesses",
+                "subjectToUnusualConditions",
+                "refused"
+              ],
+              "properties": {
+                "abnormalRiseInPremiums": {
+                  "baspi4Ref": "A8.1.2.1.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "baspi4Ref": "A8.1.2.1.1.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "baspi4Ref": "A8.1.2.1.1.1"
+                    }
+                  }
+                },
+                "subjectToHighExcesses": {
+                  "baspi4Ref": "A8.1.2.1.2",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "baspi4Ref": "A8.1.2.1.2.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "baspi4Ref": "A8.1.2.1.2.1"
+                    }
+                  }
+                },
+                "subjectToUnusualConditions": {
+                  "baspi4Ref": "A8.1.2.1.3",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "baspi4Ref": "A8.1.2.1.3.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "baspi4Ref": "A8.1.2.1.3.1"
+                    }
+                  }
+                },
+                "refused": {
+                  "baspi4Ref": "A8.1.2.1.4",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "baspi4Ref": "A8.1.2.1.4.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "baspi4Ref": "A8.1.2.1.4.1"
+                    }
+                  }
+                }
+              }
+            },
             "isInsured": {
-              "baspiRef": "A8.1"
+              "baspi4Ref": "A8.1"
             }
           }
         },
         "rightsAndInformalArrangements": {
-          "baspiRef": "A10",
+          "baspi4Ref": "A10",
           "required": [
             "sharedContributions",
             "neighbouringLandRights",
@@ -4929,7 +5072,7 @@
           ],
           "properties": {
             "sharedContributions": {
-              "baspiRef": "A10.1",
+              "baspi4Ref": "A10.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -4951,7 +5094,7 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A10.1.2"
+                      "baspi4Ref": "A10.1.2"
                     }
                   },
                   "required": [
@@ -4964,12 +5107,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A10.1.1"
+                  "baspi4Ref": "A10.1.1"
                 }
               }
             },
             "neighbouringLandRights": {
-              "baspiRef": "A10.2",
+              "baspi4Ref": "A10.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -4991,10 +5134,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A10.2.2"
+                      "baspi4Ref": "A10.2.2"
                     },
                     "attachments": {
-                      "baspiRef": "A10.2.3"
+                      "baspi4Ref": "A10.2.3"
                     }
                   },
                   "required": [
@@ -5008,12 +5151,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A10.2.1"
+                  "baspi4Ref": "A10.2.1"
                 }
               }
             },
             "accessRestrictionAttempts": {
-              "baspiRef": "A10.3",
+              "baspi4Ref": "A10.3",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -5035,7 +5178,7 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A10.3.2"
+                      "baspi4Ref": "A10.3.2"
                     }
                   },
                   "required": [
@@ -5048,12 +5191,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A10.3.1"
+                  "baspi4Ref": "A10.3.1"
                 }
               }
             },
             "rightsOrArrangements": {
-              "baspiRef": "A10.4",
+              "baspi4Ref": "A10.4",
               "required": [
                 "publicRightOfWay",
                 "rightsOfLight",
@@ -5066,7 +5209,7 @@
               ],
               "properties": {
                 "publicRightOfWay": {
-                  "baspiRef": "A10.4.1",
+                  "baspi4Ref": "A10.4.1",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -5088,10 +5231,10 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "A10.4.1.2"
+                          "baspi4Ref": "A10.4.1.2"
                         },
                         "attachments": {
-                          "baspiRef": "A10.4.1.3"
+                          "baspi4Ref": "A10.4.1.3"
                         }
                       },
                       "required": [
@@ -5105,12 +5248,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A10.4.1.1"
+                      "baspi4Ref": "A10.4.1.1"
                     }
                   }
                 },
                 "rightsOfLight": {
-                  "baspiRef": "A10.4.2a",
+                  "baspi4Ref": "A10.4.2a",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -5132,7 +5275,7 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "A10.4.2a.2"
+                          "baspi4Ref": "A10.4.2a.2"
                         }
                       },
                       "required": [
@@ -5145,12 +5288,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A10.4.2a.1"
+                      "baspi4Ref": "A10.4.2a.1"
                     }
                   }
                 },
                 "rightsOfSupport": {
-                  "baspiRef": "A10.4.2b",
+                  "baspi4Ref": "A10.4.2b",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -5172,7 +5315,7 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "A10.4.2b.2"
+                          "baspi4Ref": "A10.4.2b.2"
                         }
                       },
                       "required": [
@@ -5185,12 +5328,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A10.4.2b.1"
+                      "baspi4Ref": "A10.4.2b.1"
                     }
                   }
                 },
                 "rightsCreatedThroughCustom": {
-                  "baspiRef": "A10.4.3a",
+                  "baspi4Ref": "A10.4.3a",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -5212,7 +5355,7 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "A10.4.3a2"
+                          "baspi4Ref": "A10.4.3a2"
                         }
                       },
                       "required": [
@@ -5225,12 +5368,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A10.4.3a1"
+                      "baspi4Ref": "A10.4.3a1"
                     }
                   }
                 },
                 "rightsToTakeFromLand": {
-                  "baspiRef": "A10.4.3b",
+                  "baspi4Ref": "A10.4.3b",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -5252,7 +5395,7 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "A10.4.3b2"
+                          "baspi4Ref": "A10.4.3b2"
                         }
                       },
                       "required": [
@@ -5265,12 +5408,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A10.4.3b1"
+                      "baspi4Ref": "A10.4.3b1"
                     }
                   }
                 },
                 "minesAndMinerals": {
-                  "baspiRef": "A10.4.4",
+                  "baspi4Ref": "A10.4.4",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -5292,7 +5435,7 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "A10.4.4.2"
+                          "baspi4Ref": "A10.4.4.2"
                         }
                       },
                       "required": [
@@ -5305,12 +5448,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A10.4.4.1"
+                      "baspi4Ref": "A10.4.4.1"
                     }
                   }
                 },
                 "churchChancel": {
-                  "baspiRef": "A10.4.5",
+                  "baspi4Ref": "A10.4.5",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -5332,7 +5475,7 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "A10.4.5.2"
+                          "baspi4Ref": "A10.4.5.2"
                         }
                       },
                       "required": [
@@ -5345,12 +5488,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A10.4.5.1"
+                      "baspi4Ref": "A10.4.5.1"
                     }
                   }
                 },
                 "otherRights": {
-                  "baspiRef": "A10.4.6",
+                  "baspi4Ref": "A10.4.6",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -5372,7 +5515,7 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "A10.4.6.2"
+                          "baspi4Ref": "A10.4.6.2"
                         }
                       },
                       "required": [
@@ -5385,7 +5528,7 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A10.4.6.1"
+                      "baspi4Ref": "A10.4.6.1"
                     }
                   }
                 }
@@ -5394,7 +5537,7 @@
           }
         },
         "environmentalIssues": {
-          "baspiRef": "A11.1",
+          "baspi4Ref": "A11.1",
           "required": [
             "flooding",
             "radon",
@@ -5402,7 +5545,7 @@
           ],
           "properties": {
             "flooding": {
-              "baspiRef": "A11.1.1",
+              "baspi4Ref": "A11.1.1",
               "required": [
                 "historicalFlooding"
               ],
@@ -5413,12 +5556,12 @@
                   ],
                   "properties": {
                     "riskIndicator": {
-                      "title": "To your knowledge, is the property at risk of flooding of any type?"
+                      "title": "To your knowledge,, is the property at risk of flooding of any type?"
                     }
                   }
                 },
                 "historicalFlooding": {
-                  "baspiRef": "A11.1.2",
+                  "baspi4Ref": "A11.1.2",
                   "discriminator": {
                     "propertyName": "hasBeenFlooded"
                   },
@@ -5440,10 +5583,10 @@
                           ]
                         },
                         "typeOfFlooding": {
-                          "baspiRef": "A11.1.2.2"
+                          "baspi4Ref": "A11.1.2.2"
                         },
                         "details": {
-                          "baspiRef": "A11.1.2.1"
+                          "baspi4Ref": "A11.1.2.1"
                         }
                       },
                       "required": [
@@ -5457,21 +5600,21 @@
                   ],
                   "properties": {
                     "hasBeenFlooded": {
-                      "baspiRef": "A11.1.2.1"
+                      "baspi4Ref": "A11.1.2.1"
                     }
                   }
                 }
               }
             },
             "radon": {
-              "baspiRef": "A11.1.3",
+              "baspi4Ref": "A11.1.3",
               "required": [
                 "remedialMeasuresOnConstruction",
                 "radonTest"
               ],
               "properties": {
                 "radonTest": {
-                  "baspiRef": "A11.1.3",
+                  "baspi4Ref": "A11.1.3",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -5493,10 +5636,10 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "A11.1.3.2"
+                          "baspi4Ref": "A11.1.3.2"
                         },
                         "attachments": {
-                          "baspiRef": "A11.1.3.3"
+                          "baspi4Ref": "A11.1.3.3"
                         }
                       },
                       "required": [
@@ -5510,25 +5653,25 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A11.1.3.1"
+                      "baspi4Ref": "A11.1.3.1"
                     }
                   }
                 },
                 "remedialMeasuresOnConstruction": {
-                  "baspiRef": "A11.1.3.4",
+                  "baspi4Ref": "A11.1.3.4",
                   "required": [
                     "yesNo"
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "A11.1.3.4.1"
+                      "baspi4Ref": "A11.1.3.4.1"
                     }
                   }
                 }
               }
             },
             "otherEnvironmental": {
-              "baspiRef": "A11.1.4",
+              "baspi4Ref": "A11.1.4",
               "discriminator": {
                 "propertyName": "riskIndicator"
               },
@@ -5551,7 +5694,7 @@
                       ]
                     },
                     "summary": {
-                      "baspiRef": "A11.1.4.2"
+                      "baspi4Ref": "A11.1.4.2"
                     }
                   },
                   "required": [
@@ -5564,14 +5707,14 @@
               ],
               "properties": {
                 "riskIndicator": {
-                  "baspiRef": "A11.1.4.1"
+                  "baspi4Ref": "A11.1.4.1"
                 }
               }
             }
           }
         },
         "otherIssues": {
-          "baspiRef": "A11",
+          "baspi4Ref": "A11",
           "required": [
             "excessiveNoise",
             "crime",
@@ -5580,7 +5723,7 @@
           ],
           "properties": {
             "excessiveNoise": {
-              "baspiRef": "A11.2",
+              "baspi4Ref": "A11.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -5602,10 +5745,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A11.2.2"
+                      "baspi4Ref": "A11.2.2"
                     },
                     "attachments": {
-                      "baspiRef": "A11.2.3"
+                      "baspi4Ref": "A11.2.3"
                     }
                   },
                   "required": [
@@ -5618,12 +5761,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A11.2.1"
+                  "baspi4Ref": "A11.2.1"
                 }
               }
             },
             "crime": {
-              "baspiRef": "A11.3",
+              "baspi4Ref": "A11.3",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -5645,10 +5788,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A11.3.2"
+                      "baspi4Ref": "A11.3.2"
                     },
                     "attachments": {
-                      "baspiRef": "A11.3.3"
+                      "baspi4Ref": "A11.3.3"
                     }
                   },
                   "required": [
@@ -5661,12 +5804,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A11.3.1"
+                  "baspi4Ref": "A11.3.1"
                 }
               }
             },
             "cautionOrConviction": {
-              "baspiRef": "A11.4",
+              "baspi4Ref": "A11.4",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -5688,10 +5831,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A11.4.2"
+                      "baspi4Ref": "A11.4.2"
                     },
                     "attachments": {
-                      "baspiRef": "A11.4.3"
+                      "baspi4Ref": "A11.4.3"
                     }
                   },
                   "required": [
@@ -5704,12 +5847,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A11.4.1"
+                  "baspi4Ref": "A11.4.1"
                 }
               }
             },
             "failedTransactionsInLast12Months": {
-              "baspiRef": "A11.5",
+              "baspi4Ref": "A11.5",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -5731,10 +5874,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A11.5.2"
+                      "baspi4Ref": "A11.5.2"
                     },
                     "attachments": {
-                      "baspiRef": "A11.5.3"
+                      "baspi4Ref": "A11.5.3"
                     }
                   },
                   "required": [
@@ -5747,14 +5890,14 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A11.5.1"
+                  "baspi4Ref": "A11.5.1"
                 }
               }
             }
           }
         },
         "additionalInformation": {
-          "baspiRef": "A12",
+          "baspi4Ref": "A12",
           "required": [
             "restrictionsOnUseNotCompliedWith",
             "otherMaterialIssue",
@@ -5762,7 +5905,7 @@
           ],
           "properties": {
             "restrictionsOnUseNotCompliedWith": {
-              "baspiRef": "A12.1",
+              "baspi4Ref": "A12.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -5784,10 +5927,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A12.1.2"
+                      "baspi4Ref": "A12.1.2"
                     },
                     "attachments": {
-                      "baspiRef": "A12.1.3"
+                      "baspi4Ref": "A12.1.3"
                     }
                   },
                   "required": [
@@ -5800,12 +5943,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A12.1.1"
+                  "baspi4Ref": "A12.1.1"
                 }
               }
             },
             "otherMaterialIssue": {
-              "baspiRef": "A12.2",
+              "baspi4Ref": "A12.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -5827,10 +5970,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A12.2.2"
+                      "baspi4Ref": "A12.2.2"
                     },
                     "attachments": {
-                      "baspiRef": "A12.2.3"
+                      "baspi4Ref": "A12.2.3"
                     }
                   },
                   "required": [
@@ -5843,12 +5986,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A12.2.1"
+                  "baspi4Ref": "A12.2.1"
                 }
               }
             },
             "otherCharges": {
-              "baspiRef": "A12.3",
+              "baspi4Ref": "A12.3",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -5870,7 +6013,7 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A12.3.2"
+                      "baspi4Ref": "A12.3.2"
                     }
                   },
                   "required": [
@@ -5883,31 +6026,31 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A12.3.1"
+                  "baspi4Ref": "A12.3.1"
                 }
               }
             }
           }
         },
         "consumerProtectionRegulationsDeclaration": {
-          "baspiRef": "A13",
+          "baspi4Ref": "A13",
           "required": [
             "consumerProtectionRegulationsResponse"
           ],
           "properties": {
             "consumerProtectionRegulationsResponse": {
-              "baspiRef": "A13.1"
+              "baspi4Ref": "A13.1"
             }
           }
         },
         "legalOwners": {
-          "baspiRef": "B1",
+          "baspi4Ref": "B1",
           "required": [
             "namesOfLegalOwners"
           ],
           "properties": {
             "namesOfLegalOwners": {
-              "baspiRef": "B1.1",
+              "baspi4Ref": "B1.1",
               "items": {
                 "discriminator": {
                   "propertyName": "ownerType"
@@ -5921,13 +6064,13 @@
                         ]
                       },
                       "firstName": {
-                        "baspiRef": "B1.1.2"
+                        "baspi4Ref": "B1.1.2"
                       },
                       "middleNames": {
-                        "baspiRef": "B1.1.3"
+                        "baspi4Ref": "B1.1.3"
                       },
                       "lastName": {
-                        "baspiRef": "B1.1.4"
+                        "baspi4Ref": "B1.1.4"
                       }
                     },
                     "required": [
@@ -5943,7 +6086,7 @@
                         ]
                       },
                       "organisationName": {
-                        "baspiRef": "B1.1.5"
+                        "baspi4Ref": "B1.1.5"
                       }
                     },
                     "required": [
@@ -5951,13 +6094,13 @@
                     ]
                   }
                 ],
-                "baspiRef": "B1.1",
+                "baspi4Ref": "B1.1",
                 "required": [
                   "ownerType"
                 ],
                 "properties": {
                   "ownerType": {
-                    "baspiRef": "B1.1.1"
+                    "baspi4Ref": "B1.1.1"
                   }
                 }
               }
@@ -5965,7 +6108,7 @@
           }
         },
         "legalBoundaries": {
-          "baspiRef": "B2.1",
+          "baspi4Ref": "B2.1",
           "required": [
             "partOutsideLegalOwnership",
             "partOnSeparateSiteOrDeed",
@@ -5978,7 +6121,7 @@
           ],
           "properties": {
             "partOutsideLegalOwnership": {
-              "baspiRef": "A9.1",
+              "baspi4Ref": "A9.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -6000,7 +6143,7 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A9.1.2"
+                      "baspi4Ref": "A9.1.2"
                     }
                   },
                   "required": [
@@ -6013,12 +6156,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A9.1.1"
+                  "baspi4Ref": "A9.1.1"
                 }
               }
             },
             "partOnSeparateSiteOrDeed": {
-              "baspiRef": "A9.2",
+              "baspi4Ref": "A9.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -6040,7 +6183,7 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A9.2.2"
+                      "baspi4Ref": "A9.2.2"
                     }
                   },
                   "required": [
@@ -6053,12 +6196,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A9.2.1"
+                  "baspi4Ref": "A9.2.1"
                 }
               }
             },
             "boundariesDifferFromTitlePlan": {
-              "baspiRef": "A9.3",
+              "baspi4Ref": "A9.3",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -6080,10 +6223,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A9.3.2"
+                      "baspi4Ref": "A9.3.2"
                     },
                     "attachments": {
-                      "baspiRef": "A9.3.3"
+                      "baspi4Ref": "A9.3.3"
                     }
                   },
                   "required": [
@@ -6097,12 +6240,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A9.3.1"
+                  "baspi4Ref": "A9.3.1"
                 }
               }
             },
             "boundaryAlterationProposal": {
-              "baspiRef": "A9.4",
+              "baspi4Ref": "A9.4",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -6124,7 +6267,7 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "A9.4.2"
+                      "baspi4Ref": "A9.4.2"
                     }
                   },
                   "required": [
@@ -6137,12 +6280,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A9.4.1"
+                  "baspi4Ref": "A9.4.1"
                 }
               }
             },
             "ownership": {
-              "baspiRef": "B2.1.0",
+              "baspi4Ref": "B2.1.0",
               "discriminator": {
                 "propertyName": "areBoundariesUniform"
               },
@@ -6155,7 +6298,7 @@
                       ]
                     },
                     "uniformBoundaries": {
-                      "baspiRef": "B2.1.0.2",
+                      "baspi4Ref": "B2.1.0.2",
                       "required": [
                         "left",
                         "right",
@@ -6164,16 +6307,16 @@
                       ],
                       "properties": {
                         "left": {
-                          "baspiRef": "B2.1.1"
+                          "baspi4Ref": "B2.1.1"
                         },
                         "right": {
-                          "baspiRef": "B2.1.2"
+                          "baspi4Ref": "B2.1.2"
                         },
                         "rear": {
-                          "baspiRef": "B2.1.3"
+                          "baspi4Ref": "B2.1.3"
                         },
                         "front": {
-                          "baspiRef": "B2.1.4"
+                          "baspi4Ref": "B2.1.4"
                         }
                       }
                     }
@@ -6187,10 +6330,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "B2.1.5"
+                      "baspi4Ref": "B2.1.5"
                     },
                     "attachments": {
-                      "baspiRef": "B2.1.6"
+                      "baspi4Ref": "B2.1.6"
                     }
                   },
                   "required": [
@@ -6213,12 +6356,12 @@
               ],
               "properties": {
                 "areBoundariesUniform": {
-                  "baspiRef": "B2.1.0.1"
+                  "baspi4Ref": "B2.1.0.1"
                 }
               }
             },
             "haveBoundaryFeaturesMoved": {
-              "baspiRef": "B2.2",
+              "baspi4Ref": "B2.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -6241,7 +6384,7 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "B2.2.2"
+                      "baspi4Ref": "B2.2.2"
                     }
                   },
                   "required": [
@@ -6254,12 +6397,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "B2.2.1"
+                  "baspi4Ref": "B2.2.1"
                 }
               }
             },
             "adjacentLandIncluded": {
-              "baspiRef": "B2.3",
+              "baspi4Ref": "B2.3",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -6282,7 +6425,7 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "B2.3.2"
+                      "baspi4Ref": "B2.3.2"
                     }
                   },
                   "required": [
@@ -6295,12 +6438,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "B2.3.1"
+                  "baspi4Ref": "B2.3.1"
                 }
               }
             },
             "flyingFreehold": {
-              "baspiRef": "B2.5",
+              "baspi4Ref": "B2.5",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -6323,7 +6466,7 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "B2.5.2"
+                      "baspi4Ref": "B2.5.2"
                     }
                   },
                   "required": [
@@ -6336,14 +6479,14 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "B2.5.1"
+                  "baspi4Ref": "B2.5.1"
                 }
               }
             }
           }
         },
         "servicesCrossing": {
-          "baspiRef": "B3",
+          "baspi4Ref": "B3",
           "required": [
             "pipesWiresCablesDrainsToProperty",
             "pipesWiresCablesDrainsFromProperty",
@@ -6351,7 +6494,7 @@
           ],
           "properties": {
             "pipesWiresCablesDrainsToProperty": {
-              "baspiRef": "B3.1",
+              "baspi4Ref": "B3.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -6374,10 +6517,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "B3.1.2"
+                      "baspi4Ref": "B3.1.2"
                     },
                     "attachments": {
-                      "baspiRef": "B3.1.3"
+                      "baspi4Ref": "B3.1.3"
                     }
                   },
                   "required": [
@@ -6390,12 +6533,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "B3.1.1"
+                  "baspi4Ref": "B3.1.1"
                 }
               }
             },
             "pipesWiresCablesDrainsFromProperty": {
-              "baspiRef": "B3.2",
+              "baspi4Ref": "B3.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -6418,10 +6561,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "B3.2.2"
+                      "baspi4Ref": "B3.2.2"
                     },
                     "attachments": {
-                      "baspiRef": "B3.2.3"
+                      "baspi4Ref": "B3.2.3"
                     }
                   },
                   "required": [
@@ -6434,12 +6577,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "B3.2.1"
+                  "baspi4Ref": "B3.2.1"
                 }
               }
             },
             "formalOrInformalAgreements": {
-              "baspiRef": "B3.3",
+              "baspi4Ref": "B3.3",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -6462,10 +6605,10 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "B3.3.2"
+                      "baspi4Ref": "B3.3.2"
                     },
                     "attachments": {
-                      "baspiRef": "B3.3.3"
+                      "baspi4Ref": "B3.3.3"
                     }
                   },
                   "required": [
@@ -6478,21 +6621,21 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "B3.3.1"
+                  "baspi4Ref": "B3.3.1"
                 }
               }
             }
           }
         },
         "electricalWorks": {
-          "baspiRef": "B4",
+          "baspi4Ref": "B4",
           "required": [
             "testedByQualifiedElectrician",
             "electricalWorkSince2005"
           ],
           "properties": {
             "testedByQualifiedElectrician": {
-              "baspiRef": "B4.1",
+              "baspi4Ref": "B4.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -6514,10 +6657,10 @@
                       ]
                     },
                     "yearTested": {
-                      "baspiRef": "B4.1.2"
+                      "baspi4Ref": "B4.1.2"
                     },
                     "attachments": {
-                      "baspiRef": "B4.1.3"
+                      "baspi4Ref": "B4.1.3"
                     }
                   },
                   "required": [
@@ -6531,12 +6674,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "B4.1.1"
+                  "baspi4Ref": "B4.1.1"
                 }
               }
             },
             "electricalWorkSince2005": {
-              "baspiRef": "B4.2",
+              "baspi4Ref": "B4.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -6559,23 +6702,23 @@
                       ]
                     },
                     "yearWorkCarriedOut": {
-                      "baspiRef": "B4.2.2"
+                      "baspi4Ref": "B4.2.2"
                     },
                     "details": {
-                      "baspiRef": "B4.2.3"
+                      "baspi4Ref": "B4.2.3"
                     },
                     "suppliedCertificate": {
-                      "baspiRef": "B4.2.4.1",
+                      "baspi4Ref": "B4.2.4.1",
                       "required": [
                         "certificateType",
                         "attachments"
                       ],
                       "properties": {
                         "certificateType": {
-                          "baspiRef": "B4.2.3.1"
+                          "baspi4Ref": "B4.2.3.1"
                         },
                         "attachments": {
-                          "baspiRef": "B4.2.3.2"
+                          "baspi4Ref": "B4.2.3.2"
                         }
                       }
                     }
@@ -6592,7 +6735,7 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "B4.2.1",
+                  "baspi4Ref": "B4.2.1",
                   "enum": [
                     "Yes",
                     "No"
@@ -6603,7 +6746,7 @@
           }
         },
         "smartHomeSystems": {
-          "baspiRef": "B7.4",
+          "baspi4Ref": "B7.4",
           "discriminator": {
             "propertyName": "hasSmartHomeSystems"
           },
@@ -6625,7 +6768,7 @@
                   ]
                 },
                 "heatingAndPower": {
-                  "baspiRef": "B7.4.2",
+                  "baspi4Ref": "B7.4.2",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -6647,7 +6790,7 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "B7.4.2.2"
+                          "baspi4Ref": "B7.4.2.2"
                         }
                       },
                       "required": [
@@ -6660,12 +6803,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "B7.4.2.1"
+                      "baspi4Ref": "B7.4.2.1"
                     }
                   }
                 },
                 "security": {
-                  "baspiRef": "B7.4.3",
+                  "baspi4Ref": "B7.4.3",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -6687,7 +6830,7 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "B7.4.3.2"
+                          "baspi4Ref": "B7.4.3.2"
                         }
                       },
                       "required": [
@@ -6700,12 +6843,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "B7.4.3.1"
+                      "baspi4Ref": "B7.4.3.1"
                     }
                   }
                 },
                 "entertainment": {
-                  "baspiRef": "B7.4.4",
+                  "baspi4Ref": "B7.4.4",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -6727,7 +6870,7 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "B7.4.4.2"
+                          "baspi4Ref": "B7.4.4.2"
                         }
                       },
                       "required": [
@@ -6740,12 +6883,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "B7.4.4.1"
+                      "baspi4Ref": "B7.4.4.1"
                     }
                   }
                 },
                 "handoverOnCompletion": {
-                  "baspiRef": "B7.4.2"
+                  "baspi4Ref": "B7.4.2"
                 }
               },
               "required": [
@@ -6761,12 +6904,12 @@
           ],
           "properties": {
             "hasSmartHomeSystems": {
-              "baspiRef": "B7.4.1"
+              "baspi4Ref": "B7.4.1"
             }
           }
         },
         "guaranteesWarrantiesAndIndemnityInsurances": {
-          "baspiRef": "B5",
+          "baspi4Ref": "B5",
           "discriminator": {
             "propertyName": "hasValidGuaranteesOrWarranties"
           },
@@ -6788,7 +6931,7 @@
                   ]
                 },
                 "newHomeWarranty": {
-                  "baspiRef": "B5.1.1",
+                  "baspi4Ref": "B5.1.1",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -6810,10 +6953,10 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "B5.1.1.2"
+                          "baspi4Ref": "B5.1.1.2"
                         },
                         "attachments": {
-                          "baspiRef": "B5.1.1.3"
+                          "baspi4Ref": "B5.1.1.3"
                         }
                       },
                       "required": [
@@ -6827,12 +6970,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "B5.1.1.1"
+                      "baspi4Ref": "B5.1.1.1"
                     }
                   }
                 },
                 "roofingWork": {
-                  "baspiRef": "B5.1.2",
+                  "baspi4Ref": "B5.1.2",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -6854,7 +6997,7 @@
                           ]
                         },
                         "attachments": {
-                          "baspiRef": "B5.1.1.2"
+                          "baspi4Ref": "B5.1.1.2"
                         }
                       },
                       "required": [
@@ -6867,12 +7010,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "B5.1.2.1"
+                      "baspi4Ref": "B5.1.2.1"
                     }
                   }
                 },
                 "dampProofingTreatment": {
-                  "baspiRef": "B5.1.3",
+                  "baspi4Ref": "B5.1.3",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -6894,7 +7037,7 @@
                           ]
                         },
                         "attachments": {
-                          "baspiRef": "B5.1.1.2"
+                          "baspi4Ref": "B5.1.1.2"
                         }
                       },
                       "required": [
@@ -6907,12 +7050,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "B5.1.3.1"
+                      "baspi4Ref": "B5.1.3.1"
                     }
                   }
                 },
                 "timberRotOrInfestationTreatment": {
-                  "baspiRef": "B5.1.4",
+                  "baspi4Ref": "B5.1.4",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -6934,7 +7077,7 @@
                           ]
                         },
                         "attachments": {
-                          "baspiRef": "B5.1.1.2"
+                          "baspi4Ref": "B5.1.1.2"
                         }
                       },
                       "required": [
@@ -6947,12 +7090,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "B5.1.4.1"
+                      "baspi4Ref": "B5.1.4.1"
                     }
                   }
                 },
                 "centralHeatingAndorPlumbing": {
-                  "baspiRef": "B5.1.5",
+                  "baspi4Ref": "B5.1.5",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -6974,7 +7117,7 @@
                           ]
                         },
                         "attachments": {
-                          "baspiRef": "B5.1.1.2"
+                          "baspi4Ref": "B5.1.1.2"
                         }
                       },
                       "required": [
@@ -6987,12 +7130,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "B5.1.5.1"
+                      "baspi4Ref": "B5.1.5.1"
                     }
                   }
                 },
                 "doubleGlazing": {
-                  "baspiRef": "B5.1.6",
+                  "baspi4Ref": "B5.1.6",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -7014,7 +7157,7 @@
                           ]
                         },
                         "attachments": {
-                          "baspiRef": "B5.1.1.2"
+                          "baspi4Ref": "B5.1.1.2"
                         }
                       },
                       "required": [
@@ -7027,12 +7170,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "B5.1.6.1"
+                      "baspi4Ref": "B5.1.6.1"
                     }
                   }
                 },
                 "electricalRepairOrInstallation": {
-                  "baspiRef": "B5.1.7",
+                  "baspi4Ref": "B5.1.7",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -7054,7 +7197,7 @@
                           ]
                         },
                         "attachments": {
-                          "baspiRef": "B5.1.1.2"
+                          "baspi4Ref": "B5.1.1.2"
                         }
                       },
                       "required": [
@@ -7067,12 +7210,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "B5.1.7.1"
+                      "baspi4Ref": "B5.1.7.1"
                     }
                   }
                 },
                 "subsidenceWork": {
-                  "baspiRef": "B5.1.8",
+                  "baspi4Ref": "B5.1.8",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -7094,7 +7237,7 @@
                           ]
                         },
                         "attachments": {
-                          "baspiRef": "B5.1.1.2"
+                          "baspi4Ref": "B5.1.1.2"
                         }
                       },
                       "required": [
@@ -7107,12 +7250,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "B5.1.8.1"
+                      "baspi4Ref": "B5.1.8.1"
                     }
                   }
                 },
                 "solarPanels": {
-                  "baspiRef": "B5.1.9",
+                  "baspi4Ref": "B5.1.9",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -7134,7 +7277,7 @@
                           ]
                         },
                         "attachments": {
-                          "baspiRef": "B5.1.1.2"
+                          "baspi4Ref": "B5.1.1.2"
                         }
                       },
                       "required": [
@@ -7147,12 +7290,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "B5.1.9.1"
+                      "baspi4Ref": "B5.1.9.1"
                     }
                   }
                 },
                 "otherGuarantees": {
-                  "baspiRef": "B5.1.10",
+                  "baspi4Ref": "B5.1.10",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -7174,7 +7317,7 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "B5.1.10.2"
+                          "baspi4Ref": "B5.1.10.2"
                         }
                       },
                       "required": [
@@ -7187,12 +7330,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "B5.1.10.1"
+                      "baspi4Ref": "B5.1.10.1"
                     }
                   }
                 },
                 "outstandingClaimsOrApplications": {
-                  "baspiRef": "B5.2",
+                  "baspi4Ref": "B5.2",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -7214,10 +7357,10 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "B5.2.2"
+                          "baspi4Ref": "B5.2.2"
                         },
                         "attachments": {
-                          "baspiRef": "B5.2.3"
+                          "baspi4Ref": "B5.2.3"
                         }
                       },
                       "required": [
@@ -7230,12 +7373,12 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "B5.2.1"
+                      "baspi4Ref": "B5.2.1"
                     }
                   }
                 },
                 "titleDefectInsurance": {
-                  "baspiRef": "B5.3",
+                  "baspi4Ref": "B5.3",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -7257,10 +7400,10 @@
                           ]
                         },
                         "details": {
-                          "baspiRef": "B5.3.2"
+                          "baspi4Ref": "B5.3.2"
                         },
                         "attachments": {
-                          "baspiRef": "B5.3.3"
+                          "baspi4Ref": "B5.3.3"
                         }
                       },
                       "required": [
@@ -7274,7 +7417,7 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspiRef": "B5.3.1"
+                      "baspi4Ref": "B5.3.1"
                     }
                   }
                 }
@@ -7300,30 +7443,30 @@
           ],
           "properties": {
             "hasValidGuaranteesOrWarranties": {
-              "baspiRef": "B5.1"
+              "baspi4Ref": "B5.1"
             }
           }
         },
         "occupiers": {
-          "baspiRef": "B6",
+          "baspi4Ref": "B6",
           "required": [
             "sellerLivesAtProperty",
             "othersAged17OrOver"
           ],
           "properties": {
             "sellerLivesAtProperty": {
-              "baspiRef": "B6.1",
+              "baspi4Ref": "B6.1",
               "required": [
                 "yesNo"
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "B6.1.1"
+                  "baspi4Ref": "B6.1.1"
                 }
               }
             },
             "othersAged17OrOver": {
-              "baspiRef": "B6.2",
+              "baspi4Ref": "B6.2",
               "discriminator": {
                 "propertyName": "hasOthersAged17OrOver"
               },
@@ -7345,21 +7488,21 @@
                       ]
                     },
                     "aged17OrOverNames": {
-                      "baspiRef": "B6.2.2"
+                      "baspi4Ref": "B6.2.2"
                     },
                     "aged17OrOverTenantsOrLodgers": {
-                      "baspiRef": "B6.2.3",
+                      "baspi4Ref": "B6.2.3",
                       "required": [
                         "yesNo"
                       ],
                       "properties": {
                         "yesNo": {
-                          "baspiRef": "B6.2.2.1"
+                          "baspi4Ref": "B6.2.2.1"
                         }
                       }
                     },
                     "vacantPossession": {
-                      "baspiRef": "B6.2.4",
+                      "baspi4Ref": "B6.2.4",
                       "discriminator": {
                         "propertyName": "soldWithVacantPossession"
                       },
@@ -7372,10 +7515,10 @@
                               ]
                             },
                             "details": {
-                              "baspiRef": "B6.2.4.2"
+                              "baspi4Ref": "B6.2.4.2"
                             },
                             "attachments": {
-                              "baspiRef": "B6.2.4.3"
+                              "baspi4Ref": "B6.2.4.3"
                             }
                           },
                           "required": [
@@ -7390,18 +7533,18 @@
                               ]
                             },
                             "aged17OrOverAgreedToLeave": {
-                              "baspiRef": "B6.3.1",
+                              "baspi4Ref": "B6.3.1",
                               "required": [
                                 "yesNo"
                               ],
                               "properties": {
                                 "yesNo": {
-                                  "baspiRef": "B6.3.1.1"
+                                  "baspi4Ref": "B6.3.1.1"
                                 }
                               }
                             },
                             "aged17OrOverWillSignToConfirmWillVacate": {
-                              "baspiRef": "B6.3.2",
+                              "baspi4Ref": "B6.3.2",
                               "discriminator": {
                                 "propertyName": "yesNo"
                               },
@@ -7423,10 +7566,10 @@
                                       ]
                                     },
                                     "details": {
-                                      "baspiRef": "B6.3.2.2"
+                                      "baspi4Ref": "B6.3.2.2"
                                     },
                                     "attachments": {
-                                      "baspiRef": "B6.3.2.3"
+                                      "baspi4Ref": "B6.3.2.3"
                                     }
                                   },
                                   "required": [
@@ -7440,7 +7583,7 @@
                               ],
                               "properties": {
                                 "yesNo": {
-                                  "baspiRef": "B6.3.2.1"
+                                  "baspi4Ref": "B6.3.2.1"
                                 }
                               }
                             }
@@ -7456,7 +7599,7 @@
                       ],
                       "properties": {
                         "soldWithVacantPossession": {
-                          "baspiRef": "B6.2.4.1"
+                          "baspi4Ref": "B6.2.4.1"
                         }
                       }
                     }
@@ -7473,14 +7616,14 @@
               ],
               "properties": {
                 "hasOthersAged17OrOver": {
-                  "baspiRef": "B6.2.1"
+                  "baspi4Ref": "B6.2.1"
                 }
               }
             }
           }
         },
         "completionAndMoving": {
-          "baspiRef": "B7",
+          "baspi4Ref": "B7",
           "required": [
             "sellerWillEnsure",
             "otherPropertyInChain",
@@ -7490,24 +7633,24 @@
           ],
           "properties": {
             "sellerWillEnsure": {
-              "baspiRef": "B7.1",
+              "baspi4Ref": "B7.1",
               "properties": {
                 "removeRubbish": {
-                  "baspiRef": "B7.1.1"
+                  "baspi4Ref": "B7.1.1"
                 },
                 "replaceLightFittings": {
-                  "baspiRef": "B7.1.2"
+                  "baspi4Ref": "B7.1.2"
                 },
                 "takeReasonableCare": {
-                  "baspiRef": "B7.1.3"
+                  "baspi4Ref": "B7.1.3"
                 },
                 "leaveKeys": {
-                  "baspiRef": "B7.1.4"
+                  "baspi4Ref": "B7.1.4"
                 }
               }
             },
             "otherPropertyInChain": {
-              "baspiRef": "B7.2",
+              "baspi4Ref": "B7.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -7529,29 +7672,29 @@
                       ]
                     },
                     "propertyDependencyType": {
-                      "baspiRef": "B7.2.2"
+                      "baspi4Ref": "B7.2.2"
                     },
                     "dependentPropertyAddress": {
-                      "baspiRef": "B7.2.3",
+                      "baspi4Ref": "B7.2.3",
                       "required": [
                         "line1",
                         "postcode"
                       ],
                       "properties": {
                         "line1": {
-                          "baspiRef": "B7.2.3.1"
+                          "baspi4Ref": "B7.2.3.1"
                         },
                         "line2": {
-                          "baspiRef": "B7.2.3.2"
+                          "baspi4Ref": "B7.2.3.2"
                         },
                         "line3": {
-                          "baspiRef": "B7.2.3.3"
+                          "baspi4Ref": "B7.2.3.3"
                         },
                         "town": {
-                          "baspiRef": "B7.2.3.4"
+                          "baspi4Ref": "B7.2.3.4"
                         },
                         "postcode": {
-                          "baspiRef": "B7.2.3.5"
+                          "baspi4Ref": "B7.2.3.5"
                         }
                       }
                     }
@@ -7567,12 +7710,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "B7.2.1"
+                  "baspi4Ref": "B7.2.1"
                 }
               }
             },
             "moveRestrictionDates": {
-              "baspiRef": "B7.3",
+              "baspi4Ref": "B7.3",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -7594,7 +7737,7 @@
                       ]
                     },
                     "details": {
-                      "baspiRef": "B7.3.2"
+                      "baspi4Ref": "B7.3.2"
                     }
                   },
                   "required": [
@@ -7607,12 +7750,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "B7.3.1"
+                  "baspi4Ref": "B7.3.1"
                 }
               }
             },
             "digitalPropertyLogbook": {
-              "baspiRef": "B7.5",
+              "baspi4Ref": "B7.5",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -7634,10 +7777,10 @@
                       ]
                     },
                     "logbookProvider": {
-                      "baspiRef": "B7.5.2"
+                      "baspi4Ref": "B7.5.2"
                     },
                     "willHandoverLogbook": {
-                      "baspiRef": "B7.5.2"
+                      "baspi4Ref": "B7.5.2"
                     }
                   },
                   "required": [
@@ -7651,35 +7794,35 @@
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "B7.5.1"
+                  "baspi4Ref": "B7.5.1"
                 }
               }
             },
             "sufficientToRepayAllMortgages": {
-              "baspiRef": "B7.6",
+              "baspi4Ref": "B7.6",
               "required": [
                 "yesNo"
               ],
               "properties": {
                 "yesNo": {
-                  "baspiRef": "A7.6.1"
+                  "baspi4Ref": "A7.6.1"
                 }
               }
             }
           }
         },
         "confirmationOfAccuracyByOwners": {
-          "baspiRef": "B8",
+          "baspi4Ref": "B8",
           "required": [
             "confirmWillProvideAdditionalDocumentation",
             "confirmInformationIsAccurate"
           ],
           "properties": {
             "confirmWillProvideAdditionalDocumentation": {
-              "baspiRef": "B8.1"
+              "baspi4Ref": "B8.1"
             },
             "confirmInformationIsAccurate": {
-              "baspiRef": "B8.2"
+              "baspi4Ref": "B8.2"
             }
           }
         }

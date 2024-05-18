@@ -587,6 +587,30 @@
             },
             "controlledParking": {
               "ntsRef": "B4.3",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
               "required": [
                 "yesNo"
               ],
@@ -1160,7 +1184,7 @@
                 }
               }
             },
-            "otherSources": {
+            "heatPump": {
               "ntsRef": "B3.8",
               "discriminator": {
                 "propertyName": "yesNo"
@@ -1209,6 +1233,62 @@
               "properties": {
                 "yesNo": {
                   "ntsRef": "B3.8.1",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              }
+            },
+            "otherSources": {
+              "ntsRef": "B3.9",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ntsRef": "B3.9.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    },
+                    "details": {
+                      "ntsRef": "B3.9.2"
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ntsRef": "B3.9.1",
                   "enum": [
                     "Yes",
                     "No"
