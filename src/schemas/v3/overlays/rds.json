@@ -4,43 +4,48 @@
   "properties": {
     "participants": {
       "items": {
-        "properties": {
-          "sellersCapacity": {
-            "rdsRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
-            "discriminator": {
-              "propertyName": "capacity"
-            },
-            "oneOf": [
-              {
-                "properties": {
-                  "capacity": {
-                    "enum": [
-                      "Legal Owner",
-                      "Mortgagee in Possession"
-                    ]
+        "oneOf": [
+          null,
+          {
+            "properties": {
+              "sellersCapacity": {
+                "rdsRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
+                "discriminator": {
+                  "propertyName": "capacity"
+                },
+                "oneOf": [
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Legal Owner",
+                          "Mortgagee in Possession"
+                        ]
+                      },
+                      "sellersCapacityDetails": {
+                        "rdsRef": "Participants/OtherDocumentation"
+                      }
+                    }
                   },
-                  "sellersCapacityDetails": {
-                    "rdsRef": "Participants/OtherDocumentation"
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Personal Representative for a Deceased Owner",
+                          "Under Power of Attorney",
+                          "Other"
+                        ]
+                      },
+                      "sellersCapacityDetails": {
+                        "rdsRef": "Participants/OtherDocumentation"
+                      }
+                    }
                   }
-                }
-              },
-              {
-                "properties": {
-                  "capacity": {
-                    "enum": [
-                      "Personal Representative for a Deceased Owner",
-                      "Under Power of Attorney",
-                      "Other"
-                    ]
-                  },
-                  "sellersCapacityDetails": {
-                    "rdsRef": "Participants/OtherDocumentation"
-                  }
-                }
+                ]
               }
-            ]
+            }
           }
-        }
+        ]
       }
     },
     "propertyPack": {

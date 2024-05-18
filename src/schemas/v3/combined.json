@@ -34,6 +34,8 @@
       ]
     },
     "participants": {
+      "baspiRef": "B1",
+      "piqRef": "B1",
       "title": "Transaction participants",
       "type": "array",
       "minItems": 1,
@@ -60,6 +62,10 @@
                 "title": "lastName",
                 "type": "string",
                 "minLength": 1
+              },
+              "maidenName": {
+                "title": "Middle name(s)",
+                "type": "string"
               },
               "preferredName": {
                 "title": "Preferred name / known as",
@@ -145,79 +151,111 @@
           },
           "externalIds": {
             "type": "object"
-          },
-          "sellersCapacity": {
-            "baspiRef": "B1.3",
-            "rdsRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
-            "piqRef": "B1.3.1",
-            "title": "Capacity in which the Seller sells",
-            "type": "object",
-            "baspiRequired": ["capacity"],
+          }
+        },
+        "discriminator": {
+          "propertyName": "role"
+        },
+        "oneOf": [
+          {
             "properties": {
-              "capacity": {
-                "baspiRef": "B1.3.1",
-                "type": "string",
-                "title": "",
+              "role": {
                 "enum": [
-                  "Legal Owner",
-                  "Personal Representative for a Deceased Owner",
-                  "Under Power of Attorney",
-                  "Mortgagee in Possession",
-                  "Other"
+                  "Buyer",
+                  "Seller's Conveyancer",
+                  "Prospective Buyer",
+                  "Buyer's Conveyancer",
+                  "Estate Agent",
+                  "Buyer's Agent",
+                  "Surveyor",
+                  "Mortgage Broker",
+                  "Lender",
+                  "Landlord",
+                  "Tenant"
+                ]
+              }
+            }
+          },
+          {
+            "properties": {
+              "role": {
+                "enum": ["Seller"]
+              },
+              "sellersCapacity": {
+                "baspiRef": "B1.3",
+                "rdsRef": "Participants/description=?,Participants/ActingFor/Participants/Role",
+                "piqRef": "B1.3.1",
+                "title": "Capacity in which the Seller sells",
+                "type": "object",
+                "baspiRequired": ["capacity"],
+                "properties": {
+                  "capacity": {
+                    "baspiRef": "B1.3.1",
+                    "type": "string",
+                    "title": "",
+                    "enum": [
+                      "Legal Owner",
+                      "Personal Representative for a Deceased Owner",
+                      "Under Power of Attorney",
+                      "Mortgagee in Possession",
+                      "Other"
+                    ]
+                  }
+                },
+                "discriminator": {
+                  "propertyName": "capacity"
+                },
+                "oneOf": [
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": ["Legal Owner", "Mortgagee in Possession"]
+                      },
+                      "sellersCapacityDetails": {
+                        "baspiRef": "B1.3.2",
+                        "rdsRef": "Participants/OtherDocumentation",
+                        "title": "Please provide details if applicable",
+                        "description": "(for example if the sellers names do not match the legal owners on the title deed due to change of name on marriage)",
+                        "type": "string"
+                      },
+                      "attachments": {
+                        "baspiRef": "B1.3.3",
+                        "title": "Attachments",
+                        "type": "string",
+                        "enum": ["Attached", "To follow"]
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Personal Representative for a Deceased Owner",
+                          "Under Power of Attorney",
+                          "Other"
+                        ]
+                      },
+                      "sellersCapacityDetails": {
+                        "baspiRef": "B1.3.2",
+                        "rdsRef": "Participants/OtherDocumentation",
+                        "title": "Please provide details and provide any probate, grant of representation or power of attorney ",
+                        "type": "string"
+                      },
+                      "attachments": {
+                        "baspiRef": "B1.3.3",
+                        "title": "Attachments",
+                        "type": "string",
+                        "enum": ["Attached", "To follow"]
+                      }
+                    },
+                    "baspiRequired": ["sellersCapacityDetails", "attachments"]
+                  }
                 ]
               }
             },
-            "discriminator": {
-              "propertyName": "capacity"
-            },
-            "oneOf": [
-              {
-                "properties": {
-                  "capacity": {
-                    "enum": ["Legal Owner", "Mortgagee in Possession"]
-                  },
-                  "sellersCapacityDetails": {
-                    "baspiRef": "B1.3.2",
-                    "rdsRef": "Participants/OtherDocumentation",
-                    "title": "Please provide details if applicable",
-                    "description": "(for example if the sellers names do not match the legal owners on the title deed due to change of name on marriage)",
-                    "type": "string"
-                  },
-                  "attachments": {
-                    "baspiRef": "B1.3.3",
-                    "title": "Attachments",
-                    "type": "string",
-                    "enum": ["Attached", "To follow"]
-                  }
-                }
-              },
-              {
-                "properties": {
-                  "capacity": {
-                    "enum": [
-                      "Personal Representative for a Deceased Owner",
-                      "Under Power of Attorney",
-                      "Other"
-                    ]
-                  },
-                  "sellersCapacityDetails": {
-                    "baspiRef": "B1.3.2",
-                    "rdsRef": "Participants/OtherDocumentation",
-                    "title": "Please provide details and provide any probate, grant of representation or power of attorney ",
-                    "type": "string"
-                  },
-                  "attachments": {
-                    "baspiRef": "B1.3.3",
-                    "title": "Attachments",
-                    "type": "string",
-                    "enum": ["Attached", "To follow"]
-                  }
-                },
-                "baspiRequired": ["sellersCapacityDetails", "attachments"]
-              }
-            ]
+            "baspiRequired": ["sellersCapacity"]
           }
-        }
+        ]
       }
     },
     "propertyPack": {

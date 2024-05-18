@@ -55,6 +55,10 @@
                 "type": "string",
                 "minLength": 1
               },
+              "maidenName": {
+                "title": "Middle name(s)",
+                "type": "string"
+              },
               "preferredName": {
                 "title": "Preferred name / known as",
                 "type": "string"
@@ -138,73 +142,103 @@
           },
           "externalIds": {
             "type": "object"
-          },
-          "sellersCapacity": {
-            "title": "Capacity in which the Seller sells",
-            "type": "object",
+          }
+        },
+        "oneOf": [
+          {
             "properties": {
-              "capacity": {
-                "type": "string",
-                "title": "",
+              "role": {
                 "enum": [
-                  "Legal Owner",
-                  "Personal Representative for a Deceased Owner",
-                  "Under Power of Attorney",
-                  "Mortgagee in Possession",
-                  "Other"
+                  "Buyer",
+                  "Seller's Conveyancer",
+                  "Prospective Buyer",
+                  "Buyer's Conveyancer",
+                  "Estate Agent",
+                  "Buyer's Agent",
+                  "Surveyor",
+                  "Mortgage Broker",
+                  "Lender",
+                  "Landlord",
+                  "Tenant"
                 ]
               }
-            },
-            "oneOf": [
-              {
+            }
+          },
+          {
+            "properties": {
+              "role": {
+                "enum": [
+                  "Seller"
+                ]
+              },
+              "sellersCapacity": {
+                "title": "Capacity in which the Seller sells",
+                "type": "object",
                 "properties": {
                   "capacity": {
+                    "type": "string",
+                    "title": "",
                     "enum": [
                       "Legal Owner",
-                      "Mortgagee in Possession"
-                    ]
-                  },
-                  "sellersCapacityDetails": {
-                    "title": "Please provide details if applicable",
-                    "description": "(for example if the sellers names do not match the legal owners on the title deed due to change of name on marriage)",
-                    "type": "string"
-                  },
-                  "attachments": {
-                    "title": "Attachments",
-                    "type": "string",
-                    "enum": [
-                      "Attached",
-                      "To follow"
-                    ]
-                  }
-                }
-              },
-              {
-                "properties": {
-                  "capacity": {
-                    "enum": [
                       "Personal Representative for a Deceased Owner",
                       "Under Power of Attorney",
+                      "Mortgagee in Possession",
                       "Other"
                     ]
-                  },
-                  "sellersCapacityDetails": {
-                    "title": "Please provide details and provide any probate, grant of representation or power of attorney ",
-                    "type": "string"
-                  },
-                  "attachments": {
-                    "title": "Attachments",
-                    "type": "string",
-                    "enum": [
-                      "Attached",
-                      "To follow"
-                    ]
                   }
-                }
+                },
+                "oneOf": [
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Legal Owner",
+                          "Mortgagee in Possession"
+                        ]
+                      },
+                      "sellersCapacityDetails": {
+                        "title": "Please provide details if applicable",
+                        "description": "(for example if the sellers names do not match the legal owners on the title deed due to change of name on marriage)",
+                        "type": "string"
+                      },
+                      "attachments": {
+                        "title": "Attachments",
+                        "type": "string",
+                        "enum": [
+                          "Attached",
+                          "To follow"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Personal Representative for a Deceased Owner",
+                          "Under Power of Attorney",
+                          "Other"
+                        ]
+                      },
+                      "sellersCapacityDetails": {
+                        "title": "Please provide details and provide any probate, grant of representation or power of attorney ",
+                        "type": "string"
+                      },
+                      "attachments": {
+                        "title": "Attachments",
+                        "type": "string",
+                        "enum": [
+                          "Attached",
+                          "To follow"
+                        ]
+                      }
+                    }
+                  }
+                ]
               }
-            ]
+            }
           }
-        }
+        ]
       }
     },
     "propertyPack": {
@@ -8182,8 +8216,7 @@
                 "F",
                 "G",
                 "H",
-                "I",
-                "Not available"
+                "I"
               ]
             },
             "councilTaxAffectingAlterations": {
