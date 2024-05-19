@@ -4680,7 +4680,8 @@
           "required": [
             "telephone",
             "cableSatelliteTV",
-            "broadband"
+            "broadband",
+            "mobilePhone"
           ],
           "properties": {
             "telephone": {
@@ -4798,6 +4799,45 @@
               "properties": {
                 "typeOfConnection": {
                   "baspi4Ref": "A7.1.0.7.2"
+                }
+              }
+            },
+            "mobilePhone": {
+              "baspi4Ref": "A7.1.0.8",
+              "properties": {
+                "knownSignalIssues": {
+                  "baspi4Ref": "A7.1.0.8.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "baspi4Ref": "A7.1.0.8.2"
+                    }
+                  }
                 }
               }
             }
