@@ -1294,6 +1294,44 @@
                 }
               ]
             },
+            "heatPump": {
+              "piqRef": "A7.1.19",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    },
+                    "supplier": {
+                      "piqRef": "A7.1.20"
+                    }
+                  }
+                }
+              ]
+            },
             "otherSources": {
               "piqRef": "A7.1.19",
               "discriminator": {
@@ -1706,158 +1744,151 @@
         },
         "insurance": {
           "properties": {
-            "isInsured": {
-              "piqRef": "A8.2"
-            }
-          },
-          "oneOf": [
-            null,
-            {
+            "difficultiesObtainingInsurance": {
+              "piqRef": "A8.1",
               "properties": {
-                "difficultiesObtainingInsurance": {
-                  "piqRef": "A8.1",
+                "abnormalRiseInPremiums": {
+                  "piqRef": "A8.1a",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "piqRef": "A8.1a1.1"
+                        }
+                      }
+                    }
+                  ],
                   "properties": {
-                    "abnormalRiseInPremiums": {
-                      "piqRef": "A8.1a",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "piqRef": "A8.1a1.1"
-                            }
-                          }
-                        }
-                      ],
+                    "yesNo": {
+                      "piqRef": "A8.1a1"
+                    }
+                  }
+                },
+                "subjectToHighExcesses": {
+                  "piqRef": "A8.1b",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
                       "properties": {
                         "yesNo": {
-                          "piqRef": "A8.1a1"
+                          "enum": [
+                            "No"
+                          ]
                         }
                       }
                     },
-                    "subjectToHighExcesses": {
-                      "piqRef": "A8.1b",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "piqRef": "A8.1b2"
-                            }
-                          }
-                        }
-                      ],
+                    {
                       "properties": {
                         "yesNo": {
-                          "piqRef": "A8.1b1"
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "piqRef": "A8.1b2"
+                        }
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "piqRef": "A8.1b1"
+                    }
+                  }
+                },
+                "subjectToUnusualConditions": {
+                  "piqRef": "A8.1c",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
                         }
                       }
                     },
-                    "subjectToUnusualConditions": {
-                      "piqRef": "A8.1c",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "piqRef": "A8.1c2"
-                            }
-                          }
-                        }
-                      ],
+                    {
                       "properties": {
                         "yesNo": {
-                          "piqRef": "A8.1c1"
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "piqRef": "A8.1c2"
+                        }
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "piqRef": "A8.1c1"
+                    }
+                  }
+                },
+                "refused": {
+                  "piqRef": "A8.1d",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
                         }
                       }
                     },
-                    "refused": {
-                      "piqRef": "A8.1d",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "piqRef": "A8.1d2"
-                            }
-                          }
-                        }
-                      ],
+                    {
                       "properties": {
                         "yesNo": {
-                          "piqRef": "A8.1d1"
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "piqRef": "A8.1d2"
                         }
                       }
+                    }
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "piqRef": "A8.1d1"
                     }
                   }
                 }
               }
+            },
+            "isInsured": {
+              "piqRef": "A8.2"
             }
-          ]
+          }
         },
         "rightsAndInformalArrangements": {
           "properties": {

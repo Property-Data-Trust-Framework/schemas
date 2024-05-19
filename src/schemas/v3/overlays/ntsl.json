@@ -257,6 +257,30 @@
             },
             "controlledParking": {
               "ntslRef": "B4.3",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
               "required": [
                 "yesNo"
               ],
@@ -830,7 +854,7 @@
                 }
               }
             },
-            "otherSources": {
+            "heatPump": {
               "ntslRef": "B3.8",
               "discriminator": {
                 "propertyName": "yesNo"
@@ -879,6 +903,62 @@
               "properties": {
                 "yesNo": {
                   "ntslRef": "B3.8.1",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              }
+            },
+            "otherSources": {
+              "ntslRef": "B3.9",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ntslRef": "B3.9.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    },
+                    "details": {
+                      "ntslRef": "B3.9.2"
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ntslRef": "B3.9.1",
                   "enum": [
                     "Yes",
                     "No"
