@@ -10,7 +10,7 @@ const ajv = new Ajv({
 // Adds date formats among other types to the validator.
 addFormats(ajv);
 
-const verifiedClaimsSchema = require("./src/schemas/v1/pdtf-verified-claims.json");
+const verifiedClaimsSchema = require("./src/schemas/verifiedClaims/pdtf-verified-claims.json");
 const v2CoreSchema = require("./src/schemas/v2/pdtf-transaction.json");
 const v3CoreSchema = require("./src/schemas/v3/pdtf-transaction.json");
 
