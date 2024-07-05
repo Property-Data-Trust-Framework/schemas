@@ -22,14 +22,14 @@ test("exports a property pack schema, v3 with no overlay by default", () => {
   // expect(testSchema.$id).toEqual(
   //   "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json"
   // );
-  expect(testSchema.properties.propertyPack.properties.baspiRef).toEqual(
+  expect(testSchema.properties.propertyPack.properties.baspi5Ref).toEqual(
     undefined
   );
 });
 
 test("sample is valid BASPI", () => {
   const testSchema = getTransactionSchema(schemaId, ["baspiV4"]);
-  expect(testSchema.properties.propertyPack.baspiRef).toEqual("0");
+  expect(testSchema.properties.propertyPack.baspi4Ref).toEqual("0");
   const validator = getValidator(schemaId, ["baspiV4"]);
   const isValid = validator(exampleTransaction);
   if (!isValid) console.log(validator.errors);
@@ -201,9 +201,9 @@ test("correctly gets a subschema with multiple overlays", () => {
   const subschema = getSubschema(
     "/propertyPack/parking/parkingArrangements",
     schemaId,
-    ["baspiV4", "ta6ed4"]
+    ["baspiV5", "ta6ed4"]
   );
-  expect(subschema.baspiRef).toBe("A1.6.0");
+  expect(subschema.baspi5Ref).toBe("A1.6.0");
   expect(subschema.ta6Ref).toBe("9.1");
 });
 

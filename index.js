@@ -1,4 +1,3 @@
-const { dereference } = require("@jdw/jst");
 const merge = require("deepmerge");
 const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
@@ -33,7 +32,8 @@ const overlaysMap = {
     null: {},
   },
   "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json": {
-    baspiV4: require("./src/schemas/v3/overlays/baspi.json"),
+    baspiV4: require("./src/schemas/v3/overlays/baspi4.json"),
+    baspiV5: require("./src/schemas/v3/overlays/baspi5.json"),
     ta6ed4: require("./src/schemas/v3/overlays/ta6.json"),
     ta7ed3: require("./src/schemas/v3/overlays/ta7.json"),
     ta10ed3: require("./src/schemas/v3/overlays/ta10.json"),
