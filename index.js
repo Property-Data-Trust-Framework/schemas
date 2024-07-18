@@ -47,6 +47,7 @@ const overlaysMap = {
     rdsV333: require("./src/schemas/v3/overlays/rds.json"),
     oc1v21: require("./src/schemas/v3/overlays/oc1.json"),
     piqV3: require("./src/schemas/v3/overlays/piq.json"),
+    sr24: require("./src/schemas/v3/overlays/sr24.json"),
     null: {},
   },
 };

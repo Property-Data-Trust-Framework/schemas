@@ -22,6 +22,7 @@ const extractFields = [
   "llc1",
   "rds",
   "oc1",
+  "sr24",
 ];
 
 const flattenSkeleton = (schema) => {
