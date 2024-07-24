@@ -69,6 +69,30 @@
             },
             "controlledParking": {
               "ta6Ref": "9.2",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
               "required": [
                 "yesNo"
               ],
@@ -2264,7 +2288,7 @@
                   "properties": {
                     "heatingType": {
                       "enum": [
-                        "Community heating system"
+                        "Communal heating system"
                       ]
                     }
                   }
@@ -2431,178 +2455,6 @@
                     "Yes"
                   ]
                 },
-                "difficultiesObtainingInsurance": {
-                  "ta6Ref": "6.4",
-                  "required": [
-                    "abnormalRiseInPremiums",
-                    "subjectToHighExcesses",
-                    "subjectToUnusualConditions",
-                    "refused"
-                  ],
-                  "title": "Has any buildings insurance taken out by the seller ever been:",
-                  "properties": {
-                    "abnormalRiseInPremiums": {
-                      "ta6Ref": "6.4a",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "ta6Ref": "6.4.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "ta6Ref": "6.4a1"
-                        }
-                      }
-                    },
-                    "subjectToHighExcesses": {
-                      "ta6Ref": "6.4b",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "ta6Ref": "6.4.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "ta6Ref": "6.4b1"
-                        }
-                      }
-                    },
-                    "subjectToUnusualConditions": {
-                      "ta6Ref": "6.4c",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "ta6Ref": "6.4.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "ta6Ref": "6.4c1"
-                        }
-                      }
-                    },
-                    "refused": {
-                      "ta6Ref": "6.4d",
-                      "discriminator": {
-                        "propertyName": "yesNo"
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "ta6Ref": "6.4.2"
-                            }
-                          },
-                          "required": [
-                            "details"
-                          ]
-                        }
-                      ],
-                      "required": [
-                        "yesNo"
-                      ],
-                      "properties": {
-                        "yesNo": {
-                          "ta6Ref": "6.4d1"
-                        }
-                      }
-                    }
-                  }
-                },
                 "insuranceClaims": {
                   "ta6Ref": "6.5",
                   "discriminator": {
@@ -2645,15 +2497,187 @@
                 }
               },
               "required": [
-                "difficultiesObtainingInsurance",
                 "insuranceClaims"
               ]
             }
           ],
           "required": [
+            "difficultiesObtainingInsurance",
             "isInsured"
           ],
           "properties": {
+            "difficultiesObtainingInsurance": {
+              "ta6Ref": "6.4",
+              "required": [
+                "abnormalRiseInPremiums",
+                "subjectToHighExcesses",
+                "subjectToUnusualConditions",
+                "refused"
+              ],
+              "title": "Has any buildings insurance taken out by the seller ever been:",
+              "properties": {
+                "abnormalRiseInPremiums": {
+                  "ta6Ref": "6.4a",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6Ref": "6.4.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "6.4a1"
+                    }
+                  }
+                },
+                "subjectToHighExcesses": {
+                  "ta6Ref": "6.4b",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6Ref": "6.4.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "6.4b1"
+                    }
+                  }
+                },
+                "subjectToUnusualConditions": {
+                  "ta6Ref": "6.4c",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6Ref": "6.4.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "6.4c1"
+                    }
+                  }
+                },
+                "refused": {
+                  "ta6Ref": "6.4d",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6Ref": "6.4.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6Ref": "6.4d1"
+                    }
+                  }
+                }
+              }
+            },
             "isInsured": {
               "ta6Ref": "6.1",
               "title": "Does the seller insure the property?"

@@ -7,7 +7,8 @@ const merge = require("deepmerge");
 const combinedSchema = require("../schemas/v3/combined.json");
 
 const extractFields = [
-  "baspi",
+  "baspi4",
+  "baspi5",
   "nts",
   "ntsl",
   "ta6",
@@ -21,6 +22,7 @@ const extractFields = [
   "llc1",
   "rds",
   "oc1",
+  "sr24",
 ];
 
 const flattenSkeleton = (schema) => {

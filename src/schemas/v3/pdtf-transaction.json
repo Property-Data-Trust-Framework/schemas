@@ -41,6 +41,18 @@
             "title": "Name",
             "type": "object",
             "properties": {
+              "title": {
+                "title": "Title or honorific",
+                "type": "string",
+                "enum": [
+                  "Mr",
+                  "Mrs",
+                  "Miss",
+                  "Ms",
+                  "Mx",
+                  "Dr"
+                ]
+              },
               "firstName": {
                 "title": "First name",
                 "type": "string",
@@ -54,6 +66,10 @@
                 "title": "lastName",
                 "type": "string",
                 "minLength": 1
+              },
+              "maidenName": {
+                "title": "Middle name(s)",
+                "type": "string"
               },
               "preferredName": {
                 "title": "Preferred name / known as",
@@ -79,6 +95,24 @@
             "title": "Address",
             "type": "object",
             "properties": {
+              "buildingNumber": {
+                "title": "Building number",
+                "type": "string",
+                "minLength": 1
+              },
+              "buildingName": {
+                "title": "Building name",
+                "type": "string"
+              },
+              "subBuilding": {
+                "title": "Sub building name",
+                "type": "string"
+              },
+              "street": {
+                "title": "Street",
+                "type": "string",
+                "minLength": 1
+              },
               "line1": {
                 "title": "Address 1",
                 "type": "string",
@@ -100,6 +134,23 @@
                 "title": "Postcode",
                 "type": "string",
                 "minLength": 1
+              },
+              "homeNation": {
+                "title": "Home nation",
+                "type": "string",
+                "enum": [
+                  "England",
+                  "Wales",
+                  "Scotland",
+                  "Northern Ireland"
+                ]
+              },
+              "countryCode": {
+                "title": "Country code",
+                "description": "ISO 3166-1 alpha-3 country code",
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 3
               }
             }
           },
@@ -131,73 +182,103 @@
           },
           "externalIds": {
             "type": "object"
-          },
-          "sellersCapacity": {
-            "title": "Capacity in which the Seller sells",
-            "type": "object",
+          }
+        },
+        "oneOf": [
+          {
             "properties": {
-              "capacity": {
-                "type": "string",
-                "title": "",
+              "role": {
                 "enum": [
-                  "Legal Owner",
-                  "Personal Representative for a Deceased Owner",
-                  "Under Power of Attorney",
-                  "Mortgagee in Possession",
-                  "Other"
+                  "Buyer",
+                  "Seller's Conveyancer",
+                  "Prospective Buyer",
+                  "Buyer's Conveyancer",
+                  "Estate Agent",
+                  "Buyer's Agent",
+                  "Surveyor",
+                  "Mortgage Broker",
+                  "Lender",
+                  "Landlord",
+                  "Tenant"
                 ]
               }
-            },
-            "oneOf": [
-              {
+            }
+          },
+          {
+            "properties": {
+              "role": {
+                "enum": [
+                  "Seller"
+                ]
+              },
+              "sellersCapacity": {
+                "title": "Capacity in which the Seller sells",
+                "type": "object",
                 "properties": {
                   "capacity": {
+                    "type": "string",
+                    "title": "",
                     "enum": [
                       "Legal Owner",
-                      "Mortgagee in Possession"
-                    ]
-                  },
-                  "sellersCapacityDetails": {
-                    "title": "Please provide details if applicable",
-                    "description": "(for example if the sellers names do not match the legal owners on the title deed due to change of name on marriage)",
-                    "type": "string"
-                  },
-                  "attachments": {
-                    "title": "Attachments",
-                    "type": "string",
-                    "enum": [
-                      "Attached",
-                      "To follow"
-                    ]
-                  }
-                }
-              },
-              {
-                "properties": {
-                  "capacity": {
-                    "enum": [
                       "Personal Representative for a Deceased Owner",
                       "Under Power of Attorney",
+                      "Mortgagee in Possession",
                       "Other"
                     ]
-                  },
-                  "sellersCapacityDetails": {
-                    "title": "Please provide details and provide any probate, grant of representation or power of attorney ",
-                    "type": "string"
-                  },
-                  "attachments": {
-                    "title": "Attachments",
-                    "type": "string",
-                    "enum": [
-                      "Attached",
-                      "To follow"
-                    ]
                   }
-                }
+                },
+                "oneOf": [
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Legal Owner",
+                          "Mortgagee in Possession"
+                        ]
+                      },
+                      "sellersCapacityDetails": {
+                        "title": "Please provide details if applicable",
+                        "description": "(for example if the sellers names do not match the legal owners on the title deed due to change of name on marriage)",
+                        "type": "string"
+                      },
+                      "attachments": {
+                        "title": "Attachments",
+                        "type": "string",
+                        "enum": [
+                          "Attached",
+                          "To follow"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Personal Representative for a Deceased Owner",
+                          "Under Power of Attorney",
+                          "Other"
+                        ]
+                      },
+                      "sellersCapacityDetails": {
+                        "title": "Please provide details and provide any probate, grant of representation or power of attorney ",
+                        "type": "string"
+                      },
+                      "attachments": {
+                        "title": "Attachments",
+                        "type": "string",
+                        "enum": [
+                          "Attached",
+                          "To follow"
+                        ]
+                      }
+                    }
+                  }
+                ]
               }
-            ]
+            }
           }
-        }
+        ]
       }
     },
     "propertyPack": {
@@ -208,6 +289,24 @@
           "title": "Property Address",
           "type": "object",
           "properties": {
+            "buildingNumber": {
+              "title": "Building number",
+              "type": "string",
+              "minLength": 1
+            },
+            "buildingName": {
+              "title": "Building name",
+              "type": "string"
+            },
+            "subBuilding": {
+              "title": "Sub building name",
+              "type": "string"
+            },
+            "street": {
+              "title": "Street",
+              "type": "string",
+              "minLength": 1
+            },
             "line1": {
               "title": "Address line 1",
               "type": "string",
@@ -229,6 +328,23 @@
               "title": "Postcode",
               "type": "string",
               "minLength": 1
+            },
+            "homeNation": {
+              "title": "Home nation",
+              "type": "string",
+              "enum": [
+                "England",
+                "Wales",
+                "Scotland",
+                "Northern Ireland"
+              ]
+            },
+            "countryCode": {
+              "title": "Country code",
+              "description": "ISO 3166-1 alpha-3 country code",
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 3
             }
           }
         },
@@ -310,6 +426,19 @@
           "properties": {
             "localAuthorityName": {
               "title": "Local authority name",
+              "description": "The name of the local authority responsible for searches and planning (district or unitary as applicable)",
+              "type": "string"
+            },
+            "districtCouncil": {
+              "title": "Name of the district council, if not unitary",
+              "type": "string"
+            },
+            "countyCouncil": {
+              "title": "Name of the county council, if not unitary",
+              "type": "string"
+            },
+            "unitaryAuthority": {
+              "title": "Unitary authority name, if applicable",
               "type": "string"
             },
             "localAuthorityReference": {
@@ -355,6 +484,14 @@
                 "Informal tender",
                 "Modern Method of Auction",
                 "Private treaty"
+              ]
+            },
+            "saleAtUndervalue": {
+              "title": "Is the property being sold at undervalue?",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No"
               ]
             }
           }
@@ -522,7 +659,7 @@
                       "properties": {
                         "isLocatedOverCommercialPremises": {
                           "type": "string",
-                          "title": "Is the property located over commercial premises?",
+                          "title": "Is the property located in a building which includes commercial property E.g. shops, offices etc?",
                           "enum": [
                             "Yes",
                             "No"
@@ -597,6 +734,22 @@
                   ]
                 }
               }
+            },
+            "isHMO": {
+              "title": "Is the property a House in Multiple Occupation (HMO)?",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No"
+              ]
+            },
+            "isStudentAccommodation": {
+              "title": "Is the property student accommodation?",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No"
+              ]
             },
             "roomDimensions": {
               "title": "Room dimensions",
@@ -1130,6 +1283,40 @@
           "title": "Ownership",
           "type": "object",
           "properties": {
+            "numberOfSellers": {
+              "title": "How many sellers are involved in the transaction?",
+              "description": "This may differ from the number of legal owners, for example if the property is being sold by executors of a deceased owner",
+              "type": "integer"
+            },
+            "numberOfNonUkResidentSellers": {
+              "title": "How many sellers are involved in the transaction who are resident outside the UK?",
+              "description": "This may differ from the number of legal owners, for example if the property is being sold by executors of a deceased owner",
+              "type": "integer"
+            },
+            "hasHelpToBuyEquityLoan": {
+              "title": "Is the property being sold with a Help to Buy equity loan outstanding?",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No"
+              ]
+            },
+            "isFirstRegistration": {
+              "title": "Is this the first time the property is to be registered with HMLR?",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No"
+              ]
+            },
+            "isLimitedCompanySale": {
+              "title": "Is the property being sold by a Limited Company?",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No"
+              ]
+            },
             "ownershipsToBeTransferred": {
               "title": "Ownerships to be transferred on sale",
               "type": "array",
@@ -5356,6 +5543,14 @@
                                             "type": "string",
                                             "minLength": 1
                                           },
+                                          "contributionIncludedInServiceCharge": {
+                                            "title": "Is the annual contribution included in the stated service charge?",
+                                            "type": "string",
+                                            "enum": [
+                                              "Yes",
+                                              "No"
+                                            ]
+                                          },
                                           "sufficentToCoverSection20Expenditure": {
                                             "title": "Is the amount expected to be sufficient to cover the known Section 20 expenditure?",
                                             "type": "object",
@@ -7357,10 +7552,88 @@
                     "Not known"
                   ]
                 }
-              }
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "annualCostOfPermit": {
+                      "title": "Annual cost of permit (£)",
+                      "type": "number"
+                    }
+                  }
+                }
+              ]
+            },
+            "vehicleTypeRestriction": {
+              "title": "Is there a restriction on the types of vehicle which may be parked?",
+              "type": "object",
+              "properties": {
+                "yesNo": {
+                  "type": "string",
+                  "title": "",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "title": "Please provide details of the restriction",
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              ]
             },
             "electricVehicleChargingPoint": {
               "title": "Is there an electric vehicle charging point belonging to the property?",
+              "type": "object",
+              "properties": {
+                "yesNo": {
+                  "type": "string",
+                  "title": "",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              }
+            },
+            "locatedInUlez": {
+              "title": "Is the property and/or parking located in an Ultra Low Emission Zone (ULEZ)?",
               "type": "object",
               "properties": {
                 "yesNo": {
@@ -15254,9 +15527,88 @@
                 }
               ]
             },
+            "heatPump": {
+              "title": "Ground or air source heat pump",
+              "type": "object",
+              "properties": {
+                "yesNo": {
+                  "type": "string",
+                  "title": "",
+                  "enum": [
+                    "Yes",
+                    "To be connected",
+                    "No"
+                  ]
+                }
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "title": "Details",
+                      "type": "string"
+                    },
+                    "supplier": {
+                      "title": "Supplier",
+                      "type": "string"
+                    },
+                    "dateInstalled": {
+                      "title": "Date installed",
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "attachments": {
+                      "title": "If after 2013 please provide Building Regulations approval / MCS Certificate or equivalent.",
+                      "type": "string",
+                      "enum": [
+                        "Attached",
+                        "To follow",
+                        "Not applicable"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    },
+                    "details": {
+                      "title": "Details",
+                      "type": "string"
+                    },
+                    "dateToBeConnected": {
+                      "title": "Date to be connected",
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "supplier": {
+                      "title": "Supplier",
+                      "type": "string"
+                    }
+                  }
+                }
+              ]
+            },
             "otherSources": {
               "title": "Other sources",
-              "description": "Other sources include wind turbines, generators and other renewable technologies, for example ground source heat pumps. If you receive Renewable Heat Incentives please provide details and note that you will need to advise Ofgem when you complete the sale",
+              "description": "Other sources include wind turbines, generators and other renewable technologies. If you receive Renewable Heat Incentives please provide details and note that you will need to advise Ofgem when you complete the sale",
               "type": "object",
               "properties": {
                 "yesNo": {
@@ -16400,7 +16752,9 @@
                   "minLength": 1
                 },
                 "consequentialChargingBasis": {
-                  "title": "Will the basis for charging for sewerage and water services at the property change as a consequence of a change of occupation?"
+                  "title": "Will the basis for charging for sewerage and water services at the property change as a consequence of a change of occupation?",
+                  "type": "string",
+                  "minLength": 1
                 }
               }
             }
@@ -16650,11 +17004,11 @@
                   "properties": {
                     "heatingType": {
                       "enum": [
-                        "Community heating system"
+                        "Communal heating system"
                       ]
                     },
                     "details": {
-                      "title": "Community heating system details",
+                      "title": "Communal heating system details",
                       "description": "Please describe how the cost of heating supply is charged, whether you have control over the energy supplier and whether you have any control over the heating.",
                       "type": "string",
                       "minLength": 1
@@ -17004,8 +17358,170 @@
           "title": "Insurance",
           "type": "object",
           "properties": {
+            "difficultiesObtainingInsurance": {
+              "title": "Have you had any difficulty obtaining competitively priced building insurance due to the structure or location of the property or had insurance refused?",
+              "type": "object",
+              "properties": {
+                "abnormalRiseInPremiums": {
+                  "title": "Subject to abnormal rise in premiums?",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "title": "Provide details",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  ]
+                },
+                "subjectToHighExcesses": {
+                  "title": "Subject to high excesses?",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "title": "Provide details",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  ]
+                },
+                "subjectToUnusualConditions": {
+                  "title": "Subject to unusual conditions?",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "title": "Provide details",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  ]
+                },
+                "refused": {
+                  "title": "Refused?",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "title": "",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "title": "Provide details",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
             "isInsured": {
-              "title": "Do you insure the property?",
+              "title": "Do you currently insure the property?",
               "type": "string",
               "enum": [
                 "Yes",
@@ -17043,168 +17559,6 @@
                   "enum": [
                     "Yes"
                   ]
-                },
-                "difficultiesObtainingInsurance": {
-                  "title": "Have you had any difficulty obtaining competitively priced building insurance due to the structure or location of the property or had insurance refused?",
-                  "type": "object",
-                  "properties": {
-                    "abnormalRiseInPremiums": {
-                      "title": "Subject to abnormal rise in premiums?",
-                      "type": "object",
-                      "properties": {
-                        "yesNo": {
-                          "type": "string",
-                          "title": "",
-                          "enum": [
-                            "Yes",
-                            "No"
-                          ]
-                        }
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "title": "Provide details",
-                              "type": "string",
-                              "minLength": 1
-                            }
-                          }
-                        }
-                      ]
-                    },
-                    "subjectToHighExcesses": {
-                      "title": "Subject to high excesses?",
-                      "type": "object",
-                      "properties": {
-                        "yesNo": {
-                          "type": "string",
-                          "title": "",
-                          "enum": [
-                            "Yes",
-                            "No"
-                          ]
-                        }
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "title": "Provide details",
-                              "type": "string",
-                              "minLength": 1
-                            }
-                          }
-                        }
-                      ]
-                    },
-                    "subjectToUnusualConditions": {
-                      "title": "Subject to unusual conditions?",
-                      "type": "object",
-                      "properties": {
-                        "yesNo": {
-                          "type": "string",
-                          "title": "",
-                          "enum": [
-                            "Yes",
-                            "No"
-                          ]
-                        }
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "title": "Provide details",
-                              "type": "string",
-                              "minLength": 1
-                            }
-                          }
-                        }
-                      ]
-                    },
-                    "refused": {
-                      "title": "Refused?",
-                      "type": "object",
-                      "properties": {
-                        "yesNo": {
-                          "type": "string",
-                          "title": "",
-                          "enum": [
-                            "Yes",
-                            "No"
-                          ]
-                        }
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "title": "Provide details",
-                              "type": "string",
-                              "minLength": 1
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  }
                 },
                 "insuranceClaims": {
                   "title": "Have you ever made a claim against your building insurance in relation to the property?",
@@ -21259,6 +21613,20 @@
             },
             "confirmInformationIsAccurate": {
               "title": "I/we confirm that all information provided is accurate to the best of our knowledge and if we become aware of any change to/changes which alter the information supplied/provided prior to exchange of contracts for the sale of the property, I/we will update immediately notify the person marketing the property as well as my/our property lawyer",
+              "type": "boolean"
+            }
+          }
+        },
+        "saleReadyDeclarations": {
+          "title": "Confirmations to be supplied to confirm Sale Ready status",
+          "type": "object",
+          "properties": {
+            "authorisedToActOnBehalfOfAllSellers": {
+              "title": "I/we confirm that I am/we are authorised to supply data and documents in relation to this property on behalf of all the owners of the property",
+              "type": "boolean"
+            },
+            "authorisationToShare": {
+              "title": "I/we consent to the sharing of the information contained in the Sale Ready pack with the my/our legal representative and the buyer(s) and their legal representatives",
               "type": "boolean"
             }
           }
@@ -25664,29 +26032,62 @@
                         }
                       },
                       "propertyAddress": {
-                        "type": "object",
-                        "properties": {
-                          "postcodeZone": {
-                            "type": "object",
-                            "properties": {
-                              "postcode": {
-                                "type": "string"
-                              }
-                            }
-                          },
-                          "addressLine": {
-                            "type": "object",
-                            "properties": {
-                              "line": {
-                                "type": "array",
-                                "items": {
-                                  "type": "string"
+                        "oneOf": [
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "postcodeZone": {
+                                  "type": "object",
+                                  "properties": {
+                                    "postcode": {
+                                      "type": "string"
+                                    }
+                                  }
                                 },
-                                "minItems": 0
+                                "addressLine": {
+                                  "type": "object",
+                                  "properties": {
+                                    "line": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      },
+                                      "minItems": 0
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "minItems": 0
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "postcodeZone": {
+                                "type": "object",
+                                "properties": {
+                                  "postcode": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              "addressLine": {
+                                "type": "object",
+                                "properties": {
+                                  "line": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "minItems": 0
+                                  }
+                                }
                               }
                             }
                           }
-                        }
+                        ]
                       },
                       "title": {
                         "type": "object",
@@ -33148,6 +33549,39 @@
                           }
                         }
                       }
+                    }
+                  }
+                }
+              },
+              "additionalDocuments": {
+                "title": "Additional documents referred to in title register",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "documentType": {
+                      "title": "Human-readable document type",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "documentTypeCode": {
+                      "title": "HMLR document type code",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "documentDate": {
+                      "title": "Date of original document",
+                      "type": "string",
+                      "fornat": "date"
+                    },
+                    "retrievedOn": {
+                      "title": "Datetime retrieved from HMLR",
+                      "type": "string",
+                      "fornat": "date-time"
+                    },
+                    "filedUnder": {
+                      "title": "Related title number",
+                      "type": "string"
                     }
                   }
                 }
