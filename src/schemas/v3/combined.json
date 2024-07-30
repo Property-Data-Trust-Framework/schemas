@@ -9533,6 +9533,51 @@
                 }
               ]
             },
+            "loft": {
+              "title": "Does the property have access to a loft?",
+              "type": "object",
+              "properties": {
+                "loftAccess": {
+                  "type": "string",
+                  "title": "",
+                  "enum": ["Yes", "No"]
+                }
+              },
+              "discriminator": {
+                "propertyName": "loftAccess"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "loftAccess": {
+                      "enum": ["No"]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "loftAccess": {
+                      "enum": ["Yes"]
+                    },
+                    "details": {
+                      "title": "Please describe how the loft is accessed",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "loftBoarded": {
+                      "type": "string",
+                      "title": "Is the loft space boarded?",
+                      "enum": ["Yes", "No"]
+                    },
+                    "loftInsulated": {
+                      "type": "string",
+                      "title": "Is the loft space insulated?",
+                      "enum": ["Yes", "No"]
+                    }
+                    }
+                  }
+              ]
+            },
             "sprayFoamInsulation": {
               "baspi4Ref": "A1.8.4",
               "baspi5Ref": "A1.8.4",
