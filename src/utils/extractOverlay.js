@@ -10,6 +10,7 @@ const extractFields = [
   "baspi4",
   "baspi5",
   "nts",
+  "nts-sef",
   "ntsl",
   "ta6",
   "ta7",

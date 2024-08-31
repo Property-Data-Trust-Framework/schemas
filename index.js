@@ -41,6 +41,7 @@ const overlaysMap = {
     fme1ed2: require("./src/schemas/v3/overlays/fme1.json"),
     llc1v2: require("./src/schemas/v3/overlays/llc1.json"),
     nts2023: require("./src/schemas/v3/overlays/nts.json"),
+    sef24: require("./src/schemas/v3/overlays/nts-sef.json"),
     ntsl2023: require("./src/schemas/v3/overlays/ntsl.json"),
     con29R2019: require("./src/schemas/v3/overlays/con29R.json"),
     con29DW: require("./src/schemas/v3/overlays/con29DW.json"),
