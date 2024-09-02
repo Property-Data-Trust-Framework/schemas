@@ -384,9 +384,6 @@
                                   "annualGroundRent": {
                                     "nts-sefRef": "A3.4.2"
                                   },
-                                  "groundRentFrequency": {
-                                    "nts-sefRef": "A3.4.3"
-                                  },
                                   "rentSubjectToIncrease": {
                                     "nts-sefRef": "A3.4.4",
                                     "discriminator": {
@@ -471,6 +468,47 @@
                                   },
                                   "annualServiceCharge": {
                                     "nts-sefRef": "A3.5.1.1"
+                                  },
+                                  "transferFees": {
+                                    "nts-sefRef": "A3.5.1.1",
+                                    "discriminator": {
+                                      "propertyName": "yesNo"
+                                    },
+                                    "oneOf": [
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "No"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "properties": {
+                                          "yesNo": {
+                                            "enum": [
+                                              "Yes"
+                                            ]
+                                          },
+                                          "details": {
+                                            "nts-sefRef": "A3.5.1.1.2"
+                                          }
+                                        },
+                                        "required": [
+                                          "details"
+                                        ]
+                                      }
+                                    ],
+                                    "required": [
+                                      "yesNo"
+                                    ],
+                                    "title": "Are there any additional fees payable on sale or letting?",
+                                    "properties": {
+                                      "yesNo": {
+                                        "nts-sefRef": "A3.5.1.1.1"
+                                      }
+                                    }
                                   }
                                 },
                                 "required": [
@@ -1137,6 +1175,7 @@
           "required": [
             "mainsElectricity",
             "solarPanels",
+            "heatPump",
             "otherSources"
           ],
           "properties": {

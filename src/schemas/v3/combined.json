@@ -5966,8 +5966,6 @@
                                   },
                                   "groundRentFrequency": {
                                     "ta7Ref": "1.2b",
-                                    "ntsRef": "A3.4.3",
-                                    "nts-sefRef": "A3.4.3",
                                     "title": "How regularly is the rent paid? (e.g. annually)",
                                     "type": "string"
                                   },
@@ -6037,6 +6035,10 @@
                                           }
                                         },
                                         "lpe1Required": [
+                                          "rentReviewFrequency",
+                                          "rentIncreaseCalculated"
+                                        ],
+                                        "ta7Required": [
                                           "rentReviewFrequency",
                                           "rentIncreaseCalculated"
                                         ],
@@ -6120,6 +6122,11 @@
                                   "rentSubjectToIncrease",
                                   "groundRentPaidUpToDate",
                                   "lastDemandPeriod"
+                                ],
+                                "ta7Required": [
+                                  "annualGroundRent",
+                                  "groundRentFrequency",
+                                  "rentSubjectToIncrease"
                                 ],
                                 "baspi4Required": [
                                   "annualGroundRent",
@@ -7006,13 +7013,18 @@
                                     "lpe1Ref": "4.12",
                                     "baspi4Ref": "A1.5.3",
                                     "baspi5Ref": "A1.5.3",
+                                    "nts-sefRef": "A3.5.1.1",
                                     "title": "Are there any transfer fees deferred service charges or similar fees, expressed as a percentage of the Property's value, payable on an event such as resale or subletting?",
+                                    "baspi4Title": "Additional fees payable on sale or letting, if known",
+                                    "baspi5Title": "Additional fees payable on sale or letting, if known",
+                                    "nts-sefTitle": "Are there any additional fees payable on sale or letting?",
                                     "type": "object",
                                     "properties": {
                                       "yesNo": {
                                         "lpe1Ref": "4.12.1",
                                         "baspi4Ref": "A1.5.3.1",
                                         "baspi5Ref": "A1.5.3.1",
+                                        "nts-sefRef": "A3.5.1.1.1",
                                         "type": "string",
                                         "title": "",
                                         "enum": ["Yes", "No"]
@@ -7021,6 +7033,7 @@
                                     "lpe1Required": ["yesNo"],
                                     "baspi4Required": ["yesNo"],
                                     "baspi5Required": ["yesNo"],
+                                    "nts-sefRequired": ["yesNo"],
                                     "discriminator": {
                                       "propertyName": "yesNo"
                                     },
@@ -7041,12 +7054,16 @@
                                             "lpe1Ref": "4.12.2",
                                             "baspi4Ref": "A1.5.3.2",
                                             "baspi5Ref": "A1.5.3.2",
+                                            "nts-sefRef": "A3.5.1.1.2",
                                             "title": "Provide details.",
                                             "type": "string",
                                             "minLength": 1
                                           }
                                         },
-                                        "lpe1Required": ["details"]
+                                        "lpe1Required": ["details"],
+                                        "baspi4Required": ["details"],
+                                        "baspi5Required": ["details"],
+                                        "nts-sefRequired": ["details"]
                                       }
                                     ]
                                   },
@@ -17831,13 +17848,24 @@
           "piqRef": "A7.1.1",
           "title": "Electricity supply",
           "type": "object",
-          "ntsRequired": ["mainsElectricity", "solarPanels", "otherSources"],
+          "ntsRequired": [
+            "mainsElectricity",
+            "solarPanels",
+            "heatPump",
+            "otherSources"
+          ],
           "nts-sefRequired": [
             "mainsElectricity",
             "solarPanels",
+            "heatPump",
             "otherSources"
           ],
-          "ntslRequired": ["mainsElectricity", "solarPanels", "otherSources"],
+          "ntslRequired": [
+            "mainsElectricity",
+            "solarPanels",
+            "heatPump",
+            "otherSources"
+          ],
           "baspi4Required": ["mainsElectricity", "solarPanels", "otherSources"],
           "baspi5Required": ["mainsElectricity", "solarPanels", "otherSources"],
           "ta6Required": ["mainsElectricity", "solarPanels"],
