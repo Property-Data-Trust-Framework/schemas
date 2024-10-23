@@ -191,7 +191,6 @@
             "properties": {
               "role": {
                 "enum": [
-                  "Buyer",
                   "Seller's Conveyancer",
                   "Prospective Buyer",
                   "Buyer's Conveyancer",
@@ -240,6 +239,18 @@
                     "properties": {
                       "capacity": {
                         "enum": [
+                          "Deceased Owner",
+                          "Company Director",
+		                      "Company Representative",
+		                      "Trustee"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
                           "Legal Owner",
                           "Mortgagee in Possession"
                         ]
@@ -270,6 +281,69 @@
                       },
                       "sellersCapacityDetails": {
                         "title": "Please provide details and provide any probate, grant of representation or power of attorney ",
+                        "type": "string"
+                      },
+                      "attachments": {
+                        "title": "Attachments",
+                        "type": "string",
+                        "enum": [
+                          "Attached",
+                          "To follow"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "properties": {
+              "role": {
+                "enum": [
+                  "Buyer"
+                ]
+              },
+              "buyersCapacity": {
+                "title": "Capacity in which the Buyer buys",
+                "type": "object",
+                "properties": {
+                  "capacity": {
+                    "type": "string",
+                    "title": "",
+                    "enum": [
+                      "Legal Buyer",
+                      "Under Power of Attorney",
+                      "Company Director",
+		                  "Company Representative",
+		                  "Trustee",
+                      "Other"
+                    ]
+                  }
+                },
+                "oneOf": [
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Legal Buyer",
+                          "Company Director",
+		                      "Company Representative",
+		                      "Trustee"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Under Power of Attorney",
+                          "Other"
+                        ]
+                      },
+                      "buyersCapacityDetails": {
+                        "title": "Please provide details and provide any grant of representation or power of attorney",
                         "type": "string"
                       },
                       "attachments": {
