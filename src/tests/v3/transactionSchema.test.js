@@ -396,3 +396,10 @@ test("correctly gets titles across schemas, arrays and non-existient title prope
     )
   ).toBe("Please provide their full names and ages.");
 });
+test("validates a valid contract", () => {
+  const path = "/contracts";
+  const data = jp.get(exampleTransaction, path);
+  const validator = getSubschemaValidator(path, exampleTransaction.$schema);
+  const isValid = validator(data);
+  expect(isValid).toBe(true);
+});
