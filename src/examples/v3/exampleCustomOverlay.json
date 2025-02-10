@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/custom.json",
+  "properties": {
+    "propertyPack": {
+      "customRef": "JKW",
+      "type": "object",
+      "required": ["specialistIssues"],
+      "properties": {
+        "specialistIssues": {
+          "customRef": "JKW.7",
+          "required": ["japaneseKnotweed"],
+          "properties": {
+            "japaneseKnotweed": {
+              "customRef": "JKW.7.8",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": ["No", "Not known"]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": ["Yes"]
+                    },
+                    "managementPlanInPlace": {
+                      "customRef": "JKW.7.8.2"
+                    },
+                    "attachments": {
+                      "customRef": "JKW.7.8.3"
+                    }
+                  },
+                  "required": ["managementPlanInPlace", "attachments"]
+                }
+              ],
+              "required": ["yesNo"],
+              "title": "Is the property affected by Japanese knotweed?",
+              "properties": {
+                "yesNo": {
+                  "customRef": "JKW.7.8.1"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
