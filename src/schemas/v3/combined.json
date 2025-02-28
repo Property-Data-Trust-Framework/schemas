@@ -39320,6 +39320,95 @@
           }
         }
       }
+    },
+    "contracts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "contract": {
+            "type": "object",
+            "required": ["template", "terms"],
+            "properties": {
+              "template": {
+                "type": "object",
+                "required": ["name", "url", "requiredSignatories"],
+                "properties": {
+                  "name": { "type": "string" },
+                  "url": { "type": "string", "format": "uri" },
+                  "externalIds": {
+                    "type": "object"
+                  },
+                  "requiredSignatories": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "Seller",
+                            "Seller's Conveyancer",
+                            "Prospective Buyer",
+                            "Buyer",
+                            "Buyer's Conveyancer",
+                            "Estate Agent",
+                            "Buyer's Agent",
+                            "Surveyor",
+                            "Mortgage Broker",
+                            "Lender",
+                            "Landlord",
+                            "Tenant"
+                          ]
+                        },
+                        "requiresAll": { "type": "boolean" }
+                      }
+                    }
+                  }
+                }
+              },
+              "terms": {
+                "type": "object"
+              }
+            }
+          },
+          "signatures": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "signedOn", "role", "contractHash"],
+              "properties": {
+                "name": { "type": "string" },
+                "signedOn": { "type": "string", "format": "date-time" },
+                "externalIds": {
+                  "type": "object"
+                }
+              },
+              "role": {
+                "type": "string",
+                "enum": [
+                  "Seller",
+                  "Seller's Conveyancer",
+                  "Prospective Buyer",
+                  "Buyer",
+                  "Buyer's Conveyancer",
+                  "Estate Agent",
+                  "Buyer's Agent",
+                  "Surveyor",
+                  "Mortgage Broker",
+                  "Lender",
+                  "Landlord",
+                  "Tenant"
+                ]
+              },
+              "contractHash": {
+                "title": "An MD5 hash of the stable-stringified contract object being signed",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
