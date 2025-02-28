@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/ta7.json",
+  "properties": {
+    "propertyPack": {
+      "macRef": "MAC",
+      "required": ["ownership"],
+      "properties": {
+        "ownership": {
+          "macRef": "MAC.1",
+          "required": ["ownershipsToBeTransferred"],
+          "properties": {
+            "ownershipsToBeTransferred": {
+              "macRef": "MAC.1",
+              "items": {
+                "discriminator": {
+                  "propertyName": "ownershipType"
+                },
+                "oneOf": [
+                  {
+                    "properties": {
+                      "ownershipType": {
+                        "enum": ["Leasehold"]
+                      },
+                      "leaseholdInformation": {
+                        "required": ["contactDetails"],
+                        "properties": {
+                          "contactDetails": {
+                            "macRef": "MAC.4.1",
+                            "required": ["contacts"],
+                            "properties": {
+                              "contacts": {
+                                "macRef": "MAC.4.1",
+                                "required": ["managingAgent"],
+                                "properties": {
+                                  "managingAgent": {
+                                    "macRef": "MAC.4.1c",
+                                    "required": ["contact"],
+                                    "properties": {
+                                      "contact": {
+                                        "macRef": "MAC.4.1c",
+                                        "required": ["nameOrOrganisation"],
+                                        "properties": {
+                                          "nameOrOrganisation": {
+                                            "macRef": "MAC.4.1c.1"
+                                          },
+                                          "address": {
+                                            "macRef": "MAC.4.1c.0",
+                                            "properties": {
+                                              "line1": {
+                                                "macRef": "MAC.4.1c.2"
+                                              },
+                                              "line2": {
+                                                "macRef": "MAC.4.1c.3"
+                                              },
+                                              "line3": {
+                                                "macRef": "MAC.4.1c.4"
+                                              },
+                                              "town": {
+                                                "macRef": "MAC.4.1c.5"
+                                              },
+                                              "postcode": {
+                                                "macRef": "MAC.4.1c.6"
+                                              }
+                                            }
+                                          },
+                                          "telephone": {
+                                            "macRef": "MAC.4.1c.7"
+                                          },
+                                          "emailAddress": {
+                                            "macRef": "MAC.4.1c.8"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
