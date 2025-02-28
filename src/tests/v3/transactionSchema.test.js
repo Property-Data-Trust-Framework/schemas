@@ -90,6 +90,18 @@ test("sample with missing dependent required fields is invalid", () => {
   expect(isValid).toBe(false);
 });
 
+test("sample with missing dependent required fields with NTS overlay is invalid", () => {
+  // Previously a required field was missing from the NTS overlay
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
+  );
+  clonedExampleTransaction.propertyPack.ownership.ownershipsToBeTransferred[0].leaseholdInformation =
+    undefined;
+  const validator = getValidator(schemaId, ["nts2023"]);
+  const isValid = validator(clonedExampleTransaction);
+  expect(isValid).toBe(false);
+});
+
 test("correctly gets a top level subschema", () => {
   const subschema = getSubschema("/propertyPack");
   expect(subschema.title).toBe("Property Pack");
