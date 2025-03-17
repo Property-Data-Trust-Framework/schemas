@@ -182,6 +182,9 @@
           },
           "externalIds": {
             "type": "object"
+          },
+          "isRemoved": {
+            "type": "boolean"
           }
         },
         "oneOf": [
@@ -223,6 +226,7 @@
                       "Personal Representative for a Deceased Owner",
                       "Under Power of Attorney",
                       "Mortgagee in Possession",
+                      "Assistant",
                       "Other"
                     ]
                   }
@@ -257,6 +261,7 @@
                         "enum": [
                           "Personal Representative for a Deceased Owner",
                           "Under Power of Attorney",
+                          "Assistant",
                           "Other"
                         ]
                       },
@@ -468,11 +473,15 @@
               "title": "Price type",
               "type": "string",
               "enum": [
-                "Guide price",
+                "Price",
                 "Fixed price",
+                "Guide price",
                 "Offers in excess of",
                 "Offers in region of",
-                "Sale by tender"
+                "Offers over",
+                "Offers invited",
+                "Sale by tender",
+                "From"
               ]
             },
             "disposal": {
@@ -1086,7 +1095,9 @@
                       "Trunk road/motorway",
                       "Airport",
                       "Helipad",
-                      "Other"
+                      "Other",
+                      "Tramway",
+                      "Underground/Subway"
                     ]
                   },
                   "latitude": {
@@ -1327,8 +1338,11 @@
                 "properties": {
                   "titleNumber": {
                     "title": "Title number (if registered)",
-                    "type": "string",
-                    "minLength": 1
+                    "type": "string"
+                  },
+                  "titlePropertyDescription": {
+                    "title": "Title property description",
+                    "type": "string"
                   },
                   "ownershipType": {
                     "title": "What type of ownership is the property?",
@@ -1382,7 +1396,7 @@
                                 ]
                               },
                               "details": {
-                                "title": "Describe the share for sale (e.g. Ground floor flat only)",
+                                "title": "Describe the part for sale (e.g. Ground floor flat only)",
                                 "type": "string",
                                 "minLength": 1
                               }
@@ -4556,11 +4570,6 @@
                                       "Managing Agent",
                                       "the Lessees",
                                       "Not applicable"
-                                    ],
-                                    "ta7enum": [
-                                      "the Lessees",
-                                      "Management Company",
-                                      "Landlord"
                                     ]
                                   },
                                   "dealsWithDayToDayMaintenanceOfBuilding": {
@@ -6320,7 +6329,7 @@
                               },
                               "premiumIncludedInServiceCharge": {
                                 "type": "object",
-                                "title": "Is the insurance premium included in the service charge Yes budget?",
+                                "title": "Is the insurance premium included in the service charge budget?",
                                 "properties": {
                                   "yesNo": {
                                     "type": "string",
@@ -6349,7 +6358,7 @@
                                         ]
                                       },
                                       "details": {
-                                        "title": "confirm the annual amount payable for the Property",
+                                        "title": "Confirm the annual amount payable for the Property",
                                         "type": "number"
                                       }
                                     }
@@ -7510,6 +7519,7 @@
               "items": {
                 "type": "string",
                 "enum": [
+                  "None",
                   "Allocated",
                   "Communal",
                   "Covered",
@@ -7953,6 +7963,61 @@
                 }
               ]
             },
+            "loft": {
+              "title": "Does the property have access to a loft?",
+              "type": "object",
+              "properties": {
+                "loftAccess": {
+                  "type": "string",
+                  "title": "",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "loftAccess": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "loftAccess": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "title": "Please describe how the loft is accessed",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "loftBoarded": {
+                      "type": "string",
+                      "title": "Is the loft space boarded?",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    },
+                    "loftInsulated": {
+                      "type": "string",
+                      "title": "Is the loft space insulated?",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
             "sprayFoamInsulation": {
               "title": "Has spray foam insulation been installed at the property?",
               "type": "object",
@@ -8007,6 +8072,7 @@
               "items": {
                 "type": "string",
                 "enum": [
+                  "None",
                   "Level access",
                   "Ramped access",
                   "Lift access",
@@ -8435,7 +8501,8 @@
                 "F",
                 "G",
                 "H",
-                "I"
+                "I",
+                "Not banded"
               ]
             },
             "councilTaxAffectingAlterations": {
@@ -17023,6 +17090,7 @@
               "items": {
                 "type": "string",
                 "enum": [
+                  "None",
                   "Air conditioning",
                   "Double glazing",
                   "Triple glazing",
@@ -21628,6 +21696,32 @@
             "authorisationToShare": {
               "title": "I/we consent to the sharing of the information contained in the Sale Ready pack with the my/our legal representative and the buyer(s) and their legal representatives",
               "type": "boolean"
+            },
+            "sellerSignatures": {
+              "title": "I confirm that all information provided is accurate to the best of my knowledge and if I become aware of any change to/changes which alter the information supplied/provided prior to exchange of contracts for the sale of the property, I will immediately notify the person marketing the property as well as my property lawyer.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "signedOn"
+                ],
+                "properties": {
+                  "name": {
+                    "title": "Name of signatory",
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "signedOn": {
+                    "title": "Date and time of signature in ISO 8601 format",
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "externalIds": {
+                    "type": "object"
+                  }
+                }
+              }
             }
           }
         },
@@ -21853,9 +21947,17 @@
                             "type": "object",
                             "title": "Planning application",
                             "properties": {
+                              "address": {
+                                "type": "string",
+                                "title": "Location of the property to which the application relates"
+                              },
                               "refNumber": {
                                 "type": "string",
-                                "title": "Reference number for the planning application; optional for proposals"
+                                "title": "Reference number for the planning application"
+                              },
+                              "description": {
+                                "type": "string",
+                                "title": "Description of the application"
                               },
                               "isProposal": {
                                 "title": "Is this a proposal?",
@@ -21884,6 +21986,16 @@
                                 "title": "What type of application was this?",
                                 "type": "string",
                                 "minLength": 1
+                              },
+                              "status": {
+                                "title": "Application status",
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "url": {
+                                "title": "Link to application on council planning portal",
+                                "type": "string",
+                                "format": "uri"
                               }
                             }
                           }
@@ -21897,7 +22009,11 @@
                             "properties": {
                               "refNumber": {
                                 "type": "string",
-                                "title": "Reference number for the planning application; optional for proposals"
+                                "title": "Reference number for the planning application"
+                              },
+                              "description": {
+                                "type": "string",
+                                "title": "Description of the application"
                               },
                               "isProposal": {
                                 "title": "Is this a proposal?",
@@ -21939,7 +22055,11 @@
                             "properties": {
                               "refNumber": {
                                 "type": "string",
-                                "title": "Reference number for the planning application; optional for proposals"
+                                "title": "Reference number for the planning application"
+                              },
+                              "description": {
+                                "type": "string",
+                                "title": "Description of the application"
                               },
                               "isProposal": {
                                 "title": "Is this a proposal?",
@@ -21981,7 +22101,11 @@
                             "properties": {
                               "refNumber": {
                                 "type": "string",
-                                "title": "Reference number for the planning application; optional for proposals"
+                                "title": "Reference number for the planning application"
+                              },
+                              "description": {
+                                "type": "string",
+                                "title": "Description of the application"
                               },
                               "isProposal": {
                                 "title": "Is this a proposal?",
@@ -22023,7 +22147,11 @@
                             "properties": {
                               "refNumber": {
                                 "type": "string",
-                                "title": "Reference number for the planning application; optional for proposals"
+                                "title": "Reference number for the planning application"
+                              },
+                              "description": {
+                                "type": "string",
+                                "title": "Description of the application"
                               },
                               "isProposal": {
                                 "title": "Is this a proposal?",
@@ -22065,7 +22193,11 @@
                             "properties": {
                               "refNumber": {
                                 "type": "string",
-                                "title": "Reference number for the planning application; optional for proposals"
+                                "title": "Reference number for the planning application"
+                              },
+                              "description": {
+                                "type": "string",
+                                "title": "Description of the application"
                               },
                               "isProposal": {
                                 "title": "Is this a proposal?",
@@ -22107,7 +22239,11 @@
                             "properties": {
                               "refNumber": {
                                 "type": "string",
-                                "title": "Reference number for the planning application; optional for proposals"
+                                "title": "Reference number for the planning application"
+                              },
+                              "description": {
+                                "type": "string",
+                                "title": "Description of the application"
                               },
                               "isProposal": {
                                 "title": "Is this a proposal?",
@@ -22149,7 +22285,11 @@
                             "properties": {
                               "refNumber": {
                                 "type": "string",
-                                "title": "Reference number for the planning application; optional for proposals"
+                                "title": "Reference number for the planning application"
+                              },
+                              "description": {
+                                "type": "string",
+                                "title": "Description of the application"
                               },
                               "isProposal": {
                                 "title": "Is this a proposal?",
@@ -22191,7 +22331,11 @@
                             "properties": {
                               "refNumber": {
                                 "type": "string",
-                                "title": "Reference number for the planning application; optional for proposals"
+                                "title": "Reference number for the planning application"
+                              },
+                              "description": {
+                                "type": "string",
+                                "title": "Description of the application"
                               },
                               "isProposal": {
                                 "title": "Is this a proposal?",
@@ -22233,7 +22377,11 @@
                             "properties": {
                               "refNumber": {
                                 "type": "string",
-                                "title": "Reference number for the planning application; optional for proposals"
+                                "title": "Reference number for the planning application"
+                              },
+                              "description": {
+                                "type": "string",
+                                "title": "Description of the application"
                               },
                               "isProposal": {
                                 "title": "Is this a proposal?",
@@ -22275,7 +22423,11 @@
                             "properties": {
                               "refNumber": {
                                 "type": "string",
-                                "title": "Reference number for the planning application; optional for proposals"
+                                "title": "Reference number for the planning application"
+                              },
+                              "description": {
+                                "type": "string",
+                                "title": "Description of the application"
                               },
                               "isProposal": {
                                 "title": "Is this a proposal?",
@@ -22317,7 +22469,11 @@
                             "properties": {
                               "refNumber": {
                                 "type": "string",
-                                "title": "Reference number for the planning application; optional for proposals"
+                                "title": "Reference number for the planning application"
+                              },
+                              "description": {
+                                "type": "string",
+                                "title": "Description of the application"
                               },
                               "isProposal": {
                                 "title": "Is this a proposal?",
@@ -24110,8 +24266,8 @@
                             }
                           ]
                         },
-                        "floodAndCostalErosionRiskManagement": {
-                          "title": "flood and costal erosion risk management",
+                        "floodAndCoastalErosionRiskManagement": {
+                          "title": "flood and coastal erosion risk management",
                           "type": "object",
                           "properties": {
                             "yesNo": {
@@ -33961,6 +34117,119 @@
                   "type": "string",
                   "default": "This estimate is based on a combination of market research, historical sales data, and current market trends. It may not represent the exact market value."
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "contracts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "contract": {
+            "type": "object",
+            "required": [
+              "template",
+              "terms"
+            ],
+            "properties": {
+              "template": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "url",
+                  "requiredSignatories"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "externalIds": {
+                    "type": "object"
+                  },
+                  "requiredSignatories": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "Seller",
+                            "Seller's Conveyancer",
+                            "Prospective Buyer",
+                            "Buyer",
+                            "Buyer's Conveyancer",
+                            "Estate Agent",
+                            "Buyer's Agent",
+                            "Surveyor",
+                            "Mortgage Broker",
+                            "Lender",
+                            "Landlord",
+                            "Tenant"
+                          ]
+                        },
+                        "requiresAll": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "terms": {
+                "type": "object"
+              }
+            }
+          },
+          "signatures": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "signedOn",
+                "role",
+                "contractHash"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "signedOn": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "externalIds": {
+                  "type": "object"
+                }
+              },
+              "role": {
+                "type": "string",
+                "enum": [
+                  "Seller",
+                  "Seller's Conveyancer",
+                  "Prospective Buyer",
+                  "Buyer",
+                  "Buyer's Conveyancer",
+                  "Estate Agent",
+                  "Buyer's Agent",
+                  "Surveyor",
+                  "Mortgage Broker",
+                  "Lender",
+                  "Landlord",
+                  "Tenant"
+                ]
+              },
+              "contractHash": {
+                "title": "An MD5 hash of the stable-stringified contract object being signed",
+                "type": "string"
               }
             }
           }
