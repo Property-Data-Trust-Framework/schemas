@@ -875,10 +875,19 @@
               "type": "integer"
             },
             "outsideAreas": {
-              "title": "Outside areas of the property",
+              "title": "What outside areas are there?",
               "type": "array",
               "items": {
-                "type": "string"
+                "type": "string",
+                "enum": [
+                  "None",
+                  "Front garden",
+                  "Rear garden",
+                  "Side garden",
+                  "Balcony",
+                  "Roof garden",
+                  "Communal garden"
+                ]
               }
             }
           }
@@ -1363,6 +1372,49 @@
                       "ownershipType": {
                         "enum": [
                           "Freehold"
+                        ]
+                      },
+                      "estateRentcharges": {
+                        "title": "Are there any estate rentcharges, management charges or service charges payable?",
+                        "type": "object",
+                        "properties": {
+                          "yesNo": {
+                            "type": "string",
+                            "title": "",
+                            "enum": [
+                              "Yes",
+                              "No"
+                            ]
+                          }
+                        },
+                        "oneOf": [
+                          {
+                            "properties": {
+                              "yesNo": {
+                                "enum": [
+                                  "Yes"
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "properties": {
+                              "yesNo": {
+                                "enum": [
+                                  "No"
+                                ]
+                              },
+                              "details": {
+                                "title": "Details",
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "amount": {
+                                "title": "Amount payable annually",
+                                "type": "number"
+                              }
+                            }
+                          }
                         ]
                       },
                       "wholeFreeholdForSale": {
@@ -7873,6 +7925,17 @@
                     "yesNo": {
                       "enum": [
                         "Yes"
+                      ]
+                    },
+                    "constructionType": {
+                      "title": "Details",
+                      "type": "string",
+                      "enum": [
+                        "Brick and block",
+                        "Steel frame",
+                        "Timber frame",
+                        "Insulated concrete framework",
+                        "Structural insulated panel (SIP)"
                       ]
                     }
                   }
@@ -18298,6 +18361,45 @@
                       }
                     }
                   ]
+                },
+                "floodDefences": {
+                  "title": "Flood defences",
+                  "type": "object",
+                  "properties": {
+                    "hasFloodDefences": {
+                      "title": "Are there any defences to prevent flooding installed at the property?",
+                      "type": "string",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "hasFloodDefences": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "hasFloodDefences": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "title": "Please provide details",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             },
@@ -19331,7 +19433,7 @@
               "properties": {
                 "riskIndicator": {
                   "type": "string",
-                  "title": "Is the property impacted?",
+                  "title": "Is the property impacted by coastal erosion?",
                   "enum": [
                     "Yes",
                     "No"
