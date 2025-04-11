@@ -41,6 +41,7 @@ const overlaysMap = {
     fme1ed2: require("./src/schemas/v3/overlays/fme1.json"),
     llc1v2: require("./src/schemas/v3/overlays/llc1.json"),
     nts2023: require("./src/schemas/v3/overlays/nts.json"),
+    sef24: require("./src/schemas/v3/overlays/nts-sef.json"),
     ntsl2023: require("./src/schemas/v3/overlays/ntsl.json"),
     con29R2019: require("./src/schemas/v3/overlays/con29R.json"),
     con29DW: require("./src/schemas/v3/overlays/con29DW.json"),
@@ -60,14 +61,49 @@ const transactionSchemas = {
 };
 
 const combineMerge = (target, source, options) => {
+  // Special handling for 'required' arrays - combine them uniquely
+  if (target.some((item) => typeof item === "string")) {
+    return [...new Set([...target, ...source])];
+  }
+
+  // For other arrays, concatenate while preserving uniqueness for primitive values
+  if (!options.isMergeableObject(target[0])) {
+    return [...new Set([...target, ...source])];
+  }
+
+  // Special handling for oneOf arrays - merge matching schemas based on discriminator
+  if (target[0]?.properties && source[0]?.properties) {
+    // Find a common discriminator property (a property with an enum)
+    const findDiscriminator = (schema) => {
+      const props = schema.properties;
+      return Object.keys(props).find((key) => Array.isArray(props[key]?.enum));
+    };
+
+    const discriminator = findDiscriminator(target[0]);
+    if (discriminator) {
+      return target.map((targetSchema) => {
+        const targetEnum = targetSchema.properties?.[discriminator]?.enum || [];
+        const matchingSourceSchema = source.find((sourceSchema) => {
+          const sourceEnum =
+            sourceSchema.properties?.[discriminator]?.enum || [];
+          // Check if there's any overlap between the enum values
+          return sourceEnum.some((value) => targetEnum.includes(value));
+        });
+        if (matchingSourceSchema) {
+          return merge(targetSchema, matchingSourceSchema, options);
+        }
+        return targetSchema;
+      });
+    }
+  }
+
+  // For arrays of objects, merge by index and append remaining items
   const destination = target.slice();
   source.forEach((item, index) => {
     if (typeof destination[index] === "undefined") {
       destination[index] = options.cloneUnlessOtherwiseSpecified(item, options);
     } else if (options.isMergeableObject(item)) {
       destination[index] = merge(target[index], item, options);
-    } else if (target.indexOf(item) === -1) {
-      destination.push(item);
     }
   });
   return destination;
@@ -83,7 +119,12 @@ const getTransactionSchema = (
   if (!overlays || overlays.length < 1) return sourceSchema;
   let mergedSchema = sourceSchema;
   overlays.forEach((overlay) => {
-    const overlaySchema = overlaysMap[schemaId][overlay] || {};
+    // Handle both string keys and direct overlay objects
+    const overlaySchema =
+      typeof overlay === "string"
+        ? overlaysMap[schemaId][overlay] || {}
+        : overlay;
+
     mergedSchema = merge(mergedSchema, overlaySchema, {
       customMerge: (key) => {
         if (key === "enum") {
@@ -94,6 +135,23 @@ const getTransactionSchema = (
     });
   });
   return mergedSchema;
+};
+
+// Add helper function to generate cache key
+const generateOverlayKey = (overlays) => {
+  if (!overlays) return "";
+  return overlays
+    .map((overlay) => {
+      if (typeof overlay === "string") return overlay;
+      // Generate a simple hash of the object for caching
+      return JSON.stringify(overlay)
+        .split("")
+        .reduce((hash, char) => {
+          return ((hash << 5) - hash + char.charCodeAt(0)) | 0;
+        }, 0)
+        .toString(36);
+    })
+    .join(".");
 };
 
 const getValidator = (schemaId, overlays) => {
@@ -134,7 +192,7 @@ const isPathValid = (path, schemaId, overlays) => {
 
 const getSubschemaValidator = (path, schemaId, overlays) => {
   const subSchema = getSubschema(path, schemaId, overlays);
-  const overlayKey = (overlays || []).join(".");
+  const overlayKey = generateOverlayKey(overlays);
   // see if we can retrieve the schema by path, schemaId and overlays
   const cacheKey = `${path}-${schemaId}-${overlayKey}`;
   let validator = ajv.getSchema(cacheKey);
