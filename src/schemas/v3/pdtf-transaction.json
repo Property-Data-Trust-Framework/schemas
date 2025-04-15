@@ -173,11 +173,7 @@
           },
           "participantStatus": {
             "type": "string",
-            "enum": [
-              "Active",
-              "Removed",
-              "Pending"
-            ]
+            "enum": ["Active", "Removed", "Pending"]
           }
         },
         "oneOf": [
@@ -799,10 +795,19 @@
               "type": "integer"
             },
             "outsideAreas": {
-              "title": "Outside areas of the property",
+              "title": "What outside areas are there?",
               "type": "array",
               "items": {
-                "type": "string"
+                "type": "string",
+                "enum": [
+                  "None",
+                  "Front garden",
+                  "Rear garden",
+                  "Side garden",
+                  "Balcony",
+                  "Roof garden",
+                  "Communal garden"
+                ]
               }
             }
           }
@@ -1223,6 +1228,7 @@
                   "ownershipType": {
                     "title": "What type of ownership is the property?",
                     "description": "A Managed Freehold is any freehold where there are shared amenities, the maintenance of which you pay for through an estate rentcharge, service charge, informal or formal contribution. Choose Leasehold if your property is under a Shared Ownership arrangement.",
+                    "nts2Description": "",
                     "type": "string",
                     "enum": [
                       "Freehold",
@@ -1238,6 +1244,42 @@
                     "properties": {
                       "ownershipType": {
                         "enum": ["Freehold"]
+                      },
+                      "estateRentcharges": {
+                        "title": "Are there any estate rentcharges, management charges or service charges payable?",
+                        "type": "object",
+                        "properties": {
+                          "yesNo": {
+                            "type": "string",
+                            "title": "",
+                            "enum": ["Yes", "No"]
+                          }
+                        },
+                        "oneOf": [
+                          {
+                            "properties": {
+                              "yesNo": {
+                                "enum": ["Yes"]
+                              }
+                            }
+                          },
+                          {
+                            "properties": {
+                              "yesNo": {
+                                "enum": ["No"]
+                              },
+                              "details": {
+                                "title": "Details",
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "amount": {
+                                "title": "Amount payable annually",
+                                "type": "number"
+                              }
+                            }
+                          }
+                        ]
                       },
                       "wholeFreeholdForSale": {
                         "title": "Is the entire freehold being sold?",
@@ -6887,6 +6929,17 @@
                   "properties": {
                     "yesNo": {
                       "enum": ["Yes"]
+                    },
+                    "constructionType": {
+                      "title": "Details",
+                      "type": "string",
+                      "enum": [
+                        "Brick and block",
+                        "Steel frame",
+                        "Timber frame",
+                        "Insulated concrete framework",
+                        "Structural insulated panel (SIP)"
+                      ]
                     }
                   }
                 },
@@ -14387,6 +14440,7 @@
                   "Solar water",
                   "Underfloor heating",
                   "Wood burner",
+                  "Aga/Rayburn",
                   "Open fire",
                   "Ground source heat pump",
                   "Air source heat pump",
@@ -15414,6 +15468,38 @@
                       }
                     }
                   ]
+                },
+                "floodDefences": {
+                  "title": "Flood defences",
+                  "type": "object",
+                  "properties": {
+                    "hasFloodDefences": {
+                      "title": "Are there any defences to prevent flooding installed at the property?",
+                      "type": "string",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "hasFloodDefences": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "hasFloodDefences": {
+                          "enum": ["Yes"]
+                        },
+                        "details": {
+                          "title": "Please provide details",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             },
@@ -16362,7 +16448,7 @@
               "properties": {
                 "riskIndicator": {
                   "type": "string",
-                  "title": "Is the property impacted?",
+                  "title": "Is the property impacted by coastal erosion?",
                   "enum": ["Yes", "No"]
                 }
               },

@@ -1,15 +1,14 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/nts-sef.json",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/ntsl2.json",
   "required": [
     "propertyPack"
   ],
   "properties": {
     "propertyPack": {
-      "nts-sefRef": "0",
+      "ntsl2Ref": "0",
       "required": [
-        "priceInformation",
-        "ownership",
+        "lettingInformation",
         "councilTax",
         "energyEfficiency",
         "buildInformation",
@@ -25,32 +24,35 @@
         "notices"
       ],
       "properties": {
-        "priceInformation": {
-          "nts-sefRef": "A2",
+        "lettingInformation": {
+          "ntsl2Ref": "A2",
           "required": [
-            "price",
-            "priceQualifier"
+            "rent",
+            "rentFrequency"
           ],
           "properties": {
-            "price": {
-              "nts-sefRef": "A2.1"
+            "rent": {
+              "ntsl2Ref": "A2.1"
             },
-            "priceQualifier": {
-              "nts-sefRef": "A2.2"
+            "rentFrequency": {
+              "ntsl2Ref": "A2.2"
+            },
+            "securityDeposit": {
+              "ntsl2Ref": "A3.1"
+            },
+            "holdingDeposit": {
+              "ntsl2Ref": "A3.2"
             }
           }
         },
-        "marketingTenure": {
-          "nts-sefRef": "A3"
-        },
         "buildInformation": {
-          "nts-sefRef": "B1.1",
+          "ntsl2Ref": "B1.1",
           "required": [
             "building"
           ],
           "properties": {
             "building": {
-              "nts-sefRef": "B1.1.1",
+              "ntsl2Ref": "B1.1.1",
               "discriminator": {
                 "propertyName": "propertyType"
               },
@@ -63,7 +65,7 @@
                       ]
                     },
                     "otherType": {
-                      "nts-sefRef": "B1.1.1.1"
+                      "ntsl2Ref": "B1.1.1.1"
                     }
                   },
                   "required": [
@@ -89,16 +91,16 @@
                       ]
                     },
                     "numberOfFloors": {
-                      "nts-sefRef": "B1.1.3"
+                      "ntsl2Ref": "B1.1.3"
                     },
                     "entranceFloor": {
-                      "nts-sefRef": "B1.1.4"
+                      "ntsl2Ref": "B1.1.4"
                     },
                     "hasLift": {
-                      "nts-sefRef": "B1.1.5"
+                      "ntsl2Ref": "B1.1.5"
                     },
                     "overCommercialPremises": {
-                      "nts-sefRef": "B1.1.6",
+                      "ntsl2Ref": "B1.1.6",
                       "discriminator": {
                         "propertyName": "isLocatedOverCommercialPremises"
                       },
@@ -120,7 +122,7 @@
                               ]
                             },
                             "details": {
-                              "nts-sefRef": "B1.1.6.2"
+                              "ntsl2Ref": "B1.1.6.2"
                             }
                           },
                           "required": [
@@ -130,17 +132,11 @@
                       ],
                       "properties": {
                         "isLocatedOverCommercialPremises": {
-                          "nts-sefRef": "B1.1.6.1"
+                          "ntsl2Ref": "B1.1.6.1"
                         }
                       }
                     }
-                  },
-                  "required": [
-                    "numberOfFloors",
-                    "entranceFloor",
-                    "hasLift",
-                    "overCommercialPremises"
-                  ]
+                  }
                 }
               ],
               "required": [
@@ -149,15 +145,15 @@
               ],
               "properties": {
                 "builtForm": {
-                  "nts-sefRef": "B1.1.2"
+                  "ntsl2Ref": "B1.1.2"
                 },
                 "propertyType": {
-                  "nts-sefRef": "B1.1.1.1"
+                  "ntsl2Ref": "B1.1.1.1"
                 }
               }
             },
             "roomDimensions": {
-              "nts-sefRef": "B2",
+              "ntsl2Ref": "B2",
               "discriminator": {
                 "propertyName": "hasFloorplan"
               },
@@ -170,7 +166,7 @@
                       ]
                     },
                     "attachments": {
-                      "nts-sefRef": "B2.1.1"
+                      "ntsl2Ref": "B2.1.1"
                     }
                   }
                 },
@@ -182,7 +178,7 @@
                       ]
                     },
                     "rooms": {
-                      "nts-sefRef": "B2.2",
+                      "ntsl2Ref": "B2.2",
                       "items": {
                         "required": [
                           "roomName",
@@ -192,22 +188,22 @@
                         ],
                         "properties": {
                           "roomName": {
-                            "nts-sefRef": "B2.2.1"
+                            "ntsl2Ref": "B2.2.1"
                           },
                           "description": {
-                            "nts-sefRef": "B2.2.2"
+                            "ntsl2Ref": "B2.2.2"
                           },
                           "length": {
-                            "nts-sefRef": "B2.2.3"
+                            "ntsl2Ref": "B2.2.3"
                           },
                           "width": {
-                            "nts-sefRef": "B2.2.4"
+                            "ntsl2Ref": "B2.2.4"
                           },
                           "units": {
-                            "nts-sefRef": "B2.2.5"
+                            "ntsl2Ref": "B2.2.5"
                           },
                           "dimensionDetails": {
-                            "nts-sefRef": "B2.6"
+                            "ntsl2Ref": "B2.6"
                           }
                         }
                       }
@@ -220,466 +216,65 @@
               ],
               "properties": {
                 "hasFloorplan": {
-                  "nts-sefRef": "B2.1"
+                  "ntsl2Ref": "B2.1"
                 }
               }
             }
           }
         },
-        "ownership": {
-          "nts-sefRef": "A3",
+        "residentialPropertyFeatures": {
+          "ntsl2Ref": "B5",
           "required": [
-            "ownershipsToBeTransferred"
+            "bedrooms",
+            "bathrooms",
+            "receptions",
+            "kitchens",
+            "diningAreas",
+            "outsideAreas"
           ],
           "properties": {
-            "ownershipsToBeTransferred": {
-              "nts-sefRef": "A3",
-              "items": {
-                "discriminator": {
-                  "propertyName": "ownershipType"
-                },
-                "oneOf": [
-                  {
-                    "properties": {
-                      "ownershipType": {
-                        "enum": [
-                          "Freehold"
-                        ]
-                      }
-                    }
-                  },
-                  {
-                    "properties": {
-                      "ownershipType": {
-                        "enum": [
-                          "Managed Freehold",
-                          "Commonhold"
-                        ]
-                      },
-                      "managedFreeholdOrCommonholdInformation": {
-                        "nts-sefRef": "A3.2",
-                        "required": [
-                          "serviceCharge"
-                        ],
-                        "properties": {
-                          "serviceCharge": {
-                            "nts-sefRef": "A3.1.1",
-                            "required": [
-                              "annualServiceCharge"
-                            ],
-                            "properties": {
-                              "annualServiceCharge": {
-                                "nts-sefRef": "A3.1.2"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "properties": {
-                      "ownershipType": {
-                        "enum": [
-                          "Leasehold"
-                        ]
-                      },
-                      "leaseholdInformation": {
-                        "nts-sefRef": "A3.2",
-                        "required": [
-                          "sharedOwnership",
-                          "leaseTerm",
-                          "groundRent",
-                          "serviceCharge",
-                          "leaseRestrictions",
-                          "buildingsInsurance"
-                        ],
-                        "properties": {
-                          "sharedOwnership": {
-                            "nts-sefRef": "A3.2",
-                            "discriminator": {
-                              "propertyName": "isSharedOwnership"
-                            },
-                            "oneOf": [
-                              {
-                                "properties": {
-                                  "isSharedOwnership": {
-                                    "enum": [
-                                      "No"
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                "properties": {
-                                  "isSharedOwnership": {
-                                    "enum": [
-                                      "Yes"
-                                    ]
-                                  },
-                                  "sharedOwnershipPercentage": {
-                                    "nts-sefRef": "A3.7.1"
-                                  },
-                                  "sharedOwnershipRent": {
-                                    "nts-sefRef": "A3.7.2"
-                                  },
-                                  "sharedOwnershipRentFrequency": {
-                                    "nts-sefRef": "A3.7.3"
-                                  }
-                                },
-                                "required": [
-                                  "sharedOwnershipPercentage",
-                                  "sharedOwnershipRent",
-                                  "sharedOwnershipRentFrequency"
-                                ]
-                              }
-                            ],
-                            "required": [
-                              "isSharedOwnership"
-                            ],
-                            "properties": {
-                              "isSharedOwnership": {
-                                "nts-sefRef": "A3.2.1"
-                              }
-                            }
-                          },
-                          "leaseTerm": {
-                            "nts-sefRef": "A3.2.2",
-                            "required": [
-                              "startYearOfLease",
-                              "lengthOfLeaseInYears"
-                            ],
-                            "properties": {
-                              "startYearOfLease": {
-                                "nts-sefRef": "A3.2.2.1"
-                              },
-                              "lengthOfLeaseInYears": {
-                                "nts-sefRef": "A3.2.2.2"
-                              }
-                            }
-                          },
-                          "groundRent": {
-                            "nts-sefRef": "A3.4",
-                            "discriminator": {
-                              "propertyName": "isGroundRentPayable"
-                            },
-                            "oneOf": [
-                              {
-                                "properties": {
-                                  "isGroundRentPayable": {
-                                    "enum": [
-                                      "No"
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                "properties": {
-                                  "isGroundRentPayable": {
-                                    "enum": [
-                                      "Yes"
-                                    ]
-                                  },
-                                  "annualGroundRent": {
-                                    "nts-sefRef": "A3.4.2"
-                                  },
-                                  "rentSubjectToIncrease": {
-                                    "nts-sefRef": "A3.4.4",
-                                    "discriminator": {
-                                      "propertyName": "yesNo"
-                                    },
-                                    "oneOf": [
-                                      {
-                                        "properties": {
-                                          "yesNo": {
-                                            "enum": [
-                                              "No"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "yesNo": {
-                                            "enum": [
-                                              "Yes"
-                                            ]
-                                          },
-                                          "rentReviewFrequency": {
-                                            "nts-sefRef": "A3.4.4.2"
-                                          },
-                                          "rentIncreaseCalculated": {
-                                            "nts-sefRef": "A3.4.4.3"
-                                          }
-                                        },
-                                        "required": [
-                                          "rentReviewFrequency",
-                                          "rentIncreaseCalculated"
-                                        ]
-                                      }
-                                    ],
-                                    "required": [
-                                      "yesNo"
-                                    ],
-                                    "properties": {
-                                      "yesNo": {
-                                        "nts-sefRef": "A3.4.4.1"
-                                      }
-                                    }
-                                  }
-                                },
-                                "required": [
-                                  "annualGroundRent",
-                                  "rentSubjectToIncrease"
-                                ]
-                              }
-                            ],
-                            "required": [
-                              "isGroundRentPayable"
-                            ],
-                            "properties": {
-                              "isGroundRentPayable": {
-                                "nts-sefRef": "A3.4.1"
-                              }
-                            }
-                          },
-                          "serviceCharge": {
-                            "nts-sefRef": "A3.5",
-                            "discriminator": {
-                              "propertyName": "sellerContributesToServiceCharge"
-                            },
-                            "oneOf": [
-                              {
-                                "properties": {
-                                  "sellerContributesToServiceCharge": {
-                                    "enum": [
-                                      "No"
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                "properties": {
-                                  "sellerContributesToServiceCharge": {
-                                    "enum": [
-                                      "Yes"
-                                    ]
-                                  },
-                                  "annualServiceCharge": {
-                                    "nts-sefRef": "A3.5.1.1"
-                                  },
-                                  "transferFees": {
-                                    "nts-sefRef": "A3.5.1.1",
-                                    "discriminator": {
-                                      "propertyName": "yesNo"
-                                    },
-                                    "oneOf": [
-                                      {
-                                        "properties": {
-                                          "yesNo": {
-                                            "enum": [
-                                              "No"
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "properties": {
-                                          "yesNo": {
-                                            "enum": [
-                                              "Yes"
-                                            ]
-                                          },
-                                          "details": {
-                                            "nts-sefRef": "A3.5.1.1.2"
-                                          }
-                                        },
-                                        "required": [
-                                          "details"
-                                        ]
-                                      }
-                                    ],
-                                    "required": [
-                                      "yesNo"
-                                    ],
-                                    "title": "Are there any additional fees payable on sale or letting?",
-                                    "properties": {
-                                      "yesNo": {
-                                        "nts-sefRef": "A3.5.1.1.1"
-                                      }
-                                    }
-                                  }
-                                },
-                                "required": [
-                                  "annualServiceCharge",
-                                  "transferFees"
-                                ]
-                              }
-                            ],
-                            "required": [
-                              "sellerContributesToServiceCharge"
-                            ],
-                            "properties": {
-                              "sellerContributesToServiceCharge": {
-                                "nts-sefRef": "A3.5.1"
-                              }
-                            }
-                          },
-                          "leaseRestrictions": {
-                            "nts-sefRef": "A3.6",
-                            "discriminator": {
-                              "propertyName": "yesNo"
-                            },
-                            "oneOf": [
-                              {
-                                "properties": {
-                                  "yesNo": {
-                                    "enum": [
-                                      "No"
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                "properties": {
-                                  "yesNo": {
-                                    "enum": [
-                                      "Yes"
-                                    ]
-                                  },
-                                  "details": {
-                                    "nts-sefRef": "A3.6.2"
-                                  }
-                                },
-                                "required": [
-                                  "details"
-                                ]
-                              }
-                            ],
-                            "required": [
-                              "yesNo"
-                            ],
-                            "properties": {
-                              "yesNo": {
-                                "nts-sefRef": "A3.6.1"
-                              }
-                            }
-                          },
-                          "buildingsInsurance": {
-                            "nts-sefRef": "A3.7",
-                            "required": [
-                              "premiumIncludedInServiceCharge"
-                            ],
-                            "properties": {
-                              "premiumIncludedInServiceCharge": {
-                                "nts-sefRef": "A3.7.1",
-                                "discriminator": {
-                                  "propertyName": "yesNo"
-                                },
-                                "oneOf": [
-                                  {
-                                    "properties": {
-                                      "yesNo": {
-                                        "enum": [
-                                          "Yes"
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "properties": {
-                                      "yesNo": {
-                                        "enum": [
-                                          "No"
-                                        ]
-                                      },
-                                      "details": {
-                                        "nts-sefRef": "A3.7.1.2"
-                                      }
-                                    },
-                                    "required": [
-                                      "details"
-                                    ]
-                                  }
-                                ],
-                                "required": [
-                                  "yesNo"
-                                ],
-                                "properties": {
-                                  "yesNo": {
-                                    "nts-sefRef": "A3.7.1.1"
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "properties": {
-                      "ownershipType": {
-                        "enum": [
-                          "Other"
-                        ]
-                      },
-                      "otherOwnershipDetails": {
-                        "nts-sefRef": "A3.5"
-                      }
-                    },
-                    "required": [
-                      "otherOwnershipDetails"
-                    ]
-                  }
-                ],
-                "nts-sefRef": "A3.1",
-                "required": [
-                  "ownershipType"
-                ],
-                "properties": {
-                  "titleNumber": {
-                    "nts-sefRef": "A3.3.1"
-                  },
-                  "titlePropertyDescription": {
-                    "nts-sefRef": "A3.3.2"
-                  },
-                  "ownershipType": {
-                    "nts-sefRef": "A3.1"
-                  }
-                }
-              }
+            "bedrooms": {
+              "ntsl2Ref": "B5.1"
+            },
+            "bathrooms": {
+              "ntsl2Ref": "B5.2"
+            },
+            "receptions": {
+              "ntsl2Ref": "B5.3"
+            },
+            "kitchens": {
+              "ntsl2Ref": "B5.4"
+            },
+            "diningAreas": {
+              "ntsl2Ref": "B5.5"
+            },
+            "outsideAreas": {
+              "ntsl2Ref": "B5.6"
             }
           }
         },
         "parking": {
-          "nts-sefRef": "B4",
-          "required": [
-            "parkingArrangements",
-            "disabledParking",
-            "controlledParking",
-            "electricVehicleChargingPoint"
-          ],
+          "ntsl2Ref": "B4",
           "properties": {
             "parkingArrangements": {
-              "nts-sefRef": "B4.1",
+              "ntsl2Ref": "B4.1",
               "items": {
-                "nts-sefRef": "B4.1.1"
+                "ntsl2Ref": "B4.1.1"
               }
             },
             "disabledParking": {
-              "nts-sefRef": "B4.2",
+              "ntsl2Ref": "B4.2",
               "required": [
                 "yesNo"
               ],
               "properties": {
                 "yesNo": {
-                  "nts-sefRef": "B4.2.1"
+                  "ntsl2Ref": "B4.2.1"
                 }
               }
             },
             "controlledParking": {
-              "nts-sefRef": "B4.3",
+              "ntsl2Ref": "B4.3",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -709,33 +304,28 @@
               ],
               "properties": {
                 "yesNo": {
-                  "nts-sefRef": "B4.3.1"
+                  "ntsl2Ref": "B4.3.1"
                 }
               }
             },
             "electricVehicleChargingPoint": {
-              "nts-sefRef": "B4.4",
+              "ntsl2Ref": "B4.4",
               "required": [
                 "yesNo"
               ],
               "properties": {
                 "yesNo": {
-                  "nts-sefRef": "B4.4.1"
+                  "ntsl2Ref": "B4.4.1"
                 }
               }
             }
           }
         },
         "listingAndConservation": {
-          "nts-sefRef": "C2.1",
-          "required": [
-            "isListed",
-            "isConservationArea",
-            "hasTreePreservationOrder"
-          ],
+          "ntsl2Ref": "C2.1",
           "properties": {
             "isListed": {
-              "nts-sefRef": "C2.1.1",
+              "ntsl2Ref": "C2.1.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -758,7 +348,7 @@
                       ]
                     },
                     "details": {
-                      "nts-sefRef": "C2.1.1.2"
+                      "ntsl2Ref": "C2.1.1.2"
                     }
                   },
                   "required": [
@@ -771,7 +361,7 @@
               ],
               "properties": {
                 "yesNo": {
-                  "nts-sefRef": "C2.1.1.1",
+                  "ntsl2Ref": "C2.1.1.1",
                   "enum": [
                     "Yes",
                     "No"
@@ -780,7 +370,7 @@
               }
             },
             "isConservationArea": {
-              "nts-sefRef": "C2.1.2",
+              "ntsl2Ref": "C2.1.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -803,7 +393,7 @@
                       ]
                     },
                     "details": {
-                      "nts-sefRef": "C2.1.2.2"
+                      "ntsl2Ref": "C2.1.2.2"
                     }
                   },
                   "required": [
@@ -816,7 +406,7 @@
               ],
               "properties": {
                 "yesNo": {
-                  "nts-sefRef": "C2.1.2.1",
+                  "ntsl2Ref": "C2.1.2.1",
                   "enum": [
                     "Yes",
                     "No"
@@ -825,7 +415,7 @@
               }
             },
             "hasTreePreservationOrder": {
-              "nts-sefRef": "C2.1.3",
+              "ntsl2Ref": "C2.1.3",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -848,7 +438,7 @@
                       ]
                     },
                     "workCarriedOut": {
-                      "nts-sefRef": "C2.1.3.2",
+                      "ntsl2Ref": "C2.1.3.2",
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -870,7 +460,7 @@
                               ]
                             },
                             "consentsObtained": {
-                              "nts-sefRef": "C2.1.3.3"
+                              "ntsl2Ref": "C2.1.3.3"
                             }
                           },
                           "required": [
@@ -890,7 +480,7 @@
               ],
               "properties": {
                 "yesNo": {
-                  "nts-sefRef": "C2.1.3.1",
+                  "ntsl2Ref": "C2.1.3.1",
                   "enum": [
                     "Yes",
                     "No"
@@ -901,14 +491,15 @@
           }
         },
         "typeOfConstruction": {
-          "nts-sefRef": "A1.2",
+          "ntsl2Ref": "A1.2",
           "required": [
             "isStandardForm",
-            "buildingSafety"
+            "buildingSafety",
+            "loft"
           ],
           "properties": {
             "isStandardForm": {
-              "nts-sefRef": "A1.2.1",
+              "ntsl2Ref": "A1.2.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -919,8 +510,14 @@
                       "enum": [
                         "Yes"
                       ]
+                    },
+                    "constructionType": {
+                      "ntsl2Ref": "A1.2.1.3"
                     }
-                  }
+                  },
+                  "required": [
+                    "constructionType"
+                  ]
                 },
                 {
                   "properties": {
@@ -930,7 +527,7 @@
                       ]
                     },
                     "details": {
-                      "nts-sefRef": "A1.2.1.2"
+                      "ntsl2Ref": "A1.2.1.2"
                     }
                   },
                   "required": [
@@ -943,12 +540,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "nts-sefRef": "A1.2.1.1"
+                  "ntsl2Ref": "A1.2.1.1"
                 }
               }
             },
             "buildingSafety": {
-              "nts-sefRef": "C1",
+              "ntsl2Ref": "C1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -970,28 +567,21 @@
                       ]
                     },
                     "details": {
-                      "nts-sefRef": "C1.2"
+                      "ntsl2Ref": "C1.2"
                     },
                     "workAlreadyDone": {
-                      "nts-sefRef": "C1.3"
+                      "ntsl2Ref": "C1.3"
                     },
                     "workToBeDone": {
-                      "nts-sefRef": "C1.4"
+                      "ntsl2Ref": "C1.4"
                     },
                     "potentialCost": {
-                      "nts-sefRef": "C1.5"
+                      "ntsl2Ref": "C1.5"
                     },
                     "abilityToResideAtProperty": {
-                      "nts-sefRef": "C1.6"
+                      "ntsl2Ref": "C1.6"
                     }
-                  },
-                  "required": [
-                    "details",
-                    "workAlreadyDone",
-                    "workToBeDone",
-                    "potentialCost",
-                    "abilityToResideAtProperty"
-                  ]
+                  }
                 }
               ],
               "required": [
@@ -999,7 +589,7 @@
               ],
               "properties": {
                 "yesNo": {
-                  "nts-sefRef": "C1.1",
+                  "ntsl2Ref": "C1.1",
                   "enum": [
                     "Yes",
                     "No"
@@ -1007,42 +597,90 @@
                 }
               }
             },
+            "loft": {
+              "ntsl2Ref": "A1.2.4",
+              "discriminator": {
+                "propertyName": "loftAccess"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "loftAccess": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "loftAccess": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ntsl2Ref": "A1.2.4.2"
+                    },
+                    "loftBoarded": {
+                      "ntsl2Ref": "A1.2.4.3"
+                    },
+                    "loftInsulated": {
+                      "ntsl2Ref": "A1.2.4.4"
+                    }
+                  },
+                  "required": [
+                    "loftAccess",
+                    "loftBoarded",
+                    "loftInsulated"
+                  ]
+                }
+              ],
+              "required": [
+                "loftAccess"
+              ],
+              "properties": {
+                "loftAccess": {
+                  "ntsl2Ref": "A1.2.4.1"
+                }
+              }
+            },
             "accessibilityAndAdaptations": {
-              "nts-sefRef": "C5"
+              "ntsl2Ref": "C5"
             }
           }
         },
         "energyEfficiency": {
-          "nts-sefRef": "A4",
+          "ntsl2Ref": "A4",
           "required": [
             "certificate"
           ],
           "properties": {
             "certificate": {
-              "nts-sefRef": "A4.1",
+              "ntsl2Ref": "A4.1",
               "required": [
                 "currentEnergyRating"
               ],
               "properties": {
                 "currentEnergyRating": {
-                  "nts-sefRef": "A4.1.1"
+                  "ntsl2Ref": "A4.1.1"
                 }
               }
             }
           }
         },
         "councilTax": {
-          "nts-sefRef": "A1",
+          "ntsl2Ref": "A1",
           "required": [
             "councilTaxBand",
             "councilTaxAffectingAlterations"
           ],
           "properties": {
             "councilTaxBand": {
-              "nts-sefRef": "A1.1"
+              "ntsl2Ref": "A1.1"
             },
             "councilTaxAffectingAlterations": {
-              "nts-sefRef": "A1.2",
+              "ntsl2Ref": "A1.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1064,10 +702,10 @@
                       ]
                     },
                     "details": {
-                      "nts-sefRef": "A1.2.2"
+                      "ntsl2Ref": "A1.2.2"
                     },
                     "attachments": {
-                      "nts-sefRef": "A1.2.3"
+                      "ntsl2Ref": "A1.2.3"
                     }
                   },
                   "required": [
@@ -1080,21 +718,21 @@
               ],
               "properties": {
                 "yesNo": {
-                  "nts-sefRef": "A1.2.1"
+                  "ntsl2Ref": "A1.2.1"
                 }
               }
             }
           }
         },
         "notices": {
-          "nts-sefRef": "C4",
+          "ntsl2Ref": "C4",
           "required": [
             "neighbourDevelopment",
             "planningApplication"
           ],
           "properties": {
             "neighbourDevelopment": {
-              "nts-sefRef": "C4.1",
+              "ntsl2Ref": "C4.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1116,7 +754,7 @@
                       ]
                     },
                     "details": {
-                      "nts-sefRef": "C4.1.2"
+                      "ntsl2Ref": "C4.1.2"
                     }
                   },
                   "required": [
@@ -1129,12 +767,12 @@
               ],
               "properties": {
                 "yesNo": {
-                  "nts-sefRef": "C4.1.1"
+                  "ntsl2Ref": "C4.1.1"
                 }
               }
             },
             "planningApplication": {
-              "nts-sefRef": "C4.2",
+              "ntsl2Ref": "C4.2",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1156,7 +794,7 @@
                       ]
                     },
                     "details": {
-                      "nts-sefRef": "C4.2.2"
+                      "ntsl2Ref": "C4.2.2"
                     }
                   },
                   "required": [
@@ -1169,14 +807,97 @@
               ],
               "properties": {
                 "yesNo": {
-                  "nts-sefRef": "C4.2.1"
+                  "ntsl2Ref": "C4.2.1"
+                }
+              }
+            }
+          }
+        },
+        "specialistIssues": {
+          "ntsl2Ref": "A5",
+          "required": [
+            "japaneseKnotweed"
+          ],
+          "properties": {
+            "japaneseKnotweed": {
+              "ntsl2Ref": "A5.3",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ntsl2Ref": "A5.3.1"
+                }
+              }
+            },
+            "subsidenceOrStructuralFault": {
+              "ntsl2Ref": "A5.4",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ntsl2Ref": "A5.4.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ntsl2Ref": "A5.4.1"
                 }
               }
             }
           }
         },
         "electricity": {
-          "nts-sefRef": "B3.1",
+          "ntsl2Ref": "B3.1",
           "required": [
             "mainsElectricity",
             "solarPanels",
@@ -1185,7 +906,7 @@
           ],
           "properties": {
             "mainsElectricity": {
-              "nts-sefRef": "B3.1",
+              "ntsl2Ref": "B3.1",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1223,7 +944,7 @@
               ],
               "properties": {
                 "yesNo": {
-                  "nts-sefRef": "B3.1.1",
+                  "ntsl2Ref": "B3.1.1",
                   "enum": [
                     "Yes",
                     "No"
@@ -1232,7 +953,7 @@
               }
             },
             "solarPanels": {
-              "nts-sefRef": "B3.7",
+              "ntsl2Ref": "B3.7",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1252,6 +973,40 @@
                       "enum": [
                         "Yes"
                       ]
+                    },
+                    "panelsOwnedOutright": {
+                      "ntsl2Ref": "B3.7.1",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ntsl2Ref": "B3.7.1.1"
+                        }
+                      }
                     }
                   }
                 },
@@ -1270,7 +1025,7 @@
               ],
               "properties": {
                 "yesNo": {
-                  "nts-sefRef": "B3.7.1",
+                  "ntsl2Ref": "B3.7.1",
                   "enum": [
                     "Yes",
                     "No"
@@ -1279,7 +1034,7 @@
               }
             },
             "heatPump": {
-              "nts-sefRef": "B3.8",
+              "ntsl2Ref": "B3.8",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1301,7 +1056,7 @@
                       ]
                     },
                     "details": {
-                      "nts-sefRef": "3.8.2"
+                      "ntsl2Ref": "3.8.2"
                     }
                   },
                   "required": [
@@ -1316,7 +1071,7 @@
                       ]
                     },
                     "details": {
-                      "nts-sefRef": "3.8.2"
+                      "ntsl2Ref": "3.8.2"
                     }
                   }
                 }
@@ -1326,7 +1081,7 @@
               ],
               "properties": {
                 "yesNo": {
-                  "nts-sefRef": "B3.8.1",
+                  "ntsl2Ref": "B3.8.1",
                   "enum": [
                     "Yes",
                     "No"
@@ -1335,7 +1090,7 @@
               }
             },
             "otherSources": {
-              "nts-sefRef": "B3.9",
+              "ntsl2Ref": "B3.9",
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -1357,7 +1112,7 @@
                       ]
                     },
                     "details": {
-                      "nts-sefRef": "B3.9.2"
+                      "ntsl2Ref": "B3.9.2"
                     }
                   },
                   "required": [
@@ -1372,7 +1127,7 @@
                       ]
                     },
                     "details": {
-                      "nts-sefRef": "B3.9.2"
+                      "ntsl2Ref": "B3.9.2"
                     }
                   }
                 }
@@ -1382,7 +1137,7 @@
               ],
               "properties": {
                 "yesNo": {
-                  "nts-sefRef": "B3.9.1",
+                  "ntsl2Ref": "B3.9.1",
                   "enum": [
                     "Yes",
                     "No"
@@ -1393,20 +1148,20 @@
           }
         },
         "waterAndDrainage": {
-          "nts-sefRef": "B3.2",
+          "ntsl2Ref": "B3.2",
           "required": [
             "water",
             "drainage"
           ],
           "properties": {
             "water": {
-              "nts-sefRef": "B3.2",
+              "ntsl2Ref": "B3.2",
               "required": [
                 "mainsWater"
               ],
               "properties": {
                 "mainsWater": {
-                  "nts-sefRef": "B3.2",
+                  "ntsl2Ref": "B3.2",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -1419,7 +1174,7 @@
                           ]
                         },
                         "details": {
-                          "nts-sefRef": "3.2.2"
+                          "ntsl2Ref": "3.2.2"
                         }
                       },
                       "required": [
@@ -1434,7 +1189,7 @@
                           ]
                         },
                         "waterMeter": {
-                          "nts-sefRef": "B3.2.1.1",
+                          "ntsl2Ref": "B3.2.1.1",
                           "discriminator": {
                             "propertyName": "isSupplyMetered"
                           },
@@ -1463,7 +1218,7 @@
                           ],
                           "properties": {
                             "isSupplyMetered": {
-                              "nts-sefRef": "3.2.3"
+                              "ntsl2Ref": "3.2.3"
                             }
                           }
                         }
@@ -1487,7 +1242,7 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "nts-sefRef": "B3.2.1",
+                      "ntsl2Ref": "B3.2.1",
                       "enum": [
                         "Yes",
                         "No"
@@ -1498,14 +1253,14 @@
               }
             },
             "drainage": {
-              "nts-sefRef": "B3.3",
+              "ntsl2Ref": "B3.3",
               "required": [
                 "mainsSurfaceWaterDrainage",
                 "mainsFoulDrainage"
               ],
               "properties": {
                 "mainsSurfaceWaterDrainage": {
-                  "nts-sefRef": "B3.3.1",
+                  "ntsl2Ref": "B3.3.1",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -1544,7 +1299,7 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "nts-sefRef": "B3.3.1.1",
+                      "ntsl2Ref": "B3.3.1.1",
                       "enum": [
                         "Yes",
                         "No"
@@ -1553,7 +1308,7 @@
                   }
                 },
                 "mainsFoulDrainage": {
-                  "nts-sefRef": "B3.3.2",
+                  "ntsl2Ref": "B3.3.2",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -1585,7 +1340,7 @@
                           ]
                         },
                         "offMainsDrainageSystem": {
-                          "nts-sefRef": "B3.3.3",
+                          "ntsl2Ref": "B3.3.3",
                           "discriminator": {
                             "propertyName": "offMainsDrainageSystemType"
                           },
@@ -1635,7 +1390,7 @@
                                   ]
                                 },
                                 "details": {
-                                  "nts-sefRef": "B3.3.3.2"
+                                  "ntsl2Ref": "B3.3.3.2"
                                 }
                               },
                               "required": [
@@ -1648,7 +1403,7 @@
                           ],
                           "properties": {
                             "offMainsDrainageSystemType": {
-                              "nts-sefRef": "B3.3.3.1"
+                              "ntsl2Ref": "B3.3.3.1"
                             }
                           }
                         }
@@ -1660,7 +1415,7 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "nts-sefRef": "B3.3.2.1",
+                      "ntsl2Ref": "B3.3.2.1",
                       "enum": [
                         "Yes",
                         "No"
@@ -1673,13 +1428,13 @@
           }
         },
         "heating": {
-          "nts-sefRef": "B3.4",
+          "ntsl2Ref": "B3.4",
           "required": [
             "heatingSystem"
           ],
           "properties": {
             "heatingSystem": {
-              "nts-sefRef": "B3.4.1",
+              "ntsl2Ref": "B3.4.1",
               "discriminator": {
                 "propertyName": "heatingType"
               },
@@ -1702,13 +1457,14 @@
                       ]
                     },
                     "centralHeatingDetails": {
-                      "nts-sefRef": "B3.4.3",
+                      "ntsl2Ref": "B3.4.3",
                       "required": [
-                        "centralHeatingFuel"
+                        "centralHeatingFuel",
+                        "centralHeatingInstalled"
                       ],
                       "properties": {
                         "centralHeatingFuel": {
-                          "nts-sefRef": "B3.4.3.1",
+                          "ntsl2Ref": "B3.4.3.1",
                           "discriminator": {
                             "propertyName": "centralHeatingFuelType"
                           },
@@ -1757,9 +1513,12 @@
                           ],
                           "properties": {
                             "centralHeatingFuelType": {
-                              "nts-sefRef": "B3.4.3.1.1"
+                              "ntsl2Ref": "B3.4.3.1.1"
                             }
                           }
+                        },
+                        "centralHeatingInstalled": {
+                          "ntsl2Ref": "B3.4.3.2"
                         }
                       }
                     }
@@ -1776,7 +1535,7 @@
                       ]
                     },
                     "details": {
-                      "nts-sefRef": "B3.4.4"
+                      "ntsl2Ref": "B3.4.4"
                     }
                   },
                   "required": [
@@ -1789,17 +1548,17 @@
               ],
               "properties": {
                 "heatingType": {
-                  "nts-sefRef": "B3.4.1"
+                  "ntsl2Ref": "B3.4.1"
                 }
               }
             },
             "otherHeatingFeatures": {
-              "nts-sefRef": "B3.4.2"
+              "ntsl2Ref": "B3.4.2"
             }
           }
         },
         "connectivity": {
-          "nts-sefRef": "B3",
+          "ntsl2Ref": "B3",
           "required": [
             "broadband"
           ],
@@ -1825,21 +1584,21 @@
               }
             },
             "broadband": {
-              "nts-sefRef": "B3.5",
+              "ntsl2Ref": "B3.5",
               "required": [
                 "typeOfConnection"
               ],
               "properties": {
                 "typeOfConnection": {
-                  "nts-sefRef": "B3.5.2"
+                  "ntsl2Ref": "B3.5.2"
                 }
               }
             },
             "mobilePhone": {
-              "nts-sefRef": "B3.6",
+              "ntsl2Ref": "B3.6",
               "properties": {
                 "knownSignalIssues": {
-                  "nts-sefRef": "B3.6.1",
+                  "ntsl2Ref": "B3.6.1",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -1861,7 +1620,7 @@
                           ]
                         },
                         "details": {
-                          "nts-sefRef": "B3.6.1.2"
+                          "ntsl2Ref": "B3.6.1.2"
                         }
                       },
                       "required": [
@@ -1874,7 +1633,7 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "nts-sefRef": "B3.6.1.1"
+                      "ntsl2Ref": "B3.6.1.1"
                     }
                   }
                 }
@@ -1883,19 +1642,19 @@
           }
         },
         "rightsAndInformalArrangements": {
-          "nts-sefRef": "C2.2",
+          "ntsl2Ref": "C2.2",
           "required": [
             "rightsOrArrangements"
           ],
           "properties": {
             "rightsOrArrangements": {
-              "nts-sefRef": "C2.2.1",
+              "ntsl2Ref": "C2.2.1",
               "required": [
                 "publicRightOfWay"
               ],
               "properties": {
                 "publicRightOfWay": {
-                  "nts-sefRef": "C2.2.1",
+                  "ntsl2Ref": "C2.2.1",
                   "discriminator": {
                     "propertyName": "yesNo"
                   },
@@ -1917,7 +1676,7 @@
                           ]
                         },
                         "details": {
-                          "nts-sefRef": "C2.2.1.2"
+                          "ntsl2Ref": "C2.2.1.2"
                         }
                       },
                       "required": [
@@ -1930,7 +1689,7 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "nts-sefRef": "C2.2.1.1"
+                      "ntsl2Ref": "C2.2.1.1"
                     }
                   }
                 }
@@ -1939,7 +1698,7 @@
           }
         },
         "environmentalIssues": {
-          "nts-sefRef": "C3.1",
+          "ntsl2Ref": "C3.1",
           "required": [
             "flooding",
             "coalMining",
@@ -1948,14 +1707,15 @@
           ],
           "properties": {
             "flooding": {
-              "nts-sefRef": "C3.1.1",
+              "ntsl2Ref": "C3.1.1",
               "required": [
                 "floodRisk",
-                "historicalFlooding"
+                "historicalFlooding",
+                "floodDefences"
               ],
               "properties": {
                 "floodRisk": {
-                  "nts-sefRef": "C3.1.1.1",
+                  "ntsl2Ref": "C3.1.1.1",
                   "discriminator": {
                     "propertyName": "riskIndicator"
                   },
@@ -1977,7 +1737,7 @@
                           ]
                         },
                         "summary": {
-                          "nts-sefRef": "C3.1.1.2"
+                          "ntsl2Ref": "C3.1.1.2"
                         }
                       },
                       "required": [
@@ -1990,12 +1750,12 @@
                   ],
                   "properties": {
                     "riskIndicator": {
-                      "nts-sefRef": "C3.1.1.1"
+                      "ntsl2Ref": "C3.1.1.1"
                     }
                   }
                 },
                 "historicalFlooding": {
-                  "nts-sefRef": "C3.1.1.2",
+                  "ntsl2Ref": "C3.1.1.2",
                   "discriminator": {
                     "propertyName": "hasBeenFlooded"
                   },
@@ -2017,10 +1777,10 @@
                           ]
                         },
                         "typeOfFlooding": {
-                          "nts-sefRef": "C3.1.1.3"
+                          "ntsl2Ref": "C3.1.1.3"
                         },
                         "details": {
-                          "nts-sefRef": "C3.1.1.4"
+                          "ntsl2Ref": "C3.1.1.4"
                         }
                       },
                       "required": [
@@ -2034,14 +1794,54 @@
                   ],
                   "properties": {
                     "hasBeenFlooded": {
-                      "nts-sefRef": "C3.1.1.2.1"
+                      "ntsl2Ref": "C3.1.1.2.1"
+                    }
+                  }
+                },
+                "floodDefences": {
+                  "ntsl2Ref": "C3.1.1.2",
+                  "discriminator": {
+                    "propertyName": "hasFloodDefences"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "hasFloodDefences": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "hasFloodDefences": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ntsl2Ref": "C3.1.1.4"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "hasFloodDefences"
+                  ],
+                  "properties": {
+                    "hasFloodDefences": {
+                      "ntsl2Ref": "C3.1.1.2.1"
                     }
                   }
                 }
               }
             },
             "coalMining": {
-              "nts-sefRef": "C6.1",
+              "ntsl2Ref": "C6.1",
               "discriminator": {
                 "propertyName": "riskIndicator"
               },
@@ -2063,8 +1863,7 @@
                       ]
                     },
                     "summary": {
-                      "nts-sefRef": "C6.1.1",
-                      "title": "Please provide details"
+                      "ntsl2Ref": "C6.1.1"
                     }
                   }
                 }
@@ -2074,12 +1873,12 @@
               ],
               "properties": {
                 "riskIndicator": {
-                  "nts-sefRef": "C6.1.1"
+                  "ntsl2Ref": "C6.1.1"
                 }
               }
             },
             "nonCoalMining": {
-              "nts-sefRef": "C6.2",
+              "ntsl2Ref": "C6.2",
               "discriminator": {
                 "propertyName": "riskIndicator"
               },
@@ -2101,7 +1900,7 @@
                       ]
                     },
                     "summary": {
-                      "nts-sefRef": "C6.2.2"
+                      "ntsl2Ref": "C6.2.2"
                     }
                   },
                   "required": [
@@ -2114,12 +1913,12 @@
               ],
               "properties": {
                 "riskIndicator": {
-                  "nts-sefRef": "C6.2.1"
+                  "ntsl2Ref": "C6.2.1"
                 }
               }
             },
             "coastalErosion": {
-              "nts-sefRef": "C3.2",
+              "ntsl2Ref": "C3.2",
               "discriminator": {
                 "propertyName": "riskIndicator"
               },
@@ -2141,7 +1940,7 @@
                       ]
                     },
                     "summary": {
-                      "nts-sefRef": "C3.2.2"
+                      "ntsl2Ref": "C3.2.2"
                     }
                   },
                   "required": [
@@ -2154,7 +1953,7 @@
               ],
               "properties": {
                 "riskIndicator": {
-                  "nts-sefRef": "C3.2.1"
+                  "ntsl2Ref": "C3.2.1"
                 }
               }
             }

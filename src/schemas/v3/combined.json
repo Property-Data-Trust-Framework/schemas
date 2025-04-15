@@ -8,8 +8,9 @@
   "baspi5Required": ["participants", "propertyPack"],
   "ta6Required": ["participants", "propertyPack"],
   "ntsRequired": ["propertyPack"],
-  "nts-sefRequired": ["propertyPack"],
+  "nts2Required": ["propertyPack"],
   "ntslRequired": ["propertyPack"],
+  "ntsl2Required": ["propertyPack"],
   "properties": {
     "$schema": {
       "type": "string"
@@ -312,8 +313,9 @@
       "baspi5Ref": "0",
       "ta6Ref": "0",
       "ntsRef": "0",
-      "nts-sefRef": "0",
+      "nts2Ref": "0",
       "ntslRef": "0",
+      "ntsl2Ref": "0",
       "title": "Property Pack",
       "type": "object",
       "baspi4Required": [
@@ -427,7 +429,7 @@
         "environmentalIssues",
         "notices"
       ],
-      "nts-sefRequired": [
+      "nts2Required": [
         "priceInformation",
         "ownership",
         "councilTax",
@@ -445,6 +447,22 @@
         "notices"
       ],
       "ntslRequired": [
+        "lettingInformation",
+        "councilTax",
+        "energyEfficiency",
+        "buildInformation",
+        "typeOfConstruction",
+        "electricity",
+        "connectivity",
+        "waterAndDrainage",
+        "heating",
+        "parking",
+        "listingAndConservation",
+        "rightsAndInformalArrangements",
+        "environmentalIssues",
+        "notices"
+      ],
+      "ntsl2Required": [
         "lettingInformation",
         "councilTax",
         "energyEfficiency",
@@ -668,22 +686,22 @@
         },
         "priceInformation": {
           "ntsRef": "A2",
-          "nts-sefRef": "A2",
+          "nts2Ref": "A2",
           "title": "Price information",
           "type": "object",
           "ntsRequired": ["price", "priceQualifier"],
-          "nts-sefRequired": ["price", "priceQualifier"],
+          "nts2Required": ["price", "priceQualifier"],
           "properties": {
             "price": {
               "ntsRef": "A2.1",
-              "nts-sefRef": "A2.1",
+              "nts2Ref": "A2.1",
               "title": "Price",
               "type": "number",
               "minimum": 1
             },
             "priceQualifier": {
               "ntsRef": "A2.2",
-              "nts-sefRef": "A2.2",
+              "nts2Ref": "A2.2",
               "title": "Price type",
               "type": "string",
               "enum": [
@@ -718,29 +736,35 @@
         },
         "lettingInformation": {
           "ntslRef": "A2",
+          "ntsl2Ref": "A2",
           "title": "Letting information",
           "type": "object",
           "ntslRequired": ["rent", "rentFrequency"],
+          "ntsl2Required": ["rent", "rentFrequency"],
           "properties": {
             "rent": {
               "ntslRef": "A2.1",
+              "ntsl2Ref": "A2.1",
               "title": "Rent",
               "type": "number",
               "minimum": 1
             },
             "rentFrequency": {
               "ntslRef": "A2.2",
+              "ntsl2Ref": "A2.2",
               "title": "Rent frequency",
               "type": "string",
               "enum": ["Yearly", "Quarterly", "Monthly", "Weekly"]
             },
             "securityDeposit": {
               "ntslRef": "A3.1",
+              "ntsl2Ref": "A3.1",
               "title": "Security deposit",
               "type": "number"
             },
             "holdingDeposit": {
               "ntslRef": "A3.2",
+              "ntsl2Ref": "A3.2",
               "title": "Holding deposit",
               "type": "number"
             }
@@ -752,7 +776,7 @@
         },
         "marketingTenure": {
           "ntsRef": "A3",
-          "nts-sefRef": "A3",
+          "nts2Ref": "A3",
           "title": "What tenure is the property being marketed as?",
           "type": "string",
           "enum": [
@@ -798,31 +822,36 @@
         },
         "buildInformation": {
           "ntsRef": "B1.1",
-          "nts-sefRef": "B1.1",
+          "nts2Ref": "B1.1",
           "ntslRef": "B1.1",
+          "ntsl2Ref": "B1.1",
           "baspi5Ref": "A1.8",
           "title": "About the property building",
           "type": "object",
           "ntsRequired": ["building"],
-          "nts-sefRequired": ["building"],
+          "nts2Required": ["building"],
           "ntslRequired": ["building"],
+          "ntsl2Required": ["building"],
           "properties": {
             "building": {
               "ntsRef": "B1.1.1",
-              "nts-sefRef": "B1.1.1",
+              "nts2Ref": "B1.1.1",
               "ntslRef": "B1.1.1",
+              "ntsl2Ref": "B1.1.1",
               "baspi5Ref": "A1.8",
               "title": "Building information",
               "type": "object",
               "baspi5Required": ["propertyType"],
               "ntsRequired": ["builtForm", "propertyType"],
-              "nts-sefRequired": ["builtForm", "propertyType"],
+              "nts2Required": ["builtForm", "propertyType"],
               "ntslRequired": ["builtForm", "propertyType"],
+              "ntsl2Required": ["builtForm", "propertyType"],
               "properties": {
                 "builtForm": {
                   "ntsRef": "B1.1.2",
-                  "nts-sefRef": "B1.1.2",
+                  "nts2Ref": "B1.1.2",
                   "ntslRef": "B1.1.2",
+                  "ntsl2Ref": "B1.1.2",
                   "title": "Built form",
                   "type": "string",
                   "enum": [
@@ -835,8 +864,9 @@
                 },
                 "propertyType": {
                   "ntsRef": "B1.1.1.1",
-                  "nts-sefRef": "B1.1.1.1",
+                  "nts2Ref": "B1.1.1.1",
                   "ntslRef": "B1.1.1.1",
+                  "ntsl2Ref": "B1.1.1.1",
                   "title": "Property type",
                   "baspi5Ref": "A1.8",
                   "type": "string",
@@ -861,16 +891,18 @@
                     },
                     "otherType": {
                       "ntsRef": "B1.1.1.1",
-                      "nts-sefRef": "B1.1.1.1",
+                      "nts2Ref": "B1.1.1.1",
                       "ntslRef": "B1.1.1.1",
+                      "ntsl2Ref": "B1.1.1.1",
                       "title": "Please describe the other type of property build",
                       "type": "string",
                       "minLength": 1
                     }
                   },
                   "ntsRequired": ["otherType"],
-                  "nts-sefRequired": ["otherType"],
-                  "ntslRequired": ["otherType"]
+                  "nts2Required": ["otherType"],
+                  "ntslRequired": ["otherType"],
+                  "ntsl2Required": ["otherType"]
                 },
                 {
                   "properties": {
@@ -886,16 +918,18 @@
                     },
                     "numberOfFloors": {
                       "ntsRef": "B1.1.3",
-                      "nts-sefRef": "B1.1.3",
+                      "nts2Ref": "B1.1.3",
                       "ntslRef": "B1.1.3",
+                      "ntsl2Ref": "B1.1.3",
                       "baspi5Ref": "A1.8.5.2",
                       "title": "Number of floors in the building",
                       "type": "integer"
                     },
                     "entranceFloor": {
                       "ntsRef": "B1.1.4",
-                      "nts-sefRef": "B1.1.4",
+                      "nts2Ref": "B1.1.4",
                       "ntslRef": "B1.1.4",
+                      "ntsl2Ref": "B1.1.4",
                       "baspi5Ref": "A1.8.5.1",
                       "title": "Entrance floor",
                       "description": "Floor level of the entrance floor relative to the lowest level of the property (0 for ground floor). If there is a basement, the basement is level 0 and the other floors are from 1 upwards",
@@ -903,24 +937,27 @@
                     },
                     "hasLift": {
                       "ntsRef": "B1.1.5",
-                      "nts-sefRef": "B1.1.5",
+                      "nts2Ref": "B1.1.5",
                       "ntslRef": "B1.1.5",
+                      "ntsl2Ref": "B1.1.5",
                       "title": "Is the property served by a lift?",
                       "type": "string",
                       "enum": ["Yes", "No"]
                     },
                     "overCommercialPremises": {
                       "ntsRef": "B1.1.6",
-                      "nts-sefRef": "B1.1.6",
+                      "nts2Ref": "B1.1.6",
                       "ntslRef": "B1.1.6",
+                      "ntsl2Ref": "B1.1.6",
                       "baspi5Ref": "A1.8.6",
                       "title": "Located over commercial premises?",
                       "type": "object",
                       "properties": {
                         "isLocatedOverCommercialPremises": {
                           "ntsRef": "B1.1.6.1",
-                          "nts-sefRef": "B1.1.6.1",
+                          "nts2Ref": "B1.1.6.1",
                           "ntslRef": "B1.1.6.1",
+                          "ntsl2Ref": "B1.1.6.1",
                           "baspi5Ref": "A1.8.6.1",
                           "type": "string",
                           "title": "Is the property located in a building which includes commercial property E.g. shops, offices etc?",
@@ -946,8 +983,9 @@
                             },
                             "details": {
                               "ntsRef": "B1.1.6.2",
-                              "nts-sefRef": "B1.1.6.2",
+                              "nts2Ref": "B1.1.6.2",
                               "ntslRef": "B1.1.6.2",
+                              "ntsl2Ref": "B1.1.6.2",
                               "baspi5Ref": "A1.8.6.2",
                               "title": "Please provide details",
                               "type": "string",
@@ -956,8 +994,9 @@
                           },
                           "baspi5Required": ["details"],
                           "ntsRequired": ["details"],
-                          "nts-sefRequired": ["details"],
-                          "ntslRequired": ["details"]
+                          "nts2Required": ["details"],
+                          "ntslRequired": ["details"],
+                          "ntsl2Required": ["details"]
                         }
                       ]
                     }
@@ -973,7 +1012,7 @@
                     "hasLift",
                     "overCommercialPremises"
                   ],
-                  "nts-sefRequired": [
+                  "nts2Required": [
                     "numberOfFloors",
                     "entranceFloor",
                     "hasLift",
@@ -1030,18 +1069,21 @@
             },
             "roomDimensions": {
               "ntsRef": "B2",
-              "nts-sefRef": "B2",
+              "nts2Ref": "B2",
               "ntslRef": "B2",
+              "ntsl2Ref": "B2",
               "title": "Room dimensions",
               "type": "object",
               "ntsRequired": ["hasFloorplan"],
-              "nts-sefRequired": ["hasFloorplan"],
+              "nts2Required": ["hasFloorplan"],
               "ntslRequired": ["hasFloorplan"],
+              "ntsl2Required": ["hasFloorplan"],
               "properties": {
                 "hasFloorplan": {
                   "ntsRef": "B2.1",
-                  "nts-sefRef": "B2.1",
+                  "nts2Ref": "B2.1",
                   "ntslRef": "B2.1",
+                  "ntsl2Ref": "B2.1",
                   "title": "Is a floorplan available which includes the dimensions of all the rooms?",
                   "type": "string",
                   "enum": ["Yes", "No"]
@@ -1058,8 +1100,9 @@
                     },
                     "attachments": {
                       "ntsRef": "B2.1.1",
-                      "nts-sefRef": "B2.1.1",
+                      "nts2Ref": "B2.1.1",
                       "ntslRef": "B2.1.1",
+                      "ntsl2Ref": "B2.1.1",
                       "title": "Attachments",
                       "type": "string",
                       "enum": ["Attached", "With agent"]
@@ -1073,8 +1116,9 @@
                     },
                     "rooms": {
                       "ntsRef": "B2.2",
-                      "nts-sefRef": "B2.2",
+                      "nts2Ref": "B2.2",
                       "ntslRef": "B2.2",
+                      "ntsl2Ref": "B2.2",
                       "title": "Rooms",
                       "description": "Please supply dimensions for each of the rooms.",
                       "type": "array",
@@ -1083,40 +1127,45 @@
                         "properties": {
                           "roomName": {
                             "ntsRef": "B2.2.1",
-                            "nts-sefRef": "B2.2.1",
+                            "nts2Ref": "B2.2.1",
                             "ntslRef": "B2.2.1",
+                            "ntsl2Ref": "B2.2.1",
                             "type": "string",
                             "title": "The name of the room",
                             "minLength": 1
                           },
                           "description": {
                             "ntsRef": "B2.2.2",
-                            "nts-sefRef": "B2.2.2",
+                            "nts2Ref": "B2.2.2",
                             "ntslRef": "B2.2.2",
+                            "ntsl2Ref": "B2.2.2",
                             "type": "string",
                             "minLength": 1,
                             "title": "Description of the room"
                           },
                           "length": {
                             "ntsRef": "B2.2.3",
-                            "nts-sefRef": "B2.2.3",
+                            "nts2Ref": "B2.2.3",
                             "ntslRef": "B2.2.3",
+                            "ntsl2Ref": "B2.2.3",
                             "type": "number",
                             "minimum": 0,
                             "title": "The length of the room"
                           },
                           "width": {
                             "ntsRef": "B2.2.4",
-                            "nts-sefRef": "B2.2.4",
+                            "nts2Ref": "B2.2.4",
                             "ntslRef": "B2.2.4",
+                            "ntsl2Ref": "B2.2.4",
                             "type": "number",
                             "minimum": 0,
                             "title": "The width of the room"
                           },
                           "units": {
                             "ntsRef": "B2.2.5",
-                            "nts-sefRef": "B2.2.5",
+                            "nts2Ref": "B2.2.5",
                             "ntslRef": "B2.2.5",
+                            "ntsl2Ref": "B2.2.5",
                             "title": "The units which the length and width of the room have been provided in",
                             "type": "string",
                             "enum": [
@@ -1129,21 +1178,33 @@
                           },
                           "dimensionDetails": {
                             "ntsRef": "B2.6",
-                            "nts-sefRef": "B2.6",
+                            "nts2Ref": "B2.6",
                             "ntslRef": "B2.6",
+                            "ntsl2Ref": "B2.6",
                             "title": "Any additional description or clarification of the room dimensions",
                             "type": "string",
                             "minLength": 1
                           }
                         },
                         "ntsRequired": ["roomName", "length", "width", "units"],
-                        "nts-sefRequired": [
+                        "nts2Required": [
                           "roomName",
                           "length",
                           "width",
                           "units"
                         ],
-                        "ntslRequired": ["roomName", "length", "width", "units"]
+                        "ntslRequired": [
+                          "roomName",
+                          "length",
+                          "width",
+                          "units"
+                        ],
+                        "ntsl2Required": [
+                          "roomName",
+                          "length",
+                          "width",
+                          "units"
+                        ]
                       }
                     }
                   }
@@ -1153,34 +1214,73 @@
           }
         },
         "residentialPropertyFeatures": {
+          "nts2Ref": "B5",
+          "ntsl2Ref": "B5",
           "title": "Residential property features",
           "type": "object",
+          "nts2Required": [
+            "bedrooms",
+            "bathrooms",
+            "receptions",
+            "kitchens",
+            "diningAreas",
+            "outsideAreas"
+          ],
+          "ntsl2Required": [
+            "bedrooms",
+            "bathrooms",
+            "receptions",
+            "kitchens",
+            "diningAreas",
+            "outsideAreas"
+          ],
           "properties": {
             "bedrooms": {
+              "nts2Ref": "B5.1",
+              "ntsl2Ref": "B5.1",
               "title": "Number of bedrooms",
               "type": "integer"
             },
             "bathrooms": {
+              "nts2Ref": "B5.2",
+              "ntsl2Ref": "B5.2",
               "title": "Number of bathrooms",
               "type": "integer"
             },
             "receptions": {
+              "nts2Ref": "B5.3",
+              "ntsl2Ref": "B5.3",
               "title": "Number of reception rooms",
               "type": "integer"
             },
             "kitchens": {
+              "nts2Ref": "B5.4",
+              "ntsl2Ref": "B5.4",
               "title": "Number of kitchens",
               "type": "integer"
             },
             "diningAreas": {
+              "nts2Ref": "B5.5",
+              "ntsl2Ref": "B5.5",
               "title": "Number of dining areas",
               "type": "integer"
             },
             "outsideAreas": {
-              "title": "Outside areas of the property",
+              "nts2Ref": "B5.6",
+              "ntsl2Ref": "B5.6",
+              "title": "What outside areas are there?",
               "type": "array",
               "items": {
-                "type": "string"
+                "type": "string",
+                "enum": [
+                  "None",
+                  "Front garden",
+                  "Rear garden",
+                  "Side garden",
+                  "Balcony",
+                  "Roof garden",
+                  "Communal garden"
+                ]
               }
             }
           }
@@ -1580,13 +1680,13 @@
           "baspi5Ref": "A1.3",
           "ta7Ref": "1",
           "ntsRef": "A3",
-          "nts-sefRef": "A3",
+          "nts2Ref": "A3",
           "title": "Ownership",
           "type": "object",
           "baspi4Required": ["ownershipsToBeTransferred"],
           "baspi5Required": ["ownershipsToBeTransferred"],
           "ntsRequired": ["ownershipsToBeTransferred"],
-          "nts-sefRequired": ["ownershipsToBeTransferred"],
+          "nts2Required": ["ownershipsToBeTransferred"],
           "ta7Required": ["ownershipsToBeTransferred"],
           "properties": {
             "numberOfSellers": {
@@ -1619,7 +1719,7 @@
               "baspi5Ref": "A1.3",
               "ta7Ref": "1",
               "ntsRef": "A3",
-              "nts-sefRef": "A3",
+              "nts2Ref": "A3",
               "title": "Ownerships to be transferred on sale",
               "type": "array",
               "minItems": 1,
@@ -1627,7 +1727,7 @@
                 "baspi4Ref": "A1.3.0",
                 "baspi5Ref": "A1.3.0",
                 "ntsRef": "A3.1",
-                "nts-sefRef": "A3.1",
+                "nts2Ref": "A3.1",
                 "ta7Ref": "1",
                 "title": "Ownership to be transferred",
                 "type": "object",
@@ -1635,25 +1735,25 @@
                 "baspi5Required": ["ownershipType"],
                 "ta7Required": ["ownershipType"],
                 "ntsRequired": ["ownershipType"],
-                "nts-sefRequired": ["ownershipType"],
+                "nts2Required": ["ownershipType"],
                 "properties": {
                   "titleNumber": {
                     "baspi4Ref": "A1.3.0.1",
                     "baspi5Ref": "A1.3.0.1",
                     "ntsRef": "A3.3.1",
-                    "nts-sefRef": "A3.3.1",
+                    "nts2Ref": "A3.3.1",
                     "title": "Title number (if registered)",
                     "type": "string"
                   },
                   "titlePropertyDescription": {
                     "ntsRef": "A3.3.2",
-                    "nts-sefRef": "A3.3.2",
+                    "nts2Ref": "A3.3.2",
                     "title": "Title property description",
                     "type": "string"
                   },
                   "ownershipType": {
                     "ntsRef": "A3.1",
-                    "nts-sefRef": "A3.1",
+                    "nts2Ref": "A3.1",
                     "baspi4Ref": "A1.3.0.2",
                     "baspi5Ref": "A1.3.0.2",
                     "rdsRef": "Tenure/Tenure",
@@ -1661,6 +1761,7 @@
                     "piqRef": "A1.2",
                     "title": "What type of ownership is the property?",
                     "description": "A Managed Freehold is any freehold where there are shared amenities, the maintenance of which you pay for through an estate rentcharge, service charge, informal or formal contribution. Choose Leasehold if your property is under a Shared Ownership arrangement.",
+                    "nts2Description": "",
                     "type": "string",
                     "enum": [
                       "Freehold",
@@ -1668,7 +1769,8 @@
                       "Commonhold",
                       "Leasehold",
                       "Other"
-                    ]
+                    ],
+                    "nts2Enum": ["Freehold", "Commonhold", "Leasehold", "Other"]
                   }
                 },
                 "discriminator": {
@@ -1679,6 +1781,51 @@
                     "properties": {
                       "ownershipType": {
                         "enum": ["Freehold"]
+                      },
+                      "estateRentcharges": {
+                        "nts2Ref": "A3.4",
+                        "title": "Are there any estate rentcharges, management charges or service charges payable?",
+                        "type": "object",
+                        "properties": {
+                          "yesNo": {
+                            "nts2Ref": "A3.4.1",
+                            "type": "string",
+                            "title": "",
+                            "enum": ["Yes", "No"]
+                          }
+                        },
+                        "nts2Required": ["yesNo"],
+                        "discriminator": {
+                          "propertyName": "yesNo"
+                        },
+                        "oneOf": [
+                          {
+                            "properties": {
+                              "yesNo": {
+                                "enum": ["Yes"]
+                              }
+                            }
+                          },
+                          {
+                            "properties": {
+                              "yesNo": {
+                                "enum": ["No"]
+                              },
+                              "details": {
+                                "nts2Ref": "A3.4.2",
+                                "title": "Details",
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "amount": {
+                                "nts2Ref": "A3.4.3",
+                                "title": "Amount payable annually",
+                                "type": "number"
+                              }
+                            },
+                            "nts2Required": ["details", "amount"]
+                          }
+                        ]
                       },
                       "wholeFreeholdForSale": {
                         "baspi4Ref": "A1.3.0.2.1",
@@ -1737,7 +1884,7 @@
                       "managedFreeholdOrCommonholdInformation": {
                         "title": "Managed freehold or commonhold information",
                         "ntsRef": "A3.2",
-                        "nts-sefRef": "A3.2",
+                        "nts2Ref": "A3.2",
                         "baspi4Ref": "A1.5",
                         "baspi5Ref": "A1.5",
                         "type": "object",
@@ -1753,7 +1900,7 @@
                         "baspi4Required": ["contactDetails", "serviceCharge"],
                         "baspi5Required": ["contactDetails", "serviceCharge"],
                         "ntsRequired": ["serviceCharge"],
-                        "nts-sefRequired": ["serviceCharge"],
+                        "nts2Required": ["serviceCharge"],
                         "properties": {
                           "contactDetails": {
                             "fme1Ref": "1",
@@ -2729,7 +2876,7 @@
                             "baspi4Ref": "A1.5.1",
                             "baspi5Ref": "A1.5.1",
                             "ntsRef": "A3.1.1",
-                            "nts-sefRef": "A3.1.1",
+                            "nts2Ref": "A3.1.1",
                             "fme1Ref": "3",
                             "piqRef": "A1.4.2",
                             "title": "Service Charge",
@@ -2761,11 +2908,11 @@
                               "reserveFund"
                             ],
                             "ntsRequired": ["annualServiceCharge"],
-                            "nts-sefRequired": ["annualServiceCharge"],
+                            "nts2Required": ["annualServiceCharge"],
                             "properties": {
                               "annualServiceCharge": {
                                 "ntsRef": "A3.1.2",
-                                "nts-sefRef": "A3.1.2",
+                                "nts2Ref": "A3.1.2",
                                 "baspi4Ref": "A1.5.1.1.2",
                                 "baspi5Ref": "A1.5.1.1.2",
                                 "fme1Ref": "3.1",
@@ -3973,7 +4120,7 @@
                         "baspi4Ref": "A1.5",
                         "baspi5Ref": "A1.5",
                         "ntsRef": "A3.2",
-                        "nts-sefRef": "A3.2",
+                        "nts2Ref": "A3.2",
                         "title": "Leasehold information",
                         "type": "object",
                         "lpe1Required": [
@@ -4013,13 +4160,13 @@
                           "serviceCharge",
                           "leaseRestrictions"
                         ],
-                        "nts-sefRequired": [
+                        "nts2Required": [
                           "sharedOwnership",
                           "leaseTerm",
+                          "contactDetails",
                           "groundRent",
                           "serviceCharge",
-                          "leaseRestrictions",
-                          "buildingsInsurance"
+                          "leaseRestrictions"
                         ],
                         "ta7Required": [
                           "sharedOwnership",
@@ -4042,13 +4189,13 @@
                             "baspi4Ref": "A1.3.1",
                             "baspi5Ref": "A1.3.1",
                             "ntsRef": "A3.2",
-                            "nts-sefRef": "A3.2",
+                            "nts2Ref": "A3.2",
                             "type": "object",
                             "lpe1Required": ["isSharedOwnership"],
                             "baspi4Required": ["isSharedOwnership"],
                             "baspi5Required": ["isSharedOwnership"],
                             "ntsRequired": ["isSharedOwnership"],
-                            "nts-sefRequired": ["isSharedOwnership"],
+                            "nts2Required": ["isSharedOwnership"],
                             "ta7Required": ["isSharedOwnership"],
                             "properties": {
                               "isSharedOwnership": {
@@ -4056,7 +4203,7 @@
                                 "baspi5Ref": "A1.3.1",
                                 "ta7Ref": "1.1",
                                 "ntsRef": "A3.2.1",
-                                "nts-sefRef": "A3.2.1",
+                                "nts2Ref": "A3.2.1",
                                 "title": "Is the lease on a Shared Ownership basis?",
                                 "type": "string",
                                 "enum": ["Yes", "No"]
@@ -4082,7 +4229,7 @@
                                     "baspi4Ref": "A1.3.1.1",
                                     "baspi5Ref": "A1.3.1.1",
                                     "ntsRef": "A3.7.1",
-                                    "nts-sefRef": "A3.7.1",
+                                    "nts2Ref": "A3.7.1",
                                     "title": "Shared ownership percentage",
                                     "type": "integer",
                                     "minimum": 5,
@@ -4092,7 +4239,7 @@
                                     "baspi4Ref": "A1.3.1.2",
                                     "baspi5Ref": "A1.3.1.2",
                                     "ntsRef": "A3.7.2",
-                                    "nts-sefRef": "A3.7.2",
+                                    "nts2Ref": "A3.7.2",
                                     "title": "Shared ownership rent (£)",
                                     "type": "number",
                                     "minimum": 0
@@ -4101,7 +4248,7 @@
                                     "baspi4Ref": "A1.3.1.3",
                                     "baspi5Ref": "A1.3.1.3",
                                     "ntsRef": "A3.7.3",
-                                    "nts-sefRef": "A3.7.3",
+                                    "nts2Ref": "A3.7.3",
                                     "title": "Shared ownership rent frequency",
                                     "type": "string",
                                     "enum": ["Yearly", "Monthly", "Weekly"]
@@ -4127,7 +4274,7 @@
                                   "sharedOwnershipRent",
                                   "sharedOwnershipRentFrequency"
                                 ],
-                                "nts-sefRequired": [
+                                "nts2Required": [
                                   "sharedOwnershipPercentage",
                                   "sharedOwnershipRent",
                                   "sharedOwnershipRentFrequency"
@@ -4139,7 +4286,7 @@
                             "baspi4Ref": "A1.4.1",
                             "baspi5Ref": "A1.4.1",
                             "ntsRef": "A3.2.2",
-                            "nts-sefRef": "A3.2.2",
+                            "nts2Ref": "A3.2.2",
                             "type": "object",
                             "baspi4Required": [
                               "startYearOfLease",
@@ -4153,7 +4300,7 @@
                               "startYearOfLease",
                               "lengthOfLeaseInYears"
                             ],
-                            "nts-sefRequired": [
+                            "nts2Required": [
                               "startYearOfLease",
                               "lengthOfLeaseInYears"
                             ],
@@ -4162,7 +4309,7 @@
                                 "baspi4Ref": "A1.4.1.1",
                                 "baspi5Ref": "A1.4.1.1",
                                 "ntsRef": "A3.2.2.1",
-                                "nts-sefRef": "A3.2.2.1",
+                                "nts2Ref": "A3.2.2.1",
                                 "title": "Year that the lease commenced",
                                 "type": "integer"
                               },
@@ -4170,7 +4317,7 @@
                                 "baspi4Ref": "A1.4.1.2",
                                 "baspi5Ref": "A1.4.1.2",
                                 "ntsRef": "A3.2.2.2",
-                                "nts-sefRef": "A3.2.2.2",
+                                "nts2Ref": "A3.2.2.2",
                                 "piqRef": "A1.3.1",
                                 "title": "Length of lease (years)",
                                 "type": "integer"
@@ -4182,6 +4329,7 @@
                             "baspi5Ref": "A1.5.4",
                             "ta7Ref": "4.1",
                             "lpe1Ref": "1",
+                            "nts2Ref": "A1.5.4",
                             "title": "Contact Details",
                             "type": "object",
                             "lpe1Required": [
@@ -4190,6 +4338,7 @@
                             ],
                             "baspi4Required": ["contacts"],
                             "baspi5Required": ["contacts"],
+                            "nts2Required": ["contacts"],
                             "ta7Required": [
                               "contacts",
                               "serviceContactAssignments"
@@ -4200,11 +4349,13 @@
                                 "baspi5Ref": "A1.5.4",
                                 "ta7Ref": "4.1",
                                 "lpe1Ref": "1",
+                                "nts2Ref": "A1.5.4",
                                 "type": "object",
                                 "title": "Contacts",
                                 "description": "Complete the details for the relevant parties",
                                 "baspi4Required": ["landlord", "managingAgent"],
                                 "baspi5Required": ["landlord", "managingAgent"],
+                                "nts2Required": ["managingAgent"],
                                 "properties": {
                                   "landlord": {
                                     "baspi4Ref": "A1.5.4",
@@ -4574,6 +4725,7 @@
                                     "baspi5Ref": "A1.5.6",
                                     "ta7Ref": "4.1c",
                                     "lpe1Ref": "1.3",
+                                    "nts2Ref": "A1.5.6",
                                     "title": "Managing Agent",
                                     "description": "A managing agent may be employed by the landlord or by the tenants’ management company to collect the rent and/or manage the building.",
                                     "type": "object",
@@ -4584,6 +4736,7 @@
                                         "baspi4Ref": "A1.5.5.1",
                                         "baspi5Ref": "A1.5.6.1",
                                         "ta7Ref": "4.1c",
+                                        "nts2Ref": "A1.5.6.1",
                                         "type": "object",
                                         "lpe1Required": [
                                           "nameOrOrganisation",
@@ -4601,11 +4754,17 @@
                                           "address",
                                           "emailAddress"
                                         ],
+                                        "nts2Required": [
+                                          "nameOrOrganisation",
+                                          "address",
+                                          "emailAddress"
+                                        ],
                                         "properties": {
                                           "nameOrOrganisation": {
                                             "baspi4Ref": "A1.5.5.1.1",
                                             "baspi5Ref": "A1.5.6.1.1",
                                             "ta7Ref": "4.1c.1",
+                                            "nts2Ref": "A1.5.6.1.1",
                                             "title": "Name or organisation",
                                             "type": "string",
                                             "minLength": 1
@@ -4614,6 +4773,7 @@
                                             "baspi4Ref": "A1.5.5.1.2",
                                             "baspi5Ref": "A1.5.6.1.2",
                                             "ta7Ref": "4.1c.0",
+                                            "nts2Ref": "A1.5.6.1.2",
                                             "title": "Address",
                                             "type": "object",
                                             "properties": {
@@ -4621,6 +4781,7 @@
                                                 "baspi4Ref": "A1.5.5.1.2.1",
                                                 "baspi5Ref": "A1.5.6.1.2.1",
                                                 "ta7Ref": "4.1c.2",
+                                                "nts2Ref": "A1.5.6.1.2.1",
                                                 "title": "Address line 1",
                                                 "type": "string",
                                                 "minLength": 1
@@ -4629,6 +4790,7 @@
                                                 "baspi4Ref": "A1.5.5.1.2.2",
                                                 "baspi5Ref": "A1.5.6.1.2.2",
                                                 "ta7Ref": "4.1c.3",
+                                                "nts2Ref": "A1.5.6.1.2.2",
                                                 "title": "Address line 2",
                                                 "type": "string"
                                               },
@@ -4636,6 +4798,7 @@
                                                 "baspi4Ref": "A1.5.5.1.2.3",
                                                 "baspi5Ref": "A1.5.6.1.2.3",
                                                 "ta7Ref": "4.1c.4",
+                                                "nts2Ref": "A1.5.6.1.2.3",
                                                 "title": "Address line 3",
                                                 "type": "string"
                                               },
@@ -4643,6 +4806,7 @@
                                                 "baspi4Ref": "A1.5.5.1.2.4",
                                                 "baspi5Ref": "A1.5.6.1.2.4",
                                                 "ta7Ref": "4.1c.5",
+                                                "nts2Ref": "A1.5.6.1.2.4",
                                                 "title": "Town",
                                                 "type": "string"
                                               },
@@ -4650,6 +4814,7 @@
                                                 "baspi4Ref": "A1.5.5.1.2.5",
                                                 "baspi5Ref": "A1.5.6.1.2.5",
                                                 "ta7Ref": "4.1c.6",
+                                                "nts2Ref": "A1.5.6.1.2.5",
                                                 "title": "Postcode",
                                                 "type": "string",
                                                 "minLength": 1
@@ -4666,6 +4831,10 @@
                                             "baspi5Required": [
                                               "line1",
                                               "postcode"
+                                            ],
+                                            "nts2Required": [
+                                              "line1",
+                                              "postcode"
                                             ]
                                           },
                                           "telephone": {
@@ -4678,6 +4847,7 @@
                                             "baspi4Ref": "A1.5.5.1.3",
                                             "baspi5Ref": "A1.5.6.1.3",
                                             "ta7Ref": "4.1c.8",
+                                            "nts2Ref": "A1.5.6.1.3",
                                             "title": "Email address",
                                             "type": "string",
                                             "format": "email"
@@ -5935,7 +6105,7 @@
                             "lpe1Ref": "3",
                             "piqRef": "A1.3.3",
                             "ntsRef": "A3.4",
-                            "nts-sefRef": "A3.4",
+                            "nts2Ref": "A3.4",
                             "title": "Ground Rent",
                             "type": "object",
                             "lpe1Required": ["isGroundRentPayable"],
@@ -5943,14 +6113,14 @@
                             "baspi5Required": ["isGroundRentPayable"],
                             "ta7Required": ["isGroundRentPayable"],
                             "ntsRequired": ["isGroundRentPayable"],
-                            "nts-sefRequired": ["isGroundRentPayable"],
+                            "nts2Required": ["isGroundRentPayable"],
                             "properties": {
                               "isGroundRentPayable": {
                                 "baspi4Ref": "A1.4.2.1",
                                 "baspi5Ref": "A1.4.2.1",
                                 "ta7Ref": "1.2.1",
                                 "ntsRef": "A3.4.1",
-                                "nts-sefRef": "A3.4.1",
+                                "nts2Ref": "A3.4.1",
                                 "title": "Does the seller pay ground rent for the property?",
                                 "type": "string",
                                 "enum": ["Yes", "No"]
@@ -5977,7 +6147,7 @@
                                     "baspi5Ref": "A1.4.2.2",
                                     "ta7Ref": "1.2a",
                                     "ntsRef": "A3.4.2",
-                                    "nts-sefRef": "A3.4.2",
+                                    "nts2Ref": "A3.4.2",
                                     "lpe1Ref": "3.1",
                                     "piqRef": "A1.3.3",
                                     "rdsRef": "TenureAgreements/RentPayable/Value",
@@ -5993,7 +6163,7 @@
                                     "baspi4Ref": "A1.4.2.3",
                                     "baspi5Ref": "A1.4.2.3",
                                     "ntsRef": "A3.4.4",
-                                    "nts-sefRef": "A3.4.4",
+                                    "nts2Ref": "A3.4.4",
                                     "ta7Ref": "1.2c",
                                     "piqRef": "A1.3.4",
                                     "type": "object",
@@ -6005,7 +6175,7 @@
                                         "piqRef": "A1.3.4.1",
                                         "ta7Ref": "1.2c.1",
                                         "ntsRef": "A3.4.4.1",
-                                        "nts-sefRef": "A3.4.4.1",
+                                        "nts2Ref": "A3.4.4.1",
                                         "type": "string",
                                         "title": "",
                                         "enum": ["Yes", "No"]
@@ -6016,7 +6186,7 @@
                                     "baspi4Required": ["yesNo"],
                                     "baspi5Required": ["yesNo"],
                                     "ntsRequired": ["yesNo"],
-                                    "nts-sefRequired": ["yesNo"],
+                                    "nts2Required": ["yesNo"],
                                     "discriminator": {
                                       "propertyName": "yesNo"
                                     },
@@ -6038,7 +6208,7 @@
                                             "baspi5Ref": "A1.4.2.3.2",
                                             "ta7Ref": "1.2d",
                                             "ntsRef": "A3.4.4.2",
-                                            "nts-sefRef": "A3.4.4.2",
+                                            "nts2Ref": "A3.4.4.2",
                                             "title": "How often is the rent reviewed?",
                                             "type": "string"
                                           },
@@ -6048,7 +6218,7 @@
                                             "piqRef": "A1.3.4.2",
                                             "ta7Ref": "1.2e",
                                             "ntsRef": "A3.4.4.3",
-                                            "nts-sefRef": "A3.4.4.3",
+                                            "nts2Ref": "A3.4.4.3",
                                             "title": "How is the increase calculated?",
                                             "description": "e.g. set figure, doubling, in line with Retail Price Index, Consumer Price Index, etc",
                                             "type": "string"
@@ -6074,7 +6244,7 @@
                                           "rentReviewFrequency",
                                           "rentIncreaseCalculated"
                                         ],
-                                        "nts-sefRequired": [
+                                        "nts2Required": [
                                           "rentReviewFrequency",
                                           "rentIncreaseCalculated"
                                         ]
@@ -6160,7 +6330,7 @@
                                   "annualGroundRent",
                                   "rentSubjectToIncrease"
                                 ],
-                                "nts-sefRequired": [
+                                "nts2Required": [
                                   "annualGroundRent",
                                   "rentSubjectToIncrease"
                                 ]
@@ -6301,7 +6471,7 @@
                             "lpe1Ref": "4",
                             "ta7Ref": "5.4",
                             "ntsRef": "A3.5",
-                            "nts-sefRef": "A3.5",
+                            "nts2Ref": "A3.5",
                             "title": "Service Charge",
                             "type": "object",
                             "lpe1Required": [
@@ -6314,7 +6484,7 @@
                               "sellerContributesToServiceCharge"
                             ],
                             "ntsRequired": ["sellerContributesToServiceCharge"],
-                            "nts-sefRequired": [
+                            "nts2Required": [
                               "sellerContributesToServiceCharge"
                             ],
                             "ta7Required": ["sellerContributesToServiceCharge"],
@@ -6324,7 +6494,7 @@
                                 "baspi5Ref": "A1.5.1.1",
                                 "ta7Ref": "5.4",
                                 "ntsRef": "A3.5.1",
-                                "nts-sefRef": "A3.5.1",
+                                "nts2Ref": "A3.5.1",
                                 "title": "Does the seller contribute to the cost of maintaining the building (a service charge)?",
                                 "type": "string",
                                 "enum": ["Yes", "No"]
@@ -6351,7 +6521,7 @@
                                     "baspi5Ref": "A1.5.1.1.2",
                                     "lpe1Ref": "4.1.1",
                                     "ntsRef": "A3.5.1.1",
-                                    "nts-sefRef": "A3.5.1.1",
+                                    "nts2Ref": "A3.5.1.1",
                                     "title": "Amount of current annual service charge (£)",
                                     "type": "number"
                                   },
@@ -7033,18 +7203,18 @@
                                     "lpe1Ref": "4.12",
                                     "baspi4Ref": "A1.5.3",
                                     "baspi5Ref": "A1.5.3",
-                                    "nts-sefRef": "A3.5.1.1",
+                                    "nts2Ref": "A3.5.1.1",
                                     "title": "Are there any transfer fees deferred service charges or similar fees, expressed as a percentage of the Property's value, payable on an event such as resale or subletting?",
                                     "baspi4Title": "Additional fees payable on sale or letting, if known",
                                     "baspi5Title": "Additional fees payable on sale or letting, if known",
-                                    "nts-sefTitle": "Are there any additional fees payable on sale or letting?",
+                                    "nts2Title": "Are there any additional fees payable on sale or letting?",
                                     "type": "object",
                                     "properties": {
                                       "yesNo": {
                                         "lpe1Ref": "4.12.1",
                                         "baspi4Ref": "A1.5.3.1",
                                         "baspi5Ref": "A1.5.3.1",
-                                        "nts-sefRef": "A3.5.1.1.1",
+                                        "nts2Ref": "A3.5.1.1.1",
                                         "type": "string",
                                         "title": "",
                                         "enum": ["Yes", "No"]
@@ -7053,7 +7223,7 @@
                                     "lpe1Required": ["yesNo"],
                                     "baspi4Required": ["yesNo"],
                                     "baspi5Required": ["yesNo"],
-                                    "nts-sefRequired": ["yesNo"],
+                                    "nts2Required": ["yesNo"],
                                     "discriminator": {
                                       "propertyName": "yesNo"
                                     },
@@ -7074,7 +7244,7 @@
                                             "lpe1Ref": "4.12.2",
                                             "baspi4Ref": "A1.5.3.2",
                                             "baspi5Ref": "A1.5.3.2",
-                                            "nts-sefRef": "A3.5.1.1.2",
+                                            "nts2Ref": "A3.5.1.1.2",
                                             "title": "Provide details.",
                                             "type": "string",
                                             "minLength": 1
@@ -7083,7 +7253,7 @@
                                         "lpe1Required": ["details"],
                                         "baspi4Required": ["details"],
                                         "baspi5Required": ["details"],
-                                        "nts-sefRequired": ["details"]
+                                        "nts2Required": ["details"]
                                       }
                                     ]
                                   },
@@ -7169,7 +7339,7 @@
                                   "reserveFund"
                                 ],
                                 "ntsRequired": ["annualServiceCharge"],
-                                "nts-sefRequired": [
+                                "nts2Required": [
                                   "annualServiceCharge",
                                   "transferFees"
                                 ]
@@ -7178,20 +7348,20 @@
                           },
                           "leaseRestrictions": {
                             "ntsRef": "A3.6",
-                            "nts-sefRef": "A3.6",
+                            "nts2Ref": "A3.6",
                             "title": "Are there restrictions imposed by the lease?",
                             "type": "object",
                             "properties": {
                               "yesNo": {
                                 "ntsRef": "A3.6.1",
-                                "nts-sefRef": "A3.6.1",
+                                "nts2Ref": "A3.6.1",
                                 "type": "string",
                                 "title": "",
                                 "enum": ["Yes", "No"]
                               }
                             },
                             "ntsRequired": ["yesNo"],
-                            "nts-sefRequired": ["yesNo"],
+                            "nts2Required": ["yesNo"],
                             "discriminator": {
                               "propertyName": "yesNo"
                             },
@@ -7210,19 +7380,18 @@
                                   },
                                   "details": {
                                     "ntsRef": "A3.6.2",
-                                    "nts-sefRef": "A3.6.2",
+                                    "nts2Ref": "A3.6.2",
                                     "title": "Details",
                                     "type": "string"
                                   }
                                 },
                                 "ntsRequired": ["details"],
-                                "nts-sefRequired": ["details"]
+                                "nts2Required": ["details"]
                               }
                             ]
                           },
                           "buildingsInsurance": {
                             "lpe1Ref": "5",
-                            "nts-sefRef": "A3.7",
                             "title": "Buildings Insurance",
                             "type": "object",
                             "lpe1Required": [
@@ -7235,9 +7404,6 @@
                               "standardTermsAvailable",
                               "nonComplianceWithConditions",
                               "buildingsReinstatementCostAssessment",
-                              "premiumIncludedInServiceCharge"
-                            ],
-                            "nts-sefRequired": [
                               "premiumIncludedInServiceCharge"
                             ],
                             "properties": {
@@ -7645,19 +7811,18 @@
                               },
                               "premiumIncludedInServiceCharge": {
                                 "lpe1Ref": "5.10",
-                                "nts-sefRef": "A3.7.1",
                                 "type": "object",
                                 "title": "Is the insurance premium included in the service charge budget?",
                                 "properties": {
                                   "yesNo": {
-                                    "nts-sefRef": "A3.7.1.1",
+                                    "lpe1Ref": "5.10.1",
                                     "type": "string",
                                     "title": "",
                                     "enum": ["Yes", "No"]
                                   }
                                 },
                                 "lpe1Required": ["yesNo"],
-                                "nts-sefRequired": ["yesNo"],
+                                "nts2Required": ["yesNo"],
                                 "discriminator": {
                                   "propertyName": "yesNo"
                                 },
@@ -7676,13 +7841,11 @@
                                       },
                                       "details": {
                                         "lpe1Ref": "5.10.1",
-                                        "nts-sefRef": "A3.7.1.2",
                                         "title": "Confirm the annual amount payable for the Property",
                                         "type": "number"
                                       }
                                     },
-                                    "lpe1Required": ["details"],
-                                    "nts-sefRequired": ["details"]
+                                    "lpe1Required": ["details"]
                                   }
                                 ]
                               }
@@ -8971,7 +9134,7 @@
                       },
                       "otherOwnershipDetails": {
                         "ntsRef": "A3.5",
-                        "nts-sefRef": "A3.5",
+                        "nts2Ref": "A3.5",
                         "baspi4Ref": "A1.3.2",
                         "baspi5Ref": "A1.3.2",
                         "title": "Details of the ownership type",
@@ -8982,7 +9145,7 @@
                     "baspi4Required": ["otherOwnershipDetails"],
                     "baspi5Required": ["otherOwnershipDetails"],
                     "ntsRequired": ["otherOwnershipDetails"],
-                    "nts-sefRequired": ["otherOwnershipDetails"]
+                    "nts2Required": ["otherOwnershipDetails"]
                   }
                 ]
               }
@@ -8991,8 +9154,9 @@
         },
         "parking": {
           "ntsRef": "B4",
-          "nts-sefRef": "B4",
+          "nts2Ref": "B4",
           "ntslRef": "B4",
+          "ntsl2Ref": "B4",
           "baspi4Ref": "A1.6",
           "baspi5Ref": "A1.6",
           "rdsRef": "Services/Parking",
@@ -9015,7 +9179,7 @@
             "controlledParking",
             "electricVehicleChargingPoint"
           ],
-          "nts-sefRequired": [
+          "nts2Required": [
             "parkingArrangements",
             "disabledParking",
             "controlledParking",
@@ -9031,8 +9195,9 @@
           "properties": {
             "parkingArrangements": {
               "ntsRef": "B4.1",
-              "nts-sefRef": "B4.1",
+              "nts2Ref": "B4.1",
               "ntslRef": "B4.1",
+              "ntsl2Ref": "B4.1",
               "baspi4Ref": "A1.6.0",
               "baspi5Ref": "A1.6.0",
               "ta6Ref": "9.1",
@@ -9041,8 +9206,9 @@
               "title": "Parking arrangements",
               "items": {
                 "ntsRef": "B4.1.1",
-                "nts-sefRef": "B4.1.1",
+                "nts2Ref": "B4.1.1",
                 "ntslRef": "B4.1.1",
+                "ntsl2Ref": "B4.1.1",
                 "type": "string",
                 "enum": [
                   "None",
@@ -9062,28 +9228,32 @@
             },
             "disabledParking": {
               "ntsRef": "B4.2",
-              "nts-sefRef": "B4.2",
+              "nts2Ref": "B4.2",
               "ntslRef": "B4.2",
+              "ntsl2Ref": "B4.2",
               "title": "Is disabled parking available?",
               "type": "object",
               "properties": {
                 "yesNo": {
                   "ntsRef": "B4.2.1",
-                  "nts-sefRef": "B4.2.1",
+                  "nts2Ref": "B4.2.1",
                   "ntslRef": "B4.2.1",
+                  "ntsl2Ref": "B4.2.1",
                   "type": "string",
                   "title": "",
                   "enum": ["Yes", "No", "Not known"]
                 }
               },
               "ntsRequired": ["yesNo"],
-              "nts-sefRequired": ["yesNo"],
-              "ntslRequired": ["yesNo"]
+              "nts2Required": ["yesNo"],
+              "ntslRequired": ["yesNo"],
+              "ntsl2Required": ["yesNo"]
             },
             "controlledParking": {
               "ntsRef": "B4.3",
-              "nts-sefRef": "B4.3",
+              "nts2Ref": "B4.3",
               "ntslRef": "B4.3",
+              "ntsl2Ref": "B4.3",
               "baspi4Ref": "A1.6.0.2",
               "baspi5Ref": "A1.6.0.2",
               "ta6Ref": "9.2",
@@ -9092,8 +9262,9 @@
               "properties": {
                 "yesNo": {
                   "ntsRef": "B4.3.1",
-                  "nts-sefRef": "B4.3.1",
+                  "nts2Ref": "B4.3.1",
                   "ntslRef": "B4.3.1",
+                  "ntsl2Ref": "B4.3.1",
                   "baspi4Ref": "A1.6.0.2.1",
                   "baspi5Ref": "A1.6.0.2.1",
                   "ta6Ref": "9.2.1",
@@ -9105,8 +9276,9 @@
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
               "ntsRequired": ["yesNo"],
-              "nts-sefRequired": ["yesNo"],
+              "nts2Required": ["yesNo"],
               "ntslRequired": ["yesNo"],
+              "ntsl2Required": ["yesNo"],
               "ta6Required": ["yesNo"],
               "discriminator": {
                 "propertyName": "yesNo"
@@ -9176,8 +9348,9 @@
             },
             "electricVehicleChargingPoint": {
               "ntsRef": "B4.4",
-              "nts-sefRef": "B4.4",
+              "nts2Ref": "B4.4",
               "ntslRef": "B4.4",
+              "ntsl2Ref": "B4.4",
               "baspi4Ref": "A1.6.1",
               "baspi5Ref": "A1.6.1",
               "title": "Is there an electric vehicle charging point belonging to the property?",
@@ -9185,8 +9358,9 @@
               "properties": {
                 "yesNo": {
                   "ntsRef": "B4.4.1",
-                  "nts-sefRef": "B4.4.1",
+                  "nts2Ref": "B4.4.1",
                   "ntslRef": "B4.4.1",
+                  "ntsl2Ref": "B4.4.1",
                   "baspi4Ref": "A1.6.1.1",
                   "baspi5Ref": "A1.6.1.1",
                   "type": "string",
@@ -9197,8 +9371,9 @@
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
               "ntsRequired": ["yesNo"],
-              "nts-sefRequired": ["yesNo"],
-              "ntslRequired": ["yesNo"]
+              "nts2Required": ["yesNo"],
+              "ntslRequired": ["yesNo"],
+              "ntsl2Required": ["yesNo"]
             },
             "locatedInUlez": {
               "baspi4Ref": "A1.6.2",
@@ -9221,8 +9396,9 @@
         },
         "listingAndConservation": {
           "ntsRef": "C2.1",
-          "nts-sefRef": "C2.1",
+          "nts2Ref": "C2.1",
           "ntslRef": "C2.1",
+          "ntsl2Ref": "C2.1",
           "baspi4Ref": "A1.7",
           "baspi5Ref": "A1.7",
           "ta6Ref": "4.7",
@@ -9233,7 +9409,7 @@
             "isConservationArea",
             "hasTreePreservationOrder"
           ],
-          "nts-sefRequired": [
+          "nts2Required": [
             "isListed",
             "isConservationArea",
             "hasTreePreservationOrder"
@@ -9261,8 +9437,9 @@
           "properties": {
             "isListed": {
               "ntsRef": "C2.1.1",
-              "nts-sefRef": "C2.1.1",
+              "nts2Ref": "C2.1.1",
               "ntslRef": "C2.1.1",
+              "ntsl2Ref": "C2.1.1",
               "baspi4Ref": "A1.7.1",
               "baspi5Ref": "A1.7.1",
               "rdsRef": "Protections",
@@ -9273,8 +9450,9 @@
               "properties": {
                 "yesNo": {
                   "ntsRef": "C2.1.1.1",
-                  "nts-sefRef": "C2.1.1.1",
+                  "nts2Ref": "C2.1.1.1",
                   "ntslRef": "C2.1.1.1",
+                  "ntsl2Ref": "C2.1.1.1",
                   "baspi4Ref": "A1.7.1.1",
                   "baspi5Ref": "A1.7.1.1",
                   "ta6Ref": "4.7a1",
@@ -9283,15 +9461,17 @@
                   "title": "",
                   "enum": ["Yes", "No", "Not known"],
                   "ntsEnum": ["Yes", "No"],
-                  "nts-sefEnum": ["Yes", "No"],
-                  "ntslEnum": ["Yes", "No"]
+                  "nts2Enum": ["Yes", "No"],
+                  "ntslEnum": ["Yes", "No"],
+                  "ntsl2Enum": ["Yes", "No"]
                 }
               },
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
               "ntsRequired": ["yesNo"],
-              "nts-sefRequired": ["yesNo"],
+              "nts2Required": ["yesNo"],
               "ntslRequired": ["yesNo"],
+              "ntsl2Required": ["yesNo"],
               "ta6Required": ["yesNo"],
               "discriminator": {
                 "propertyName": "yesNo"
@@ -9311,8 +9491,9 @@
                     },
                     "details": {
                       "ntsRef": "C2.1.1.2",
-                      "nts-sefRef": "C2.1.1.2",
+                      "nts2Ref": "C2.1.1.2",
                       "ntslRef": "C2.1.1.2",
+                      "ntsl2Ref": "C2.1.1.2",
                       "baspi4Ref": "A1.7.1.2",
                       "baspi5Ref": "A1.7.1.2",
                       "ta6Ref": "4.7a2",
@@ -9330,8 +9511,9 @@
                     }
                   },
                   "ntsRequired": ["details"],
-                  "nts-sefRequired": ["details"],
+                  "nts2Required": ["details"],
                   "ntslRequired": ["details"],
+                  "ntsl2Required": ["details"],
                   "baspi4Required": ["details", "attachments"],
                   "baspi5Required": ["details", "attachments"],
                   "ta6Required": ["details", "attachments"]
@@ -9340,8 +9522,9 @@
             },
             "isConservationArea": {
               "ntsRef": "C2.1.2",
-              "nts-sefRef": "C2.1.2",
+              "nts2Ref": "C2.1.2",
               "ntslRef": "C2.1.2",
+              "ntsl2Ref": "C2.1.2",
               "baspi4Ref": "A1.7.2",
               "baspi5Ref": "A1.7.2",
               "rdsRef": "Protections",
@@ -9352,8 +9535,9 @@
               "properties": {
                 "yesNo": {
                   "ntsRef": "C2.1.2.1",
-                  "nts-sefRef": "C2.1.2.1",
+                  "nts2Ref": "C2.1.2.1",
                   "ntslRef": "C2.1.2.1",
+                  "ntsl2Ref": "C2.1.2.1",
                   "baspi4Ref": "A1.7.2.1",
                   "baspi5Ref": "A1.7.2.1",
                   "piqRef": "A1.6.2.1",
@@ -9362,15 +9546,17 @@
                   "title": "",
                   "enum": ["Yes", "No", "Not known"],
                   "ntsEnum": ["Yes", "No"],
-                  "nts-sefEnum": ["Yes", "No"],
-                  "ntslEnum": ["Yes", "No"]
+                  "nts2Enum": ["Yes", "No"],
+                  "ntslEnum": ["Yes", "No"],
+                  "ntsl2Enum": ["Yes", "No"]
                 }
               },
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
               "ntsRequired": ["yesNo"],
-              "nts-sefRequired": ["yesNo"],
+              "nts2Required": ["yesNo"],
               "ntslRequired": ["yesNo"],
+              "ntsl2Required": ["yesNo"],
               "ta6Required": ["yesNo"],
               "discriminator": {
                 "propertyName": "yesNo"
@@ -9390,8 +9576,9 @@
                     },
                     "details": {
                       "ntsRef": "C2.1.2.2",
-                      "nts-sefRef": "C2.1.2.2",
+                      "nts2Ref": "C2.1.2.2",
                       "ntslRef": "C2.1.2.2",
+                      "ntsl2Ref": "C2.1.2.2",
                       "baspi4Ref": "A1.7.2.2",
                       "baspi5Ref": "A1.7.2.2",
                       "ta6Ref": "4.7b2",
@@ -9409,8 +9596,9 @@
                     }
                   },
                   "ntsRequired": ["details"],
-                  "nts-sefRequired": ["details"],
+                  "nts2Required": ["details"],
                   "ntslRequired": ["details"],
+                  "ntsl2Required": ["details"],
                   "baspi4Required": ["details", "attachments"],
                   "baspi5Required": ["details", "attachments"],
                   "ta6Required": ["details", "attachments"]
@@ -9419,8 +9607,9 @@
             },
             "hasTreePreservationOrder": {
               "ntsRef": "C2.1.3",
-              "nts-sefRef": "C2.1.3",
+              "nts2Ref": "C2.1.3",
               "ntslRef": "C2.1.3",
+              "ntsl2Ref": "C2.1.3",
               "baspi4Ref": "A1.7.3",
               "baspi5Ref": "A1.7.3",
               "rdsRef": "Property/Flags",
@@ -9431,8 +9620,9 @@
               "properties": {
                 "yesNo": {
                   "ntsRef": "C2.1.3.1",
-                  "nts-sefRef": "C2.1.3.1",
+                  "nts2Ref": "C2.1.3.1",
                   "ntslRef": "C2.1.3.1",
+                  "ntsl2Ref": "C2.1.3.1",
                   "baspi4Ref": "A1.7.3.1",
                   "baspi5Ref": "A1.7.3.1",
                   "ta6Ref": "4.8.1",
@@ -9441,15 +9631,17 @@
                   "title": "",
                   "enum": ["Yes", "No", "Not known"],
                   "ntsEnum": ["Yes", "No"],
-                  "nts-sefEnum": ["Yes", "No"],
-                  "ntslEnum": ["Yes", "No"]
+                  "nts2Enum": ["Yes", "No"],
+                  "ntslEnum": ["Yes", "No"],
+                  "ntsl2Enum": ["Yes", "No"]
                 }
               },
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
               "ntsRequired": ["yesNo"],
-              "nts-sefRequired": ["yesNo"],
+              "nts2Required": ["yesNo"],
               "ntslRequired": ["yesNo"],
+              "ntsl2Required": ["yesNo"],
               "ta6Required": ["yesNo"],
               "discriminator": {
                 "propertyName": "yesNo"
@@ -9469,8 +9661,9 @@
                     },
                     "workCarriedOut": {
                       "ntsRef": "C2.1.3.2",
-                      "nts-sefRef": "C2.1.3.2",
+                      "nts2Ref": "C2.1.3.2",
                       "ntslRef": "C2.1.3.2",
+                      "ntsl2Ref": "C2.1.3.2",
                       "baspi4Ref": "A1.7.3.2",
                       "baspi5Ref": "A1.7.3.2",
                       "rdsRef": "WorksAlterationsChanges",
@@ -9492,8 +9685,9 @@
                       "baspi4Required": ["yesNo"],
                       "baspi5Required": ["yesNo"],
                       "ntsRequired": ["yesNo"],
-                      "nts-sefRequired": ["yesNo"],
+                      "nts2Required": ["yesNo"],
                       "ntslRequired": ["yesNo"],
+                      "ntsl2Required": ["yesNo"],
                       "ta6Required": ["yesNo"],
                       "discriminator": {
                         "propertyName": "yesNo"
@@ -9513,8 +9707,9 @@
                             },
                             "consentsObtained": {
                               "ntsRef": "C2.1.3.3",
-                              "nts-sefRef": "C2.1.3.3",
+                              "nts2Ref": "C2.1.3.3",
                               "ntslRef": "C2.1.3.3",
+                              "ntsl2Ref": "C2.1.3.3",
                               "baspi4Ref": "A1.7.3.3",
                               "baspi5Ref": "A1.7.3.3",
                               "ta6Ref": "4.8a2",
@@ -9533,8 +9728,9 @@
                             }
                           },
                           "ntsRequired": ["consentsObtained"],
-                          "nts-sefRequired": ["consentsObtained"],
+                          "nts2Required": ["consentsObtained"],
                           "ntslRequired": ["consentsObtained"],
+                          "ntsl2Required": ["consentsObtained"],
                           "baspi4Required": ["consentsObtained"],
                           "baspi5Required": ["consentsObtained"],
                           "ta6Required": ["consentsObtained"]
@@ -9554,8 +9750,9 @@
           "baspi4Ref": "A1.8",
           "baspi5Ref": "A1.8",
           "ntsRef": "A1.2",
-          "nts-sefRef": "A1.2",
+          "nts2Ref": "A1.2",
           "ntslRef": "A1.2",
+          "ntsl2Ref": "A1.2",
           "title": "Type of Construction",
           "type": "object",
           "baspi4Required": [
@@ -9569,15 +9766,17 @@
             "sprayFoamInsulation"
           ],
           "ntsRequired": ["isStandardForm", "buildingSafety"],
-          "nts-sefRequired": ["isStandardForm", "buildingSafety"],
+          "nts2Required": ["isStandardForm", "buildingSafety", "loft"],
           "ntslRequired": ["isStandardForm", "buildingSafety"],
+          "ntsl2Required": ["isStandardForm", "buildingSafety", "loft"],
           "properties": {
             "isStandardForm": {
               "baspi4Ref": "A1.8.1",
               "baspi5Ref": "A1.8.1",
               "ntsRef": "A1.2.1",
-              "nts-sefRef": "A1.2.1",
+              "nts2Ref": "A1.2.1",
               "ntslRef": "A1.2.1",
+              "ntsl2Ref": "A1.2.1",
               "rdsRef": "Buildings,BuildingSections/ConstructionType,ConstructionMaterials",
               "piqRef": "A5.5",
               "title": "Is the property built in a standard form of construction?",
@@ -9588,8 +9787,9 @@
                   "baspi4Ref": "A1.8.1.1",
                   "baspi5Ref": "A1.8.1.1",
                   "ntsRef": "A1.2.1.1",
-                  "nts-sefRef": "A1.2.1.1",
+                  "nts2Ref": "A1.2.1.1",
                   "ntslRef": "A1.2.1.1",
+                  "ntsl2Ref": "A1.2.1.1",
                   "piqRef": "A5.5.1",
                   "type": "string",
                   "title": "",
@@ -9599,8 +9799,9 @@
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
               "ntsRequired": ["yesNo"],
-              "nts-sefRequired": ["yesNo"],
+              "nts2Required": ["yesNo"],
               "ntslRequired": ["yesNo"],
+              "ntsl2Required": ["yesNo"],
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -9609,8 +9810,23 @@
                   "properties": {
                     "yesNo": {
                       "enum": ["Yes"]
+                    },
+                    "constructionType": {
+                      "nts2Ref": "A1.2.1.3",
+                      "ntsl2Ref": "A1.2.1.3",
+                      "title": "Details",
+                      "type": "string",
+                      "enum": [
+                        "Brick and block",
+                        "Steel frame",
+                        "Timber frame",
+                        "Insulated concrete framework",
+                        "Structural insulated panel (SIP)"
+                      ]
                     }
-                  }
+                  },
+                  "nts2Required": ["constructionType"],
+                  "ntsl2Required": ["constructionType"]
                 },
                 {
                   "properties": {
@@ -9621,8 +9837,9 @@
                       "baspi4Ref": "A1.8.1.2",
                       "baspi5Ref": "A1.8.1.2",
                       "ntsRef": "A1.2.1.2",
-                      "nts-sefRef": "A1.2.1.2",
+                      "nts2Ref": "A1.2.1.2",
                       "ntslRef": "A1.2.1.2",
+                      "ntsl2Ref": "A1.2.1.2",
                       "title": "Details",
                       "type": "string",
                       "minLength": 1
@@ -9631,15 +9848,17 @@
                   "baspi4Required": ["details"],
                   "baspi5Required": ["details"],
                   "ntsRequired": ["details"],
-                  "nts-sefRequired": ["details"],
-                  "ntslRequired": ["details"]
+                  "nts2Required": ["details"],
+                  "ntslRequired": ["details"],
+                  "ntsl2Required": ["details"]
                 }
               ]
             },
             "buildingSafety": {
               "ntsRef": "C1",
-              "nts-sefRef": "C1",
+              "nts2Ref": "C1",
               "ntslRef": "C1",
+              "ntsl2Ref": "C1",
               "baspi4Ref": "A1.8.2",
               "baspi5Ref": "A1.8.2",
               "ta7Ref": "11.1",
@@ -9652,8 +9871,9 @@
               "properties": {
                 "yesNo": {
                   "ntsRef": "C1.1",
-                  "nts-sefRef": "C1.1",
+                  "nts2Ref": "C1.1",
                   "ntslRef": "C1.1",
+                  "ntsl2Ref": "C1.1",
                   "baspi4Ref": "A1.8.2.1",
                   "baspi5Ref": "A1.8.2.1",
                   "ta7Ref": "11.1.1",
@@ -9664,13 +9884,15 @@
                   "baspi4Enum": ["Yes", "No"],
                   "baspi5Enum": ["Yes", "No"],
                   "ntsEnum": ["Yes", "No"],
-                  "nts-sefEnum": ["Yes", "No"],
-                  "ntslEnum": ["Yes", "No"]
+                  "nts2Enum": ["Yes", "No"],
+                  "ntslEnum": ["Yes", "No"],
+                  "ntsl2Enum": ["Yes", "No"]
                 }
               },
               "ntsRequired": ["yesNo"],
-              "nts-sefRequired": ["yesNo"],
+              "nts2Required": ["yesNo"],
               "ntslRequired": ["yesNo"],
+              "ntsl2Required": ["yesNo"],
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
               "ta7Required": ["yesNo"],
@@ -9693,8 +9915,9 @@
                     },
                     "details": {
                       "ntsRef": "C1.2",
-                      "nts-sefRef": "C1.2",
+                      "nts2Ref": "C1.2",
                       "ntslRef": "C1.2",
+                      "ntsl2Ref": "C1.2",
                       "baspi4Ref": "A1.8.2.2",
                       "baspi5Ref": "A1.8.2.2",
                       "ta7Ref": "11.1.2",
@@ -9705,8 +9928,9 @@
                     },
                     "workAlreadyDone": {
                       "ntsRef": "C1.3",
-                      "nts-sefRef": "C1.3",
+                      "nts2Ref": "C1.3",
                       "ntslRef": "C1.3",
+                      "ntsl2Ref": "C1.3",
                       "baspi4Ref": "A1.8.2.2",
                       "baspi5Ref": "A1.8.2.2",
                       "ta7Ref": "11.1.2",
@@ -9716,8 +9940,9 @@
                     },
                     "workToBeDone": {
                       "ntsRef": "C1.4",
-                      "nts-sefRef": "C1.4",
+                      "nts2Ref": "C1.4",
                       "ntslRef": "C1.4",
+                      "ntsl2Ref": "C1.4",
                       "baspi4Ref": "A1.8.2.2",
                       "baspi5Ref": "A1.8.2.2",
                       "ta7Ref": "11.1.2",
@@ -9727,8 +9952,9 @@
                     },
                     "potentialCost": {
                       "ntsRef": "C1.5",
-                      "nts-sefRef": "C1.5",
+                      "nts2Ref": "C1.5",
                       "ntslRef": "C1.5",
+                      "ntsl2Ref": "C1.5",
                       "baspi4Ref": "A1.8.2.2",
                       "baspi5Ref": "A1.8.2.2",
                       "ta7Ref": "11.1.2",
@@ -9738,8 +9964,9 @@
                     },
                     "abilityToResideAtProperty": {
                       "ntsRef": "C1.6",
-                      "nts-sefRef": "C1.6",
+                      "nts2Ref": "C1.6",
                       "ntslRef": "C1.6",
+                      "ntsl2Ref": "C1.6",
                       "baspi4Ref": "A1.8.2.2",
                       "baspi5Ref": "A1.8.2.2",
                       "ta7Ref": "11.1.2",
@@ -9766,7 +9993,7 @@
                     "potentialCost",
                     "abilityToResideAtProperty"
                   ],
-                  "nts-sefRequired": [
+                  "nts2Required": [
                     "details",
                     "workAlreadyDone",
                     "workToBeDone",
@@ -9784,10 +10011,16 @@
               ]
             },
             "loft": {
+              "nts2Ref": "A1.2.4",
+              "ntsl2Ref": "A1.2.4",
               "title": "Does the property have access to a loft?",
               "type": "object",
+              "nts2Required": ["loftAccess"],
+              "ntsl2Required": ["loftAccess"],
               "properties": {
                 "loftAccess": {
+                  "nts2Ref": "A1.2.4.1",
+                  "ntsl2Ref": "A1.2.4.1",
                   "type": "string",
                   "title": "",
                   "enum": ["Yes", "No"]
@@ -9810,21 +10043,37 @@
                       "enum": ["Yes"]
                     },
                     "details": {
+                      "nts2Ref": "A1.2.4.2",
+                      "ntsl2Ref": "A1.2.4.2",
                       "title": "Please describe how the loft is accessed",
                       "type": "string",
                       "minLength": 1
                     },
                     "loftBoarded": {
+                      "nts2Ref": "A1.2.4.3",
+                      "ntsl2Ref": "A1.2.4.3",
                       "type": "string",
                       "title": "Is the loft space boarded?",
                       "enum": ["Yes", "No"]
                     },
                     "loftInsulated": {
+                      "nts2Ref": "A1.2.4.4",
+                      "ntsl2Ref": "A1.2.4.4",
                       "type": "string",
                       "title": "Is the loft space insulated?",
                       "enum": ["Yes", "No"]
                     }
-                  }
+                  },
+                  "nts2Required": [
+                    "loftAccess",
+                    "loftBoarded",
+                    "loftInsulated"
+                  ],
+                  "ntsl2Required": [
+                    "loftAccess",
+                    "loftBoarded",
+                    "loftInsulated"
+                  ]
                 }
               ]
             },
@@ -9883,8 +10132,9 @@
             "accessibilityAndAdaptations": {
               "baspi5Ref": "A12.2",
               "ntsRef": "C5",
-              "nts-sefRef": "C5",
+              "nts2Ref": "C5",
               "ntslRef": "C5",
+              "ntsl2Ref": "C5",
               "title": "Are there any adaptations or features that provide easier access to, and within, the property?",
               "description": "Lateral living is where a property has all essential facilities e.g. kitchen, bathroom and bedroom on the entrance level.",
               "type": "array",
@@ -9910,16 +10160,18 @@
           "baspi5Ref": "A1.8.3",
           "ta6Ref": "7.6",
           "ntsRef": "A4",
-          "nts-sefRef": "A4",
+          "nts2Ref": "A4",
           "ntslRef": "A4",
+          "ntsl2Ref": "A4",
           "rdsRef": "Certificates/{category='energyEfficiency',standard='EPC',gradeLevelRating=?},Certificates/{category='energyEfficiency',standard='EPC',status='exempt'},",
           "title": "Energy Efficiency",
           "type": "object",
           "baspi4Required": ["certificate", "greenDealLoan"],
           "baspi5Required": ["certificate", "greenDealLoan"],
           "ntsRequired": ["certificate"],
-          "nts-sefRequired": ["certificate"],
+          "nts2Required": ["certificate"],
           "ntslRequired": ["certificate"],
+          "ntsl2Required": ["certificate"],
           "ta6Required": ["certificateIsSupplied", "greenDealLoan"],
           "properties": {
             "certificateIsSupplied": {
@@ -9932,14 +10184,16 @@
               "baspi4Ref": "A1.8.3.1",
               "baspi5Ref": "A1.8.3.1",
               "ntsRef": "A4.1",
-              "nts-sefRef": "A4.1",
+              "nts2Ref": "A4.1",
               "ntslRef": "A4.1",
+              "ntsl2Ref": "A4.1",
               "type": "object",
               "baspi4Required": ["currentEnergyRating"],
               "baspi5Required": ["currentEnergyRating"],
               "ntsRequired": ["currentEnergyRating"],
-              "nts-sefRequired": ["currentEnergyRating"],
+              "nts2Required": ["currentEnergyRating"],
               "ntslRequired": ["currentEnergyRating"],
+              "ntsl2Required": ["currentEnergyRating"],
               "properties": {
                 "certificateNumber": {
                   "type": "string"
@@ -9990,8 +10244,9 @@
                   "baspi4Ref": "A1.8.3.1.1",
                   "baspi5Ref": "A1.8.3.1.1",
                   "ntsRef": "A4.1.1",
-                  "nts-sefRef": "A4.1.1",
+                  "nts2Ref": "A4.1.1",
                   "ntslRef": "A4.1.1",
+                  "ntsl2Ref": "A4.1.1",
                   "title": "Current energy efficiency rating",
                   "description": "What is the energy efficiency rating of the property according to the latest Energy Performance Certificate (EPC)?",
                   "type": "string",
@@ -10352,8 +10607,9 @@
           "baspi4Ref": "A1.9",
           "baspi5Ref": "A1.9",
           "ntsRef": "A1",
-          "nts-sefRef": "A1",
+          "nts2Ref": "A1",
           "ntslRef": "A1",
+          "ntsl2Ref": "A1",
           "piqRef": "B2",
           "title": "Council Tax",
           "type": "object",
@@ -10366,18 +10622,17 @@
             "councilTaxAffectingAlterations"
           ],
           "ntsRequired": ["councilTaxBand", "councilTaxAffectingAlterations"],
-          "nts-sefRequired": [
-            "councilTaxBand",
-            "councilTaxAffectingAlterations"
-          ],
+          "nts2Required": ["councilTaxBand", "councilTaxAffectingAlterations"],
           "ntslRequired": ["councilTaxBand", "councilTaxAffectingAlterations"],
+          "ntsl2Required": ["councilTaxBand", "councilTaxAffectingAlterations"],
           "properties": {
             "councilTaxBand": {
               "baspi4Ref": "A1.9.1",
               "baspi5Ref": "A1.9.1",
               "ntsRef": "A1.1",
-              "nts-sefRef": "A1.1",
+              "nts2Ref": "A1.1",
               "ntslRef": "A1.1",
+              "ntsl2Ref": "A1.1",
               "rdsRef": "TenureAgreements/Taxes/{banding=?}",
               "piqRef": "B2.1",
               "title": "Which Council Tax band does this property fall within?",
@@ -10400,8 +10655,9 @@
               "baspi4Ref": "A1.9.2",
               "baspi5Ref": "A1.9.2",
               "ntsRef": "A1.2",
-              "nts-sefRef": "A1.2",
+              "nts2Ref": "A1.2",
               "ntslRef": "A1.2",
+              "ntsl2Ref": "A1.2",
               "rdsRef": "TenureAgreements/Taxes/WorksAlterationsChanges",
               "title": "Have you altered the property in any way to the extent that it might change the Council Tax band e.g. added a bedroom or substantially extended the property?",
               "type": "object",
@@ -10410,8 +10666,9 @@
                   "baspi4Ref": "A1.9.2.1",
                   "baspi5Ref": "A1.9.2.1",
                   "ntsRef": "A1.2.1",
-                  "nts-sefRef": "A1.2.1",
+                  "nts2Ref": "A1.2.1",
                   "ntslRef": "A1.2.1",
+                  "ntsl2Ref": "A1.2.1",
                   "type": "string",
                   "title": "",
                   "enum": ["Yes", "No"]
@@ -10420,8 +10677,9 @@
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
               "ntsRequired": ["yesNo"],
-              "nts-sefRequired": ["yesNo"],
+              "nts2Required": ["yesNo"],
               "ntslRequired": ["yesNo"],
+              "ntsl2Required": ["yesNo"],
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -10442,8 +10700,9 @@
                       "baspi4Ref": "A1.9.2.2",
                       "baspi5Ref": "A1.9.2.2",
                       "ntsRef": "A1.2.2",
-                      "nts-sefRef": "A1.2.2",
+                      "nts2Ref": "A1.2.2",
                       "ntslRef": "A1.2.2",
+                      "ntsl2Ref": "A1.2.2",
                       "title": "Please give details",
                       "type": "string",
                       "minLength": 1
@@ -10452,8 +10711,9 @@
                       "baspi4Ref": "A1.9.2.3",
                       "baspi5Ref": "A1.9.2.3",
                       "ntsRef": "A1.2.3",
-                      "nts-sefRef": "A1.2.3",
+                      "nts2Ref": "A1.2.3",
                       "ntslRef": "A1.2.3",
+                      "ntsl2Ref": "A1.2.3",
                       "title": "Attachments",
                       "type": "string",
                       "enum": ["Attached", "To follow"]
@@ -10462,8 +10722,9 @@
                   "baspi4Required": ["details"],
                   "baspi5Required": ["details"],
                   "ntsRequired": ["details"],
-                  "nts-sefRequired": ["details"],
-                  "ntslRequired": ["details"]
+                  "nts2Required": ["details"],
+                  "ntslRequired": ["details"],
+                  "ntsl2Required": ["details"]
                 }
               ]
             },
@@ -12103,8 +12364,9 @@
           "baspi5Ref": "A4",
           "ta6Ref": "3",
           "ntsRef": "C4",
-          "nts-sefRef": "C4",
+          "nts2Ref": "C4",
           "ntslRef": "C4",
+          "ntsl2Ref": "C4",
           "title": "Notices which Affect the Property",
           "description": "Are you aware of, or have you received, any of the following notices?",
           "type": "object",
@@ -12127,8 +12389,9 @@
             "otherNotices"
           ],
           "ntsRequired": ["neighbourDevelopment", "planningApplication"],
-          "nts-sefRequired": ["neighbourDevelopment", "planningApplication"],
+          "nts2Required": ["neighbourDevelopment", "planningApplication"],
           "ntslRequired": ["neighbourDevelopment", "planningApplication"],
+          "ntsl2Required": ["neighbourDevelopment", "planningApplication"],
           "ta6Required": [
             "neighbourDevelopment",
             "partyWallAct",
@@ -12139,8 +12402,9 @@
               "baspi4Ref": "A4.1",
               "baspi5Ref": "A4.1",
               "ntsRef": "C4.1",
-              "nts-sefRef": "C4.1",
+              "nts2Ref": "C4.1",
               "ntslRef": "C4.1",
+              "ntsl2Ref": "C4.1",
               "ta6Ref": "3.2",
               "rdsRef": "Property/Flags,Planning",
               "piqRef": "A4.1",
@@ -12150,8 +12414,9 @@
               "properties": {
                 "yesNo": {
                   "ntsRef": "C4.1.1",
-                  "nts-sefRef": "C4.1.1",
+                  "nts2Ref": "C4.1.1",
                   "ntslRef": "C4.1.1",
+                  "ntsl2Ref": "C4.1.1",
                   "baspi4Ref": "A4.1.1",
                   "baspi5Ref": "A4.1.1",
                   "piqRef": "A4.1.1",
@@ -12164,8 +12429,9 @@
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
               "ntsRequired": ["yesNo"],
-              "nts-sefRequired": ["yesNo"],
+              "nts2Required": ["yesNo"],
               "ntslRequired": ["yesNo"],
+              "ntsl2Required": ["yesNo"],
               "ta6Required": ["yesNo"],
               "discriminator": {
                 "propertyName": "yesNo"
@@ -12185,8 +12451,9 @@
                     },
                     "details": {
                       "ntsRef": "C4.1.2",
-                      "nts-sefRef": "C4.1.2",
+                      "nts2Ref": "C4.1.2",
                       "ntslRef": "C4.1.2",
+                      "ntsl2Ref": "C4.1.2",
                       "baspi4Ref": "A4.1.2",
                       "baspi5Ref": "A4.1.2",
                       "ta6Ref": "3.2.2",
@@ -12206,15 +12473,17 @@
                   "baspi5Required": ["details", "attachments"],
                   "ta6Required": ["details"],
                   "ntsRequired": ["details"],
-                  "nts-sefRequired": ["details"],
-                  "ntslRequired": ["details"]
+                  "nts2Required": ["details"],
+                  "ntslRequired": ["details"],
+                  "ntsl2Required": ["details"]
                 }
               ]
             },
             "planningApplication": {
               "ntsRef": "C4.2",
-              "nts-sefRef": "C4.2",
+              "nts2Ref": "C4.2",
               "ntslRef": "C4.2",
+              "ntsl2Ref": "C4.2",
               "baspi4Ref": "A4.2",
               "baspi5Ref": "A4.2",
               "rdsRef": "Property/Flags,Planning",
@@ -12225,8 +12494,9 @@
               "properties": {
                 "yesNo": {
                   "ntsRef": "C4.2.1",
-                  "nts-sefRef": "C4.2.1",
+                  "nts2Ref": "C4.2.1",
                   "ntslRef": "C4.2.1",
+                  "ntsl2Ref": "C4.2.1",
                   "baspi4Ref": "A4.2.1",
                   "baspi5Ref": "A4.2.1",
                   "ta6Ref": "3.1.1",
@@ -12239,8 +12509,9 @@
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
               "ntsRequired": ["yesNo"],
-              "nts-sefRequired": ["yesNo"],
+              "nts2Required": ["yesNo"],
               "ntslRequired": ["yesNo"],
+              "ntsl2Required": ["yesNo"],
               "ta6Required": ["yesNo"],
               "discriminator": {
                 "propertyName": "yesNo"
@@ -12260,8 +12531,9 @@
                     },
                     "details": {
                       "ntsRef": "C4.2.2",
-                      "nts-sefRef": "C4.2.2",
+                      "nts2Ref": "C4.2.2",
                       "ntslRef": "C4.2.2",
+                      "ntsl2Ref": "C4.2.2",
                       "baspi4Ref": "A4.2.2",
                       "baspi5Ref": "A4.2.2",
                       "ta6Ref": "3.1.2",
@@ -12281,8 +12553,9 @@
                   "baspi5Required": ["details", "attachments"],
                   "ta6Required": ["details"],
                   "ntsRequired": ["details"],
-                  "nts-sefRequired": ["details"],
-                  "ntslRequired": ["details"]
+                  "nts2Required": ["details"],
+                  "ntslRequired": ["details"],
+                  "ntsl2Required": ["details"]
                 }
               ]
             },
@@ -12590,6 +12863,8 @@
         "specialistIssues": {
           "baspi4Ref": "A5",
           "baspi5Ref": "A5",
+          "nts2Ref": "A5",
+          "ntsl2Ref": "A5",
           "title": "Specialist Issues",
           "type": "object",
           "baspi4Required": [
@@ -12607,6 +12882,8 @@
             "ongoingHealthOrSafetyIssue"
           ],
           "ta6Required": ["japaneseKnotweed"],
+          "nts2Required": ["japaneseKnotweed"],
+          "ntsl2Required": ["japaneseKnotweed"],
           "properties": {
             "dryRotEtcTreatment": {
               "baspi4Ref": "A5.1",
@@ -12719,6 +12996,8 @@
             "japaneseKnotweed": {
               "baspi4Ref": "A5.3",
               "baspi5Ref": "A5.3",
+              "nts2Ref": "A5.3",
+              "ntsl2Ref": "A5.3",
               "rdsRef": "Property/Flags,BuildingSections/EnvironmentalIssues,Use/EnvironmentalIssues",
               "ta6Ref": "7.8",
               "piqRef": "A5.3",
@@ -12729,6 +13008,8 @@
                 "yesNo": {
                   "baspi4Ref": "A5.3.1",
                   "baspi5Ref": "A5.3.1",
+                  "nts2Ref": "A5.3.1",
+                  "ntsl2Ref": "A5.3.1",
                   "ta6Ref": "7.8.1",
                   "piqRef": "A5.3.1",
                   "type": "string",
@@ -12740,6 +13021,8 @@
               },
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
+              "nts2Required": ["yesNo"],
+              "ntsl2Required": ["yesNo"],
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -12783,6 +13066,8 @@
             "subsidenceOrStructuralFault": {
               "baspi4Ref": "A5.4",
               "baspi5Ref": "A5.4",
+              "nts2Ref": "A5.4",
+              "ntsl2Ref": "A5.4",
               "rdsRef": "Property/Flags,BuildingSections/EnvironmentalIssues",
               "piqRef": "A5.4",
               "title": "To your knowledge, has the property ever been subject to subsidence or structural fault?",
@@ -12791,6 +13076,8 @@
                 "yesNo": {
                   "baspi4Ref": "A5.4.1",
                   "baspi5Ref": "A5.4.1",
+                  "nts2Ref": "A5.4.1",
+                  "ntsl2Ref": "A5.4.1",
                   "piqRef": "A5.4.1",
                   "type": "string",
                   "title": "",
@@ -12799,6 +13086,8 @@
               },
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
+              "nts2Required": ["yesNo"],
+              "ntsl2Required": ["yesNo"],
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -12818,6 +13107,8 @@
                     "details": {
                       "baspi4Ref": "A5.4.2",
                       "baspi5Ref": "A5.4.2",
+                      "nts2Ref": "A5.4.2",
+                      "ntsl2Ref": "A5.4.2",
                       "title": "Details",
                       "type": "string",
                       "minLength": 1
@@ -12831,7 +13122,9 @@
                     }
                   },
                   "baspi4Required": ["details", "attachments"],
-                  "baspi5Required": ["details", "attachments"]
+                  "baspi5Required": ["details", "attachments"],
+                  "nts2Required": ["details"],
+                  "ntsl2Required": ["details"]
                 }
               ]
             },
@@ -17875,8 +18168,9 @@
           "baspi4Ref": "A7.1.0.1",
           "baspi5Ref": "A7.1.0.1",
           "ntsRef": "B3.1",
-          "nts-sefRef": "B3.1",
+          "nts2Ref": "B3.1",
           "ntslRef": "B3.1",
+          "ntsl2Ref": "B3.1",
           "ta6Ref": "13.1",
           "rdsRef": "Services/Electricity",
           "piqRef": "A7.1.1",
@@ -17888,13 +18182,19 @@
             "heatPump",
             "otherSources"
           ],
-          "nts-sefRequired": [
+          "nts2Required": [
             "mainsElectricity",
             "solarPanels",
             "heatPump",
             "otherSources"
           ],
           "ntslRequired": [
+            "mainsElectricity",
+            "solarPanels",
+            "heatPump",
+            "otherSources"
+          ],
+          "ntsl2Required": [
             "mainsElectricity",
             "solarPanels",
             "heatPump",
@@ -17908,8 +18208,9 @@
               "baspi4Ref": "A7.1.0.1",
               "baspi5Ref": "A7.1.0.1",
               "ntsRef": "B3.1",
-              "nts-sefRef": "B3.1",
+              "nts2Ref": "B3.1",
               "ntslRef": "B3.1",
+              "ntsl2Ref": "B3.1",
               "ta6Ref": "13.1",
               "rdsRef": "Services/Electricity",
               "piqRef": "A7.1.1",
@@ -17918,8 +18219,9 @@
               "properties": {
                 "yesNo": {
                   "ntsRef": "B3.1.1",
-                  "nts-sefRef": "B3.1.1",
+                  "nts2Ref": "B3.1.1",
                   "ntslRef": "B3.1.1",
+                  "ntsl2Ref": "B3.1.1",
                   "baspi4Ref": "A7.1.0.1.1",
                   "baspi5Ref": "A7.1.0.1.1",
                   "ta6Ref": "13.1.1",
@@ -17927,16 +18229,18 @@
                   "title": "",
                   "enum": ["Yes", "To be connected", "No"],
                   "ntsEnum": ["Yes", "No"],
-                  "nts-sefEnum": ["Yes", "No"],
+                  "nts2Enum": ["Yes", "No"],
                   "ntslEnum": ["Yes", "No"],
+                  "ntsl2Enum": ["Yes", "No"],
                   "ta6Enum": ["Yes", "No"]
                 }
               },
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
               "ntsRequired": ["yesNo"],
-              "nts-sefRequired": ["yesNo"],
+              "nts2Required": ["yesNo"],
               "ntslRequired": ["yesNo"],
+              "ntsl2Required": ["yesNo"],
               "ta6Required": ["yesNo"],
               "discriminator": {
                 "propertyName": "yesNo"
@@ -18028,8 +18332,9 @@
             },
             "solarPanels": {
               "ntsRef": "B3.7",
-              "nts-sefRef": "B3.7",
+              "nts2Ref": "B3.7",
               "ntslRef": "B3.7",
+              "ntsl2Ref": "B3.7",
               "baspi4Ref": "A7.1.0.8",
               "baspi5Ref": "A7.1.0.8",
               "piqRef": "A7.1.17",
@@ -18039,8 +18344,9 @@
               "properties": {
                 "yesNo": {
                   "ntsRef": "B3.7.1",
-                  "nts-sefRef": "B3.7.1",
+                  "nts2Ref": "B3.7.1",
                   "ntslRef": "B3.7.1",
+                  "ntsl2Ref": "B3.7.1",
                   "baspi4Ref": "A7.1.0.8.1",
                   "baspi5Ref": "A7.1.0.8.1",
                   "ta6Ref": "4.6",
@@ -18048,16 +18354,18 @@
                   "title": "",
                   "enum": ["Yes", "To be connected", "No"],
                   "ntsEnum": ["Yes", "No"],
-                  "nts-sefEnum": ["Yes", "No"],
-                  "ntslEnum": ["Yes", "No"]
+                  "nts2Enum": ["Yes", "No"],
+                  "ntslEnum": ["Yes", "No"],
+                  "ntsl2Enum": ["Yes", "No"]
                 }
               },
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
               "ta6Required": ["yesNo"],
               "ntsRequired": ["yesNo"],
-              "nts-sefRequired": ["yesNo"],
+              "nts2Required": ["yesNo"],
               "ntslRequired": ["yesNo"],
+              "ntsl2Required": ["yesNo"],
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -18093,6 +18401,8 @@
                       "baspi4Ref": "B4.3.2",
                       "baspi5Ref": "B4.3.2",
                       "ta6Ref": "4.6b",
+                      "nts2Ref": "B3.7.1",
+                      "ntsl2Ref": "B3.7.1",
                       "rdsRef": "Objects/Ownership",
                       "piqRef": "B4.4.3",
                       "title": "Do you own the panels, and all equipment related to them, outright?",
@@ -18101,6 +18411,8 @@
                         "yesNo": {
                           "baspi4Ref": "B4.3.2.1",
                           "baspi5Ref": "B4.3.2.1",
+                          "nts2Ref": "B3.7.1.1",
+                          "ntsl2Ref": "B3.7.1.1",
                           "ta6Ref": "4.6b1",
                           "type": "string",
                           "title": "",
@@ -18110,6 +18422,8 @@
                       "baspi4Required": ["yesNo"],
                       "baspi5Required": ["yesNo"],
                       "ta6Required": ["yesNo"],
+                      "nts2Required": ["yesNo"],
+                      "ntsl2Required": ["yesNo"],
                       "discriminator": {
                         "propertyName": "yesNo"
                       },
@@ -18364,8 +18678,9 @@
             },
             "heatPump": {
               "ntsRef": "B3.8",
-              "nts-sefRef": "B3.8",
+              "nts2Ref": "B3.8",
               "ntslRef": "B3.8",
+              "ntsl2Ref": "B3.8",
               "baspi4Ref": "A7.1.0.9",
               "baspi5Ref": "A7.1.0.9",
               "piqRef": "A7.1.19",
@@ -18374,23 +18689,26 @@
               "properties": {
                 "yesNo": {
                   "ntsRef": "B3.8.1",
-                  "nts-sefRef": "B3.8.1",
+                  "nts2Ref": "B3.8.1",
                   "ntslRef": "B3.8.1",
+                  "ntsl2Ref": "B3.8.1",
                   "baspi4Ref": "A7.1.0.10.1",
                   "baspi5Ref": "A7.1.0.10.1",
                   "type": "string",
                   "title": "",
                   "enum": ["Yes", "To be connected", "No"],
                   "ntsEnum": ["Yes", "No"],
-                  "nts-sefEnum": ["Yes", "No"],
-                  "ntslEnum": ["Yes", "No"]
+                  "nts2Enum": ["Yes", "No"],
+                  "ntslEnum": ["Yes", "No"],
+                  "ntsl2Enum": ["Yes", "No"]
                 }
               },
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
               "ntsRequired": ["yesNo"],
-              "nts-sefRequired": ["yesNo"],
+              "nts2Required": ["yesNo"],
               "ntslRequired": ["yesNo"],
+              "ntsl2Required": ["yesNo"],
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -18409,8 +18727,9 @@
                     },
                     "details": {
                       "ntsRef": "3.8.2",
-                      "nts-sefRef": "3.8.2",
+                      "nts2Ref": "3.8.2",
                       "ntslRef": "3.8.2",
+                      "ntsl2Ref": "3.8.2",
                       "title": "Details",
                       "type": "string"
                     },
@@ -18438,8 +18757,9 @@
                   "baspi4Required": ["dateInstalled", "attachments"],
                   "baspi5Required": ["dateInstalled", "attachments"],
                   "ntsRequired": ["details"],
-                  "nts-sefRequired": ["details"],
-                  "ntslRequired": ["details"]
+                  "nts2Required": ["details"],
+                  "ntslRequired": ["details"],
+                  "ntsl2Required": ["details"]
                 },
                 {
                   "properties": {
@@ -18450,8 +18770,9 @@
                       "baspi4Ref": "A7.1.0.10.2",
                       "baspi5Ref": "A7.1.0.10.2",
                       "ntsRef": "3.8.2",
-                      "nts-sefRef": "3.8.2",
+                      "nts2Ref": "3.8.2",
                       "ntslRef": "3.8.2",
+                      "ntsl2Ref": "3.8.2",
                       "title": "Details",
                       "type": "string"
                     },
@@ -18477,8 +18798,9 @@
             },
             "otherSources": {
               "ntsRef": "B3.9",
-              "nts-sefRef": "B3.9",
+              "nts2Ref": "B3.9",
               "ntslRef": "B3.9",
+              "ntsl2Ref": "B3.9",
               "baspi4Ref": "A7.1.0.9",
               "baspi5Ref": "A7.1.0.9",
               "rdsRef": "Services/Other",
@@ -18489,23 +18811,26 @@
               "properties": {
                 "yesNo": {
                   "ntsRef": "B3.9.1",
-                  "nts-sefRef": "B3.9.1",
+                  "nts2Ref": "B3.9.1",
                   "ntslRef": "B3.9.1",
+                  "ntsl2Ref": "B3.9.1",
                   "baspi4Ref": "A7.1.0.9.1",
                   "baspi5Ref": "A7.1.0.9.1",
                   "type": "string",
                   "title": "",
                   "enum": ["Yes", "To be connected", "No"],
                   "ntsEnum": ["Yes", "No"],
-                  "nts-sefEnum": ["Yes", "No"],
-                  "ntslEnum": ["Yes", "No"]
+                  "nts2Enum": ["Yes", "No"],
+                  "ntslEnum": ["Yes", "No"],
+                  "ntsl2Enum": ["Yes", "No"]
                 }
               },
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
               "ntsRequired": ["yesNo"],
-              "nts-sefRequired": ["yesNo"],
+              "nts2Required": ["yesNo"],
               "ntslRequired": ["yesNo"],
+              "ntsl2Required": ["yesNo"],
               "discriminator": {
                 "propertyName": "yesNo"
               },
@@ -18524,8 +18849,9 @@
                     },
                     "details": {
                       "ntsRef": "B3.9.2",
-                      "nts-sefRef": "B3.9.2",
+                      "nts2Ref": "B3.9.2",
                       "ntslRef": "B3.9.2",
+                      "ntsl2Ref": "B3.9.2",
                       "title": "Details",
                       "type": "string"
                     },
@@ -18537,8 +18863,9 @@
                     }
                   },
                   "ntsRequired": ["details"],
-                  "nts-sefRequired": ["details"],
-                  "ntslRequired": ["details"]
+                  "nts2Required": ["details"],
+                  "ntslRequired": ["details"],
+                  "ntsl2Required": ["details"]
                 },
                 {
                   "properties": {
@@ -18549,8 +18876,9 @@
                       "baspi4Ref": "A7.1.0.9.2",
                       "baspi5Ref": "A7.1.0.9.2",
                       "ntsRef": "B3.9.2",
-                      "nts-sefRef": "B3.9.2",
+                      "nts2Ref": "B3.9.2",
                       "ntslRef": "B3.9.2",
+                      "ntsl2Ref": "B3.9.2",
                       "title": "Details",
                       "type": "string"
                     },
@@ -18578,8 +18906,9 @@
         },
         "waterAndDrainage": {
           "ntsRef": "B3.2",
-          "nts-sefRef": "B3.2",
+          "nts2Ref": "B3.2",
           "ntslRef": "B3.2",
+          "ntsl2Ref": "B3.2",
           "baspi4Ref": "A7.1.0",
           "baspi5Ref": "A7.1.0",
           "ta6Ref": "13",
@@ -18591,8 +18920,9 @@
           "baspi5Required": ["water", "drainage", "maintenanceAgreements"],
           "ta6Required": ["water", "drainage"],
           "ntsRequired": ["water", "drainage"],
-          "nts-sefRequired": ["water", "drainage"],
+          "nts2Required": ["water", "drainage"],
           "ntslRequired": ["water", "drainage"],
+          "ntsl2Required": ["water", "drainage"],
           "con29DWRequired": ["maps", "water", "drainage", "charging"],
           "properties": {
             "maps": {
@@ -18620,8 +18950,9 @@
             },
             "water": {
               "ntsRef": "B3.2",
-              "nts-sefRef": "B3.2",
+              "nts2Ref": "B3.2",
               "ntslRef": "B3.2",
+              "ntsl2Ref": "B3.2",
               "baspi4Ref": "A7.1.0.10",
               "baspi5Ref": "A7.1.0.10",
               "ta6Ref": "13",
@@ -18631,8 +18962,9 @@
               "baspi4Required": ["mainsWater"],
               "baspi5Required": ["mainsWater"],
               "ntsRequired": ["mainsWater"],
-              "nts-sefRequired": ["mainsWater"],
+              "nts2Required": ["mainsWater"],
               "ntslRequired": ["mainsWater"],
+              "ntsl2Required": ["mainsWater"],
               "ta6Required": ["mainsWater"],
               "con29DWRequired": [
                 "mainsWater",
@@ -18644,8 +18976,9 @@
               "properties": {
                 "mainsWater": {
                   "ntsRef": "B3.2",
-                  "nts-sefRef": "B3.2",
+                  "nts2Ref": "B3.2",
                   "ntslRef": "B3.2",
+                  "ntsl2Ref": "B3.2",
                   "baspi4Ref": "A7.1.0.10.0",
                   "baspi5Ref": "A7.1.0.10.0",
                   "ta6Ref": "13.3",
@@ -18657,8 +18990,9 @@
                   "properties": {
                     "yesNo": {
                       "ntsRef": "B3.2.1",
-                      "nts-sefRef": "B3.2.1",
+                      "nts2Ref": "B3.2.1",
                       "ntslRef": "B3.2.1",
+                      "ntsl2Ref": "B3.2.1",
                       "baspi4Ref": "A7.1.0.10.1",
                       "baspi5Ref": "A7.1.0.10.1",
                       "ta6Ref": "13.3.1",
@@ -18668,16 +19002,18 @@
                       "enum": ["Yes", "To be connected", "No"],
                       "ta6Enum": ["Yes", "No"],
                       "ntsEnum": ["Yes", "No"],
-                      "nts-sefEnum": ["Yes", "No"],
+                      "nts2Enum": ["Yes", "No"],
                       "ntslEnum": ["Yes", "No"],
+                      "ntsl2Enum": ["Yes", "No"],
                       "con29DWEnum": ["Yes", "No"]
                     }
                   },
                   "baspi4Required": ["yesNo"],
                   "baspi5Required": ["yesNo"],
                   "ntsRequired": ["yesNo"],
-                  "nts-sefRequired": ["yesNo"],
+                  "nts2Required": ["yesNo"],
                   "ntslRequired": ["yesNo"],
+                  "ntsl2Required": ["yesNo"],
                   "ta6Required": ["yesNo"],
                   "con29DWRequired": ["yesNo"],
                   "discriminator": {
@@ -18691,8 +19027,9 @@
                         },
                         "details": {
                           "ntsRef": "3.2.2",
-                          "nts-sefRef": "3.2.2",
+                          "nts2Ref": "3.2.2",
                           "ntslRef": "3.2.2",
+                          "ntsl2Ref": "3.2.2",
                           "title": "How is water supplied?",
                           "description": "e.g. Private well, borehole, springs etc.",
                           "type": "string",
@@ -18700,8 +19037,9 @@
                         }
                       },
                       "ntsRequired": ["details"],
-                      "nts-sefRequired": ["details"],
-                      "ntslRequired": ["details"]
+                      "nts2Required": ["details"],
+                      "ntslRequired": ["details"],
+                      "ntsl2Required": ["details"]
                     },
                     {
                       "properties": {
@@ -18752,14 +19090,16 @@
                         "waterMeter": {
                           "type": "object",
                           "ntsRef": "B3.2.1.1",
-                          "nts-sefRef": "B3.2.1.1",
+                          "nts2Ref": "B3.2.1.1",
                           "ntslRef": "B3.2.1.1",
+                          "ntsl2Ref": "B3.2.1.1",
                           "baspi4Ref": "A7.",
                           "baspi5Ref": "A7.",
                           "ta6Ref": "13.3b",
                           "ntsRequired": ["isSupplyMetered"],
-                          "nts-sefRequired": ["isSupplyMetered"],
+                          "nts2Required": ["isSupplyMetered"],
                           "ntslRequired": ["isSupplyMetered"],
+                          "ntsl2Required": ["isSupplyMetered"],
                           "baspi4Required": ["isSupplyMetered"],
                           "baspi5Required": ["isSupplyMetered"],
                           "ta6Required": ["isSupplyMetered"],
@@ -18767,8 +19107,9 @@
                           "properties": {
                             "isSupplyMetered": {
                               "ntsRef": "3.2.3",
-                              "nts-sefRef": "3.2.3",
+                              "nts2Ref": "3.2.3",
                               "ntslRef": "3.2.3",
+                              "ntsl2Ref": "3.2.3",
                               "ta6Ref": "13.3b",
                               "baspi4Ref": "B4.6.2",
                               "baspi5Ref": "B4.6.2",
@@ -18823,8 +19164,9 @@
                       "baspi4Required": ["stopcock", "waterMeter"],
                       "baspi5Required": ["stopcock", "waterMeter"],
                       "ntsRequired": ["waterMeter"],
-                      "nts-sefRequired": ["waterMeter"],
-                      "ntslRequired": ["waterMeter"]
+                      "nts2Required": ["waterMeter"],
+                      "ntslRequired": ["waterMeter"],
+                      "ntsl2Required": ["waterMeter"]
                     },
                     {
                       "properties": {
@@ -18982,8 +19324,9 @@
             },
             "drainage": {
               "ntsRef": "B3.3",
-              "nts-sefRef": "B3.3",
+              "nts2Ref": "B3.3",
               "ntslRef": "B3.3",
+              "ntsl2Ref": "B3.3",
               "baspi4Ref": "A7.1.0.12",
               "baspi5Ref": "A7.1.0.12",
               "con29DWRef": "2",
@@ -18998,11 +19341,15 @@
                 "mainsFoulDrainage"
               ],
               "ntsRequired": ["mainsSurfaceWaterDrainage", "mainsFoulDrainage"],
-              "nts-sefRequired": [
+              "nts2Required": [
                 "mainsSurfaceWaterDrainage",
                 "mainsFoulDrainage"
               ],
               "ntslRequired": [
+                "mainsSurfaceWaterDrainage",
+                "mainsFoulDrainage"
+              ],
+              "ntsl2Required": [
                 "mainsSurfaceWaterDrainage",
                 "mainsFoulDrainage"
               ],
@@ -19023,8 +19370,9 @@
               "properties": {
                 "mainsSurfaceWaterDrainage": {
                   "ntsRef": "B3.3.1",
-                  "nts-sefRef": "B3.3.1",
+                  "nts2Ref": "B3.3.1",
                   "ntslRef": "B3.3.1",
+                  "ntsl2Ref": "B3.3.1",
                   "baspi4Ref": "A7.1.0.12.0",
                   "baspi5Ref": "A7.1.0.12.0",
                   "rdsRef": "Services/StormWaterDrainage",
@@ -19037,8 +19385,9 @@
                       "baspi4Ref": "A7.1.0.12.1",
                       "baspi5Ref": "A7.1.0.12.1",
                       "ntsRef": "B3.3.1.1",
-                      "nts-sefRef": "B3.3.1.1",
+                      "nts2Ref": "B3.3.1.1",
                       "ntslRef": "B3.3.1.1",
+                      "ntsl2Ref": "B3.3.1.1",
                       "ta6Ref": "12.4b1",
                       "con29DWRef": "2.2.1",
                       "type": "string",
@@ -19046,16 +19395,18 @@
                       "enum": ["Yes", "To be connected", "No", "Not known"],
                       "con29DWEnum": ["Yes", "No"],
                       "ntsEnum": ["Yes", "No"],
-                      "nts-sefEnum": ["Yes", "No"],
+                      "nts2Enum": ["Yes", "No"],
                       "ntslEnum": ["Yes", "No"],
+                      "ntsl2Enum": ["Yes", "No"],
                       "ta6Enum": ["Yes", "No", "Not known"]
                     }
                   },
                   "baspi4Required": ["yesNo"],
                   "baspi5Required": ["yesNo"],
                   "ntsRequired": ["yesNo"],
-                  "nts-sefRequired": ["yesNo"],
+                  "nts2Required": ["yesNo"],
                   "ntslRequired": ["yesNo"],
+                  "ntsl2Required": ["yesNo"],
                   "ta6Required": ["yesNo"],
                   "discriminator": {
                     "propertyName": "yesNo"
@@ -19102,8 +19453,9 @@
                 },
                 "mainsFoulDrainage": {
                   "ntsRef": "B3.3.2",
-                  "nts-sefRef": "B3.3.2",
+                  "nts2Ref": "B3.3.2",
                   "ntslRef": "B3.3.2",
+                  "ntsl2Ref": "B3.3.2",
                   "baspi4Ref": "A7.1.0.11",
                   "baspi5Ref": "A7.1.0.11",
                   "rdsRef": "Services/WasteWaterSewerageDisposal",
@@ -19115,13 +19467,15 @@
                   "baspi5Required": ["yesNo"],
                   "ta6Required": ["yesNo"],
                   "ntsRequired": ["yesNo"],
-                  "nts-sefRequired": ["yesNo"],
+                  "nts2Required": ["yesNo"],
                   "ntslRequired": ["yesNo"],
+                  "ntsl2Required": ["yesNo"],
                   "properties": {
                     "yesNo": {
                       "ntsRef": "B3.3.2.1",
-                      "nts-sefRef": "B3.3.2.1",
+                      "nts2Ref": "B3.3.2.1",
                       "ntslRef": "B3.3.2.1",
+                      "ntsl2Ref": "B3.3.2.1",
                       "baspi4Ref": "A7.1.0.11.1",
                       "baspi5Ref": "A7.1.0.11.1",
                       "ta6Ref": "12.4a1",
@@ -19130,8 +19484,9 @@
                       "enum": ["Yes", "To be connected", "No", "Not known"],
                       "con29DWEnum": ["Yes", "No"],
                       "ntsEnum": ["Yes", "No"],
-                      "nts-sefEnum": ["Yes", "No"],
+                      "nts2Enum": ["Yes", "No"],
                       "ntslEnum": ["Yes", "No"],
+                      "ntsl2Enum": ["Yes", "No"],
                       "ta6Enum": ["Yes", "No", "Not known"]
                     }
                   },
@@ -19192,8 +19547,9 @@
                         },
                         "offMainsDrainageSystem": {
                           "ntsRef": "B3.3.3",
-                          "nts-sefRef": "B3.3.3",
+                          "nts2Ref": "B3.3.3",
                           "ntslRef": "B3.3.3",
+                          "ntsl2Ref": "B3.3.3",
                           "baspi4Ref": "A7.1.10.13",
                           "baspi5Ref": "A7.1.10.13",
                           "ta6Ref": "12.4a",
@@ -19213,8 +19569,9 @@
                             "plantDrainsIntoWaterway"
                           ],
                           "ntsRequired": ["offMainsDrainageSystemType"],
-                          "nts-sefRequired": ["offMainsDrainageSystemType"],
+                          "nts2Required": ["offMainsDrainageSystemType"],
                           "ntslRequired": ["offMainsDrainageSystemType"],
+                          "ntsl2Required": ["offMainsDrainageSystemType"],
                           "ta6Required": [
                             "offMainsDrainageSystemType",
                             "otherConnectedProperties",
@@ -19223,8 +19580,9 @@
                           "properties": {
                             "offMainsDrainageSystemType": {
                               "ntsRef": "B3.3.3.1",
-                              "nts-sefRef": "B3.3.3.1",
+                              "nts2Ref": "B3.3.3.1",
                               "ntslRef": "B3.3.3.1",
+                              "ntsl2Ref": "B3.3.3.1",
                               "baspi4Ref": "A7.1",
                               "baspi5Ref": "A7.1",
                               "ta6Ref": "12.5",
@@ -19575,15 +19933,17 @@
                                 },
                                 "details": {
                                   "ntsRef": "B3.3.3.2",
-                                  "nts-sefRef": "B3.3.3.2",
+                                  "nts2Ref": "B3.3.3.2",
                                   "ntslRef": "B3.3.3.2",
+                                  "ntsl2Ref": "B3.3.3.2",
                                   "title": "Details",
                                   "type": "string"
                                 }
                               },
                               "ntsRequired": ["details"],
-                              "nts-sefRequired": ["details"],
-                              "ntslRequired": ["details"]
+                              "nts2Required": ["details"],
+                              "ntslRequired": ["details"],
+                              "ntsl2Required": ["details"]
                             }
                           ]
                         }
@@ -20030,8 +20390,9 @@
         },
         "heating": {
           "ntsRef": "B3.4",
-          "nts-sefRef": "B3.4",
+          "nts2Ref": "B3.4",
           "ntslRef": "B3.4",
+          "ntsl2Ref": "B3.4",
           "baspi4Ref": "A7.4",
           "baspi5Ref": "A7.4",
           "ta6Ref": "12.3",
@@ -20043,13 +20404,15 @@
           "baspi5Required": ["heatingSystem"],
           "ta6Required": ["heatingSystem"],
           "ntsRequired": ["heatingSystem"],
-          "nts-sefRequired": ["heatingSystem"],
+          "nts2Required": ["heatingSystem"],
           "ntslRequired": ["heatingSystem"],
+          "ntsl2Required": ["heatingSystem"],
           "properties": {
             "heatingSystem": {
               "ntsRef": "B3.4.1",
-              "nts-sefRef": "B3.4.1",
+              "nts2Ref": "B3.4.1",
               "ntslRef": "B3.4.1",
+              "ntsl2Ref": "B3.4.1",
               "baspi4Ref": "A7.4.0",
               "baspi5Ref": "A7.4.0",
               "ta6Ref": "12.3.1",
@@ -20060,13 +20423,15 @@
               "baspi5Required": ["heatingType"],
               "ta6Required": ["heatingType"],
               "ntsRequired": ["heatingType"],
-              "nts-sefRequired": ["heatingType"],
+              "nts2Required": ["heatingType"],
               "ntslRequired": ["heatingType"],
+              "ntsl2Required": ["heatingType"],
               "properties": {
                 "heatingType": {
                   "ntsRef": "B3.4.1",
-                  "nts-sefRef": "B3.4.1",
+                  "nts2Ref": "B3.4.1",
                   "ntslRef": "B3.4.1",
+                  "ntsl2Ref": "B3.4.1",
                   "baspi4Ref": "A7.4.0",
                   "baspi5Ref": "A7.4.0",
                   "ta6Ref": "12.3.1",
@@ -20099,8 +20464,9 @@
                     },
                     "centralHeatingDetails": {
                       "ntsRef": "B3.4.3",
-                      "nts-sefRef": "B3.4.3",
+                      "nts2Ref": "B3.4.3",
                       "ntslRef": "B3.4.3",
+                      "ntsl2Ref": "B3.4.3",
                       "baspi4Ref": "A7.4.0.0",
                       "baspi5Ref": "A7.4.0.0",
                       "ta6Ref": "12.3.2",
@@ -20124,8 +20490,15 @@
                         "heatingInGoodWorkingOrder"
                       ],
                       "ntsRequired": ["centralHeatingFuel"],
-                      "nts-sefRequired": ["centralHeatingFuel"],
+                      "nts2Required": [
+                        "centralHeatingFuel",
+                        "centralHeatingInstalled"
+                      ],
                       "ntslRequired": ["centralHeatingFuel"],
+                      "ntsl2Required": [
+                        "centralHeatingFuel",
+                        "centralHeatingInstalled"
+                      ],
                       "ta6Required": [
                         "centralHeatingFuel",
                         "centralHeatingInstalled",
@@ -20137,8 +20510,9 @@
                       "properties": {
                         "centralHeatingFuel": {
                           "ntsRef": "B3.4.3.1",
-                          "nts-sefRef": "B3.4.3.1",
+                          "nts2Ref": "B3.4.3.1",
                           "ntslRef": "B3.4.3.1",
+                          "ntsl2Ref": "B3.4.3.1",
                           "baspi4Ref": "A7.4.0.1",
                           "baspi5Ref": "A7.4.0.1",
                           "ta6Ref": "12.3.3",
@@ -20146,16 +20520,18 @@
                           "type": "object",
                           "title": "Central Heating Fuel",
                           "ntsRequired": ["centralHeatingFuelType"],
-                          "nts-sefRequired": ["centralHeatingFuelType"],
+                          "nts2Required": ["centralHeatingFuelType"],
                           "ntslRequired": ["centralHeatingFuelType"],
+                          "ntsl2Required": ["centralHeatingFuelType"],
                           "baspi4Required": ["centralHeatingFuelType"],
                           "baspi5Required": ["centralHeatingFuelType"],
                           "ta6Required": ["centralHeatingFuelType"],
                           "properties": {
                             "centralHeatingFuelType": {
                               "ntsRef": "B3.4.3.1.1",
-                              "nts-sefRef": "B3.4.3.1.1",
+                              "nts2Ref": "B3.4.3.1.1",
                               "ntslRef": "B3.4.3.1.1",
+                              "ntsl2Ref": "B3.4.3.1.1",
                               "baspi4Ref": "A7.4.0.2",
                               "baspi5Ref": "A7.4.0.2",
                               "ta6Ref": "12.3a1",
@@ -20268,6 +20644,8 @@
                         "centralHeatingInstalled": {
                           "baspi4Ref": "A7.4.1",
                           "baspi5Ref": "A7.4.1",
+                          "nts2Ref": "B3.4.3.2",
+                          "ntsl2Ref": "B3.4.3.2",
                           "rdsRef": "Objects/Installed",
                           "ta6Ref": "12.3b1",
                           "piqRef": "A7.4.1",
@@ -20400,8 +20778,9 @@
                   "baspi4Required": ["centralHeatingDetails"],
                   "baspi5Required": ["centralHeatingDetails"],
                   "ntsRequired": ["centralHeatingDetails"],
-                  "nts-sefRequired": ["centralHeatingDetails"],
+                  "nts2Required": ["centralHeatingDetails"],
                   "ntslRequired": ["centralHeatingDetails"],
+                  "ntsl2Required": ["centralHeatingDetails"],
                   "ta6Required": ["centralHeatingDetails"]
                 },
                 {
@@ -20411,8 +20790,9 @@
                     },
                     "details": {
                       "ntsRef": "B3.4.4",
-                      "nts-sefRef": "B3.4.4",
+                      "nts2Ref": "B3.4.4",
                       "ntslRef": "B3.4.4",
+                      "ntsl2Ref": "B3.4.4",
                       "title": "Communal heating system details",
                       "description": "Please describe how the cost of heating supply is charged, whether you have control over the energy supplier and whether you have any control over the heating.",
                       "type": "string",
@@ -20420,15 +20800,17 @@
                     }
                   },
                   "ntsRequired": ["details"],
-                  "nts-sefRequired": ["details"],
-                  "ntslRequired": ["details"]
+                  "nts2Required": ["details"],
+                  "ntslRequired": ["details"],
+                  "ntsl2Required": ["details"]
                 }
               ]
             },
             "otherHeatingFeatures": {
               "ntsRef": "B3.4.2",
-              "nts-sefRef": "B3.4.2",
+              "nts2Ref": "B3.4.2",
               "ntslRef": "B3.4.2",
+              "ntsl2Ref": "B3.4.2",
               "title": "What other heating features does the property have?",
               "type": "array",
               "items": {
@@ -20442,6 +20824,7 @@
                   "Solar water",
                   "Underfloor heating",
                   "Wood burner",
+                  "Aga/Rayburn",
                   "Open fire",
                   "Ground source heat pump",
                   "Air source heat pump",
@@ -20456,8 +20839,9 @@
           "baspi4Ref": "A7",
           "baspi5Ref": "A7",
           "ntsRef": "B3",
-          "nts-sefRef": "B3",
+          "nts2Ref": "B3",
           "ntslRef": "B3",
+          "ntsl2Ref": "B3",
           "ta6Ref": "13",
           "title": "Connectivity",
           "type": "object",
@@ -20474,8 +20858,9 @@
             "mobilePhone"
           ],
           "ntsRequired": ["broadband"],
-          "nts-sefRequired": ["broadband"],
+          "nts2Required": ["broadband"],
           "ntslRequired": ["broadband"],
+          "ntsl2Required": ["broadband"],
           "ta6Required": ["telephone", "cableSatelliteTV"],
           "properties": {
             "telephone": {
@@ -20495,8 +20880,9 @@
                   "title": "",
                   "enum": ["Yes", "To be connected", "No"],
                   "ntsEnum": ["Yes", "No"],
-                  "nts-sefEnum": ["Yes", "No"],
+                  "nts2Enum": ["Yes", "No"],
                   "ntslEnum": ["Yes", "No"],
+                  "ntsl2Enum": ["Yes", "No"],
                   "ta6Enum": ["Yes", "No"]
                 }
               },
@@ -20573,8 +20959,9 @@
                   "title": "",
                   "enum": ["Yes", "To be connected", "No"],
                   "ntsEnum": ["Yes", "No"],
-                  "nts-sefEnum": ["Yes", "No"],
+                  "nts2Enum": ["Yes", "No"],
                   "ntslEnum": ["Yes", "No"],
+                  "ntsl2Enum": ["Yes", "No"],
                   "ta6Enum": ["Yes", "No"]
                 }
               },
@@ -20634,8 +21021,9 @@
             },
             "broadband": {
               "ntsRef": "B3.5",
-              "nts-sefRef": "B3.5",
+              "nts2Ref": "B3.5",
               "ntslRef": "B3.5",
+              "ntsl2Ref": "B3.5",
               "baspi4Ref": "A7.1.0.7",
               "baspi5Ref": "A7.1.0.7",
               "title": "Broadband",
@@ -20645,8 +21033,9 @@
               "properties": {
                 "typeOfConnection": {
                   "ntsRef": "B3.5.2",
-                  "nts-sefRef": "B3.5.2",
+                  "nts2Ref": "B3.5.2",
                   "ntslRef": "B3.5.2",
+                  "ntsl2Ref": "B3.5.2",
                   "baspi4Ref": "A7.1.0.7.2",
                   "baspi5Ref": "A7.1.0.7.2",
                   "piqRef": "A7.1.16",
@@ -20692,15 +21081,17 @@
                 }
               },
               "ntsRequired": ["typeOfConnection"],
-              "nts-sefRequired": ["typeOfConnection"],
-              "ntslRequired": ["typeOfConnection"]
+              "nts2Required": ["typeOfConnection"],
+              "ntslRequired": ["typeOfConnection"],
+              "ntsl2Required": ["typeOfConnection"]
             },
             "mobilePhone": {
               "baspi4Ref": "A7.1.0.8",
               "baspi5Ref": "A7.1.0.8",
               "ntsRef": "B3.6",
-              "nts-sefRef": "B3.6",
+              "nts2Ref": "B3.6",
               "ntslRef": "B3.6",
+              "ntsl2Ref": "B3.6",
               "title": "Mobile phone coverage",
               "type": "object",
               "properties": {
@@ -20708,23 +21099,26 @@
                   "baspi4Ref": "A7.1.0.8.1",
                   "baspi5Ref": "A7.1.0.8.1",
                   "ntsRef": "B3.6.1",
-                  "nts-sefRef": "B3.6.1",
+                  "nts2Ref": "B3.6.1",
                   "ntslRef": "B3.6.1",
+                  "ntsl2Ref": "B3.6.1",
                   "title": "Are there any issues with mobile phone signal or coverage at the property?",
                   "description": "You should disclose any known issues with signal strength or dropped calls specific to the property.",
                   "type": "object",
                   "baspi4Required": ["yesNo"],
                   "baspi5Required": ["yesNo"],
                   "ntsRequired": ["yesNo"],
-                  "nts-sefRequired": ["yesNo"],
+                  "nts2Required": ["yesNo"],
                   "ntslRequired": ["yesNo"],
+                  "ntsl2Required": ["yesNo"],
                   "properties": {
                     "yesNo": {
                       "baspi4Ref": "A7.1.0.8.2",
                       "baspi5Ref": "A7.1.0.8.2",
                       "ntsRef": "B3.6.1.1",
-                      "nts-sefRef": "B3.6.1.1",
+                      "nts2Ref": "B3.6.1.1",
                       "ntslRef": "B3.6.1.1",
+                      "ntsl2Ref": "B3.6.1.1",
                       "title": "",
                       "type": "string",
                       "enum": ["Yes", "No"]
@@ -20748,15 +21142,17 @@
                         },
                         "details": {
                           "ntsRef": "B3.6.1.2",
-                          "nts-sefRef": "B3.6.1.2",
+                          "nts2Ref": "B3.6.1.2",
                           "ntslRef": "B3.6.1.2",
+                          "ntsl2Ref": "B3.6.1.2",
                           "title": "Details",
                           "type": "string"
                         }
                       },
                       "ntsRequired": ["details"],
-                      "nts-sefRequired": ["details"],
-                      "ntslRequired": ["details"]
+                      "nts2Required": ["details"],
+                      "ntslRequired": ["details"],
+                      "ntsl2Required": ["details"]
                     }
                   ]
                 },
@@ -21227,8 +21623,9 @@
         },
         "rightsAndInformalArrangements": {
           "ntsRef": "C2.2",
-          "nts-sefRef": "C2.2",
+          "nts2Ref": "C2.2",
           "ntslRef": "C2.2",
+          "ntsl2Ref": "C2.2",
           "baspi4Ref": "A10",
           "baspi5Ref": "A10",
           "ta6Ref": "8",
@@ -21247,8 +21644,9 @@
             "rightsOrArrangements"
           ],
           "ntsRequired": ["rightsOrArrangements"],
-          "nts-sefRequired": ["rightsOrArrangements"],
+          "nts2Required": ["rightsOrArrangements"],
           "ntslRequired": ["rightsOrArrangements"],
+          "ntsl2Required": ["rightsOrArrangements"],
           "ta6Required": [
             "sharedContributions",
             "neighbouringLandRights",
@@ -21427,16 +21825,18 @@
             },
             "rightsOrArrangements": {
               "ntsRef": "C2.2.1",
-              "nts-sefRef": "C2.2.1",
+              "nts2Ref": "C2.2.1",
               "ntslRef": "C2.2.1",
+              "ntsl2Ref": "C2.2.1",
               "baspi4Ref": "A10.4",
               "baspi5Ref": "A10.4",
               "ta6Ref": "8.4",
               "title": "Do you know if any of the following rights or arrangements affect the property?",
               "type": "object",
               "ntsRequired": ["publicRightOfWay"],
-              "nts-sefRequired": ["publicRightOfWay"],
+              "nts2Required": ["publicRightOfWay"],
               "ntslRequired": ["publicRightOfWay"],
+              "ntsl2Required": ["publicRightOfWay"],
               "baspi4Required": [
                 "publicRightOfWay",
                 "rightsOfLight",
@@ -21469,8 +21869,9 @@
               "properties": {
                 "publicRightOfWay": {
                   "ntsRef": "C2.2.1",
-                  "nts-sefRef": "C2.2.1",
+                  "nts2Ref": "C2.2.1",
                   "ntslRef": "C2.2.1",
+                  "ntsl2Ref": "C2.2.1",
                   "baspi4Ref": "A10.4.1",
                   "baspi5Ref": "A10.4.1",
                   "rdsRef": "Tenure/Rights,Tenure/Restrictions,Tenure/Responsibilities,Tenure/CadastralMapOfParcels",
@@ -21482,8 +21883,9 @@
                   "properties": {
                     "yesNo": {
                       "ntsRef": "C2.2.1.1",
-                      "nts-sefRef": "C2.2.1.1",
+                      "nts2Ref": "C2.2.1.1",
                       "ntslRef": "C2.2.1.1",
+                      "ntsl2Ref": "C2.2.1.1",
                       "baspi4Ref": "A10.4.1.1",
                       "baspi5Ref": "A10.4.1.1",
                       "ta6Ref": "8.6.1",
@@ -21496,8 +21898,9 @@
                   "baspi4Required": ["yesNo"],
                   "baspi5Required": ["yesNo"],
                   "ntsRequired": ["yesNo"],
-                  "nts-sefRequired": ["yesNo"],
+                  "nts2Required": ["yesNo"],
                   "ntslRequired": ["yesNo"],
+                  "ntsl2Required": ["yesNo"],
                   "ta6Required": ["yesNo"],
                   "discriminator": {
                     "propertyName": "yesNo"
@@ -21517,8 +21920,9 @@
                         },
                         "details": {
                           "ntsRef": "C2.2.1.2",
-                          "nts-sefRef": "C2.2.1.2",
+                          "nts2Ref": "C2.2.1.2",
                           "ntslRef": "C2.2.1.2",
+                          "ntsl2Ref": "C2.2.1.2",
                           "baspi4Ref": "A10.4.1.2",
                           "baspi5Ref": "A10.4.1.2",
                           "ta6Ref": "8.6.2",
@@ -21539,8 +21943,9 @@
                       "baspi5Required": ["details", "attachments"],
                       "ta6Required": ["details"],
                       "ntsRequired": ["details"],
-                      "nts-sefRequired": ["details"],
-                      "ntslRequired": ["details"]
+                      "nts2Required": ["details"],
+                      "ntslRequired": ["details"],
+                      "ntsl2Required": ["details"]
                     }
                   ]
                 },
@@ -21911,8 +22316,9 @@
         },
         "environmentalIssues": {
           "ntsRef": "C3.1",
-          "nts-sefRef": "C3.1",
+          "nts2Ref": "C3.1",
           "ntslRef": "C3.1",
+          "ntsl2Ref": "C3.1",
           "baspi4Ref": "A11.1",
           "baspi5Ref": "A11.1",
           "ta6Ref": "7",
@@ -21932,7 +22338,7 @@
             "nonCoalMining",
             "coastalErosion"
           ],
-          "nts-sefRequired": [
+          "nts2Required": [
             "flooding",
             "coalMining",
             "nonCoalMining",
@@ -21944,12 +22350,19 @@
             "nonCoalMining",
             "coastalErosion"
           ],
+          "ntsl2Required": [
+            "flooding",
+            "coalMining",
+            "nonCoalMining",
+            "coastalErosion"
+          ],
           "ta6Required": ["flooding", "radon"],
           "properties": {
             "flooding": {
               "ntsRef": "C3.1.1",
-              "nts-sefRef": "C3.1.1",
+              "nts2Ref": "C3.1.1",
               "ntslRef": "C3.1.1",
+              "ntsl2Ref": "C3.1.1",
               "baspi4Ref": "A11.1.1",
               "baspi5Ref": "A11.1.1",
               "rdsRef": "Sustainability/Environmental|Natural|Situational",
@@ -21959,28 +22372,40 @@
               "baspi4Required": ["historicalFlooding"],
               "baspi5Required": ["historicalFlooding"],
               "ntsRequired": ["floodRisk", "historicalFlooding"],
-              "nts-sefRequired": ["floodRisk", "historicalFlooding"],
+              "nts2Required": [
+                "floodRisk",
+                "historicalFlooding",
+                "floodDefences"
+              ],
               "ntslRequired": ["floodRisk", "historicalFlooding"],
+              "ntsl2Required": [
+                "floodRisk",
+                "historicalFlooding",
+                "floodDefences"
+              ],
               "ta6Required": ["historicalFlooding"],
               "properties": {
                 "floodRisk": {
                   "ntsRef": "C3.1.1.1",
-                  "nts-sefRef": "C3.1.1.1",
+                  "nts2Ref": "C3.1.1.1",
                   "ntslRef": "C3.1.1.1",
+                  "ntsl2Ref": "C3.1.1.1",
                   "rdsRef": "Sustainability/Environmental|Natural|Situational",
                   "piqRef": "A11.1.1",
                   "title": "Flood Risk",
                   "type": "object",
                   "ntsRequired": ["riskIndicator"],
-                  "nts-sefRequired": ["riskIndicator"],
+                  "nts2Required": ["riskIndicator"],
                   "ntslRequired": ["riskIndicator"],
+                  "ntsl2Required": ["riskIndicator"],
                   "baspi4Required": ["riskIndicator"],
                   "baspi5Required": ["riskIndicator"],
                   "properties": {
                     "riskIndicator": {
                       "ntsRef": "C3.1.1.1",
-                      "nts-sefRef": "C3.1.1.1",
+                      "nts2Ref": "C3.1.1.1",
                       "ntslRef": "C3.1.1.1",
+                      "ntsl2Ref": "C3.1.1.1",
                       "type": "string",
                       "title": "Is the property impacted?",
                       "ntsTitle": "To your knowledge, is the property at risk of flooding of any type?",
@@ -22018,8 +22443,9 @@
                         },
                         "summary": {
                           "ntsRef": "C3.1.1.2",
-                          "nts-sefRef": "C3.1.1.2",
+                          "nts2Ref": "C3.1.1.2",
                           "ntslRef": "C3.1.1.2",
+                          "ntsl2Ref": "C3.1.1.2",
                           "type": "string",
                           "title": "Summary of risk",
                           "ntsTitle:": "Please provide details",
@@ -22081,15 +22507,17 @@
                         }
                       },
                       "ntsRequired": ["summary"],
-                      "nts-sefRequired": ["summary"],
-                      "ntslRequired": ["summary"]
+                      "nts2Required": ["summary"],
+                      "ntslRequired": ["summary"],
+                      "ntsl2Required": ["summary"]
                     }
                   ]
                 },
                 "historicalFlooding": {
                   "ntsRef": "C3.1.1.2",
-                  "nts-sefRef": "C3.1.1.2",
+                  "nts2Ref": "C3.1.1.2",
                   "ntslRef": "C3.1.1.2",
+                  "ntsl2Ref": "C3.1.1.2",
                   "baspi4Ref": "A11.1.2",
                   "baspi5Ref": "A11.1.2",
                   "ta6Ref": "7.1",
@@ -22098,14 +22526,16 @@
                   "baspi4Required": ["hasBeenFlooded"],
                   "baspi5Required": ["hasBeenFlooded"],
                   "ntsRequired": ["hasBeenFlooded"],
-                  "nts-sefRequired": ["hasBeenFlooded"],
+                  "nts2Required": ["hasBeenFlooded"],
                   "ntslRequired": ["hasBeenFlooded"],
+                  "ntsl2Required": ["hasBeenFlooded"],
                   "ta6Required": ["hasBeenFlooded"],
                   "properties": {
                     "hasBeenFlooded": {
                       "ntsRef": "C3.1.1.2.1",
-                      "nts-sefRef": "C3.1.1.2.1",
+                      "nts2Ref": "C3.1.1.2.1",
                       "ntslRef": "C3.1.1.2.1",
+                      "ntsl2Ref": "C3.1.1.2.1",
                       "baspi4Ref": "A11.1.2.1",
                       "baspi5Ref": "A11.1.2.1",
                       "ta6Ref": "7.1.1",
@@ -22132,8 +22562,9 @@
                         },
                         "typeOfFlooding": {
                           "ntsRef": "C3.1.1.3",
-                          "nts-sefRef": "C3.1.1.3",
+                          "nts2Ref": "C3.1.1.3",
                           "ntslRef": "C3.1.1.3",
+                          "ntsl2Ref": "C3.1.1.3",
                           "baspi4Ref": "A11.1.2.2",
                           "baspi5Ref": "A11.1.2.2",
                           "rdsRef": "Sustainability/Environmental|Natural|Situational",
@@ -22154,8 +22585,9 @@
                         },
                         "details": {
                           "ntsRef": "C3.1.1.4",
-                          "nts-sefRef": "C3.1.1.4",
+                          "nts2Ref": "C3.1.1.4",
                           "ntslRef": "C3.1.1.4",
+                          "ntsl2Ref": "C3.1.1.4",
                           "baspi4Ref": "A11.1.2.1",
                           "baspi5Ref": "A11.1.2.1",
                           "ta6Ref": "7.1.2",
@@ -22167,9 +22599,55 @@
                       "baspi4Required": ["typeOfFlooding", "details"],
                       "baspi5Required": ["typeOfFlooding", "details"],
                       "ntsRequired": ["typeOfFlooding", "details"],
-                      "nts-sefRequired": ["typeOfFlooding", "details"],
+                      "nts2Required": ["typeOfFlooding", "details"],
                       "ntslRequired": ["typeOfFlooding", "details"],
+                      "ntsl2Required": ["typeOfFlooding", "details"],
                       "ta6Required": ["typeOfFlooding", "details"]
+                    }
+                  ]
+                },
+                "floodDefences": {
+                  "nts2Ref": "C3.1.1.2",
+                  "ntsl2Ref": "C3.1.1.2",
+                  "title": "Flood defences",
+                  "type": "object",
+                  "nts2Required": ["hasFloodDefences"],
+                  "ntsl2Required": ["hasFloodDefences"],
+                  "properties": {
+                    "hasFloodDefences": {
+                      "nts2Ref": "C3.1.1.2.1",
+                      "ntsl2Ref": "C3.1.1.2.1",
+                      "title": "Are there any defences to prevent flooding installed at the property?",
+                      "type": "string",
+                      "enum": ["Yes", "No"]
+                    }
+                  },
+                  "discriminator": {
+                    "propertyName": "hasFloodDefences"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "hasFloodDefences": {
+                          "enum": ["No"]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "hasFloodDefences": {
+                          "enum": ["Yes"]
+                        },
+                        "details": {
+                          "nts2Ref": "C3.1.1.4",
+                          "ntsl2Ref": "C3.1.1.4",
+                          "title": "Please provide details",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "nts2Required": ["details"],
+                      "ntsl2Required": ["details"]
                     }
                   ]
                 }
@@ -22968,18 +23446,21 @@
             "coalMining": {
               "rdsRef": "Sustainability/Environmental|Natural|Situational",
               "ntsRef": "C6.1",
-              "nts-sefRef": "C6.1",
+              "nts2Ref": "C6.1",
               "ntslRef": "C6.1",
+              "ntsl2Ref": "C6.1",
               "title": "Coal mining",
               "type": "object",
               "ntsRequired": ["riskIndicator"],
-              "nts-sefRequired": ["riskIndicator"],
+              "nts2Required": ["riskIndicator"],
               "ntslRequired": ["riskIndicator"],
+              "ntsl2Required": ["riskIndicator"],
               "properties": {
                 "riskIndicator": {
                   "ntsRef": "C6.1.1",
-                  "nts-sefRef": "C6.1.1",
+                  "nts2Ref": "C6.1.1",
                   "ntslRef": "C6.1.1",
+                  "ntsl2Ref": "C6.1.1",
                   "type": "string",
                   "title": "Is the property impacted?",
                   "ntsTitle": "To your knowledge, is the property impacted by coal mining?",
@@ -23015,12 +23496,13 @@
                     },
                     "summary": {
                       "ntsRef": "C6.1.1",
-                      "nts-sefRef": "C6.1.1",
+                      "nts2Ref": "C6.1.1",
                       "ntslRef": "C6.1.1",
+                      "ntsl2Ref": "C6.1.1",
                       "type": "string",
                       "title": "Summary of risk",
                       "ntsTitle": "Please provide details",
-                      "nts-sefTitle": "Please provide details",
+                      "nts2Title": "Please provide details",
                       "minLength": 1
                     },
                     "recommendations": {
@@ -23084,18 +23566,21 @@
             "nonCoalMining": {
               "rdsRef": "Sustainability/Environmental|Natural|Situational",
               "ntsRef": "C6.2",
-              "nts-sefRef": "C6.2",
+              "nts2Ref": "C6.2",
               "ntslRef": "C6.2",
+              "ntsl2Ref": "C6.2",
               "title": "Non-coal mining",
               "type": "object",
               "ntsRequired": ["riskIndicator"],
-              "nts-sefRequired": ["riskIndicator"],
+              "nts2Required": ["riskIndicator"],
               "ntslRequired": ["riskIndicator"],
+              "ntsl2Required": ["riskIndicator"],
               "properties": {
                 "riskIndicator": {
                   "ntsRef": "C6.2.1",
-                  "nts-sefRef": "C6.2.1",
+                  "nts2Ref": "C6.2.1",
                   "ntslRef": "C6.2.1",
+                  "ntsl2Ref": "C6.2.1",
                   "type": "string",
                   "title": "Is the property impacted?",
                   "ntsTitle": "To your knowledge, is the property impacted by types of mining other than coal?",
@@ -23131,8 +23616,9 @@
                     },
                     "summary": {
                       "ntsRef": "C6.2.2",
-                      "nts-sefRef": "C6.2.2",
+                      "nts2Ref": "C6.2.2",
                       "ntslRef": "C6.2.2",
+                      "ntsl2Ref": "C6.2.2",
                       "type": "string",
                       "title": "Summary of risk",
                       "ntsTitle:": "Please provide details",
@@ -23194,29 +23680,33 @@
                     }
                   },
                   "ntsRequired": ["summary"],
-                  "nts-sefRequired": ["summary"],
-                  "ntslRequired": ["summary"]
+                  "nts2Required": ["summary"],
+                  "ntslRequired": ["summary"],
+                  "ntsl2Required": ["summary"]
                 }
               ]
             },
             "coastalErosion": {
               "ntsRef": "C3.2",
-              "nts-sefRef": "C3.2",
+              "nts2Ref": "C3.2",
               "ntslRef": "C3.2",
+              "ntsl2Ref": "C3.2",
               "baspi5Ref": "A11.1.2",
               "rdsRef": "Sustainability/Environmental|Natural|Situational",
               "title": "Coastal erosion",
               "type": "object",
               "ntsRequired": ["riskIndicator"],
-              "nts-sefRequired": ["riskIndicator"],
+              "nts2Required": ["riskIndicator"],
               "ntslRequired": ["riskIndicator"],
+              "ntsl2Required": ["riskIndicator"],
               "properties": {
                 "riskIndicator": {
                   "ntsRef": "C3.2.1",
-                  "nts-sefRef": "C3.2.1",
+                  "nts2Ref": "C3.2.1",
                   "ntslRef": "C3.2.1",
+                  "ntsl2Ref": "C3.2.1",
                   "type": "string",
-                  "title": "Is the property impacted?",
+                  "title": "Is the property impacted by coastal erosion?",
                   "ntsTitle": "To your knowledge, is the property impacted by coastal erosion?",
                   "enum": ["Yes", "No"]
                 }
@@ -23250,8 +23740,9 @@
                     },
                     "summary": {
                       "ntsRef": "C3.2.2",
-                      "nts-sefRef": "C3.2.2",
+                      "nts2Ref": "C3.2.2",
                       "ntslRef": "C3.2.2",
+                      "ntsl2Ref": "C3.2.2",
                       "type": "string",
                       "title": "Summary of risk",
                       "ntsTitle:": "Please provide details",
@@ -23313,8 +23804,9 @@
                     }
                   },
                   "ntsRequired": ["summary"],
-                  "nts-sefRequired": ["summary"],
-                  "ntslRequired": ["summary"]
+                  "nts2Required": ["summary"],
+                  "ntslRequired": ["summary"],
+                  "ntsl2Required": ["summary"]
                 }
               ]
             },
@@ -25998,6 +26490,7 @@
           "baspi4Ref": "B7",
           "baspi5Ref": "B7",
           "ta6Ref": "14",
+          "nts2Ref": "A1.5.7",
           "title": "Completion and Moving",
           "type": "object",
           "baspi4Required": [
@@ -26020,6 +26513,7 @@
             "moveRestrictionDates",
             "sufficientToRepayAllMortgages"
           ],
+          "nts2Required": ["otherPropertyInChain"],
           "properties": {
             "sellerWillEnsure": {
               "baspi4Ref": "B7.1",
@@ -26075,7 +26569,10 @@
               "rdsRef": "RightsHolders/Flags",
               "ta6Ref": "14.1",
               "piqRef": "B9.1",
+              "nts2Ref": "A1.5.7.1",
               "title": "Will you need the purchase, sale or remortgage of another property to co-ordinate with the sale of this property?",
+              "ta6Title": "Is this sale dependent on the seller completing the purchase of another property on the same day?",
+              "nts2Title": "Is this sale dependent on completion of the purchase of another property on the same day?",
               "type": "object",
               "properties": {
                 "yesNo": {
@@ -26083,6 +26580,7 @@
                   "baspi5Ref": "B7.2.1",
                   "ta6Ref": "14.1.1",
                   "piqRef": "B9.1.1",
+                  "nts2Ref": "A1.5.7.1.1",
                   "type": "string",
                   "title": "",
                   "enum": ["Yes", "No"]
@@ -26091,6 +26589,7 @@
               "baspi4Required": ["yesNo"],
               "baspi5Required": ["yesNo"],
               "ta6Required": ["yesNo"],
+              "nts2Required": ["yesNo"],
               "discriminator": {
                 "propertyName": "yesNo"
               },
