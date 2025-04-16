@@ -816,9 +816,98 @@
         "specialistIssues": {
           "ntsl2Ref": "A5",
           "required": [
-            "japaneseKnotweed"
+            "dryRotEtcTreatment",
+            "containsAsbestos",
+            "japaneseKnotweed",
+            "subsidenceOrStructuralFault",
+            "ongoingHealthOrSafetyIssue"
           ],
           "properties": {
+            "dryRotEtcTreatment": {
+              "ntsl2Ref": "A5.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ntsl2Ref": "A5.1.2"
+                    },
+                    "attachments": {
+                      "ntsl2Ref": "A5.1.3"
+                    }
+                  },
+                  "required": [
+                    "details",
+                    "attachments"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ntsl2Ref": "A5.1.1"
+                }
+              }
+            },
+            "containsAsbestos": {
+              "ntsl2Ref": "A5.2",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ntsl2Ref": "A5.2.2",
+                      "title": "Details"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ntsl2Ref": "A5.2.1"
+                }
+              }
+            },
             "japaneseKnotweed": {
               "ntsl2Ref": "A5.3",
               "discriminator": {
@@ -891,6 +980,46 @@
               "properties": {
                 "yesNo": {
                   "ntsl2Ref": "A5.4.1"
+                }
+              }
+            },
+            "ongoingHealthOrSafetyIssue": {
+              "ntsl2Ref": "A5.5",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ntsl2Ref": "A5.5.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ntsl2Ref": "A5.5.1"
                 }
               }
             }
