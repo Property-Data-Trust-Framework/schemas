@@ -189,7 +189,7 @@
           },
           "participantStatus": {
             "type": "string",
-            "enum": ["Active", "Removed", "Pending"]
+            "enum": ["Proposed", "Invited", "Active", "Removed"]
           }
         },
         "discriminator": {
@@ -444,7 +444,8 @@
         "listingAndConservation",
         "rightsAndInformalArrangements",
         "environmentalIssues",
-        "notices"
+        "notices",
+        "specialistIssues"
       ],
       "ntslRequired": [
         "lettingInformation",
@@ -476,7 +477,8 @@
         "listingAndConservation",
         "rightsAndInformalArrangements",
         "environmentalIssues",
-        "notices"
+        "notices",
+        "specialistIssues"
       ],
       "ta7Required": ["ownership"],
       "properties": {
@@ -907,7 +909,7 @@
                 {
                   "properties": {
                     "propertyType": {
-                      "enum": ["House", "Bungalow"]
+                      "enum": ["House", "Bungalow", "Park home"]
                     }
                   }
                 },
@@ -1802,14 +1804,14 @@
                           {
                             "properties": {
                               "yesNo": {
-                                "enum": ["Yes"]
+                                "enum": ["No"]
                               }
                             }
                           },
                           {
                             "properties": {
                               "yesNo": {
-                                "enum": ["No"]
+                                "enum": ["Yes"]
                               },
                               "details": {
                                 "nts2Ref": "A3.4.2",
@@ -4231,7 +4233,7 @@
                                     "ntsRef": "A3.7.1",
                                     "nts2Ref": "A3.7.1",
                                     "title": "Shared ownership percentage",
-                                    "type": "integer",
+                                    "type": "number",
                                     "minimum": 5,
                                     "exclusiveMaximum": 100
                                   },
@@ -4756,7 +4758,6 @@
                                         ],
                                         "nts2Required": [
                                           "nameOrOrganisation",
-                                          "address",
                                           "emailAddress"
                                         ],
                                         "properties": {
@@ -4773,7 +4774,6 @@
                                             "baspi4Ref": "A1.5.5.1.2",
                                             "baspi5Ref": "A1.5.6.1.2",
                                             "ta7Ref": "4.1c.0",
-                                            "nts2Ref": "A1.5.6.1.2",
                                             "title": "Address",
                                             "type": "object",
                                             "properties": {
@@ -4781,7 +4781,6 @@
                                                 "baspi4Ref": "A1.5.5.1.2.1",
                                                 "baspi5Ref": "A1.5.6.1.2.1",
                                                 "ta7Ref": "4.1c.2",
-                                                "nts2Ref": "A1.5.6.1.2.1",
                                                 "title": "Address line 1",
                                                 "type": "string",
                                                 "minLength": 1
@@ -4790,7 +4789,6 @@
                                                 "baspi4Ref": "A1.5.5.1.2.2",
                                                 "baspi5Ref": "A1.5.6.1.2.2",
                                                 "ta7Ref": "4.1c.3",
-                                                "nts2Ref": "A1.5.6.1.2.2",
                                                 "title": "Address line 2",
                                                 "type": "string"
                                               },
@@ -4798,7 +4796,6 @@
                                                 "baspi4Ref": "A1.5.5.1.2.3",
                                                 "baspi5Ref": "A1.5.6.1.2.3",
                                                 "ta7Ref": "4.1c.4",
-                                                "nts2Ref": "A1.5.6.1.2.3",
                                                 "title": "Address line 3",
                                                 "type": "string"
                                               },
@@ -4806,7 +4803,6 @@
                                                 "baspi4Ref": "A1.5.5.1.2.4",
                                                 "baspi5Ref": "A1.5.6.1.2.4",
                                                 "ta7Ref": "4.1c.5",
-                                                "nts2Ref": "A1.5.6.1.2.4",
                                                 "title": "Town",
                                                 "type": "string"
                                               },
@@ -4814,7 +4810,6 @@
                                                 "baspi4Ref": "A1.5.5.1.2.5",
                                                 "baspi5Ref": "A1.5.6.1.2.5",
                                                 "ta7Ref": "4.1c.6",
-                                                "nts2Ref": "A1.5.6.1.2.5",
                                                 "title": "Postcode",
                                                 "type": "string",
                                                 "minLength": 1
@@ -4831,10 +4826,6 @@
                                             "baspi5Required": [
                                               "line1",
                                               "postcode"
-                                            ],
-                                            "nts2Required": [
-                                              "line1",
-                                              "postcode"
                                             ]
                                           },
                                           "telephone": {
@@ -4847,7 +4838,7 @@
                                             "baspi4Ref": "A1.5.5.1.3",
                                             "baspi5Ref": "A1.5.6.1.3",
                                             "ta7Ref": "4.1c.8",
-                                            "nts2Ref": "A1.5.6.1.3",
+                                            "nts2Ref": "A1.5.6.1.2",
                                             "title": "Email address",
                                             "type": "string",
                                             "format": "email"
@@ -9789,7 +9780,7 @@
               "ntsl2Ref": "A1.2.1",
               "rdsRef": "Buildings,BuildingSections/ConstructionType,ConstructionMaterials",
               "piqRef": "A5.5",
-              "title": "Is the property built in a standard form of construction?",
+              "title": "Is the property built in a fully standard form of construction?",
               "description": "Standard construction is brick and/or block with timber-supported roof comprising a tile or slate cover. Examples of non-standard features which might affect a buyer are are thatched roofs, prefabricated buildings or timber-framed windows.",
               "type": "object",
               "properties": {
@@ -9824,7 +9815,7 @@
                     "constructionType": {
                       "nts2Ref": "A1.2.1.3",
                       "ntsl2Ref": "A1.2.1.3",
-                      "title": "Details",
+                      "title": "What is the main construction type?",
                       "type": "string",
                       "enum": [
                         "Brick and block",
@@ -10074,16 +10065,8 @@
                       "enum": ["Yes", "No"]
                     }
                   },
-                  "nts2Required": [
-                    "loftAccess",
-                    "loftBoarded",
-                    "loftInsulated"
-                  ],
-                  "ntsl2Required": [
-                    "loftAccess",
-                    "loftBoarded",
-                    "loftInsulated"
-                  ]
+                  "nts2Required": ["details", "loftBoarded", "loftInsulated"],
+                  "ntsl2Required": ["details", "loftBoarded", "loftInsulated"]
                 }
               ]
             },
@@ -13101,6 +13084,8 @@
                       "baspi4Ref": "A5.3.2",
                       "baspi5Ref": "A5.3.2",
                       "ta6Ref": "7.8.2",
+                      "nts2Ref": "A5.3.2",
+                      "ntsl2Ref": "A5.3.2",
                       "title": "Is there a Japanese Knotweed management and treatment plan in place?",
                       "type": "string",
                       "enum": ["Yes", "No", "Not known"]
@@ -13116,6 +13101,8 @@
                   },
                   "baspi4Required": ["managementPlanInPlace"],
                   "baspi5Required": ["managementPlanInPlace"],
+                  "nts2Required": ["managementPlanInPlace"],
+                  "ntsl2Required": ["managementPlanInPlace"],
                   "ta6Required": ["managementPlanInPlace", "attachments"]
                 }
               ],
@@ -13450,7 +13437,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "1.2c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -13493,7 +13480,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "1.3c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -13536,7 +13523,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "1.4c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -13579,7 +13566,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "1.5c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -13622,7 +13609,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "1.6c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -13665,7 +13652,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "1.7c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -13708,7 +13695,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "1.8c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -13751,7 +13738,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "1.9c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -13794,7 +13781,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "1.10c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -13837,7 +13824,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "1.11c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -13880,7 +13867,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "1.12c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -13923,7 +13910,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "1.13c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -13966,7 +13953,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "1.14c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -14009,7 +13996,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "1.15c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -14057,6 +14044,11 @@
                         "title": "Included or Excluded",
                         "type": "string",
                         "enum": ["Included", "Excluded"]
+                      },
+                      "comments": {
+                        "ta10Ref": "1.16c",
+                        "title": "Comments",
+                        "type": "string"
                       }
                     },
                     "ta10Required": ["itemName", "isIncludedOrExcluded"],
@@ -14118,7 +14110,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "2.1c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -14194,7 +14186,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "2.2c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -14270,7 +14262,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "2.3c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -14346,7 +14338,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "2.4c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -14422,7 +14414,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "2.5c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -14498,7 +14490,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "2.6c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -14574,7 +14566,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "2.7c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -14650,7 +14642,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "2.8c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -14726,7 +14718,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "2.9c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -14802,7 +14794,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "2.10c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -14883,6 +14875,11 @@
                         "title": "Included or Excluded",
                         "type": "string",
                         "enum": ["Included", "Excluded"]
+                      },
+                      "comments": {
+                        "ta10Ref": "2.11c",
+                        "title": "Comments",
+                        "type": "string"
                       }
                     },
                     "ta10Required": ["isIncludedOrExcluded"],
@@ -14906,26 +14903,7 @@
                                 "enum": ["Fitted", "Freestanding"]
                               }
                             },
-                            "ta10Required": ["fittedOrFreestanding"],
-                            "discriminator": {
-                              "propertyName": "fittedOrFreestanding"
-                            },
-                            "oneOf": [
-                              {
-                                "properties": {
-                                  "fittedOrFreestanding": {
-                                    "enum": ["Fitted"]
-                                  }
-                                }
-                              },
-                              {
-                                "properties": {
-                                  "fittedOrFreestanding": {
-                                    "enum": ["Freestanding"]
-                                  }
-                                }
-                              }
-                            ]
+                            "ta10Required": ["fittedOrFreestanding"]
                           }
                         }
                       },
@@ -14950,26 +14928,7 @@
                                 "enum": ["Fitted", "Freestanding"]
                               }
                             },
-                            "ta10Required": ["fittedOrFreestanding"],
-                            "discriminator": {
-                              "propertyName": "fittedOrFreestanding"
-                            },
-                            "oneOf": [
-                              {
-                                "properties": {
-                                  "fittedOrFreestanding": {
-                                    "enum": ["Fitted"]
-                                  }
-                                }
-                              },
-                              {
-                                "properties": {
-                                  "fittedOrFreestanding": {
-                                    "enum": ["Freestanding"]
-                                  }
-                                }
-                              }
-                            ]
+                            "ta10Required": ["fittedOrFreestanding"]
                           }
                         }
                       },
@@ -15014,7 +14973,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "3.1c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15057,7 +15016,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "3.2c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15100,7 +15059,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "3.3c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15143,7 +15102,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "3.4c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15186,7 +15145,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "3.5c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15229,7 +15188,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "3.6c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15272,7 +15231,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "3.7c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15315,7 +15274,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "3.8c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15358,7 +15317,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "3.9c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15401,7 +15360,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "3.10c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15460,7 +15419,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "4.1c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15503,7 +15462,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "4.2c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15546,7 +15505,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "4.3c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15589,7 +15548,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "4.4c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15632,7 +15591,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "4.5c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15675,7 +15634,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "4.6c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15718,7 +15677,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "4.7c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -15829,7 +15788,7 @@
                           "enum": ["Included", "Excluded", "None"]
                         },
                         "comments": {
-                          "ta10Ref": "1.1c",
+                          "ta10Ref": "5.1c",
                           "title": "Comments",
                           "type": "string"
                         }
@@ -15872,7 +15831,7 @@
                           "enum": ["Included", "Excluded", "None"]
                         },
                         "comments": {
-                          "ta10Ref": "1.1c",
+                          "ta10Ref": "5.2c",
                           "title": "Comments",
                           "type": "string"
                         }
@@ -15915,7 +15874,7 @@
                           "enum": ["Included", "Excluded", "None"]
                         },
                         "comments": {
-                          "ta10Ref": "1.1c",
+                          "ta10Ref": "5.3c",
                           "title": "Comments",
                           "type": "string"
                         }
@@ -15958,7 +15917,7 @@
                           "enum": ["Included", "Excluded", "None"]
                         },
                         "comments": {
-                          "ta10Ref": "1.1c",
+                          "ta10Ref": "5.4c",
                           "title": "Comments",
                           "type": "string"
                         }
@@ -16001,7 +15960,7 @@
                           "enum": ["Included", "Excluded", "None"]
                         },
                         "comments": {
-                          "ta10Ref": "1.1c",
+                          "ta10Ref": "5.5c",
                           "title": "Comments",
                           "type": "string"
                         }
@@ -16044,7 +16003,7 @@
                           "enum": ["Included", "Excluded", "None"]
                         },
                         "comments": {
-                          "ta10Ref": "1.1c",
+                          "ta10Ref": "5.6c",
                           "title": "Comments",
                           "type": "string"
                         }
@@ -16087,7 +16046,7 @@
                           "enum": ["Included", "Excluded", "None"]
                         },
                         "comments": {
-                          "ta10Ref": "1.1c",
+                          "ta10Ref": "5.7c",
                           "title": "Comments",
                           "type": "string"
                         }
@@ -16146,6 +16105,11 @@
                             "properties": {
                               "isIncludedOrExcluded": {
                                 "enum": ["Included"]
+                              },
+                              "comments": {
+                                "ta10Ref": "5.8c",
+                                "title": "Comments",
+                                "type": "string"
                               }
                             }
                           },
@@ -16158,6 +16122,11 @@
                                 "ta10Ref": "5.8b",
                                 "title": "Price",
                                 "type": "number"
+                              },
+                              "comments": {
+                                "ta10Ref": "5.8c",
+                                "title": "Comments",
+                                "type": "string"
                               }
                             }
                           }
@@ -16192,7 +16161,7 @@
                           "enum": ["Included", "Excluded", "None"]
                         },
                         "comments": {
-                          "ta10Ref": "1.1c",
+                          "ta10Ref": "5.12c",
                           "title": "Comments",
                           "type": "string"
                         }
@@ -16235,7 +16204,7 @@
                           "enum": ["Included", "Excluded", "None"]
                         },
                         "comments": {
-                          "ta10Ref": "1.1c",
+                          "ta10Ref": "5.13c",
                           "title": "Comments",
                           "type": "string"
                         }
@@ -16278,7 +16247,7 @@
                           "enum": ["Included", "Excluded", "None"]
                         },
                         "comments": {
-                          "ta10Ref": "1.1c",
+                          "ta10Ref": "5.14c",
                           "title": "Comments",
                           "type": "string"
                         }
@@ -16321,7 +16290,7 @@
                           "enum": ["Included", "Excluded", "None"]
                         },
                         "comments": {
-                          "ta10Ref": "1.1c",
+                          "ta10Ref": "5.15c",
                           "title": "Comments",
                           "type": "string"
                         }
@@ -16364,7 +16333,7 @@
                           "enum": ["Included", "Excluded", "None"]
                         },
                         "comments": {
-                          "ta10Ref": "1.1c",
+                          "ta10Ref": "5.16c",
                           "title": "Comments",
                           "type": "string"
                         }
@@ -16407,7 +16376,7 @@
                           "enum": ["Included", "Excluded", "None"]
                         },
                         "comments": {
-                          "ta10Ref": "1.1c",
+                          "ta10Ref": "5.17c",
                           "title": "Comments",
                           "type": "string"
                         }
@@ -16450,7 +16419,7 @@
                           "enum": ["Included", "Excluded", "None"]
                         },
                         "comments": {
-                          "ta10Ref": "1.1c",
+                          "ta10Ref": "5.18c",
                           "title": "Comments",
                           "type": "string"
                         }
@@ -16558,7 +16527,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "6.1c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -16601,7 +16570,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "6.2c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -16644,7 +16613,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "6.3c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -16687,7 +16656,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "6.4c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -16730,7 +16699,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "6.5c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -16773,7 +16742,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "6.6c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -16816,7 +16785,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "6.7c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -16875,6 +16844,11 @@
                         "properties": {
                           "isIncludedOrExcluded": {
                             "enum": ["Included"]
+                          },
+                          "comments": {
+                            "ta10Ref": "6.8c",
+                            "title": "Comments",
+                            "type": "string"
                           }
                         }
                       },
@@ -16887,6 +16861,11 @@
                             "ta10Ref": "6.8b",
                             "title": "Price",
                             "type": "number"
+                          },
+                          "comments": {
+                            "ta10Ref": "6.8c",
+                            "title": "Comments",
+                            "type": "string"
                           }
                         }
                       }
@@ -16922,7 +16901,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "7.1c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -16965,7 +16944,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "7.2c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17008,7 +16987,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "7.3c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17051,7 +17030,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "7.4c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17094,7 +17073,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "7.5c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17137,7 +17116,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "7.6c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17180,7 +17159,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "7.7c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17239,6 +17218,11 @@
                         "properties": {
                           "isIncludedOrExcluded": {
                             "enum": ["Included"]
+                          },
+                          "comments": {
+                            "ta10Ref": "7.8c",
+                            "title": "Comments",
+                            "type": "string"
                           }
                         }
                       },
@@ -17251,6 +17235,11 @@
                             "ta10Ref": "7.8b",
                             "title": "Price",
                             "type": "number"
+                          },
+                          "comments": {
+                            "ta10Ref": "7.8c",
+                            "title": "Comments",
+                            "type": "string"
                           }
                         }
                       }
@@ -17290,7 +17279,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "8.1c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17333,7 +17322,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "8.2c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17376,7 +17365,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "8.3c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17419,7 +17408,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "8.4c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17462,7 +17451,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "8.5c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17505,7 +17494,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "8.6c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17548,7 +17537,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "8.7c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17591,7 +17580,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "8.8c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17634,7 +17623,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "8.9c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17677,7 +17666,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "8.10c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17720,7 +17709,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "8.11c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17763,7 +17752,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "8.12c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17822,6 +17811,11 @@
                         "properties": {
                           "isIncludedOrExcluded": {
                             "enum": ["Included"]
+                          },
+                          "comments": {
+                            "ta10Ref": "8.13c",
+                            "title": "Comments",
+                            "type": "string"
                           }
                         }
                       },
@@ -17834,6 +17828,11 @@
                             "ta10Ref": "8.13b",
                             "title": "Price",
                             "type": "number"
+                          },
+                          "comments": {
+                            "ta10Ref": "8.13c",
+                            "title": "Comments",
+                            "type": "string"
                           }
                         }
                       }
@@ -17865,7 +17864,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "9.1c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17908,7 +17907,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "9.2c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17951,7 +17950,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "9.3c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -17994,7 +17993,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "9.4c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -18045,7 +18044,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "10.1c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -18088,7 +18087,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "10.2c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -18131,7 +18130,7 @@
                       "enum": ["Included", "Excluded", "None"]
                     },
                     "comments": {
-                      "ta10Ref": "1.1c",
+                      "ta10Ref": "10.3c",
                       "title": "Comments",
                       "type": "string"
                     }
@@ -18197,6 +18196,11 @@
                         "properties": {
                           "isIncludedOrExcluded": {
                             "enum": ["Included"]
+                          },
+                          "comments": {
+                            "ta10Ref": "11.1c",
+                            "title": "Comments",
+                            "type": "string"
                           }
                         }
                       },
@@ -18209,6 +18213,11 @@
                             "ta10Ref": "11.1b",
                             "title": "Price",
                             "type": "number"
+                          },
+                          "comments": {
+                            "ta10Ref": "11.1c",
+                            "title": "Comments",
+                            "type": "string"
                           }
                         }
                       }
@@ -20719,7 +20728,14 @@
                           "piqRef": "A7.4.1",
                           "title": "When was the heating system installed?",
                           "type": "string",
-                          "format": "date"
+                          "oneOf": [
+                            {
+                              "format": "date"
+                            },
+                            {
+                              "enum": ["Not known"]
+                            }
+                          ]
                         },
                         "boilerInstallationCertificate": {
                           "baspi4Ref": "A7.4.1.1",
@@ -20780,7 +20796,14 @@
                           "piqRef": "A7.5.1",
                           "title": "When was the heating system last serviced or maintained?",
                           "type": "string",
-                          "format": "date"
+                          "oneOf": [
+                            {
+                              "format": "date"
+                            },
+                            {
+                              "enum": ["Not known"]
+                            }
+                          ]
                         },
                         "heatingLastServicedReport": {
                           "baspi4Ref": "A7.4.2.2",
@@ -22475,10 +22498,7 @@
                       "ntslRef": "C3.1.1.1",
                       "ntsl2Ref": "C3.1.1.1",
                       "type": "string",
-                      "title": "Is the property impacted?",
-                      "ntsTitle": "To your knowledge, is the property at risk of flooding of any type?",
-                      "baspi4Title": "To your knowledge,, is the property at risk of flooding of any type?",
-                      "baspi5Title": "To your knowledge, is the property at risk of flooding of any type?",
+                      "title": "To your knowledge, is the property at risk of flooding of any type?",
                       "enum": ["Yes", "No"]
                     }
                   },
@@ -22516,7 +22536,10 @@
                           "ntsl2Ref": "C3.1.1.2",
                           "type": "string",
                           "title": "Summary of risk",
-                          "ntsTitle:": "Please provide details",
+                          "ntsTitle": "Please provide details",
+                          "nts2Title": "Please provide details",
+                          "ntslTitle": "Please provide details",
+                          "ntsl2Title": "Please provide details",
                           "minLength": 1
                         },
                         "recommendations": {
@@ -22607,7 +22630,8 @@
                       "baspi4Ref": "A11.1.2.1",
                       "baspi5Ref": "A11.1.2.1",
                       "ta6Ref": "7.1.1",
-                      "title": "Has any part of the property (whether buildings or surrounding garden or land) ever been flooded?",
+                      "title": "Has the property been flooded in the last 5 years?",
+                      "ta6Title": "Has any part of the property (whether buildings or surrounding garden or land) ever been flooded?",
                       "type": "string",
                       "enum": ["Yes", "No"]
                     }
@@ -22675,16 +22699,16 @@
                   ]
                 },
                 "floodDefences": {
-                  "nts2Ref": "C3.1.1.2",
-                  "ntsl2Ref": "C3.1.1.2",
+                  "nts2Ref": "C3.1.1.3",
+                  "ntsl2Ref": "C3.1.1.3",
                   "title": "Flood defences",
                   "type": "object",
                   "nts2Required": ["hasFloodDefences"],
                   "ntsl2Required": ["hasFloodDefences"],
                   "properties": {
                     "hasFloodDefences": {
-                      "nts2Ref": "C3.1.1.2.1",
-                      "ntsl2Ref": "C3.1.1.2.1",
+                      "nts2Ref": "C3.1.1.3.1",
+                      "ntsl2Ref": "C3.1.1.3.1",
                       "title": "Are there any defences to prevent flooding installed at the property?",
                       "type": "string",
                       "enum": ["Yes", "No"]
@@ -22707,8 +22731,8 @@
                           "enum": ["Yes"]
                         },
                         "details": {
-                          "nts2Ref": "C3.1.1.4",
-                          "ntsl2Ref": "C3.1.1.4",
+                          "nts2Ref": "C3.1.1.3.2",
+                          "ntsl2Ref": "C3.1.1.3.2",
                           "title": "Please provide details",
                           "type": "string",
                           "minLength": 1
