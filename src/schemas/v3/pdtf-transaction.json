@@ -183,8 +183,14 @@
           "externalIds": {
             "type": "object"
           },
-          "isRemoved": {
-            "type": "boolean"
+          "participantStatus": {
+            "type": "string",
+            "enum": [
+              "Proposed",
+              "Invited",
+              "Active",
+              "Removed"
+            ]
           }
         },
         "oneOf": [
@@ -632,7 +638,8 @@
                     "propertyType": {
                       "enum": [
                         "House",
-                        "Bungalow"
+                        "Bungalow",
+                        "Park home"
                       ]
                     }
                   }
@@ -875,10 +882,19 @@
               "type": "integer"
             },
             "outsideAreas": {
-              "title": "Outside areas of the property",
+              "title": "What outside areas are there?",
               "type": "array",
               "items": {
-                "type": "string"
+                "type": "string",
+                "enum": [
+                  "None",
+                  "Front garden",
+                  "Rear garden",
+                  "Side garden",
+                  "Balcony",
+                  "Roof garden",
+                  "Communal garden"
+                ]
               }
             }
           }
@@ -1347,6 +1363,7 @@
                   "ownershipType": {
                     "title": "What type of ownership is the property?",
                     "description": "A Managed Freehold is any freehold where there are shared amenities, the maintenance of which you pay for through an estate rentcharge, service charge, informal or formal contribution. Choose Leasehold if your property is under a Shared Ownership arrangement.",
+                    "nts2Description": "",
                     "type": "string",
                     "enum": [
                       "Freehold",
@@ -1363,6 +1380,49 @@
                       "ownershipType": {
                         "enum": [
                           "Freehold"
+                        ]
+                      },
+                      "estateRentcharges": {
+                        "title": "Are there any estate rentcharges, management charges or service charges payable?",
+                        "type": "object",
+                        "properties": {
+                          "yesNo": {
+                            "type": "string",
+                            "title": "",
+                            "enum": [
+                              "Yes",
+                              "No"
+                            ]
+                          }
+                        },
+                        "oneOf": [
+                          {
+                            "properties": {
+                              "yesNo": {
+                                "enum": [
+                                  "No"
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "properties": {
+                              "yesNo": {
+                                "enum": [
+                                  "Yes"
+                                ]
+                              },
+                              "details": {
+                                "title": "Details",
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "amount": {
+                                "title": "Amount payable annually",
+                                "type": "number"
+                              }
+                            }
+                          }
                         ]
                       },
                       "wholeFreeholdForSale": {
@@ -3399,7 +3459,7 @@
                                   },
                                   "sharedOwnershipPercentage": {
                                     "title": "Shared ownership percentage",
-                                    "type": "integer",
+                                    "type": "number",
                                     "minimum": 5,
                                     "exclusiveMaximum": 100
                                   },
@@ -7854,7 +7914,7 @@
           "type": "object",
           "properties": {
             "isStandardForm": {
-              "title": "Is the property built in a standard form of construction?",
+              "title": "Is the property built in a fully standard form of construction?",
               "description": "Standard construction is brick and/or block with timber-supported roof comprising a tile or slate cover. Examples of non-standard features which might affect a buyer are are thatched roofs, prefabricated buildings or timber-framed windows.",
               "type": "object",
               "properties": {
@@ -7873,6 +7933,17 @@
                     "yesNo": {
                       "enum": [
                         "Yes"
+                      ]
+                    },
+                    "constructionType": {
+                      "title": "What is the main construction type?",
+                      "type": "string",
+                      "enum": [
+                        "Brick and block",
+                        "Steel frame",
+                        "Timber frame",
+                        "Insulated concrete framework",
+                        "Structural insulated panel (SIP)"
                       ]
                     }
                   }
@@ -11115,6 +11186,10 @@
                           "Included",
                           "Excluded"
                         ]
+                      },
+                      "comments": {
+                        "title": "Comments",
+                        "type": "string"
                       }
                     },
                     "oneOf": [
@@ -11947,6 +12022,10 @@
                           "Included",
                           "Excluded"
                         ]
+                      },
+                      "comments": {
+                        "title": "Comments",
+                        "type": "string"
                       }
                     },
                     "oneOf": [
@@ -11968,27 +12047,7 @@
                                   "Freestanding"
                                 ]
                               }
-                            },
-                            "oneOf": [
-                              {
-                                "properties": {
-                                  "fittedOrFreestanding": {
-                                    "enum": [
-                                      "Fitted"
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                "properties": {
-                                  "fittedOrFreestanding": {
-                                    "enum": [
-                                      "Freestanding"
-                                    ]
-                                  }
-                                }
-                              }
-                            ]
+                            }
                           }
                         }
                       },
@@ -12014,27 +12073,7 @@
                                   "Freestanding"
                                 ]
                               }
-                            },
-                            "oneOf": [
-                              {
-                                "properties": {
-                                  "fittedOrFreestanding": {
-                                    "enum": [
-                                      "Fitted"
-                                    ]
-                                  }
-                                }
-                              },
-                              {
-                                "properties": {
-                                  "fittedOrFreestanding": {
-                                    "enum": [
-                                      "Freestanding"
-                                    ]
-                                  }
-                                }
-                              }
-                            ]
+                            }
                           }
                         }
                       },
@@ -13199,6 +13238,10 @@
                                 "enum": [
                                   "Included"
                                 ]
+                              },
+                              "comments": {
+                                "title": "Comments",
+                                "type": "string"
                               }
                             }
                           },
@@ -13212,6 +13255,10 @@
                               "price": {
                                 "title": "Price",
                                 "type": "number"
+                              },
+                              "comments": {
+                                "title": "Comments",
+                                "type": "string"
                               }
                             }
                           }
@@ -13920,6 +13967,10 @@
                             "enum": [
                               "Included"
                             ]
+                          },
+                          "comments": {
+                            "title": "Comments",
+                            "type": "string"
                           }
                         }
                       },
@@ -13933,6 +13984,10 @@
                           "price": {
                             "title": "Price",
                             "type": "number"
+                          },
+                          "comments": {
+                            "title": "Comments",
+                            "type": "string"
                           }
                         }
                       }
@@ -14280,6 +14335,10 @@
                             "enum": [
                               "Included"
                             ]
+                          },
+                          "comments": {
+                            "title": "Comments",
+                            "type": "string"
                           }
                         }
                       },
@@ -14293,6 +14352,10 @@
                           "price": {
                             "title": "Price",
                             "type": "number"
+                          },
+                          "comments": {
+                            "title": "Comments",
+                            "type": "string"
                           }
                         }
                       }
@@ -14859,6 +14922,10 @@
                             "enum": [
                               "Included"
                             ]
+                          },
+                          "comments": {
+                            "title": "Comments",
+                            "type": "string"
                           }
                         }
                       },
@@ -14872,6 +14939,10 @@
                           "price": {
                             "title": "Price",
                             "type": "number"
+                          },
+                          "comments": {
+                            "title": "Comments",
+                            "type": "string"
                           }
                         }
                       }
@@ -15230,6 +15301,10 @@
                             "enum": [
                               "Included"
                             ]
+                          },
+                          "comments": {
+                            "title": "Comments",
+                            "type": "string"
                           }
                         }
                       },
@@ -15243,6 +15318,10 @@
                           "price": {
                             "title": "Price",
                             "type": "number"
+                          },
+                          "comments": {
+                            "title": "Comments",
+                            "type": "string"
                           }
                         }
                       }
@@ -16966,7 +17045,16 @@
                         "centralHeatingInstalled": {
                           "title": "When was the heating system installed?",
                           "type": "string",
-                          "format": "date"
+                          "oneOf": [
+                            {
+                              "format": "date"
+                            },
+                            {
+                              "enum": [
+                                "Not known"
+                              ]
+                            }
+                          ]
                         },
                         "boilerInstallationCertificate": {
                           "title": "Was a gas boiler installed after 1st April 2005, or a solid fuel or oil boiler installed after 1st October 2010?",
@@ -17013,7 +17101,16 @@
                         "heatingLastServicedDate": {
                           "title": "When was the heating system last serviced or maintained?",
                           "type": "string",
-                          "format": "date"
+                          "oneOf": [
+                            {
+                              "format": "date"
+                            },
+                            {
+                              "enum": [
+                                "Not known"
+                              ]
+                            }
+                          ]
                         },
                         "heatingLastServicedReport": {
                           "title": "Please provide a copy of the service or maintenance works report.",
@@ -17098,6 +17195,7 @@
                   "Solar water",
                   "Underfloor heating",
                   "Wood burner",
+                  "Aga/Rayburn",
                   "Open fire",
                   "Ground source heat pump",
                   "Air source heat pump",
@@ -18143,7 +18241,7 @@
                   "properties": {
                     "riskIndicator": {
                       "type": "string",
-                      "title": "Is the property impacted?",
+                      "title": "To your knowledge, is the property at risk of flooding of any type?",
                       "enum": [
                         "Yes",
                         "No"
@@ -18181,7 +18279,6 @@
                         "summary": {
                           "type": "string",
                           "title": "Summary of risk",
-                          "ntsTitle:": "Please provide details",
                           "minLength": 1
                         },
                         "recommendations": {
@@ -18250,7 +18347,7 @@
                   "type": "object",
                   "properties": {
                     "hasBeenFlooded": {
-                      "title": "Has any part of the property (whether buildings or surrounding garden or land) ever been flooded?",
+                      "title": "Has the property been flooded in the last 5 years?",
                       "type": "string",
                       "enum": [
                         "Yes",
@@ -18292,6 +18389,45 @@
                         },
                         "details": {
                           "title": "Please state when the flooding occurred and identify the parts that flooded",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  ]
+                },
+                "floodDefences": {
+                  "title": "Flood defences",
+                  "type": "object",
+                  "properties": {
+                    "hasFloodDefences": {
+                      "title": "Are there any defences to prevent flooding installed at the property?",
+                      "type": "string",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "hasFloodDefences": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "hasFloodDefences": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "title": "Please provide details",
                           "type": "string",
                           "minLength": 1
                         }
@@ -19331,7 +19467,7 @@
               "properties": {
                 "riskIndicator": {
                   "type": "string",
-                  "title": "Is the property impacted?",
+                  "title": "Is the property impacted by coastal erosion?",
                   "enum": [
                     "Yes",
                     "No"
@@ -34231,6 +34367,175 @@
                 "title": "An MD5 hash of the stable-stringified contract object being signed",
                 "type": "string"
               }
+            }
+          }
+        }
+      }
+    },
+    "chain": {
+      "title": "Data Containing the Related Chain",
+      "description": "the data through which the chain for this tranasaction can be built.",
+      "type": "object",
+      "properties": {
+        "onwardPurchase": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "title": "onwards Purchases",
+            "properties": {
+              "transactionId": {
+                "title": "UUID for the onward transaction",
+                "type": "string"
+              },
+              "externalIds": {
+                "type": "object"
+              },
+              "address": {
+                "title": "Address",
+                "type": "object",
+                "properties": {
+                  "buildingNumber": {
+                    "title": "Building number",
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "buildingName": {
+                    "title": "Building name",
+                    "type": "string"
+                  },
+                  "subBuilding": {
+                    "title": "Sub building name",
+                    "type": "string"
+                  },
+                  "street": {
+                    "title": "Street",
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "line1": {
+                    "title": "Address 1",
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "line2": {
+                    "title": "Address 2",
+                    "type": "string"
+                  },
+                  "line 3": {
+                    "title": "Address 3",
+                    "type": "string"
+                  },
+                  "town": {
+                    "title": "Town",
+                    "type": "string"
+                  },
+                  "postcode": {
+                    "title": "Postcode",
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "homeNation": {
+                    "title": "Home nation",
+                    "type": "string",
+                    "enum": [
+                      "England",
+                      "Wales",
+                      "Scotland",
+                      "Northern Ireland"
+                    ]
+                  }
+                }
+              },
+              "uprn": {
+                "title": "Unique Property Reference Number",
+                "type": "integer"
+              },
+              "sellingAgent": {
+                "title": "Estate Agent selling the property",
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "buyersSale": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "title": "the properties the buyer/buyers are selling to finance the purchase",
+          "properties": {
+            "transactionId": {
+              "title": "UUID for the onward transaction",
+              "type": "string"
+            },
+            "externalIds": {
+              "type": "object"
+            },
+            "address": {
+              "title": "Address",
+              "type": "object",
+              "properties": {
+                "buildingNumber": {
+                  "title": "Building number",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "buildingName": {
+                  "title": "Building name",
+                  "type": "string"
+                },
+                "subBuilding": {
+                  "title": "Sub building name",
+                  "type": "string"
+                },
+                "street": {
+                  "title": "Street",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "line1": {
+                  "title": "Address 1",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "line2": {
+                  "title": "Address 2",
+                  "type": "string"
+                },
+                "line 3": {
+                  "title": "Address 3",
+                  "type": "string"
+                },
+                "town": {
+                  "title": "Town",
+                  "type": "string"
+                },
+                "postcode": {
+                  "title": "Postcode",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "homeNation": {
+                  "title": "Home nation",
+                  "type": "string",
+                  "enum": [
+                    "England",
+                    "Wales",
+                    "Scotland",
+                    "Northern Ireland"
+                  ]
+                }
+              }
+            },
+            "uprn": {
+              "title": "Unique Property Reference Number",
+              "type": "integer"
+            },
+            "sellingAgent": {
+              "title": "Estate Agent selling the property",
+              "type": "string"
             }
           }
         }

@@ -44,6 +44,42 @@ test("sample is valid NTS", () => {
   expect(isValid).toBe(true);
 });
 
+test("sample is not valid nts2025 out of the box", () => {
+  const validator = getValidator(schemaId, ["nts2025"]);
+  const isValid = validator(exampleTransaction);
+  expect(isValid).toBe(false);
+  expect(validator.errors.length).toBe(3);
+  expect(validator.errors.map((e) => e.message)).toEqual([
+    "must have required property 'transferFees'",
+    "must have required property 'constructionType'",
+    "must have required property 'floodDefences'",
+  ]);
+});
+
+test("sample is valid nts2025 with some additions", () => {
+  const validator = getValidator(schemaId, ["nts2025"]);
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
+  );
+  clonedExampleTransaction.propertyPack.ownership.ownershipsToBeTransferred[0].leaseholdInformation.serviceCharge.transferFees =
+    {
+      yesNo: "Yes",
+      details: "Transfer fees exist",
+    };
+  clonedExampleTransaction.propertyPack.typeOfConstruction.isStandardForm = {
+    yesNo: "Yes",
+    constructionType: "Timber frame",
+  };
+  clonedExampleTransaction.propertyPack.environmentalIssues.flooding.floodDefences =
+    {
+      hasFloodDefences: "Yes",
+      details: "Flood defences exist",
+    };
+
+  const isValid = validator(clonedExampleTransaction);
+  expect(isValid).toBe(true);
+});
+
 test("sample is not valid NTSL (lettings)", () => {
   const validator = getValidator(schemaId, ["ntsl2023"]);
   const isValid = validator(exampleTransaction);
