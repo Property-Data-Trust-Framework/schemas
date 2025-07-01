@@ -1,0 +1,71 @@
+{
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "ownership": {
+          "properties": {
+            "ownershipsToBeTransferred": {
+              "items": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "estateRentcharges": {
+                        "ntsRef": "A3.4",
+                        "required": [
+                          "yesNo"
+                        ],
+                        "discriminator": {
+                          "propertyName": "yesNo"
+                        },
+                        "properties": {
+                          "yesNo": {
+                            "ntsRef": "A3.4.1",
+                            "type": "string"
+                          }
+                        },
+                        "oneOf": [
+                          {
+                            "required": [
+                              "details",
+                              "amount"
+                            ],
+                            "properties": {
+                              "details": {
+                                "ntsRef": "A3.4.2",
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "amount": {
+                                "ntsRef": "A3.4.3",
+                                "type": "number"
+                              },
+                              "yesNo": {
+                                "enum": [
+                                  "Yes"
+                                ]
+                              }
+                            }
+                          }
+                        ],
+                        "type": "object"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "ownershipsToBeTransferred"
+          ]
+        }
+      },
+      "required": [
+        "ownership"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/extensions/er.json",
+  "$comment": "Estate rentcharges for freehold properties"
+}

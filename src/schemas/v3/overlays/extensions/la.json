@@ -1,0 +1,66 @@
+{
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "typeOfConstruction": {
+          "properties": {
+            "loft": {
+              "ntsRef": "A1.2.4",
+              "required": [
+                "loftAccess"
+              ],
+              "discriminator": {
+                "propertyName": "loftAccess"
+              },
+              "properties": {
+                "loftAccess": {
+                  "ntsRef": "A1.2.4.1",
+                  "type": "string"
+                }
+              },
+              "oneOf": [
+                {
+                  "required": [
+                    "details",
+                    "loftBoarded",
+                    "loftInsulated"
+                  ],
+                  "properties": {
+                    "details": {
+                      "ntsRef": "A1.2.4.2",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "loftBoarded": {
+                      "ntsRef": "A1.2.4.3",
+                      "type": "string"
+                    },
+                    "loftInsulated": {
+                      "ntsRef": "A1.2.4.4",
+                      "type": "string"
+                    },
+                    "loftAccess": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "loft"
+          ]
+        }
+      },
+      "required": [
+        "typeOfConstruction"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/extensions/la.json",
+  "$comment": "Loft access and details"
+}

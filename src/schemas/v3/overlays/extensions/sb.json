@@ -1,0 +1,56 @@
+{
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "specialistIssues": {
+          "properties": {
+            "subsidenceOrStructuralFault": {
+              "ntsRef": "A5.4",
+              "required": [
+                "yesNo"
+              ],
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "properties": {
+                "yesNo": {
+                  "ntsRef": "A5.4.1",
+                  "type": "string"
+                }
+              },
+              "oneOf": [
+                {
+                  "required": [
+                    "details"
+                  ],
+                  "properties": {
+                    "details": {
+                      "ntsRef": "A5.4.2",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "subsidenceOrStructuralFault"
+          ]
+        }
+      },
+      "required": [
+        "specialistIssues"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/extensions/sb.json",
+  "$comment": "Subsidence or structural fault specialist issue"
+}
