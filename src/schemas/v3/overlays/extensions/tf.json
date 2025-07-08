@@ -1,0 +1,91 @@
+{
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "ownership": {
+          "properties": {
+            "ownershipsToBeTransferred": {
+              "items": {
+                "oneOf": [
+                  null,
+                  null,
+                  {
+                    "properties": {
+                      "leaseholdInformation": {
+                        "properties": {
+                          "serviceCharge": {
+                            "oneOf": [
+                              null,
+                              {
+                                "properties": {
+                                  "transferFees": {
+                                    "ntsRef": "A3.5.1.1",
+                                    "required": [
+                                      "yesNo"
+                                    ],
+                                    "title": "Are there any additional fees payable on sale or letting?",
+                                    "discriminator": {
+                                      "propertyName": "yesNo"
+                                    },
+                                    "properties": {
+                                      "yesNo": {
+                                        "ntsRef": "A3.5.1.1.1",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "oneOf": [
+                                      {
+                                        "required": [
+                                          "details"
+                                        ],
+                                        "properties": {
+                                          "details": {
+                                            "ntsRef": "A3.5.1.1.2",
+                                            "type": "string",
+                                            "minLength": 1
+                                          },
+                                          "yesNo": {
+                                            "enum": [
+                                              "Yes"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    ],
+                                    "type": "object"
+                                  }
+                                },
+                                "required": [
+                                  "transferFees"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "serviceCharge"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "leaseholdInformation"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "ownershipsToBeTransferred"
+          ]
+        }
+      },
+      "required": [
+        "ownership"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/extensions/tf.json",
+  "$comment": "Transfer fees for leasehold"
+}

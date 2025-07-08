@@ -1,0 +1,63 @@
+{
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "environmentalIssues": {
+          "properties": {
+            "flooding": {
+              "properties": {
+                "floodDefences": {
+                  "ntsRef": "C3.1.1.3",
+                  "required": [
+                    "hasFloodDefences"
+                  ],
+                  "discriminator": {
+                    "propertyName": "hasFloodDefences"
+                  },
+                  "properties": {
+                    "hasFloodDefences": {
+                      "ntsRef": "C3.1.1.3.1",
+                      "type": "string"
+                    }
+                  },
+                  "oneOf": [
+                    {
+                      "required": [
+                        "details"
+                      ],
+                      "properties": {
+                        "details": {
+                          "ntsRef": "C3.1.1.3.2",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "hasFloodDefences": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "floodDefences"
+              ]
+            }
+          },
+          "required": [
+            "flooding"
+          ]
+        }
+      },
+      "required": [
+        "environmentalIssues"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/extensions/fd.json",
+  "$comment": "Flood defence information"
+}

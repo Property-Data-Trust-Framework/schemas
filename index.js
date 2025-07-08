@@ -14,6 +14,35 @@ const verifiedClaimsSchema = require("./src/schemas/verifiedClaims/pdtf-verified
 const v2CoreSchema = require("./src/schemas/v2/pdtf-transaction.json");
 const v3CoreSchema = require("./src/schemas/v3/pdtf-transaction.json");
 
+// Extension overlays for v3
+const extensionOverlays = {
+  // Specialist Issues Extensions
+  as: require("./src/schemas/v3/overlays/extensions/as.json"),
+  dr: require("./src/schemas/v3/overlays/extensions/dr.json"),
+  jk: require("./src/schemas/v3/overlays/extensions/jk.json"),
+  sb: require("./src/schemas/v3/overlays/extensions/sb.json"),
+  hs: require("./src/schemas/v3/overlays/extensions/hs.json"),
+  
+  // Property Features Extensions
+  oa: require("./src/schemas/v3/overlays/extensions/oa.json"),
+  la: require("./src/schemas/v3/overlays/extensions/la.json"),
+  sf: require("./src/schemas/v3/overlays/extensions/sf.json"),
+  mc: require("./src/schemas/v3/overlays/extensions/mc.json"),
+  
+  // Ownership & Financial Extensions
+  er: require("./src/schemas/v3/overlays/extensions/er.json"),
+  ma: require("./src/schemas/v3/overlays/extensions/ma.json"),
+  tf: require("./src/schemas/v3/overlays/extensions/tf.json"),
+  
+  // Utilities & Services Extensions
+  sl: require("./src/schemas/v3/overlays/extensions/sl.json"),
+  hi: require("./src/schemas/v3/overlays/extensions/hi.json"),
+  fd: require("./src/schemas/v3/overlays/extensions/fd.json"),
+  
+  // Transaction Extensions
+  oc: require("./src/schemas/v3/overlays/extensions/oc.json"),
+};
+
 const overlaysMap = {
   "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json": {
     baspiV4: require("./src/schemas/v2/overlays/baspi.json"),
@@ -50,6 +79,8 @@ const overlaysMap = {
     oc1v21: require("./src/schemas/v3/overlays/oc1.json"),
     piqV3: require("./src/schemas/v3/overlays/piq.json"),
     sr24: require("./src/schemas/v3/overlays/sr24.json"),
+    // Include extension overlays for v3
+    ...extensionOverlays,
     null: {},
   },
 };
@@ -298,4 +329,5 @@ module.exports = {
   verifiedClaimsSchema,
   validateVerifiedClaims,
   overlaysMap,
+  extensionOverlays,
 };

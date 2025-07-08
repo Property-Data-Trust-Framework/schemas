@@ -1,0 +1,60 @@
+{
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "specialistIssues": {
+          "properties": {
+            "dryRotEtcTreatment": {
+              "ntsRef": "A5.1",
+              "required": [
+                "yesNo"
+              ],
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "properties": {
+                "yesNo": {
+                  "ntsRef": "A5.1.1",
+                  "type": "string"
+                }
+              },
+              "oneOf": [
+                {
+                  "required": [
+                    "details"
+                  ],
+                  "properties": {
+                    "details": {
+                      "ntsRef": "A5.1.2",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "attachments": {
+                      "ntsRef": "A5.1.3",
+                      "type": "string"
+                    },
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "dryRotEtcTreatment"
+          ]
+        }
+      },
+      "required": [
+        "specialistIssues"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/extensions/dr.json",
+  "$comment": "Dry rot treatment specialist issue"
+}

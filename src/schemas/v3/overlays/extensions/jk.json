@@ -1,0 +1,55 @@
+{
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "specialistIssues": {
+          "properties": {
+            "japaneseKnotweed": {
+              "ntsRef": "A5.3",
+              "required": [
+                "yesNo"
+              ],
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "properties": {
+                "yesNo": {
+                  "ntsRef": "A5.3.1",
+                  "type": "string"
+                }
+              },
+              "oneOf": [
+                {
+                  "required": [
+                    "managementPlanInPlace"
+                  ],
+                  "properties": {
+                    "managementPlanInPlace": {
+                      "ntsRef": "A5.3.2",
+                      "type": "string"
+                    },
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "japaneseKnotweed"
+          ]
+        }
+      },
+      "required": [
+        "specialistIssues"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/extensions/jk.json",
+  "$comment": "Japanese knotweed specialist issue"
+}

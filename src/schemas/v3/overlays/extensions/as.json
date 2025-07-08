@@ -1,0 +1,57 @@
+{
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "specialistIssues": {
+          "properties": {
+            "containsAsbestos": {
+              "ntsRef": "A5.2",
+              "required": [
+                "yesNo"
+              ],
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "properties": {
+                "yesNo": {
+                  "ntsRef": "A5.2.1",
+                  "type": "string"
+                }
+              },
+              "oneOf": [
+                {
+                  "required": [
+                    "details"
+                  ],
+                  "properties": {
+                    "details": {
+                      "ntsRef": "A5.2.2",
+                      "title": "Details",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "containsAsbestos"
+          ]
+        }
+      },
+      "required": [
+        "specialistIssues"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/extensions/as.json",
+  "$comment": "Asbestos specialist issue"
+}
