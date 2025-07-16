@@ -22,23 +22,23 @@ const extensionOverlays = {
   jk: require("./src/schemas/v3/overlays/extensions/jk.json"),
   sb: require("./src/schemas/v3/overlays/extensions/sb.json"),
   hs: require("./src/schemas/v3/overlays/extensions/hs.json"),
-  
+
   // Property Features Extensions
   oa: require("./src/schemas/v3/overlays/extensions/oa.json"),
   la: require("./src/schemas/v3/overlays/extensions/la.json"),
   sf: require("./src/schemas/v3/overlays/extensions/sf.json"),
   mc: require("./src/schemas/v3/overlays/extensions/mc.json"),
-  
+
   // Ownership & Financial Extensions
   er: require("./src/schemas/v3/overlays/extensions/er.json"),
   ma: require("./src/schemas/v3/overlays/extensions/ma.json"),
   tf: require("./src/schemas/v3/overlays/extensions/tf.json"),
-  
+
   // Utilities & Services Extensions
   sl: require("./src/schemas/v3/overlays/extensions/sl.json"),
   hi: require("./src/schemas/v3/overlays/extensions/hi.json"),
   fd: require("./src/schemas/v3/overlays/extensions/fd.json"),
-  
+
   // Transaction Extensions
   oc: require("./src/schemas/v3/overlays/extensions/oc.json"),
 };
@@ -165,7 +165,106 @@ const getTransactionSchema = (
       },
       arrayMerge: combineMerge,
     });
+
+    // Post-merge: Ensure overlay metadata is preserved
+    mergedSchema = preserveOverlayMetadata(mergedSchema, overlaySchema);
   });
+  return mergedSchema;
+};
+
+// Function to ensure overlay metadata properties are preserved after merging
+const preserveOverlayMetadata = (mergedSchema, overlaySchema) => {
+  const metadataKeys = [
+    "ntsRef",
+    "nts2Ref",
+    "baspi4Ref",
+    "baspi5Ref",
+    "ta6Ref",
+    "ta7Ref",
+    "ta10Ref",
+    "lpe1Ref",
+    "fme1Ref",
+    "con29RRef",
+    "con29DWRef",
+    "llc1Ref",
+    "rdsRef",
+    "oc1Ref",
+    "piqRef",
+    "sr24Ref",
+    "discriminator",
+  ];
+
+  // Helper to get a unique key signature for a schema branch (for matching oneOf branches)
+  const getBranchSignature = (obj) => {
+    if (!obj || typeof obj !== "object") return "";
+    if (obj.properties) {
+      return Object.keys(obj.properties).sort().join(",");
+    }
+    return Object.keys(obj).sort().join(",");
+  };
+
+  const traverseAndPreserve = (merged, overlay, path = "") => {
+    if (!overlay || typeof overlay !== "object") return;
+
+    // If both are arrays, try to match by signature, else fallback to index
+    if (Array.isArray(overlay) && Array.isArray(merged)) {
+      // Build a map of overlay signatures
+      const overlaySignatures = overlay.map(getBranchSignature);
+      const mergedSignatures = merged.map(getBranchSignature);
+      for (let i = 0; i < overlay.length; i++) {
+        const oSig = overlaySignatures[i];
+        // Try to find a matching branch in merged by signature
+        let mIdx = mergedSignatures.indexOf(oSig);
+        if (mIdx === -1) mIdx = i; // fallback to index if not found
+        if (merged[mIdx] !== undefined) {
+          traverseAndPreserve(merged[mIdx], overlay[i], path + `[${mIdx}]`);
+        }
+      }
+      return;
+    }
+
+    Object.keys(overlay).forEach((key) => {
+      const overlayValue = overlay[key];
+      const mergedValue = merged[key];
+
+      if (metadataKeys.includes(key) && overlayValue !== undefined) {
+        // For metadata keys, preserve the overlay value
+        merged[key] = overlayValue;
+      } else if (
+        key === "required" &&
+        Array.isArray(overlayValue) &&
+        Array.isArray(mergedValue)
+      ) {
+        // For required arrays, merge them uniquely (don't overwrite)
+        merged[key] = [...new Set([...mergedValue, ...overlayValue])];
+      } else if (
+        key === "required" &&
+        Array.isArray(overlayValue) &&
+        !Array.isArray(mergedValue)
+      ) {
+        // If merged doesn't have required array but overlay does, use overlay's
+        merged[key] = overlayValue;
+      } else if (
+        overlayValue &&
+        typeof overlayValue === "object" &&
+        !Array.isArray(overlayValue) &&
+        mergedValue &&
+        typeof mergedValue === "object" &&
+        !Array.isArray(mergedValue)
+      ) {
+        traverseAndPreserve(mergedValue, overlayValue, path + "/" + key);
+      } else if (
+        Array.isArray(overlayValue) &&
+        Array.isArray(mergedValue) &&
+        ["oneOf", "anyOf", "allOf"].includes(key)
+      ) {
+        // Recursively handle schema composition arrays (handled above)
+        traverseAndPreserve(mergedValue, overlayValue, path + `/${key}`);
+      }
+    });
+  };
+
+  traverseAndPreserve(mergedSchema, overlaySchema);
   return mergedSchema;
 };
 
