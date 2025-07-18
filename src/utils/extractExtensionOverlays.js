@@ -184,7 +184,7 @@ function hasNts2Ref(obj) {
 }
 
 // Extract only NTS2-specific properties (with nts2Ref)
-function extractNts2Properties(obj) {
+function extractNts2Properties(obj, parentKey) {
   const result = {};
 
   // Copy nts2-specific metadata at current level
@@ -205,7 +205,7 @@ function extractNts2Properties(obj) {
     Object.keys(obj.properties).forEach((key) => {
       const prop = obj.properties[key];
       if (hasNts2Ref(prop)) {
-        result.properties[key] = extractNts2Properties(prop);
+        result.properties[key] = extractNts2Properties(prop, key);
       }
     });
     // Only keep properties if we found some with nts2Ref
@@ -223,8 +223,8 @@ function extractNts2Properties(obj) {
 
   // Handle oneOf
   if (obj.oneOf) {
-    const processedOneOf = [];
-    obj.oneOf.forEach((schema, index) => {
+    // Always preserve the full array structure and order
+    const processedOneOf = obj.oneOf.map((schema, index) => {
       if (hasNts2Ref(schema)) {
         const extracted = extractNts2Properties(schema);
         // For oneOf schemas, we need to preserve discriminator enum values
@@ -239,11 +239,55 @@ function extractNts2Properties(obj) {
             };
           }
         }
-        processedOneOf.push(extracted);
+        // Also preserve base enum values for all other properties in the extension
+        if (schema.properties) {
+          if (!extracted.properties) extracted.properties = {};
+          Object.keys(schema.properties).forEach((propName) => {
+            const prop = schema.properties[propName];
+            if (prop.enum) {
+              if (!extracted.properties[propName]) {
+                extracted.properties[propName] = {
+                  enum: prop.enum,
+                };
+              } else if (!extracted.properties[propName].enum) {
+                // If the property exists but doesn't have enum, add it
+                extracted.properties[propName].enum = prop.enum;
+              }
+            }
+          });
+        }
+        return extracted;
+      } else {
+        // If this branch doesn't have nts2Ref, preserve the base discriminator enum
+        if (obj.discriminator && schema.properties) {
+          const propName = obj.discriminator.propertyName;
+          if (schema.properties[propName]) {
+            return {
+              properties: {
+                [propName]: {
+                  enum: schema.properties[propName].enum,
+                },
+              },
+            };
+          }
+        }
+        // If no discriminator, return empty object to preserve structure
+        return {};
       }
     });
-    if (processedOneOf.length > 0) {
-      result.oneOf = processedOneOf;
+    result.oneOf = processedOneOf;
+
+    // --- NEW: If this is an extension property inside a oneOf, promote it to the parent overlay ---
+    // If parentKey is set, and this object has extension metadata, return a stub for the parent
+    if (
+      parentKey &&
+      (result.ntsRef || result.required || result.discriminator)
+    ) {
+      // This is an extension property inside a oneOf branch
+      // Return a stub for the parent property with metadata and oneOf structure
+      const parentStub = {};
+      Object.assign(parentStub, result);
+      return parentStub;
     }
   }
 

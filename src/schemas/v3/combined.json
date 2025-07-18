@@ -190,6 +190,65 @@
           "participantStatus": {
             "type": "string",
             "enum": ["Proposed", "Invited", "Active", "Removed"]
+          },
+          "verification": {
+            "type": "object",
+            "properties": {
+              "identity": {
+                "type": "object",
+                "properties": {
+                  "result": {
+                    "type": "string",
+                    "enum": ["pass", "fail", "consider"]
+                  },
+                  "reports": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "reportName": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "string",
+                          "enum": ["pass", "fail", "consider"]
+                        },
+                        "details": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "antiMoneyLaundering": {
+                "type": "object",
+                "properties": {
+                  "result": {
+                    "type": "string",
+                    "enum": ["pass", "fail", "consider"]
+                  },
+                  "reports": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "reportName": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "string",
+                          "enum": ["pass", "fail", "consider"]
+                        },
+                        "details": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "discriminator": {
@@ -1862,7 +1921,8 @@
                       }
                     },
                     "baspi4Required": ["wholeFreeholdForSale"],
-                    "baspi5Required": ["wholeFreeholdForSale"]
+                    "baspi5Required": ["wholeFreeholdForSale"],
+                    "nts2Required": ["estateRentcharges"]
                   },
                   {
                     "properties": {

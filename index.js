@@ -92,197 +92,92 @@ const transactionSchemas = {
     v3CoreSchema,
 };
 
-const combineMerge = (target, source, options) => {
-  // Special handling for 'required' arrays - combine them uniquely
-  if (target.some((item) => typeof item === "string")) {
-    return [...new Set([...target, ...source])];
-  }
+// Custom array merge function for oneOf arrays
+const arrayMerge = (target, source) => {
+  // For string arrays (enum, required, etc.)
+  if (
+    target.length > 0 &&
+    source.length > 0 &&
+    target[0] &&
+    typeof target[0] === "string" &&
+    source[0] &&
+    typeof source[0] === "string"
+  ) {
+    // For required arrays, combine them (remove duplicates)
+    // Check if this looks like a required array (contains field names, not enum values)
+    const isRequiredArray = target.some(
+      (item) =>
+        typeof item === "string" &&
+        item.length > 0 &&
+        !item.includes("Yes") &&
+        !item.includes("No") &&
+        !item.includes("Not known") &&
+        !item.includes("To be connected")
+    );
 
-  // For other arrays, concatenate while preserving uniqueness for primitive values
-  if (!options.isMergeableObject(target[0])) {
-    return [...new Set([...target, ...source])];
-  }
-
-  // Special handling for oneOf arrays - merge matching schemas based on discriminator
-  if (target[0]?.properties && source[0]?.properties) {
-    // Find a common discriminator property (a property with an enum)
-    const findDiscriminator = (schema) => {
-      const props = schema.properties;
-      return Object.keys(props).find((key) => Array.isArray(props[key]?.enum));
-    };
-
-    const discriminator = findDiscriminator(target[0]);
-    if (discriminator) {
-      return target.map((targetSchema) => {
-        const targetEnum = targetSchema.properties?.[discriminator]?.enum || [];
-        const matchingSourceSchema = source.find((sourceSchema) => {
-          const sourceEnum =
-            sourceSchema.properties?.[discriminator]?.enum || [];
-          // Check if there's any overlap between the enum values
-          return sourceEnum.some((value) => targetEnum.includes(value));
-        });
-        if (matchingSourceSchema) {
-          return merge(targetSchema, matchingSourceSchema, options);
+    if (isRequiredArray) {
+      // Combine required arrays
+      const combined = [...target];
+      source.forEach((item) => {
+        if (!combined.includes(item)) {
+          combined.push(item);
         }
-        return targetSchema;
       });
+      return combined;
     }
+
+    // For other string arrays (like enum), use source if it exists, otherwise use target
+    return source.length > 0 ? source : target;
   }
 
-  // For arrays of objects, merge by index and append remaining items
-  const destination = target.slice();
-  source.forEach((item, index) => {
-    if (typeof destination[index] === "undefined") {
-      destination[index] = options.cloneUnlessOtherwiseSpecified(item, options);
-    } else if (options.isMergeableObject(item)) {
-      destination[index] = merge(target[index], item, options);
-    }
-  });
-  return destination;
-};
+  // If target is empty but source has values, use source
+  if (target.length === 0 && source.length > 0) {
+    return source;
+  }
 
-const mergeEnums = (target, source) => source;
+  // Ensure we only process arrays of the same length
+  // If source is shorter, pad with nulls
+  // If source is longer, truncate to target length
+  const paddedSource = [...source];
+  while (paddedSource.length < target.length) {
+    paddedSource.push(null);
+  }
+  paddedSource.splice(target.length);
+
+  return target.map((item, index) => {
+    if (paddedSource[index] === null || paddedSource[index] === undefined) {
+      return item;
+    }
+    if (item === null || item === undefined) {
+      return paddedSource[index];
+    }
+    // Recursively merge nested objects and arrays
+    return merge(item, paddedSource[index], { arrayMerge });
+  });
+};
 
 const getTransactionSchema = (
   schemaId = "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json",
-  overlays // = ["baspiV4"]
+  overlays
 ) => {
   const sourceSchema = transactionSchemas[schemaId];
   if (!overlays || overlays.length < 1) return sourceSchema;
-  let mergedSchema = sourceSchema;
+
+  let mergedSchema = JSON.parse(JSON.stringify(sourceSchema)); // Deep copy
   overlays.forEach((overlay) => {
-    // Handle both string keys and direct overlay objects
-    const overlaySchema =
-      typeof overlay === "string"
-        ? overlaysMap[schemaId][overlay] || {}
-        : overlay;
-
-    mergedSchema = merge(mergedSchema, overlaySchema, {
-      customMerge: (key) => {
-        if (key === "enum") {
-          return mergeEnums;
-        }
-      },
-      arrayMerge: combineMerge,
-    });
-
-    // Post-merge: Ensure overlay metadata is preserved
-    mergedSchema = preserveOverlayMetadata(mergedSchema, overlaySchema);
+    const overlaySchema = JSON.parse(
+      JSON.stringify(overlaysMap[schemaId][overlay] || {})
+    ); // Deep copy
+    mergedSchema = merge(mergedSchema, overlaySchema, { arrayMerge });
   });
-  return mergedSchema;
-};
 
-// Function to ensure overlay metadata properties are preserved after merging
-const preserveOverlayMetadata = (mergedSchema, overlaySchema) => {
-  const metadataKeys = [
-    "ntsRef",
-    "nts2Ref",
-    "baspi4Ref",
-    "baspi5Ref",
-    "ta6Ref",
-    "ta7Ref",
-    "ta10Ref",
-    "lpe1Ref",
-    "fme1Ref",
-    "con29RRef",
-    "con29DWRef",
-    "llc1Ref",
-    "rdsRef",
-    "oc1Ref",
-    "piqRef",
-    "sr24Ref",
-    "discriminator",
-  ];
-
-  // Helper to get a unique key signature for a schema branch (for matching oneOf branches)
-  const getBranchSignature = (obj) => {
-    if (!obj || typeof obj !== "object") return "";
-    if (obj.properties) {
-      return Object.keys(obj.properties).sort().join(",");
-    }
-    return Object.keys(obj).sort().join(",");
-  };
-
-  const traverseAndPreserve = (merged, overlay, path = "") => {
-    if (!overlay || typeof overlay !== "object") return;
-
-    // If both are arrays, try to match by signature, else fallback to index
-    if (Array.isArray(overlay) && Array.isArray(merged)) {
-      // Build a map of overlay signatures
-      const overlaySignatures = overlay.map(getBranchSignature);
-      const mergedSignatures = merged.map(getBranchSignature);
-      for (let i = 0; i < overlay.length; i++) {
-        const oSig = overlaySignatures[i];
-        // Try to find a matching branch in merged by signature
-        let mIdx = mergedSignatures.indexOf(oSig);
-        if (mIdx === -1) mIdx = i; // fallback to index if not found
-        if (merged[mIdx] !== undefined) {
-          traverseAndPreserve(merged[mIdx], overlay[i], path + `[${mIdx}]`);
-        }
-      }
-      return;
-    }
-
-    Object.keys(overlay).forEach((key) => {
-      const overlayValue = overlay[key];
-      const mergedValue = merged[key];
-
-      if (metadataKeys.includes(key) && overlayValue !== undefined) {
-        // For metadata keys, preserve the overlay value
-        merged[key] = overlayValue;
-      } else if (
-        key === "required" &&
-        Array.isArray(overlayValue) &&
-        Array.isArray(mergedValue)
-      ) {
-        // For required arrays, merge them uniquely (don't overwrite)
-        merged[key] = [...new Set([...mergedValue, ...overlayValue])];
-      } else if (
-        key === "required" &&
-        Array.isArray(overlayValue) &&
-        !Array.isArray(mergedValue)
-      ) {
-        // If merged doesn't have required array but overlay does, use overlay's
-        merged[key] = overlayValue;
-      } else if (
-        overlayValue &&
-        typeof overlayValue === "object" &&
-        !Array.isArray(overlayValue) &&
-        mergedValue &&
-        typeof mergedValue === "object" &&
-        !Array.isArray(mergedValue)
-      ) {
-        traverseAndPreserve(mergedValue, overlayValue, path + "/" + key);
-      } else if (
-        Array.isArray(overlayValue) &&
-        Array.isArray(mergedValue) &&
-        ["oneOf", "anyOf", "allOf"].includes(key)
-      ) {
-        // Recursively handle schema composition arrays (handled above)
-        traverseAndPreserve(mergedValue, overlayValue, path + `/${key}`);
-      }
-    });
-  };
-
-  traverseAndPreserve(mergedSchema, overlaySchema);
   return mergedSchema;
 };
 
 // Add helper function to generate cache key
 const generateOverlayKey = (overlays) => {
   if (!overlays) return "";
-  return overlays
-    .map((overlay) => {
-      if (typeof overlay === "string") return overlay;
-      // Generate a simple hash of the object for caching
-      return JSON.stringify(overlay)
-        .split("")
-        .reduce((hash, char) => {
-          return ((hash << 5) - hash + char.charCodeAt(0)) | 0;
-        }, 0)
-        .toString(36);
-    })
-    .join(".");
+  return overlays.join(".");
 };
 
 const getValidator = (schemaId, overlays) => {
