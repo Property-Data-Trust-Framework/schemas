@@ -10,6 +10,9 @@ const ajv = new Ajv({
 // Adds date formats among other types to the validator.
 addFormats(ajv);
 
+// Enhanced caching structure for subschemas and validators
+const schemaCache = new Map();
+
 const verifiedClaimsSchema = require("./src/schemas/verifiedClaims/pdtf-verified-claims.json");
 const v2CoreSchema = require("./src/schemas/v2/pdtf-transaction.json");
 const v3CoreSchema = require("./src/schemas/v3/pdtf-transaction.json");
@@ -180,32 +183,74 @@ const generateOverlayKey = (overlays) => {
   return overlays.join(".");
 };
 
+// Enhanced caching function that stores both subschemas and validators
+const getCachedSchemaData = (path, schemaId, overlays) => {
+  const overlayKey = generateOverlayKey(overlays);
+  const cacheKey = `${path}-${schemaId}-${overlayKey}`;
+
+  let cached = schemaCache.get(cacheKey);
+  if (!cached) {
+    // Compute subschema using the original logic
+    const sourceSchema = getTransactionSchema(schemaId, overlays);
+    const pathArray = path.split("/").slice(1);
+    let subSchema = sourceSchema;
+    
+    if (pathArray.length >= 1) {
+      subSchema = pathArray.reduce((schema, pathElement) => {
+        if (!schema) return undefined;
+        const { type, items, properties, oneOf } = schema;
+        if (type === "array") return items;
+        if (properties?.[pathElement]) return properties[pathElement];
+        if (oneOf) {
+          let matchingProperty;
+          oneOf.forEach((aOneOf) => {
+            if (aOneOf.type === "array" && !Number.isNaN(pathElement)) {
+              matchingProperty = aOneOf.items;
+            } else if (aOneOf.properties?.[pathElement]) {
+              matchingProperty = aOneOf.properties?.[pathElement];
+            }
+          });
+          if (matchingProperty) return matchingProperty;
+        }
+        return undefined;
+      }, sourceSchema);
+    }
+
+    // Add schema to AJV and get validator
+    // Only add valid schemas to AJV
+    let validator;
+    if (subSchema && typeof subSchema === 'object') {
+      // Check if schema already exists in AJV to avoid duplicates
+      validator = ajv.getSchema(cacheKey);
+      if (!validator) {
+        ajv.addSchema(subSchema, cacheKey);
+        validator = ajv.getSchema(cacheKey);
+      }
+    } else {
+      // For invalid paths, create a validator that always fails
+      validator = () => false;
+      validator.errors = [`Invalid path: schema is ${subSchema}`];
+    }
+
+    cached = {
+      subSchema,
+      validator,
+      cacheKey
+    };
+    schemaCache.set(cacheKey, cached);
+  }
+
+  return cached;
+};
+
 const getValidator = (schemaId, overlays) => {
   return getSubschemaValidator("", schemaId, overlays);
 };
 
-// common functions for v1 and v2
+// common functions for v1 and v2 - now with caching
 const getSubschema = (path, schemaId, overlays) => {
-  const sourceSchema = getTransactionSchema(schemaId, overlays);
-  const pathArray = path.split("/").slice(1);
-  if (pathArray.length < 1) return sourceSchema;
-  return pathArray.reduce((schema, pathElement) => {
-    const { type, items, properties, oneOf } = schema;
-    if (type === "array") return items;
-    if (properties?.[pathElement]) return properties[pathElement];
-    if (oneOf) {
-      let matchingProperty;
-      oneOf.forEach((aOneOf) => {
-        if (aOneOf.type === "array" && !Number.isNaN(pathElement)) {
-          matchingProperty = aOneOf.items;
-        } else if (aOneOf.properties?.[pathElement]) {
-          matchingProperty = aOneOf.properties?.[pathElement];
-        }
-      });
-      if (matchingProperty) return matchingProperty;
-    }
-    return undefined;
-  }, sourceSchema);
+  const cached = getCachedSchemaData(path, schemaId, overlays);
+  return cached.subSchema;
 };
 
 const isPathValid = (path, schemaId, overlays) => {
@@ -217,18 +262,8 @@ const isPathValid = (path, schemaId, overlays) => {
 };
 
 const getSubschemaValidator = (path, schemaId, overlays) => {
-  const subSchema = getSubschema(path, schemaId, overlays);
-  const overlayKey = generateOverlayKey(overlays);
-  // see if we can retrieve the schema by path, schemaId and overlays
-  const cacheKey = `${path}-${schemaId}-${overlayKey}`;
-  let validator = ajv.getSchema(cacheKey);
-  // retrieve whole schema by $id if available
-  if (!validator && subSchema.$id) validator = ajv.getSchema(cacheKey);
-  if (!validator) {
-    ajv.addSchema(subSchema, cacheKey);
-    validator = ajv.getSchema(cacheKey);
-  }
-  return validator;
+  const cached = getCachedSchemaData(path, schemaId, overlays);
+  return cached.validator;
 };
 
 // v1, deprecated
@@ -312,6 +347,20 @@ const validateVerifiedClaims = (verifiedClaims, schemaId, overlays) => {
   return validationErrorsArr;
 };
 
+// Cache management functions
+const getCacheStats = () => ({
+  totalEntries: schemaCache.size,
+  cacheKeys: Array.from(schemaCache.keys())
+});
+
+const clearSchemaCache = () => {
+  // Clear our cache
+  schemaCache.clear();
+  // Also clear AJV's internal cache to prevent duplicates
+  // Note: This removes all schemas from AJV, which is what we want for testing
+  ajv.removeSchema();
+};
+
 module.exports = {
   ajv,
   getTransactionSchema,
@@ -324,4 +373,7 @@ module.exports = {
   validateVerifiedClaims,
   overlaysMap,
   extensionOverlays,
+  // New cache management functions
+  getCacheStats,
+  clearSchemaCache,
 };
