@@ -13,6 +13,14 @@ addFormats(ajv);
 // Enhanced caching structure for subschemas and validators
 const schemaCache = new Map();
 
+// Cache performance tracking
+const cacheStats = {
+  hits: 0,
+  misses: 0,
+  totalQueries: 0,
+  cacheStartTime: Date.now()
+};
+
 const verifiedClaimsSchema = require("./src/schemas/verifiedClaims/pdtf-verified-claims.json");
 const v2CoreSchema = require("./src/schemas/v2/pdtf-transaction.json");
 const v3CoreSchema = require("./src/schemas/v3/pdtf-transaction.json");
@@ -188,8 +196,10 @@ const getCachedSchemaData = (path, schemaId, overlays) => {
   const overlayKey = generateOverlayKey(overlays);
   const cacheKey = `${path}-${schemaId}-${overlayKey}`;
 
+  cacheStats.totalQueries++;
   let cached = schemaCache.get(cacheKey);
   if (!cached) {
+    cacheStats.misses++;
     // Compute subschema using the original logic
     const sourceSchema = getTransactionSchema(schemaId, overlays);
     const pathArray = path.split("/").slice(1);
@@ -235,9 +245,12 @@ const getCachedSchemaData = (path, schemaId, overlays) => {
     cached = {
       subSchema,
       validator,
-      cacheKey
+      cacheKey,
+      createdAt: Date.now()
     };
     schemaCache.set(cacheKey, cached);
+  } else {
+    cacheStats.hits++;
   }
 
   return cached;
@@ -348,17 +361,178 @@ const validateVerifiedClaims = (verifiedClaims, schemaId, overlays) => {
 };
 
 // Cache management functions
-const getCacheStats = () => ({
-  totalEntries: schemaCache.size,
-  cacheKeys: Array.from(schemaCache.keys())
-});
+const getCacheStats = () => {
+  const runtime = Date.now() - cacheStats.cacheStartTime;
+  const hitRate = cacheStats.totalQueries > 0 ? (cacheStats.hits / cacheStats.totalQueries * 100) : 0;
+  
+  return {
+    totalEntries: schemaCache.size,
+    hits: cacheStats.hits,
+    misses: cacheStats.misses,
+    totalQueries: cacheStats.totalQueries,
+    hitRate: parseFloat(hitRate.toFixed(2)),
+    runtimeMs: runtime,
+    cacheKeys: Array.from(schemaCache.keys()),
+    memoryUsage: {
+      entriesCount: schemaCache.size,
+      // Rough estimate of memory usage per entry
+      estimatedSizeKB: Math.round((schemaCache.size * 2) / 1024 * 100) / 100 // Rough estimate
+    }
+  };
+};
 
-const clearSchemaCache = () => {
-  // Clear our cache
-  schemaCache.clear();
-  // Also clear AJV's internal cache to prevent duplicates
-  // Note: This removes all schemas from AJV, which is what we want for testing
-  ajv.removeSchema();
+const getDetailedCacheStats = () => {
+  const baseStats = getCacheStats();
+  const entries = Array.from(schemaCache.entries()).map(([key, value]) => ({
+    key,
+    createdAt: value.createdAt,
+    age: Date.now() - value.createdAt,
+    hasValidator: typeof value.validator === 'function',
+    hasSubSchema: value.subSchema !== undefined
+  }));
+
+  return {
+    ...baseStats,
+    entries: entries.sort((a, b) => b.createdAt - a.createdAt), // Most recent first
+    oldestEntry: entries.length > 0 ? Math.max(...entries.map(e => e.age)) : 0,
+    newestEntry: entries.length > 0 ? Math.min(...entries.map(e => e.age)) : 0
+  };
+};
+
+const clearSchemaCache = (pattern) => {
+  if (pattern) {
+    // Clear entries matching pattern
+    const keysToDelete = [];
+    schemaCache.forEach((value, key) => {
+      if (key.includes(pattern)) {
+        keysToDelete.push(key);
+      }
+    });
+    keysToDelete.forEach(key => schemaCache.delete(key));
+    
+    // Also remove matching schemas from AJV
+    keysToDelete.forEach(key => {
+      try {
+        ajv.removeSchema(key);
+      } catch (e) {
+        // Schema might not exist in AJV, ignore
+      }
+    });
+    
+    return keysToDelete.length;
+  } else {
+    // Clear all cache
+    const entriesCleared = schemaCache.size;
+    schemaCache.clear();
+    // Reset stats
+    cacheStats.hits = 0;
+    cacheStats.misses = 0;
+    cacheStats.totalQueries = 0;
+    cacheStats.cacheStartTime = Date.now();
+    
+    // Also clear AJV's internal cache to prevent duplicates
+    ajv.removeSchema();
+    
+    return entriesCleared;
+  }
+};
+
+const warmupCache = (paths, schemaId = "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json", overlaysList = []) => {
+  const warmupStats = {
+    totalAttempted: 0,
+    successful: 0,
+    failed: 0,
+    errors: []
+  };
+
+  // Default common paths if none provided
+  const defaultPaths = [
+    "/propertyPack",
+    "/participants",
+    "/status",
+    "/propertyPack/surveys",
+    "/propertyPack/valuations",
+    "/propertyPack/waterAndDrainage",
+    "/propertyPack/ownership",
+    "/propertyPack/notices"
+  ];
+
+  // Default common overlays if none provided
+  const defaultOverlays = [
+    [],
+    ["baspiV5"],
+    ["ta6ed4"],
+    ["nts2023"],
+    ["baspiV5", "ta6ed4"]
+  ];
+
+  const pathsToWarm = paths || defaultPaths;
+  const overlaysToWarm = overlaysList.length > 0 ? overlaysList : defaultOverlays;
+
+  pathsToWarm.forEach(path => {
+    overlaysToWarm.forEach(overlays => {
+      warmupStats.totalAttempted++;
+      try {
+        // This will populate the cache
+        getSubschema(path, schemaId, overlays);
+        getSubschemaValidator(path, schemaId, overlays);
+        warmupStats.successful++;
+      } catch (error) {
+        warmupStats.failed++;
+        warmupStats.errors.push({
+          path,
+          overlays,
+          error: error.message
+        });
+      }
+    });
+  });
+
+  return warmupStats;
+};
+
+const pruneCacheByAge = (maxAgeMs) => {
+  const now = Date.now();
+  const keysToDelete = [];
+  
+  schemaCache.forEach((value, key) => {
+    if (now - value.createdAt > maxAgeMs) {
+      keysToDelete.push(key);
+    }
+  });
+  
+  keysToDelete.forEach(key => {
+    schemaCache.delete(key);
+    try {
+      ajv.removeSchema(key);
+    } catch (e) {
+      // Schema might not exist in AJV, ignore
+    }
+  });
+  
+  return keysToDelete.length;
+};
+
+const setCacheMaxSize = (maxSize) => {
+  if (schemaCache.size <= maxSize) return 0;
+  
+  // Get entries sorted by creation time (oldest first)
+  const entries = Array.from(schemaCache.entries())
+    .sort((a, b) => a[1].createdAt - b[1].createdAt);
+  
+  const toRemove = schemaCache.size - maxSize;
+  const keysToDelete = entries.slice(0, toRemove).map(([key]) => key);
+  
+  keysToDelete.forEach(key => {
+    schemaCache.delete(key);
+    try {
+      ajv.removeSchema(key);
+    } catch (e) {
+      // Schema might not exist in AJV, ignore
+    }
+  });
+  
+  return keysToDelete.length;
 };
 
 module.exports = {
@@ -373,7 +547,11 @@ module.exports = {
   validateVerifiedClaims,
   overlaysMap,
   extensionOverlays,
-  // New cache management functions
+  // Enhanced cache management functions
   getCacheStats,
+  getDetailedCacheStats,
   clearSchemaCache,
+  warmupCache,
+  pruneCacheByAge,
+  setCacheMaxSize,
 };
