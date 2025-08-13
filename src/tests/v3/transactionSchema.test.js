@@ -494,3 +494,81 @@ test("ntsl2025 requires parking and listingAndConservation fields", () => {
   expect(errorMessages).toContain("must have required property 'isConservationArea'");
   expect(errorMessages).toContain("must have required property 'hasTreePreservationOrder'");
 });
+
+test("waterAndDrainage state is invalid under nts2023 overlay when mainsFoulDrainage yesNo is Not known", () => {
+  const validator = getValidator(schemaId, ["nts2023"]);
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
+  );
+  
+  // Set the waterAndDrainage to an actually invalid state for nts2023
+  // The nts overlay restricts mainsFoulDrainage.yesNo to only "Yes" or "No" 
+  // (not "Not known" like the base schema allows)
+  clonedExampleTransaction.propertyPack.waterAndDrainage = {
+    "water": {
+      "mainsWater": {
+        "yesNo": "Yes",
+        "waterMeter": {
+          "isSupplyMetered": "No"
+        }
+      }
+    },
+    "drainage": {
+      "mainsSurfaceWaterDrainage": {
+        "yesNo": "Yes"
+      },
+      "mainsFoulDrainage": {
+        "yesNo": "Not known"  // This is invalid under nts2023 overlay
+      }
+    }
+  };
+  
+  const isValid = validator(clonedExampleTransaction);
+  expect(isValid).toBe(false);
+  
+  // Check that the validation error is about the invalid enum value
+  const relevantError = validator.errors.find(error => 
+    error.instancePath.includes('mainsFoulDrainage') && 
+    error.message.includes('must be equal to one of the allowed values')
+  );
+  expect(relevantError).toBeDefined();
+});
+
+test("waterAndDrainage state with mainsFoulDrainage No missing offMainsDrainageSystem is now invalid under nts2023 overlay", () => {
+  const validator = getValidator(schemaId, ["nts2023"]);
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
+  );
+  
+  // Set the waterAndDrainage to the state from the user request
+  // This SHOULD be invalid because offMainsDrainageSystem is required when mainsFoulDrainage.yesNo is "No"
+  clonedExampleTransaction.propertyPack.waterAndDrainage = {
+    "water": {
+      "mainsWater": {
+        "yesNo": "Yes",
+        "waterMeter": {
+          "isSupplyMetered": "No"
+        }
+      }
+    },
+    "drainage": {
+      "mainsSurfaceWaterDrainage": {
+        "yesNo": "Yes"
+      },
+      "mainsFoulDrainage": {
+        "yesNo": "No"
+        // Missing offMainsDrainageSystem - this should make validation fail
+      }
+    }
+  };
+  
+  const isValid = validator(clonedExampleTransaction);
+  expect(isValid).toBe(false);
+  
+  // Check that the validation error is about missing offMainsDrainageSystem
+  const relevantError = validator.errors.find(error => 
+    error.instancePath.includes('mainsFoulDrainage') && 
+    error.message.includes('offMainsDrainageSystem')
+  );
+  expect(relevantError).toBeDefined();
+});

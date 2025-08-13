@@ -29,25 +29,58 @@ const extractFields = [
 
 const flattenSkeleton = (schema) => {
   if (!schema) return undefined;
+  
+  // Handle arrays - mark with special notation
+  if (schema.type === "array" && schema.items) {
+    const itemSchema = flattenSkeleton(schema.items);
+    // Use array notation to indicate this is an array
+    return [itemSchema];
+  }
+  
+  // Handle primitives - return type indicator
+  if (schema.type && !schema.properties && !schema.oneOf && !schema.items) {
+    // Return a type indicator for primitive types
+    if (schema.type === "string") return "string";
+    if (schema.type === "number") return "number";
+    if (schema.type === "integer") return "integer";
+    if (schema.type === "boolean") return "boolean";
+    if (schema.type === "null") return "null";
+  }
+  
   let returnStructure = {};
+  
+  // Handle object properties
   if (schema.properties) {
     Object.keys(schema.properties).forEach((key) => {
       returnStructure[key] = flattenSkeleton(schema.properties[key]);
     });
   }
+  
+  // Handle oneOf - merge all possible properties
   if (schema.oneOf) {
     schema.oneOf.forEach((aOneOf) => {
       if (aOneOf.properties) {
         Object.entries(aOneOf.properties).forEach(([key, value]) => {
-          returnStructure[key] = flattenSkeleton(value);
+          // If property already exists and differs, mark as variant
+          const newValue = flattenSkeleton(value);
+          if (returnStructure[key] && JSON.stringify(returnStructure[key]) !== JSON.stringify(newValue)) {
+            // For primitive types, just mark as variant type
+            if (typeof returnStructure[key] === "string" || typeof newValue === "string") {
+              returnStructure[key] = "variant";
+            } else {
+              // For complex types, merge properties
+              returnStructure[key] = { ...returnStructure[key], ...newValue, _variants: true };
+            }
+          } else {
+            returnStructure[key] = newValue;
+          }
         });
       }
     });
   }
-  if (schema.items) {
-    returnStructure = flattenSkeleton(schema.items);
-  }
-  return returnStructure;
+  
+  // Return empty object for objects without properties
+  return Object.keys(returnStructure).length > 0 ? returnStructure : {};
 };
 
 const extractOverlay = (sourceSchema, ref) => {
@@ -197,3 +230,61 @@ fs.writeFileSync(
   JSON.stringify(skeletonSchemaFlattened, null, 2)
 );
 console.log("Flat Skeleton schema written to ../schemas/v3/skeleton.json");
+
+// Generate compact skeleton format for better token efficiency
+const toCompact = (obj, indent = "") => {
+  if (typeof obj === "string") {
+    // Skip type indicators entirely
+    return "";
+  }
+  
+  if (Array.isArray(obj)) {
+    if (obj.length === 0) return "[]";
+    // Array with content
+    const inner = toCompact(obj[0], indent);
+    if (inner === "") {
+      return "[]"; // Array of primitives
+    }
+    return `[\n${inner}\n${indent}]`;
+  }
+  
+  if (obj && typeof obj === "object") {
+    const keys = Object.keys(obj);
+    if (keys.length === 0) return "";
+    
+    // Process each key
+    const lines = [];
+    keys.forEach(k => {
+      const val = toCompact(obj[k], indent + "  ");
+      
+      if (val === "") {
+        // Leaf node - just show the property name
+        lines.push(`${indent}  ${k}`);
+      } else if (val === "[]") {
+        // Array property
+        lines.push(`${indent}  ${k}[]`);
+      } else if (val.startsWith("[")) {
+        // Array with nested content - simple concatenation
+        lines.push(`${indent}  ${k}${val}`);
+      } else {
+        // Object property - show name on its own line, content below
+        lines.push(`${indent}  ${k}`);
+        lines.push(val);
+      }
+    });
+    
+    return lines.length > 0 ? lines.join("\n") : "";
+  }
+  
+  return "";
+};
+
+// Since toCompact returns lines without wrapping braces, add them for the root
+const innerContent = toCompact(skeletonSchemaFlattened, "");
+const compactSkeleton = innerContent ? innerContent : "";
+
+fs.writeFileSync(
+  "../schemas/v3/compactSkeleton.txt",
+  compactSkeleton
+);
+console.log("Compact Skeleton written to ../schemas/v3/compactSkeleton.txt");
