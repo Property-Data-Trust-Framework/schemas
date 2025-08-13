@@ -449,43 +449,50 @@ test("validates a valid contract", () => {
   expect(isValid).toBe(true);
 });
 
-test("waterAndDrainage state with mainsFoulDrainage No missing offMainsDrainageSystem is now invalid under nts2023 overlay", () => {
-  const validator = getValidator(schemaId, ["nts2023"]);
+test("ntsl2025 requires parking and listingAndConservation fields", () => {
+  // This test validates that the ntsl2025 overlay correctly enforces required fields
+  // for the parking and listingAndConservation sections.
+  // It should fail validation when these fields are missing.
+  // NOTE: This test will fail until overlays are regenerated from combined.json
+  const validator = getValidator(schemaId, ["ntsl2025"]);
   const clonedExampleTransaction = JSON.parse(
     JSON.stringify(exampleTransaction)
   );
   
-  // Set the waterAndDrainage to the state from the user request
-  // This SHOULD be invalid because offMainsDrainageSystem is required when mainsFoulDrainage.yesNo is "No"
-  clonedExampleTransaction.propertyPack.waterAndDrainage = {
-    "water": {
-      "mainsWater": {
-        "yesNo": "Yes",
-        "waterMeter": {
-          "isSupplyMetered": "No"
-        }
-      }
-    },
-    "drainage": {
-      "mainsSurfaceWaterDrainage": {
-        "yesNo": "Yes"
-      },
-      "mainsFoulDrainage": {
-        "yesNo": "No"
-        // Missing offMainsDrainageSystem - this should make validation fail
-      }
-    }
+  // Set up lettings-specific fields
+  clonedExampleTransaction.propertyPack.lettingInformation = {
+    rent: 3500,
+    rentFrequency: "Monthly",
+    securityDeposit: 5000,
   };
+  delete clonedExampleTransaction.propertyPack.priceInformation;
+  delete clonedExampleTransaction.propertyPack.ownership;
+  
+  // Remove ALL parking fields - this should make validation fail
+  delete clonedExampleTransaction.propertyPack.parking.parkingArrangements;
+  delete clonedExampleTransaction.propertyPack.parking.disabledParking;
+  delete clonedExampleTransaction.propertyPack.parking.controlledParking;
+  delete clonedExampleTransaction.propertyPack.parking.electricVehicleChargingPoint;
+  
+  // Remove ALL listingAndConservation fields - this should make validation fail
+  delete clonedExampleTransaction.propertyPack.listingAndConservation.isListed;
+  delete clonedExampleTransaction.propertyPack.listingAndConservation.isConservationArea;
+  delete clonedExampleTransaction.propertyPack.listingAndConservation.hasTreePreservationOrder;
   
   const isValid = validator(clonedExampleTransaction);
+  
+  // The data should be INVALID because required fields are missing
   expect(isValid).toBe(false);
   
-  // Check that the validation error is about missing offMainsDrainageSystem
-  const relevantError = validator.errors.find(error => 
-    error.instancePath.includes('mainsFoulDrainage') && 
-    error.message.includes('offMainsDrainageSystem')
-  );
-  expect(relevantError).toBeDefined();
+  // Specifically check that parking and listingAndConservation fields are reported as missing
+  const errorMessages = validator.errors.map(e => e.message);
+  expect(errorMessages).toContain("must have required property 'parkingArrangements'");
+  expect(errorMessages).toContain("must have required property 'disabledParking'");
+  expect(errorMessages).toContain("must have required property 'controlledParking'");
+  expect(errorMessages).toContain("must have required property 'electricVehicleChargingPoint'");
+  expect(errorMessages).toContain("must have required property 'isListed'");
+  expect(errorMessages).toContain("must have required property 'isConservationArea'");
+  expect(errorMessages).toContain("must have required property 'hasTreePreservationOrder'");
 });
 
 test("waterAndDrainage state is invalid under nts2023 overlay when mainsFoulDrainage yesNo is Not known", () => {
@@ -523,6 +530,45 @@ test("waterAndDrainage state is invalid under nts2023 overlay when mainsFoulDrai
   const relevantError = validator.errors.find(error => 
     error.instancePath.includes('mainsFoulDrainage') && 
     error.message.includes('must be equal to one of the allowed values')
+  );
+  expect(relevantError).toBeDefined();
+});
+
+test("waterAndDrainage state with mainsFoulDrainage No missing offMainsDrainageSystem is now invalid under nts2023 overlay", () => {
+  const validator = getValidator(schemaId, ["nts2023"]);
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
+  );
+  
+  // Set the waterAndDrainage to the state from the user request
+  // This SHOULD be invalid because offMainsDrainageSystem is required when mainsFoulDrainage.yesNo is "No"
+  clonedExampleTransaction.propertyPack.waterAndDrainage = {
+    "water": {
+      "mainsWater": {
+        "yesNo": "Yes",
+        "waterMeter": {
+          "isSupplyMetered": "No"
+        }
+      }
+    },
+    "drainage": {
+      "mainsSurfaceWaterDrainage": {
+        "yesNo": "Yes"
+      },
+      "mainsFoulDrainage": {
+        "yesNo": "No"
+        // Missing offMainsDrainageSystem - this should make validation fail
+      }
+    }
+  };
+  
+  const isValid = validator(clonedExampleTransaction);
+  expect(isValid).toBe(false);
+  
+  // Check that the validation error is about missing offMainsDrainageSystem
+  const relevantError = validator.errors.find(error => 
+    error.instancePath.includes('mainsFoulDrainage') && 
+    error.message.includes('offMainsDrainageSystem')
   );
   expect(relevantError).toBeDefined();
 });
