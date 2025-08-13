@@ -448,3 +448,49 @@ test("validates a valid contract", () => {
   const isValid = validator(data);
   expect(isValid).toBe(true);
 });
+
+test("ntsl2025 requires parking and listingAndConservation fields", () => {
+  // This test validates that the ntsl2025 overlay correctly enforces required fields
+  // for the parking and listingAndConservation sections.
+  // It should fail validation when these fields are missing.
+  // NOTE: This test will fail until overlays are regenerated from combined.json
+  const validator = getValidator(schemaId, ["ntsl2025"]);
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
+  );
+  
+  // Set up lettings-specific fields
+  clonedExampleTransaction.propertyPack.lettingInformation = {
+    rent: 3500,
+    rentFrequency: "Monthly",
+    securityDeposit: 5000,
+  };
+  delete clonedExampleTransaction.propertyPack.priceInformation;
+  delete clonedExampleTransaction.propertyPack.ownership;
+  
+  // Remove ALL parking fields - this should make validation fail
+  delete clonedExampleTransaction.propertyPack.parking.parkingArrangements;
+  delete clonedExampleTransaction.propertyPack.parking.disabledParking;
+  delete clonedExampleTransaction.propertyPack.parking.controlledParking;
+  delete clonedExampleTransaction.propertyPack.parking.electricVehicleChargingPoint;
+  
+  // Remove ALL listingAndConservation fields - this should make validation fail
+  delete clonedExampleTransaction.propertyPack.listingAndConservation.isListed;
+  delete clonedExampleTransaction.propertyPack.listingAndConservation.isConservationArea;
+  delete clonedExampleTransaction.propertyPack.listingAndConservation.hasTreePreservationOrder;
+  
+  const isValid = validator(clonedExampleTransaction);
+  
+  // The data should be INVALID because required fields are missing
+  expect(isValid).toBe(false);
+  
+  // Specifically check that parking and listingAndConservation fields are reported as missing
+  const errorMessages = validator.errors.map(e => e.message);
+  expect(errorMessages).toContain("must have required property 'parkingArrangements'");
+  expect(errorMessages).toContain("must have required property 'disabledParking'");
+  expect(errorMessages).toContain("must have required property 'controlledParking'");
+  expect(errorMessages).toContain("must have required property 'electricVehicleChargingPoint'");
+  expect(errorMessages).toContain("must have required property 'isListed'");
+  expect(errorMessages).toContain("must have required property 'isConservationArea'");
+  expect(errorMessages).toContain("must have required property 'hasTreePreservationOrder'");
+});
