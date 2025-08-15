@@ -10,6 +10,17 @@ const ajv = new Ajv({
 // Adds date formats among other types to the validator.
 addFormats(ajv);
 
+// Enhanced caching structure for subschemas and validators
+const schemaCache = new Map();
+
+// Cache performance tracking
+const cacheStats = {
+  hits: 0,
+  misses: 0,
+  totalQueries: 0,
+  cacheStartTime: Date.now()
+};
+
 const verifiedClaimsSchema = require("./src/schemas/verifiedClaims/pdtf-verified-claims.json");
 const v2CoreSchema = require("./src/schemas/v2/pdtf-transaction.json");
 const v3CoreSchema = require("./src/schemas/v3/pdtf-transaction.json");
@@ -180,32 +191,79 @@ const generateOverlayKey = (overlays) => {
   return overlays.join(".");
 };
 
+// Enhanced caching function that stores both subschemas and validators
+const getCachedSchemaData = (path, schemaId, overlays) => {
+  const overlayKey = generateOverlayKey(overlays);
+  const cacheKey = `${path}-${schemaId}-${overlayKey}`;
+
+  cacheStats.totalQueries++;
+  let cached = schemaCache.get(cacheKey);
+  if (!cached) {
+    cacheStats.misses++;
+    // Compute subschema using the original logic
+    const sourceSchema = getTransactionSchema(schemaId, overlays);
+    const pathArray = path.split("/").slice(1);
+    let subSchema = sourceSchema;
+    
+    if (pathArray.length >= 1) {
+      subSchema = pathArray.reduce((schema, pathElement) => {
+        if (!schema) return undefined;
+        const { type, items, properties, oneOf } = schema;
+        if (type === "array") return items;
+        if (properties?.[pathElement]) return properties[pathElement];
+        if (oneOf) {
+          let matchingProperty;
+          oneOf.forEach((aOneOf) => {
+            if (aOneOf.type === "array" && !Number.isNaN(pathElement)) {
+              matchingProperty = aOneOf.items;
+            } else if (aOneOf.properties?.[pathElement]) {
+              matchingProperty = aOneOf.properties?.[pathElement];
+            }
+          });
+          if (matchingProperty) return matchingProperty;
+        }
+        return undefined;
+      }, sourceSchema);
+    }
+
+    // Add schema to AJV and get validator
+    // Only add valid schemas to AJV
+    let validator;
+    if (subSchema && typeof subSchema === 'object') {
+      // Check if schema already exists in AJV to avoid duplicates
+      validator = ajv.getSchema(cacheKey);
+      if (!validator) {
+        ajv.addSchema(subSchema, cacheKey);
+        validator = ajv.getSchema(cacheKey);
+      }
+    } else {
+      // For invalid paths, create a validator that always fails
+      validator = () => false;
+      validator.errors = [`Invalid path: schema is ${subSchema}`];
+    }
+
+    cached = {
+      subSchema,
+      validator,
+      cacheKey,
+      createdAt: Date.now()
+    };
+    schemaCache.set(cacheKey, cached);
+  } else {
+    cacheStats.hits++;
+  }
+
+  return cached;
+};
+
 const getValidator = (schemaId, overlays) => {
   return getSubschemaValidator("", schemaId, overlays);
 };
 
-// common functions for v1 and v2
+// common functions for v1 and v2 - now with caching
 const getSubschema = (path, schemaId, overlays) => {
-  const sourceSchema = getTransactionSchema(schemaId, overlays);
-  const pathArray = path.split("/").slice(1);
-  if (pathArray.length < 1) return sourceSchema;
-  return pathArray.reduce((schema, pathElement) => {
-    const { type, items, properties, oneOf } = schema;
-    if (type === "array") return items;
-    if (properties?.[pathElement]) return properties[pathElement];
-    if (oneOf) {
-      let matchingProperty;
-      oneOf.forEach((aOneOf) => {
-        if (aOneOf.type === "array" && !Number.isNaN(pathElement)) {
-          matchingProperty = aOneOf.items;
-        } else if (aOneOf.properties?.[pathElement]) {
-          matchingProperty = aOneOf.properties?.[pathElement];
-        }
-      });
-      if (matchingProperty) return matchingProperty;
-    }
-    return undefined;
-  }, sourceSchema);
+  const cached = getCachedSchemaData(path, schemaId, overlays);
+  return cached.subSchema;
 };
 
 const isPathValid = (path, schemaId, overlays) => {
@@ -217,18 +275,8 @@ const isPathValid = (path, schemaId, overlays) => {
 };
 
 const getSubschemaValidator = (path, schemaId, overlays) => {
-  const subSchema = getSubschema(path, schemaId, overlays);
-  const overlayKey = generateOverlayKey(overlays);
-  // see if we can retrieve the schema by path, schemaId and overlays
-  const cacheKey = `${path}-${schemaId}-${overlayKey}`;
-  let validator = ajv.getSchema(cacheKey);
-  // retrieve whole schema by $id if available
-  if (!validator && subSchema.$id) validator = ajv.getSchema(cacheKey);
-  if (!validator) {
-    ajv.addSchema(subSchema, cacheKey);
-    validator = ajv.getSchema(cacheKey);
-  }
-  return validator;
+  const cached = getCachedSchemaData(path, schemaId, overlays);
+  return cached.validator;
 };
 
 // v1, deprecated
@@ -312,6 +360,181 @@ const validateVerifiedClaims = (verifiedClaims, schemaId, overlays) => {
   return validationErrorsArr;
 };
 
+// Cache management functions
+const getCacheStats = () => {
+  const runtime = Date.now() - cacheStats.cacheStartTime;
+  const hitRate = cacheStats.totalQueries > 0 ? (cacheStats.hits / cacheStats.totalQueries * 100) : 0;
+  
+  return {
+    totalEntries: schemaCache.size,
+    hits: cacheStats.hits,
+    misses: cacheStats.misses,
+    totalQueries: cacheStats.totalQueries,
+    hitRate: parseFloat(hitRate.toFixed(2)),
+    runtimeMs: runtime,
+    cacheKeys: Array.from(schemaCache.keys()),
+    memoryUsage: {
+      entriesCount: schemaCache.size,
+      // Rough estimate of memory usage per entry
+      estimatedSizeKB: Math.round((schemaCache.size * 2) / 1024 * 100) / 100 // Rough estimate
+    }
+  };
+};
+
+const getDetailedCacheStats = () => {
+  const baseStats = getCacheStats();
+  const entries = Array.from(schemaCache.entries()).map(([key, value]) => ({
+    key,
+    createdAt: value.createdAt,
+    age: Date.now() - value.createdAt,
+    hasValidator: typeof value.validator === 'function',
+    hasSubSchema: value.subSchema !== undefined
+  }));
+
+  return {
+    ...baseStats,
+    entries: entries.sort((a, b) => b.createdAt - a.createdAt), // Most recent first
+    oldestEntry: entries.length > 0 ? Math.max(...entries.map(e => e.age)) : 0,
+    newestEntry: entries.length > 0 ? Math.min(...entries.map(e => e.age)) : 0
+  };
+};
+
+const clearSchemaCache = (pattern) => {
+  if (pattern) {
+    // Clear entries matching pattern
+    const keysToDelete = [];
+    schemaCache.forEach((value, key) => {
+      if (key.includes(pattern)) {
+        keysToDelete.push(key);
+      }
+    });
+    keysToDelete.forEach(key => schemaCache.delete(key));
+    
+    // Also remove matching schemas from AJV
+    keysToDelete.forEach(key => {
+      try {
+        ajv.removeSchema(key);
+      } catch (e) {
+        // Schema might not exist in AJV, ignore
+      }
+    });
+    
+    return keysToDelete.length;
+  } else {
+    // Clear all cache
+    const entriesCleared = schemaCache.size;
+    schemaCache.clear();
+    // Reset stats
+    cacheStats.hits = 0;
+    cacheStats.misses = 0;
+    cacheStats.totalQueries = 0;
+    cacheStats.cacheStartTime = Date.now();
+    
+    // Also clear AJV's internal cache to prevent duplicates
+    ajv.removeSchema();
+    
+    return entriesCleared;
+  }
+};
+
+const warmupCache = (paths, schemaId = "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json", overlaysList = []) => {
+  const warmupStats = {
+    totalAttempted: 0,
+    successful: 0,
+    failed: 0,
+    errors: []
+  };
+
+  // Default common paths if none provided
+  const defaultPaths = [
+    "/propertyPack",
+    "/participants",
+    "/status",
+    "/propertyPack/surveys",
+    "/propertyPack/valuations",
+    "/propertyPack/waterAndDrainage",
+    "/propertyPack/ownership",
+    "/propertyPack/notices"
+  ];
+
+  // Default common overlays if none provided
+  const defaultOverlays = [
+    [],
+    ["baspiV5"],
+    ["ta6ed4"],
+    ["nts2023"],
+    ["baspiV5", "ta6ed4"]
+  ];
+
+  const pathsToWarm = paths || defaultPaths;
+  const overlaysToWarm = overlaysList.length > 0 ? overlaysList : defaultOverlays;
+
+  pathsToWarm.forEach(path => {
+    overlaysToWarm.forEach(overlays => {
+      warmupStats.totalAttempted++;
+      try {
+        // This will populate the cache
+        getSubschema(path, schemaId, overlays);
+        getSubschemaValidator(path, schemaId, overlays);
+        warmupStats.successful++;
+      } catch (error) {
+        warmupStats.failed++;
+        warmupStats.errors.push({
+          path,
+          overlays,
+          error: error.message
+        });
+      }
+    });
+  });
+
+  return warmupStats;
+};
+
+const pruneCacheByAge = (maxAgeMs) => {
+  const now = Date.now();
+  const keysToDelete = [];
+  
+  schemaCache.forEach((value, key) => {
+    if (now - value.createdAt > maxAgeMs) {
+      keysToDelete.push(key);
+    }
+  });
+  
+  keysToDelete.forEach(key => {
+    schemaCache.delete(key);
+    try {
+      ajv.removeSchema(key);
+    } catch (e) {
+      // Schema might not exist in AJV, ignore
+    }
+  });
+  
+  return keysToDelete.length;
+};
+
+const setCacheMaxSize = (maxSize) => {
+  if (schemaCache.size <= maxSize) return 0;
+  
+  // Get entries sorted by creation time (oldest first)
+  const entries = Array.from(schemaCache.entries())
+    .sort((a, b) => a[1].createdAt - b[1].createdAt);
+  
+  const toRemove = schemaCache.size - maxSize;
+  const keysToDelete = entries.slice(0, toRemove).map(([key]) => key);
+  
+  keysToDelete.forEach(key => {
+    schemaCache.delete(key);
+    try {
+      ajv.removeSchema(key);
+    } catch (e) {
+      // Schema might not exist in AJV, ignore
+    }
+  });
+  
+  return keysToDelete.length;
+};
+
 module.exports = {
   ajv,
   getTransactionSchema,
@@ -324,4 +547,11 @@ module.exports = {
   validateVerifiedClaims,
   overlaysMap,
   extensionOverlays,
+  // Enhanced cache management functions
+  getCacheStats,
+  getDetailedCacheStats,
+  clearSchemaCache,
+  warmupCache,
+  pruneCacheByAge,
+  setCacheMaxSize,
 };
