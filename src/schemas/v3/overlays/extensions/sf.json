@@ -1,0 +1,72 @@
+{
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "typeOfConstruction": {
+          "properties": {
+            "sprayFoamInsulation": {
+              "ntsRef": "A4.2",
+              "required": [
+                "hasSprayFoamInstalled"
+              ],
+              "discriminator": {
+                "propertyName": "hasSprayFoamInstalled"
+              },
+              "properties": {
+                "hasSprayFoamInstalled": {
+                  "ntsRef": "A4.2.1",
+                  "type": "string"
+                }
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "hasSprayFoamInstalled": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "required": [
+                    "details"
+                  ],
+                  "properties": {
+                    "details": {
+                      "ntsRef": "A4.2.2",
+                      "title": "Please give details",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "hasSprayFoamInstalled": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "attachments": {
+                      "enum": [
+                        "Attached",
+                        "To follow"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "sprayFoamInsulation"
+          ]
+        }
+      },
+      "required": [
+        "typeOfConstruction"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/extensions/sf.json",
+  "$comment": "Spray foam insulation"
+}

@@ -10,9 +10,49 @@ const ajv = new Ajv({
 // Adds date formats among other types to the validator.
 addFormats(ajv);
 
+// Enhanced caching structure for subschemas and validators
+const schemaCache = new Map();
+
+// Cache performance tracking
+const cacheStats = {
+  hits: 0,
+  misses: 0,
+  totalQueries: 0,
+  cacheStartTime: Date.now()
+};
+
 const verifiedClaimsSchema = require("./src/schemas/verifiedClaims/pdtf-verified-claims.json");
 const v2CoreSchema = require("./src/schemas/v2/pdtf-transaction.json");
 const v3CoreSchema = require("./src/schemas/v3/pdtf-transaction.json");
+
+// Extension overlays for v3
+const extensionOverlays = {
+  // Specialist Issues Extensions
+  as: require("./src/schemas/v3/overlays/extensions/as.json"),
+  dr: require("./src/schemas/v3/overlays/extensions/dr.json"),
+  jk: require("./src/schemas/v3/overlays/extensions/jk.json"),
+  sb: require("./src/schemas/v3/overlays/extensions/sb.json"),
+  hs: require("./src/schemas/v3/overlays/extensions/hs.json"),
+
+  // Property Features Extensions
+  oa: require("./src/schemas/v3/overlays/extensions/oa.json"),
+  la: require("./src/schemas/v3/overlays/extensions/la.json"),
+  sf: require("./src/schemas/v3/overlays/extensions/sf.json"),
+  mc: require("./src/schemas/v3/overlays/extensions/mc.json"),
+
+  // Ownership & Financial Extensions
+  er: require("./src/schemas/v3/overlays/extensions/er.json"),
+  ma: require("./src/schemas/v3/overlays/extensions/ma.json"),
+  tf: require("./src/schemas/v3/overlays/extensions/tf.json"),
+
+  // Utilities & Services Extensions
+  sl: require("./src/schemas/v3/overlays/extensions/sl.json"),
+  hi: require("./src/schemas/v3/overlays/extensions/hi.json"),
+  fd: require("./src/schemas/v3/overlays/extensions/fd.json"),
+
+  // Transaction Extensions
+  oc: require("./src/schemas/v3/overlays/extensions/oc.json"),
+};
 
 const overlaysMap = {
   "https://trust.propdata.org.uk/schemas/v2/pdtf-transaction.json": {
@@ -50,6 +90,8 @@ const overlaysMap = {
     oc1v21: require("./src/schemas/v3/overlays/oc1.json"),
     piqV3: require("./src/schemas/v3/overlays/piq.json"),
     sr24: require("./src/schemas/v3/overlays/sr24.json"),
+    // Include extension overlays for v3
+    ...extensionOverlays,
     null: {},
   },
 };
@@ -61,126 +103,167 @@ const transactionSchemas = {
     v3CoreSchema,
 };
 
-const combineMerge = (target, source, options) => {
-  // Special handling for 'required' arrays - combine them uniquely
-  if (target.some((item) => typeof item === "string")) {
-    return [...new Set([...target, ...source])];
-  }
+// Custom array merge function for oneOf arrays
+const arrayMerge = (target, source) => {
+  // For string arrays (enum, required, etc.)
+  if (
+    target.length > 0 &&
+    source.length > 0 &&
+    target[0] &&
+    typeof target[0] === "string" &&
+    source[0] &&
+    typeof source[0] === "string"
+  ) {
+    // For required arrays, combine them (remove duplicates)
+    // Check if this looks like a required array (contains field names, not enum values)
+    const isRequiredArray = target.some(
+      (item) =>
+        typeof item === "string" &&
+        item.length > 0 &&
+        !item.includes("Yes") &&
+        !item.includes("No") &&
+        !item.includes("Not known") &&
+        !item.includes("To be connected")
+    );
 
-  // For other arrays, concatenate while preserving uniqueness for primitive values
-  if (!options.isMergeableObject(target[0])) {
-    return [...new Set([...target, ...source])];
-  }
-
-  // Special handling for oneOf arrays - merge matching schemas based on discriminator
-  if (target[0]?.properties && source[0]?.properties) {
-    // Find a common discriminator property (a property with an enum)
-    const findDiscriminator = (schema) => {
-      const props = schema.properties;
-      return Object.keys(props).find((key) => Array.isArray(props[key]?.enum));
-    };
-
-    const discriminator = findDiscriminator(target[0]);
-    if (discriminator) {
-      return target.map((targetSchema) => {
-        const targetEnum = targetSchema.properties?.[discriminator]?.enum || [];
-        const matchingSourceSchema = source.find((sourceSchema) => {
-          const sourceEnum =
-            sourceSchema.properties?.[discriminator]?.enum || [];
-          // Check if there's any overlap between the enum values
-          return sourceEnum.some((value) => targetEnum.includes(value));
-        });
-        if (matchingSourceSchema) {
-          return merge(targetSchema, matchingSourceSchema, options);
+    if (isRequiredArray) {
+      // Combine required arrays
+      const combined = [...target];
+      source.forEach((item) => {
+        if (!combined.includes(item)) {
+          combined.push(item);
         }
-        return targetSchema;
       });
+      return combined;
     }
+
+    // For other string arrays (like enum), use source if it exists, otherwise use target
+    return source.length > 0 ? source : target;
   }
 
-  // For arrays of objects, merge by index and append remaining items
-  const destination = target.slice();
-  source.forEach((item, index) => {
-    if (typeof destination[index] === "undefined") {
-      destination[index] = options.cloneUnlessOtherwiseSpecified(item, options);
-    } else if (options.isMergeableObject(item)) {
-      destination[index] = merge(target[index], item, options);
-    }
-  });
-  return destination;
-};
+  // If target is empty but source has values, use source
+  if (target.length === 0 && source.length > 0) {
+    return source;
+  }
 
-const mergeEnums = (target, source) => source;
+  // Ensure we only process arrays of the same length
+  // If source is shorter, pad with nulls
+  // If source is longer, truncate to target length
+  const paddedSource = [...source];
+  while (paddedSource.length < target.length) {
+    paddedSource.push(null);
+  }
+  paddedSource.splice(target.length);
+
+  return target.map((item, index) => {
+    if (paddedSource[index] === null || paddedSource[index] === undefined) {
+      return item;
+    }
+    if (item === null || item === undefined) {
+      return paddedSource[index];
+    }
+    // Recursively merge nested objects and arrays
+    return merge(item, paddedSource[index], { arrayMerge });
+  });
+};
 
 const getTransactionSchema = (
   schemaId = "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json",
-  overlays // = ["baspiV4"]
+  overlays
 ) => {
   const sourceSchema = transactionSchemas[schemaId];
   if (!overlays || overlays.length < 1) return sourceSchema;
-  let mergedSchema = sourceSchema;
-  overlays.forEach((overlay) => {
-    // Handle both string keys and direct overlay objects
-    const overlaySchema =
-      typeof overlay === "string"
-        ? overlaysMap[schemaId][overlay] || {}
-        : overlay;
 
-    mergedSchema = merge(mergedSchema, overlaySchema, {
-      customMerge: (key) => {
-        if (key === "enum") {
-          return mergeEnums;
-        }
-      },
-      arrayMerge: combineMerge,
-    });
+  let mergedSchema = JSON.parse(JSON.stringify(sourceSchema)); // Deep copy
+  overlays.forEach((overlay) => {
+    const overlaySchema = JSON.parse(
+      JSON.stringify(overlaysMap[schemaId][overlay] || {})
+    ); // Deep copy
+    mergedSchema = merge(mergedSchema, overlaySchema, { arrayMerge });
   });
+
   return mergedSchema;
 };
 
 // Add helper function to generate cache key
 const generateOverlayKey = (overlays) => {
   if (!overlays) return "";
-  return overlays
-    .map((overlay) => {
-      if (typeof overlay === "string") return overlay;
-      // Generate a simple hash of the object for caching
-      return JSON.stringify(overlay)
-        .split("")
-        .reduce((hash, char) => {
-          return ((hash << 5) - hash + char.charCodeAt(0)) | 0;
-        }, 0)
-        .toString(36);
-    })
-    .join(".");
+  return overlays.join(".");
+};
+
+// Enhanced caching function that stores both subschemas and validators
+const getCachedSchemaData = (path, schemaId, overlays) => {
+  const overlayKey = generateOverlayKey(overlays);
+  const cacheKey = `${path}-${schemaId}-${overlayKey}`;
+
+  cacheStats.totalQueries++;
+  let cached = schemaCache.get(cacheKey);
+  if (!cached) {
+    cacheStats.misses++;
+    // Compute subschema using the original logic
+    const sourceSchema = getTransactionSchema(schemaId, overlays);
+    const pathArray = path.split("/").slice(1);
+    let subSchema = sourceSchema;
+    
+    if (pathArray.length >= 1) {
+      subSchema = pathArray.reduce((schema, pathElement) => {
+        if (!schema) return undefined;
+        const { type, items, properties, oneOf } = schema;
+        if (type === "array") return items;
+        if (properties?.[pathElement]) return properties[pathElement];
+        if (oneOf) {
+          let matchingProperty;
+          oneOf.forEach((aOneOf) => {
+            if (aOneOf.type === "array" && !Number.isNaN(pathElement)) {
+              matchingProperty = aOneOf.items;
+            } else if (aOneOf.properties?.[pathElement]) {
+              matchingProperty = aOneOf.properties?.[pathElement];
+            }
+          });
+          if (matchingProperty) return matchingProperty;
+        }
+        return undefined;
+      }, sourceSchema);
+    }
+
+    // Add schema to AJV and get validator
+    // Only add valid schemas to AJV
+    let validator;
+    if (subSchema && typeof subSchema === 'object') {
+      // Check if schema already exists in AJV to avoid duplicates
+      validator = ajv.getSchema(cacheKey);
+      if (!validator) {
+        ajv.addSchema(subSchema, cacheKey);
+        validator = ajv.getSchema(cacheKey);
+      }
+    } else {
+      // For invalid paths, create a validator that always fails
+      validator = () => false;
+      validator.errors = [`Invalid path: schema is ${subSchema}`];
+    }
+
+    cached = {
+      subSchema,
+      validator,
+      cacheKey,
+      createdAt: Date.now()
+    };
+    schemaCache.set(cacheKey, cached);
+  } else {
+    cacheStats.hits++;
+  }
+
+  return cached;
 };
 
 const getValidator = (schemaId, overlays) => {
   return getSubschemaValidator("", schemaId, overlays);
 };
 
-// common functions for v1 and v2
+// common functions for v1 and v2 - now with caching
 const getSubschema = (path, schemaId, overlays) => {
-  const sourceSchema = getTransactionSchema(schemaId, overlays);
-  const pathArray = path.split("/").slice(1);
-  if (pathArray.length < 1) return sourceSchema;
-  return pathArray.reduce((schema, pathElement) => {
-    const { type, items, properties, oneOf } = schema;
-    if (type === "array") return items;
-    if (properties?.[pathElement]) return properties[pathElement];
-    if (oneOf) {
-      let matchingProperty;
-      oneOf.forEach((aOneOf) => {
-        if (aOneOf.type === "array" && !Number.isNaN(pathElement)) {
-          matchingProperty = aOneOf.items;
-        } else if (aOneOf.properties?.[pathElement]) {
-          matchingProperty = aOneOf.properties?.[pathElement];
-        }
-      });
-      if (matchingProperty) return matchingProperty;
-    }
-    return undefined;
-  }, sourceSchema);
+  const cached = getCachedSchemaData(path, schemaId, overlays);
+  return cached.subSchema;
 };
 
 const isPathValid = (path, schemaId, overlays) => {
@@ -192,18 +275,8 @@ const isPathValid = (path, schemaId, overlays) => {
 };
 
 const getSubschemaValidator = (path, schemaId, overlays) => {
-  const subSchema = getSubschema(path, schemaId, overlays);
-  const overlayKey = generateOverlayKey(overlays);
-  // see if we can retrieve the schema by path, schemaId and overlays
-  const cacheKey = `${path}-${schemaId}-${overlayKey}`;
-  let validator = ajv.getSchema(cacheKey);
-  // retrieve whole schema by $id if available
-  if (!validator && subSchema.$id) validator = ajv.getSchema(cacheKey);
-  if (!validator) {
-    ajv.addSchema(subSchema, cacheKey);
-    validator = ajv.getSchema(cacheKey);
-  }
-  return validator;
+  const cached = getCachedSchemaData(path, schemaId, overlays);
+  return cached.validator;
 };
 
 // v1, deprecated
@@ -287,6 +360,181 @@ const validateVerifiedClaims = (verifiedClaims, schemaId, overlays) => {
   return validationErrorsArr;
 };
 
+// Cache management functions
+const getCacheStats = () => {
+  const runtime = Date.now() - cacheStats.cacheStartTime;
+  const hitRate = cacheStats.totalQueries > 0 ? (cacheStats.hits / cacheStats.totalQueries * 100) : 0;
+  
+  return {
+    totalEntries: schemaCache.size,
+    hits: cacheStats.hits,
+    misses: cacheStats.misses,
+    totalQueries: cacheStats.totalQueries,
+    hitRate: parseFloat(hitRate.toFixed(2)),
+    runtimeMs: runtime,
+    cacheKeys: Array.from(schemaCache.keys()),
+    memoryUsage: {
+      entriesCount: schemaCache.size,
+      // Rough estimate of memory usage per entry
+      estimatedSizeKB: Math.round((schemaCache.size * 2) / 1024 * 100) / 100 // Rough estimate
+    }
+  };
+};
+
+const getDetailedCacheStats = () => {
+  const baseStats = getCacheStats();
+  const entries = Array.from(schemaCache.entries()).map(([key, value]) => ({
+    key,
+    createdAt: value.createdAt,
+    age: Date.now() - value.createdAt,
+    hasValidator: typeof value.validator === 'function',
+    hasSubSchema: value.subSchema !== undefined
+  }));
+
+  return {
+    ...baseStats,
+    entries: entries.sort((a, b) => b.createdAt - a.createdAt), // Most recent first
+    oldestEntry: entries.length > 0 ? Math.max(...entries.map(e => e.age)) : 0,
+    newestEntry: entries.length > 0 ? Math.min(...entries.map(e => e.age)) : 0
+  };
+};
+
+const clearSchemaCache = (pattern) => {
+  if (pattern) {
+    // Clear entries matching pattern
+    const keysToDelete = [];
+    schemaCache.forEach((value, key) => {
+      if (key.includes(pattern)) {
+        keysToDelete.push(key);
+      }
+    });
+    keysToDelete.forEach(key => schemaCache.delete(key));
+    
+    // Also remove matching schemas from AJV
+    keysToDelete.forEach(key => {
+      try {
+        ajv.removeSchema(key);
+      } catch (e) {
+        // Schema might not exist in AJV, ignore
+      }
+    });
+    
+    return keysToDelete.length;
+  } else {
+    // Clear all cache
+    const entriesCleared = schemaCache.size;
+    schemaCache.clear();
+    // Reset stats
+    cacheStats.hits = 0;
+    cacheStats.misses = 0;
+    cacheStats.totalQueries = 0;
+    cacheStats.cacheStartTime = Date.now();
+    
+    // Also clear AJV's internal cache to prevent duplicates
+    ajv.removeSchema();
+    
+    return entriesCleared;
+  }
+};
+
+const warmupCache = (paths, schemaId = "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json", overlaysList = []) => {
+  const warmupStats = {
+    totalAttempted: 0,
+    successful: 0,
+    failed: 0,
+    errors: []
+  };
+
+  // Default common paths if none provided
+  const defaultPaths = [
+    "/propertyPack",
+    "/participants",
+    "/status",
+    "/propertyPack/surveys",
+    "/propertyPack/valuations",
+    "/propertyPack/waterAndDrainage",
+    "/propertyPack/ownership",
+    "/propertyPack/notices"
+  ];
+
+  // Default common overlays if none provided
+  const defaultOverlays = [
+    [],
+    ["baspiV5"],
+    ["ta6ed4"],
+    ["nts2023"],
+    ["baspiV5", "ta6ed4"]
+  ];
+
+  const pathsToWarm = paths || defaultPaths;
+  const overlaysToWarm = overlaysList.length > 0 ? overlaysList : defaultOverlays;
+
+  pathsToWarm.forEach(path => {
+    overlaysToWarm.forEach(overlays => {
+      warmupStats.totalAttempted++;
+      try {
+        // This will populate the cache
+        getSubschema(path, schemaId, overlays);
+        getSubschemaValidator(path, schemaId, overlays);
+        warmupStats.successful++;
+      } catch (error) {
+        warmupStats.failed++;
+        warmupStats.errors.push({
+          path,
+          overlays,
+          error: error.message
+        });
+      }
+    });
+  });
+
+  return warmupStats;
+};
+
+const pruneCacheByAge = (maxAgeMs) => {
+  const now = Date.now();
+  const keysToDelete = [];
+  
+  schemaCache.forEach((value, key) => {
+    if (now - value.createdAt > maxAgeMs) {
+      keysToDelete.push(key);
+    }
+  });
+  
+  keysToDelete.forEach(key => {
+    schemaCache.delete(key);
+    try {
+      ajv.removeSchema(key);
+    } catch (e) {
+      // Schema might not exist in AJV, ignore
+    }
+  });
+  
+  return keysToDelete.length;
+};
+
+const setCacheMaxSize = (maxSize) => {
+  if (schemaCache.size <= maxSize) return 0;
+  
+  // Get entries sorted by creation time (oldest first)
+  const entries = Array.from(schemaCache.entries())
+    .sort((a, b) => a[1].createdAt - b[1].createdAt);
+  
+  const toRemove = schemaCache.size - maxSize;
+  const keysToDelete = entries.slice(0, toRemove).map(([key]) => key);
+  
+  keysToDelete.forEach(key => {
+    schemaCache.delete(key);
+    try {
+      ajv.removeSchema(key);
+    } catch (e) {
+      // Schema might not exist in AJV, ignore
+    }
+  });
+  
+  return keysToDelete.length;
+};
+
 module.exports = {
   ajv,
   getTransactionSchema,
@@ -298,4 +546,12 @@ module.exports = {
   verifiedClaimsSchema,
   validateVerifiedClaims,
   overlaysMap,
+  extensionOverlays,
+  // Enhanced cache management functions
+  getCacheStats,
+  getDetailedCacheStats,
+  clearSchemaCache,
+  warmupCache,
+  pruneCacheByAge,
+  setCacheMaxSize,
 };
