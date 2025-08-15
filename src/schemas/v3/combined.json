@@ -9228,6 +9228,12 @@
             "controlledParking",
             "electricVehicleChargingPoint"
           ],
+          "ntsl2Required": [
+            "parkingArrangements",
+            "disabledParking",
+            "controlledParking",
+            "electricVehicleChargingPoint"
+          ],
           "ta6Required": ["parkingArrangements", "controlledParking"],
           "properties": {
             "parkingArrangements": {
@@ -9452,6 +9458,11 @@
             "hasTreePreservationOrder"
           ],
           "ntslRequired": [
+            "isListed",
+            "isConservationArea",
+            "hasTreePreservationOrder"
+          ],
+          "ntsl2Required": [
             "isListed",
             "isConservationArea",
             "hasTreePreservationOrder"
@@ -20071,7 +20082,11 @@
                             }
                           ]
                         }
-                      }
+                      },
+                      "ntsRequired": ["offMainsDrainageSystem"],
+                      "nts2Required": ["offMainsDrainageSystem"],
+                      "ntslRequired": ["offMainsDrainageSystem"],
+                      "ntsl2Required": ["offMainsDrainageSystem"]
                     }
                   ]
                 },
@@ -41578,6 +41593,124 @@
             "sellingAgent": {
               "title": "Estate Agent selling the property",
               "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "milestones": {
+      "title": "Transaction Milestones",
+      "type": "object",
+      "properties": {
+        "listed": {
+          "description": "The date the property commenced marketing by being publicly listed for sale",
+          "type": "object",
+          "properties": {
+            "expected": {
+              "description": "Planned date of listing, for example when scheduled in advance around e.g. Boxing Day activities",
+              "type": "string",
+              "format": "date-time"
+            },
+            "completed": {
+              "description": "Actual date of first public listing for sale",
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "legalForms": {
+          "description": "The progress of the legal forms completion, including TA6, TA7 where relevant, and TA10 forms or their equivalents",
+          "type": "object",
+          "properties": {
+            "started": {
+              "description": "The date the legal forms were shared with the vendors for completion",
+              "type": "string",
+              "format": "date-time"
+            },
+            "completed": {
+              "description": "The date the legal forms were completed and signed by all parties",
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "soldSubjectToContract": {
+          "type": "object",
+          "properties": {
+            "completed": {
+              "description": "The date an offer for sale was accepted by a proceedable buyer",
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "searches": {
+          "description": "The progress of all searches in a standard search pack together",
+          "type": "object",
+          "properties": {
+            "started": {
+              "description": "The date the first of the searches in the pack was ordered",
+              "type": "string",
+              "format": "date-time"
+            },
+            "expected": {
+              "description": "The latest date the searches are expected to be completed",
+              "type": "string",
+              "format": "date-time"
+            },
+            "completed": {
+              "description": "The date the last of the searches in the pack was delivered",
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "enquiries": {
+          "type": "object",
+          "properties": {
+            "started": {
+              "description": "The date the enquiries process between conveyancers was commenced",
+              "type": "string",
+              "format": "date-time"
+            },
+            "completed": {
+              "description": "The date the last of the enquiries was resolved",
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "exchangeOfContracts": {
+          "type": "object",
+          "properties": {
+            "expected": {
+              "description": "A proposed or agreed date for the exchange of contracts",
+              "type": "string",
+              "format": "date-time"
+            },
+            "completed": {
+              "description": "The actual date the contracts were exchanged",
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "completion": {
+          "type": "object",
+          "properties": {
+            "started": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "expected": {
+              "description": "A proposed or agreed date for completion",
+              "type": "string",
+              "format": "date-time"
+            },
+            "completed": {
+              "description": "The actual date the property sale was completed",
+              "type": "string",
+              "format": "date-time"
             }
           }
         }
