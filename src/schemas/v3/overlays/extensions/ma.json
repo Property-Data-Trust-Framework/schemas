@@ -1,0 +1,87 @@
+{
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "ownership": {
+          "properties": {
+            "ownershipsToBeTransferred": {
+              "items": {
+                "oneOf": [
+                  null,
+                  null,
+                  {
+                    "properties": {
+                      "leaseholdInformation": {
+                        "properties": {
+                          "contactDetails": {
+                            "ntsRef": "A1.5.4",
+                            "required": [
+                              "contacts"
+                            ],
+                            "properties": {
+                              "contacts": {
+                                "ntsRef": "A1.5.4",
+                                "required": [
+                                  "managingAgent"
+                                ],
+                                "properties": {
+                                  "managingAgent": {
+                                    "ntsRef": "A1.5.6",
+                                    "properties": {
+                                      "contact": {
+                                        "ntsRef": "A1.5.6.1",
+                                        "required": [
+                                          "nameOrOrganisation",
+                                          "emailAddress"
+                                        ],
+                                        "properties": {
+                                          "nameOrOrganisation": {
+                                            "ntsRef": "A1.5.6.1.1",
+                                            "type": "string",
+                                            "minLength": 1
+                                          },
+                                          "emailAddress": {
+                                            "ntsRef": "A1.5.6.1.2",
+                                            "type": "string",
+                                            "format": "email"
+                                          }
+                                        },
+                                        "type": "object"
+                                      }
+                                    },
+                                    "type": "object"
+                                  }
+                                },
+                                "type": "object"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "required": [
+                          "contactDetails"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "leaseholdInformation"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "ownershipsToBeTransferred"
+          ]
+        }
+      },
+      "required": [
+        "ownership"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/extensions/ma.json",
+  "$comment": "Managing agent contact details for leasehold"
+}

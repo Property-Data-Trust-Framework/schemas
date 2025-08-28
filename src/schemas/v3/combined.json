@@ -190,6 +190,65 @@
           "participantStatus": {
             "type": "string",
             "enum": ["Proposed", "Invited", "Active", "Removed"]
+          },
+          "verification": {
+            "type": "object",
+            "properties": {
+              "identity": {
+                "type": "object",
+                "properties": {
+                  "result": {
+                    "type": "string",
+                    "enum": ["pass", "fail", "consider"]
+                  },
+                  "reports": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "reportName": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "string",
+                          "enum": ["pass", "fail", "consider"]
+                        },
+                        "details": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "antiMoneyLaundering": {
+                "type": "object",
+                "properties": {
+                  "result": {
+                    "type": "string",
+                    "enum": ["pass", "fail", "consider"]
+                  },
+                  "reports": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "reportName": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "string",
+                          "enum": ["pass", "fail", "consider"]
+                        },
+                        "details": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "discriminator": {
@@ -1862,7 +1921,8 @@
                       }
                     },
                     "baspi4Required": ["wholeFreeholdForSale"],
-                    "baspi5Required": ["wholeFreeholdForSale"]
+                    "baspi5Required": ["wholeFreeholdForSale"],
+                    "nts2Required": ["estateRentcharges"]
                   },
                   {
                     "properties": {
@@ -9168,6 +9228,12 @@
             "controlledParking",
             "electricVehicleChargingPoint"
           ],
+          "ntsl2Required": [
+            "parkingArrangements",
+            "disabledParking",
+            "controlledParking",
+            "electricVehicleChargingPoint"
+          ],
           "ta6Required": ["parkingArrangements", "controlledParking"],
           "properties": {
             "parkingArrangements": {
@@ -9392,6 +9458,11 @@
             "hasTreePreservationOrder"
           ],
           "ntslRequired": [
+            "isListed",
+            "isConservationArea",
+            "hasTreePreservationOrder"
+          ],
+          "ntsl2Required": [
             "isListed",
             "isConservationArea",
             "hasTreePreservationOrder"
@@ -20011,7 +20082,11 @@
                             }
                           ]
                         }
-                      }
+                      },
+                      "ntsRequired": ["offMainsDrainageSystem"],
+                      "nts2Required": ["offMainsDrainageSystem"],
+                      "ntslRequired": ["offMainsDrainageSystem"],
+                      "ntsl2Required": ["offMainsDrainageSystem"]
                     }
                   ]
                 },
@@ -39655,6 +39730,1381 @@
               }
             }
           }
+        },
+        "surveys": {
+          "title": "Survey reports",
+          "description": "JSON schema for RICS Level 2 property survey data",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "outside": {
+                "type": "object",
+                "properties": {
+                  "chimneyStacks": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "visibilityRestriction": { "type": "string" },
+                      "flashings": { "type": "string" },
+                      "defectsFlag": { "type": "boolean" },
+                      "defectsList": { "type": "string" },
+                      "photos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "photoId": { "type": "integer" },
+                            "description": { "type": "string" },
+                            "report": { "type": "boolean" }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "roofCoverings": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "restriction": { "type": "string" },
+                      "features": { "type": "string" },
+                      "mainPitchedCovering": { "type": "string" },
+                      "mainPitchedFeatures": { "type": "string" },
+                      "mainFlatCovering": { "type": "string" },
+                      "mainFlatFeatures": { "type": "string" },
+                      "additionalPitchedCovering": { "type": "string" },
+                      "additionalPitchedFeatures": { "type": "string" },
+                      "additionalDetail": { "type": "string" },
+                      "additionalFeatures": { "type": "string" },
+                      "bay": { "type": "string" },
+                      "bayFeatures": { "type": "string" },
+                      "dormer": { "type": "string" },
+                      "dormerFeatures": { "type": "string" },
+                      "defectsGeneral": { "type": "string" },
+                      "photos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "photoId": { "type": "integer" },
+                            "description": { "type": "string" },
+                            "report": { "type": "boolean" }
+                          }
+                        }
+                      },
+                      "mainPitchedDefects": { "type": "boolean" },
+                      "mainPitchedDefectsDetail": { "type": "string" },
+                      "mainFlatDefects": { "type": "string" },
+                      "mainFlatDefectsDetail": { "type": "string" },
+                      "additionalPitchedDefects": { "type": "boolean" },
+                      "additionalPitchedDefectsDetail": { "type": "string" },
+                      "additionalFlatDefects": { "type": "boolean" },
+                      "additionalFlatDefectsDetail": { "type": "string" },
+                      "bayDefects": { "type": "boolean" },
+                      "bayDefectsDetail": { "type": "string" },
+                      "dormerDefects": { "type": "boolean" },
+                      "dormerDefectsDetail": { "type": "string" }
+                    }
+                  },
+                  "rainwaterPipesGutters": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "features": { "type": "string" },
+                      "gutterDescription": { "type": "string" },
+                      "downpipeDescription": { "type": "string" },
+                      "hopperHeadDescription": { "type": "string" },
+                      "gutterIssues": { "type": "boolean" },
+                      "gutterIssueLocation": { "type": "string" },
+                      "gutterDefect": { "type": "string" },
+                      "downpipeDefect": { "type": "string" },
+                      "hopperHeadDefect": { "type": "string" },
+                      "photos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "photoId": { "type": "integer" },
+                            "description": { "type": "string" },
+                            "report": { "type": "boolean" }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "mainWalls": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "externalElevation": { "type": "string" },
+                      "construction": { "type": "string" },
+                      "features": { "type": "string" },
+                      "dpc": { "type": "string" },
+                      "structuralMovement": { "type": "boolean" },
+                      "movementType": { "type": "string" },
+                      "movementCause": { "type": "string" },
+                      "movementStatus": { "type": "string" },
+                      "otherDefects": { "type": "boolean" },
+                      "otherDefectsDescription": { "type": "string" },
+                      "cladding": { "type": "string" },
+                      "fireRisk": { "type": "boolean" },
+                      "advice": { "type": "string" },
+                      "extensions": { "type": "string" },
+                      "movementLocation": { "type": "string" },
+                      "photos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "photoId": { "type": "integer" },
+                            "description": { "type": "string" },
+                            "report": { "type": "boolean" }
+                          }
+                        }
+                      },
+                      "extension1": {
+                        "type": "object",
+                        "properties": {
+                          "detail": { "type": "string" },
+                          "construction": { "type": "string" },
+                          "dpc": { "type": "string" },
+                          "defects": { "type": "boolean" },
+                          "defectDescription": { "type": "string" },
+                          "movementType": { "type": "string" },
+                          "movementCause": { "type": "string" },
+                          "movementStatus": { "type": "string" }
+                        }
+                      },
+                      "extension2": {
+                        "type": "object",
+                        "properties": {
+                          "detail": { "type": "string" },
+                          "construction": { "type": "string" },
+                          "dpc": { "type": "string" },
+                          "defects": { "type": "boolean" },
+                          "defectDescription": { "type": "string" },
+                          "movementType": { "type": "string" },
+                          "movementCause": { "type": "string" },
+                          "movementStatus": { "type": "string" }
+                        }
+                      },
+                      "extension3": {
+                        "type": "object",
+                        "properties": {
+                          "detail": { "type": "string" },
+                          "construction": { "type": "string" },
+                          "dpc": { "type": "string" },
+                          "defects": { "type": "boolean" },
+                          "defectDescription": { "type": "string" },
+                          "movementType": { "type": "string" },
+                          "movementCause": { "type": "string" },
+                          "movementStatus": { "type": "string" }
+                        }
+                      }
+                    }
+                  },
+                  "windows": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "visibilityRestrictions": { "type": "string" },
+                      "glazingType": { "type": "string" },
+                      "glazingDescription": { "type": "string" },
+                      "glazingHeight": { "type": "boolean" },
+                      "glazingSafety": { "type": "boolean" },
+                      "glazingDefects": { "type": "boolean" },
+                      "glazingDefectList": { "type": "string" },
+                      "photos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "photoId": { "type": "string" },
+                            "description": { "type": "string" },
+                            "report": { "type": "boolean" }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "outsideDoors": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "glazingDescription": { "type": "string" },
+                      "glazingType": { "type": "string" },
+                      "glazingHeight": { "type": "boolean" },
+                      "glazingSafety": { "type": "boolean" },
+                      "glazingDefects": { "type": "boolean" },
+                      "glazingDefectDetails": { "type": "string" },
+                      "photos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "photoId": { "type": "integer" },
+                            "description": { "type": "string" },
+                            "report": { "type": "boolean" }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "conservatoryPorches": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "conservatory": { "type": "boolean" },
+                      "porch": { "type": "boolean" },
+                      "restrictions": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "conservatoryWall": { "type": "string" },
+                      "conservatoryFrame": { "type": "string" },
+                      "conservatoryGlazing": { "type": "string" },
+                      "conservatoryRoof": { "type": "string" },
+                      "conservatorySeparate": { "type": "boolean" },
+                      "conservatoryHeating": { "type": "string" },
+                      "porchWall": { "type": "string" },
+                      "porchFrame": { "type": "string" },
+                      "porchGlazing": { "type": "string" },
+                      "porchRoof": { "type": "string" },
+                      "porchPitched": { "type": "string" },
+                      "porchFlat": { "type": "string" },
+                      "defectsFlag": { "type": "boolean" },
+                      "defectLocation": { "type": "string" },
+                      "conservatoryEconomic": { "type": "boolean" },
+                      "conservatoryStructural": { "type": "boolean" },
+                      "conservatoryMovement": { "type": "string" },
+                      "conservatoryMovementCause": { "type": "string" },
+                      "conservatoryMovementStatus": { "type": "string" },
+                      "conservatoryDefects": { "type": "boolean" },
+                      "conservatoryDefectDetail": { "type": "string" },
+                      "porchEconomic": { "type": "boolean" },
+                      "porchStructural": { "type": "boolean" },
+                      "porchMovement": { "type": "string" },
+                      "porchMovementCause": { "type": "string" },
+                      "porchMovementStatus": { "type": "string" },
+                      "porchDefects": { "type": "boolean" },
+                      "porchDefectDetail": { "type": "string" },
+                      "photos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "photoId": { "type": "integer" },
+                            "description": { "type": "string" },
+                            "report": { "type": "boolean" }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "otherJoinery": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "features": { "type": "string" },
+                      "fasciaDescription": { "type": "string" },
+                      "bargeboardsDescription": { "type": "string" },
+                      "soffitsDescription": { "type": "string" },
+                      "claddingDescription": { "type": "string" },
+                      "issues": { "type": "boolean" },
+                      "issueLocation": { "type": "string" },
+                      "issueDetail": { "type": "string" },
+                      "photos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "photoId": { "type": "string" },
+                            "description": { "type": "string" },
+                            "report": { "type": "boolean" }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "other": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "defectsFlag": { "type": "boolean" },
+                      "defectDetail": { "type": "string" },
+                      "fireSafety": { "type": "string" },
+                      "photos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "photoId": { "type": "integer" },
+                            "description": { "type": "string" },
+                            "report": { "type": "boolean" }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "inside": {
+                "type": "object",
+                "properties": {
+                  "roofStructure": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "lining": { "type": "string" },
+                      "insulation": { "type": "string" },
+                      "firewall": { "type": "string" },
+                      "features": { "type": "string" },
+                      "photos": {
+                        "type": "object",
+                        "properties": {
+                          "photoId": { "type": "string" },
+                          "description": { "type": "string" },
+                          "report": { "type": "boolean" }
+                        }
+                      },
+                      "additional1Visibility": { "type": "string" },
+                      "additional1Restrictions": { "type": "string" },
+                      "additional1Description": { "type": "string" },
+                      "additional1Lining": { "type": "string" },
+                      "additional1Insulation": { "type": "string" },
+                      "additional1Defects": { "type": "boolean" },
+                      "additional1DefectDetail": { "type": "string" },
+                      "additional2Visibility": { "type": "string" },
+                      "additional2Restrictions": { "type": "string" },
+                      "additional2Description": { "type": "string" },
+                      "additional2Lining": { "type": "string" },
+                      "additional2Insulation": { "type": "string" },
+                      "additional2Defects": { "type": "boolean" },
+                      "additional2DefectDetail": { "type": "string" },
+                      "defectDetail": { "type": "string" }
+                    }
+                  },
+                  "ceilings": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "defectDetail": { "type": "string" },
+                      "integralGarageDefects": { "type": "string" },
+                      "photos": {
+                        "type": "object",
+                        "properties": {
+                          "photoId": { "type": "integer" },
+                          "description": { "type": "string" },
+                          "report": { "type": "boolean" }
+                        }
+                      }
+                    }
+                  },
+                  "wallsPartitions": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "construction": { "type": "string" },
+                      "adequateSupport": { "type": "boolean" },
+                      "wallFinish": { "type": "string" },
+                      "defectsMinor": { "type": "string" },
+                      "defectsMajor": { "type": "string" },
+                      "photos": {
+                        "type": "object",
+                        "properties": {
+                          "photoId": { "type": "integer" },
+                          "description": { "type": "string" },
+                          "report": { "type": "boolean" }
+                        }
+                      }
+                    }
+                  },
+                  "floors": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "generalDefects": { "type": "string" },
+                      "solidDefects": { "type": "string" },
+                      "timberDefects": { "type": "string" },
+                      "photos": {
+                        "type": "object",
+                        "properties": {
+                          "photoId": { "type": "integer" },
+                          "description": { "type": "string" },
+                          "report": { "type": "boolean" }
+                        }
+                      }
+                    }
+                  },
+                  "fireplaces": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "defectDetail": { "type": "string" },
+                      "photos": {
+                        "type": "object",
+                        "properties": {
+                          "photoId": { "type": "integer" },
+                          "description": { "type": "string" },
+                          "report": { "type": "boolean" }
+                        }
+                      }
+                    }
+                  },
+                  "builtinFittings": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "defectDetail": { "type": "string" },
+                      "advice": { "type": "string" },
+                      "photos": {
+                        "type": "object",
+                        "properties": {
+                          "photoId": { "type": "string" },
+                          "description": { "type": "string" },
+                          "report": { "type": "boolean" }
+                        }
+                      }
+                    }
+                  },
+                  "woodwork": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "doorDescription": { "type": "string" },
+                      "stairDescription": { "type": "string" },
+                      "joineryDescription": { "type": "string" },
+                      "defectsDetail": { "type": "string" },
+                      "defectsDoorsWindows": { "type": "string" },
+                      "defectsStairs": { "type": "string" },
+                      "photos": {
+                        "type": "object",
+                        "properties": {
+                          "photoId": { "type": "string" },
+                          "description": { "type": "string" },
+                          "report": { "type": "boolean" }
+                        }
+                      }
+                    }
+                  },
+                  "bathroomFittings": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "defectDetail": { "type": "string" },
+                      "photos": {
+                        "type": "object",
+                        "properties": {
+                          "photoId": { "type": "integer" },
+                          "description": { "type": "string" },
+                          "report": { "type": "boolean" }
+                        }
+                      }
+                    }
+                  },
+                  "other": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "visibility": { "type": "string" },
+                      "roofConversion": { "type": "string" },
+                      "cellar": { "type": "string" },
+                      "commonAreas": { "type": "string" },
+                      "alarms": { "type": "string" },
+                      "defectsRoof": { "type": "string" },
+                      "defectsBasement": { "type": "string" },
+                      "defectsOther": { "type": "string" },
+                      "photos": {
+                        "type": "object",
+                        "properties": {
+                          "photoId": { "type": "string" },
+                          "description": { "type": "string" },
+                          "report": { "type": "boolean" }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "services": {
+                "type": "object",
+                "properties": {
+                  "electricity": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "photos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "photoId": { "type": "integer" },
+                            "description": { "type": "string" },
+                            "report": { "type": "boolean" }
+                          }
+                        }
+                      },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "meter": { "type": "string" },
+                      "consumerUnit": { "type": "string" },
+                      "cutOffDevices": { "type": "string" },
+                      "wiring": { "type": "string" },
+                      "additionalFeatures": { "type": "string" },
+                      "supplementary": { "type": "string" },
+                      "testCertificate": { "type": "string" },
+                      "defectsPresent": { "type": "boolean" },
+                      "defectDetail": { "type": "string" }
+                    }
+                  },
+                  "gasOil": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "photos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "photoId": { "type": "integer" },
+                            "description": { "type": "string" },
+                            "report": { "type": "boolean" }
+                          }
+                        }
+                      },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "meter": { "type": "string" },
+                      "privateGas": { "type": "string" },
+                      "tankLocation": { "type": "string" },
+                      "tankInside": { "type": "string" },
+                      "tankOutside": { "type": "string" },
+                      "tankType": { "type": "string" },
+                      "testCertificate": { "type": "string" },
+                      "defectsPresent": { "type": "boolean" },
+                      "defectDetail": { "type": "string" }
+                    }
+                  },
+                  "water": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "photos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "photoId": { "type": "string" },
+                            "description": { "type": "string" },
+                            "report": { "type": "boolean" }
+                          }
+                        }
+                      },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "stopTap": { "type": "string" },
+                      "supply": { "type": "string" },
+                      "distribution": { "type": "string" },
+                      "storageTank": { "type": "string" },
+                      "defectsPresent": { "type": "boolean" },
+                      "defectDetail": { "type": "string" }
+                    }
+                  },
+                  "heating": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "photos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "photoId": { "type": "integer" },
+                            "description": { "type": "string" },
+                            "report": { "type": "boolean" }
+                          }
+                        }
+                      },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "extent": { "type": "string" },
+                      "source": { "type": "string" },
+                      "emitter": { "type": "string" },
+                      "pipework": { "type": "string" },
+                      "controls": { "type": "string" },
+                      "otherFeatures": { "type": "string" },
+                      "testCertificate": { "type": "string" },
+                      "defectsPresent": { "type": "boolean" },
+                      "defectDetail": { "type": "string" }
+                    }
+                  },
+                  "waterHeating": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "photos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "photoId": { "type": "integer" },
+                            "description": { "type": "string" },
+                            "report": { "type": "boolean" }
+                          }
+                        }
+                      },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "primarySource": { "type": "string" },
+                      "supplementarySource": { "type": "string" },
+                      "storage": { "type": "string" },
+                      "pipework": { "type": "string" },
+                      "defectsPresent": { "type": "boolean" },
+                      "defectDetail": { "type": "string" }
+                    }
+                  },
+                  "drainage": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "photos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "photoId": { "type": "string" },
+                            "description": { "type": "string" },
+                            "report": { "type": "boolean" }
+                          }
+                        }
+                      },
+                      "visibility": { "type": "string" },
+                      "restrictions": { "type": "string" },
+                      "system": { "type": "string" },
+                      "privateSystem": { "type": "string" },
+                      "location": { "type": "string" },
+                      "runOff": { "type": "boolean" },
+                      "features": { "type": "string" },
+                      "defectsPresent": { "type": "boolean" },
+                      "defectDetail": { "type": "string" }
+                    }
+                  },
+                  "commonServices": {
+                    "type": "object",
+                    "properties": {
+                      "condition": { "type": "string" },
+                      "inspectionLimitations": { "type": "string" },
+                      "description": { "type": "string" },
+                      "defects": { "type": "string" },
+                      "advisories": { "type": "string" },
+                      "notes": { "type": "string" },
+                      "photos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "photoId": { "type": "string" },
+                            "description": { "type": "string" },
+                            "report": { "type": "boolean" }
+                          }
+                        }
+                      },
+                      "visibility": { "type": "string" },
+                      "type": { "type": "string" },
+                      "defectsPresent": { "type": "boolean" },
+                      "defectDetail": { "type": "string" }
+                    }
+                  }
+                }
+              },
+              "grounds": {
+                "type": "object",
+                "properties": {
+                  "garage": {
+                    "type": "object",
+                    "properties": {
+                      "condition": {
+                        "type": "string"
+                      },
+                      "inspectionLimitations": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "defects": {
+                        "type": "string"
+                      },
+                      "advisories": {
+                        "type": "string"
+                      },
+                      "notes": {
+                        "type": "string"
+                      },
+                      "photos": {
+                        "type": "object",
+                        "properties": {
+                          "photoId": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "report": {
+                            "type": "boolean"
+                          }
+                        }
+                      },
+                      "visibility": {
+                        "type": "string"
+                      },
+                      "restrictions": {
+                        "type": "string"
+                      },
+                      "wallConstruction": {
+                        "type": "string"
+                      },
+                      "roofConstruction": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "type": "string"
+                      },
+                      "structuralMovement": {
+                        "type": "boolean"
+                      },
+                      "movementType": {
+                        "type": "string"
+                      },
+                      "movementStatus": {
+                        "type": "string"
+                      },
+                      "hasDefects": {
+                        "type": "boolean"
+                      },
+                      "defectDetail": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "permanentOutbuildings": {
+                    "type": "object",
+                    "properties": {
+                      "condition": {
+                        "type": "string"
+                      },
+                      "inspectionLimitations": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "defects": {
+                        "type": "string"
+                      },
+                      "advisories": {
+                        "type": "string"
+                      },
+                      "notes": {
+                        "type": "string"
+                      },
+                      "photos": {
+                        "type": "object",
+                        "properties": {
+                          "photoId": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "report": {
+                            "type": "boolean"
+                          }
+                        }
+                      },
+                      "visibility": {
+                        "type": "string"
+                      },
+                      "restrictions": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "wallConstruction": {
+                        "type": "string"
+                      },
+                      "roofConstruction": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "type": "string"
+                      },
+                      "hasDefects": {
+                        "type": "boolean"
+                      },
+                      "defectDetail": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "other": {
+                    "type": "object",
+                    "properties": {
+                      "condition": {
+                        "type": "string"
+                      },
+                      "inspectionLimitations": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "defects": {
+                        "type": "string"
+                      },
+                      "advisories": {
+                        "type": "string"
+                      },
+                      "notes": {
+                        "type": "string"
+                      },
+                      "photos": {
+                        "type": "object",
+                        "properties": {
+                          "photoId": {
+                            "type": "integer"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "report": {
+                            "type": "boolean"
+                          }
+                        }
+                      },
+                      "visibility": {
+                        "type": "string"
+                      },
+                      "restrictions": {
+                        "type": "string"
+                      },
+                      "gardens": {
+                        "type": "string"
+                      },
+                      "exceed1Acre": {
+                        "type": "boolean"
+                      },
+                      "boundaries": {
+                        "type": "object",
+                        "properties": {
+                          "fenceDescription": {
+                            "type": "string"
+                          },
+                          "fenceIssues": {
+                            "type": "string"
+                          },
+                          "fenceDefects": {
+                            "type": "string"
+                          },
+                          "wallDescription": {
+                            "type": "string"
+                          },
+                          "wallIssues": {
+                            "type": "string"
+                          },
+                          "wallDefects": {
+                            "type": "string"
+                          },
+                          "hedgeDescription": {
+                            "type": "string"
+                          },
+                          "hedgeIssues": {
+                            "type": "string"
+                          },
+                          "hedgeDefects": {
+                            "type": "string"
+                          },
+                          "otherBoundaryDescription": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "hardscaping": {
+                        "type": "object",
+                        "properties": {
+                          "drivewayLandscaping": {
+                            "type": "string"
+                          },
+                          "driveMaterial": {
+                            "type": "string"
+                          },
+                          "driveDefects": {
+                            "type": "boolean"
+                          },
+                          "driveDefectDetail": {
+                            "type": "string"
+                          },
+                          "patioMaterial": {
+                            "type": "string"
+                          },
+                          "patioDefects": {
+                            "type": "boolean"
+                          },
+                          "patioDefectDetail": {
+                            "type": "string"
+                          },
+                          "pathMaterial": {
+                            "type": "string"
+                          },
+                          "pathDefects": {
+                            "type": "boolean"
+                          },
+                          "pathDefectDetail": {
+                            "type": "string"
+                          },
+                          "deckingMaterial": {
+                            "type": "string"
+                          },
+                          "deckingDefects": {
+                            "type": "boolean"
+                          },
+                          "deckingDefectDetail": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "buildingRegs": {
+                        "type": "boolean"
+                      },
+                      "otherFeatures": {
+                        "type": "string"
+                      },
+                      "japaneseKnotweed": {
+                        "type": "string"
+                      },
+                      "otherDefects": {
+                        "type": "boolean"
+                      },
+                      "otherDefectDetail": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "legalIssues": {
+                "type": "object",
+                "properties": {
+                  "notes": {
+                    "type": "string",
+                    "description": "Legal Issues Notes"
+                  },
+                  "regulation": {
+                    "type": "string",
+                    "description": "Legal Issues Regulation details"
+                  },
+                  "guarantees": {
+                    "type": "string",
+                    "description": "Legal Issues Guarantees details"
+                  },
+                  "otherMatters": {
+                    "type": "string",
+                    "description": "Legal Issues Other Matters details"
+                  },
+                  "rightsOfWay": {
+                    "type": "string",
+                    "description": "Legal Issues Rights of Way/Restrictions details"
+                  }
+                }
+              },
+              "risks": {
+                "type": "object",
+                "properties": {
+                  "buildingRisks": {
+                    "type": "string",
+                    "description": "Building Risk details"
+                  },
+                  "groundsRisks": {
+                    "type": "string",
+                    "description": "Ground Risk details"
+                  },
+                  "peopleRisks": {
+                    "type": "string",
+                    "description": "People Risk details"
+                  },
+                  "otherRisks": {
+                    "type": "string",
+                    "description": "Other Risk or Hazard details"
+                  }
+                }
+              },
+              "propertyValuation": {
+                "type": "object",
+                "properties": {
+                  "valuation": {
+                    "type": "object",
+                    "properties": {
+                      "valuationDiscriminator": {
+                        "type": "boolean",
+                        "description": "Provide Valuation Y/N"
+                      },
+                      "value": {
+                        "type": "integer",
+                        "description": "Market Value"
+                      },
+                      "valueWords": {
+                        "type": "string",
+                        "description": "Market Value in words"
+                      },
+                      "reinstatement": {
+                        "type": "integer",
+                        "description": "Reinstatement Cost"
+                      },
+                      "reinstatementWords": {
+                        "type": "string",
+                        "description": "Reinstatement Cost in words"
+                      },
+                      "tenure": {
+                        "type": "string",
+                        "description": "Property Tenure"
+                      },
+                      "lease": {
+                        "type": "integer",
+                        "description": "Unexpired Lease"
+                      },
+                      "areaOfProperty": {
+                        "type": "integer",
+                        "description": "Area of Property"
+                      }
+                    }
+                  },
+                  "valuationInformation": {
+                    "type": "object",
+                    "properties": {
+                      "additionalAssumptions": {
+                        "type": "string",
+                        "description": "Valuation Assumptions"
+                      },
+                      "considerations": {
+                        "type": "string",
+                        "description": "Considerations affecting value"
+                      }
+                    }
+                  }
+                }
+              },
+              "declaration": {
+                "type": "object",
+                "properties": {
+                  "surveyorQuals": {
+                    "type": "string",
+                    "description": "Surveyor's Qualifications"
+                  },
+                  "companyAddress": {
+                    "type": "string",
+                    "description": "Company Address"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "description": "Company Phone Number"
+                  },
+                  "faxNumber": {
+                    "type": "string",
+                    "description": "Company Fax Number"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Company Email address"
+                  },
+                  "website": {
+                    "type": "string",
+                    "description": "Company Website details"
+                  },
+                  "clientName": {
+                    "type": "string",
+                    "description": "Customer Name"
+                  }
+                }
+              },
+              "misc": {
+                "type": "object",
+                "properties": {
+                  "photoFront": {
+                    "type": "object",
+                    "properties": {
+                      "value": { "type": "string" },
+                      "photoId": { "type": "integer" },
+                      "description": { "type": "string" },
+                      "report": { "type": "boolean" }
+                    }
+                  },
+                  "areaOfProperty": {
+                    "type": "object",
+                    "properties": {
+                      "value": { "type": "string" },
+                      "photoId": { "type": "integer" },
+                      "description": { "type": "string" },
+                      "report": { "type": "boolean" }
+                    }
+                  },
+                  "reportDate": { "type": "string" },
+                  "epc": { "type": "string" },
+                  "agentName": { "type": "string" },
+                  "access": { "type": "string" },
+                  "propertyQuestions": { "type": "boolean" },
+                  "propertyChanges": { "type": "string" },
+                  "alterations": { "type": "string" },
+                  "furnishings": { "type": "string" },
+                  "floorCoverings": { "type": "string" },
+                  "propertyType": { "type": "string" },
+                  "accommodationLocation": { "type": "string" },
+                  "propertyStyle": { "type": "string" },
+                  "topography": { "type": "string" },
+                  "floodingRisk": { "type": "string" },
+                  "coastalLocation": { "type": "boolean" },
+                  "siteRisk": { "type": "string" },
+                  "highVoltage": { "type": "string" },
+                  "buildFormat": { "type": "string" },
+                  "areaDetails": { "type": "string" },
+                  "groundRentType": { "type": "string" },
+                  "conservationArea": { "type": "boolean" },
+                  "valuationFactor": { "type": "string" },
+                  "conflict": { "type": "boolean" },
+                  "conflictType": { "type": "string" },
+                  "suspiciousActivity": { "type": "boolean" },
+                  "btl": { "type": "boolean" },
+                  "photoConsent": { "type": "boolean" },
+                  "adjacentCommercial": { "type": "boolean" },
+                  "commercialLocation": { "type": "string" },
+                  "commercialTypeAbove": { "type": "string" },
+                  "commercialTypeAdjacent": { "type": "string" },
+                  "separateAccess": { "type": "boolean" },
+                  "communal": { "type": "boolean" },
+                  "communalFacilities": { "type": "string" },
+                  "listedBuilding": { "type": "boolean" },
+                  "listedClassification": { "type": "string" },
+                  "exla": { "type": "boolean" },
+                  "exNature": { "type": "string" },
+                  "tenureSource": { "type": "string" },
+                  "roadType": { "type": "string" },
+                  "roadMadeUp": { "type": "boolean" },
+                  "pedestrian": { "type": "boolean" },
+                  "constructionType": { "type": "string" },
+                  "nonTradType": { "type": "string" },
+                  "nonTradSystem": { "type": "string" },
+                  "designatedDefective": { "type": "boolean" },
+                  "epcAvailable": { "type": "boolean" },
+                  "epcReason": { "type": "string" },
+                  "epcDiscrepancies": { "type": "boolean" },
+                  "epcDiscrepancyDetail": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "valuations": {
+          "title": "Valuation reports",
+          "description": "Valuation reports associated with the transaction",
+          "type": "array",
+          "items": {
+            "title": "Valuation report",
+            "type": "object",
+            "properties": {
+              "valuationId": {
+                "type": "integer"
+              },
+              "valuationTimestamp": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "capitalValue": {
+                "type": "integer"
+              },
+              "confidenceLevel": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 7
+              },
+              "confidenceBand": {
+                "type": "string",
+                "enum": ["high", "medium", "low"]
+              },
+              "rentalValue": {
+                "type": "integer"
+              },
+              "rentalConfidenceLevel": {
+                "type": "number"
+              },
+              "reinstatementCost": {
+                "type": "integer"
+              },
+              "checkValuationResult": {
+                "type": "string"
+              },
+              "instructionType": {
+                "type": "string"
+              },
+              "valuationContext": {
+                "type": "string"
+              },
+              "valuationType": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "valuationId",
+              "valuationTimestamp",
+              "capitalValue",
+              "confidenceLevel",
+              "confidenceBand"
+            ]
+          }
         }
       }
     },
@@ -39999,10 +41449,10 @@
           "minItems": 1,
           "items": {
             "type": "object",
-            "title": "onwards Purchases",
+            "title": "Onwards Purchase",
             "properties": {
               "transactionId": {
-                "title": "UUID for the onward transaction",
+                "title": "UUID for an onward transaction",
                 "type": "string"
               },
               "externalIds": {
@@ -40076,10 +41526,10 @@
         "minItems": 1,
         "items": {
           "type": "object",
-          "title": "the properties the buyer/buyers are selling to finance the purchase",
+          "title": "The property(ies) the buyer/buyers are selling to finance the purchase",
           "properties": {
             "transactionId": {
-              "title": "UUID for the onward transaction",
+              "title": "UUID for an onward transaction",
               "type": "string"
             },
             "externalIds": {
@@ -40143,6 +41593,124 @@
             "sellingAgent": {
               "title": "Estate Agent selling the property",
               "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "milestones": {
+      "title": "Transaction Milestones",
+      "type": "object",
+      "properties": {
+        "listed": {
+          "description": "The date the property commenced marketing by being publicly listed for sale",
+          "type": "object",
+          "properties": {
+            "expected": {
+              "description": "Planned date of listing, for example when scheduled in advance around e.g. Boxing Day activities",
+              "type": "string",
+              "format": "date-time"
+            },
+            "completed": {
+              "description": "Actual date of first public listing for sale",
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "legalForms": {
+          "description": "The progress of the legal forms completion, including TA6, TA7 where relevant, and TA10 forms or their equivalents",
+          "type": "object",
+          "properties": {
+            "started": {
+              "description": "The date the legal forms were shared with the vendors for completion",
+              "type": "string",
+              "format": "date-time"
+            },
+            "completed": {
+              "description": "The date the legal forms were completed and signed by all parties",
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "soldSubjectToContract": {
+          "type": "object",
+          "properties": {
+            "completed": {
+              "description": "The date an offer for sale was accepted by a proceedable buyer",
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "searches": {
+          "description": "The progress of all searches in a standard search pack together",
+          "type": "object",
+          "properties": {
+            "started": {
+              "description": "The date the first of the searches in the pack was ordered",
+              "type": "string",
+              "format": "date-time"
+            },
+            "expected": {
+              "description": "The latest date the searches are expected to be completed",
+              "type": "string",
+              "format": "date-time"
+            },
+            "completed": {
+              "description": "The date the last of the searches in the pack was delivered",
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "enquiries": {
+          "type": "object",
+          "properties": {
+            "started": {
+              "description": "The date the enquiries process between conveyancers was commenced",
+              "type": "string",
+              "format": "date-time"
+            },
+            "completed": {
+              "description": "The date the last of the enquiries was resolved",
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "exchangeOfContracts": {
+          "type": "object",
+          "properties": {
+            "expected": {
+              "description": "A proposed or agreed date for the exchange of contracts",
+              "type": "string",
+              "format": "date-time"
+            },
+            "completed": {
+              "description": "The actual date the contracts were exchanged",
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "completion": {
+          "type": "object",
+          "properties": {
+            "started": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "expected": {
+              "description": "A proposed or agreed date for completion",
+              "type": "string",
+              "format": "date-time"
+            },
+            "completed": {
+              "description": "The actual date the property sale was completed",
+              "type": "string",
+              "format": "date-time"
             }
           }
         }

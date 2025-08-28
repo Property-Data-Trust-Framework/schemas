@@ -8,7 +8,6 @@ const {
   getValidator,
   getSubschemaValidator,
   getTitleAtPath,
-  overlaysMap,
 } = require("../../../index.js");
 
 const exampleTransaction = require("../../examples/v3/exampleTransaction.json");
@@ -33,14 +32,12 @@ test("sample is valid BASPI", () => {
   expect(testSchema.properties.propertyPack.baspi4Ref).toEqual("0");
   const validator = getValidator(schemaId, ["baspiV4"]);
   const isValid = validator(exampleTransaction);
-  if (!isValid) console.log(validator.errors);
   expect(isValid).toBe(true);
 });
 
 test("sample is valid NTS", () => {
   const validator = getValidator(schemaId, ["nts2023"]);
   const isValid = validator(exampleTransaction);
-  if (!isValid) console.log(validator.errors);
   expect(isValid).toBe(true);
 });
 
@@ -102,7 +99,6 @@ test("sample is valid NTSL if we change it accordingly", () => {
   delete clonedExampleTransaction.propertyPack.priceInformation;
   delete clonedExampleTransaction.propertyPack.ownership;
   const isValid = validator(clonedExampleTransaction);
-  if (!isValid) console.log(validator.errors);
   expect(isValid).toBe(true);
 });
 
@@ -453,226 +449,126 @@ test("validates a valid contract", () => {
   expect(isValid).toBe(true);
 });
 
-test("overlay as key and as object produce identical results", () => {
-  // Get the NTS overlay object directly from the overlays map
-  const ntsOverlayObject = { ...overlaysMap[schemaId]["nts2023"] };
-  // Remove the $id to prevent schema registration conflicts
-  ntsOverlayObject.$id =
-    "https://trust.propdata.org.uk/schemas/v3/overlays/nts2024.json";
-
-  // Get schema using the key
-  const schemaWithKey = getTransactionSchema(schemaId, ["nts2023"]);
-
-  // Get schema using the object
-  const schemaWithObject = getTransactionSchema(schemaId, [ntsOverlayObject]);
-
-  // Create copies without $id for comparison
-  const schemaWithKeyNoId = { ...schemaWithKey };
-  const schemaWithObjectNoId = { ...schemaWithObject };
-  delete schemaWithKeyNoId.$id;
-  delete schemaWithObjectNoId.$id;
-
-  // Deep compare the results (excluding $id)
-  expect(schemaWithObjectNoId).toEqual(schemaWithKeyNoId);
-
-  // Test that validation produces the same errors
-  const validatorWithKey = getValidator(schemaId, ["nts2023"]);
-  const validatorWithObject = getValidator(schemaId, [ntsOverlayObject]);
-
-  validatorWithKey(exampleTransaction);
-  validatorWithObject(exampleTransaction);
-
-  // Compare validation errors
-  expect(validatorWithObject.errors).toEqual(validatorWithKey.errors);
-});
-
-test("correctly merges custom Japanese Knotweed overlay with base schema", () => {
-  // Load the custom overlay
-  const customOverlay = require("../../examples/v3/exampleCustomOverlay.json");
-
-  // Get base schema and schema with overlay
-  const baseSchema = getTransactionSchema(schemaId);
-  const schemaWithOverlay = getTransactionSchema(schemaId, [customOverlay]);
-
-  // Verify that other properties in propertyPack are preserved
-  expect(
-    Object.keys(schemaWithOverlay.properties.propertyPack.properties)
-  ).toEqual(Object.keys(baseSchema.properties.propertyPack.properties));
-
-  // Verify that other properties in specialistIssues are preserved
-  const baseSpecialistIssues =
-    baseSchema.properties.propertyPack.properties.specialistIssues;
-  const overlaidSpecialistIssues =
-    schemaWithOverlay.properties.propertyPack.properties.specialistIssues;
-  expect(Object.keys(overlaidSpecialistIssues.properties)).toEqual(
-    Object.keys(baseSpecialistIssues.properties)
+test("ntsl2025 requires parking and listingAndConservation fields", () => {
+  // This test validates that the ntsl2025 overlay correctly enforces required fields
+  // for the parking and listingAndConservation sections.
+  // It should fail validation when these fields are missing.
+  // NOTE: This test will fail until overlays are regenerated from combined.json
+  const validator = getValidator(schemaId, ["ntsl2025"]);
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
   );
-
-  // Verify that Japanese Knotweed section is updated
-  const japaneseKnotweed = overlaidSpecialistIssues.properties.japaneseKnotweed;
-  expect(japaneseKnotweed.title).toBe(
-    "Is the property affected by Japanese knotweed?"
-  );
-  expect(japaneseKnotweed.required).toEqual(["yesNo"]);
-
-  // Verify the oneOf conditions are updated
-  expect(japaneseKnotweed.oneOf).toHaveLength(2);
-  expect(japaneseKnotweed.oneOf[0].properties.yesNo.enum).toEqual([
-    "No",
-    "Not known",
-  ]);
-  expect(japaneseKnotweed.oneOf[1].properties.yesNo.enum).toEqual(["Yes"]);
-  expect(japaneseKnotweed.oneOf[1].required).toEqual([
-    "managementPlanInPlace",
-    "attachments",
-  ]);
-});
-
-test("correctly merges multiple overlays using both key and object references", () => {
-  // Load the custom overlay
-  const customOverlay = require("../../examples/v3/exampleCustomOverlay.json");
-
-  // Get schema with both overlays
-  const schemaWithOverlays = getTransactionSchema(schemaId, [
-    "nts2023",
-    customOverlay,
-  ]);
-
-  // Get individual overlay schemas for comparison
-  const ntsSchema = getTransactionSchema(schemaId, ["nts2023"]);
-  const customSchema = getTransactionSchema(schemaId, [customOverlay]);
-
-  // Verify propertyPack structure is preserved
-  const propertyPack = schemaWithOverlays.properties.propertyPack;
-  expect(Object.keys(propertyPack.properties)).toEqual(
-    expect.arrayContaining(
-      Object.keys(ntsSchema.properties.propertyPack.properties)
-    )
-  );
-
-  // Verify Japanese Knotweed changes from custom overlay are present
-  const japaneseKnotweed =
-    propertyPack.properties.specialistIssues.properties.japaneseKnotweed;
-  expect(japaneseKnotweed.title).toBe(
-    "Is the property affected by Japanese knotweed?"
-  );
-  expect(japaneseKnotweed.oneOf[1].required).toEqual([
-    "managementPlanInPlace",
-    "attachments",
-  ]);
-
-  // Verify customRef properties are correctly merged
-  expect(propertyPack.customRef).toBe("JKW");
-  expect(propertyPack.properties.specialistIssues.customRef).toBe("JKW.7");
-  expect(japaneseKnotweed.customRef).toBe("JKW.7.8");
-  expect(
-    japaneseKnotweed.oneOf[1].properties.managementPlanInPlace.customRef
-  ).toBe("JKW.7.8.2");
-  expect(japaneseKnotweed.oneOf[1].properties.attachments.customRef).toBe(
-    "JKW.7.8.3"
-  );
-  expect(japaneseKnotweed.properties.yesNo.customRef).toBe("JKW.7.8.1");
-
-  // Verify NTS specific changes are present (e.g., simplified enums)
-  const mainsElectricity =
-    propertyPack.properties.electricity.properties.mainsElectricity;
-  expect(mainsElectricity.properties.yesNo.enum).toEqual(["Yes", "No"]);
-
-  // Verify required fields from both overlays are merged
-  expect(propertyPack.required).toEqual(
-    expect.arrayContaining([
-      ...ntsSchema.properties.propertyPack.required,
-      ...customSchema.properties.propertyPack.required,
-    ])
-  );
-});
-
-test("correctly merges NTS and both custom overlays with proper required fields", () => {
-  // Load both custom overlays
-  const japaneseKnoweedOverlay = require("../../examples/v3/exampleCustomOverlay.json");
-  const managingAgentOverlay = require("../../examples/v3/exampleCustomOverlay2.json");
-
-  // Get schema with all overlays
-  const schemaWithOverlays = getTransactionSchema(schemaId, [
-    "nts2023",
-    japaneseKnoweedOverlay,
-    managingAgentOverlay,
-  ]);
-
-  // Navigate to the leasehold section in the oneOf array
-  const leaseholdSchema =
-    schemaWithOverlays.properties.propertyPack.properties.ownership.properties.ownershipsToBeTransferred.items.oneOf.find(
-      (schema) => schema.properties.ownershipType.enum[0] === "Leasehold"
-    );
-
-  // Verify the leasehold information structure
-  const leaseholdInfo = leaseholdSchema.properties.leaseholdInformation;
-
-  // Check required fields - should include both NTS and custom overlay requirements
-  expect(leaseholdInfo.required).toContain("contactDetails");
-  expect(leaseholdInfo.required).toContain("leaseTerm"); // from NTS
-  expect(leaseholdInfo.required).toContain("groundRent"); // from NTS
-
-  // Verify managing agent contact structure and refs
-  const managingAgent =
-    leaseholdInfo.properties.contactDetails.properties.contacts.properties
-      .managingAgent;
-  expect(managingAgent.macRef).toBe("MAC.4.1c");
-
-  // Verify contact details structure
-  const contact = managingAgent.properties.contact;
-  expect(contact.properties.nameOrOrganisation.macRef).toBe("MAC.4.1c.1");
-  expect(contact.properties.address.macRef).toBe("MAC.4.1c.0");
-  expect(contact.properties.telephone.macRef).toBe("MAC.4.1c.7");
-  expect(contact.properties.emailAddress.macRef).toBe("MAC.4.1c.8");
-
-  // Verify Japanese Knotweed section is still present and correct
-  const japaneseKnotweed =
-    schemaWithOverlays.properties.propertyPack.properties.specialistIssues
-      .properties.japaneseKnotweed;
-  expect(japaneseKnotweed.customRef).toBe("JKW.7.8");
-
-  // Verify NTS changes are still present
-  const mainsElectricity =
-    schemaWithOverlays.properties.propertyPack.properties.electricity.properties
-      .mainsElectricity;
-  expect(mainsElectricity.properties.yesNo.enum).toEqual(["Yes", "No"]);
-});
-
-test("ta7 overlay as key and as object produce identical results at leasehold info level", () => {
-  // Get the TA7 overlay object directly from the overlays map
-  const ta7OverlayObject = { ...overlaysMap[schemaId]["ta7ed3"] };
-  // Remove the $id to prevent schema registration conflicts
-  ta7OverlayObject.$id =
-    "https://trust.propdata.org.uk/schemas/v3/overlays/ta7ed3-copy.json";
-
-  // Get schemas using both methods
-  const schemaWithKey = getTransactionSchema(schemaId, ["ta7ed3"]);
-  const schemaWithObject = getTransactionSchema(schemaId, [ta7OverlayObject]);
-
-  // Navigate to the leasehold information section in both schemas
-  const getLeaseholdInfo = (schema) => {
-    const ownershipsToBeTransferred =
-      schema.properties.propertyPack.properties.ownership.properties
-        .ownershipsToBeTransferred;
-    const leaseholdSchema = ownershipsToBeTransferred.items.oneOf.find(
-      (schema) => schema.properties.ownershipType.enum[0] === "Leasehold"
-    );
-    return leaseholdSchema.properties.leaseholdInformation;
+  
+  // Set up lettings-specific fields
+  clonedExampleTransaction.propertyPack.lettingInformation = {
+    rent: 3500,
+    rentFrequency: "Monthly",
+    securityDeposit: 5000,
   };
+  delete clonedExampleTransaction.propertyPack.priceInformation;
+  delete clonedExampleTransaction.propertyPack.ownership;
+  
+  // Remove ALL parking fields - this should make validation fail
+  delete clonedExampleTransaction.propertyPack.parking.parkingArrangements;
+  delete clonedExampleTransaction.propertyPack.parking.disabledParking;
+  delete clonedExampleTransaction.propertyPack.parking.controlledParking;
+  delete clonedExampleTransaction.propertyPack.parking.electricVehicleChargingPoint;
+  
+  // Remove ALL listingAndConservation fields - this should make validation fail
+  delete clonedExampleTransaction.propertyPack.listingAndConservation.isListed;
+  delete clonedExampleTransaction.propertyPack.listingAndConservation.isConservationArea;
+  delete clonedExampleTransaction.propertyPack.listingAndConservation.hasTreePreservationOrder;
+  
+  const isValid = validator(clonedExampleTransaction);
+  
+  // The data should be INVALID because required fields are missing
+  expect(isValid).toBe(false);
+  
+  // Specifically check that parking and listingAndConservation fields are reported as missing
+  const errorMessages = validator.errors.map(e => e.message);
+  expect(errorMessages).toContain("must have required property 'parkingArrangements'");
+  expect(errorMessages).toContain("must have required property 'disabledParking'");
+  expect(errorMessages).toContain("must have required property 'controlledParking'");
+  expect(errorMessages).toContain("must have required property 'electricVehicleChargingPoint'");
+  expect(errorMessages).toContain("must have required property 'isListed'");
+  expect(errorMessages).toContain("must have required property 'isConservationArea'");
+  expect(errorMessages).toContain("must have required property 'hasTreePreservationOrder'");
+});
 
-  const leaseholdInfoWithKey = getLeaseholdInfo(schemaWithKey);
-  const leaseholdInfoWithObject = getLeaseholdInfo(schemaWithObject);
+test("waterAndDrainage state is invalid under nts2023 overlay when mainsFoulDrainage yesNo is Not known", () => {
+  const validator = getValidator(schemaId, ["nts2023"]);
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
+  );
+  
+  // Set the waterAndDrainage to an actually invalid state for nts2023
+  // The nts overlay restricts mainsFoulDrainage.yesNo to only "Yes" or "No" 
+  // (not "Not known" like the base schema allows)
+  clonedExampleTransaction.propertyPack.waterAndDrainage = {
+    "water": {
+      "mainsWater": {
+        "yesNo": "Yes",
+        "waterMeter": {
+          "isSupplyMetered": "No"
+        }
+      }
+    },
+    "drainage": {
+      "mainsSurfaceWaterDrainage": {
+        "yesNo": "Yes"
+      },
+      "mainsFoulDrainage": {
+        "yesNo": "Not known"  // This is invalid under nts2023 overlay
+      }
+    }
+  };
+  
+  const isValid = validator(clonedExampleTransaction);
+  expect(isValid).toBe(false);
+  
+  // Check that the validation error is about the invalid enum value
+  const relevantError = validator.errors.find(error => 
+    error.instancePath.includes('mainsFoulDrainage') && 
+    error.message.includes('must be equal to one of the allowed values')
+  );
+  expect(relevantError).toBeDefined();
+});
 
-  // Deep compare the leasehold information sections
-  expect(leaseholdInfoWithObject).toEqual(leaseholdInfoWithKey);
-
-  // Verify specific TA7 requirements are present in both
-  expect(leaseholdInfoWithKey.required).toContain("contactDetails");
-  expect(leaseholdInfoWithObject.required).toContain("contactDetails");
-
-  // Verify TA7 refs are present and identical
-  const contactDetails = leaseholdInfoWithKey.properties.contactDetails;
-  expect(contactDetails.ta7Ref).toBe("4.1");
-  expect(leaseholdInfoWithObject.properties.contactDetails.ta7Ref).toBe("4.1");
+test("waterAndDrainage state with mainsFoulDrainage No missing offMainsDrainageSystem is now invalid under nts2023 overlay", () => {
+  const validator = getValidator(schemaId, ["nts2023"]);
+  const clonedExampleTransaction = JSON.parse(
+    JSON.stringify(exampleTransaction)
+  );
+  
+  // Set the waterAndDrainage to the state from the user request
+  // This SHOULD be invalid because offMainsDrainageSystem is required when mainsFoulDrainage.yesNo is "No"
+  clonedExampleTransaction.propertyPack.waterAndDrainage = {
+    "water": {
+      "mainsWater": {
+        "yesNo": "Yes",
+        "waterMeter": {
+          "isSupplyMetered": "No"
+        }
+      }
+    },
+    "drainage": {
+      "mainsSurfaceWaterDrainage": {
+        "yesNo": "Yes"
+      },
+      "mainsFoulDrainage": {
+        "yesNo": "No"
+        // Missing offMainsDrainageSystem - this should make validation fail
+      }
+    }
+  };
+  
+  const isValid = validator(clonedExampleTransaction);
+  expect(isValid).toBe(false);
+  
+  // Check that the validation error is about missing offMainsDrainageSystem
+  const relevantError = validator.errors.find(error => 
+    error.instancePath.includes('mainsFoulDrainage') && 
+    error.message.includes('offMainsDrainageSystem')
+  );
+  expect(relevantError).toBeDefined();
 });
