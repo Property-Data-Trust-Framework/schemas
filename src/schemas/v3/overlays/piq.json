@@ -13,7 +13,6 @@
             "properties": {
               "role": {
                 "enum": [
-                  "Buyer",
                   "Seller's Conveyancer",
                   "Prospective Buyer",
                   "Buyer's Conveyancer",
@@ -24,6 +23,15 @@
                   "Lender",
                   "Landlord",
                   "Tenant"
+                ]
+              }
+            }
+          },
+          {
+            "properties": {
+              "role": {
+                "enum": [
+                  "Buyer"
                 ]
               }
             }
@@ -57,8 +65,19 @@
                         "enum": [
                           "Personal Representative for a Deceased Owner",
                           "Under Power of Attorney",
+                          "Trustee",
                           "Assistant",
                           "Other"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Company Director",
+                          "Company Secretary"
                         ]
                       }
                     }
@@ -1614,7 +1633,8 @@
                               "properties": {
                                 "yesNo": {
                                   "enum": [
-                                    "Yes"
+                                    "Yes",
+                                    "Not known"
                                   ]
                                 }
                               }
@@ -1735,6 +1755,32 @@
             },
             "broadband": {
               "piqRef": "A7.1.15",
+              "discriminator": {
+                "propertyName": "typeOfConnection"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "typeOfConnection": {
+                      "enum": [
+                        "None"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "typeOfConnection": {
+                      "enum": [
+                        "ADSL copper wire",
+                        "Cable",
+                        "FTTC (Fibre to the Cabinet)",
+                        "FTTP (Fibre to the Premises)"
+                      ]
+                    }
+                  }
+                }
+              ],
               "properties": {
                 "typeOfConnection": {
                   "piqRef": "A7.1.16"
@@ -1903,7 +1949,8 @@
                   "properties": {
                     "yesNo": {
                       "enum": [
-                        "No"
+                        "No",
+                        "Not applicable"
                       ]
                     }
                   }
@@ -1971,7 +2018,8 @@
                   "properties": {
                     "yesNo": {
                       "enum": [
-                        "No"
+                        "No",
+                        "Not known"
                       ]
                     }
                   }
@@ -2295,8 +2343,7 @@
                   "properties": {
                     "riskIndicator": {
                       "enum": [
-                        "No",
-                        "Not known"
+                        "No"
                       ]
                     }
                   }

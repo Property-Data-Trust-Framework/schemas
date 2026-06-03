@@ -126,3 +126,70 @@ test("returns an empty array of errors for verified claim with multiple valid pa
   };
   expect(validateVerifiedClaims([clonedVouch], v3SchemaId, null)).toEqual([]);
 });
+
+test("returns an empty array for valid terms_of_use object with confidential level", () => {
+  const clonedVouch = JSON.parse(JSON.stringify(exampleVouch));
+  clonedVouch.terms_of_use = {
+    confidentiality_level: "confidential",
+    allowed_roles: ["Seller's Conveyancer", "Buyer's Conveyancer"]
+  };
+  expect(validateVerifiedClaims([clonedVouch])).toEqual([]);
+});
+
+test("returns an empty array for valid terms_of_use with public confidentiality", () => {
+  const clonedVouch = JSON.parse(JSON.stringify(exampleVouch));
+  clonedVouch.terms_of_use = {
+    confidentiality_level: "public",
+    allowed_roles: []
+  };
+  expect(validateVerifiedClaims([clonedVouch])).toEqual([]);
+});
+
+test("returns an empty array for valid terms_of_use with restricted level", () => {
+  const clonedVouch = JSON.parse(JSON.stringify(exampleVouch));
+  clonedVouch.terms_of_use = {
+    confidentiality_level: "restricted",
+    allowed_roles: []
+  };
+  expect(validateVerifiedClaims([clonedVouch])).toEqual([]);
+});
+
+test("returns errors for invalid confidentiality_level in terms_of_use", () => {
+  const clonedVouch = JSON.parse(JSON.stringify(exampleVouch));
+  clonedVouch.terms_of_use = {
+    confidentiality_level: "invalid_level",
+    allowed_roles: ["Seller's Conveyancer"]
+  };
+  const errors = validateVerifiedClaims([clonedVouch]);
+  expect(errors).toHaveLength(1);
+  expect(errors[0]).toHaveLength(1);
+  expect(errors[0][0].instancePath).toBe("/verified_claims/0/terms_of_use/confidentiality_level");
+  expect(errors[0][0].keyword).toBe("enum");
+});
+
+test("returns errors for invalid allowed_roles type in terms_of_use", () => {
+  const clonedVouch = JSON.parse(JSON.stringify(exampleVouch));
+  clonedVouch.terms_of_use = {
+    confidentiality_level: "confidential",
+    allowed_roles: "not_an_array"
+  };
+  const errors = validateVerifiedClaims([clonedVouch]);
+  expect(errors).toHaveLength(1);
+  expect(errors[0]).toHaveLength(1);
+  expect(errors[0][0].instancePath).toBe("/verified_claims/0/terms_of_use/allowed_roles");
+  expect(errors[0][0].keyword).toBe("type");
+});
+
+test("returns errors for additional properties in terms_of_use", () => {
+  const clonedVouch = JSON.parse(JSON.stringify(exampleVouch));
+  clonedVouch.terms_of_use = {
+    confidentiality_level: "confidential",
+    allowed_roles: ["Estate Agent"],
+    extra_property: "should_not_be_allowed"
+  };
+  const errors = validateVerifiedClaims([clonedVouch]);
+  expect(errors).toHaveLength(1);
+  expect(errors[0]).toHaveLength(1);
+  expect(errors[0][0].instancePath).toBe("/verified_claims/0/terms_of_use");
+  expect(errors[0][0].keyword).toBe("additionalProperties");
+});

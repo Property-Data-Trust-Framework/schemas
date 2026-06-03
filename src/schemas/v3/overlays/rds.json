@@ -6,6 +6,7 @@
       "items": {
         "oneOf": [
           null,
+          null,
           {
             "properties": {
               "sellersCapacity": {
@@ -33,8 +34,22 @@
                         "enum": [
                           "Personal Representative for a Deceased Owner",
                           "Under Power of Attorney",
+                          "Trustee",
                           "Assistant",
                           "Other"
+                        ]
+                      },
+                      "sellersCapacityDetails": {
+                        "rdsRef": "Participants/OtherDocumentation"
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Company Director",
+                          "Company Secretary"
                         ]
                       },
                       "sellersCapacityDetails": {
@@ -1475,14 +1490,60 @@
                         }
                       ]
                     },
-                    "isConnectedToNationalGrid": {
-                      "rdsRef": "Objects/isExternallyConnected=yes|no|true|false,Connection,Objects/ExternalConnection"
-                    },
                     "photovoltaicMeterPanelLocation": {
                       "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?"
                     },
-                    "photovoltaicBatteriesLocation": {
-                      "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?"
+                    "photovoltaicBatteries": {
+                      "rdsRef": "Objects/class='meters|valve|stopcock'&access=?&accessLocation=?",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "nationalGrid": {
+                      "rdsRef": "Objects/isExternallyConnected=yes|no|true|false,Connection,Objects/ExternalConnection",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ]
                     }
                   }
                 }
@@ -1885,7 +1946,8 @@
                               "properties": {
                                 "yesNo": {
                                   "enum": [
-                                    "Yes"
+                                    "Yes",
+                                    "Not known"
                                   ]
                                 }
                               }
@@ -1982,7 +2044,33 @@
               ]
             },
             "broadband": {
-              "rdsRef": "Services/Internet"
+              "rdsRef": "Services/Internet",
+              "discriminator": {
+                "propertyName": "typeOfConnection"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "typeOfConnection": {
+                      "enum": [
+                        "None"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "typeOfConnection": {
+                      "enum": [
+                        "ADSL copper wire",
+                        "Cable",
+                        "FTTC (Fibre to the Cabinet)",
+                        "FTTP (Fibre to the Premises)"
+                      ]
+                    }
+                  }
+                }
+              ]
             }
           }
         },
@@ -2041,7 +2129,8 @@
                   "properties": {
                     "yesNo": {
                       "enum": [
-                        "No"
+                        "No",
+                        "Not applicable"
                       ]
                     }
                   }
@@ -2093,7 +2182,8 @@
                   "properties": {
                     "yesNo": {
                       "enum": [
-                        "No"
+                        "No",
+                        "Not known"
                       ]
                     }
                   }
@@ -2485,8 +2575,7 @@
                   "properties": {
                     "riskIndicator": {
                       "enum": [
-                        "No",
-                        "Not known"
+                        "No"
                       ]
                     }
                   }
@@ -2922,7 +3011,8 @@
                     "yesNo": {
                       "enum": [
                         "No",
-                        "Not applicable"
+                        "Not applicable",
+                        "Not known"
                       ]
                     }
                   }
@@ -3275,6 +3365,32 @@
                   ]
                 },
                 "subsidenceWork": {
+                  "rdsRef": "Certificates",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "insulation": {
                   "rdsRef": "Certificates",
                   "discriminator": {
                     "propertyName": "yesNo"

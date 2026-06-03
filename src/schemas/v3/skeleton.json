@@ -1,6 +1,10 @@
 {
   "transactionId": "string",
-  "externalIds": {},
+  "externalIds": {
+    "*": {
+      "*": {}
+    }
+  },
   "status": "string",
   "participants": [
     {
@@ -21,7 +25,7 @@
         "street": "string",
         "line1": "string",
         "line2": "string",
-        "line 3": "string",
+        "line3": "string",
         "town": "string",
         "postcode": "string",
         "homeNation": "string",
@@ -30,13 +34,57 @@
       "organisation": "string",
       "organisationReference": "string",
       "role": "variant",
-      "externalIds": {},
+      "externalIds": {
+        "*": {
+          "*": {}
+        }
+      },
       "participantStatus": "string",
+      "verification": {
+        "identity": {
+          "status": "string",
+          "result": "string",
+          "reports": [
+            {
+              "reportName": "string",
+              "result": "string",
+              "details": "string"
+            }
+          ]
+        },
+        "antiMoneyLaundering": {
+          "status": "string",
+          "result": "string",
+          "reports": [
+            {
+              "reportName": "string",
+              "result": "string",
+              "details": "string"
+            }
+          ]
+        },
+        "sourceOfFunds": {
+          "status": "string",
+          "result": "string",
+          "reports": [
+            {
+              "reportName": "string",
+              "result": "string",
+              "details": "string"
+            }
+          ]
+        }
+      },
+      "offerId": "string",
       "sellersCapacity": {
         "capacity": "variant",
         "sellersCapacityDetails": "string",
-        "attachments": "string"
-      }
+        "attachments": "string",
+        "companyName": "string",
+        "companyNumber": "string",
+        "countryOfIncorporation": "string"
+      },
+      "dateBecameOwnerOrAuthority": "string"
     }
   ],
   "propertyPack": {
@@ -226,6 +274,8 @@
     "ownership": {
       "numberOfSellers": "integer",
       "numberOfNonUkResidentSellers": "integer",
+      "outstandingMortgage": "string",
+      "existingLender": "string",
       "hasHelpToBuyEquityLoan": "string",
       "isFirstRegistration": "string",
       "isLimitedCompanySale": "string",
@@ -238,6 +288,10 @@
             "yesNo": "variant",
             "details": "string",
             "amount": "number"
+          },
+          "titleRestrictions": {
+            "yesNo": "variant",
+            "details": "string"
           },
           "wholeFreeholdForSale": {
             "yesNo": "variant",
@@ -348,7 +402,20 @@
                 "other": {
                   "isApplicableParty": "variant",
                   "feeIncludingVAT": "number",
-                  "noticeViaEmail": "string"
+                  "noticeViaEmail": "string",
+                  "contact": {
+                    "nameOrOrganisation": "string",
+                    "address": {
+                      "line1": "string",
+                      "line2": "string",
+                      "line3": "string",
+                      "town": "string",
+                      "postcode": "string"
+                    },
+                    "telephone": "string",
+                    "emailAddress": "string"
+                  },
+                  "capacity": "string"
                 },
                 "otherDetailsRequired": {
                   "areOtherDetailsRequired": "variant",
@@ -510,11 +577,15 @@
               "feesForAdminServices": "string"
             },
             "confirmation": {
-              "response": {},
+              "response": "boolean",
               "capacity": "string"
             }
           },
           "leaseholdInformation": {
+            "typeOfLeasehold": {
+              "leaseholdType": "variant",
+              "otherLeaseholdType": "string"
+            },
             "sharedOwnership": {
               "isSharedOwnership": "variant",
               "sharedOwnershipPercentage": "number",
@@ -588,6 +659,48 @@
                     "accountNumber": "integer",
                     "reference": "string",
                     "feeType": "string"
+                  }
+                },
+                "rightToManageCompany": {
+                  "contact": {
+                    "nameOrOrganisation": "string",
+                    "address": {
+                      "line1": "string",
+                      "line2": "string",
+                      "line3": "string",
+                      "town": "string",
+                      "postcode": "string"
+                    },
+                    "emailAddress": "string",
+                    "telephone": "string"
+                  }
+                },
+                "freeholder": {
+                  "contact": {
+                    "nameOrOrganisation": "string",
+                    "address": {
+                      "line1": "string",
+                      "line2": "string",
+                      "line3": "string",
+                      "town": "string",
+                      "postcode": "string"
+                    },
+                    "emailAddress": "string",
+                    "telephone": "string"
+                  }
+                },
+                "headLeaseHolder": {
+                  "contact": {
+                    "nameOrOrganisation": "string",
+                    "address": {
+                      "line1": "string",
+                      "line2": "string",
+                      "line3": "string",
+                      "town": "string",
+                      "postcode": "string"
+                    },
+                    "emailAddress": "string",
+                    "telephone": "string"
                   }
                 },
                 "managingAgent": {
@@ -669,7 +782,20 @@
                   "other": {
                     "isApplicableParty": "variant",
                     "feeIncludingVAT": "number",
-                    "noticeViaEmail": "string"
+                    "noticeViaEmail": "string",
+                    "contact": {
+                      "nameOrOrganisation": "string",
+                      "address": {
+                        "line1": "string",
+                        "line2": "string",
+                        "line3": "string",
+                        "town": "string",
+                        "postcode": "string"
+                      },
+                      "telephone": "string",
+                      "emailAddress": "string"
+                    },
+                    "capacity": "string"
                   }
                 },
                 "noticeOfTransferAndCharge": {
@@ -696,16 +822,35 @@
                   "other": {
                     "isApplicableParty": "variant",
                     "feeIncludingVAT": "number",
-                    "noticeViaEmail": "string"
+                    "noticeViaEmail": "string",
+                    "contact": {
+                      "nameOrOrganisation": "string",
+                      "address": {
+                        "line1": "string",
+                        "line2": "string",
+                        "line3": "string",
+                        "town": "string",
+                        "postcode": "string"
+                      },
+                      "telephone": "string",
+                      "emailAddress": "string"
+                    },
+                    "capacity": "string"
                   },
                   "otherDetailsRequired": {
                     "areOtherDetailsRequired": "variant",
                     "details": "string"
                   }
                 },
-                "collectsGroundRent": "string",
+                "collectsGroundRent": {
+                  "collector": "variant",
+                  "otherCollector": "string"
+                },
                 "collectsServiceCharges": "string",
-                "collectsbuildingInsurancePremiums": "string",
+                "collectsbuildingInsurancePremiums": {
+                  "collector": "variant",
+                  "otherCollector": "string"
+                },
                 "dealsWithDayToDayMaintenanceOfManagedArea": "string",
                 "organisesBuildingInsurance": "string",
                 "dealsWithDayToDayMaintenanceOfBuilding": {
@@ -728,6 +873,11 @@
             "consents": {
               "changesInTermOfLease": {
                 "isSellerAwareOfChanges": "variant",
+                "details": "string",
+                "attachments": "string"
+              },
+              "landlordConsents": {
+                "isSellerAwareOfLandlordConsents": "variant",
                 "details": "string",
                 "attachments": "string"
               }
@@ -756,6 +906,7 @@
               "isGroundRentPayable": "variant",
               "annualGroundRent": "number",
               "groundRentFrequency": "string",
+              "mostRecentGroundRentDemandStatus": "string",
               "rentSubjectToIncrease": {
                 "yesNo": "variant",
                 "rentReviewFrequency": "string",
@@ -780,12 +931,18 @@
                 "buildingManagerType": "variant",
                 "details": "string"
               },
-              "hasTenantCompanyDissolved": "string",
-              "isManagingAgentEmployed": "string"
+              "isManagingAgentEmployed": "string",
+              "sellerOwnership": {
+                "yesNo": "variant",
+                "attachments": "string"
+              },
+              "hasTenantCompanyDissolved": "variant",
+              "hasTenantCompanyDissolvedDetails": "string"
             },
             "serviceCharge": {
               "sellerContributesToServiceCharge": "variant",
               "annualServiceCharge": "number",
+              "mostRecentServiceChargeDemandStatus": "string",
               "largeAdditionalExpense": {
                 "yesNo": "variant",
                 "details": "string"
@@ -798,7 +955,10 @@
                 "yesNo": "variant",
                 "details": "string"
               },
-              "dangerousCladdingOrDefects": "string",
+              "dangerousCladdingOrDefects": {
+                "yesNo": "variant",
+                "details": "string"
+              },
               "difficultyInCollectingServiceCharge": {
                 "yesNo": "variant",
                 "details": "string"
@@ -880,6 +1040,7 @@
                 "yesNo": "variant",
                 "details": "string"
               },
+              "mostRecentBuildingsInsuranceDemandStatus": "string",
               "lastDemandPeriod": {
                 "from": "string",
                 "to": "string"
@@ -900,7 +1061,10 @@
                 "yesNo": "variant",
                 "riskAssessments": {
                   "assessmentsCarriedOut": "variant",
-                  "urgentWorksRecommended": "string"
+                  "urgentWorksRecommended": "variant",
+                  "urgentWorksCarriedOut": "string",
+                  "outstandingEnforcementAction": "variant",
+                  "dateRemedialActionRequired": "string"
                 }
               },
               "standardTermsAvailable": {
@@ -1040,6 +1204,10 @@
               "managementCompanyAGMMinutes": "string",
               "enforcementNotices": "string"
             },
+            "additionalInformation": {
+              "details": "string",
+              "attachments": "string"
+            },
             "confirmationOfAccuracy": {
               "confirmation": "boolean",
               "capacity": "string"
@@ -1058,14 +1226,25 @@
       },
       "controlledParking": {
         "yesNo": "variant",
-        "annualCostOfPermit": "number"
+        "annualCostOfPermit": "number",
+        "costOfPermit": "number",
+        "costOfPermitFrequency": "string"
       },
       "vehicleTypeRestriction": {
         "yesNo": "variant",
         "details": "string"
       },
-      "electricVehicleChargingPoint": {
+      "droppedKerbAccess": {
         "yesNo": "string"
+      },
+      "electricVehicleChargingPoint": {
+        "yesNo": "variant",
+        "chargerDetails": "string",
+        "chargerDetailsAttachments": "string",
+        "cableCrossesPavement": {
+          "yesNo": "variant",
+          "details": "string"
+        }
       },
       "locatedInUlez": {
         "yesNo": "string"
@@ -1086,6 +1265,7 @@
         "yesNo": "variant",
         "workCarriedOut": {
           "yesNo": "variant",
+          "details": "string",
           "consentsObtained": "string",
           "attachments": "string"
         }
@@ -1306,6 +1486,11 @@
           "details": "string"
         }
       },
+      "nonResidentialPurposes": {
+        "yesNo": "variant",
+        "details": "string",
+        "attachments": "string"
+      },
       "windowReplacementsSince2002": {
         "yesNo": "variant",
         "details": "string",
@@ -1326,6 +1511,30 @@
           "details": "string"
         },
         "deedRestrictionConsent": {
+          "yesNo": "variant",
+          "attachments": "string",
+          "details": "string"
+        },
+        "workCompleted": {
+          "yesNo": "variant",
+          "details": "string"
+        },
+        "documents": "string"
+      },
+      "extension": {
+        "yesNo": "variant",
+        "details": "string",
+        "workCompleted": {
+          "yesNo": "variant",
+          "details": "string"
+        },
+        "documents": "string",
+        "planningPermission": {
+          "yesNo": "variant",
+          "attachments": "string",
+          "details": "string"
+        },
+        "buildingRegApproval": {
           "yesNo": "variant",
           "attachments": "string",
           "details": "string"
@@ -1351,6 +1560,125 @@
           "details": "string"
         },
         "deedRestrictionConsent": {
+          "yesNo": "variant",
+          "attachments": "string",
+          "details": "string"
+        },
+        "workCompleted": {
+          "yesNo": "variant",
+          "details": "string"
+        },
+        "documents": "string"
+      },
+      "loftConversion": {
+        "yesNo": "variant",
+        "details": "string",
+        "workCompleted": {
+          "yesNo": "variant",
+          "details": "string"
+        },
+        "documents": "string",
+        "planningPermission": {
+          "yesNo": "variant",
+          "attachments": "string",
+          "details": "string"
+        },
+        "buildingRegApproval": {
+          "yesNo": "variant",
+          "attachments": "string",
+          "details": "string"
+        }
+      },
+      "garageConversion": {
+        "yesNo": "variant",
+        "details": "string",
+        "workCompleted": {
+          "yesNo": "variant",
+          "details": "string"
+        },
+        "documents": "string",
+        "planningPermission": {
+          "yesNo": "variant",
+          "attachments": "string",
+          "details": "string"
+        },
+        "buildingRegApproval": {
+          "yesNo": "variant",
+          "attachments": "string",
+          "details": "string"
+        }
+      },
+      "removalOfInternalWalls": {
+        "yesNo": "variant",
+        "details": "string",
+        "workCompleted": {
+          "yesNo": "variant",
+          "details": "string"
+        },
+        "documents": "string",
+        "planningPermission": {
+          "yesNo": "variant",
+          "attachments": "string",
+          "details": "string"
+        },
+        "buildingRegApproval": {
+          "yesNo": "variant",
+          "attachments": "string",
+          "details": "string"
+        }
+      },
+      "removalOfChimneyBreast": {
+        "yesNo": "variant",
+        "details": "string",
+        "workCompleted": {
+          "yesNo": "variant",
+          "details": "string"
+        },
+        "documents": "string",
+        "planningPermission": {
+          "yesNo": "variant",
+          "attachments": "string",
+          "details": "string"
+        },
+        "buildingRegApproval": {
+          "yesNo": "variant",
+          "attachments": "string",
+          "details": "string"
+        }
+      },
+      "insulation": {
+        "yesNo": "variant",
+        "details": "string",
+        "workCompleted": {
+          "yesNo": "variant",
+          "details": "string"
+        },
+        "documents": "string",
+        "planningPermission": {
+          "yesNo": "variant",
+          "attachments": "string",
+          "details": "string"
+        },
+        "buildingRegApproval": {
+          "yesNo": "variant",
+          "attachments": "string",
+          "details": "string"
+        }
+      },
+      "otherBuildingWorksOrChangesToTheProperty": {
+        "yesNo": "variant",
+        "details": "string",
+        "workCompleted": {
+          "yesNo": "variant",
+          "details": "string"
+        },
+        "documents": "string",
+        "planningPermission": {
+          "yesNo": "variant",
+          "attachments": "string",
+          "details": "string"
+        },
+        "buildingRegApproval": {
           "yesNo": "variant",
           "attachments": "string",
           "details": "string"
@@ -1423,8 +1751,12 @@
         "attachments": "string"
       },
       "japaneseKnotweed": {
+        "knotweedSurveyCarriedOut": {
+          "yesNo": "variant",
+          "attachments": "string"
+        },
         "yesNo": "variant",
-        "managementPlanInPlace": "string",
+        "managementPlanInPlace": "variant",
         "attachments": "string"
       },
       "subsidenceOrStructuralFault": {
@@ -1436,6 +1768,22 @@
         "yesNo": "variant",
         "details": "string",
         "attachments": "string"
+      },
+      "wellsDitchesShaft": {
+        "yesNo": "variant",
+        "details": "string"
+      },
+      "damagedOrExposedElectrics": {
+        "yesNo": "variant",
+        "details": "string"
+      },
+      "damageToFlooringOrStaircases": {
+        "yesNo": "variant",
+        "details": "string"
+      },
+      "knownAreasInPoorCondition": {
+        "yesNo": "variant",
+        "details": "string"
       }
     },
     "fixturesAndFittings": {
@@ -1717,6 +2065,7 @@
           {
             "itemName": "string",
             "isIncludedOrExcluded": "variant",
+            "comments": "string",
             "price": "number"
           }
         ]
@@ -1807,6 +2156,7 @@
             {
               "itemName": "string",
               "isIncludedOrExcluded": "variant",
+              "comments": "string",
               "price": "number"
             }
           ]
@@ -2032,18 +2382,23 @@
         "electricityMeter": {
           "location": "string",
           "attachments": "string",
-          "mpan": "integer"
+          "mpan": "string"
         },
         "dateToBeConnected": "string"
       },
       "solarPanels": {
         "yesNo": "variant",
         "supplier": "string",
+        "hotWaterOnly": "string",
         "yearInstalled": "integer",
         "panelsOwnedOutright": {
           "yesNo": "variant",
           "details": "string",
-          "attachments": "string"
+          "attachments": "string",
+          "associatedCost": {
+            "frequency": "variant",
+            "amount": "number"
+          }
         },
         "panelProviderLease": {
           "yesNo": "variant",
@@ -2055,13 +2410,28 @@
           "yesNo": "variant",
           "details": "string"
         },
-        "isConnectedToNationalGrid": "string",
         "photovoltaicMeterPanelLocation": {
           "attachments": "string"
         },
-        "photovoltaicBatteriesLocation": {
+        "maintenanceAgreement": {
+          "yesNo": "variant",
           "attachments": "string"
         },
+        "photovoltaicBatteries": {
+          "yesNo": "variant",
+          "attachments": "string",
+          "details": "string"
+        },
+        "nationalGrid": {
+          "yesNo": "variant",
+          "fitOrSegInPlace": {
+            "yesNo": "variant",
+            "fitSegAgreementCopy": "string",
+            "attachments": "string",
+            "fitSegAssignmentProcedure": "string"
+          }
+        },
+        "installationCertificates": "string",
         "dateToBeConnected": "string"
       },
       "heatPump": {
@@ -2070,6 +2440,8 @@
         "supplier": "string",
         "dateInstalled": "string",
         "attachments": "string",
+        "makeModel": "string",
+        "serviceProviderName": "string",
         "dateToBeConnected": "string"
       },
       "otherSources": {
@@ -2088,6 +2460,10 @@
         "mainsWater": {
           "yesNo": "variant",
           "details": "string",
+          "associatedCost": {
+            "frequency": "variant",
+            "amount": "number"
+          },
           "supplier": "string",
           "stopcock": {
             "location": "string",
@@ -2142,14 +2518,25 @@
             },
             "plantDrainsIntoWaterway": {
               "yesNo": "variant",
+              "hasInfiltrationSystem": {
+                "yesNo": "string"
+              },
               "dischargeCompliesWithGBR": "string"
             },
+            "dateDischargeCommenced": {},
+            "dateInstalled": "string",
             "dateReplaced": "string",
             "dateLastEmptied": "string",
-            "dateInstalled": "string",
+            "supplier": "string",
+            "makeModel": "string",
+            "serviceProviderName": "string",
             "dateLastServiced": "string",
             "attachments": "string",
             "details": "string"
+          },
+          "associatedCost": {
+            "frequency": "variant",
+            "amount": "number"
           }
         },
         "surfaceDrainageCharge": {
@@ -2210,12 +2597,17 @@
             "gasMeter": {
               "location": "string",
               "attachments": "string",
-              "mprn": "integer"
+              "mprn": "string"
             },
             "otherCentralHeatingFuelType": "string"
           },
           "centralHeatingInstalled": {},
           "boilerInstallationCertificate": {
+            "yesNo": "variant",
+            "boilerInstallationDate": {},
+            "attachments": "string"
+          },
+          "replacementOtherThanBoiler": {
             "yesNo": "variant",
             "attachments": "string"
           },
@@ -2230,7 +2622,8 @@
       },
       "otherHeatingFeatures": [
         "string"
-      ]
+      ],
+      "multipleHeatingSystems": "string"
     },
     "connectivity": {
       "telephone": {
@@ -2244,7 +2637,7 @@
         "dateToBeConnected": "string"
       },
       "broadband": {
-        "typeOfConnection": "string",
+        "typeOfConnection": "variant",
         "predictedSpeed": {
           "maxBbPredictedDown": "number",
           "maxBbPredictedUp": "number",
@@ -2254,7 +2647,8 @@
           "maxUfbbPredictedUp": "number",
           "maxPredictedDown": "number",
           "maxPredictedUp": "number"
-        }
+        },
+        "providerName": "string"
       },
       "mobilePhone": {
         "knownSignalIssues": {
@@ -2295,7 +2689,8 @@
           "voDataIndoor": "integer",
           "voDataIndoorNo4g": "integer"
         }
-      }
+      },
+      "otherServices": "string"
     },
     "insurance": {
       "difficultiesObtainingInsurance": {
@@ -2319,6 +2714,7 @@
       "isInsured": "variant",
       "details": "string",
       "landlordInsuresIfFlat": "string",
+      "whoInsures": "string",
       "insuranceClaims": {
         "yesNo": "variant",
         "details": "string"
@@ -2327,11 +2723,19 @@
     "rightsAndInformalArrangements": {
       "sharedContributions": {
         "yesNo": "variant",
-        "details": "string"
+        "details": "string",
+        "disagreementOrComplaint": {
+          "yesNo": "variant",
+          "details": "string"
+        }
       },
       "neighbouringLandRights": {
         "yesNo": "variant",
         "details": "string",
+        "disagreementOrComplaint": {
+          "yesNo": "variant",
+          "details": "string"
+        },
         "attachments": "string"
       },
       "accessRestrictionAttempts": {
@@ -2343,6 +2747,10 @@
           "yesNo": "variant",
           "details": "string",
           "attachments": "string"
+        },
+        "privateRightOfWay": {
+          "yesNo": "variant",
+          "details": "string"
         },
         "rightsOfLight": {
           "yesNo": "variant",
@@ -2371,11 +2779,27 @@
         "otherRights": {
           "yesNo": "variant",
           "details": "string"
+        },
+        "disagreementOrComplaint": {
+          "yesNo": "variant",
+          "details": "string"
+        }
+      },
+      "askedOthersToContribute": {
+        "yesNo": "variant",
+        "details": "string",
+        "disagreementOrComplaint": {
+          "yesNo": "variant",
+          "details": "string"
         }
       }
     },
     "environmentalIssues": {
       "flooding": {
+        "floodRiskReport": {
+          "hasReportBeenPrepared": "variant",
+          "attachments": "string"
+        },
         "floodRisk": {
           "riskIndicator": "variant",
           "actionAlertRating": "integer",
@@ -2406,6 +2830,10 @@
           "hasFloodDefences": "variant",
           "details": "string"
         }
+      },
+      "stormFireFloodDamage": {
+        "yesNo": "variant",
+        "details": "string"
       },
       "radon": {
         "radonRisk": {
@@ -2668,6 +3096,16 @@
       }
     },
     "additionalInformation": {
+      "consents": {
+        "attachments": {},
+        "consentsAttached": "string",
+        "consentsToFollow": "string",
+        "consentsNotAvailable": "string"
+      },
+      "furtherInformation": {
+        "details": "string",
+        "attachments": {}
+      },
       "restrictionsOnUseNotCompliedWith": {
         "yesNo": "variant",
         "details": "string",
@@ -2816,13 +3254,28 @@
       },
       "doubleGlazing": {
         "yesNo": "variant",
-        "attachments": "string"
+        "attachments": "string",
+        "fensaCertificates": {
+          "certificates": [
+            {
+              "certificateId": "string",
+              "numberOfWindows": "integer",
+              "numberOfDoors": "integer",
+              "certificateIssued": "string",
+              "workCompleted": "string"
+            }
+          ]
+        }
       },
       "electricalRepairOrInstallation": {
         "yesNo": "variant",
         "attachments": "string"
       },
       "subsidenceWork": {
+        "yesNo": "variant",
+        "attachments": "string"
+      },
+      "insulation": {
         "yesNo": "variant",
         "attachments": "string"
       },
@@ -2839,6 +3292,10 @@
         "yesNo": "variant",
         "details": "string",
         "attachments": "string"
+      },
+      "breachOfTermsOrConditions": {
+        "yesNo": "variant",
+        "details": "string"
       },
       "titleDefectInsurance": {
         "yesNo": "variant",
@@ -2913,7 +3370,11 @@
         {
           "name": "string",
           "signedOn": "string",
-          "externalIds": {}
+          "externalIds": {
+            "*": {
+              "*": {}
+            }
+          }
         }
       ]
     },
@@ -4220,7 +4681,812 @@
         "fileName": "string",
         "mimeType": "string",
         "documentType": "string",
-        "externalIds": {}
+        "externalIds": {
+          "*": {
+            "*": {}
+          }
+        },
+        "isDeleted": "boolean",
+        "summary": {}
+      }
+    ],
+    "surveys": [
+      {
+        "outside": {
+          "chimneyStacks": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "visibilityRestriction": "string",
+            "flashings": "string",
+            "defectsFlag": "boolean",
+            "defectsList": "string",
+            "photos": [
+              {
+                "photoId": "integer",
+                "report": "boolean"
+              }
+            ]
+          },
+          "roofCoverings": {
+            "condition": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "restriction": "string",
+            "features": "string",
+            "mainPitchedCovering": "string",
+            "mainPitchedFeatures": "string",
+            "mainFlatCovering": "string",
+            "mainFlatFeatures": "string",
+            "additionalPitchedCovering": "string",
+            "additionalPitchedFeatures": "string",
+            "additionalDetail": "string",
+            "additionalFeatures": "string",
+            "bay": "string",
+            "bayFeatures": "string",
+            "dormer": "string",
+            "dormerFeatures": "string",
+            "defectsGeneral": "string",
+            "photos": [
+              {
+                "photoId": "integer",
+                "report": "boolean"
+              }
+            ],
+            "mainPitchedDefects": "boolean",
+            "mainPitchedDefectsDetail": "string",
+            "mainFlatDefects": "string",
+            "mainFlatDefectsDetail": "string",
+            "additionalPitchedDefects": "boolean",
+            "additionalPitchedDefectsDetail": "string",
+            "additionalFlatDefects": "boolean",
+            "additionalFlatDefectsDetail": "string",
+            "bayDefects": "boolean",
+            "bayDefectsDetail": "string",
+            "dormerDefects": "boolean",
+            "dormerDefectsDetail": "string"
+          },
+          "rainwaterPipesGutters": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "restrictions": "string",
+            "features": "string",
+            "gutterDescription": "string",
+            "downpipeDescription": "string",
+            "hopperHeadDescription": "string",
+            "gutterIssues": "boolean",
+            "gutterIssueLocation": "string",
+            "gutterDefect": "string",
+            "downpipeDefect": "string",
+            "hopperHeadDefect": "string",
+            "photos": [
+              {
+                "photoId": "integer",
+                "report": "boolean"
+              }
+            ]
+          },
+          "mainWalls": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "restrictions": "string",
+            "externalElevation": "string",
+            "construction": "string",
+            "features": "string",
+            "dpc": "string",
+            "structuralMovement": "boolean",
+            "movementType": "string",
+            "movementCause": "string",
+            "movementStatus": "string",
+            "otherDefects": "boolean",
+            "otherDefectsDescription": "string",
+            "cladding": "string",
+            "fireRisk": "boolean",
+            "advice": "string",
+            "extensions": "string",
+            "movementLocation": "string",
+            "photos": [
+              {
+                "photoId": "integer",
+                "report": "boolean"
+              }
+            ],
+            "extension1": {
+              "detail": "string",
+              "construction": "string",
+              "dpc": "string",
+              "defects": "boolean",
+              "defectDescription": "string",
+              "movementType": "string",
+              "movementCause": "string",
+              "movementStatus": "string"
+            },
+            "extension2": {
+              "detail": "string",
+              "construction": "string",
+              "dpc": "string",
+              "defects": "boolean",
+              "defectDescription": "string",
+              "movementType": "string",
+              "movementCause": "string",
+              "movementStatus": "string"
+            },
+            "extension3": {
+              "detail": "string",
+              "construction": "string",
+              "dpc": "string",
+              "defects": "boolean",
+              "defectDescription": "string",
+              "movementType": "string",
+              "movementCause": "string",
+              "movementStatus": "string"
+            }
+          },
+          "windows": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "visibilityRestrictions": "string",
+            "glazingType": "string",
+            "glazingDescription": "string",
+            "glazingHeight": "boolean",
+            "glazingSafety": "boolean",
+            "glazingDefects": "boolean",
+            "glazingDefectList": "string",
+            "photos": [
+              {
+                "photoId": "string",
+                "report": "boolean"
+              }
+            ]
+          },
+          "outsideDoors": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "restrictions": "string",
+            "glazingDescription": "string",
+            "glazingType": "string",
+            "glazingHeight": "boolean",
+            "glazingSafety": "boolean",
+            "glazingDefects": "boolean",
+            "glazingDefectDetails": "string",
+            "photos": [
+              {
+                "photoId": "integer",
+                "report": "boolean"
+              }
+            ]
+          },
+          "conservatoryPorches": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "conservatory": "boolean",
+            "porch": "boolean",
+            "restrictions": "string",
+            "visibility": "string",
+            "conservatoryWall": "string",
+            "conservatoryFrame": "string",
+            "conservatoryGlazing": "string",
+            "conservatoryRoof": "string",
+            "conservatorySeparate": "boolean",
+            "conservatoryHeating": "string",
+            "porchWall": "string",
+            "porchFrame": "string",
+            "porchGlazing": "string",
+            "porchRoof": "string",
+            "porchPitched": "string",
+            "porchFlat": "string",
+            "defectsFlag": "boolean",
+            "defectLocation": "string",
+            "conservatoryEconomic": "boolean",
+            "conservatoryStructural": "boolean",
+            "conservatoryMovement": "string",
+            "conservatoryMovementCause": "string",
+            "conservatoryMovementStatus": "string",
+            "conservatoryDefects": "boolean",
+            "conservatoryDefectDetail": "string",
+            "porchEconomic": "boolean",
+            "porchStructural": "boolean",
+            "porchMovement": "string",
+            "porchMovementCause": "string",
+            "porchMovementStatus": "string",
+            "porchDefects": "boolean",
+            "porchDefectDetail": "string",
+            "photos": [
+              {
+                "photoId": "integer",
+                "report": "boolean"
+              }
+            ]
+          },
+          "otherJoinery": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "restrictions": "string",
+            "features": "string",
+            "fasciaDescription": "string",
+            "bargeboardsDescription": "string",
+            "soffitsDescription": "string",
+            "claddingDescription": "string",
+            "issues": "boolean",
+            "issueLocation": "string",
+            "issueDetail": "string",
+            "photos": [
+              {
+                "photoId": "string",
+                "report": "boolean"
+              }
+            ]
+          },
+          "other": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "defectsFlag": "boolean",
+            "defectDetail": "string",
+            "fireSafety": "string",
+            "photos": [
+              {
+                "photoId": "integer",
+                "report": "boolean"
+              }
+            ]
+          }
+        },
+        "inside": {
+          "roofStructure": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "restrictions": "string",
+            "lining": "string",
+            "insulation": "string",
+            "firewall": "string",
+            "features": "string",
+            "photos": {
+              "photoId": "string",
+              "report": "boolean"
+            },
+            "additional1Visibility": "string",
+            "additional1Restrictions": "string",
+            "additional1Description": "string",
+            "additional1Lining": "string",
+            "additional1Insulation": "string",
+            "additional1Defects": "boolean",
+            "additional1DefectDetail": "string",
+            "additional2Visibility": "string",
+            "additional2Restrictions": "string",
+            "additional2Description": "string",
+            "additional2Lining": "string",
+            "additional2Insulation": "string",
+            "additional2Defects": "boolean",
+            "additional2DefectDetail": "string",
+            "defectDetail": "string"
+          },
+          "ceilings": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "restrictions": "string",
+            "defectDetail": "string",
+            "integralGarageDefects": "string",
+            "photos": {
+              "photoId": "integer",
+              "report": "boolean"
+            }
+          },
+          "wallsPartitions": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "restrictions": "string",
+            "construction": "string",
+            "adequateSupport": "boolean",
+            "wallFinish": "string",
+            "defectsMinor": "string",
+            "defectsMajor": "string",
+            "photos": {
+              "photoId": "integer",
+              "report": "boolean"
+            }
+          },
+          "floors": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "restrictions": "string",
+            "generalDefects": "string",
+            "solidDefects": "string",
+            "timberDefects": "string",
+            "photos": {
+              "photoId": "integer",
+              "report": "boolean"
+            }
+          },
+          "fireplaces": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "restrictions": "string",
+            "defectDetail": "string",
+            "photos": {
+              "photoId": "integer",
+              "report": "boolean"
+            }
+          },
+          "builtinFittings": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "restrictions": "string",
+            "defectDetail": "string",
+            "advice": "string",
+            "photos": {
+              "photoId": "string",
+              "report": "boolean"
+            }
+          },
+          "woodwork": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "restrictions": "string",
+            "doorDescription": "string",
+            "stairDescription": "string",
+            "joineryDescription": "string",
+            "defectsDetail": "string",
+            "defectsDoorsWindows": "string",
+            "defectsStairs": "string",
+            "photos": {
+              "photoId": "string",
+              "report": "boolean"
+            }
+          },
+          "bathroomFittings": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "restrictions": "string",
+            "defectDetail": "string",
+            "photos": {
+              "photoId": "integer",
+              "report": "boolean"
+            }
+          },
+          "other": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "visibility": "string",
+            "roofConversion": "string",
+            "cellar": "string",
+            "commonAreas": "string",
+            "alarms": "string",
+            "defectsRoof": "string",
+            "defectsBasement": "string",
+            "defectsOther": "string",
+            "photos": {
+              "photoId": "string",
+              "report": "boolean"
+            }
+          }
+        },
+        "services": {
+          "electricity": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "photos": [
+              {
+                "photoId": "integer",
+                "report": "boolean"
+              }
+            ],
+            "visibility": "string",
+            "restrictions": "string",
+            "meter": "string",
+            "consumerUnit": "string",
+            "cutOffDevices": "string",
+            "wiring": "string",
+            "additionalFeatures": "string",
+            "supplementary": "string",
+            "testCertificate": "string",
+            "defectsPresent": "boolean",
+            "defectDetail": "string"
+          },
+          "gasOil": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "photos": [
+              {
+                "photoId": "integer",
+                "report": "boolean"
+              }
+            ],
+            "visibility": "string",
+            "restrictions": "string",
+            "meter": "string",
+            "privateGas": "string",
+            "tankLocation": "string",
+            "tankInside": "string",
+            "tankOutside": "string",
+            "tankType": "string",
+            "testCertificate": "string",
+            "defectsPresent": "boolean",
+            "defectDetail": "string"
+          },
+          "water": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "photos": [
+              {
+                "photoId": "string",
+                "report": "boolean"
+              }
+            ],
+            "visibility": "string",
+            "restrictions": "string",
+            "stopTap": "string",
+            "supply": "string",
+            "distribution": "string",
+            "storageTank": "string",
+            "defectsPresent": "boolean",
+            "defectDetail": "string"
+          },
+          "heating": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "photos": [
+              {
+                "photoId": "integer",
+                "report": "boolean"
+              }
+            ],
+            "visibility": "string",
+            "restrictions": "string",
+            "extent": "string",
+            "source": "string",
+            "emitter": "string",
+            "pipework": "string",
+            "controls": "string",
+            "otherFeatures": "string",
+            "testCertificate": "string",
+            "defectsPresent": "boolean",
+            "defectDetail": "string"
+          },
+          "waterHeating": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "photos": [
+              {
+                "photoId": "integer",
+                "report": "boolean"
+              }
+            ],
+            "visibility": "string",
+            "restrictions": "string",
+            "primarySource": "string",
+            "supplementarySource": "string",
+            "storage": "string",
+            "pipework": "string",
+            "defectsPresent": "boolean",
+            "defectDetail": "string"
+          },
+          "drainage": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "photos": [
+              {
+                "photoId": "string",
+                "report": "boolean"
+              }
+            ],
+            "visibility": "string",
+            "restrictions": "string",
+            "system": "string",
+            "privateSystem": "string",
+            "location": "string",
+            "runOff": "boolean",
+            "features": "string",
+            "defectsPresent": "boolean",
+            "defectDetail": "string"
+          },
+          "commonServices": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "photos": [
+              {
+                "photoId": "string",
+                "report": "boolean"
+              }
+            ],
+            "visibility": "string",
+            "type": "string",
+            "defectsPresent": "boolean",
+            "defectDetail": "string"
+          }
+        },
+        "grounds": {
+          "garage": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "photos": {
+              "photoId": "string",
+              "report": "boolean"
+            },
+            "visibility": "string",
+            "restrictions": "string",
+            "wallConstruction": "string",
+            "roofConstruction": "string",
+            "location": "string",
+            "structuralMovement": "boolean",
+            "movementType": "string",
+            "movementStatus": "string",
+            "hasDefects": "boolean",
+            "defectDetail": "string"
+          },
+          "permanentOutbuildings": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "photos": {
+              "photoId": "string",
+              "report": "boolean"
+            },
+            "visibility": "string",
+            "restrictions": "string",
+            "type": "string",
+            "wallConstruction": "string",
+            "roofConstruction": "string",
+            "location": "string",
+            "hasDefects": "boolean",
+            "defectDetail": "string"
+          },
+          "other": {
+            "condition": "string",
+            "inspectionLimitations": "string",
+            "defects": "string",
+            "advisories": "string",
+            "notes": "string",
+            "photos": {
+              "photoId": "integer",
+              "report": "boolean"
+            },
+            "visibility": "string",
+            "restrictions": "string",
+            "gardens": "string",
+            "exceed1Acre": "boolean",
+            "boundaries": {
+              "fenceDescription": "string",
+              "fenceIssues": "string",
+              "fenceDefects": "string",
+              "wallDescription": "string",
+              "wallIssues": "string",
+              "wallDefects": "string",
+              "hedgeDescription": "string",
+              "hedgeIssues": "string",
+              "hedgeDefects": "string",
+              "otherBoundaryDescription": "string"
+            },
+            "hardscaping": {
+              "drivewayLandscaping": "string",
+              "driveMaterial": "string",
+              "driveDefects": "boolean",
+              "driveDefectDetail": "string",
+              "patioMaterial": "string",
+              "patioDefects": "boolean",
+              "patioDefectDetail": "string",
+              "pathMaterial": "string",
+              "pathDefects": "boolean",
+              "pathDefectDetail": "string",
+              "deckingMaterial": "string",
+              "deckingDefects": "boolean",
+              "deckingDefectDetail": "string"
+            },
+            "buildingRegs": "boolean",
+            "otherFeatures": "string",
+            "japaneseKnotweed": "string",
+            "otherDefects": "boolean",
+            "otherDefectDetail": "string"
+          }
+        },
+        "legalIssues": {
+          "notes": "string",
+          "regulation": "string",
+          "guarantees": "string",
+          "otherMatters": "string",
+          "rightsOfWay": "string"
+        },
+        "risks": {
+          "buildingRisks": "string",
+          "groundsRisks": "string",
+          "peopleRisks": "string",
+          "otherRisks": "string"
+        },
+        "propertyValuation": {
+          "valuation": {
+            "valuationDiscriminator": "boolean",
+            "value": "integer",
+            "valueWords": "string",
+            "reinstatement": "integer",
+            "reinstatementWords": "string",
+            "tenure": "string",
+            "lease": "integer",
+            "areaOfProperty": "integer"
+          },
+          "valuationInformation": {
+            "additionalAssumptions": "string",
+            "considerations": "string"
+          }
+        },
+        "declaration": {
+          "surveyorQuals": "string",
+          "companyAddress": "string",
+          "phoneNumber": "string",
+          "faxNumber": "string",
+          "email": "string",
+          "website": "string",
+          "clientName": "string"
+        },
+        "misc": {
+          "photoFront": {
+            "value": "string",
+            "photoId": "integer",
+            "report": "boolean"
+          },
+          "areaOfProperty": {
+            "value": "string",
+            "photoId": "integer",
+            "report": "boolean"
+          },
+          "reportDate": "string",
+          "epc": "string",
+          "agentName": "string",
+          "access": "string",
+          "propertyQuestions": "boolean",
+          "propertyChanges": "string",
+          "alterations": "string",
+          "furnishings": "string",
+          "floorCoverings": "string",
+          "propertyType": "string",
+          "accommodationLocation": "string",
+          "propertyStyle": "string",
+          "topography": "string",
+          "floodingRisk": "string",
+          "coastalLocation": "boolean",
+          "siteRisk": "string",
+          "highVoltage": "string",
+          "buildFormat": "string",
+          "areaDetails": "string",
+          "groundRentType": "string",
+          "conservationArea": "boolean",
+          "valuationFactor": "string",
+          "conflict": "boolean",
+          "conflictType": "string",
+          "suspiciousActivity": "boolean",
+          "btl": "boolean",
+          "photoConsent": "boolean",
+          "adjacentCommercial": "boolean",
+          "commercialLocation": "string",
+          "commercialTypeAbove": "string",
+          "commercialTypeAdjacent": "string",
+          "separateAccess": "boolean",
+          "communal": "boolean",
+          "communalFacilities": "string",
+          "listedBuilding": "boolean",
+          "listedClassification": "string",
+          "exla": "boolean",
+          "exNature": "string",
+          "tenureSource": "string",
+          "roadType": "string",
+          "roadMadeUp": "boolean",
+          "pedestrian": "boolean",
+          "constructionType": "string",
+          "nonTradType": "string",
+          "nonTradSystem": "string",
+          "designatedDefective": "boolean",
+          "epcAvailable": "boolean",
+          "epcReason": "string",
+          "epcDiscrepancies": "boolean",
+          "epcDiscrepancyDetail": "string"
+        }
+      }
+    ],
+    "valuations": [
+      {
+        "valuationId": "integer",
+        "valuationTimestamp": "string",
+        "capitalValue": "integer",
+        "confidenceLevel": "number",
+        "confidenceBand": "string",
+        "rentalValue": "integer",
+        "rentalConfidenceLevel": "number",
+        "reinstatementCost": "integer",
+        "checkValuationResult": "string",
+        "instructionType": "string",
+        "valuationContext": "string",
+        "valuationType": "string"
       }
     ]
   },
@@ -4279,7 +5545,11 @@
         "template": {
           "name": "string",
           "url": "string",
-          "externalIds": {},
+          "externalIds": {
+            "*": {
+              "*": {}
+            }
+          },
           "requiredSignatories": [
             {
               "role": "string",
@@ -4293,7 +5563,11 @@
         {
           "name": "string",
           "signedOn": "string",
-          "externalIds": {}
+          "externalIds": {
+            "*": {
+              "*": {}
+            }
+          }
         }
       ]
     }
@@ -4302,7 +5576,11 @@
     "onwardPurchase": [
       {
         "transactionId": "string",
-        "externalIds": {},
+        "externalIds": {
+          "*": {
+            "*": {}
+          }
+        },
         "address": {
           "buildingNumber": "string",
           "buildingName": "string",
@@ -4319,5 +5597,107 @@
         "sellingAgent": "string"
       }
     ]
+  },
+  "milestones": {
+    "listed": {
+      "expected": "string",
+      "completed": "string"
+    },
+    "legalForms": {
+      "started": "string",
+      "completed": "string"
+    },
+    "soldSubjectToContract": {
+      "completed": "string"
+    },
+    "searches": {
+      "started": "string",
+      "expected": "string",
+      "completed": "string"
+    },
+    "enquiries": {
+      "started": "string",
+      "completed": "string"
+    },
+    "exchangeOfContracts": {
+      "expected": "string",
+      "completed": "string"
+    },
+    "completion": {
+      "started": "string",
+      "expected": "string",
+      "completed": "string"
+    }
+  },
+  "offers": {
+    "*": {
+      "amount": "number",
+      "currency": "string",
+      "status": "string",
+      "inclusions": [
+        "string"
+      ],
+      "exclusions": [
+        "string"
+      ],
+      "conditions": [
+        "string"
+      ],
+      "externalIds": {
+        "*": {
+          "*": {}
+        }
+      },
+      "buyerCircumstances": {
+        "intendedUse": "string",
+        "firstTimeBuyer": "boolean",
+        "rightToBuy": "boolean",
+        "ltdCompanyPurchase": "boolean",
+        "numberOfOwners": "integer",
+        "numberOfExpats": "integer",
+        "giftedEquity": "boolean",
+        "numberOfGiftedDeposits": "integer",
+        "requiresMortgage": "variant",
+        "helpToBuyEquityLoan": "boolean",
+        "armedForcesHelpToBuy": "boolean",
+        "numberOfHelpToBuyIsas": "integer",
+        "bridgingFinanceRepresentation": "string",
+        "depositAmount": "number",
+        "loanToValue": "number",
+        "numberOfBorrowers": "integer",
+        "jointProprietorSoleMortgagor": "boolean",
+        "soleProprietorJointMortgagor": "boolean",
+        "deedOfPostponement": "boolean",
+        "separateRepresentation": "boolean",
+        "oldestBorrowerAge": "integer",
+        "mortgageTerm": "integer",
+        "adverseCredit": "string",
+        "employmentType": "string",
+        "existingMortgagedProperties": "integer",
+        "annualIncome": "number",
+        "residencyStatus": "string",
+        "nominatedLender": "string"
+      }
+    }
+  },
+  "enquiries": {
+    "*": {
+      "subject": "string",
+      "status": "variant",
+      "messages": {
+        "*": {
+          "datetime": "string",
+          "originatorRole": "string",
+          "destinationRole": "string",
+          "messageText": "string"
+        }
+      },
+      "externalIds": {
+        "*": {
+          "*": {}
+        }
+      },
+      "resolutionCondition": "string"
+    }
   }
 }

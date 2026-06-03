@@ -17,7 +17,6 @@
             "properties": {
               "role": {
                 "enum": [
-                  "Buyer",
                   "Seller's Conveyancer",
                   "Prospective Buyer",
                   "Buyer's Conveyancer",
@@ -28,6 +27,15 @@
                   "Lender",
                   "Landlord",
                   "Tenant"
+                ]
+              }
+            }
+          },
+          {
+            "properties": {
+              "role": {
+                "enum": [
+                  "Buyer"
                 ]
               }
             }
@@ -67,8 +75,29 @@
                         "enum": [
                           "Personal Representative for a Deceased Owner",
                           "Under Power of Attorney",
+                          "Trustee",
                           "Assistant",
                           "Other"
+                        ]
+                      },
+                      "sellersCapacityDetails": {
+                        "baspi4Ref": "B1.3.2"
+                      },
+                      "attachments": {
+                        "baspi4Ref": "B1.3.3"
+                      }
+                    },
+                    "required": [
+                      "sellersCapacityDetails",
+                      "attachments"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Company Director",
+                          "Company Secretary"
                         ]
                       },
                       "sellersCapacityDetails": {
@@ -1144,6 +1173,29 @@
             },
             "electricVehicleChargingPoint": {
               "baspi4Ref": "A1.6.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
               "required": [
                 "yesNo"
               ],
@@ -1405,7 +1457,9 @@
                   "properties": {
                     "yesNo": {
                       "enum": [
-                        "No"
+                        "No",
+                        "Not applicable",
+                        "Not known"
                       ]
                     }
                   }
@@ -1445,7 +1499,6 @@
               "required": [
                 "yesNo"
               ],
-              "title": "Are you aware of any remediation required to the property due to building safety?",
               "properties": {
                 "yesNo": {
                   "baspi4Ref": "A1.8.2.1",
@@ -3257,13 +3310,20 @@
                     },
                     "managementPlanInPlace": {
                       "baspi4Ref": "A5.3.2"
-                    },
-                    "attachments": {
-                      "baspi4Ref": "A5.3.3"
                     }
                   },
                   "required": [
                     "managementPlanInPlace"
+                  ],
+                  "oneOf": [
+                    null,
+                    {
+                      "properties": {
+                        "attachments": {
+                          "baspi4Ref": "A5.3.3"
+                        }
+                      }
+                    }
                   ]
                 }
               ],
@@ -3698,9 +3758,6 @@
                         }
                       }
                     },
-                    "isConnectedToNationalGrid": {
-                      "baspi4Ref": "B4.3.6"
-                    },
                     "photovoltaicMeterPanelLocation": {
                       "baspi4Ref": "B4.7",
                       "properties": {
@@ -3712,14 +3769,72 @@
                         }
                       }
                     },
-                    "photovoltaicBatteriesLocation": {
+                    "photovoltaicBatteries": {
                       "baspi4Ref": "B4.8",
-                      "properties": {
-                        "description": {
-                          "baspi4Ref": "4.8.1"
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
                         },
-                        "attachments": {
-                          "baspi4Ref": "4.8.2"
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "description": {
+                              "baspi4Ref": "4.8.1"
+                            },
+                            "attachments": {
+                              "baspi4Ref": "4.8.2"
+                            }
+                          },
+                          "required": [
+                            "description"
+                          ]
+                        }
+                      ]
+                    },
+                    "nationalGrid": {
+                      "baspi4Ref": "B4.3.6",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "baspi4Ref": "B4.3.6"
                         }
                       }
                     }
@@ -3730,7 +3845,7 @@
                     "panelProviderLease",
                     "lastMaintained",
                     "inGoodWorkingOrder",
-                    "isConnectedToNationalGrid"
+                    "nationalGrid"
                   ]
                 },
                 {
@@ -4622,7 +4737,8 @@
                               "properties": {
                                 "yesNo": {
                                   "enum": [
-                                    "Yes"
+                                    "Yes",
+                                    "Not known"
                                   ]
                                 }
                               }
@@ -4801,6 +4917,35 @@
             },
             "broadband": {
               "baspi4Ref": "A7.1.0.7",
+              "discriminator": {
+                "propertyName": "typeOfConnection"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "typeOfConnection": {
+                      "enum": [
+                        "None"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "typeOfConnection": {
+                      "enum": [
+                        "ADSL copper wire",
+                        "Cable",
+                        "FTTC (Fibre to the Cabinet)",
+                        "FTTP (Fibre to the Premises)"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "typeOfConnection"
+              ],
               "properties": {
                 "typeOfConnection": {
                   "baspi4Ref": "A7.1.0.7.2"
@@ -5126,7 +5271,8 @@
                   "properties": {
                     "yesNo": {
                       "enum": [
-                        "No"
+                        "No",
+                        "Not applicable"
                       ]
                     }
                   }
@@ -5210,7 +5356,8 @@
                   "properties": {
                     "yesNo": {
                       "enum": [
-                        "No"
+                        "No",
+                        "Not known"
                       ]
                     }
                   }
@@ -5663,7 +5810,8 @@
                       "properties": {
                         "yesNo": {
                           "enum": [
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       }
@@ -5693,7 +5841,11 @@
                   ],
                   "properties": {
                     "yesNo": {
-                      "baspi4Ref": "A11.1.3.1"
+                      "baspi4Ref": "A11.1.3.1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
                     }
                   }
                 },
@@ -5720,8 +5872,7 @@
                   "properties": {
                     "riskIndicator": {
                       "enum": [
-                        "No",
-                        "Not known"
+                        "No"
                       ]
                     }
                   }
@@ -6493,7 +6644,8 @@
                     "yesNo": {
                       "enum": [
                         "No",
-                        "Not applicable"
+                        "Not applicable",
+                        "Not known"
                       ]
                     }
                   }
@@ -6700,7 +6852,11 @@
                       "baspi4Ref": "B4.1.2"
                     },
                     "attachments": {
-                      "baspi4Ref": "B4.1.3"
+                      "baspi4Ref": "B4.1.3",
+                      "enum": [
+                        "Attached",
+                        "To follow"
+                      ]
                     }
                   },
                   "required": [
@@ -6758,7 +6914,11 @@
                           "baspi4Ref": "B4.2.3.1"
                         },
                         "attachments": {
-                          "baspi4Ref": "B4.2.3.2"
+                          "baspi4Ref": "B4.2.3.2",
+                          "enum": [
+                            "Attached",
+                            "To follow"
+                          ]
                         }
                       }
                     }

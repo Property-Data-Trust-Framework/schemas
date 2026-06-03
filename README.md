@@ -7,18 +7,20 @@ The Property Data Trust Framework (PDTF) Schemas provide standardized JSON Schem
 
 ## Project Goals & Status
 
-**Current Version:** 3.4.0 (Schema v3 - Stable)
+**Current Version:** 3.5.0 (3.6.0-41 available as a pre-release on branch/package-tag `next`)
 
 This schema framework aims to support the [Home Buying and Selling Group](https://homebuyingandsellinggroup.co.uk) 'Property Pack' initiative, encompassing all requirements starting with the Buyers and Sellers Property Information set ([BASPI v4.0](https://homebuyingandsellinggroup.co.uk/baspi/)).
 
 **Key Objectives:**
+
 - 🏠 **Standardize** residential property data exchange across England and Wales
-- 🔗 **Enable** frictionless data sharing between software products and services  
+- 🔗 **Enable** frictionless data sharing between software products and services
 - 🛡️ **Maintain** trusted information about data provenance and verification
 - 📋 **Support** industry-standard forms (BASPI, NTS, Law Society TA forms)
 - 🧩 **Provide** modular components for flexible implementation
 
 **Related Projects:**
+
 - [API Specifications](https://github.com/Property-Data-Trust-Framework/api) - OpenAPI specs for data exchange protocols
 - [PDTF Website](https://trust.propdata.org.uk) - Official framework documentation
 
@@ -35,7 +37,7 @@ npm install @pdtf/schemas
 ### Basic Usage
 
 ```javascript
-const { getTransactionSchema, getValidator } = require('@pdtf/schemas');
+const { getTransactionSchema, getValidator } = require("@pdtf/schemas");
 
 // Get a schema with BASPI v5 overlay
 const schema = getTransactionSchema(
@@ -45,14 +47,14 @@ const schema = getTransactionSchema(
 
 // Create a validator
 const validator = getValidator(
-  "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json", 
+  "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json",
   ["baspiV5"]
 );
 
 // Validate data
 const isValid = validator(propertyData);
 if (!isValid) {
-  console.log('Validation errors:', validator.errors);
+  console.log("Validation errors:", validator.errors);
 }
 ```
 
@@ -60,7 +62,7 @@ if (!isValid) {
 
 - **🏗️ Modular Schema System** - Base schemas with flexible overlay composition
 - **📋 Multiple Form Support** - BASPI, NTS, Law Society TA forms, and more
-- **🧩 Extension Overlays** - Granular NTS2 features as individual modules
+- **🧩 Extension Overlays** - Granular NTS2 and SEF25 features as individual modules
 - **✅ JSON Schema Validation** - Full JSON Schema Draft 07 support with AJV
 - **🔗 Verified Claims** - Support for verified data provenance tracking
 - **📚 Comprehensive Documentation** - Detailed usage guides and examples
@@ -80,7 +82,7 @@ if (!isValid) {
 │   │   │   │   └── extensions/        # Modular NTS2 extensions
 │   │   │   │       ├── jk.json        # Japanese Knotweed
 │   │   │   │       ├── tf.json        # Transfer Fees
-│   │   │   │       └── ...            # 16 total extensions
+│   │   │   │       └── ...            # NTS2 + SEF25 extensions
 │   │   │   └── combined.json          # Master schema for generation
 │   │   ├── v2/                        # Legacy schema version
 │   │   ├── verifiedClaims/            # Verified claims schemas
@@ -122,6 +124,7 @@ const schema = getTransactionSchema(
 ```
 
 **Parameters:**
+
 - `schemaId` (string): Schema version URL
 - `overlays` (array): Array of overlay names or objects
 
@@ -146,39 +149,70 @@ const errors = validateVerifiedClaims(verifiedClaims, schemaId, ["nts2023"]);
 
 #### Main Form Overlays
 
-| Overlay | Description | Version |
-|---------|-------------|---------|
-| `baspiV4` | Buyers and Sellers Property Information | v4.0 |
-| `baspiV5` | Buyers and Sellers Property Information | v5.0 |
-| `nts2023` | National Trading Standards | 2023 |
-| `nts2025` | National Trading Standards | 2025 |
-| `ta6ed4` | Law Society Property Information Form | Edition 4 |
-| `ta7ed3` | Law Society Leasehold Information Form | Edition 3 |
-| `ta10ed3` | Law Society Fittings and Contents Form | Edition 3 |
+| Overlay   | Description                             | Version   |
+| --------- | --------------------------------------- | --------- |
+| `baspiV4` | Buyers and Sellers Property Information | v4.0      |
+| `baspiV5` | Buyers and Sellers Property Information | v5.0      |
+| `nts2023` | National Trading Standards              | 2023      |
+| `nts2025` | National Trading Standards              | 2025      |
+| `ta6ed4`  | Law Society Property Information Form   | Edition 4 |
+| `ta7ed3`  | Law Society Leasehold Information Form  | Edition 3 |
+| `ta10ed3` | Law Society Fittings and Contents Form  | Edition 3 |
 
 [View all overlays →](src/schemas/v3/overlays/README.md)
 
 #### Extension Overlays
 
-Modular NTS2 features for selective adoption:
+Modular features for selective adoption. Extensions are merged on top of an NTS base overlay.
 
 ```javascript
-// Individual extensions
-const schema = getTransactionSchema(schemaId, ["nts2023", "jk", "tf"]);
+// NTS2 extensions
+const schema = getTransactionSchema(schemaId, ["nts2023", "jk", "tf", "ma"]);
 
-// Multiple specialist issues
-const schema = getTransactionSchema(schemaId, ["nts2023", "as", "dr", "jk", "sb"]);
+// SEF25 extensions (Seller Enquiry Form)
+const sef25 = ["sc", "pc", "ph", "dk", "rw", "sd", "lc", "wg", "ic", "nd", "mi", "tr"];
+const schema = getTransactionSchema(schemaId, ["nts2023", ...sef25]);
 ```
 
-| Extension | Code | Description |
-|-----------|------|-------------|
-| Japanese Knotweed | `jk` | Knotweed presence and management |
-| Transfer Fees | `tf` | Additional leasehold fees |
-| Managing Agent | `ma` | Leasehold managing agent details |
-| Solar Panels | `sl` | Solar panel ownership details |
-| Asbestos | `as` | Asbestos presence and management |
+**NTS2 Extensions:**
 
-[View all extensions →](src/schemas/v3/overlays/README.md#extension-overlays)
+| Extension | Code | Description |
+| --- | --- | --- |
+| Japanese Knotweed | `jk` | Knotweed presence and management |
+| Asbestos | `as` | Asbestos presence and management |
+| Dry Rot | `dr` | Dry rot treatment |
+| Subsidence | `sb` | Subsidence or structural fault |
+| Health & Safety | `hs` | Ongoing health or safety issues |
+| Outside Areas | `oa` | Outside areas details |
+| Main Construction | `mc` | Construction type if standard form |
+| Loft Access | `la` | Loft access and details |
+| Spray Foam | `sf` | Spray foam insulation |
+| Solar Panels | `sl` | Solar panel ownership details |
+| Heating Installed | `hi` | Central heating installation date |
+| Flood Defences | `fd` | Flood defence information |
+| Estate Rentcharges | `er` | Estate rentcharges for freehold |
+| Managing Agent | `ma` | Leasehold managing agent details |
+| Transfer Fees | `tf` | Additional leasehold fees |
+| Onward Chain | `oc` | Other property in chain |
+
+**SEF25 Extensions (Seller Enquiry Form):**
+
+| Extension | Code | Description |
+| --- | --- | --- |
+| Supply Costs | `sc` | Private water/sewerage costs |
+| Parking Permit Cost | `pc` | Parking permit frequency |
+| Property Hazards | `ph` | 4 hazard Yes/No questions |
+| Dropped Kerb | `dk` | Dropped kerb access to parking |
+| Private Right of Way | `rw` | Private right of way |
+| Storm/Fire/Flood Damage | `sd` | Storm, fire or flood damage |
+| Solar Lease Costs | `lc` | Solar panel lease costs |
+| Warranties & Guarantees | `wg` | 7 warranty categories upfront |
+| Insurance Claims | `ic` | Insurance claims upfront |
+| Neighbour Development | `nd` | Neighbour development |
+| Material Issue | `mi` | Other material issue upfront |
+| Title Restrictions | `tr` | Title restrictions for freehold |
+
+[View full SEF25 UI spec →](docs/sef25-extensions-ui-spec.md) | [View all extensions →](src/schemas/v3/overlays/README.md#extension-overlays)
 
 ## Usage Examples
 
@@ -195,27 +229,26 @@ const legalSchema = getTransactionSchema(schemaId, ["ta6ed4", "ta7ed3"]);
 const ntsSchema = getTransactionSchema(schemaId, ["nts2023"]);
 ```
 
-### Modular NTS2 Features
+### Modular Extension Features
 
 ```javascript
 // Selective NTS2 adoption
 const partialNts2 = getTransactionSchema(schemaId, [
-  "nts2023",        // Base NTS
-  "jk",             // Japanese Knotweed
-  "tf",             // Transfer Fees  
-  "ma"              // Managing Agent
+  "nts2023", // Base NTS
+  "jk", // Japanese Knotweed
+  "tf", // Transfer Fees
+  "ma", // Managing Agent
 ]);
 
-// Full specialist issues
-const specialistIssues = getTransactionSchema(schemaId, [
-  "nts2023", "as", "dr", "jk", "sb", "hs"
-]);
+// SEF25 Seller Enquiry Form extensions
+const sef25 = ["sc", "pc", "ph", "dk", "rw", "sd", "lc", "wg", "ic", "nd", "mi", "tr"];
+const sellerEnquiry = getTransactionSchema(schemaId, ["nts2023", ...sef25]);
 ```
 
 ### Data Validation
 
 ```javascript
-const { getValidator } = require('@pdtf/schemas');
+const { getValidator } = require("@pdtf/schemas");
 
 const validator = getValidator(schemaId, ["baspiV5"]);
 
@@ -223,16 +256,16 @@ const propertyData = {
   propertyPack: {
     priceInformation: {
       price: 350000,
-      priceQualifier: "Freehold"
+      priceQualifier: "Freehold",
     },
     // ... more property data
-  }
+  },
 };
 
 if (validator(propertyData)) {
-  console.log('✅ Data is valid');
+  console.log("✅ Data is valid");
 } else {
-  console.log('❌ Validation errors:', validator.errors);
+  console.log("❌ Validation errors:", validator.errors);
 }
 ```
 
@@ -241,46 +274,110 @@ if (validator(propertyData)) {
 PDTF supports verified claims to maintain data provenance and trust throughout property transactions. Claims package specific property data with verification evidence, enabling traceability back to authoritative sources.
 
 ```javascript
-const { validateVerifiedClaims } = require('@pdtf/schemas');
+const { validateVerifiedClaims } = require("@pdtf/schemas");
 
 // Current verified claims format
-const verifiedClaims = [{
-  id: "claim-12345",
-  transactionId: "txn-67890", 
-  schemaVersion: "3.4.0",
-  verification: {
-    trust_framework: "uk_pdtf",
-    time: "2024-07-01T10:30:00Z",
-    evidence: [{
-      type: "vouch",
-      attestation: {
-        type: "digital_attestation",
-        voucher: { name: "Estate Agent Ltd" }
-      },
-      verification_method: { type: "auth" }
-    }]
+const verifiedClaims = [
+  {
+    id: "claim-12345",
+    transactionId: "txn-67890",
+    schemaVersion: "3.4.0",
+    verification: {
+      trust_framework: "uk_pdtf",
+      time: "2024-07-01T10:30:00Z",
+      evidence: [
+        {
+          type: "vouch",
+          attestation: {
+            type: "digital_attestation",
+            voucher: { name: "Estate Agent Ltd" },
+          },
+          verification_method: { type: "auth" },
+        },
+      ],
+    },
+    terms_of_use: {
+      confidentiality_level: "public",
+    },
+    claims: {
+      "/propertyPack/priceInformation/price": 350000,
+      "/propertyPack/energyEfficiency/epcRating": "C",
+    },
   },
-  claims: {
-    "/propertyPack/priceInformation/price": 350000,
-    "/propertyPack/energyEfficiency/epcRating": "C"
-  }
-}];
+];
 
 // Validate claims against schema
 const errors = validateVerifiedClaims(verifiedClaims, schemaId, ["baspiV5"]);
 if (errors.length === 0) {
-  console.log('✅ Verified claims are valid');
+  console.log("✅ Verified claims are valid");
 }
 ```
 
 **Key Features:**
+
 - **Schema Path Validation** - Claims reference specific schema paths (e.g., `/propertyPack/priceInformation/price`)
 - **Provenance Tracking** - Each claim includes verification evidence and source attribution
 - **Trust Framework Integration** - Claims operate within the UK PDTF trust framework
 - **Attachment Support** - Supporting documents can be cryptographically linked to claims
+- **Confidentiality Controls** - Terms of use define access levels and permitted recipients
+
+#### Confidentiality Levels
+
+Verified claims support three confidentiality levels through a pdtf-specific extension: a `terms_of_use` field, enabling fine-grained access control:
+
+**Public Data** - Freely accessible data from official sources or public listing information:
+
+```javascript
+{
+  terms_of_use: {
+    confidentiality_level: "public";
+  }
+}
+```
+
+Examples: Land Registry data, Energy Performance Certificates, planning records, council tax information
+
+**Restricted Data** - Limited to transaction participants:
+
+```javascript
+{
+  terms_of_use: {
+    confidentiality_level: "restricted";
+  }
+}
+```
+
+Examples: Commercial property reports, contents of legal forms
+
+**Confidential Data** - Role-based access with explicit authorization:
+
+```javascript
+{
+  terms_of_use: {
+    confidentiality_level: "confidential",
+    allowed_roles: [
+      "Estate Agent",
+      "Seller's Conveyancer",
+      "Buyer's Conveyancer",
+      "Mortgage Broker",
+      "Lender"
+    ]
+  }
+}
+```
+
+Examples: Identity verification reports, anti-money laundering checks, sensitive personal information
+
+**Guidelines:**
+
+- Use **public** for government/official data sources
+- Use **restricted** for commercial data providers and processed information
+- Use **confidential** for sensitive personal data requiring explicit role authorization
+- Always consider data source and sensitivity when assigning levels
 
 **Roadmap - W3C Verifiable Credentials:**
 The next version of the PDTF framework will migrate to [W3C Verifiable Credentials](https://www.w3.org/TR/vc-data-model/) to provide:
+
 - **Enhanced Security** - Cryptographically signed claims with tamper detection
 - **Granular Permissions** - Fine-grained access control over claim data
 - **Interoperability** - Standards-based approach for broader ecosystem compatibility
@@ -311,17 +408,17 @@ npm test -- --testPathPattern=extensionOverlays
 npm test -- --testPathPattern=transactionSchema
 ```
 
-
 ## Versioning
 
 The schema follows semantic versioning:
+
 - **Patch** (3.4.x): Bug fixes, no breaking changes
 - **Minor** (3.x.0): New fields, backward compatible
 - **Major** (x.0.0): Breaking changes, migration required
 
 ## Licensing
 
-Licensed under the [MIT License](https://opensource.org/licenses/MIT). 
+Licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
 **Important:** Overlays contain fields from licensed forms ([BASPI](https://homebuyingsellingcouncil.co.uk/wp-content/uploads/2021/03/Terms-of-Licence-mandatory-download-for-use-of-BASPI.pdf), [PIQ](https://www.propertymark.co.uk/static/14e7c154-98de-4230-957f09bd8d5ddeec/f542b10a-7710-4c37-b3958ccaeec25d4b/property-information-questionnaire-residential-sales.pdf), [Law Society TA](https://www.lawsociety.org.uk/topics/property/transaction-forms)). When rendering data into these forms, ensure compliance with their respective license terms.
 
@@ -331,4 +428,3 @@ Licensed under the [MIT License](https://opensource.org/licenses/MIT).
 - 📁 [Example Files](src/examples/)
 - 🐛 [Issue Tracker](https://github.com/Property-Data-Trust-Framework/schemas/issues)
 - 🌐 [PDTF Website](https://trust.propdata.org.uk)
-

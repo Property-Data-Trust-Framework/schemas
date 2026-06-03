@@ -1,0 +1,76 @@
+{
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "electricity": {
+          "properties": {
+            "solarPanels": {
+              "oneOf": [
+                null,
+                {
+                  "properties": {
+                    "panelsOwnedOutright": {
+                      "oneOf": [
+                        null,
+                        {
+                          "properties": {
+                            "associatedCost": {
+                              "ntsRef": "S1.1",
+                              "required": [
+                                "frequency"
+                              ],
+                              "discriminator": {
+                                "propertyName": "frequency"
+                              },
+                              "properties": {
+                                "frequency": {
+                                  "ntsRef": "S1.1.2",
+                                  "type": "string"
+                                }
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "frequency": {
+                                      "enum": [
+                                        "Not applicable"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "amount": {
+                                      "ntsRef": "S1.1.1",
+                                      "type": "number"
+                                    },
+                                    "frequency": {
+                                      "enum": [
+                                        "Per month",
+                                        "Per year"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": "object"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "ntsRef": "B3.1"
+        }
+      },
+      "ntsRef": "0"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/extensions/lc.json",
+  "$comment": "Solar panel lease costs"
+}
