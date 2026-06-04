@@ -233,6 +233,37 @@ test("correctly gets yes another subschema but through a non-baspi oneOf structu
   expect(subschema).toEqual({ type: "string" });
 });
 
+test("correctly resolves properties inside nested oneOf branches", () => {
+  // attachments is at japaneseKnotweed.oneOf[1].oneOf[1].properties.attachments
+  const subschema = getSubschema(
+    "/propertyPack/specialistIssues/japaneseKnotweed/attachments"
+  );
+  expect(subschema).toBeDefined();
+  expect(subschema.type).toBe("string");
+  expect(subschema.enum).toContain("To follow");
+  expect(subschema.enum).toContain("Attached");
+});
+
+test("isPathValid returns true for nested oneOf properties", () => {
+  expect(
+    isPathValid("/propertyPack/specialistIssues/japaneseKnotweed/attachments")
+  ).toBe(true);
+  // knotweedSurveyCarriedOut.attachments is also nested in a oneOf
+  expect(
+    isPathValid(
+      "/propertyPack/specialistIssues/japaneseKnotweed/knotweedSurveyCarriedOut/attachments"
+    )
+  ).toBe(true);
+});
+
+test("isPathValid returns false for non-existent paths in nested oneOf", () => {
+  expect(
+    isPathValid(
+      "/propertyPack/specialistIssues/japaneseKnotweed/nonExistentField"
+    )
+  ).toBe(false);
+});
+
 test("correctly gets an overlaid enum in a subschema", () => {
   const subschema = getSubschema(
     "/propertyPack/electricity/mainsElectricity/yesNo",
@@ -314,9 +345,11 @@ test("correctly gets a subschema validator for a TA6 overlay which validates wit
   );
   const data = jp.get(exampleTransaction, path);
   data.uprn = undefined;
-  const validator = getSubschemaValidator(path, exampleTransaction.$schema, [
-    "ta6ed4",
-  ]);
+  const validator = getSubschemaValidator(
+    path,
+    clonedExampleTransaction.$schema,
+    ["ta6ed4"]
+  );
   let isValid = validator(data);
   expect(isValid).toBe(true);
 });
@@ -458,7 +491,7 @@ test("ntsl2025 requires parking and listingAndConservation fields", () => {
   const clonedExampleTransaction = JSON.parse(
     JSON.stringify(exampleTransaction)
   );
-  
+
   // Set up lettings-specific fields
   clonedExampleTransaction.propertyPack.lettingInformation = {
     rent: 3500,
@@ -467,32 +500,47 @@ test("ntsl2025 requires parking and listingAndConservation fields", () => {
   };
   delete clonedExampleTransaction.propertyPack.priceInformation;
   delete clonedExampleTransaction.propertyPack.ownership;
-  
+
   // Remove ALL parking fields - this should make validation fail
   delete clonedExampleTransaction.propertyPack.parking.parkingArrangements;
   delete clonedExampleTransaction.propertyPack.parking.disabledParking;
   delete clonedExampleTransaction.propertyPack.parking.controlledParking;
-  delete clonedExampleTransaction.propertyPack.parking.electricVehicleChargingPoint;
-  
+  delete clonedExampleTransaction.propertyPack.parking
+    .electricVehicleChargingPoint;
+
   // Remove ALL listingAndConservation fields - this should make validation fail
   delete clonedExampleTransaction.propertyPack.listingAndConservation.isListed;
-  delete clonedExampleTransaction.propertyPack.listingAndConservation.isConservationArea;
-  delete clonedExampleTransaction.propertyPack.listingAndConservation.hasTreePreservationOrder;
-  
+  delete clonedExampleTransaction.propertyPack.listingAndConservation
+    .isConservationArea;
+  delete clonedExampleTransaction.propertyPack.listingAndConservation
+    .hasTreePreservationOrder;
+
   const isValid = validator(clonedExampleTransaction);
-  
+
   // The data should be INVALID because required fields are missing
   expect(isValid).toBe(false);
-  
+
   // Specifically check that parking and listingAndConservation fields are reported as missing
-  const errorMessages = validator.errors.map(e => e.message);
-  expect(errorMessages).toContain("must have required property 'parkingArrangements'");
-  expect(errorMessages).toContain("must have required property 'disabledParking'");
-  expect(errorMessages).toContain("must have required property 'controlledParking'");
-  expect(errorMessages).toContain("must have required property 'electricVehicleChargingPoint'");
+  const errorMessages = validator.errors.map((e) => e.message);
+  expect(errorMessages).toContain(
+    "must have required property 'parkingArrangements'"
+  );
+  expect(errorMessages).toContain(
+    "must have required property 'disabledParking'"
+  );
+  expect(errorMessages).toContain(
+    "must have required property 'controlledParking'"
+  );
+  expect(errorMessages).toContain(
+    "must have required property 'electricVehicleChargingPoint'"
+  );
   expect(errorMessages).toContain("must have required property 'isListed'");
-  expect(errorMessages).toContain("must have required property 'isConservationArea'");
-  expect(errorMessages).toContain("must have required property 'hasTreePreservationOrder'");
+  expect(errorMessages).toContain(
+    "must have required property 'isConservationArea'"
+  );
+  expect(errorMessages).toContain(
+    "must have required property 'hasTreePreservationOrder'"
+  );
 });
 
 test("waterAndDrainage state is invalid under nts2023 overlay when mainsFoulDrainage yesNo is Not known", () => {
@@ -500,36 +548,37 @@ test("waterAndDrainage state is invalid under nts2023 overlay when mainsFoulDrai
   const clonedExampleTransaction = JSON.parse(
     JSON.stringify(exampleTransaction)
   );
-  
+
   // Set the waterAndDrainage to an actually invalid state for nts2023
-  // The nts overlay restricts mainsFoulDrainage.yesNo to only "Yes" or "No" 
+  // The nts overlay restricts mainsFoulDrainage.yesNo to only "Yes" or "No"
   // (not "Not known" like the base schema allows)
   clonedExampleTransaction.propertyPack.waterAndDrainage = {
-    "water": {
-      "mainsWater": {
-        "yesNo": "Yes",
-        "waterMeter": {
-          "isSupplyMetered": "No"
-        }
-      }
-    },
-    "drainage": {
-      "mainsSurfaceWaterDrainage": {
-        "yesNo": "Yes"
+    water: {
+      mainsWater: {
+        yesNo: "Yes",
+        waterMeter: {
+          isSupplyMetered: "No",
+        },
       },
-      "mainsFoulDrainage": {
-        "yesNo": "Not known"  // This is invalid under nts2023 overlay
-      }
-    }
+    },
+    drainage: {
+      mainsSurfaceWaterDrainage: {
+        yesNo: "Yes",
+      },
+      mainsFoulDrainage: {
+        yesNo: "Not known", // This is invalid under nts2023 overlay
+      },
+    },
   };
-  
+
   const isValid = validator(clonedExampleTransaction);
   expect(isValid).toBe(false);
-  
+
   // Check that the validation error is about the invalid enum value
-  const relevantError = validator.errors.find(error => 
-    error.instancePath.includes('mainsFoulDrainage') && 
-    error.message.includes('must be equal to one of the allowed values')
+  const relevantError = validator.errors.find(
+    (error) =>
+      error.instancePath.includes("mainsFoulDrainage") &&
+      error.message.includes("must be equal to one of the allowed values")
   );
   expect(relevantError).toBeDefined();
 });
@@ -539,36 +588,59 @@ test("waterAndDrainage state with mainsFoulDrainage No missing offMainsDrainageS
   const clonedExampleTransaction = JSON.parse(
     JSON.stringify(exampleTransaction)
   );
-  
+
   // Set the waterAndDrainage to the state from the user request
   // This SHOULD be invalid because offMainsDrainageSystem is required when mainsFoulDrainage.yesNo is "No"
   clonedExampleTransaction.propertyPack.waterAndDrainage = {
-    "water": {
-      "mainsWater": {
-        "yesNo": "Yes",
-        "waterMeter": {
-          "isSupplyMetered": "No"
-        }
-      }
-    },
-    "drainage": {
-      "mainsSurfaceWaterDrainage": {
-        "yesNo": "Yes"
+    water: {
+      mainsWater: {
+        yesNo: "Yes",
+        waterMeter: {
+          isSupplyMetered: "No",
+        },
       },
-      "mainsFoulDrainage": {
-        "yesNo": "No"
+    },
+    drainage: {
+      mainsSurfaceWaterDrainage: {
+        yesNo: "Yes",
+      },
+      mainsFoulDrainage: {
+        yesNo: "No",
         // Missing offMainsDrainageSystem - this should make validation fail
-      }
-    }
+      },
+    },
   };
-  
+
   const isValid = validator(clonedExampleTransaction);
   expect(isValid).toBe(false);
-  
+
   // Check that the validation error is about missing offMainsDrainageSystem
-  const relevantError = validator.errors.find(error => 
-    error.instancePath.includes('mainsFoulDrainage') && 
-    error.message.includes('offMainsDrainageSystem')
+  const relevantError = validator.errors.find(
+    (error) =>
+      error.instancePath.includes("mainsFoulDrainage") &&
+      error.message.includes("offMainsDrainageSystem")
   );
   expect(relevantError).toBeDefined();
+});
+
+test("TA7 overlay organisesBuildingInsurance enum has exactly three items", () => {
+  const schema = getTransactionSchema(schemaId, ["ta7ed3"]);
+
+  // Navigate to the organisesBuildingInsurance property in the merged schema
+  const organisesBuildingInsurance =
+    schema.properties?.propertyPack?.properties?.ownership?.properties
+      ?.ownershipsToBeTransferred?.items?.oneOf?.[2]?.properties
+      ?.leaseholdInformation?.properties?.contactDetails?.properties
+      ?.serviceContactAssignments?.properties?.organisesBuildingInsurance;
+
+  expect(organisesBuildingInsurance).toBeDefined();
+  expect(organisesBuildingInsurance.enum).toBeDefined();
+
+  // The TA7 overlay defines exactly 3 enum values, which should replace the base schema's 6 values
+  expect(organisesBuildingInsurance.enum).toHaveLength(3);
+  expect(organisesBuildingInsurance.enum).toEqual([
+    "the Lessees",
+    "Management Company",
+    "Landlord",
+  ]);
 });

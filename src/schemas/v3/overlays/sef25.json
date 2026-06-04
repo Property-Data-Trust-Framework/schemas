@@ -1,0 +1,1653 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/sef25.json",
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "ownership": {
+          "sef25Ref": "T1",
+          "properties": {
+            "ownershipsToBeTransferred": {
+              "items": {
+                "oneOf": [
+                  {
+                    "required": [
+                      "titleRestrictions"
+                    ],
+                    "properties": {
+                      "titleRestrictions": {
+                        "sef25Ref": "T1.1",
+                        "discriminator": {
+                          "propertyName": "yesNo"
+                        },
+                        "oneOf": [
+                          {
+                            "properties": {
+                              "yesNo": {
+                                "enum": [
+                                  "No"
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "properties": {
+                              "yesNo": {
+                                "enum": [
+                                  "Yes"
+                                ]
+                              },
+                              "details": {
+                                "sef25Ref": "T1.1.2"
+                              }
+                            },
+                            "required": [
+                              "details"
+                            ]
+                          }
+                        ],
+                        "required": [
+                          "yesNo"
+                        ],
+                        "properties": {
+                          "yesNo": {
+                            "sef25Ref": "T1.1.1"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "parking": {
+          "sef25Ref": "K1",
+          "required": [
+            "droppedKerbAccess"
+          ],
+          "properties": {
+            "controlledParking": {
+              "oneOf": [
+                null,
+                {
+                  "required": [
+                    "costOfPermit",
+                    "costOfPermitFrequency"
+                  ],
+                  "properties": {
+                    "costOfPermit": {
+                      "sef25Ref": "P1.1"
+                    },
+                    "costOfPermitFrequency": {
+                      "sef25Ref": "P1.2"
+                    }
+                  }
+                }
+              ]
+            },
+            "droppedKerbAccess": {
+              "sef25Ref": "K1.1",
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "sef25Ref": "K1.1.1"
+                }
+              }
+            }
+          }
+        },
+        "alterationsAndChanges": {
+          "sef25Ref": "A1",
+          "required": [
+            "extension",
+            "loftConversion",
+            "garageConversion",
+            "removalOfInternalWalls",
+            "changeOfUse"
+          ],
+          "properties": {
+            "changeOfUse": {
+              "sef25Ref": "A1.5",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "sef25Ref": "A1.5.2"
+                    },
+                    "buildingRegApproval": {
+                      "sef25Ref": "A1.5.4",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "sef25Ref": "A1.5.4.1"
+                        }
+                      }
+                    },
+                    "planningPermission": {
+                      "sef25Ref": "A1.5.3",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "sef25Ref": "A1.5.3.1"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "details",
+                    "planningPermission",
+                    "buildingRegApproval"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "sef25Ref": "A1.5.1"
+                }
+              }
+            },
+            "extension": {
+              "sef25Ref": "A1.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "sef25Ref": "A1.1.2"
+                    },
+                    "planningPermission": {
+                      "sef25Ref": "A1.1.3",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "sef25Ref": "A1.1.3.1"
+                        }
+                      }
+                    },
+                    "buildingRegApproval": {
+                      "sef25Ref": "A1.1.4",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "sef25Ref": "A1.1.4.1"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "details",
+                    "planningPermission",
+                    "buildingRegApproval"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "sef25Ref": "A1.1.1"
+                }
+              }
+            },
+            "loftConversion": {
+              "sef25Ref": "A1.2",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "sef25Ref": "A1.2.2"
+                    },
+                    "planningPermission": {
+                      "sef25Ref": "A1.2.3",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "sef25Ref": "A1.2.3.1"
+                        }
+                      }
+                    },
+                    "buildingRegApproval": {
+                      "sef25Ref": "A1.2.4",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "sef25Ref": "A1.2.4.1"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "details",
+                    "planningPermission",
+                    "buildingRegApproval"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "sef25Ref": "A1.2.1"
+                }
+              }
+            },
+            "garageConversion": {
+              "sef25Ref": "A1.3",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "sef25Ref": "A1.3.2"
+                    },
+                    "planningPermission": {
+                      "sef25Ref": "A1.3.3",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "sef25Ref": "A1.3.3.1"
+                        }
+                      }
+                    },
+                    "buildingRegApproval": {
+                      "sef25Ref": "A1.3.4",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "sef25Ref": "A1.3.4.1"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "details",
+                    "planningPermission",
+                    "buildingRegApproval"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "sef25Ref": "A1.3.1"
+                }
+              }
+            },
+            "removalOfInternalWalls": {
+              "sef25Ref": "A1.4",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "sef25Ref": "A1.4.2"
+                    },
+                    "planningPermission": {
+                      "sef25Ref": "A1.4.3",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "sef25Ref": "A1.4.3.1"
+                        }
+                      }
+                    },
+                    "buildingRegApproval": {
+                      "sef25Ref": "A1.4.4",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not required"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "sef25Ref": "A1.4.4.1"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "details",
+                    "planningPermission",
+                    "buildingRegApproval"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "sef25Ref": "A1.4.1"
+                }
+              }
+            }
+          }
+        },
+        "notices": {
+          "sef25Ref": "N1",
+          "properties": {
+            "neighbourDevelopment": {
+              "sef25Ref": "N1.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "specialistIssues": {
+          "required": [
+            "wellsDitchesShaft",
+            "damagedOrExposedElectrics",
+            "damageToFlooringOrStaircases",
+            "knownAreasInPoorCondition"
+          ],
+          "properties": {
+            "wellsDitchesShaft": {
+              "sef25Ref": "H1.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "sef25Ref": "H1.1.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "sef25Ref": "H1.1.1"
+                }
+              }
+            },
+            "damagedOrExposedElectrics": {
+              "sef25Ref": "H1.2",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "sef25Ref": "H1.2.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "sef25Ref": "H1.2.1"
+                }
+              }
+            },
+            "damageToFlooringOrStaircases": {
+              "sef25Ref": "H1.3",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "sef25Ref": "H1.3.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "sef25Ref": "H1.3.1"
+                }
+              }
+            },
+            "knownAreasInPoorCondition": {
+              "sef25Ref": "H1.4",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "sef25Ref": "H1.4.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "sef25Ref": "H1.4.1"
+                }
+              }
+            }
+          }
+        },
+        "electricity": {
+          "sef25Ref": "S1",
+          "properties": {
+            "solarPanels": {
+              "sef25Ref": "S1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "panelsOwnedOutright": {
+                      "sef25Ref": "S1.1",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            },
+                            "associatedCost": {
+                              "sef25Ref": "S1.1",
+                              "discriminator": {
+                                "propertyName": "frequency"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "frequency": {
+                                      "enum": [
+                                        "Not applicable"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "frequency": {
+                                      "enum": [
+                                        "Per month",
+                                        "Per year"
+                                      ]
+                                    },
+                                    "amount": {
+                                      "sef25Ref": "S1.1.1"
+                                    }
+                                  }
+                                }
+                              ],
+                              "required": [
+                                "frequency"
+                              ],
+                              "properties": {
+                                "frequency": {
+                                  "sef25Ref": "S1.1.2"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "waterAndDrainage": {
+          "properties": {
+            "water": {
+              "properties": {
+                "mainsWater": {
+                  "oneOf": [
+                    {
+                      "required": [
+                        "associatedCost"
+                      ],
+                      "properties": {
+                        "associatedCost": {
+                          "sef25Ref": "U1.1",
+                          "discriminator": {
+                            "propertyName": "frequency"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "frequency": {
+                                  "enum": [
+                                    "Not applicable"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "frequency": {
+                                  "enum": [
+                                    "Per month",
+                                    "Per year"
+                                  ]
+                                },
+                                "amount": {
+                                  "sef25Ref": "U1.1.1"
+                                }
+                              }
+                            }
+                          ],
+                          "required": [
+                            "frequency"
+                          ],
+                          "properties": {
+                            "frequency": {
+                              "sef25Ref": "U1.1.2"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "drainage": {
+              "properties": {
+                "mainsFoulDrainage": {
+                  "oneOf": [
+                    null,
+                    null,
+                    {
+                      "required": [
+                        "associatedCost"
+                      ],
+                      "properties": {
+                        "associatedCost": {
+                          "sef25Ref": "U1.2",
+                          "discriminator": {
+                            "propertyName": "frequency"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "frequency": {
+                                  "enum": [
+                                    "Not applicable"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "frequency": {
+                                  "enum": [
+                                    "Per month",
+                                    "Per year"
+                                  ]
+                                },
+                                "amount": {
+                                  "sef25Ref": "U1.2.1"
+                                }
+                              }
+                            }
+                          ],
+                          "required": [
+                            "frequency"
+                          ],
+                          "properties": {
+                            "frequency": {
+                              "sef25Ref": "U1.2.2"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "insurance": {
+          "sef25Ref": "I1",
+          "discriminator": {
+            "propertyName": "isInsured"
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "isInsured": {
+                  "enum": [
+                    "No"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "isInsured": {
+                  "enum": [
+                    "Yes"
+                  ]
+                },
+                "insuranceClaims": {
+                  "sef25Ref": "I1.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "sef25Ref": "I1.1.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "sef25Ref": "I1.1.1"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "insuranceClaims"
+              ]
+            }
+          ],
+          "required": [
+            "isInsured"
+          ],
+          "properties": {
+            "isInsured": {
+              "sef25Ref": "I1.2"
+            }
+          }
+        },
+        "rightsAndInformalArrangements": {
+          "sef25Ref": "R1",
+          "properties": {
+            "rightsOrArrangements": {
+              "sef25Ref": "R1",
+              "required": [
+                "privateRightOfWay"
+              ],
+              "properties": {
+                "privateRightOfWay": {
+                  "sef25Ref": "R1.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "sef25Ref": "R1.1.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "sef25Ref": "R1.1.1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "environmentalIssues": {
+          "sef25Ref": "E1",
+          "required": [
+            "stormFireFloodDamage"
+          ],
+          "properties": {
+            "flooding": {
+              "properties": {
+                "historicalFlooding": {
+                  "properties": {
+                    "hasBeenFlooded": {
+                      "sef25Ref": "E1.2"
+                    }
+                  }
+                }
+              }
+            },
+            "stormFireFloodDamage": {
+              "sef25Ref": "E1.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "sef25Ref": "E1.1.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "sef25Ref": "E1.1.1"
+                }
+              }
+            }
+          }
+        },
+        "additionalInformation": {
+          "sef25Ref": "M1",
+          "required": [
+            "otherMaterialIssue"
+          ],
+          "properties": {
+            "otherMaterialIssue": {
+              "sef25Ref": "M1.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "sef25Ref": "M1.1.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "sef25Ref": "M1.1.1"
+                }
+              }
+            }
+          }
+        },
+        "guaranteesWarrantiesAndIndemnityInsurances": {
+          "sef25Ref": "W1",
+          "discriminator": {
+            "propertyName": "hasValidGuaranteesOrWarranties"
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "hasValidGuaranteesOrWarranties": {
+                  "enum": [
+                    "No"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "hasValidGuaranteesOrWarranties": {
+                  "enum": [
+                    "Yes"
+                  ]
+                },
+                "newHomeWarranty": {
+                  "sef25Ref": "W1.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "sef25Ref": "W1.1.1"
+                    }
+                  }
+                },
+                "roofingWork": {
+                  "sef25Ref": "W1.2",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "sef25Ref": "W1.2.1"
+                    }
+                  }
+                },
+                "dampProofingTreatment": {
+                  "sef25Ref": "W1.3",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "sef25Ref": "W1.3.1"
+                    }
+                  }
+                },
+                "centralHeatingAndorPlumbing": {
+                  "sef25Ref": "W1.4",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "sef25Ref": "W1.4.1"
+                    }
+                  }
+                },
+                "doubleGlazing": {
+                  "sef25Ref": "W1.8",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "sef25Ref": "W1.8.1"
+                    }
+                  }
+                },
+                "electricalRepairOrInstallation": {
+                  "sef25Ref": "W1.5",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "sef25Ref": "W1.5.1"
+                    }
+                  }
+                },
+                "subsidenceWork": {
+                  "sef25Ref": "W1.6",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "sef25Ref": "W1.6.1"
+                    }
+                  }
+                },
+                "otherGuarantees": {
+                  "sef25Ref": "W1.7",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "sef25Ref": "W1.7.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "sef25Ref": "W1.7.1"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "newHomeWarranty",
+                "roofingWork",
+                "dampProofingTreatment",
+                "centralHeatingAndorPlumbing",
+                "electricalRepairOrInstallation",
+                "subsidenceWork",
+                "otherGuarantees"
+              ]
+            }
+          ],
+          "required": [
+            "hasValidGuaranteesOrWarranties"
+          ],
+          "properties": {
+            "hasValidGuaranteesOrWarranties": {
+              "sef25Ref": "W1.0"
+            }
+          }
+        }
+      }
+    }
+  }
+}

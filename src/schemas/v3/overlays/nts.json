@@ -631,6 +631,29 @@
             },
             "electricVehicleChargingPoint": {
               "ntsRef": "B4.4",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
               "required": [
                 "yesNo"
               ],
@@ -873,7 +896,9 @@
                   "properties": {
                     "yesNo": {
                       "enum": [
-                        "No"
+                        "No",
+                        "Not applicable",
+                        "Not known"
                       ]
                     }
                   }
@@ -1713,7 +1738,25 @@
               }
             },
             "otherHeatingFeatures": {
-              "ntsRef": "B3.4.2"
+              "ntsRef": "B3.4.2",
+              "items": {
+                "enum": [
+                  "None",
+                  "Air conditioning",
+                  "Double glazing",
+                  "Triple glazing",
+                  "Night storage",
+                  "Solar water",
+                  "Underfloor heating",
+                  "Wood burner",
+                  "Aga/Rayburn",
+                  "Open fire",
+                  "Ground source heat pump",
+                  "Air source heat pump",
+                  "Solar thermal",
+                  "Passive House design"
+                ]
+              }
             }
           }
         },
@@ -1745,6 +1788,32 @@
             },
             "broadband": {
               "ntsRef": "B3.5",
+              "discriminator": {
+                "propertyName": "typeOfConnection"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "typeOfConnection": {
+                      "enum": [
+                        "None"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "typeOfConnection": {
+                      "enum": [
+                        "ADSL copper wire",
+                        "Cable",
+                        "FTTC (Fibre to the Cabinet)",
+                        "FTTP (Fibre to the Premises)"
+                      ]
+                    }
+                  }
+                }
+              ],
               "required": [
                 "typeOfConnection"
               ],

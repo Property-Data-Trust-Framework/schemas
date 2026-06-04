@@ -1,0 +1,133 @@
+{
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "waterAndDrainage": {
+          "properties": {
+            "water": {
+              "properties": {
+                "mainsWater": {
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "associatedCost": {
+                          "ntsRef": "U1.1",
+                          "required": [
+                            "frequency"
+                          ],
+                          "discriminator": {
+                            "propertyName": "frequency"
+                          },
+                          "properties": {
+                            "frequency": {
+                              "ntsRef": "U1.1.2",
+                              "type": "string"
+                            }
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "frequency": {
+                                  "enum": [
+                                    "Not applicable"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "amount": {
+                                  "ntsRef": "U1.1.1",
+                                  "type": "number"
+                                },
+                                "frequency": {
+                                  "enum": [
+                                    "Per month",
+                                    "Per year"
+                                  ]
+                                }
+                              }
+                            }
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "associatedCost"
+                      ]
+                    }
+                  ]
+                }
+              },
+              "ntsRef": "B3.2"
+            },
+            "drainage": {
+              "properties": {
+                "mainsFoulDrainage": {
+                  "oneOf": [
+                    null,
+                    null,
+                    {
+                      "properties": {
+                        "associatedCost": {
+                          "ntsRef": "U1.2",
+                          "required": [
+                            "frequency"
+                          ],
+                          "discriminator": {
+                            "propertyName": "frequency"
+                          },
+                          "properties": {
+                            "frequency": {
+                              "ntsRef": "U1.2.2",
+                              "type": "string"
+                            }
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "frequency": {
+                                  "enum": [
+                                    "Not applicable"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "amount": {
+                                  "ntsRef": "U1.2.1",
+                                  "type": "number"
+                                },
+                                "frequency": {
+                                  "enum": [
+                                    "Per month",
+                                    "Per year"
+                                  ]
+                                }
+                              }
+                            }
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "associatedCost"
+                      ]
+                    }
+                  ]
+                }
+              },
+              "ntsRef": "B3.3"
+            }
+          },
+          "ntsRef": "B3.2"
+        }
+      },
+      "ntsRef": "0"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/extensions/sc.json",
+  "$comment": "Associated costs for private water and sewerage supply"
+}

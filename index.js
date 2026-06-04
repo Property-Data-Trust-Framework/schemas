@@ -18,7 +18,7 @@ const cacheStats = {
   hits: 0,
   misses: 0,
   totalQueries: 0,
-  cacheStartTime: Date.now()
+  cacheStartTime: Date.now(),
 };
 
 const verifiedClaimsSchema = require("./src/schemas/verifiedClaims/pdtf-verified-claims.json");
@@ -52,6 +52,24 @@ const extensionOverlays = {
 
   // Transaction Extensions
   oc: require("./src/schemas/v3/overlays/extensions/oc.json"),
+
+  // SEF25 Extensions
+  sc: require("./src/schemas/v3/overlays/extensions/sc.json"),
+  pc: require("./src/schemas/v3/overlays/extensions/pc.json"),
+  ph: require("./src/schemas/v3/overlays/extensions/ph.json"),
+  dk: require("./src/schemas/v3/overlays/extensions/dk.json"),
+  rw: require("./src/schemas/v3/overlays/extensions/rw.json"),
+  sd: require("./src/schemas/v3/overlays/extensions/sd.json"),
+  lc: require("./src/schemas/v3/overlays/extensions/lc.json"),
+  wg: require("./src/schemas/v3/overlays/extensions/wg.json"),
+  ic: require("./src/schemas/v3/overlays/extensions/ic.json"),
+  nd: require("./src/schemas/v3/overlays/extensions/nd.json"),
+  mi: require("./src/schemas/v3/overlays/extensions/mi.json"),
+  tr: require("./src/schemas/v3/overlays/extensions/tr.json"),
+  ac: require("./src/schemas/v3/overlays/extensions/ac.json"),
+
+  // Compatibility Extensions
+  ta: require("./src/schemas/v3/overlays/extensions/ta.json"),
 };
 
 const overlaysMap = {
@@ -75,7 +93,9 @@ const overlaysMap = {
     baspiV4: require("./src/schemas/v3/overlays/baspi4.json"),
     baspiV5: require("./src/schemas/v3/overlays/baspi5.json"),
     ta6ed4: require("./src/schemas/v3/overlays/ta6.json"),
+    ta6ed6: require("./src/schemas/v3/overlays/ta6ed6.json"),
     ta7ed3: require("./src/schemas/v3/overlays/ta7.json"),
+    ta7ed5: require("./src/schemas/v3/overlays/ta7ed5.json"),
     ta10ed3: require("./src/schemas/v3/overlays/ta10.json"),
     lpe1ed4: require("./src/schemas/v3/overlays/lpe1.json"),
     fme1ed2: require("./src/schemas/v3/overlays/fme1.json"),
@@ -104,7 +124,7 @@ const transactionSchemas = {
 };
 
 // Custom array merge function for oneOf arrays
-const arrayMerge = (target, source) => {
+const arrayMerge = (target, source, options) => {
   // For string arrays (enum, required, etc.)
   if (
     target.length > 0 &&
@@ -114,17 +134,30 @@ const arrayMerge = (target, source) => {
     source[0] &&
     typeof source[0] === "string"
   ) {
-    // For required arrays, combine them (remove duplicates)
-    // Check if this looks like a required array (contains field names, not enum values)
-    const isRequiredArray = target.some(
-      (item) =>
-        typeof item === "string" &&
-        item.length > 0 &&
-        !item.includes("Yes") &&
-        !item.includes("No") &&
-        !item.includes("Not known") &&
-        !item.includes("To be connected")
-    );
+    // Detect if this is a required array by checking the parent key
+    // Required arrays are property names (camelCase, no spaces)
+    // Enum arrays are values (can contain spaces, capitals, etc.)
+    const isRequiredArray =
+      target.every(
+        (item) =>
+          typeof item === "string" &&
+          item.length > 0 &&
+          // Required field names are typically camelCase without spaces
+          !item.includes(" ") &&
+          // First character is usually lowercase for field names
+          (item[0] === item[0].toLowerCase() ||
+            item.startsWith("is") ||
+            item.startsWith("has")),
+      ) &&
+      source.every(
+        (item) =>
+          typeof item === "string" &&
+          item.length > 0 &&
+          !item.includes(" ") &&
+          (item[0] === item[0].toLowerCase() ||
+            item.startsWith("is") ||
+            item.startsWith("has")),
+      );
 
     if (isRequiredArray) {
       // Combine required arrays
@@ -137,7 +170,7 @@ const arrayMerge = (target, source) => {
       return combined;
     }
 
-    // For other string arrays (like enum), use source if it exists, otherwise use target
+    // For other string arrays (like enum), replace with source
     return source.length > 0 ? source : target;
   }
 
@@ -169,7 +202,7 @@ const arrayMerge = (target, source) => {
 
 const getTransactionSchema = (
   schemaId = "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json",
-  overlays
+  overlays,
 ) => {
   const sourceSchema = transactionSchemas[schemaId];
   if (!overlays || overlays.length < 1) return sourceSchema;
@@ -177,7 +210,7 @@ const getTransactionSchema = (
   let mergedSchema = JSON.parse(JSON.stringify(sourceSchema)); // Deep copy
   overlays.forEach((overlay) => {
     const overlaySchema = JSON.parse(
-      JSON.stringify(overlaysMap[schemaId][overlay] || {})
+      JSON.stringify(overlaysMap[schemaId][overlay] || {}),
     ); // Deep copy
     mergedSchema = merge(mergedSchema, overlaySchema, { arrayMerge });
   });
@@ -204,24 +237,77 @@ const getCachedSchemaData = (path, schemaId, overlays) => {
     const sourceSchema = getTransactionSchema(schemaId, overlays);
     const pathArray = path.split("/").slice(1);
     let subSchema = sourceSchema;
-    
+
     if (pathArray.length >= 1) {
       subSchema = pathArray.reduce((schema, pathElement) => {
         if (!schema) return undefined;
-        const { type, items, properties, oneOf } = schema;
+        const { type, items, properties, patternProperties, oneOf } = schema;
+
+        // Check array type
         if (type === "array") return items;
+
+        // Check explicit properties first
         if (properties?.[pathElement]) return properties[pathElement];
-        if (oneOf) {
-          let matchingProperty;
-          oneOf.forEach((aOneOf) => {
-            if (aOneOf.type === "array" && !Number.isNaN(pathElement)) {
-              matchingProperty = aOneOf.items;
-            } else if (aOneOf.properties?.[pathElement]) {
-              matchingProperty = aOneOf.properties?.[pathElement];
+
+        // Check patternProperties
+        if (patternProperties) {
+          for (const pattern in patternProperties) {
+            try {
+              const regex = new RegExp(pattern);
+              if (regex.test(pathElement)) {
+                return patternProperties[pattern];
+              }
+            } catch (e) {
+              // Invalid regex pattern in schema - skip it
+              console.warn(
+                `Invalid regex pattern in patternProperties: ${pattern}`,
+                e,
+              );
             }
-          });
+          }
+        }
+
+        // Check oneOf discriminators (recursively for nested oneOf)
+        if (oneOf) {
+          const findInOneOf = (branches) => {
+            let arrayFallback;
+            for (const branch of branches) {
+              if (!branch) continue;
+              // Track array matches as fallback (prefer property matches)
+              if (
+                branch.type === "array" &&
+                !Number.isNaN(pathElement) &&
+                !arrayFallback
+              ) {
+                arrayFallback = branch.items;
+              }
+              if (branch.properties?.[pathElement]) {
+                return branch.properties[pathElement];
+              }
+              if (branch.patternProperties) {
+                for (const pattern in branch.patternProperties) {
+                  try {
+                    const regex = new RegExp(pattern);
+                    if (regex.test(pathElement)) {
+                      return branch.patternProperties[pattern];
+                    }
+                  } catch (e) {
+                    // Invalid regex pattern - skip
+                  }
+                }
+              }
+              // Recurse into nested oneOf branches
+              if (branch.oneOf) {
+                const nested = findInOneOf(branch.oneOf);
+                if (nested) return nested;
+              }
+            }
+            return arrayFallback;
+          };
+          const matchingProperty = findInOneOf(oneOf);
           if (matchingProperty) return matchingProperty;
         }
+
         return undefined;
       }, sourceSchema);
     }
@@ -229,7 +315,7 @@ const getCachedSchemaData = (path, schemaId, overlays) => {
     // Add schema to AJV and get validator
     // Only add valid schemas to AJV
     let validator;
-    if (subSchema && typeof subSchema === 'object') {
+    if (subSchema && typeof subSchema === "object") {
       // Check if schema already exists in AJV to avoid duplicates
       validator = ajv.getSchema(cacheKey);
       if (!validator) {
@@ -246,7 +332,7 @@ const getCachedSchemaData = (path, schemaId, overlays) => {
       subSchema,
       validator,
       cacheKey,
-      createdAt: Date.now()
+      createdAt: Date.now(),
     };
     schemaCache.set(cacheKey, cached);
   } else {
@@ -312,13 +398,13 @@ const getTitleAtPath = (schema, path, rootPath = path) => {
   if (oneOfs) {
     // only single dependency discriminator, oneOf keyword is supported
     const matchingOneOf = oneOfs.find(
-      (oneOf) => oneOf["properties"][propertyName]
+      (oneOf) => oneOf["properties"][propertyName],
     );
     if (matchingOneOf)
       return getTitleAtPath(
         matchingOneOf["properties"][propertyName],
         subPath,
-        rootPath
+        rootPath,
       );
   }
 };
@@ -351,7 +437,7 @@ const validateVerifiedClaims = (verifiedClaims, schemaId, overlays) => {
         }
       } else {
         validationErrorsArr.push(
-          `Path ${path} is not a valid PDTF schema path`
+          `Path ${path} is not a valid PDTF schema path`,
         );
       }
     }
@@ -363,8 +449,11 @@ const validateVerifiedClaims = (verifiedClaims, schemaId, overlays) => {
 // Cache management functions
 const getCacheStats = () => {
   const runtime = Date.now() - cacheStats.cacheStartTime;
-  const hitRate = cacheStats.totalQueries > 0 ? (cacheStats.hits / cacheStats.totalQueries * 100) : 0;
-  
+  const hitRate =
+    cacheStats.totalQueries > 0
+      ? (cacheStats.hits / cacheStats.totalQueries) * 100
+      : 0;
+
   return {
     totalEntries: schemaCache.size,
     hits: cacheStats.hits,
@@ -376,8 +465,8 @@ const getCacheStats = () => {
     memoryUsage: {
       entriesCount: schemaCache.size,
       // Rough estimate of memory usage per entry
-      estimatedSizeKB: Math.round((schemaCache.size * 2) / 1024 * 100) / 100 // Rough estimate
-    }
+      estimatedSizeKB: Math.round(((schemaCache.size * 2) / 1024) * 100) / 100, // Rough estimate
+    },
   };
 };
 
@@ -387,15 +476,17 @@ const getDetailedCacheStats = () => {
     key,
     createdAt: value.createdAt,
     age: Date.now() - value.createdAt,
-    hasValidator: typeof value.validator === 'function',
-    hasSubSchema: value.subSchema !== undefined
+    hasValidator: typeof value.validator === "function",
+    hasSubSchema: value.subSchema !== undefined,
   }));
 
   return {
     ...baseStats,
     entries: entries.sort((a, b) => b.createdAt - a.createdAt), // Most recent first
-    oldestEntry: entries.length > 0 ? Math.max(...entries.map(e => e.age)) : 0,
-    newestEntry: entries.length > 0 ? Math.min(...entries.map(e => e.age)) : 0
+    oldestEntry:
+      entries.length > 0 ? Math.max(...entries.map((e) => e.age)) : 0,
+    newestEntry:
+      entries.length > 0 ? Math.min(...entries.map((e) => e.age)) : 0,
   };
 };
 
@@ -408,17 +499,17 @@ const clearSchemaCache = (pattern) => {
         keysToDelete.push(key);
       }
     });
-    keysToDelete.forEach(key => schemaCache.delete(key));
-    
+    keysToDelete.forEach((key) => schemaCache.delete(key));
+
     // Also remove matching schemas from AJV
-    keysToDelete.forEach(key => {
+    keysToDelete.forEach((key) => {
       try {
         ajv.removeSchema(key);
       } catch (e) {
         // Schema might not exist in AJV, ignore
       }
     });
-    
+
     return keysToDelete.length;
   } else {
     // Clear all cache
@@ -429,20 +520,24 @@ const clearSchemaCache = (pattern) => {
     cacheStats.misses = 0;
     cacheStats.totalQueries = 0;
     cacheStats.cacheStartTime = Date.now();
-    
+
     // Also clear AJV's internal cache to prevent duplicates
     ajv.removeSchema();
-    
+
     return entriesCleared;
   }
 };
 
-const warmupCache = (paths, schemaId = "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json", overlaysList = []) => {
+const warmupCache = (
+  paths,
+  schemaId = "https://trust.propdata.org.uk/schemas/v3/pdtf-transaction.json",
+  overlaysList = [],
+) => {
   const warmupStats = {
     totalAttempted: 0,
     successful: 0,
     failed: 0,
-    errors: []
+    errors: [],
   };
 
   // Default common paths if none provided
@@ -454,7 +549,7 @@ const warmupCache = (paths, schemaId = "https://trust.propdata.org.uk/schemas/v3
     "/propertyPack/valuations",
     "/propertyPack/waterAndDrainage",
     "/propertyPack/ownership",
-    "/propertyPack/notices"
+    "/propertyPack/notices",
   ];
 
   // Default common overlays if none provided
@@ -463,14 +558,15 @@ const warmupCache = (paths, schemaId = "https://trust.propdata.org.uk/schemas/v3
     ["baspiV5"],
     ["ta6ed4"],
     ["nts2023"],
-    ["baspiV5", "ta6ed4"]
+    ["baspiV5", "ta6ed4"],
   ];
 
   const pathsToWarm = paths || defaultPaths;
-  const overlaysToWarm = overlaysList.length > 0 ? overlaysList : defaultOverlays;
+  const overlaysToWarm =
+    overlaysList.length > 0 ? overlaysList : defaultOverlays;
 
-  pathsToWarm.forEach(path => {
-    overlaysToWarm.forEach(overlays => {
+  pathsToWarm.forEach((path) => {
+    overlaysToWarm.forEach((overlays) => {
       warmupStats.totalAttempted++;
       try {
         // This will populate the cache
@@ -482,7 +578,7 @@ const warmupCache = (paths, schemaId = "https://trust.propdata.org.uk/schemas/v3
         warmupStats.errors.push({
           path,
           overlays,
-          error: error.message
+          error: error.message,
         });
       }
     });
@@ -494,14 +590,14 @@ const warmupCache = (paths, schemaId = "https://trust.propdata.org.uk/schemas/v3
 const pruneCacheByAge = (maxAgeMs) => {
   const now = Date.now();
   const keysToDelete = [];
-  
+
   schemaCache.forEach((value, key) => {
     if (now - value.createdAt > maxAgeMs) {
       keysToDelete.push(key);
     }
   });
-  
-  keysToDelete.forEach(key => {
+
+  keysToDelete.forEach((key) => {
     schemaCache.delete(key);
     try {
       ajv.removeSchema(key);
@@ -509,21 +605,22 @@ const pruneCacheByAge = (maxAgeMs) => {
       // Schema might not exist in AJV, ignore
     }
   });
-  
+
   return keysToDelete.length;
 };
 
 const setCacheMaxSize = (maxSize) => {
   if (schemaCache.size <= maxSize) return 0;
-  
+
   // Get entries sorted by creation time (oldest first)
-  const entries = Array.from(schemaCache.entries())
-    .sort((a, b) => a[1].createdAt - b[1].createdAt);
-  
+  const entries = Array.from(schemaCache.entries()).sort(
+    (a, b) => a[1].createdAt - b[1].createdAt,
+  );
+
   const toRemove = schemaCache.size - maxSize;
   const keysToDelete = entries.slice(0, toRemove).map(([key]) => key);
-  
-  keysToDelete.forEach(key => {
+
+  keysToDelete.forEach((key) => {
     schemaCache.delete(key);
     try {
       ajv.removeSchema(key);
@@ -531,7 +628,7 @@ const setCacheMaxSize = (maxSize) => {
       // Schema might not exist in AJV, ignore
     }
   });
-  
+
   return keysToDelete.length;
 };
 
