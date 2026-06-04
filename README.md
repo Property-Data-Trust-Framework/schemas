@@ -7,7 +7,7 @@ The Property Data Trust Framework (PDTF) Schemas provide standardized JSON Schem
 
 ## Project Goals & Status
 
-**Current Version:** 3.5.0 (3.6.0-41 available as a pre-release on branch/package-tag `next`)
+**Current Version:** 3.6.0 
 
 This schema framework aims to support the [Home Buying and Selling Group](https://homebuyingandsellinggroup.co.uk) 'Property Pack' initiative, encompassing all requirements starting with the Buyers and Sellers Property Information set ([BASPI v4.0](https://homebuyingandsellinggroup.co.uk/baspi/)).
 
