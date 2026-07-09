@@ -3344,6 +3344,19 @@
           "line3": "string",
           "town": "string",
           "postcode": "string"
+        },
+        "onwardOfferAccepted": {
+          "yesNo": "variant",
+          "dependentPropertyAddress": {
+            "line1": "string",
+            "line2": "string",
+            "line3": "string",
+            "town": "string",
+            "postcode": "string",
+            "uprn": "string"
+          },
+          "onwardSellingAgent": "string",
+          "propertyDependencyBuildType": "string"
         }
       },
       "moveRestrictionDates": {
@@ -5573,34 +5586,85 @@
     }
   ],
   "chain": {
-    "onwardPurchase": [
+    "chainId": "string",
+    "chainSummary": {
+      "chainType": "string",
+      "chainLength": "integer"
+    },
+    "properties": [
       {
-        "transactionId": "string",
-        "externalIds": {
-          "*": {
-            "*": {}
-          }
-        },
+        "uprn": "integer",
         "address": {
-          "buildingNumber": "string",
-          "buildingName": "string",
-          "subBuilding": "string",
-          "street": "string",
           "line1": "string",
           "line2": "string",
-          "line 3": "string",
-          "town": "string",
+          "line3": "string",
+          "line4": "string",
+          "postTown": "string",
           "postcode": "string",
-          "homeNation": "string"
+          "displayAddress": "string"
         },
-        "uprn": "integer",
-        "sellingAgent": "string"
+        "tenure": "string",
+        "transactionType": [
+          "string"
+        ],
+        "milestones": {
+          "listed": {
+            "completed": "string"
+          },
+          "soldSubjectToContract": {
+            "completed": "string"
+          },
+          "searches": {
+            "started": "string",
+            "localAuthority": {
+              "expected": "string",
+              "completed": "string"
+            },
+            "environmental": {
+              "completed": "string"
+            },
+            "drainageWater": {
+              "completed": "string"
+            }
+          },
+          "funding": {
+            "isCashBuyer": "boolean",
+            "started": "string",
+            "completed": "string"
+          },
+          "enquiries": {
+            "started": "string",
+            "completed": "string"
+          },
+          "exchangeOfContracts": {
+            "expected": "string",
+            "completed": "string"
+          },
+          "completion": {
+            "expected": "string",
+            "completed": "string"
+          }
+        },
+        "participants": {
+          "sellingAgent": "string",
+          "sellerConveyancer": "string",
+          "buyerConveyancer": "string"
+        },
+        "isTopClosed": "boolean",
+        "isBottomClosed": "boolean",
+        "connections": {
+          "onwardPurchase": [
+            "integer"
+          ],
+          "buyersSale": [
+            "integer"
+          ]
+        }
       }
     ]
   },
   "milestones": {
     "listed": {
-      "expected": "string",
       "completed": "string"
     },
     "legalForms": {
@@ -5612,7 +5676,20 @@
     },
     "searches": {
       "started": "string",
-      "expected": "string",
+      "localAuthority": {
+        "expected": "string",
+        "completed": "string"
+      },
+      "environmental": {
+        "completed": "string"
+      },
+      "drainageWater": {
+        "completed": "string"
+      }
+    },
+    "funding": {
+      "isCashBuyer": "boolean",
+      "started": "string",
       "completed": "string"
     },
     "enquiries": {
@@ -5624,7 +5701,6 @@
       "completed": "string"
     },
     "completion": {
-      "started": "string",
       "expected": "string",
       "completed": "string"
     }

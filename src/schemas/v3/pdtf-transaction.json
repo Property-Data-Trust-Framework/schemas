@@ -25239,6 +25239,84 @@
                           "minLength": 1
                         }
                       }
+                    },
+                    "onwardOfferAccepted": {
+                      "title": "Have you already had an offer accepted on your next property?",
+                      "type": "object",
+                      "properties": {
+                        "yesNo": {
+                          "type": "string",
+                          "title": "",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
+                        }
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "dependentPropertyAddress": {
+                              "title": "Address of the property you are purchasing",
+                              "type": "object",
+                              "properties": {
+                                "line1": {
+                                  "title": "Address line 1",
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "line2": {
+                                  "title": "Address line 2",
+                                  "type": "string"
+                                },
+                                "line3": {
+                                  "title": "Address line 3",
+                                  "type": "string"
+                                },
+                                "town": {
+                                  "title": "Town",
+                                  "type": "string"
+                                },
+                                "postcode": {
+                                  "title": "Postcode",
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "uprn": {
+                                  "title": "UPRN",
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "onwardSellingAgent": {
+                              "title": "Estate agent marketing the property you are purchasing",
+                              "type": "string"
+                            },
+                            "propertyDependencyBuildType": {
+                              "title": "Is the property you are purchasing an existing home or a new build?",
+                              "type": "string",
+                              "enum": [
+                                "existing-residential",
+                                "new-build"
+                              ]
+                            }
+                          }
+                        }
+                      ]
                     }
                   }
                 }
@@ -40489,66 +40567,76 @@
     },
     "chain": {
       "title": "Data Containing the Related Chain",
-      "description": "the data through which the chain for this tranasaction can be built.",
+      "description": "The chain of related property transactions of which this transaction forms a part, described as a graph of connected properties.",
       "type": "object",
+      "required": [
+        "chainId",
+        "chainSummary",
+        "properties"
+      ],
       "properties": {
-        "onwardPurchase": {
+        "chainId": {
+          "title": "Chain Identifier",
+          "description": "UUID identifying the chain group. Stable across requests.",
+          "type": "string"
+        },
+        "chainSummary": {
+          "title": "Chain Summary",
+          "type": "object",
+          "required": [
+            "chainType",
+            "chainLength"
+          ],
+          "properties": {
+            "chainType": {
+              "title": "Chain Type",
+              "description": "The topology of the chain. IN_CHAIN: straight sequential chain, one buyer and one seller at each link (ABCD). SPLIT_CHAIN: chain branches at one node, one buyer is simultaneously selling two or more properties (Y shape, higher risk of delays). NOT_IN_CHAIN: standalone single property, not part of any chain.",
+              "type": "string",
+              "enum": [
+                "IN_CHAIN",
+                "SPLIT_CHAIN",
+                "NOT_IN_CHAIN"
+              ]
+            },
+            "chainLength": {
+              "title": "Chain Length",
+              "description": "The number of properties that make up the chain.",
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "properties": {
+          "title": "Chain Properties",
+          "description": "The properties that make up the chain, connected via their upward and downward connections.",
           "type": "array",
-          "minItems": 1,
           "items": {
             "type": "object",
-            "title": "Onwards Purchase",
+            "title": "Chain Property",
+            "required": [
+              "uprn",
+              "address",
+              "participants",
+              "isTopClosed",
+              "isBottomClosed",
+              "connections"
+            ],
             "properties": {
-              "transactionId": {
-                "title": "UUID for an onward transaction",
-                "type": "string"
-              },
-              "externalIds": {
-                "type": "object",
-                "patternProperties": {
-                  ".*": {
-                    "oneOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "number"
-                      },
-                      {
-                        "type": "boolean"
-                      },
-                      {
-                        "type": "object",
-                        "patternProperties": {
-                          ".*": {}
-                        }
-                      }
-                    ]
-                  }
-                }
+              "uprn": {
+                "title": "Unique Property Reference Number",
+                "description": "Unique Property Reference Number for this property. This is the identifier and join key for the property node within the chain: other properties' connections reference this UPRN. Some pre-registration / new-build records may carry a placeholder value.",
+                "type": "integer"
               },
               "address": {
                 "title": "Address",
                 "type": "object",
+                "required": [
+                  "line1",
+                  "postTown",
+                  "postcode",
+                  "displayAddress"
+                ],
                 "properties": {
-                  "buildingNumber": {
-                    "title": "Building number",
-                    "type": "string",
-                    "minLength": 1
-                  },
-                  "buildingName": {
-                    "title": "Building name",
-                    "type": "string"
-                  },
-                  "subBuilding": {
-                    "title": "Sub building name",
-                    "type": "string"
-                  },
-                  "street": {
-                    "title": "Street",
-                    "type": "string",
-                    "minLength": 1
-                  },
                   "line1": {
                     "title": "Address 1",
                     "type": "string",
@@ -40558,141 +40646,262 @@
                     "title": "Address 2",
                     "type": "string"
                   },
-                  "line 3": {
+                  "line3": {
                     "title": "Address 3",
                     "type": "string"
                   },
-                  "town": {
-                    "title": "Town",
+                  "line4": {
+                    "title": "Address 4",
                     "type": "string"
+                  },
+                  "postTown": {
+                    "title": "Post Town",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "postcode": {
                     "title": "Postcode",
                     "type": "string",
                     "minLength": 1
                   },
-                  "homeNation": {
-                    "title": "Home nation",
+                  "displayAddress": {
+                    "title": "Display Address",
+                    "description": "The full, human-readable single-line address.",
                     "type": "string",
-                    "enum": [
-                      "England",
-                      "Wales",
-                      "Scotland",
-                      "Northern Ireland"
-                    ]
+                    "minLength": 1
                   }
                 }
               },
-              "uprn": {
-                "title": "Unique Property Reference Number",
-                "type": "integer"
+              "tenure": {
+                "title": "Tenure",
+                "description": "Empty string if unknown.",
+                "type": "string",
+                "enum": [
+                  "",
+                  "freehold",
+                  "leasehold",
+                  "commonhold",
+                  "shareoffreehold"
+                ]
               },
-              "sellingAgent": {
-                "title": "Estate Agent selling the property",
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "buyersSale": {
-        "type": "array",
-        "minItems": 1,
-        "items": {
-          "type": "object",
-          "title": "The property(ies) the buyer/buyers are selling to finance the purchase",
-          "properties": {
-            "transactionId": {
-              "title": "UUID for an onward transaction",
-              "type": "string"
-            },
-            "externalIds": {
-              "type": "object",
-              "patternProperties": {
-                ".*": {
-                  "oneOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "boolean"
-                    },
-                    {
-                      "type": "object",
-                      "patternProperties": {
-                        ".*": {}
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            "address": {
-              "title": "Address",
-              "type": "object",
-              "properties": {
-                "buildingNumber": {
-                  "title": "Building number",
-                  "type": "string",
-                  "minLength": 1
-                },
-                "buildingName": {
-                  "title": "Building name",
-                  "type": "string"
-                },
-                "subBuilding": {
-                  "title": "Sub building name",
-                  "type": "string"
-                },
-                "street": {
-                  "title": "Street",
-                  "type": "string",
-                  "minLength": 1
-                },
-                "line1": {
-                  "title": "Address 1",
-                  "type": "string",
-                  "minLength": 1
-                },
-                "line2": {
-                  "title": "Address 2",
-                  "type": "string"
-                },
-                "line 3": {
-                  "title": "Address 3",
-                  "type": "string"
-                },
-                "town": {
-                  "title": "Town",
-                  "type": "string"
-                },
-                "postcode": {
-                  "title": "Postcode",
-                  "type": "string",
-                  "minLength": 1
-                },
-                "homeNation": {
-                  "title": "Home nation",
+              "transactionType": {
+                "title": "Transaction Type",
+                "description": "Empty array for a standard purchase.",
+                "type": "array",
+                "items": {
                   "type": "string",
                   "enum": [
-                    "England",
-                    "Wales",
-                    "Scotland",
-                    "Northern Ireland"
+                    "auction",
+                    "buy_to_let",
+                    "freehold_enfranchisement",
+                    "power_of_attorney",
+                    "probate",
+                    "repossession",
+                    "shared_ownership"
                   ]
                 }
+              },
+              "milestones": {
+                "title": "Transaction Milestones",
+                "type": "object",
+                "properties": {
+                  "listed": {
+                    "description": "The date the property commenced marketing by being publicly listed for sale",
+                    "type": "object",
+                    "properties": {
+                      "completed": {
+                        "description": "Actual date of first public listing for sale",
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  },
+                  "soldSubjectToContract": {
+                    "type": "object",
+                    "properties": {
+                      "completed": {
+                        "description": "The date an offer for sale was accepted by a proceedable buyer, the property becoming sold subject to contract (SSTC)",
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  },
+                  "searches": {
+                    "description": "The progress of the property searches ordered as part of the conveyancing process",
+                    "type": "object",
+                    "properties": {
+                      "started": {
+                        "description": "The date the searches were ordered",
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "localAuthority": {
+                        "description": "The local authority search, revealing planning permissions, building regulations, restrictions and charges affecting the property, such as listed building status, conservation areas, tree preservation orders and nearby road schemes",
+                        "type": "object",
+                        "properties": {
+                          "expected": {
+                            "description": "The date the local authority search is expected to be delivered",
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "completed": {
+                            "description": "The date the local authority search was delivered",
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      },
+                      "environmental": {
+                        "description": "The environmental search, assessing risks such as flooding, ground stability, subsidence and land contamination affecting the property and its vicinity",
+                        "type": "object",
+                        "properties": {
+                          "completed": {
+                            "description": "The date the environmental search was delivered",
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      },
+                      "drainageWater": {
+                        "description": "The drainage and water search (CON29DW), confirming whether the property is connected to mains water and public sewers and the location of any public drains within its boundary",
+                        "type": "object",
+                        "properties": {
+                          "completed": {
+                            "description": "The date the drainage and water search was delivered",
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "funding": {
+                    "description": "The progress of the buyer's funding arrangements for the purchase",
+                    "type": "object",
+                    "properties": {
+                      "isCashBuyer": {
+                        "description": "Whether the buyer is a cash buyer, purchasing without the need for mortgage finance",
+                        "type": "boolean"
+                      },
+                      "started": {
+                        "description": "The date the buyer applied for their mortgage",
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "completed": {
+                        "description": "The date the buyer received their mortgage offer",
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  },
+                  "enquiries": {
+                    "type": "object",
+                    "properties": {
+                      "started": {
+                        "description": "The date the enquiries process between conveyancers was commenced",
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "completed": {
+                        "description": "The date the last of the enquiries was resolved",
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  },
+                  "exchangeOfContracts": {
+                    "type": "object",
+                    "properties": {
+                      "expected": {
+                        "description": "A proposed or agreed date for the exchange of contracts",
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "completed": {
+                        "description": "The actual date the contracts were exchanged",
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  },
+                  "completion": {
+                    "type": "object",
+                    "properties": {
+                      "expected": {
+                        "description": "A proposed or agreed date for completion",
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "completed": {
+                        "description": "The actual date the property sale was completed",
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              },
+              "participants": {
+                "title": "Participants",
+                "type": "object",
+                "required": [
+                  "sellingAgent",
+                  "sellerConveyancer",
+                  "buyerConveyancer"
+                ],
+                "properties": {
+                  "sellingAgent": {
+                    "title": "Selling Agent",
+                    "type": "string"
+                  },
+                  "sellerConveyancer": {
+                    "title": "Seller Conveyancer",
+                    "type": "string"
+                  },
+                  "buyerConveyancer": {
+                    "title": "Buyer Conveyancer",
+                    "type": "string"
+                  }
+                }
+              },
+              "isTopClosed": {
+                "title": "Is Top Closed",
+                "description": "True when it is confirmed there is no further property upward of this one in the chain.",
+                "type": "boolean"
+              },
+              "isBottomClosed": {
+                "title": "Is Bottom Closed",
+                "description": "True when it is confirmed there is no further property downward of this one in the chain.",
+                "type": "boolean"
+              },
+              "connections": {
+                "title": "Connections",
+                "description": "References (by UPRN) to the properties directly connected to this one in the chain. Each value is the UPRN of a property in this chain's properties array.",
+                "type": "object",
+                "required": [
+                  "onwardPurchase",
+                  "buyersSale"
+                ],
+                "properties": {
+                  "onwardPurchase": {
+                    "title": "Onward Purchase",
+                    "description": "UPRNs of the properties directly above this one (this seller is purchasing from them).",
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  },
+                  "buyersSale": {
+                    "title": "Buyers Sale",
+                    "description": "UPRNs of the properties directly below this one (their buyers are purchasing from this seller). More than one entry indicates a SPLIT_CHAIN.",
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                }
               }
-            },
-            "uprn": {
-              "title": "Unique Property Reference Number",
-              "type": "integer"
-            },
-            "sellingAgent": {
-              "title": "Estate Agent selling the property",
-              "type": "string"
             }
           }
         }
@@ -40706,11 +40915,6 @@
           "description": "The date the property commenced marketing by being publicly listed for sale",
           "type": "object",
           "properties": {
-            "expected": {
-              "description": "Planned date of listing, for example when scheduled in advance around e.g. Boxing Day activities",
-              "type": "string",
-              "format": "date-time"
-            },
             "completed": {
               "description": "Actual date of first public listing for sale",
               "type": "string",
@@ -40738,28 +40942,76 @@
           "type": "object",
           "properties": {
             "completed": {
-              "description": "The date an offer for sale was accepted by a proceedable buyer",
+              "description": "The date an offer for sale was accepted by a proceedable buyer, the property becoming sold subject to contract (SSTC)",
               "type": "string",
               "format": "date-time"
             }
           }
         },
         "searches": {
-          "description": "The progress of all searches in a standard search pack together",
+          "description": "The progress of the property searches ordered as part of the conveyancing process",
           "type": "object",
           "properties": {
             "started": {
-              "description": "The date the first of the searches in the pack was ordered",
+              "description": "The date the searches were ordered",
               "type": "string",
               "format": "date-time"
             },
-            "expected": {
-              "description": "The latest date the searches are expected to be completed",
+            "localAuthority": {
+              "description": "The local authority search, revealing planning permissions, building regulations, restrictions and charges affecting the property, such as listed building status, conservation areas, tree preservation orders and nearby road schemes",
+              "type": "object",
+              "properties": {
+                "expected": {
+                  "description": "The date the local authority search is expected to be delivered",
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "completed": {
+                  "description": "The date the local authority search was delivered",
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            },
+            "environmental": {
+              "description": "The environmental search, assessing risks such as flooding, ground stability, subsidence and land contamination affecting the property and its vicinity",
+              "type": "object",
+              "properties": {
+                "completed": {
+                  "description": "The date the environmental search was delivered",
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            },
+            "drainageWater": {
+              "description": "The drainage and water search (CON29DW), confirming whether the property is connected to mains water and public sewers and the location of any public drains within its boundary",
+              "type": "object",
+              "properties": {
+                "completed": {
+                  "description": "The date the drainage and water search was delivered",
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        },
+        "funding": {
+          "description": "The progress of the buyer's funding arrangements for the purchase",
+          "type": "object",
+          "properties": {
+            "isCashBuyer": {
+              "description": "Whether the buyer is a cash buyer, purchasing without the need for mortgage finance",
+              "type": "boolean"
+            },
+            "started": {
+              "description": "The date the buyer applied for their mortgage",
               "type": "string",
               "format": "date-time"
             },
             "completed": {
-              "description": "The date the last of the searches in the pack was delivered",
+              "description": "The date the buyer received their mortgage offer",
               "type": "string",
               "format": "date-time"
             }
@@ -40798,10 +41050,6 @@
         "completion": {
           "type": "object",
           "properties": {
-            "started": {
-              "type": "string",
-              "format": "date-time"
-            },
             "expected": {
               "description": "A proposed or agreed date for completion",
               "type": "string",
