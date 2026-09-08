@@ -31407,21 +31407,21 @@
           "type": "object",
           "baspi4Required": [
             "sellerWillEnsure",
-            "otherPropertyInChain",
+            "sellerOnwardProperty",
             "moveRestrictionDates",
             "digitalPropertyLogbook",
             "sufficientToRepayAllMortgages"
           ],
           "baspi5Required": [
             "sellerWillEnsure",
-            "otherPropertyInChain",
+            "sellerOnwardProperty",
             "moveRestrictionDates",
             "digitalPropertyLogbook",
             "sufficientToRepayAllMortgages"
           ],
           "ta6Required": [
             "sellerWillEnsure",
-            "otherPropertyInChain",
+            "sellerOnwardProperty",
             "moveRestrictionDates",
             "sufficientToRepayAllMortgages"
           ],
@@ -31429,7 +31429,7 @@
             "sellerWillEnsure",
             "sufficientToRepayAllMortgages"
           ],
-          "nts2Required": ["otherPropertyInChain"],
+          "nts2Required": ["sellerOnwardProperty"],
           "properties": {
             "sellerWillEnsure": {
               "baspi4Ref": "B7.1",
@@ -31599,7 +31599,7 @@
                         "yesNo": {
                           "ta6ed6Ref": "13.1.1",
                           "type": "string",
-                          "title": "",
+                          "title": "Have you already had an offer accepted on your next property?",
                           "enum": ["Yes", "No"]
                         }
                       },
@@ -31672,7 +31672,7 @@
                               "title": "Is the property you are purchasing an existing home or a new build?",
                               "ta6ed6Title": "Is the property you are purchasing an existing home or a new build?",
                               "type": "string",
-                              "enum": ["existing-residential", "new-build"]
+                              "enum": ["Existing Residential", "New Build"]
                             }
                           },
                           "ta6ed6Required": [
@@ -47563,12 +47563,12 @@
           "properties": {
             "chainType": {
               "title": "Chain Type",
-              "description": "The topology of the chain. IN_CHAIN: straight sequential chain, one buyer and one seller at each link (ABCD). SPLIT_CHAIN: chain branches at one node, one buyer is simultaneously selling two or more properties (Y shape, higher risk of delays). NOT_IN_CHAIN: standalone single property, not part of any chain.",
+              "description": "The topology of the chain. In chain: straight sequential chain, one buyer and one seller at each link (ABCD). Split chain: chain branches at one node, one buyer is simultaneously selling two or more properties (Y shape, higher risk of delays). Not in chain: standalone single property, not part of any chain.",
               "type": "string",
               "enum": [
-                "IN_CHAIN",
-                "SPLIT_CHAIN",
-                "NOT_IN_CHAIN"
+                "In chain",
+                "Split chain",
+                "Not in chain"
               ]
             },
             "chainLength": {
@@ -47627,8 +47627,13 @@
                     "title": "Address 4",
                     "type": "string"
                   },
-                  "postTown": {
-                    "title": "Post Town",
+                  "town": {
+                    "title": "Town",
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "homeNation": {
+                    "title": "Home Nation",
                     "type": "string",
                     "minLength": 1
                   },
@@ -47647,30 +47652,31 @@
               },
               "tenure": {
                 "title": "Tenure",
-                "description": "Empty string if unknown.",
+                "description": "Tenure of the property, as recorded in the Land Registry.",
                 "type": "string",
                 "enum": [
-                  "",
-                  "freehold",
-                  "leasehold",
-                  "commonhold",
-                  "shareoffreehold"
+                  "Unknown",
+                  "Freehold",
+                  "Leasehold",
+                  "Commonhold",
+                  "Share of freehold"
                 ]
               },
               "transactionType": {
                 "title": "Transaction Type",
-                "description": "Empty array for a standard purchase.",
+                "description": "Transaction Type of the property.",
                 "type": "array",
                 "items": {
                   "type": "string",
                   "enum": [
-                    "auction",
-                    "buy_to_let",
-                    "freehold_enfranchisement",
-                    "power_of_attorney",
-                    "probate",
-                    "repossession",
-                    "shared_ownership"
+                    "Standard sale",
+                    "Auction",
+                    "Buy to let",
+                    "Freehold enfranchisement",
+                    "Power of attorney",
+                    "Probate",
+                    "Repossession",
+                    "Shared ownership"
                   ]
                 }
               },
