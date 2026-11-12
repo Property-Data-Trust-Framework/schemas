@@ -156,7 +156,9 @@ const errors = validateVerifiedClaims(verifiedClaims, schemaId, ["nts2023"]);
 | `nts2023` | National Trading Standards              | 2023      |
 | `nts2025` | National Trading Standards              | 2025      |
 | `ta6ed4`  | Law Society Property Information Form   | Edition 4 |
+| `ta6ed6`  | Law Society Property Information Form   | Edition 6 |
 | `ta7ed3`  | Law Society Leasehold Information Form  | Edition 3 |
+| `ta7ed5`  | Law Society Leasehold Information Form  | Edition 5 |
 | `ta10ed3` | Law Society Fittings and Contents Form  | Edition 3 |
 
 [View all overlays →](src/schemas/v3/overlays/README.md)
