@@ -220,6 +220,25 @@ const extractOverlay = (sourceSchema, ref) => {
       jp.set(returnSchema, `${path}/enum`, element[refEnum]);
     }
 
+    // Per-overlay display labels for enum values. The underlying enum (the
+    // stored value) is left untouched — we only emit positional `enumNames`
+    // aligned to the effective enum, so a form-facing overlay can present the
+    // form's own wording (e.g. "Ground"/"Surface water") while the data keeps
+    // its canonical value. Invisible to the core/base schema (stripped below).
+    const refEnumNames = `${ref}EnumNames`;
+    if (element[refEnumNames]) {
+      const labelMap = element[refEnumNames];
+      const effectiveEnum = element[refEnum] || element.enum;
+      if (Array.isArray(effectiveEnum)) {
+        const enumNames = effectiveEnum.map((value) =>
+          Object.prototype.hasOwnProperty.call(labelMap, value)
+            ? labelMap[value]
+            : value
+        );
+        jp.set(returnSchema, `${path}/enumNames`, enumNames);
+      }
+    }
+
     const refConst = `${ref}Const`;
     if (Object.prototype.hasOwnProperty.call(element, refConst)) {
       jp.set(returnSchema, `${path}/const`, element[refConst]);
@@ -265,6 +284,7 @@ const coreSchema = deleteProperties(combinedSchema, [
   ...metadataFields.map((item) => `${item}Title`),
   ...metadataFields.map((item) => `${item}Description`),
   ...metadataFields.map((item) => `${item}Enum`),
+  ...metadataFields.map((item) => `${item}EnumNames`),
   ...metadataFields.map((item) => `${item}Type`),
   ...metadataFields.map((item) => `${item}MinLength`),
   ...metadataFields.map((item) => `${item}MaxLength`),

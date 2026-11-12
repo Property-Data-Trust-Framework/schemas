@@ -12,12 +12,17 @@ const overlays = ["ta7ed5"];
 const collectRequiredWithoutPropertyIssues = (schema) => {
   const issues = [];
 
-  const walk = (node, path = "#") => {
+  // A oneOf branch may require a property declared on its enclosing object -- that is
+  // valid JSON Schema and AJV enforces it against the same instance. So a branch is
+  // checked against its own properties plus those it inherits from the parent.
+  const walk = (node, path = "#", inherited = {}) => {
     if (!node || typeof node !== "object") return;
+
+    const visible = { ...inherited, ...(node.properties || {}) };
 
     if (Array.isArray(node.required)) {
       node.required.forEach((propertyName) => {
-        if (!node.properties?.[propertyName]) {
+        if (!visible[propertyName]) {
           issues.push(`${path} requires ${propertyName}`);
         }
       });
@@ -27,7 +32,7 @@ const collectRequiredWithoutPropertyIssues = (schema) => {
       walk(value, `${path}/properties/${key}`)
     );
     (node.oneOf || []).forEach((value, index) =>
-      walk(value, `${path}/oneOf/${index}`)
+      walk(value, `${path}/oneOf/${index}`, visible)
     );
     if (node.items) walk(node.items, `${path}/items`);
   };
@@ -305,12 +310,20 @@ describe("TA7 5th edition overlay", () => {
       expect(validator({ collector: "The Pope" })).toBe(false);
     });
 
+    test.each(["Managing Agent", "Not applicable"])(
+      "valid with %s (TA7 §4.3 'Yes' and 'Not applicable' cases)",
+      (value) => {
+        const validator = getSubschemaValidator(path, schemaId, overlays);
+        expect(validator({ collector: value })).toBe(true);
+      }
+    );
+
     test("invalid when collector is wrong type", () => {
       const validator = getSubschemaValidator(path, schemaId, overlays);
       expect(validator({ collector: 42 })).toBe(false);
     });
 
-    test("ta7ed5 overlay enum has exactly 3 values", () => {
+    test("ta7ed5 overlay collector enum + Managing Agent->Yes label", () => {
       const leaseholdOneOf =
         schema.properties?.propertyPack?.properties?.ownership?.properties
           ?.ownershipsToBeTransferred?.items?.oneOf;
@@ -321,9 +334,20 @@ describe("TA7 5th edition overlay", () => {
         leaseholdBranch?.properties?.leaseholdInformation?.properties
           ?.contactDetails?.properties?.serviceContactAssignments?.properties
           ?.collectsGroundRent?.properties?.collector;
+      // "Managing Agent" represents the §4.3 "Yes" answer (relabelled via enumNames);
+      // the other parties are the implicit "No, X collects"; "Other" triggers the oneOf.
       expect(collector?.enum).toEqual([
+        "Managing Agent",
         "Landlord",
         "Management Company",
+        "Not applicable",
+        "Other",
+      ]);
+      expect(collector?.enumNames).toEqual([
+        "Yes",
+        "Landlord",
+        "Management Company",
+        "Not applicable",
         "Other",
       ]);
     });
@@ -395,10 +419,15 @@ describe("TA7 5th edition overlay", () => {
 
     test("invalid with unrecognised enum value", () => {
       const validator = getSubschemaValidator(path, schemaId, overlays);
-      expect(validator({ collector: "Managing Agent" })).toBe(false);
+      expect(validator({ collector: "Bank manager" })).toBe(false);
     });
 
-    test("ta7ed5 overlay enum has exactly 6 values", () => {
+    test("valid with Managing Agent (TA7 §4.2 'Yes' case)", () => {
+      const validator = getSubschemaValidator(path, schemaId, overlays);
+      expect(validator({ collector: "Managing Agent" })).toBe(true);
+    });
+
+    test("ta7ed5 overlay collector enum + Managing Agent->Yes label", () => {
       const leaseholdOneOf =
         schema.properties?.propertyPack?.properties?.ownership?.properties
           ?.ownershipsToBeTransferred?.items?.oneOf;
@@ -409,12 +438,26 @@ describe("TA7 5th edition overlay", () => {
         leaseholdBranch?.properties?.leaseholdInformation?.properties
           ?.contactDetails?.properties?.serviceContactAssignments?.properties
           ?.collectsbuildingInsurancePremiums?.properties?.collector;
+      // "Managing Agent" represents the §4.2 "Yes" answer (relabelled via enumNames);
+      // the other parties are the implicit "No, X collects"; "Other" triggers the oneOf.
       expect(collector?.enum).toEqual([
+        "Managing Agent",
         "Freeholder",
         "Landlord",
         "Management Company",
         "Head Leaseholder",
         "Seller",
+        "Not applicable",
+        "Other",
+      ]);
+      expect(collector?.enumNames).toEqual([
+        "Yes",
+        "Freeholder",
+        "Landlord",
+        "Management Company",
+        "Head Leaseholder",
+        "Seller",
+        "Not applicable",
         "Other",
       ]);
     });
@@ -595,6 +638,46 @@ describe("TA7 5th edition overlay", () => {
       const branch2 = collectsInsurance.oneOf[1];
       expect(branch2.properties.collector.enum).toEqual(["Other"]);
       expect(branch2.required).toContain("otherCollector");
+    });
+  });
+
+  describe("5.1.1 / 5.2.1 last decorated year", () => {
+    const yearPath = (side) =>
+      `${leaseholdBase}/serviceCharge/lastDecoratedPeriod/${side}/year`;
+
+    // LMS: oneOf integer|"Not known" is unrepresentable in strictly typed C#, so the
+    // year is a single string type with a pattern.
+    describe.each(["ta7ed5", "ta7", "lpe1", "fme1"])("with %s overlay", (overlay) => {
+      test.each(["externally", "internally"])(
+        "%s year accepts a 2- or 4-digit string or 'Not known'",
+        (side) => {
+          const validator = getSubschemaValidator(yearPath(side), schemaId, [overlay]);
+          for (const ok of ["2024", "24", "Not known"]) {
+            expect(validator(ok)).toBe(true);
+          }
+          for (const bad of [2024, "0", "202", "-1", "abc", ""]) {
+            expect(validator(bad)).toBe(false);
+          }
+        }
+      );
+
+      test("year leaves are a single string type (no oneOf) after overlay merge", () => {
+        const merged = getTransactionSchema(schemaId, [overlay]);
+        const leasehold = merged.properties.propertyPack.properties.ownership.properties
+          .ownershipsToBeTransferred.items.oneOf.find(
+            (branch) => branch.properties && branch.properties.leaseholdInformation
+          ).properties.leaseholdInformation;
+        const withDecorated = leasehold.properties.serviceCharge.oneOf.find(
+          (branch) => branch.properties && branch.properties.lastDecoratedPeriod
+        );
+        const period = withDecorated.properties.lastDecoratedPeriod.properties;
+        for (const side of ["externally", "internally"]) {
+          const year = period[side].properties.year;
+          expect(year.type).toBe("string");
+          expect(year.pattern).toBe("^(\\d{2}|\\d{4}|Not known)$");
+          expect(year.oneOf).toBeUndefined();
+        }
+      });
     });
   });
 });

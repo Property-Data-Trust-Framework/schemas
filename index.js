@@ -224,6 +224,182 @@ const generateOverlayKey = (overlays) => {
   return overlays.join(".");
 };
 
+
+// ---------------------------------------------------------------------------
+// Overlay scoping
+//
+// A composed subschema is the CORE schema merged with the requested overlays,
+// so it carries every field the core schema knows about — including questions
+// the requested overlays never ask. Validating that full shape makes a form's
+// completeness depend on questions it does not render: e.g. the NTS Material
+// Information "Ownership" section validated the TA7 leasehold
+// `ownershipAndManagement` node, so a seller who part-answered TA7 could never
+// complete Material Information, with no field named in the error (the core
+// schema keeps the `oneOf` but `extractOverlay` strips the `discriminator` that
+// disambiguated it, so an absent tag matches EVERY branch: "must match exactly
+// one schema in oneOf", passingSchemas [0,1]).
+//
+// Scoping prunes the composed subschema to the fields the requested overlays
+// actually reference, so a form is validated against exactly what it asks.
+//
+// Discriminator tags are preserved even when unreferenced: they are structural,
+// and removing one leaves AJV compiling a `discriminator` whose tag is gone
+// ("oneOf subschemas must have properties/<tag>"). Tags are inherited into
+// `oneOf` branches and `items`, because that is where the tag property lives.
+// ---------------------------------------------------------------------------
+
+// Every form overlay id -> the marker `extractOverlay` stamps for it. This must
+// cover EVERY id in `overlaysMap`: an id missing here contributes no ref key, so
+// its fields would look unreferenced and be pruned away. `getOverlayRefKeys`
+// returns null if it sees an unknown id, which disables scoping altogether —
+// under-scoping merely preserves today's behaviour, over-scoping would mark
+// sections complete that are not.
+const overlayToRefMapping = {
+  baspiV4: "baspi4Ref",
+  baspiV5: "baspi5Ref",
+  nts2023: "ntsRef",
+  nts2025: "nts2Ref",
+  ntsl2023: "ntslRef",
+  ntsl2025: "ntsl2Ref",
+  ta6ed4: "ta6Ref",
+  ta6ed6: "ta6ed6Ref",
+  ta7ed3: "ta7Ref",
+  ta7ed5: "ta7ed5Ref",
+  ta10ed3: "ta10Ref",
+  lpe1ed4: "lpe1Ref",
+  fme1ed2: "fme1Ref",
+  llc1v2: "llc1Ref",
+  con29R2019: "con29RRef",
+  con29DW: "con29DWRef",
+  rdsV333: "rdsRef",
+  oc1v21: "oc1Ref",
+  piqV3: "piqRef",
+  sr24: "sr24Ref",
+};
+
+// Extension overlays contribute their host form's ref key(s). `ta` is the TA6
+// compatibility overlay: it exists so TA6 answers can never invalidate the NTS
+// sections, and its marker must therefore count as visible here too — otherwise
+// scoping would prune away the very fields that overlay was added to protect.
+const extensionOverlayToRefs = {
+  as: ["ntsRef"],
+  dr: ["ntsRef"],
+  er: ["ntsRef"],
+  fd: ["ntsRef"],
+  hi: ["ntsRef"],
+  hs: ["ntsRef"],
+  jk: ["ntsRef"],
+  la: ["ntsRef"],
+  ma: ["ntsRef"],
+  mc: ["ntsRef"],
+  oa: ["ntsRef"],
+  oc: ["ntsRef"],
+  sb: ["ntsRef"],
+  sf: ["ntsRef"],
+  sl: ["ntsRef"],
+  tf: ["ntsRef"],
+  dk: ["ntsRef", "sef25Ref"],
+  ic: ["ntsRef", "sef25Ref"],
+  lc: ["ntsRef", "sef25Ref"],
+  mi: ["ntsRef", "sef25Ref"],
+  nd: ["ntsRef", "sef25Ref"],
+  pc: ["ntsRef", "sef25Ref"],
+  ph: ["ntsRef", "sef25Ref"],
+  rw: ["ntsRef", "sef25Ref"],
+  sc: ["ntsRef", "sef25Ref"],
+  sd: ["ntsRef", "sef25Ref"],
+  tr: ["ntsRef", "sef25Ref"],
+  wg: ["ntsRef", "sef25Ref"],
+  ac: ["ntsRef", "sef25Ref"],
+  ta: ["ta6ed6CompatRef"],
+};
+
+// Returns the ref keys these overlays reference, or null when scoping must be
+// skipped: an unrecognised overlay id (whose markers we therefore cannot
+// identify) would otherwise have all of its fields pruned as unreferenced.
+const getOverlayRefKeys = (overlays = []) => {
+  const overlayIds = (Array.isArray(overlays) ? overlays : [overlays]).filter(
+    (id) => id !== null && id !== undefined,
+  );
+  const refKeys = new Set();
+  for (const overlay of overlayIds) {
+    const refKey = overlayToRefMapping[overlay];
+    const extensionRefs = extensionOverlayToRefs[overlay];
+    if (!refKey && !extensionRefs) return null; // unknown id -> do not scope
+    if (refKey) refKeys.add(refKey);
+    (extensionRefs || []).forEach((k) => refKeys.add(k));
+  }
+  return [...refKeys];
+};
+
+// True when this node, or anything beneath it, is referenced by the overlays.
+const schemaHasVisibleOverlayRef = (schema, refKeys = []) => {
+  if (!schema || typeof schema !== "object") return false;
+  if (refKeys.some((refKey) => !!schema[refKey])) return true;
+  if (schema.items && schemaHasVisibleOverlayRef(schema.items, refKeys))
+    return true;
+  if (schema.properties) {
+    if (
+      Object.values(schema.properties).some((p) =>
+        schemaHasVisibleOverlayRef(p, refKeys),
+      )
+    )
+      return true;
+  }
+  if (Array.isArray(schema.oneOf)) {
+    return schema.oneOf.some((b) => schemaHasVisibleOverlayRef(b, refKeys));
+  }
+  return false;
+};
+
+// The property names that discriminate this node's `oneOf`: the declared
+// `discriminator`, plus — for a `oneOf` whose discriminator was stripped when
+// the core schema was built — the enum key every branch constrains.
+const discriminatingTags = (node) => {
+  const tags = new Set();
+  if (node.discriminator?.propertyName) tags.add(node.discriminator.propertyName);
+  if (Array.isArray(node.oneOf)) {
+    const branchKeys = node.oneOf.map(
+      (b) => new Set(Object.keys(b?.properties || {})),
+    );
+    const common = [...(branchKeys[0] || [])].filter((k) =>
+      branchKeys.every((s) => s.has(k)),
+    );
+    const inferred = common.find((k) =>
+      node.oneOf.every((b) => Array.isArray(b.properties[k]?.enum)),
+    );
+    if (inferred) tags.add(inferred);
+  }
+  return tags;
+};
+
+const pruneToOverlayScope = (node, refKeys, inheritedTags = new Set()) => {
+  if (!node || typeof node !== "object") return node;
+  const ownTags = discriminatingTags(node);
+  const keep = new Set([...ownTags, ...inheritedTags]);
+
+  if (node.properties) {
+    for (const [key, propertySchema] of Object.entries(node.properties)) {
+      if (!keep.has(key) && !schemaHasVisibleOverlayRef(propertySchema, refKeys)) {
+        delete node.properties[key];
+        if (Array.isArray(node.required)) {
+          node.required = node.required.filter((r) => r !== key);
+        }
+      } else {
+        pruneToOverlayScope(propertySchema, refKeys, new Set());
+      }
+    }
+  }
+  // Tags live inside branches and array items, so they must be inherited there.
+  if (node.items) pruneToOverlayScope(node.items, refKeys, ownTags);
+  if (Array.isArray(node.oneOf)) {
+    for (const branch of node.oneOf) {
+      pruneToOverlayScope(branch, refKeys, ownTags);
+    }
+  }
+  return node;
+};
+
 // Enhanced caching function that stores both subschemas and validators
 const getCachedSchemaData = (path, schemaId, overlays) => {
   const overlayKey = generateOverlayKey(overlays);
@@ -310,6 +486,17 @@ const getCachedSchemaData = (path, schemaId, overlays) => {
 
         return undefined;
       }, sourceSchema);
+    }
+
+    // Scope the composed subschema to what these overlays actually ask, so a
+    // form's completeness never depends on questions it does not render.
+    // No overlays (or none carrying ref keys) => no scoping, shape unchanged.
+    const refKeys = getOverlayRefKeys(overlays);
+    if (refKeys && refKeys.length > 0 && subSchema && typeof subSchema === "object") {
+      subSchema = pruneToOverlayScope(
+        JSON.parse(JSON.stringify(subSchema)),
+        refKeys,
+      );
     }
 
     // Add schema to AJV and get validator
@@ -640,6 +827,9 @@ module.exports = {
   isPathValid,
   getSubschemaValidator,
   getTitleAtPath,
+  getOverlayRefKeys,
+  schemaHasVisibleOverlayRef,
+  pruneToOverlayScope,
   verifiedClaimsSchema,
   validateVerifiedClaims,
   overlaysMap,

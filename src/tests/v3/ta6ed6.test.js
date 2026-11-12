@@ -10,12 +10,17 @@ const schemaId =
 const collectRequiredWithoutPropertyIssues = (schema) => {
   const issues = [];
 
-  const walk = (node, path = "#") => {
+  // A oneOf branch may require a property declared on its enclosing object -- that is
+  // valid JSON Schema and AJV enforces it against the same instance. So a branch is
+  // checked against its own properties plus those it inherits from the parent.
+  const walk = (node, path = "#", inherited = {}) => {
     if (!node || typeof node !== "object") return;
+
+    const visible = { ...inherited, ...(node.properties || {}) };
 
     if (Array.isArray(node.required)) {
       node.required.forEach((propertyName) => {
-        if (!node.properties?.[propertyName]) {
+        if (!visible[propertyName]) {
           issues.push(`${path} requires ${propertyName}`);
         }
       });
@@ -25,7 +30,7 @@ const collectRequiredWithoutPropertyIssues = (schema) => {
       walk(value, `${path}/properties/${key}`)
     );
     (node.oneOf || []).forEach((value, index) =>
-      walk(value, `${path}/oneOf/${index}`)
+      walk(value, `${path}/oneOf/${index}`, visible)
     );
     if (node.items) walk(node.items, `${path}/items`);
   };
@@ -105,15 +110,9 @@ describe("TA6 Edition 6 overlay", () => {
       const required =
         schema.properties.propertyPack.properties.alterationsAndChanges
           .required;
-      expect(required).toContain("windowReplacementsSince2002");
-      expect(required).toContain("hasAddedConservatory");
-      expect(required).toContain("extension");
-      expect(required).toContain("loftConversion");
-      expect(required).toContain("garageConversion");
-      expect(required).toContain("removalOfInternalWalls");
-      expect(required).toContain("removalOfChimneyBreast");
-      expect(required).toContain("insulation");
-      expect(required).toContain("otherBuildingWorksOrChangesToTheProperty");
+      expect(required).toContain("hasStructuralAlterations");
+      expect(required).toContain("nonResidentialPurposes");
+      expect(required).not.toContain("extension"); // per-type nodes are not on the form
       expect(required).not.toContain("changeOfUse"); // removed in ed6
       expect(required).toContain("planningPermissionBreaches");
       expect(required).toContain("unresolvedPlanningIssues");
@@ -152,9 +151,11 @@ describe("TA6 Edition 6 overlay", () => {
       const schema = getTransactionSchema(schemaId, ["ta6ed6"]);
       const required =
         schema.properties.propertyPack.properties.heating.required;
-      expect(required).toContain("heatingSystem");
-      expect(required).toContain("otherHeatingFeatures");
-      expect(required).toContain("multipleHeatingSystems");
+      expect(required).toContain("mainHeatingTypes");
+      expect(required).toContain("inspectionReport");
+      expect(required).not.toContain("heatingSystem");
+      expect(required).not.toContain("otherHeatingFeatures");
+      expect(required).not.toContain("multipleHeatingSystems"); // 11.4h is optional
     });
   });
 
@@ -441,37 +442,37 @@ describe("TA6 Edition 6 overlay", () => {
       );
     });
 
+    // §11.4 as on the form: one multi-select of heating types plus a shared 11.4a-h block.
+    const valid = {
+      mainHeatingTypes: ["Mains gas"],
+      heatingInstalledDate: "Not known",
+      boilerInstalledDate: "2018-01-01",
+      heatingSystemReplaced: "No",
+      complianceCertificates: "None",
+      inspectionReport: "To follow",
+      inGoodWorkingOrder: "Yes",
+      lastServicedYear: "2022",
+    };
+
     test("valid heating data passes", () => {
-      const data = {
-        heatingSystem: { heatingType: "None" },
-        otherHeatingFeatures: ["None"],
-        multipleHeatingSystems: "Not applicable",
-      };
-      expect(validator(data)).toBe(true);
+      expect(validator(valid)).toBe(true);
     });
 
-    test("missing heatingSystem is invalid", () => {
-      const data = {
-        otherHeatingFeatures: {},
-        multipleHeatingSystems: {},
-      };
+    test("missing mainHeatingTypes is invalid", () => {
+      const { mainHeatingTypes, ...data } = valid;
       expect(validator(data)).toBe(false);
       expect(
-        validator.errors.some((e) => e.message.includes("'heatingSystem'"))
+        validator.errors.some((e) => e.message.includes("'mainHeatingTypes'"))
       ).toBe(true);
     });
 
-    test("missing otherHeatingFeatures is invalid", () => {
-      const data = {
-        heatingSystem: { heatingType: "None" },
-        multipleHeatingSystems: {},
-      };
+    test("missing inspectionReport (11.4e) is invalid", () => {
+      const { inspectionReport, ...data } = valid;
       expect(validator(data)).toBe(false);
-      expect(
-        validator.errors.some((e) =>
-          e.message.includes("'otherHeatingFeatures'")
-        )
-      ).toBe(true);
+    });
+
+    test("the old heatingSystem / otherHeatingFeatures shape is not required", () => {
+      expect(validator({ ...valid, heatingSystem: { heatingType: "None" } })).toBe(true);
     });
   });
 
@@ -1092,472 +1093,80 @@ describe("TA6 Edition 6 overlay", () => {
       );
     });
 
+    const allNo = {
+      hasStructuralAlterations: { yesNo: "No" },
+      nonResidentialPurposes: { yesNo: "No" },
+      planningPermissionBreaches: { yesNo: "No" },
+      unresolvedPlanningIssues: { yesNo: "No" },
+    };
+
     test("all No answers passes", () => {
-      const data = {
-        windowReplacementsSince2002: { yesNo: "No" },
-        hasAddedConservatory: { yesNo: "No" },
-        extension: { yesNo: "No" },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(true);
+      expect(validator(allNo)).toBe(true);
     });
 
-    test("missing extension is invalid", () => {
-      const data = {
-        windowReplacementsSince2002: { yesNo: "No" },
-        hasAddedConservatory: { yesNo: "No" },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
+    test("missing hasStructuralAlterations (5.1) is invalid", () => {
+      const { hasStructuralAlterations, ...data } = allNo;
       expect(validator(data)).toBe(false);
+    });
+
+    test("5.1 Yes without alteration types and details (5.2a) is invalid", () => {
       expect(
-        validator.errors.some((e) => e.message.includes("'extension'"))
+        validator({ ...allNo, hasStructuralAlterations: { yesNo: "Yes" } })
+      ).toBe(false);
+    });
+
+    test("5.1 Yes with types, details and the shared 5.2 block is valid", () => {
+      expect(
+        validator({
+          ...allNo,
+          hasStructuralAlterations: {
+            yesNo: "Yes",
+            alterationTypes: ["Extension", "Insulation"],
+            details: "Rear extension 2019; loft insulation 2021",
+            workCompleted: { yesNo: "Yes" },
+            documents: "Attached",
+            approvalsObtained: "Yes",
+          },
+        })
       ).toBe(true);
     });
 
-    test("extension Yes without details is invalid", () => {
-      const data = {
-        windowReplacementsSince2002: { yesNo: "No" },
-        hasAddedConservatory: { yesNo: "No" },
-        extension: { yesNo: "Yes" },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(false);
+    const withWorkCompleted = (workCompleted) => ({
+      ...allNo,
+      hasStructuralAlterations: {
+        yesNo: "Yes",
+        alterationTypes: ["Extension"],
+        details: "Rear extension 2019",
+        workCompleted,
+        documents: "Attached",
+        approvalsObtained: "Yes",
+      },
+    });
+
+    test("workCompleted (5.2b) No without details is invalid", () => {
+      expect(validator(withWorkCompleted({ yesNo: "No" }))).toBe(false);
       expect(
         validator.errors.some((e) => e.message.includes("'details'"))
       ).toBe(true);
     });
 
-    test("extension Yes with details is valid", () => {
-      const data = {
-        windowReplacementsSince2002: { yesNo: "No" },
-        hasAddedConservatory: { yesNo: "No" },
-        extension: {
-          yesNo: "Yes",
-          details: "Single storey rear extension built 2018",
-        },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(true);
-    });
-
-    test("extension Yes with full details including nested discriminators is valid", () => {
-      const data = {
-        windowReplacementsSince2002: { yesNo: "No" },
-        hasAddedConservatory: { yesNo: "No" },
-        extension: {
-          yesNo: "Yes",
-          details: "Single storey rear extension built 2018",
-          workCompleted: { yesNo: "Yes" },
-          documents: "Attached",
-          planningPermission: { yesNo: "Yes", attachments: "Attached" },
-          buildingRegApproval: { yesNo: "Yes", attachments: "Attached" },
-        },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(true);
-    });
-
-    test("workCompleted No without details is invalid", () => {
-      const data = {
-        windowReplacementsSince2002: { yesNo: "No" },
-        hasAddedConservatory: { yesNo: "No" },
-        extension: {
-          yesNo: "Yes",
-          details: "Extension built 2020",
-          workCompleted: { yesNo: "No" },
-        },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(false);
+    test("workCompleted (5.2b) No with details is valid", () => {
       expect(
-        validator.errors.some((e) => e.message.includes("'details'"))
-      ).toBe(true);
-    });
-
-    test("workCompleted No with details is valid", () => {
-      const data = {
-        windowReplacementsSince2002: { yesNo: "No" },
-        hasAddedConservatory: { yesNo: "No" },
-        extension: {
-          yesNo: "Yes",
-          details: "Extension built 2020",
-          workCompleted: {
+        validator(
+          withWorkCompleted({
             yesNo: "No",
             details: "Roof tiles still to be completed",
-          },
-        },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(true);
-    });
-
-    test("windowReplacementsSince2002 Yes with details is valid", () => {
-      const data = {
-        windowReplacementsSince2002: {
-          yesNo: "Yes",
-          details: "All windows replaced with double glazing in 2015",
-        },
-        hasAddedConservatory: { yesNo: "No" },
-        extension: { yesNo: "No" },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(true);
-    });
-
-    test("hasAddedConservatory Yes without details is invalid", () => {
-      const data = {
-        windowReplacementsSince2002: { yesNo: "No" },
-        hasAddedConservatory: { yesNo: "Yes" },
-        extension: { yesNo: "No" },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(false);
-      expect(
-        validator.errors.some((e) => e.message.includes("'details'"))
+          })
+        )
       ).toBe(true);
     });
 
-    test("multiple alteration types with Yes answers all valid", () => {
-      const data = {
-        windowReplacementsSince2002: {
-          yesNo: "Yes",
-          details: "Double glazing throughout",
-        },
-        hasAddedConservatory: {
-          yesNo: "Yes",
-          details: "Rear conservatory 2019",
-        },
-        extension: { yesNo: "No" },
-        loftConversion: {
-          yesNo: "Yes",
-          details: "Loft converted to bedroom 2017",
-          workCompleted: { yesNo: "Yes" },
-          planningPermission: {
-            yesNo: "Not required",
-            details: "Permitted development rights applied",
-          },
-          buildingRegApproval: {
-            yesNo: "Yes",
-            attachments: "Attached",
-          },
-        },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(true);
-    });
-
-    test("extension planningPermission Yes without attachments is invalid", () => {
-      const data = {
-        windowReplacementsSince2002: { yesNo: "No" },
-        hasAddedConservatory: { yesNo: "No" },
-        extension: {
-          yesNo: "Yes",
-          details: "Rear extension 2020",
-          planningPermission: { yesNo: "Yes" },
-          buildingRegApproval: { yesNo: "Yes", attachments: "Attached" },
-        },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(false);
-      expect(
-        validator.errors.some((e) => e.message.includes("'attachments'"))
-      ).toBe(true);
-    });
-
-    test("extension planningPermission Yes with attachments is valid", () => {
-      const data = {
-        windowReplacementsSince2002: { yesNo: "No" },
-        hasAddedConservatory: { yesNo: "No" },
-        extension: {
-          yesNo: "Yes",
-          details: "Rear extension 2020",
-          planningPermission: { yesNo: "Yes", attachments: "Attached" },
-          buildingRegApproval: { yesNo: "Yes", attachments: "Attached" },
-        },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(true);
-    });
-
-    test("extension planningPermission No without details is invalid", () => {
-      const data = {
-        windowReplacementsSince2002: { yesNo: "No" },
-        hasAddedConservatory: { yesNo: "No" },
-        extension: {
-          yesNo: "Yes",
-          details: "Rear extension 2020",
-          planningPermission: { yesNo: "No" },
-          buildingRegApproval: { yesNo: "No", details: "Exempt from regs" },
-        },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(false);
-      expect(
-        validator.errors.some((e) => e.message.includes("'details'"))
-      ).toBe(true);
-    });
-
-    test("extension planningPermission No with details is valid", () => {
-      const data = {
-        windowReplacementsSince2002: { yesNo: "No" },
-        hasAddedConservatory: { yesNo: "No" },
-        extension: {
-          yesNo: "Yes",
-          details: "Rear extension 2020",
-          planningPermission: {
-            yesNo: "No",
-            details: "Permitted development rights applied",
-          },
-          buildingRegApproval: {
-            yesNo: "No",
-            details: "Exempt from building regulations",
-          },
-        },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(true);
-    });
-
-    test("extension planningPermission Not required without details is invalid", () => {
-      const data = {
-        windowReplacementsSince2002: { yesNo: "No" },
-        hasAddedConservatory: { yesNo: "No" },
-        extension: {
-          yesNo: "Yes",
-          details: "Rear extension 2020",
-          planningPermission: { yesNo: "Not required" },
-          buildingRegApproval: {
-            yesNo: "Not required",
-            details: "Work exempt",
-          },
-        },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(false);
-      expect(
-        validator.errors.some((e) => e.message.includes("'details'"))
-      ).toBe(true);
-    });
-
-    test("extension buildingRegApproval Yes without attachments is invalid", () => {
-      const data = {
-        windowReplacementsSince2002: { yesNo: "No" },
-        hasAddedConservatory: { yesNo: "No" },
-        extension: {
-          yesNo: "Yes",
-          details: "Rear extension 2020",
-          planningPermission: { yesNo: "Yes", attachments: "Attached" },
-          buildingRegApproval: { yesNo: "Yes" },
-        },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(false);
-      expect(
-        validator.errors.some((e) => e.message.includes("'attachments'"))
-      ).toBe(true);
-    });
-
-    test("extension buildingRegApproval No without details is invalid", () => {
-      const data = {
-        windowReplacementsSince2002: { yesNo: "No" },
-        hasAddedConservatory: { yesNo: "No" },
-        extension: {
-          yesNo: "Yes",
-          details: "Rear extension 2020",
-          planningPermission: {
-            yesNo: "No",
-            details: "Permitted development",
-          },
-          buildingRegApproval: { yesNo: "No" },
-        },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(false);
-      expect(
-        validator.errors.some((e) => e.message.includes("'details'"))
-      ).toBe(true);
-    });
-
-    test("extension buildingRegApproval Not required with details is valid", () => {
-      const data = {
-        windowReplacementsSince2002: { yesNo: "No" },
-        hasAddedConservatory: { yesNo: "No" },
-        extension: {
-          yesNo: "Yes",
-          details: "Rear extension 2020",
-          planningPermission: {
-            yesNo: "Not required",
-            details: "Permitted development rights applied",
-          },
-          buildingRegApproval: {
-            yesNo: "Not required",
-            details: "Work exempt from building regulations",
-          },
-        },
-        loftConversion: { yesNo: "No" },
-        garageConversion: { yesNo: "No" },
-        removalOfInternalWalls: { yesNo: "No" },
-        removalOfChimneyBreast: { yesNo: "No" },
-        insulation: { yesNo: "No" },
-        otherBuildingWorksOrChangesToTheProperty: { yesNo: "No" },
-        changeOfUse: { yesNo: "No" },
-        nonResidentialPurposes: { yesNo: "No" },
-        planningPermissionBreaches: { yesNo: "No" },
-        unresolvedPlanningIssues: { yesNo: "No" },
-      };
-      expect(validator(data)).toBe(true);
+    test("the per-type alteration nodes are not required", () => {
+      const required =
+        getTransactionSchema(schemaId, ["ta6ed6"]).properties.propertyPack
+          .properties.alterationsAndChanges.required;
+      expect(required).not.toContain("extension");
+      expect(required).not.toContain("windowReplacementsSince2002");
     });
   });
 
@@ -1632,14 +1241,83 @@ describe("TA6 Edition 6 overlay", () => {
       expect(mfd.discriminator).toBeDefined();
     });
 
-    test("plant registered yesNo carries TA6 edition 6 ref", () => {
+    test("plant registered (EA registration) is NOT a TA6 ed6 field", () => {
+      // The "registered with the Environment Agency or exempted?" question is a
+      // BASPI item; it was previously mis-tagged ta6ed6Ref "11.7j" (the form's
+      // 11.7(j) is actually the permit/documents supply-a-copy item). The stray
+      // ref was unpopulated/unrendered, so it's removed from the TA6 overlay.
       const schema = getTransactionSchema(schemaId, ["ta6ed6"]);
       const plantRegistered =
         schema.properties.propertyPack.properties.waterAndDrainage.properties
           .drainage.properties.mainsFoulDrainage.oneOf[2].properties
           .offMainsDrainageSystem.properties.plantRegistered;
-      expect(plantRegistered.ta6ed6Ref).toBe("11.7j");
-      expect(plantRegistered.properties.yesNo.ta6ed6Ref).toBe("11.7j");
+      expect(plantRegistered.ta6ed6Ref).toBeUndefined();
+      expect(plantRegistered.properties.yesNo.ta6ed6Ref).toBeUndefined();
+    });
+
+    test("11.7(j) permit/documents renders last in each off-mains type", () => {
+      // The form's 11.7(j) "supply a copy of any permit or documents relating
+      // to your answers to 11.7(a)-(i)" is the final item of the off-mains
+      // block. Since the renderer emits an object's own properties before its
+      // conditional oneOf fields, permitDocuments lives at the END of each
+      // system-type branch so it renders after the 11.7(a)-(e) date questions.
+      const schema = getTransactionSchema(schemaId, ["ta6ed6"]);
+      const offMains =
+        schema.properties.propertyPack.properties.waterAndDrainage.properties
+          .drainage.properties.mainsFoulDrainage.oneOf[2].properties
+          .offMainsDrainageSystem;
+      // no longer a top-level property
+      expect(offMains.properties.permitDocuments).toBeUndefined();
+      // present, and last, in every ta6ed6-rendered system type
+      const ta6ed6Types = [
+        "Septic tank",
+        "Cesspit",
+        "Sewerage treatment plant",
+        "Other",
+      ];
+      ta6ed6Types.forEach((type) => {
+        const branch = offMains.oneOf.find((b) =>
+          b.properties.offMainsDrainageSystemType.enum.includes(type)
+        );
+        expect(branch.properties.permitDocuments).toBeDefined();
+        expect(branch.properties.permitDocuments.ta6ed6Ref).toBe("11.7j");
+        const keys = Object.keys(branch.properties);
+        expect(keys[keys.length - 1]).toBe("permitDocuments");
+      });
+      // ...and the ref still isn't on plantRegistered's "Yes" attachments
+      const plantRegisteredYes = offMains.properties.plantRegistered.oneOf.find(
+        (branch) => branch.properties && branch.properties.attachments
+      );
+      expect(
+        plantRegisteredYes.properties.attachments.ta6ed6Ref
+      ).toBeUndefined();
+    });
+
+    test("offMainsDrainageSystem with per-branch permitDocuments is valid", () => {
+      const data = {
+        water: {
+          mainsWater: {
+            yesNo: "Yes",
+            supplier: "Thames Water",
+            stopcock: { location: "Kitchen" },
+            waterMeter: { isSupplyMetered: "No" },
+          },
+        },
+        drainage: {
+          mainsFoulDrainage: {
+            yesNo: "No",
+            offMainsDrainageSystem: {
+              offMainsDrainageSystemType: "Other",
+              otherConnectedProperties: { yesNo: "No" },
+              plantOnOtherLand: { yesNo: "No" },
+              plantDrainsIntoWaterway: { yesNo: "Yes" },
+              permitDocuments: "Attached",
+            },
+          },
+          mainsSurfaceWaterDrainage: { yesNo: "Yes" },
+        },
+      };
+      expect(validator(data)).toBe(true);
     });
 
     test("mainsFoulDrainage No with object is accepted", () => {
@@ -2188,6 +1866,41 @@ describe("TA6 Edition 6 overlay", () => {
       ).toBe(true);
     });
   });
+
+  describe("Role / seller's capacity (TA6 1.4)", () => {
+    test("ta6ed6 reduces capacity to the form's four options with form labels", () => {
+      let capacity;
+      const walk = (node) => {
+        if (!node || typeof node !== "object") return;
+        if (node.capacity && node.capacity.ta6ed6Ref === "1.4") {
+          capacity = node.capacity;
+        }
+        for (const key of Object.keys(node)) walk(node[key]);
+      };
+      walk(ta6ed6Overlay);
+      expect(capacity).toBeDefined();
+      // Narrowed to the form's roles and relabelled to its wording. Capacity is
+      // collected in the FE personal-details step (not NTS/MI), so this is not a
+      // re-validation concern — new sellers simply pick from this set. "Company
+      // Director" is kept (relabelled "Seller (Company)") because it triggers the
+      // form's company-details block (1.6.x). "Assistant"/"Other"/"Mortgagee in
+      // Possession"/"Company Secretary" are dropped.
+      expect(capacity.enum).toEqual([
+        "Legal Owner",
+        "Company Director",
+        "Personal Representative for a Deceased Owner",
+        "Under Power of Attorney",
+        "Trustee",
+      ]);
+      expect(capacity.enumNames).toEqual([
+        "Seller (Private individual)",
+        "Seller (Company)",
+        "Executor(s)/Administrator(s)",
+        "Attorney(s)",
+        "Trustee(s)",
+      ]);
+    });
+  });
 });
 
 /**
@@ -2372,3 +2085,54 @@ function buildMinimalTransaction() {
     },
   };
 }
+
+describe("TA6 Edition 6 'Not available' attachment options match the form", () => {
+  const schema = getTransactionSchema(schemaId, ["ta6ed6"]);
+
+  // Returns the document/attachment node(s) (enum includes "Attached") carrying
+  // a given ta6ed6Ref. A ref can sit on both the yes/no question and its
+  // attachment, so we filter to the node that actually holds the upload enum.
+  const attachmentNodesByRef = (ref) => {
+    const matches = [];
+    const walk = (node) => {
+      if (!node || typeof node !== "object") return;
+      if (
+        node.ta6ed6Ref === ref &&
+        Array.isArray(node.enum) &&
+        node.enum.includes("Attached")
+      ) {
+        matches.push(node);
+      }
+      (Array.isArray(node) ? node : Object.values(node)).forEach(walk);
+    };
+    walk(schema);
+    return matches;
+  };
+
+  // The TA6 6th-edition form DOES offer "Not available" on these document
+  // questions — 5.2(c) building works,
+  // 5.6(h) solar certificate and 15.1 consents — so the overlay must not
+  // reduce it away. Guards against re-introducing the over-removal.
+  test.each([
+    "5.2c",
+    "5.6h",
+    "15.1.1",
+  ])("%s keeps 'Not available' (it is offered on the form)", (ref) => {
+    const nodes = attachmentNodesByRef(ref);
+    expect(nodes.length).toBeGreaterThan(0);
+    nodes.forEach((node) => expect(node.enum).toContain("Not available"));
+  });
+
+  // The form offers ONLY "Attached"/"To follow" on the electrical-work and
+  // heating-service document questions, so the overlay correctly reduces these.
+  test.each(["11.2.2", "11.3", "11.4g"])(
+    "%s excludes 'Not available' (form offers only Attached/To follow)",
+    (ref) => {
+      const nodes = attachmentNodesByRef(ref);
+      expect(nodes.length).toBeGreaterThan(0);
+      nodes.forEach((node) =>
+        expect(node.enum).toEqual(["Attached", "To follow"])
+      );
+    }
+  );
+});

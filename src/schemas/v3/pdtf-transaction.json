@@ -515,6 +515,10 @@
                         "title": "Company number",
                         "type": "string"
                       },
+                      "directorOrAuthorisedPerson": {
+                        "title": "Director/authorised person",
+                        "type": "string"
+                      },
                       "countryOfIncorporation": {
                         "title": "Country of incorporation",
                         "type": "string"
@@ -5573,7 +5577,8 @@
                                 "type": "string",
                                 "enum": [
                                   "Yes",
-                                  "No"
+                                  "No",
+                                  "Not applicable"
                                 ]
                               }
                             },
@@ -5582,7 +5587,8 @@
                                 "properties": {
                                   "isGroundRentPayable": {
                                     "enum": [
-                                      "No"
+                                      "No",
+                                      "Not applicable"
                                     ]
                                   }
                                 }
@@ -6410,7 +6416,8 @@
                                         "properties": {
                                           "year": {
                                             "title": "Year",
-                                            "type": "integer"
+                                            "type": "string",
+                                            "pattern": "^(\\d{2}|\\d{4}|Not known)$"
                                           },
                                           "from": {
                                             "title": "To",
@@ -6430,7 +6437,8 @@
                                         "properties": {
                                           "year": {
                                             "title": "Year",
-                                            "type": "integer"
+                                            "type": "string",
+                                            "pattern": "^(\\d{2}|\\d{4}|Not known)$"
                                           },
                                           "from": {
                                             "title": "To",
@@ -8731,7 +8739,8 @@
                           "title": "",
                           "enum": [
                             "Yes",
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       },
@@ -8740,7 +8749,8 @@
                           "properties": {
                             "yesNo": {
                               "enum": [
-                                "No"
+                                "No",
+                                "Not known"
                               ]
                             }
                           }
@@ -9626,10 +9636,88 @@
                         "Yes"
                       ]
                     },
+                    "alterationTypes": {
+                      "title": "Which of the following alterations have been made to the property?",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "Replacement windows, roof windows, roof lights, glazed doors since 1 April 2002",
+                          "Extension",
+                          "Conservatory",
+                          "Loft conversion",
+                          "Garage conversion",
+                          "Removal of internal walls",
+                          "Removal of chimney breast",
+                          "Insulation",
+                          "Other building works or changes to the property"
+                        ]
+                      }
+                    },
                     "details": {
                       "title": "Please give details including dates of all work undertaken",
                       "type": "string",
                       "minLength": 1
+                    },
+                    "workCompleted": {
+                      "title": "Has all this work been completed?",
+                      "type": "object",
+                      "properties": {
+                        "yesNo": {
+                          "type": "string",
+                          "title": "",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
+                        }
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            },
+                            "details": {
+                              "title": "Give details of what remains to be completed",
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "documents": {
+                      "title": "Supply copies of the planning permissions, building regulations approvals, completion certificates or competent person certificates for the work if you have them",
+                      "type": "string",
+                      "enum": [
+                        "Attached",
+                        "To follow",
+                        "Not available"
+                      ]
+                    },
+                    "approvalsObtained": {
+                      "title": "If any of the work was undertaken during your ownership, did you get planning permissions, building regulations approvals, completion certificates or competent person certificates when necessary?",
+                      "type": "string",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    },
+                    "approvalsNotRequiredReason": {
+                      "title": "If planning permissions, building regulations approvals, completion certificates or competent person certificates were not required, explain why",
+                      "type": "string"
                     },
                     "buildingRegApproval": {
                       "title": "Was Building Regulation approval and a completion certificate obtained or an equivalent Competent Person Scheme Certificate?",
@@ -19284,6 +19372,15 @@
                                   "title": "Date last emptied",
                                   "type": "string",
                                   "format": "date"
+                                },
+                                "permitDocuments": {
+                                  "title": "Please supply a copy of any permit or other documents relating to the sewerage system.",
+                                  "type": "string",
+                                  "enum": [
+                                    "Attached",
+                                    "To follow",
+                                    "Not applicable"
+                                  ]
                                 }
                               }
                             },
@@ -19321,6 +19418,15 @@
                                   "title": "Date last emptied",
                                   "type": "string",
                                   "format": "date"
+                                },
+                                "permitDocuments": {
+                                  "title": "Please supply a copy of any permit or other documents relating to the sewerage system.",
+                                  "type": "string",
+                                  "enum": [
+                                    "Attached",
+                                    "To follow",
+                                    "Not applicable"
+                                  ]
                                 }
                               }
                             },
@@ -19379,6 +19485,15 @@
                                     "To follow",
                                     "Not applicable"
                                   ]
+                                },
+                                "permitDocuments": {
+                                  "title": "Please supply a copy of any permit or other documents relating to the sewerage system.",
+                                  "type": "string",
+                                  "enum": [
+                                    "Attached",
+                                    "To follow",
+                                    "Not applicable"
+                                  ]
                                 }
                               }
                             },
@@ -19393,6 +19508,15 @@
                                 "details": {
                                   "title": "Details",
                                   "type": "string"
+                                },
+                                "permitDocuments": {
+                                  "title": "Please supply a copy of any permit or other documents relating to the sewerage system.",
+                                  "type": "string",
+                                  "enum": [
+                                    "Attached",
+                                    "To follow",
+                                    "Not applicable"
+                                  ]
                                 }
                               }
                             }
@@ -20184,6 +20308,104 @@
                 }
               ]
             },
+            "mainHeatingTypes": {
+              "title": "How is the property heated?",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Mains gas",
+                  "Oil",
+                  "Heat pumps",
+                  "Liquid gas",
+                  "Electricity",
+                  "Underfloor",
+                  "Woodburning / multi-fuel stove",
+                  "Other"
+                ]
+              }
+            },
+            "mainHeatingTypesOtherDetails": {
+              "title": "If you selected 'Other', give details",
+              "type": "string"
+            },
+            "heatingInstalledDate": {
+              "title": "When was the heating system installed?",
+              "type": "string",
+              "oneOf": [
+                {
+                  "format": "date"
+                },
+                {
+                  "enum": [
+                    "Not known"
+                  ]
+                }
+              ]
+            },
+            "boilerInstalledDate": {
+              "title": "If there is a boiler (of any kind) when was it installed?",
+              "type": "string",
+              "oneOf": [
+                {
+                  "format": "date"
+                },
+                {
+                  "enum": [
+                    "Not known"
+                  ]
+                }
+              ]
+            },
+            "heatingSystemReplaced": {
+              "title": "Has there been any replacement to the heating system (other than replacement of a boiler)?",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No",
+                "Not known"
+              ]
+            },
+            "complianceCertificates": {
+              "title": "Supply compliance certificates or documentation for the installation or alteration of each heating system",
+              "type": "string",
+              "enum": [
+                "Attached",
+                "To follow",
+                "None"
+              ]
+            },
+            "inspectionReport": {
+              "title": "Supply a copy of the latest inspection report",
+              "type": "string",
+              "enum": [
+                "Attached",
+                "To follow",
+                "None"
+              ]
+            },
+            "inGoodWorkingOrder": {
+              "title": "Is the boiler and heating system working?",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No",
+                "Not known"
+              ]
+            },
+            "lastServicedYear": {
+              "title": "In what year was the boiler and heating system last serviced or maintained?",
+              "type": "string",
+              "pattern": "^(\\d{2}|\\d{4}|Not known)$"
+            },
+            "lastServicedReport": {
+              "title": "Supply a copy of the service report",
+              "type": "string",
+              "enum": [
+                "Attached",
+                "To follow"
+              ]
+            },
             "otherHeatingFeatures": {
               "title": "What other heating features does the property have?",
               "type": "array",
@@ -20221,6 +20443,40 @@
                 "To follow",
                 "Not applicable"
               ]
+            },
+            "mainsGas": {
+              "title": "Mains gas",
+              "description": "Whether the property is connected to a mains gas supply, whatever the gas is used for.",
+              "type": "object",
+              "properties": {
+                "yesNo": {
+                  "title": "",
+                  "type": "string",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                },
+                "supplier": {
+                  "title": "Supplier",
+                  "type": "string"
+                },
+                "gasMeter": {
+                  "title": "Gas meter",
+                  "type": "object",
+                  "properties": {
+                    "location": {
+                      "title": "Describe the location of the meter",
+                      "type": "string"
+                    },
+                    "mprn": {
+                      "title": "Meter Point Reference Number (MPRN)",
+                      "description": "Your MPRN is on your gas bill, usually labelled 'Meter Point Reference Number' or 'MPRN'. It's normally between 6 and 10 digits long.",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
             }
           }
         },
@@ -20920,6 +21176,45 @@
                     "Yes",
                     "No"
                   ]
+                },
+                "disagreementOrComplaint": {
+                  "title": "Are you aware of any disagreement or complaint about any such right or arrangement?",
+                  "type": "object",
+                  "properties": {
+                    "yesNo": {
+                      "type": "string",
+                      "enum": [
+                        "Yes",
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  ]
                 }
               },
               "oneOf": [
@@ -20943,45 +21238,6 @@
                       "title": "Please give details and provide a plan showing the route of the access, parking etc",
                       "type": "string",
                       "minLength": 1
-                    },
-                    "disagreementOrComplaint": {
-                      "title": "Are you aware of any disagreement or complaint about any such right or arrangement?",
-                      "type": "object",
-                      "properties": {
-                        "yesNo": {
-                          "type": "string",
-                          "enum": [
-                            "Yes",
-                            "No",
-                            "Not known"
-                          ]
-                        }
-                      },
-                      "oneOf": [
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "No",
-                                "Not known"
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "properties": {
-                            "yesNo": {
-                              "enum": [
-                                "Yes"
-                              ]
-                            },
-                            "details": {
-                              "type": "string",
-                              "minLength": 1
-                            }
-                          }
-                        }
-                      ]
                     },
                     "attachments": {
                       "title": "Attachments",
@@ -21742,7 +21998,8 @@
                       "type": "string",
                       "enum": [
                         "Yes",
-                        "No"
+                        "No",
+                        "Not known"
                       ]
                     }
                   },
@@ -21751,7 +22008,8 @@
                       "properties": {
                         "hasFloodDefences": {
                           "enum": [
-                            "No"
+                            "No",
+                            "Not known"
                           ]
                         }
                       }
@@ -23635,97 +23893,68 @@
                     "No",
                     "Not applicable"
                   ]
-                }
-              },
-              "oneOf": [
-                {
-                  "properties": {
-                    "areBoundariesUniform": {
-                      "enum": [
-                        "Yes"
-                      ]
-                    },
-                    "uniformBoundaries": {
-                      "title": "Please indicate who has repaired, or treated as belonging to them, each of the boundaries. Identify each boundary as if you were looking at the property from the road.",
-                      "ta6title": "Looking towards the property from the road, who owns or accepts responsibility to maintain or repair the boundary features:",
-                      "type": "object",
-                      "properties": {
-                        "left": {
-                          "title": "On the left",
-                          "type": "string",
-                          "enum": [
-                            "Seller",
-                            "Shared",
-                            "Neighbour",
-                            "Not known"
-                          ]
-                        },
-                        "right": {
-                          "title": "On the right",
-                          "type": "string",
-                          "enum": [
-                            "Seller",
-                            "Shared",
-                            "Neighbour",
-                            "Not known"
-                          ]
-                        },
-                        "rear": {
-                          "title": "At the rear",
-                          "type": "string",
-                          "enum": [
-                            "Seller",
-                            "Shared",
-                            "Neighbour",
-                            "Not known"
-                          ]
-                        },
-                        "front": {
-                          "title": "At the front",
-                          "type": "string",
-                          "enum": [
-                            "Seller",
-                            "Shared",
-                            "Neighbour",
-                            "Not known"
-                          ]
-                        }
-                      }
-                    }
-                  }
                 },
-                {
+                "uniformBoundaries": {
+                  "title": "Please indicate who has repaired, or treated as belonging to them, each of the boundaries. Identify each boundary as if you were looking at the property from the road.",
+                  "ta6title": "Looking towards the property from the road, who owns or accepts responsibility to maintain or repair the boundary features:",
+                  "type": "object",
                   "properties": {
-                    "areBoundariesUniform": {
+                    "left": {
+                      "title": "On the left",
+                      "type": "string",
                       "enum": [
-                        "No"
+                        "Seller",
+                        "Shared",
+                        "Neighbour",
+                        "Not known"
                       ]
                     },
-                    "details": {
-                      "title": "Please indicate ownership or those you have repaired by written description or marking them on a plan of the property",
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "attachments": {
-                      "title": "Attachments",
+                    "right": {
+                      "title": "On the right",
                       "type": "string",
                       "enum": [
-                        "Attached",
-                        "To follow"
+                        "Seller",
+                        "Shared",
+                        "Neighbour",
+                        "Not known"
+                      ]
+                    },
+                    "rear": {
+                      "title": "At the rear",
+                      "type": "string",
+                      "enum": [
+                        "Seller",
+                        "Shared",
+                        "Neighbour",
+                        "Not known"
+                      ]
+                    },
+                    "front": {
+                      "title": "At the front",
+                      "type": "string",
+                      "enum": [
+                        "Seller",
+                        "Shared",
+                        "Neighbour",
+                        "Not known"
                       ]
                     }
                   }
                 },
-                {
-                  "properties": {
-                    "areBoundariesUniform": {
-                      "enum": [
-                        "Not applicable"
-                      ]
-                    }
-                  }
+                "details": {
+                  "title": "Please indicate ownership or those you have repaired by written description or marking them on a plan of the property",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "attachments": {
+                  "title": "Attachments",
+                  "type": "string",
+                  "enum": [
+                    "Attached",
+                    "To follow"
+                  ]
                 }
-              ]
+              }
             },
             "haveBoundaryFeaturesMoved": {
               "title": "Has any boundary features been moved during your ownership or in the last 10 years, to your knowledge?",
@@ -24105,6 +24334,14 @@
                       "title": "Please supply one of the following:",
                       "type": "object",
                       "properties": {
+                        "yesNo": {
+                          "title": "Does the property have any certificates for electrical installation works?",
+                          "type": "string",
+                          "enum": [
+                            "Yes",
+                            "No"
+                          ]
+                        },
                         "certificateType": {
                           "type": "string",
                           "enum": [
