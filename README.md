@@ -330,5 +330,5 @@ Licensed under the [MIT License](https://opensource.org/licenses/MIT).
 - 📖 [Overlay Documentation](src/schemas/v3/overlays/README.md)
 - 📁 [Example Files](src/examples/)
 - 🐛 [Issue Tracker](https://github.com/Property-Data-Trust-Framework/schemas/issues)
-- 🌐 [PDTF Website](https://trust.propdata.org.uk)
+- 🌐 [PDTF Website](https://openpropdata.org.uk/for-developers)
 
