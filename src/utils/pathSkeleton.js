@@ -6,7 +6,7 @@ const combinedSchema = require("../schemas/v3/combined.json");
 // Extract fields that have overlay-specific properties
 const extractFields = [
   "baspi4", "baspi5", "nts", "nts2", "ntsl", "ntsl2",
-  "ta6", "ta7", "ta10", "lpe1", "fme1", "piq",
+  "ta6", "ta7", "ta7ed5", "ta10", "lpe1", "fme1", "piq",
   "con29R", "con29DW", "llc1", "rds", "oc1", "sr24",
 ];
 

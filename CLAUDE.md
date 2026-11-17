@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance for AI coding agents when working with code in this repository.
 
 ## Overview
 
@@ -11,13 +11,17 @@ This repository contains the Property Data Trust Framework (PDTF) schemas - JSON
 ### Testing
 ```bash
 npm test          # Run all tests
-npm test:watch    # Run tests in watch mode
+npm run test:watch # Run tests in watch mode
 ```
 
 ### Development
 ```bash
-npm install       # Install dependencies
+npm install                       # Install dependencies
+npm run extract-overlays          # Regenerate v3 schemas and overlays from combined.json
+npm run extract-extension-overlays # Regenerate v3 extension overlays from combined.json
 ```
+
+**Important**: `src/schemas/v3/combined.json` is the source of truth for v3 schema changes. Never edit generated schema artifacts directly; there are no exceptions. Utility/source files may be edited normally. After changing `combined.json`, always run both overlay extraction commands so derived files stay in sync.
 
 ## Architecture
 
@@ -27,6 +31,7 @@ The PDTF uses a flexible overlay system where a base transaction schema can be e
 - **Base Schema**: Core transaction schema at `/src/schemas/v3/pdtf-transaction.json`
 - **Overlays**: Form-specific extensions in `/src/schemas/v3/overlays/` (e.g., baspi5.json, ta6.json)
 - **Merging**: Overlays are merged with the base schema using deepmerge with custom merge strategies
+- **Generated Files**: `pdtf-transaction.json`, `skeleton.json`, `compactSkeleton.txt`, `src/schemas/v3/overlays/*.json`, and `src/schemas/v3/overlays/extensions/*.json` are generated from `combined.json`
 
 ### Key Components
 
@@ -55,7 +60,6 @@ Use existing test patterns when adding new tests.
 
 ## Important Notes
 
-- Schema version is currently 3.4.0
 - All schemas use JSON Schema Draft 07
 - The repository publishes to npm as `@pdtf/schemas`
 - Overlays may contain fields from licensed forms (BASPI, PIQ, Law Society) - ensure compliance when rendering data

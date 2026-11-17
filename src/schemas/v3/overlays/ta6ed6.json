@@ -1,0 +1,4672 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/ta6ed6.json",
+  "required": [
+    "participants",
+    "propertyPack"
+  ],
+  "properties": {
+    "participants": {
+      "ta6ed6Ref": "1",
+      "items": {
+        "discriminator": {
+          "propertyName": "role"
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "role": {
+                "enum": [
+                  "Seller's Conveyancer",
+                  "Prospective Buyer",
+                  "Buyer's Conveyancer",
+                  "Estate Agent",
+                  "Buyer's Agent",
+                  "Surveyor",
+                  "Mortgage Broker",
+                  "Lender",
+                  "Landlord",
+                  "Tenant"
+                ]
+              }
+            }
+          },
+          {
+            "properties": {
+              "role": {
+                "enum": [
+                  "Buyer"
+                ]
+              }
+            }
+          },
+          {
+            "properties": {
+              "role": {
+                "enum": [
+                  "Seller"
+                ]
+              },
+              "sellersCapacity": {
+                "ta6ed6Ref": "1.4",
+                "discriminator": {
+                  "propertyName": "capacity"
+                },
+                "oneOf": [
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Legal Owner",
+                          "Mortgagee in Possession"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Personal Representative for a Deceased Owner",
+                          "Under Power of Attorney",
+                          "Trustee",
+                          "Assistant",
+                          "Other"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "capacity": {
+                        "enum": [
+                          "Company Director",
+                          "Company Secretary"
+                        ]
+                      },
+                      "companyNumber": {
+                        "ta6ed6Ref": "1.6.1"
+                      },
+                      "directorOrAuthorisedPerson": {
+                        "ta6ed6Ref": "1.6.2"
+                      },
+                      "countryOfIncorporation": {
+                        "ta6ed6Ref": "1.6.3"
+                      }
+                    }
+                  }
+                ],
+                "required": [
+                  "capacity"
+                ],
+                "title": "What is your role in the sale?",
+                "properties": {
+                  "capacity": {
+                    "ta6ed6Ref": "1.4",
+                    "enum": [
+                      "Legal Owner",
+                      "Company Director",
+                      "Personal Representative for a Deceased Owner",
+                      "Under Power of Attorney",
+                      "Trustee"
+                    ],
+                    "enumNames": [
+                      "Seller (Private individual)",
+                      "Seller (Company)",
+                      "Executor(s)/Administrator(s)",
+                      "Attorney(s)",
+                      "Trustee(s)"
+                    ]
+                  }
+                }
+              },
+              "dateBecameOwnerOrAuthority": {
+                "ta6ed6Ref": "1.5",
+                "title": "When did you become the owner of, or get authority to sell, the property? (DD/MM/YYYY)"
+              }
+            },
+            "required": [
+              "sellersCapacity",
+              "dateBecameOwnerOrAuthority"
+            ]
+          }
+        ],
+        "required": [
+          "role"
+        ],
+        "properties": {
+          "role": {
+            "ta6ed6Ref": "1"
+          }
+        }
+      }
+    },
+    "propertyPack": {
+      "required": [
+        "address",
+        "parking",
+        "disputesAndComplaints",
+        "alterationsAndChanges",
+        "listingAndConservation",
+        "notices",
+        "specialistIssues",
+        "waterAndDrainage",
+        "electricity",
+        "heating",
+        "connectivity",
+        "insurance",
+        "rightsAndInformalArrangements",
+        "environmentalIssues",
+        "legalBoundaries",
+        "servicesCrossing",
+        "electricalWorks",
+        "guaranteesWarrantiesAndIndemnityInsurances",
+        "occupiers",
+        "completionAndMoving",
+        "confirmationOfAccuracyByOwners",
+        "additionalInformation"
+      ],
+      "properties": {
+        "address": {
+          "ta6ed6Ref": "1.1",
+          "required": [
+            "line1",
+            "postcode"
+          ],
+          "title": "Address of the property",
+          "properties": {
+            "line1": {
+              "ta6ed6Ref": "1.1.1"
+            },
+            "line2": {
+              "ta6ed6Ref": "1.1.2"
+            },
+            "line3": {
+              "ta6ed6Ref": "1.1.3"
+            },
+            "town": {
+              "ta6ed6Ref": "1.1.4"
+            },
+            "postcode": {
+              "ta6ed6Ref": "1.1.5"
+            }
+          }
+        },
+        "uprn": {
+          "ta6ed6Ref": "1.2",
+          "title": "UPRN (if known)",
+          "description": "Unique Property Reference Number (digits)"
+        },
+        "parking": {
+          "ta6ed6Ref": "10",
+          "required": [
+            "parkingArrangements",
+            "controlledParking",
+            "electricVehicleChargingPoint"
+          ],
+          "properties": {
+            "parkingArrangements": {
+              "ta6ed6Ref": "10.1",
+              "title": "What are the parking arrangements at the property?"
+            },
+            "controlledParking": {
+              "ta6ed6Ref": "10.2",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Is a permit required for on-road parking?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "10.2.1",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              }
+            },
+            "electricVehicleChargingPoint": {
+              "ta6ed6Ref": "10.3",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "chargerDetails": {
+                      "ta6ed6Ref": "10.3a"
+                    },
+                    "chargerDetailsAttachments": {
+                      "ta6ed6Ref": "10.3a1"
+                    },
+                    "cableCrossesPavement": {
+                      "ta6ed6Ref": "10.3b",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "ta6ed6Ref": "10.3b2"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6ed6Ref": "10.3b1"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "chargerDetails",
+                    "cableCrossesPavement"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Does the property have an electric vehicle (EV) charging point?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "10.3.1"
+                }
+              }
+            }
+          }
+        },
+        "listingAndConservation": {
+          "ta6ed6Ref": "5.7",
+          "required": [
+            "isListed",
+            "isConservationArea",
+            "hasTreePreservationOrder"
+          ],
+          "title": "Listed buildings and conservation area",
+          "properties": {
+            "isListed": {
+              "ta6ed6Ref": "5.7",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Is the property (or any part of it) listed?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "5.7.1"
+                }
+              }
+            },
+            "isConservationArea": {
+              "ta6ed6Ref": "5.8",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Is the property (or any part of it) in a conservation area?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "5.8.1"
+                }
+              }
+            },
+            "hasTreePreservationOrder": {
+              "ta6ed6Ref": "5.9",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "workCarriedOut": {
+                      "ta6ed6Ref": "5.9a",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No",
+                                "Not known"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "details": {
+                              "ta6ed6Ref": "5.9a2"
+                            },
+                            "attachments": {
+                              "ta6ed6Ref": "5.9a3",
+                              "title": "Provide a copy of the TPO along with any relevant documents"
+                            }
+                          },
+                          "required": [
+                            "details",
+                            "attachments"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "title": "Are you aware of any works carried out on those trees?",
+                      "properties": {
+                        "yesNo": {
+                          "ta6ed6Ref": "5.9a1"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "workCarriedOut"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Are any trees on or overhanging the property subject to a tree preservation order (TPO)?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "5.9.1"
+                }
+              }
+            }
+          }
+        },
+        "energyEfficiency": {
+          "ta6ed6Ref": "8",
+          "properties": {
+            "greenDealLoan": {
+              "ta6ed6Ref": "8.5",
+              "required": [
+                "hasGreenDealLoan"
+              ],
+              "title": "Green Deal",
+              "properties": {
+                "hasGreenDealLoan": {
+                  "ta6ed6Ref": "8.5.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "8.5.1b",
+                          "title": "Give details of all installations and supply a copy of your last electricity bill"
+                        },
+                        "attachments": {
+                          "ta6ed6Ref": "8.5.1c"
+                        }
+                      },
+                      "required": [
+                        "details",
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "Have any installations in the property been financed under the Green Deal scheme?",
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "8.5.1a"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "disputesAndComplaints": {
+          "ta6ed6Ref": "3",
+          "required": [
+            "hasDisputesAndComplaints",
+            "leadingToDisputesAndComplaints"
+          ],
+          "title": "Disputes",
+          "properties": {
+            "hasDisputesAndComplaints": {
+              "ta6ed6Ref": "3.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "3.1.2",
+                      "title": "Give details such as when this took place and who was involved"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Are you aware of any disputes or complaints about the property or a property nearby?",
+              "description": "If yes, give details such as when this took place and who was involved:",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "3.1.1"
+                }
+              }
+            },
+            "leadingToDisputesAndComplaints": {
+              "ta6ed6Ref": "3.2",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "3.2.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Are you aware of anything that might lead to a dispute about the property or a property nearby?",
+              "description": "If yes, please give details:",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "3.2.1"
+                }
+              }
+            }
+          }
+        },
+        "alterationsAndChanges": {
+          "ta6ed6Ref": "5",
+          "required": [
+            "hasStructuralAlterations",
+            "nonResidentialPurposes",
+            "planningPermissionBreaches",
+            "unresolvedPlanningIssues"
+          ],
+          "title": "Alterations",
+          "properties": {
+            "hasStructuralAlterations": {
+              "ta6ed6Ref": "5.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "alterationTypes": {
+                      "ta6ed6Ref": "5.1"
+                    },
+                    "details": {
+                      "ta6ed6Ref": "5.2a",
+                      "title": "Give details of the work and the date it was carried out, or state not known"
+                    },
+                    "workCompleted": {
+                      "ta6ed6Ref": "5.2b",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            },
+                            "details": {
+                              "ta6ed6Ref": "5.2b"
+                            }
+                          },
+                          "required": [
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6ed6Ref": "5.2b"
+                        }
+                      }
+                    },
+                    "documents": {
+                      "ta6ed6Ref": "5.2c"
+                    },
+                    "approvalsObtained": {
+                      "ta6ed6Ref": "5.2d.i"
+                    },
+                    "approvalsNotRequiredReason": {
+                      "ta6ed6Ref": "5.2d.ii"
+                    }
+                  },
+                  "required": [
+                    "alterationTypes",
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Are you aware of any of the following alterations to the property?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "5.1.1"
+                }
+              }
+            },
+            "nonResidentialPurposes": {
+              "ta6ed6Ref": "5.3",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "5.3.2",
+                      "title": "Give details and supply a copy of any relevant planning permission"
+                    },
+                    "attachments": {
+                      "ta6ed6Ref": "5.3.3"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "5.3.1"
+                }
+              }
+            },
+            "planningPermissionBreaches": {
+              "ta6ed6Ref": "5.4",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "5.4.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Are you aware of any breaches of planning permission conditions or building regulations consent conditions, unfinished work or work that does not have all necessary consents?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "5.4.1"
+                }
+              }
+            },
+            "unresolvedPlanningIssues": {
+              "ta6ed6Ref": "5.5",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "5.5.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Are you aware of any planning or building control issues that need to be resolved?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "5.5.1"
+                }
+              }
+            }
+          }
+        },
+        "notices": {
+          "ta6ed6Ref": "4",
+          "required": [
+            "otherNotices",
+            "neighbourDevelopment",
+            "planningApplication"
+          ],
+          "title": "Notices",
+          "properties": {
+            "neighbourDevelopment": {
+              "ta6ed6Ref": "4.2",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "4.2.2",
+                      "title": "Please give details"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Are you aware of any plans or proposals to develop property or land nearby?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "4.2.1"
+                }
+              }
+            },
+            "planningApplication": {
+              "ta6ed6Ref": "4.3",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "4.3.2",
+                      "title": "Please give details"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Are you aware of any proposals to make alterations to or change the use of buildings nearby?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "4.3.1"
+                }
+              }
+            },
+            "partyWallAct": {
+              "ta6ed6Ref": "2.5",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "2.5.2",
+                      "title": "Supply a copy and give details of any works carried out or agreed"
+                    },
+                    "attachments": {
+                      "ta6ed6Ref": "2.5.3"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Are you aware of any notice being served or received under the Party Wall etc. Act 1996 in respect of any shared/party walls or boundaries?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "2.5.1"
+                }
+              }
+            },
+            "otherNotices": {
+              "ta6ed6Ref": "4.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "4.1.2",
+                      "title": "Please give details"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Are you aware of any notices, communications, negotiations or discussions which affect the property or a property nearby? For example, from or to a neighbour, council or government department.",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "4.1.1"
+                }
+              }
+            }
+          }
+        },
+        "specialistIssues": {
+          "ta6ed6Ref": "8.6",
+          "required": [
+            "japaneseKnotweed"
+          ],
+          "properties": {
+            "japaneseKnotweed": {
+              "ta6ed6Ref": "8.6",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "managementPlanInPlace": {
+                      "ta6ed6Ref": "8.6.2",
+                      "title": "Is there a Japanese knotweed management and treatment plan in place?"
+                    }
+                  },
+                  "required": [
+                    "managementPlanInPlace"
+                  ],
+                  "oneOf": [
+                    null,
+                    {
+                      "required": [
+                        "attachments"
+                      ],
+                      "properties": {
+                        "attachments": {
+                          "ta6ed6Ref": "8.6.3",
+                          "title": "Provide a copy of the plan with any insurance cover linked to the plan."
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo",
+                "knotweedSurveyCarriedOut"
+              ],
+              "title": "Japanese knotweed",
+              "properties": {
+                "knotweedSurveyCarriedOut": {
+                  "ta6ed6Ref": "8.7",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "attachments": {
+                          "ta6ed6Ref": "8.7.2"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "8.7.1"
+                    }
+                  }
+                },
+                "yesNo": {
+                  "ta6ed6Ref": "8.6.1",
+                  "title": "Is the property affected by Japanese knotweed?"
+                }
+              }
+            }
+          }
+        },
+        "electricity": {
+          "ta6ed6Ref": "12.1",
+          "required": [
+            "mainsElectricity"
+          ],
+          "properties": {
+            "mainsElectricity": {
+              "ta6ed6Ref": "12.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "supplier": {
+                      "ta6ed6Ref": "12.1.2",
+                      "title": "Provider's name"
+                    },
+                    "electricityMeter": {
+                      "ta6ed6Ref": "12.1.3",
+                      "required": [
+                        "location",
+                        "mpan"
+                      ],
+                      "properties": {
+                        "location": {
+                          "ta6ed6Ref": "12.1.3",
+                          "title": "Location of meter"
+                        },
+                        "mpan": {
+                          "ta6ed6Ref": "12.1.4",
+                          "title": "MPAN number",
+                          "description": "Your MPAN is on your electricity or dual fuel bill, usually in a box marked 'Supply Number'. It's 21 digits long and begins with 'S'. You'll only need the last 12 or 13 digits."
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "supplier",
+                    "electricityMeter"
+                  ]
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "12.1.1",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              }
+            },
+            "solarPanels": {
+              "ta6ed6Ref": "5.6",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "hotWaterOnly": {
+                      "ta6ed6Ref": "5.6a"
+                    },
+                    "yearInstalled": {
+                      "ta6ed6Ref": "5.6b",
+                      "title": "Which year was the system installed? (YYYY)"
+                    },
+                    "panelsOwnedOutright": {
+                      "ta6ed6Ref": "5.6c",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "title": "Do you own the system outright?",
+                      "properties": {
+                        "yesNo": {
+                          "ta6ed6Ref": "5.6c"
+                        }
+                      }
+                    },
+                    "panelProviderLease": {
+                      "ta6ed6Ref": "5.6d",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "attachments": {
+                              "ta6ed6Ref": "5.6d2"
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "title": "Has a long lease of the roof or air space been granted to a solar power system provider? A typical long lease may last 20 to 25 years.",
+                      "properties": {
+                        "yesNo": {
+                          "ta6ed6Ref": "5.6d1"
+                        }
+                      }
+                    },
+                    "maintenanceAgreement": {
+                      "ta6ed6Ref": "5.6e",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "attachments": {
+                              "ta6ed6Ref": "5.6e2"
+                            }
+                          },
+                          "required": [
+                            "attachments"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "properties": {
+                        "yesNo": {
+                          "ta6ed6Ref": "5.6e1"
+                        }
+                      }
+                    },
+                    "photovoltaicBatteries": {
+                      "ta6ed6Ref": "5.6f",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "description": {
+                              "ta6ed6Ref": "5.6f1"
+                            },
+                            "details": {
+                              "ta6ed6Ref": "5.6f2"
+                            }
+                          },
+                          "required": [
+                            "description",
+                            "details"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "title": "Is there a battery for storing solar power?",
+                      "properties": {
+                        "yesNo": {
+                          "ta6ed6Ref": "5.6f"
+                        }
+                      }
+                    },
+                    "nationalGrid": {
+                      "ta6ed6Ref": "5.6g",
+                      "discriminator": {
+                        "propertyName": "yesNo"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "No"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "yesNo": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "fitOrSegInPlace": {
+                              "ta6ed6Ref": "5.6g1",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "fitSegAgreementCopy": {
+                                      "ta6ed6Ref": "5.6g2"
+                                    },
+                                    "attachments": {
+                                      "ta6ed6Ref": "5.6g3"
+                                    },
+                                    "fitSegAssignmentProcedure": {
+                                      "ta6ed6Ref": "5.6g4"
+                                    }
+                                  }
+                                }
+                              ],
+                              "required": [
+                                "yesNo"
+                              ],
+                              "properties": {
+                                "yesNo": {
+                                  "ta6ed6Ref": "5.6g1a"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "yesNo"
+                      ],
+                      "title": "Does the system feed into the National Grid?",
+                      "properties": {
+                        "yesNo": {
+                          "ta6ed6Ref": "5.6g"
+                        }
+                      }
+                    },
+                    "installationCertificates": {
+                      "ta6ed6Ref": "5.6h"
+                    }
+                  },
+                  "required": [
+                    "hotWaterOnly",
+                    "yearInstalled",
+                    "panelsOwnedOutright",
+                    "panelProviderLease",
+                    "maintenanceAgreement",
+                    "photovoltaicBatteries",
+                    "nationalGrid",
+                    "installationCertificates"
+                  ]
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Has a solar power system for generating electricity, hot water or heating been installed at the property?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "5.6",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              }
+            },
+            "heatPump": {
+              "ta6ed6Ref": "12.6",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "supplier": {
+                      "ta6ed6Ref": "12.6.2",
+                      "title": "Provider name"
+                    },
+                    "makeModel": {
+                      "ta6ed6Ref": "12.6.3"
+                    },
+                    "serviceProviderName": {
+                      "ta6ed6Ref": "12.6.4",
+                      "title": "Service provider's name"
+                    }
+                  },
+                  "required": [
+                    "supplier",
+                    "makeModel",
+                    "serviceProviderName"
+                  ]
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Shared ground / air source heat pumps",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "12.6.1",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "waterAndDrainage": {
+          "ta6ed6Ref": "11",
+          "required": [
+            "water",
+            "drainage"
+          ],
+          "properties": {
+            "water": {
+              "ta6ed6Ref": "12.3",
+              "required": [
+                "mainsWater"
+              ],
+              "properties": {
+                "mainsWater": {
+                  "ta6ed6Ref": "12.3",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "supplier": {
+                          "ta6ed6Ref": "12.3.2",
+                          "title": "Provider's name"
+                        },
+                        "stopcock": {
+                          "ta6ed6Ref": "12.3.3",
+                          "required": [
+                            "location"
+                          ],
+                          "properties": {
+                            "location": {
+                              "ta6ed6Ref": "12.3.3",
+                              "title": "Location of stopcock"
+                            }
+                          }
+                        },
+                        "waterMeter": {
+                          "ta6ed6Ref": "12.3.4",
+                          "discriminator": {
+                            "propertyName": "isSupplyMetered"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "isSupplyMetered": {
+                                  "enum": [
+                                    "No"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "isSupplyMetered": {
+                                  "enum": [
+                                    "Yes"
+                                  ]
+                                },
+                                "location": {
+                                  "ta6ed6Ref": "12.3.4",
+                                  "title": "Location of meter (if any)"
+                                }
+                              },
+                              "required": [
+                                "location"
+                              ]
+                            }
+                          ],
+                          "required": [
+                            "isSupplyMetered"
+                          ],
+                          "properties": {
+                            "isSupplyMetered": {
+                              "ta6ed6Ref": "12.3.4"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "supplier",
+                        "stopcock",
+                        "waterMeter"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "12.3.1",
+                      "enum": [
+                        "Yes",
+                        "No"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "drainage": {
+              "ta6ed6Ref": "11.5",
+              "required": [
+                "mainsFoulDrainage",
+                "mainsSurfaceWaterDrainage"
+              ],
+              "title": "Drains and sewers",
+              "properties": {
+                "mainsSurfaceWaterDrainage": {
+                  "ta6ed6Ref": "11.5b",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "Surface water drainage?",
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "11.5b",
+                      "enum": [
+                        "Yes",
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                "mainsFoulDrainage": {
+                  "ta6ed6Ref": "11.5a",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "supplier": {
+                          "ta6ed6Ref": "12.4.2",
+                          "title": "Provider's name"
+                        }
+                      },
+                      "required": [
+                        "supplier"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "To be connected"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        },
+                        "offMainsDrainageSystem": {
+                          "ta6ed6Ref": "11.6",
+                          "discriminator": {
+                            "propertyName": "offMainsDrainageSystemType"
+                          },
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "offMainsDrainageSystemType": {
+                                  "enum": [
+                                    "Sustainable Drainage System"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "offMainsDrainageSystemType": {
+                                  "enum": [
+                                    "Septic tank"
+                                  ]
+                                },
+                                "dateDischargeCommenced": {
+                                  "ta6ed6Ref": "11.7a",
+                                  "title": "When did the discharge commence? (MM/YYYY)"
+                                },
+                                "dateInstalled": {
+                                  "ta6ed6Ref": "11.7b",
+                                  "title": "When was the system installed? (MM/YYYY)"
+                                },
+                                "dateReplaced": {
+                                  "ta6ed6Ref": "11.7c",
+                                  "title": "When was the sewerage system last replaced or upgraded? (MM/YYYY)"
+                                },
+                                "dateLastEmptied": {
+                                  "ta6ed6Ref": "11.7d",
+                                  "title": "If a cesspool, when was the container last emptied? (MM/YYYY)"
+                                },
+                                "permitDocuments": {
+                                  "ta6ed6Ref": "11.7j",
+                                  "title": "If you have a permit or documents relating to any of your answers to questions 11.7(a)-(i), supply a copy"
+                                }
+                              },
+                              "required": [
+                                "dateDischargeCommenced",
+                                "dateInstalled",
+                                "dateLastEmptied"
+                              ]
+                            },
+                            {
+                              "properties": {
+                                "offMainsDrainageSystemType": {
+                                  "enum": [
+                                    "Cesspit"
+                                  ]
+                                },
+                                "dateDischargeCommenced": {
+                                  "ta6ed6Ref": "11.7a",
+                                  "title": "When did the discharge commence? (MM/YYYY)"
+                                },
+                                "dateInstalled": {
+                                  "ta6ed6Ref": "11.7b",
+                                  "title": "When was the system installed? (MM/YYYY)"
+                                },
+                                "dateReplaced": {
+                                  "ta6ed6Ref": "11.7c",
+                                  "title": "When was the sewerage system last replaced or upgraded? (MM/YYYY)"
+                                },
+                                "dateLastEmptied": {
+                                  "ta6ed6Ref": "11.7d",
+                                  "title": "If a cesspool, when was the container last emptied? (MM/YYYY)"
+                                },
+                                "permitDocuments": {
+                                  "ta6ed6Ref": "11.7j",
+                                  "title": "If you have a permit or documents relating to any of your answers to questions 11.7(a)-(i), supply a copy"
+                                }
+                              },
+                              "required": [
+                                "dateDischargeCommenced",
+                                "dateLastEmptied",
+                                "dateInstalled"
+                              ]
+                            },
+                            {
+                              "properties": {
+                                "offMainsDrainageSystemType": {
+                                  "enum": [
+                                    "Sewerage treatment plant"
+                                  ]
+                                },
+                                "dateDischargeCommenced": {
+                                  "ta6ed6Ref": "11.7a",
+                                  "title": "When did the discharge commence? (MM/YYYY)"
+                                },
+                                "supplier": {
+                                  "ta6ed6Ref": "12.5.2",
+                                  "title": "Provider's name"
+                                },
+                                "makeModel": {
+                                  "ta6ed6Ref": "12.5.3"
+                                },
+                                "serviceProviderName": {
+                                  "ta6ed6Ref": "12.5.4",
+                                  "title": "Service provider's name"
+                                },
+                                "dateInstalled": {
+                                  "ta6ed6Ref": "11.7b",
+                                  "title": "When was the system installed? (MM/YYYY)"
+                                },
+                                "dateReplaced": {
+                                  "ta6ed6Ref": "11.7c",
+                                  "title": "When was the sewerage system last replaced or upgraded? (MM/YYYY)"
+                                },
+                                "dateLastServiced": {
+                                  "ta6ed6Ref": "11.7e",
+                                  "title": "If the property is served by a sewage treatment plant, when was the treatment plant last serviced? (MM/YYYY)"
+                                },
+                                "permitDocuments": {
+                                  "ta6ed6Ref": "11.7j",
+                                  "title": "If you have a permit or documents relating to any of your answers to questions 11.7(a)-(i), supply a copy"
+                                }
+                              },
+                              "required": [
+                                "dateDischargeCommenced",
+                                "dateInstalled",
+                                "dateLastServiced",
+                                "supplier",
+                                "makeModel",
+                                "serviceProviderName"
+                              ]
+                            },
+                            {
+                              "properties": {
+                                "offMainsDrainageSystemType": {
+                                  "enum": [
+                                    "Other",
+                                    "Not known"
+                                  ]
+                                },
+                                "permitDocuments": {
+                                  "ta6ed6Ref": "11.7j",
+                                  "title": "If you have a permit or documents relating to any of your answers to questions 11.7(a)-(i), supply a copy"
+                                }
+                              }
+                            }
+                          ],
+                          "required": [
+                            "offMainsDrainageSystemType",
+                            "otherConnectedProperties",
+                            "plantOnOtherLand",
+                            "plantDrainsIntoWaterway"
+                          ],
+                          "properties": {
+                            "offMainsDrainageSystemType": {
+                              "ta6ed6Ref": "11.6",
+                              "enum": [
+                                "Septic tank",
+                                "Cesspit",
+                                "Sewerage treatment plant",
+                                "Other"
+                              ]
+                            },
+                            "otherConnectedProperties": {
+                              "ta6ed6Ref": "11.7h",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "details": {
+                                      "ta6ed6Ref": "11.7h",
+                                      "title": "Give details about how many properties share the system, the arrangements for jointly managing it and how the costs are shared"
+                                    }
+                                  },
+                                  "required": [
+                                    "details"
+                                  ]
+                                }
+                              ],
+                              "required": [
+                                "yesNo"
+                              ],
+                              "title": "Is the use of the sewerage system shared with other properties?",
+                              "properties": {
+                                "yesNo": {
+                                  "ta6ed6Ref": "11.7h"
+                                }
+                              }
+                            },
+                            "plantOnOtherLand": {
+                              "ta6ed6Ref": "11.7i",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    },
+                                    "attachments": {
+                                      "ta6ed6Ref": "11.7i",
+                                      "title": "Supply a plan showing the location of the system and how access is obtained."
+                                    }
+                                  },
+                                  "required": [
+                                    "attachments"
+                                  ]
+                                }
+                              ],
+                              "required": [
+                                "yesNo"
+                              ],
+                              "title": "Is any part of the sewerage system, or the access to it, outside the boundary of the property?",
+                              "properties": {
+                                "yesNo": {
+                                  "ta6ed6Ref": "11.7i"
+                                }
+                              }
+                            },
+                            "plantDrainsIntoWaterway": {
+                              "ta6ed6Ref": "11.7f",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No, the effluent is discharged through a soakaway system."
+                                      ]
+                                    },
+                                    "hasInfiltrationSystem": {
+                                      "ta6ed6Ref": "11.7g",
+                                      "required": [
+                                        "yesNo"
+                                      ],
+                                      "title": "If the sewerage system discharges to the ground, does it have an infiltration system?",
+                                      "properties": {
+                                        "yesNo": {
+                                          "ta6ed6Ref": "11.7g"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ],
+                              "required": [
+                                "yesNo"
+                              ],
+                              "title": "Does the sewerage system discharge to the ground or to surface water?",
+                              "properties": {
+                                "yesNo": {
+                                  "ta6ed6Ref": "11.7f",
+                                  "enumNames": [
+                                    "Surface water",
+                                    "Ground"
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "offMainsDrainageSystem"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "Foul water drainage?",
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "11.5a1",
+                      "enum": [
+                        "Yes",
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "heating": {
+          "ta6ed6Ref": "11.4",
+          "required": [
+            "mainHeatingTypes",
+            "heatingInstalledDate",
+            "boilerInstalledDate",
+            "heatingSystemReplaced",
+            "complianceCertificates",
+            "inspectionReport",
+            "inGoodWorkingOrder",
+            "lastServicedYear"
+          ],
+          "title": "Heating",
+          "properties": {
+            "mainHeatingTypes": {
+              "ta6ed6Ref": "11.4"
+            },
+            "mainHeatingTypesOtherDetails": {
+              "ta6ed6Ref": "11.4"
+            },
+            "heatingInstalledDate": {
+              "ta6ed6Ref": "11.4a"
+            },
+            "boilerInstalledDate": {
+              "ta6ed6Ref": "11.4b"
+            },
+            "heatingSystemReplaced": {
+              "ta6ed6Ref": "11.4c"
+            },
+            "complianceCertificates": {
+              "ta6ed6Ref": "11.4d"
+            },
+            "inspectionReport": {
+              "ta6ed6Ref": "11.4e"
+            },
+            "inGoodWorkingOrder": {
+              "ta6ed6Ref": "11.4f"
+            },
+            "lastServicedYear": {
+              "ta6ed6Ref": "11.4g"
+            },
+            "lastServicedReport": {
+              "ta6ed6Ref": "11.4g"
+            },
+            "multipleHeatingSystems": {
+              "ta6ed6Ref": "11.4h",
+              "enum": [
+                "Attached",
+                "To follow"
+              ]
+            },
+            "mainsGas": {
+              "ta6ed6Ref": "12.2",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "12.2.1"
+                },
+                "supplier": {
+                  "ta6ed6Ref": "12.2.2",
+                  "title": "Provider's name"
+                },
+                "gasMeter": {
+                  "ta6ed6Ref": "12.2.3",
+                  "properties": {
+                    "location": {
+                      "ta6ed6Ref": "12.2.3",
+                      "title": "Location of meter"
+                    },
+                    "mprn": {
+                      "ta6ed6Ref": "12.2.4",
+                      "title": "MPRN number",
+                      "description": "Your MPRN is on your gas bill, usually labelled 'Meter Point Reference Number' or 'MPRN'. It's normally between 6 and 10 digits long."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "connectivity": {
+          "ta6ed6Ref": "12",
+          "required": [
+            "telephone",
+            "broadband"
+          ],
+          "title": "Connection to services",
+          "properties": {
+            "telephone": {
+              "ta6ed6Ref": "12.7",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "supplier": {
+                      "ta6ed6Ref": "12.7.2",
+                      "title": "Provider's name"
+                    }
+                  },
+                  "required": [
+                    "supplier"
+                  ]
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "To be connected"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "12.7.1",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              }
+            },
+            "broadband": {
+              "ta6ed6Ref": "12.8",
+              "discriminator": {
+                "propertyName": "typeOfConnection"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "typeOfConnection": {
+                      "enum": [
+                        "None"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "typeOfConnection": {
+                      "enum": [
+                        "ADSL copper wire",
+                        "Cable",
+                        "FTTC (Fibre to the Cabinet)",
+                        "FTTP (Fibre to the Premises)"
+                      ]
+                    },
+                    "providerName": {
+                      "ta6ed6Ref": "12.8.2",
+                      "title": "Provider's name"
+                    }
+                  },
+                  "required": [
+                    "providerName"
+                  ]
+                }
+              ],
+              "required": [
+                "typeOfConnection"
+              ],
+              "properties": {
+                "typeOfConnection": {
+                  "ta6ed6Ref": "12.8.1"
+                }
+              }
+            },
+            "otherServices": {
+              "ta6ed6Ref": "12.9.1",
+              "title": "If there are any other services, please give details"
+            }
+          }
+        },
+        "insurance": {
+          "ta6ed6Ref": "7",
+          "discriminator": {
+            "propertyName": "isInsured"
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "isInsured": {
+                  "enum": [
+                    "No"
+                  ]
+                },
+                "whoInsures": {
+                  "ta6ed6Ref": "7.1.1"
+                }
+              },
+              "required": [
+                "whoInsures"
+              ]
+            },
+            {
+              "properties": {
+                "isInsured": {
+                  "enum": [
+                    "Yes"
+                  ]
+                },
+                "insuranceClaims": {
+                  "ta6ed6Ref": "7.3",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "7.3.2",
+                          "title": "Give details, including the date(s) of any claim(s) and how they were resolved"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "Have you made any buildings insurance claims?",
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "7.3.1"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "insuranceClaims"
+              ]
+            }
+          ],
+          "required": [
+            "isInsured",
+            "difficultiesObtainingInsurance"
+          ],
+          "properties": {
+            "difficultiesObtainingInsurance": {
+              "ta6ed6Ref": "7.2",
+              "required": [
+                "abnormalRiseInPremiums",
+                "subjectToHighExcesses",
+                "subjectToUnusualConditions",
+                "refused"
+              ],
+              "title": "Are you aware of the property insurance ever being difficult to obtain or subject to special conditions?",
+              "properties": {
+                "abnormalRiseInPremiums": {
+                  "ta6ed6Ref": "7.2a",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "7.2a2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "7.2a1"
+                    }
+                  }
+                },
+                "subjectToHighExcesses": {
+                  "ta6ed6Ref": "7.2b",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "7.2b2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "7.2b1"
+                    }
+                  }
+                },
+                "subjectToUnusualConditions": {
+                  "ta6ed6Ref": "7.2c",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "7.2c2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "7.2c1"
+                    }
+                  }
+                },
+                "refused": {
+                  "ta6ed6Ref": "7.2d",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "7.2d2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "7.2d1"
+                    }
+                  }
+                }
+              }
+            },
+            "isInsured": {
+              "ta6ed6Ref": "7.1",
+              "title": "Do you insure the property?"
+            }
+          }
+        },
+        "rightsAndInformalArrangements": {
+          "ta6ed6Ref": "9",
+          "required": [
+            "neighbouringLandRights",
+            "sharedContributions",
+            "rightsOrArrangements",
+            "askedOthersToContribute"
+          ],
+          "title": "Rights and informal arrangements",
+          "properties": {
+            "sharedContributions": {
+              "ta6ed6Ref": "9.2",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not applicable"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "9.2.2",
+                      "title": "Please give details of how much, how often and who you pay"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Have you been asked to contribute towards the cost of the jointly used facilities?",
+              "description": "If yes, give details of how much, how often and who you pay:",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "9.2.1"
+                }
+              }
+            },
+            "neighbouringLandRights": {
+              "ta6ed6Ref": "9.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "9.1.2",
+                      "title": "Please give details"
+                    }
+                  },
+                  "required": [
+                    "details",
+                    "disagreementOrComplaint"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Do you exercise any rights or arrangements over any other properties?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "9.1.1"
+                },
+                "disagreementOrComplaint": {
+                  "ta6ed6Ref": "9.3",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "9.3.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "9.3.1"
+                    }
+                  }
+                }
+              }
+            },
+            "accessRestrictionAttempts": {
+              "properties": {
+                "yesNo": {
+                  "enum": [
+                    "Yes",
+                    "No",
+                    "Not known"
+                  ]
+                }
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "rightsOrArrangements": {
+              "ta6ed6Ref": "9.4",
+              "required": [
+                "publicRightOfWay",
+                "rightsOfLight",
+                "rightsOfSupport",
+                "rightsCreatedThroughCustom",
+                "minesAndMinerals",
+                "churchChancel",
+                "rightsToTakeFromLand",
+                "otherRights",
+                "disagreementOrComplaint"
+              ],
+              "title": "Do the owners of any other properties exercise any rights or arrangements over the property?",
+              "properties": {
+                "publicRightOfWay": {
+                  "ta6ed6Ref": "9.4.1",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "9.4.1.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "9.4.1.1"
+                    }
+                  }
+                },
+                "rightsOfLight": {
+                  "ta6ed6Ref": "9.4a",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "9.4a2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "9.4a1"
+                    }
+                  }
+                },
+                "rightsOfSupport": {
+                  "ta6ed6Ref": "9.4b",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "9.4b2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "9.4b1"
+                    }
+                  }
+                },
+                "rightsCreatedThroughCustom": {
+                  "ta6ed6Ref": "9.4c",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "9.4c2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "9.4c1"
+                    }
+                  }
+                },
+                "rightsToTakeFromLand": {
+                  "ta6ed6Ref": "9.4d",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "9.4d2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "9.4d1"
+                    }
+                  }
+                },
+                "minesAndMinerals": {
+                  "ta6ed6Ref": "9.4e",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "9.4e2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "9.4e1"
+                    }
+                  }
+                },
+                "churchChancel": {
+                  "ta6ed6Ref": "9.4f",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "9.4f2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "9.4f1"
+                    }
+                  }
+                },
+                "otherRights": {
+                  "ta6ed6Ref": "9.4g",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "9.4g2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "9.4g1"
+                    }
+                  }
+                },
+                "disagreementOrComplaint": {
+                  "ta6ed6Ref": "9.6",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "9.6.2",
+                          "title": "Please give details"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "Are you aware of any disagreement or complaint about any such right or arrangement?",
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "9.6.1"
+                    }
+                  }
+                }
+              }
+            },
+            "askedOthersToContribute": {
+              "ta6ed6Ref": "9.5",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not applicable"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "9.5.2"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "9.5.1"
+                }
+              }
+            }
+          }
+        },
+        "environmentalIssues": {
+          "ta6ed6Ref": "8",
+          "required": [
+            "flooding",
+            "radon"
+          ],
+          "title": "Environmental matters",
+          "properties": {
+            "flooding": {
+              "ta6ed6Ref": "8",
+              "required": [
+                "historicalFlooding",
+                "floodDefences"
+              ],
+              "properties": {
+                "historicalFlooding": {
+                  "ta6ed6Ref": "8.1",
+                  "discriminator": {
+                    "propertyName": "hasBeenFlooded"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "hasBeenFlooded": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "hasBeenFlooded": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "typeOfFlooding": {
+                          "ta6ed6Ref": "8.1",
+                          "title": "What type of flooding took place?"
+                        },
+                        "details": {
+                          "ta6ed6Ref": "8.1.2",
+                          "title": "Give details about the date(s) any flooding occurred and which parts flooded"
+                        }
+                      },
+                      "required": [
+                        "typeOfFlooding",
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "hasBeenFlooded"
+                  ],
+                  "title": "Are you aware of the property or any part of it ever being flooded?",
+                  "description": "If yes, what type of flooding took place?",
+                  "properties": {
+                    "hasBeenFlooded": {
+                      "ta6ed6Ref": "8.1.1",
+                      "title": "Are you aware of the property or any part of it ever being flooded?"
+                    }
+                  }
+                },
+                "floodDefences": {
+                  "ta6ed6Ref": "8.2",
+                  "discriminator": {
+                    "propertyName": "hasFloodDefences"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "hasFloodDefences": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "hasFloodDefences": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "8.2.2",
+                          "title": "Please give details"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "hasFloodDefences"
+                  ],
+                  "title": "Are you aware of any defences installed at the property to prevent flooding?",
+                  "description": "If yes, please give details:",
+                  "properties": {
+                    "hasFloodDefences": {
+                      "ta6ed6Ref": "8.2.1",
+                      "title": "Are you aware of any defences installed at the property to prevent flooding?"
+                    }
+                  }
+                }
+              }
+            },
+            "radon": {
+              "ta6ed6Ref": "8.3",
+              "required": [
+                "remedialMeasuresOnConstruction",
+                "radonTest"
+              ],
+              "properties": {
+                "radonTest": {
+                  "ta6ed6Ref": "8.3",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "8.3.1a",
+                          "title": "Was the test result below the 'recommended action level'?"
+                        },
+                        "attachments": {
+                          "ta6ed6Ref": "8.3.1b",
+                          "title": "Supply a copy of the report"
+                        }
+                      },
+                      "required": [
+                        "details",
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "Are you aware of any radon tests that have been carried out on the property?",
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "8.3.1"
+                    }
+                  }
+                },
+                "remedialMeasuresOnConstruction": {
+                  "ta6ed6Ref": "8.4",
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "Were any remedial measures undertaken to reduce radon gas levels in the property? Measures could have been undertaken during construction or while adding an extension.",
+                  "description": "Measures could have been undertaken during construction or while adding an extension.",
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "8.4.1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "additionalInformation": {
+          "ta6ed6Ref": "15",
+          "required": [
+            "consents",
+            "furtherInformation"
+          ],
+          "title": "Additional information about your answers",
+          "properties": {
+            "consents": {
+              "ta6ed6Ref": "15.1",
+              "properties": {
+                "attachments": {
+                  "ta6ed6Ref": "15.1.1"
+                },
+                "consentsAttached": {
+                  "ta6ed6Ref": "15.1.2",
+                  "title": "Consents attached",
+                  "minLength": 1
+                },
+                "consentsToFollow": {
+                  "ta6ed6Ref": "15.1.3",
+                  "title": "Consents to follow",
+                  "minLength": 1
+                },
+                "consentsNotAvailable": {
+                  "ta6ed6Ref": "15.1.4",
+                  "minLength": 1
+                }
+              }
+            },
+            "furtherInformation": {
+              "ta6ed6Ref": "15.2",
+              "title": "If there is any further information about any of your answers on this form, provide details below and/or supply additional documents.",
+              "properties": {
+                "details": {
+                  "ta6ed6Ref": "15.2.1",
+                  "minLength": 1
+                },
+                "attachments": {
+                  "ta6ed6Ref": "15.2.2"
+                }
+              }
+            }
+          }
+        },
+        "legalBoundaries": {
+          "ta6ed6Ref": "2",
+          "required": [
+            "ownership",
+            "haveBoundaryFeaturesMoved",
+            "flyingFreehold"
+          ],
+          "title": "Boundaries",
+          "properties": {
+            "ownership": {
+              "ta6ed6Ref": "2",
+              "properties": {
+                "uniformBoundaries": {
+                  "ta6ed6Ref": "2.1",
+                  "required": [
+                    "left",
+                    "right",
+                    "rear",
+                    "front"
+                  ],
+                  "title": "Looking towards the property from the road, who owns or accepts responsibility to maintain or repair the boundary features",
+                  "properties": {
+                    "left": {
+                      "ta6ed6Ref": "2.1a",
+                      "title": "On the left?"
+                    },
+                    "right": {
+                      "ta6ed6Ref": "2.1b",
+                      "title": "On the right?"
+                    },
+                    "rear": {
+                      "ta6ed6Ref": "2.1c",
+                      "title": "At the rear?"
+                    },
+                    "front": {
+                      "ta6ed6Ref": "2.1d",
+                      "title": "At the front?"
+                    }
+                  }
+                },
+                "details": {
+                  "ta6ed6Ref": "2.2.1",
+                  "title": "If the boundaries of the property are irregular, indicate ownership by written description or by reference to a plan"
+                },
+                "attachments": {
+                  "ta6ed6Ref": "2.2"
+                }
+              }
+            },
+            "haveBoundaryFeaturesMoved": {
+              "ta6ed6Ref": "2.3",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "2.3.2",
+                      "title": "Please give details"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Are you aware of any boundary feature being moved, any adjacent land being added to the property, or any neighbour taking over or building on any part of your property?",
+              "description": "If yes, please give details:",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "2.3.1",
+                  "enum": [
+                    "Yes",
+                    "No"
+                  ]
+                }
+              }
+            },
+            "flyingFreehold": {
+              "ta6ed6Ref": "2.4",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "2.4.2",
+                      "title": "Please give details"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Does any part of the property or any building on the property overhang or project under the boundary of the neighbouring property or road? For example, cellars under the pavement, overhanging eaves or covered walkways.",
+              "description": "If yes, please give details:",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "2.4.1",
+                  "enum": [
+                    "Yes",
+                    "No",
+                    "Not known"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "servicesCrossing": {
+          "ta6ed6Ref": "9",
+          "required": [
+            "pipesWiresCablesDrainsToProperty",
+            "pipesWiresCablesDrainsFromProperty",
+            "formalOrInformalAgreements"
+          ],
+          "title": "Facilities crossing the property or any other property",
+          "properties": {
+            "pipesWiresCablesDrainsToProperty": {
+              "ta6ed6Ref": "9.7",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "9.7.2",
+                      "title": "Please give details"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Are you aware of any drains, pipes or wires serving the property that cross any other property?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "9.7.1"
+                }
+              }
+            },
+            "pipesWiresCablesDrainsFromProperty": {
+              "ta6ed6Ref": "9.8",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "9.8.2",
+                      "title": "Please give details"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Are you aware of any drains, pipes or wires leading to any other property that cross the property?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "9.8.1"
+                }
+              }
+            },
+            "formalOrInformalAgreements": {
+              "ta6ed6Ref": "9.9",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "9.9.2",
+                      "title": "Supply a copy or give details"
+                    },
+                    "attachments": {
+                      "ta6ed6Ref": "9.9.3"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Is there any agreement or arrangement about drains, pipes or wires?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "9.9.1"
+                }
+              }
+            }
+          }
+        },
+        "electricalWorks": {
+          "ta6ed6Ref": "11",
+          "required": [
+            "testedByQualifiedElectrician",
+            "electricalWorkSince2005"
+          ],
+          "title": "Electrical systems",
+          "properties": {
+            "testedByQualifiedElectrician": {
+              "ta6ed6Ref": "11.3",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "yearTested": {
+                      "ta6ed6Ref": "11.3"
+                    },
+                    "attachments": {
+                      "ta6ed6Ref": "11.3",
+                      "title": "Please supply a copy of the EICR",
+                      "enum": [
+                        "Attached",
+                        "To follow"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "yearTested",
+                    "attachments"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Does the property have an Electrical Installation Condition Report (EICR)?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "11.3"
+                }
+              }
+            },
+            "electricalWorkSince2005": {
+              "ta6ed6Ref": "11.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No",
+                        "Not known"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "yearWorkCarriedOut": {
+                      "ta6ed6Ref": "11.2"
+                    },
+                    "details": {
+                      "ta6ed6Ref": "11.1",
+                      "title": "Give details including when this work took place"
+                    },
+                    "suppliedCertificate": {
+                      "ta6ed6Ref": "11.2",
+                      "title": "Please supply any certificates for electrical installation work",
+                      "properties": {
+                        "yesNo": {
+                          "ta6ed6Ref": "11.2.1"
+                        },
+                        "attachments": {
+                          "ta6ed6Ref": "11.2.2",
+                          "enum": [
+                            "Attached",
+                            "To follow"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "details",
+                    "suppliedCertificate"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Are you aware of any electrical installation works carried out at the property?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "11.1"
+                }
+              }
+            }
+          }
+        },
+        "guaranteesWarrantiesAndIndemnityInsurances": {
+          "ta6ed6Ref": "6",
+          "discriminator": {
+            "propertyName": "hasValidGuaranteesOrWarranties"
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "hasValidGuaranteesOrWarranties": {
+                  "enum": [
+                    "No"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "hasValidGuaranteesOrWarranties": {
+                  "enum": [
+                    "Yes"
+                  ]
+                },
+                "newHomeWarranty": {
+                  "ta6ed6Ref": "6.1a",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "attachments": {
+                          "ta6ed6Ref": "6.1a3"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "New home warranty (e.g. NHBC or similar)",
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "6.1a1"
+                    }
+                  }
+                },
+                "roofingWork": {
+                  "ta6ed6Ref": "6.1e",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "attachments": {
+                          "ta6ed6Ref": "6.1e2"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "Roofing",
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "6.1e1"
+                    }
+                  }
+                },
+                "dampProofingTreatment": {
+                  "ta6ed6Ref": "6.1b",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "attachments": {
+                          "ta6ed6Ref": "6.1b2"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "Damp proofing",
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "6.1b1"
+                    }
+                  }
+                },
+                "timberRotOrInfestationTreatment": {
+                  "ta6ed6Ref": "6.1c",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "attachments": {
+                          "ta6ed6Ref": "6.1c2"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "Timber treatment",
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "6.1c1"
+                    }
+                  }
+                },
+                "centralHeatingAndorPlumbing": {
+                  "ta6ed6Ref": "6.1f",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "attachments": {
+                          "ta6ed6Ref": "6.1f2"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "Boiler or heating systems",
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "6.1f1"
+                    }
+                  }
+                },
+                "doubleGlazing": {
+                  "ta6ed6Ref": "6.1d",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "attachments": {
+                          "ta6ed6Ref": "6.1d2"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "Windows, roof lights, roof windows or glazed doors",
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "6.1d1"
+                    }
+                  }
+                },
+                "subsidenceWork": {
+                  "ta6ed6Ref": "6.1g",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "attachments": {
+                          "ta6ed6Ref": "6.1g2"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "Underpinning",
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "6.1g1"
+                    }
+                  }
+                },
+                "insulation": {
+                  "ta6ed6Ref": "6.1h",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "attachments": {
+                          "ta6ed6Ref": "6.1h2"
+                        }
+                      },
+                      "required": [
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "6.1h1"
+                    }
+                  }
+                },
+                "otherGuarantees": {
+                  "ta6ed6Ref": "6.1i",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "6.1i2",
+                          "title": "Please give details"
+                        },
+                        "attachments": {
+                          "ta6ed6Ref": "6.1i3"
+                        }
+                      },
+                      "required": [
+                        "details",
+                        "attachments"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "Other (please state)",
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "6.1i1"
+                    }
+                  }
+                },
+                "outstandingClaimsOrApplications": {
+                  "ta6ed6Ref": "6.2",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "6.2.2",
+                          "title": "Please give details"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "title": "Are you aware of any claims under any of these guarantees or warranties?",
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "6.2.1"
+                    }
+                  }
+                },
+                "breachOfTermsOrConditions": {
+                  "ta6ed6Ref": "6.3",
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        },
+                        "details": {
+                          "ta6ed6Ref": "6.3.2"
+                        }
+                      },
+                      "required": [
+                        "details"
+                      ]
+                    }
+                  ],
+                  "required": [
+                    "yesNo"
+                  ],
+                  "properties": {
+                    "yesNo": {
+                      "ta6ed6Ref": "6.3.1"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "newHomeWarranty",
+                "roofingWork",
+                "dampProofingTreatment",
+                "timberRotOrInfestationTreatment",
+                "centralHeatingAndorPlumbing",
+                "doubleGlazing",
+                "subsidenceWork",
+                "insulation",
+                "otherGuarantees",
+                "outstandingClaimsOrApplications",
+                "breachOfTermsOrConditions"
+              ]
+            }
+          ],
+          "required": [
+            "hasValidGuaranteesOrWarranties"
+          ],
+          "title": "Guarantees and warranties",
+          "properties": {
+            "hasValidGuaranteesOrWarranties": {
+              "ta6ed6Ref": "6.1",
+              "title": "Does the property have any of the following unexpired guarantees or warranties?"
+            }
+          }
+        },
+        "occupiers": {
+          "ta6ed6Ref": "13",
+          "required": [
+            "sellerLivesAtProperty",
+            "othersAged17OrOver"
+          ],
+          "properties": {
+            "sellerLivesAtProperty": {
+              "ta6ed6Ref": "13.3",
+              "required": [
+                "yesNo"
+              ],
+              "title": "Do you live at the property?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "13.3.1"
+                }
+              }
+            },
+            "othersAged17OrOver": {
+              "ta6ed6Ref": "13.4",
+              "discriminator": {
+                "propertyName": "hasOthersAged17OrOver"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "hasOthersAged17OrOver": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "hasOthersAged17OrOver": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "aged17OrOverNames": {
+                      "ta6ed6Ref": "13.4a",
+                      "title": "State the full names of any occupiers (other than the sellers) aged 17 or over"
+                    },
+                    "aged17OrOverTenantsOrLodgers": {
+                      "ta6ed6Ref": "13.4b",
+                      "required": [
+                        "yesNo"
+                      ],
+                      "title": "Are any of those occupiers who are aged 17 or over your tenants or lodgers?",
+                      "properties": {
+                        "yesNo": {
+                          "ta6ed6Ref": "13.4b1"
+                        }
+                      }
+                    },
+                    "vacantPossession": {
+                      "ta6ed6Ref": "13.5",
+                      "discriminator": {
+                        "propertyName": "soldWithVacantPossession"
+                      },
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "soldWithVacantPossession": {
+                              "enum": [
+                                "No"
+                              ]
+                            },
+                            "details": {
+                              "ta6ed6Ref": "13.7a",
+                              "title": "Please provide details (e.g. the property is sold let to tenants)"
+                            },
+                            "attachments": {
+                              "ta6ed6Ref": "13.7b",
+                              "title": "If the property is not being sold with vacant possession, provide details of all occupiers and copies of their tenancy agreements."
+                            }
+                          },
+                          "required": [
+                            "details",
+                            "attachments"
+                          ]
+                        },
+                        {
+                          "properties": {
+                            "soldWithVacantPossession": {
+                              "enum": [
+                                "Yes"
+                              ]
+                            },
+                            "aged17OrOverAgreedToLeave": {
+                              "ta6ed6Ref": "13.6a",
+                              "required": [
+                                "yesNo"
+                              ],
+                              "properties": {
+                                "yesNo": {
+                                  "ta6ed6Ref": "13.6a"
+                                }
+                              }
+                            },
+                            "aged17OrOverWillSignToConfirmWillVacate": {
+                              "ta6ed6Ref": "13.6b",
+                              "discriminator": {
+                                "propertyName": "yesNo"
+                              },
+                              "oneOf": [
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "Yes"
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "properties": {
+                                    "yesNo": {
+                                      "enum": [
+                                        "No"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ],
+                              "required": [
+                                "yesNo"
+                              ],
+                              "title": "Have all occupiers aged 17 or over agreed to sign the sale contract and to vacate the property on or before completion?",
+                              "properties": {
+                                "yesNo": {
+                                  "ta6ed6Ref": "13.6b1"
+                                }
+                              }
+                            }
+                          },
+                          "required": [
+                            "aged17OrOverAgreedToLeave",
+                            "aged17OrOverWillSignToConfirmWillVacate"
+                          ]
+                        }
+                      ],
+                      "required": [
+                        "soldWithVacantPossession"
+                      ],
+                      "properties": {
+                        "soldWithVacantPossession": {
+                          "ta6ed6Ref": "13.5.1",
+                          "title": "Is the property being sold with vacant possession (empty of all occupiers, rubbish and any contents or fittings not included in the sale)?"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "aged17OrOverNames",
+                    "aged17OrOverTenantsOrLodgers"
+                  ]
+                }
+              ],
+              "required": [
+                "hasOthersAged17OrOver"
+              ],
+              "properties": {
+                "hasOthersAged17OrOver": {
+                  "ta6ed6Ref": "13.4",
+                  "title": "Does anyone else, aged 17 or over, live at the property?"
+                }
+              }
+            }
+          }
+        },
+        "completionAndMoving": {
+          "ta6ed6Ref": "14",
+          "required": [
+            "sellerWillEnsure",
+            "sufficientToRepayAllMortgages"
+          ],
+          "title": "Completion",
+          "properties": {
+            "sellerWillEnsure": {
+              "ta6ed6Ref": "14.2",
+              "required": [
+                "removeRubbish",
+                "replaceLightFittings",
+                "takeReasonableCare",
+                "leaveKeys"
+              ],
+              "title": "Will you ensure that before or on completion",
+              "properties": {
+                "removeRubbish": {
+                  "ta6ed6Ref": "14.2a",
+                  "title": "All rubbish is removed from the property (including from the loft, garden, outbuildings, garages and sheds) and that the property will be left in a clean and tidy condition?"
+                },
+                "replaceLightFittings": {
+                  "ta6ed6Ref": "14.2b",
+                  "title": "If light fittings are removed, the fittings will be replaced with ceiling rose, flex, bulb holder and bulb?"
+                },
+                "takeReasonableCare": {
+                  "ta6ed6Ref": "14.2c",
+                  "title": "Reasonable care will be taken when removing any other fittings or contents?"
+                },
+                "leaveKeys": {
+                  "ta6ed6Ref": "14.2d",
+                  "title": "Keys to all windows and doors and details of codes for alarms and any other equipment will be left at the property or with the estate agent?"
+                }
+              }
+            },
+            "otherPropertyInChain": {
+              "ta6ed6Ref": "13.1",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Does this sale depend on you completing the purchase of another property on the same day?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "13.1"
+                }
+              }
+            },
+            "moveRestrictionDates": {
+              "ta6ed6Ref": "13.2",
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "details": {
+                      "ta6ed6Ref": "13.2.2",
+                      "title": "Please give details"
+                    }
+                  },
+                  "required": [
+                    "details"
+                  ]
+                }
+              ],
+              "required": [
+                "yesNo"
+              ],
+              "title": "Do you have any special requirements about a moving date?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "13.2.1"
+                }
+              }
+            },
+            "sufficientToRepayAllMortgages": {
+              "ta6ed6Ref": "14.1",
+              "required": [
+                "yesNo"
+              ],
+              "title": "Will the sale price be sufficient to pay off on completion all mortgages and charges secured on the property?",
+              "properties": {
+                "yesNo": {
+                  "ta6ed6Ref": "14.1.1"
+                }
+              }
+            }
+          }
+        },
+        "confirmationOfAccuracyByOwners": {
+          "ta6ed6Ref": "16",
+          "required": [
+            "confirmInformationIsAccurate"
+          ],
+          "properties": {
+            "confirmInformationIsAccurate": {
+              "ta6ed6Ref": "15.3.1"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -33,6 +33,9 @@
                   "required": [
                     "managementPlanInPlace"
                   ],
+                  "discriminator": {
+                    "propertyName": "managementPlanInPlace"
+                  },
                   "properties": {
                     "managementPlanInPlace": {
                       "ntsRef": "A5.3.2",
@@ -47,14 +50,29 @@
                       "enum": [
                         "Yes"
                       ]
-                    },
-                    "attachments": {
-                      "enum": [
-                        "Attached",
-                        "To follow"
-                      ]
                     }
-                  }
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "managementPlanInPlace": {
+                          "enum": [
+                            "No",
+                            "Not known"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "managementPlanInPlace": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ]
                 }
               ],
               "type": "object"
@@ -62,12 +80,14 @@
           },
           "required": [
             "japaneseKnotweed"
-          ]
+          ],
+          "ntsRef": "A5"
         }
       },
       "required": [
         "specialistIssues"
-      ]
+      ],
+      "ntsRef": "0"
     }
   },
   "$schema": "http://json-schema.org/draft-07/schema#",

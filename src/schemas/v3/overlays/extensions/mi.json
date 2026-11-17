@@ -1,0 +1,70 @@
+{
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "additionalInformation": {
+          "properties": {
+            "otherMaterialIssue": {
+              "ntsRef": "M1.1",
+              "required": [
+                "yesNo"
+              ],
+              "discriminator": {
+                "propertyName": "yesNo"
+              },
+              "properties": {
+                "yesNo": {
+                  "ntsRef": "M1.1.1",
+                  "type": "string"
+                }
+              },
+              "oneOf": [
+                {
+                  "properties": {
+                    "yesNo": {
+                      "enum": [
+                        "No"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "required": [
+                    "details"
+                  ],
+                  "properties": {
+                    "details": {
+                      "ntsRef": "M1.1.2",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "yesNo": {
+                      "enum": [
+                        "Yes"
+                      ]
+                    },
+                    "attachments": {
+                      "enum": [
+                        "Attached",
+                        "To follow"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "otherMaterialIssue"
+          ],
+          "ntsRef": "M1"
+        }
+      },
+      "ntsRef": "0"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/extensions/mi.json",
+  "$comment": "Other material issue upfront for SEF25"
+}

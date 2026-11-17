@@ -1,0 +1,69 @@
+{
+  "properties": {
+    "propertyPack": {
+      "properties": {
+        "rightsAndInformalArrangements": {
+          "properties": {
+            "rightsOrArrangements": {
+              "properties": {
+                "privateRightOfWay": {
+                  "ntsRef": "R1.1",
+                  "required": [
+                    "yesNo"
+                  ],
+                  "discriminator": {
+                    "propertyName": "yesNo"
+                  },
+                  "properties": {
+                    "yesNo": {
+                      "ntsRef": "R1.1.1",
+                      "type": "string"
+                    }
+                  },
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "yesNo": {
+                          "enum": [
+                            "No"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "required": [
+                        "details"
+                      ],
+                      "properties": {
+                        "details": {
+                          "ntsRef": "R1.1.2",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "yesNo": {
+                          "enum": [
+                            "Yes"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "privateRightOfWay"
+              ],
+              "ntsRef": "C2.2.1"
+            }
+          },
+          "ntsRef": "C2.2"
+        }
+      },
+      "ntsRef": "0"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://trust.propdata.org.uk/schemas/v3/overlays/extensions/rw.json",
+  "$comment": "Private right of way"
+}
